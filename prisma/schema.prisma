@@ -19,16 +19,10 @@ enum CenterUserRole {
 
 /// What a seat entitles its student to.
 ///
-/// A trial is not a tier: it is an ordinary START seat priced at zero with a
+/// A trial is not a separate plan: it is an ordinary seat priced at zero with a
 /// 14-day clock, so trial and paid Start students behave identically
 /// everywhere except the clock. That keeps the quota logic to three cases
 /// rather than four.
-enum Tier {
-  START
-  PRO
-  PREMIUM
-}
-
 model Student {
   id           String   @id @default(uuid())
   first_name   String?
@@ -55,16 +49,11 @@ model Student {
   /// independent student, simply have none.
   center_id String?
 
-  /// Which tier this student's seat is, assigned by their center. Null for a
-  /// student no center governs — anyone predating centers, and anyone removed
-  /// from one. It decides what the student may do, so it is read per request.
-  tier Tier?
-
   /// True for a student who was using the app without a school when access
   /// started requiring an activation code (D34).
   ///
   /// Set once, by the migration that introduced the rule, on every row that
-  /// had no center and no tier at that moment — so "people already using the
+  /// had no center and no seat at that moment — so "people already using the
   /// app keep it" means exactly those rows, with no date to configure and no
   /// way for an account created later to fall under it. Nothing writes it
   /// afterwards.
@@ -176,11 +165,10 @@ model CenterSubscription {
   @@map("center_subscriptions")
 }
 
-/// The seats a center holds in one tier.
+/// The seats a center holds.
 ///
-/// One row per tier, so a seat count never depends on remembering to sum
-/// several rows. A center may hold all three tiers at once — five Start,
-/// three Pro and two Premium is a valid arrangement.
+/// One row per center: Start is the only plan (the tiers were removed on
+/// 2026-09-23), so a seat count never depends on summing several rows.
 /// A chargeable AI operation, one value per thing a quota is counted against.
 ///
 /// An enum rather than free text so a typo cannot silently create a new
@@ -194,12 +182,11 @@ enum AiOperation {
 model CenterSeat {
   id        String @id @default(uuid())
   center_id String
-  tier      Tier
-  /// Seats held in this tier. Never zero: a row saying "no seats" is not the
-  /// same as no row, and would make every count ambiguous.
+  /// Seats held. Never zero: a row saying "no seats" is not the same as no
+  /// row, and would make every count ambiguous.
   quantity  Int
 
-  /// The price this center pays for this tier, copied in at purchase rather
+  /// The price this center pays per seat, copied in at purchase rather
   /// than looked up. This is what makes grandfathering automatic — raising the
   /// list price later cannot rewrite what a center already agreed to.
   ///
@@ -211,7 +198,7 @@ model CenterSeat {
 
   center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
 
-  @@unique([center_id, tier])
+  @@unique([center_id])
   @@map("center_seats")
 }
 
@@ -233,17 +220,13 @@ enum ActivationCodeStatus {
 /// so the number of codes and the number of seats paid for cannot disagree.
 /// There is no route that makes one by hand.
 model ActivationCode {
-  id        String @id @default(uuid())
+  id        String               @id @default(uuid())
   center_id String
   /// `LQ-XXXX-XXXX`, stored readable rather than hashed: a manager has to see
   /// it again on the Users page to hand it out. Deactivation, not secrecy, is
   /// what protects a seat.
-  code      String @unique
-  /// Which plan the seat entitles its student to. A trial seat is START at
-  /// zero price, so the trial needs no tier of its own.
-  tier      Tier
-
-  status ActivationCodeStatus @default(ACTIVATED)
+  code      String               @unique
+  status    ActivationCodeStatus @default(ACTIVATED)
 
   /// The student who redeemed it, and what they were called at that moment.
   /// Name and email are copied rather than joined so the center still sees who
@@ -329,13 +312,15 @@ model Payment {
   id        String @id @default(uuid())
   center_id String
 
-  /// Seats across every tier in this payment. A convenience total; the
-  /// authoritative per-tier figures live in `lines`.
-  total_seats Int
+  /// Seats this payment buys.
+  total_seats    Int
+  /// The price per seat that applied when the payment was created, which is
+  /// what keeps an old invoice truthful after the list price moves.
+  unit_price_xaf Int
   /// What the whole payment comes to, snapshotted at creation. A price change
   /// next year must not rewrite what a center agreed to this year, so this is
   /// a copy rather than a join back to today's prices.
-  amount_xaf  Int
+  amount_xaf     Int
 
   status PaymentStatus @default(PENDING)
 
@@ -368,39 +353,11 @@ model Payment {
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
-  center Center        @relation(fields: [center_id], references: [id], onDelete: Cascade)
-  lines  PaymentLine[]
+  center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
 
   @@unique([center_id, idempotency_key])
   @@index([center_id, created_at])
   @@map("payments")
-}
-
-/// One tier within a payment.
-///
-/// A payment can cover several tiers at different prices, so the breakdown
-/// cannot live in a single pair of columns on the payment. Each line carries
-/// the price that applied at the time, which is what keeps an old invoice
-/// truthful after the list price moves.
-model PaymentLine {
-  id         String @id @default(uuid())
-  payment_id String
-  tier       Tier
-  seats      Int
-
-  unit_price_xaf Int
-  /// Always seats * unit_price_xaf, and a CHECK constraint enforces it. The
-  /// column is stored rather than computed so an invoice keeps its own total
-  /// even if the arithmetic here ever changes.
-  amount_xaf     Int
-
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
-
-  payment Payment @relation(fields: [payment_id], references: [id], onDelete: Cascade)
-
-  @@unique([payment_id, tier])
-  @@map("payment_lines")
 }
 
 model CenterUser {

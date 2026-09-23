@@ -52,7 +52,7 @@ describe('CenterProfileService', () => {
           paid_until: null,
         }),
       },
-      centerSeat: { findMany: jest.fn().mockResolvedValue([]) },
+      centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
       get student(): never {
         throw new Error('Student must never be accessed');
       },
@@ -114,7 +114,7 @@ describe('CenterProfileService', () => {
         paidUntil: null,
         graceEndsAt: null,
         studentsMayLearn: false,
-        seats: { start: 0, pro: 0, premium: 0 },
+        seats: 0,
       },
     });
   });

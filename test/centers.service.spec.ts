@@ -264,7 +264,7 @@ describe('CentersService registration', () => {
   /**
    * A trial is an ordinary seat row priced at zero, not a special case.
    *
-   * Seat counting, tier lookup and the quota check would each otherwise need
+   * Seat counting and the quota check would each otherwise need
    * an "unless they are on trial" branch — three branches in three places all
    * saying the same thing, and the day someone adds a fourth they forget one.
    * With a real row, a trial student and a paid Start student behave
@@ -277,7 +277,6 @@ describe('CentersService registration', () => {
     expect(tx.centerSeat.create).toHaveBeenCalledWith({
       data: {
         center_id: 'center-1',
-        tier: 'START',
         quantity: 1,
         unit_price_xaf: 0,
       },
@@ -292,7 +291,6 @@ describe('CentersService registration', () => {
     // illegal on a payment line, which is what keeps a granted seat and a
     // bought seat from ever being confused.
     expect(data.unit_price_xaf).toBe(0);
-    expect(data.tier).toBe('START');
   });
 
   it('leaves no seat behind when the subscription insert fails', async () => {

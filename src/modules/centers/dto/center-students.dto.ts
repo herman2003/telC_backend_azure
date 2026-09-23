@@ -11,7 +11,7 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
-import { CefrLevel, Tier } from '@prisma/client';
+import { CefrLevel } from '@prisma/client';
 import {
   CenterProgressSummaryDto,
   StudentProgressDto,
@@ -44,16 +44,6 @@ export class UpdateStudentDto {
   @MaxLength(30)
   @Matches(/^\+?[0-9 ()-]{5,30}$/, { message: 'Phone number is invalid' })
   phone?: string;
-
-  @ApiPropertyOptional({
-    enum: Tier,
-    example: Tier.PRO,
-    description:
-      'Move this student into another tier. Allowed only when the center holds a free seat there — a full tier answers SEAT_LIMIT_REACHED and a tier the center has never bought answers TIER_NOT_HELD, both naming the tier. No pro-rating: access changes immediately and the price difference settles at the next renewal.',
-  })
-  @IsOptional()
-  @IsEnum(Tier)
-  tier?: Tier;
 
   @ApiPropertyOptional({
     enum: CefrLevel,
@@ -96,8 +86,6 @@ export class CenterStudentDto {
 
   @ApiProperty({ type: String, format: 'date-time' }) createdAt: Date;
   @ApiProperty({ type: String, format: 'date-time' }) lastSeenAt: Date;
-
-  @ApiPropertyOptional({ nullable: true, enum: Tier }) tier: Tier | null;
 
   @ApiPropertyOptional({
     nullable: true,

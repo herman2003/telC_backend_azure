@@ -54,7 +54,7 @@ describe('CenterActivationCodesService', () => {
         findMany: jest.fn().mockResolvedValue([codeRow()]),
         findFirst: jest.fn().mockResolvedValue(codeRow()),
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
-        groupBy: jest.fn().mockResolvedValue([]),
+        count: jest.fn().mockResolvedValue(0),
       },
       activationCodeEvent: {
         create: jest.fn().mockResolvedValue({}),
@@ -63,7 +63,7 @@ describe('CenterActivationCodesService', () => {
         findMany: jest.fn().mockResolvedValue([]),
       },
       student: { updateMany: jest.fn().mockResolvedValue({ count: 1 }) },
-      centerSeat: { findMany: jest.fn().mockResolvedValue([]) },
+      centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
       centerSubscription: {
         findUnique: jest.fn().mockResolvedValue({
           trial_started_at: new Date('2027-01-01T00:00:00.000Z'),
@@ -88,12 +88,11 @@ describe('CenterActivationCodesService', () => {
     });
 
     it('filters in the client vocabulary and queries in the database one', async () => {
-      await service.list(identity, { status: 'connected', planId: 'pro' });
+      await service.list(identity, { status: 'connected' });
 
       expect(prisma.activationCode.findMany.mock.calls[0][0].where).toEqual({
         center_id: 'center-1',
         status: 'CONNECTED',
-        tier: 'PRO',
       });
     });
 
@@ -153,23 +152,15 @@ describe('CenterActivationCodesService', () => {
   });
 
   describe('the seat summary', () => {
-    it('counts bought seats from the seat rows and used ones from connected codes', async () => {
-      prisma.centerSeat.findMany.mockResolvedValue([
-        { tier: 'START', quantity: 7 },
-        { tier: 'PRO', quantity: 3 },
-      ]);
-      prisma.activationCode.groupBy.mockResolvedValue([
-        { tier: 'START', _count: { _all: 5 } },
-        { tier: 'PRO', _count: { _all: 1 } },
-      ]);
+    it('counts bought seats from the seat row and used ones from connected codes', async () => {
+      prisma.centerSeat.findUnique.mockResolvedValue({ quantity: 10 });
+      prisma.activationCode.count.mockResolvedValue(6);
 
       await expect(service.seats(identity)).resolves.toEqual({
-        bought: { start: 7, pro: 3, premium: 0 },
-        used: { start: 5, pro: 1, premium: 0 },
-        boughtTotal: 10,
-        usedTotal: 6,
+        bought: 10,
+        used: 6,
       });
-      expect(prisma.activationCode.groupBy).toHaveBeenCalledWith(
+      expect(prisma.activationCode.count).toHaveBeenCalledWith(
         expect.objectContaining({
           where: { center_id: 'center-1', status: 'CONNECTED' },
         }),

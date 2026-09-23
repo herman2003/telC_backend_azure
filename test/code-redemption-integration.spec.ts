@@ -56,7 +56,6 @@ async function centerWithCodes(count: number) {
         data: {
           center_id: center.id,
           code: generateActivationCode(),
-          tier: 'START',
           expires_at: daysFromNow(13),
         },
       }),

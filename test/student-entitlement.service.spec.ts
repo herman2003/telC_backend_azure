@@ -16,7 +16,6 @@ const withSubscription = (overrides: Record<string, unknown>) => ({
   trial_started_at: null,
   trial_ends_at: null,
   paid_until: null,
-  tier: 'START',
   ...overrides,
 });
 
@@ -80,7 +79,6 @@ describe('StudentEntitlementService', () => {
         status: 'NONE',
         studentsMayLearn: true,
         graceEndsAt: null,
-        tier: null,
         studentExists: true,
         wasGoverned: false,
         accessRefusal: null,
@@ -98,66 +96,13 @@ describe('StudentEntitlementService', () => {
   });
 
   /**
-   * The tier travels with the entitlement because it is the answer to the
-   * second, narrower question: not "may this student learn" but "what may
-   * this student do". Both are settled from the one LEFT JOIN that already
-   * runs on every learning request.
-   */
-  describe('the tier', () => {
-    it('reports the tier of a governed student', async () => {
-      givenRow(withSubscription({ tier: 'PRO' }));
-
-      await expect(service.forStudent('student-1')).resolves.toMatchObject({
-        tier: 'PRO',
-      });
-    });
-
-    it('reports no tier for a governed student who carries none', async () => {
-      // Provisioned before tiers existed. They sit in no seat, so they hold
-      // no tier — which is different from holding the cheapest one.
-      givenRow(withSubscription({ tier: null }));
-
-      await expect(service.forStudent('student-1')).resolves.toMatchObject({
-        status: 'TRIAL_PENDING',
-        tier: null,
-      });
-    });
-
-    /**
-     * `students.center_id` is ON DELETE SET NULL and `students.tier` is not,
-     * so a deleted center leaves the tier behind. Reading it without a center
-     * would hand a student Premium for ever on the strength of a row nobody
-     * governs.
-     */
-    it('ignores a tier left behind by a deleted center', async () => {
-      givenRow({ center_id: null, tier: 'PREMIUM' });
-
-      await expect(service.forStudent('student-1')).resolves.toMatchObject({
-        status: 'NONE',
-        tier: null,
-      });
-    });
-
-    it('ignores a stale tier when the subscription row is missing too', async () => {
-      // Fails closed on status, and must not leak the tier either.
-      givenRow({ center_id: 'center-1', plan: null, tier: 'PREMIUM' });
-
-      await expect(service.forStudent('student-1')).resolves.toMatchObject({
-        status: 'BLOCKED',
-        studentsMayLearn: false,
-        tier: null,
-      });
-    });
-  });
-
-  /**
    * Two different kinds of "no center", which the service used to collapse
    * into one answer.
    *
    * A genuine independent student has a row and no center. A guest token has
    * NO ROW AT ALL — `/api/auth/guest` mints a random uuid and writes nothing.
-   * And a student a center released has a row, no center, and a tier left
-   * behind by the release.
+   * And a student a center released has a row, no center, and the code they
+   * once redeemed still on file.
    *
    * Callers that only ask "may they learn" can treat all three alike. Callers
    * that spend money or gate a paid feature cannot.
@@ -187,22 +132,21 @@ describe('StudentEntitlementService', () => {
     });
 
     it('reports a released student as formerly governed', async () => {
-      // center_id is SET NULL on release while tier is not, so a leftover
-      // tier is evidence that a center once governed this student. It is used
-      // as evidence only — `tier` itself stays null, so nothing grants access
-      // on the strength of it.
-      givenRow({ center_id: null, tier: 'PREMIUM' });
+      // Releasing clears center_id but leaves the code rows behind, so a code
+      // the student once redeemed is the evidence. It is evidence only:
+      // nothing grants access on the strength of it.
+      givenRow({ center_id: null, last_code_status: 'DEACTIVATED' });
 
       await expect(service.forStudent('student-1')).resolves.toMatchObject({
         status: 'NONE',
         studentExists: true,
         wasGoverned: true,
-        tier: null,
+        studentsMayLearn: false,
       });
     });
 
     it('reports a governed student as governed', async () => {
-      givenRow(withSubscription({ tier: 'PRO' }));
+      givenRow(withSubscription({}));
 
       await expect(service.forStudent('student-1')).resolves.toMatchObject({
         studentExists: true,
@@ -221,7 +165,7 @@ describe('StudentEntitlementService', () => {
    */
   describe('an account alone is not access', () => {
     it('lets a student who predates the rule keep learning', async () => {
-      givenRow({ center_id: null, tier: null, grandfathered_access: true });
+      givenRow({ center_id: null, grandfathered_access: true });
 
       await expect(service.forStudent('student-1')).resolves.toMatchObject({
         studentsMayLearn: true,
@@ -230,7 +174,7 @@ describe('StudentEntitlementService', () => {
     });
 
     it('refuses a new account that has never redeemed a code', async () => {
-      givenRow({ center_id: null, tier: null, grandfathered_access: false });
+      givenRow({ center_id: null, grandfathered_access: false });
 
       await expect(service.forStudent('student-1')).resolves.toMatchObject({
         status: 'NONE',
@@ -242,7 +186,6 @@ describe('StudentEntitlementService', () => {
     it('refuses a student a school took back, and says so', async () => {
       givenRow({
         center_id: null,
-        tier: 'START',
         grandfathered_access: false,
         last_code_status: 'DEACTIVATED',
         last_code_expires_at: null,
@@ -257,7 +200,6 @@ describe('StudentEntitlementService', () => {
     it('refuses a student whose code has run out, and says so', async () => {
       givenRow({
         center_id: null,
-        tier: 'START',
         grandfathered_access: false,
         last_code_status: 'CONNECTED',
         last_code_expires_at: daysFromNow(-1),
@@ -270,9 +212,14 @@ describe('StudentEntitlementService', () => {
     });
 
     it('does not let the grandfather mark cover a student a school released', async () => {
-      // The mark was only ever set on rows with no tier. A tier means a school
-      // governed this student; releasing them must not restore free access.
-      givenRow({ center_id: null, tier: 'PRO', grandfathered_access: true });
+      // The mark was only ever set on rows no school governed. A code the
+      // student redeemed means one did; releasing them must not restore free
+      // access.
+      givenRow({
+        center_id: null,
+        last_code_status: 'DEACTIVATED',
+        grandfathered_access: true,
+      });
 
       await expect(service.forStudent('student-1')).resolves.toMatchObject({
         studentsMayLearn: false,
@@ -298,7 +245,7 @@ describe('StudentEntitlementService', () => {
     });
 
     it('still costs one query, refusal reason included', async () => {
-      givenRow({ center_id: null, tier: null, grandfathered_access: false });
+      givenRow({ center_id: null, grandfathered_access: false });
 
       await service.forStudent('student-1');
 

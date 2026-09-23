@@ -3,8 +3,8 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { PlansController } from '../src/modules/plans/plans.controller';
-import { TIER_PRICES_XAF } from '../src/modules/centers/pricing.service';
-import { TIER_AI_ALLOWANCE } from '../src/shared/services/ai-quota.service';
+import { START_PRICE_XAF } from '../src/modules/centers/pricing.service';
+import { AI_ALLOWANCE_PER_WINDOW } from '../src/shared/services/ai-quota.service';
 
 /**
  * What a plan costs and allows, served from the constants the backend
@@ -19,7 +19,6 @@ interface PlanBody {
   id: string;
   monthlyPricePerSeatXaf: number;
   aiSpeaking: { limit: number; window: string };
-  examModule: boolean;
 }
 
 interface PlansBody {
@@ -58,24 +57,16 @@ describe('PlansController contract', () => {
   it('is public, because pricing is read before anyone has an account', async () => {
     const body = await fetchPlans();
 
-    expect(body.plans.map((plan) => plan.id)).toEqual([
-      'start',
-      'pro',
-      'premium',
-    ]);
+    // One plan since the tiers went: Start. The add-ons of the new pricing
+    // appear here as each one is built.
+    expect(body.plans.map((plan) => plan.id)).toEqual(['start']);
   });
 
-  it('prices every plan from the constants the quote is built from', async () => {
+  it('prices the plan from the constant the quote is built from', async () => {
     const body = await fetchPlans();
 
     expect(planById(body, 'start').monthlyPricePerSeatXaf).toBe(
-      TIER_PRICES_XAF.START,
-    );
-    expect(planById(body, 'pro').monthlyPricePerSeatXaf).toBe(
-      TIER_PRICES_XAF.PRO,
-    );
-    expect(planById(body, 'premium').monthlyPricePerSeatXaf).toBe(
-      TIER_PRICES_XAF.PREMIUM,
+      START_PRICE_XAF,
     );
   });
 
@@ -83,21 +74,9 @@ describe('PlansController contract', () => {
     const body = await fetchPlans();
 
     expect(planById(body, 'start').aiSpeaking).toEqual({
-      limit: TIER_AI_ALLOWANCE.START,
+      limit: AI_ALLOWANCE_PER_WINDOW,
       window: 'per_24h',
     });
-    expect(planById(body, 'pro').aiSpeaking.limit).toBe(TIER_AI_ALLOWANCE.PRO);
-    expect(planById(body, 'premium').aiSpeaking.limit).toBe(
-      TIER_AI_ALLOWANCE.PREMIUM,
-    );
-  });
-
-  it('marks the exam module from Pro up, matching the tier that guards it', async () => {
-    const body = await fetchPlans();
-
-    expect(planById(body, 'start').examModule).toBe(false);
-    expect(planById(body, 'pro').examModule).toBe(true);
-    expect(planById(body, 'premium').examModule).toBe(true);
   });
 
   it('states the seat minimum, so the frontend stops holding its own copy', async () => {
@@ -113,14 +92,14 @@ describe('PlansController contract', () => {
     expect(planById(body, 'start')).not.toHaveProperty('description');
   });
 
-  it('promises nothing that is not enforced yet: no annual discount, no full-AI flag', async () => {
+  it('promises nothing that is not enforced yet', async () => {
     const body = await fetchPlans();
 
-    // Annual billing waits on the subscription model (D4) and "AI in every
-    // module" has no allowance behind it — AiOperation still has one value.
-    // Advertising either would be a promise the backend cannot keep.
+    // Annual billing is not decided, and the add-ons of the new pricing are
+    // not built. Advertising either would be a promise the backend cannot
+    // keep.
     expect(body).not.toHaveProperty('annualDiscountFactor');
-    expect(planById(body, 'premium')).not.toHaveProperty('fullAiAllModules');
+    expect(planById(body, 'start')).not.toHaveProperty('examModule');
   });
 
   it('keeps it for a day, like the location list', async () => {

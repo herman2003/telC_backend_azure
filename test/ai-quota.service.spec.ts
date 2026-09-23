@@ -3,7 +3,7 @@ import { ForbiddenException } from '@nestjs/common';
 import {
   AiQuotaService,
   AI_QUOTA_WINDOW_HOURS,
-  TIER_AI_ALLOWANCE,
+  AI_ALLOWANCE_PER_WINDOW,
 } from '../src/shared/services/ai-quota.service';
 import type { StudentEntitlement } from '../src/shared/services/student-entitlement.service';
 
@@ -24,7 +24,6 @@ describe('AiQuotaService', () => {
       status: 'ACTIVE',
       studentsMayLearn: true,
       graceEndsAt: null,
-      tier: 'START',
       studentExists: true,
       wasGoverned: true,
       ...over,
@@ -44,17 +43,10 @@ describe('AiQuotaService', () => {
   });
 
   describe('the published allowances', () => {
-    it.each([
-      ['START', 2],
-      ['PRO', 5],
-      ['PREMIUM', 20],
-    ] as const)('gives %s %i per window', async (tier, allowed) => {
-      entitlement.forStudent.mockResolvedValue(entitled({ tier }));
-
+    it('gives every student the same allowance, since there is one plan', async () => {
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
 
-      expect(decision.allowedToday).toBe(allowed);
-      expect(TIER_AI_ALLOWANCE[tier]).toBe(allowed);
+      expect(decision.allowedToday).toBe(AI_ALLOWANCE_PER_WINDOW);
     });
 
     it('counts over a rolling twenty-four hours', async () => {
@@ -92,20 +84,17 @@ describe('AiQuotaService', () => {
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
 
-      expect(decision.allowedToday).toBe(TIER_AI_ALLOWANCE.START);
-      expect(decision.tier).toBeNull();
+      expect(decision.allowedToday).toBe(AI_ALLOWANCE_PER_WINDOW);
     });
 
-    it('gives a governed student with no tier the same', async () => {
-      // One rule rather than two. Provisioning requires a tier, so this is
-      // only reachable by a student who predates tiers entirely.
+    it('gives a governed student the same', async () => {
       entitlement.forStudent.mockResolvedValue(
         entitled({ status: 'ACTIVE', tier: null }),
       );
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
 
-      expect(decision.allowedToday).toBe(TIER_AI_ALLOWANCE.START);
+      expect(decision.allowedToday).toBe(AI_ALLOWANCE_PER_WINDOW);
     });
 
     it('never makes a removed student better off than a Start student', async () => {
@@ -198,7 +187,7 @@ describe('AiQuotaService', () => {
     });
 
     it('refuses a student somehow over the allowance', async () => {
-      // A tier move down, or a lost race. Still refused, never negative.
+      // Fewer seats than before, or a lost race. Still refused, never negative.
       usage.countSince.mockResolvedValue(9);
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
@@ -287,7 +276,6 @@ describe('AiQuotaService', () => {
       ).rejects.toMatchObject({
         response: expect.objectContaining({
           message: 'AI_QUOTA_EXCEEDED',
-          tier: 'START',
           usedToday: 2,
           allowedToday: 2,
         }),

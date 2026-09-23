@@ -58,7 +58,7 @@ async function makeCenter(name: string, trialSeats = 3) {
       city_id: 'douala',
       subscription: { create: { plan: 'TRIAL' } },
       seats: {
-        create: { tier: 'START', quantity: trialSeats, unit_price_xaf: 0 },
+        create: { quantity: trialSeats, unit_price_xaf: 0 },
       },
     },
     include: { subscription: true },
@@ -129,7 +129,6 @@ describe('center subscriptions against real Postgres', () => {
 
     expect(seats).toHaveLength(1);
     expect(seats[0]).toMatchObject({
-      tier: 'START',
       quantity: 1,
       unit_price_xaf: 0,
     });
@@ -198,11 +197,11 @@ describe('center subscriptions against real Postgres', () => {
     });
     // Seats held now live on their own rows, so a paid center says so there.
     // Updated rather than created: the center already holds its trial Start
-    // row, and center_seats is unique per (center, tier) — buying more seats
-    // in a tier raises the quantity, it does not add a second row.
+    // row, and center_seats is unique per center — buying more seats raises
+    // the quantity, it does not add a second row.
     await prisma.centerSeat.update({
       where: {
-        center_id_tier: { center_id: center.id, tier: 'START' },
+        center_id: center.id,
       },
       data: { quantity: 10, unit_price_xaf: 4500 },
     });

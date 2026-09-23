@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { SubscriptionPolicyService } from '../modules/centers/subscription-policy.service';
 import { StudentEntitlementService } from './services/student-entitlement.service';
 import { StudentSubscriptionGuard } from './guards/student-subscription.guard';
-import { StudentTierGuard } from './guards/student-tier.guard';
 import { AiUsageService } from './services/ai-usage.service';
 import { AiQuotaService } from './services/ai-quota.service';
 
@@ -24,13 +23,11 @@ import { AiQuotaService } from './services/ai-quota.service';
     SubscriptionPolicyService,
     StudentEntitlementService,
     StudentSubscriptionGuard,
-    StudentTierGuard,
     AiUsageService,
     AiQuotaService,
   ],
   exports: [
     StudentSubscriptionGuard,
-    StudentTierGuard,
     StudentEntitlementService,
     AiUsageService,
     AiQuotaService,

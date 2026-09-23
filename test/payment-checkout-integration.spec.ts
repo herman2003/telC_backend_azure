@@ -109,11 +109,7 @@ async function makePayment(
       status,
       idempotency_key: `checkout-${Date.now()}-${Math.random()}`,
       request_hash: 'test',
-      lines: {
-        create: [
-          { tier: 'START', seats: 10, unit_price_xaf: 4500, amount_xaf: 45000 },
-        ],
-      },
+      unit_price_xaf: 4500,
     },
   });
 }

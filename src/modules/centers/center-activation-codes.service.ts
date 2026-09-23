@@ -8,17 +8,10 @@ import {
   ActivationCodeStatus,
   type ActivationCode,
   type Prisma,
-  Tier,
 } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
-import {
-  TIER_ORDER,
-  emptySeatsByPlan,
-  planIdFor,
-  type PlanId,
-  type SeatsByPlan,
-} from '../../shared/plan-id';
+import { type PlanId } from '../../shared/plan-id';
 import {
   toActivationCodeView,
   type ActivationCodeView,
@@ -65,10 +58,9 @@ export interface ListedActivationCode extends ActivationCodeView {
 }
 
 export interface SeatSummary {
-  bought: SeatsByPlan;
-  used: SeatsByPlan;
-  boughtTotal: number;
-  usedTotal: number;
+  /** Seats the center holds, and how many of them a student is using. */
+  bought: number;
+  used: number;
 }
 
 const STATUS_FILTER: Record<
@@ -78,12 +70,6 @@ const STATUS_FILTER: Record<
   activated: ActivationCodeStatus.ACTIVATED,
   connected: ActivationCodeStatus.CONNECTED,
   deactivated: ActivationCodeStatus.DEACTIVATED,
-};
-
-const TIER_FILTER: Record<PlanId, Tier> = {
-  start: Tier.START,
-  pro: Tier.PRO,
-  premium: Tier.PREMIUM,
 };
 
 /**
@@ -136,10 +122,6 @@ export class CenterActivationCodesService {
 
     if (filters.status && filters.status !== 'all') {
       where.status = STATUS_FILTER[filters.status];
-    }
-
-    if (filters.planId && filters.planId !== 'all') {
-      where.tier = TIER_FILTER[filters.planId];
     }
 
     const rows = await this.prisma.activationCode.findMany({
@@ -201,49 +183,27 @@ export class CenterActivationCodesService {
   }
 
   /**
-   * Seats bought against seats in use, per plan.
+   * Seats bought against seats in use.
    *
-   * Bought comes from the seat rows, which payment activation owns; used is
-   * the number of codes a student has redeemed. Deriving "used" from codes
-   * rather than from a counter means it cannot drift from what the Users page
-   * lists.
+   * Bought comes from the seat row, which payment activation owns; used is the
+   * number of codes a student has redeemed. Deriving "used" from codes rather
+   * than from a counter means it cannot drift from what the Users page lists.
    */
   async seats(identity: SignedCenterIdentity): Promise<SeatSummary> {
-    const [seatRows, usedRows] = await Promise.all([
-      this.prisma.centerSeat.findMany({
+    const [seat, used] = await Promise.all([
+      this.prisma.centerSeat.findUnique({
         where: { center_id: identity.centerId },
-        select: { tier: true, quantity: true },
+        select: { quantity: true },
       }),
-      this.prisma.activationCode.groupBy({
-        by: ['tier'],
+      this.prisma.activationCode.count({
         where: {
           center_id: identity.centerId,
           status: ActivationCodeStatus.CONNECTED,
         },
-        _count: { _all: true },
       }),
     ]);
 
-    const bought = emptySeatsByPlan();
-    const used = emptySeatsByPlan();
-
-    for (const row of seatRows) {
-      bought[planIdFor(row.tier)] = row.quantity;
-    }
-
-    for (const row of usedRows) {
-      used[planIdFor(row.tier)] = row._count._all;
-    }
-
-    const total = (seats: SeatsByPlan) =>
-      TIER_ORDER.reduce((sum, tier) => sum + seats[planIdFor(tier)], 0);
-
-    return {
-      bought,
-      used,
-      boughtTotal: total(bought),
-      usedTotal: total(used),
-    };
+    return { bought: seat?.quantity ?? 0, used };
   }
 
   async deactivate(
@@ -297,11 +257,6 @@ export class CenterActivationCodesService {
       // Access ends on the student's side, and only for THIS center's hold on
       // them: a student who has since joined another school keeps that one.
       //
-      // The tier is deliberately left, exactly as the older release path
-      // leaves it. A leftover tier is the evidence that a school once governed
-      // this student; without it they read as a genuine independent student,
-      // who is admitted to the exam module — so clearing it would turn
-      // "deactivated" into "upgraded".
       if (
         transition.to === ActivationCodeStatus.DEACTIVATED &&
         current.student_id
@@ -415,7 +370,7 @@ export class CenterActivationCodesService {
       }
 
       // Access ends at once, and only this center's hold on the student is
-      // released; the tier stays, exactly as deactivation leaves it.
+      // released.
       if (
         current.status === ActivationCodeStatus.CONNECTED &&
         current.student_id

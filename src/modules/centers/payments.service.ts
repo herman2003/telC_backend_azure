@@ -5,10 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { createHash } from 'crypto';
-import type { PaymentStatus, Tier } from '@prisma/client';
+import type { PaymentStatus } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
-import { PricingService, type SeatMix } from './pricing.service';
+import { PricingService } from './pricing.service';
 import { CenterSeatsService } from './center-seats.service';
 import { deriveOnboardingState, suppliedLocationOf } from './center-onboarding';
 
@@ -22,18 +22,11 @@ type SignedCenterIdentity = Pick<
   'centerId' | 'centerUserId'
 >;
 
-export interface PaymentLineView {
-  tier: Tier;
-  seats: number;
-  unitPriceXaf: number;
-  amountXaf: number;
-}
-
 export interface PaymentView {
   id: string;
-  /** Per tier, so an invoice can be read back exactly as it was agreed. */
-  lines: PaymentLineView[];
-  totalSeats: number;
+  seats: number;
+  /** Stamped at creation, so an invoice reads back exactly as it was agreed. */
+  unitPriceXaf: number;
   amountXaf: number;
   status: PaymentStatus;
   createdAt: Date;
@@ -51,9 +44,6 @@ const UNIQUE_VIOLATION = 'P2002';
 
 /** The column that makes a P2002 a replay rather than a bug. */
 const IDEMPOTENCY_COLUMN = 'idempotency_key';
-
-/** Cheapest first, matching the order a quote lists its lines in. */
-const TIER_VIEW_ORDER: Record<Tier, number> = { START: 0, PRO: 1, PREMIUM: 2 };
 
 @Injectable()
 export class PaymentsService {
@@ -75,12 +65,12 @@ export class PaymentsService {
    */
   async create(
     identity: SignedCenterIdentity,
-    mix: SeatMix,
+    seats: number,
     idempotencyKey: string,
   ): Promise<PaymentView> {
-    // Shape-checked before a transaction is opened: an unusable mix should not
-    // hold a connection, and the refusal does not depend on any row.
-    const wanted = this.pricing.requireMix(mix);
+    // Shape-checked before a transaction is opened: an unusable order should
+    // not hold a connection, and the refusal does not depend on any row.
+    const wanted = this.pricing.requireSeats(seats);
     const requestHash = this.fingerprint(identity.centerId, wanted);
 
     // Before anything is priced or written. A center can run a trial on an
@@ -92,7 +82,7 @@ export class PaymentsService {
 
     try {
       // Priced and written in one transaction, so a refused quote leaves no
-      // row and a payment never exists without its lines.
+      // row.
       //
       // What this does NOT guarantee: the transaction is READ COMMITTED, so a
       // price stamp or a provisioning run committing between the reads and the
@@ -100,9 +90,9 @@ export class PaymentsService {
       // Serializable, which would turn the same-key insert race below into
       // serialization failures and 500s. Nothing here moves money or grants
       // access, and the guarantees that matter live in
-      // PaymentActivationService: it stamps each line's own price, sets seats
-      // exactly once, and honours a payment even if students were added in
-      // the meantime.
+      // PaymentActivationService: it stamps the payment's own price, sets
+      // seats exactly once, and honours a payment even if students were added
+      // in the meantime.
       const created = await this.prisma.$transaction(async (tx) => {
         const quote = this.pricing.quote(
           wanted,
@@ -112,22 +102,12 @@ export class PaymentsService {
         return tx.payment.create({
           data: {
             center_id: identity.centerId,
-            total_seats: quote.totalSeats,
+            total_seats: quote.seats,
+            unit_price_xaf: quote.unitPriceXaf,
             amount_xaf: quote.totalXaf,
             idempotency_key: idempotencyKey,
             request_hash: requestHash,
-            // Written in the same insert as the payment, so a payment can
-            // never exist without the breakdown that explains its amount.
-            lines: {
-              create: quote.lines.map((line) => ({
-                tier: line.tier,
-                seats: line.seats,
-                unit_price_xaf: line.unitPriceXaf,
-                amount_xaf: line.amountXaf,
-              })),
-            },
           },
-          include: { lines: true },
         });
       });
 
@@ -202,7 +182,6 @@ export class PaymentsService {
       // Scoped by center in the query itself. Fetching then comparing would
       // work too, and would be one refactor away from leaking.
       where: { id: paymentId, center_id: identity.centerId },
-      include: { lines: true },
     });
 
     // 404 rather than 403 for another center's payment, matching the student
@@ -231,7 +210,6 @@ export class PaymentsService {
         orderBy: [{ created_at: 'desc' }, { id: 'desc' }],
         skip: (page - 1) * pageSize,
         take: pageSize,
-        include: { lines: true },
       }),
       this.prisma.payment.count({ where }),
     ]);
@@ -264,7 +242,6 @@ export class PaymentsService {
           idempotency_key: idempotencyKey,
         },
       },
-      include: { lines: true },
     });
 
     // Only reachable if the row disappeared between the failed insert and this
@@ -283,10 +260,8 @@ export class PaymentsService {
   /**
    * What the key was first used for.
    *
-   * Covers the center and every tier, so a replay that changes any part of the
-   * mix is a different intent wearing the same name. Hashing only the total
-   * would let five Start plus five Pro pass as ten Start, which is the one
-   * collision that matters.
+   * Covers the center and the seat count, so a replay asking for a different
+   * number of seats is a different intent wearing the same name.
    *
    * It covers the seats and NOT the price, because a fingerprint has to
    * identify the caller's intent and the price is the server's answer to it.
@@ -297,12 +272,10 @@ export class PaymentsService {
    * that with a fresh key, producing a second payment for one intent: exactly
    * what the unique index exists to prevent.
    *
-   * Sorted by tier so the hash cannot depend on key order, and the center is
-   * included so a hash can never be compared across centers by accident.
+   * The center is included so a hash can never be compared across centers by
+   * accident.
    */
-  private fingerprint(centerId: string, mix: SeatMix): string {
-    const seats = Object.entries(mix).sort(([a], [b]) => a.localeCompare(b));
-
+  private fingerprint(centerId: string, seats: number): string {
     return createHash('sha256')
       .update(JSON.stringify({ centerId, seats }))
       .digest('hex');
@@ -311,11 +284,11 @@ export class PaymentsService {
   /**
    * Whether this error is the idempotency index rejecting a duplicate.
    *
-   * The constraint is checked, not just the code. `payment_lines` has a unique
-   * index of its own in the same transaction, so treating any P2002 as a
-   * replay would look for a row by idempotency key, not find one, and answer a
-   * server bug with 409 IDEMPOTENCY_KEY_REUSED — a client error the client
-   * cannot act on and nobody can debug from the response.
+   * The constraint is checked, not just the code. Other unique indexes exist
+   * on this path, so treating any P2002 as a replay would look for a row by
+   * idempotency key, not find one, and answer a server bug with 409
+   * IDEMPOTENCY_KEY_REUSED — a client error the client cannot act on and
+   * nobody can debug from the response.
    */
   private isIdempotencyViolation(error: unknown): boolean {
     if (
@@ -366,29 +339,15 @@ export class PaymentsService {
   private toView(row: {
     id: string;
     total_seats: number;
+    unit_price_xaf: number;
     amount_xaf: number;
     status: PaymentStatus;
     created_at: Date;
-    lines: {
-      tier: Tier;
-      seats: number;
-      unit_price_xaf: number;
-      amount_xaf: number;
-    }[];
   }): PaymentView {
     return {
       id: row.id,
-      // Cheapest tier first, matching the order a quote lists them in, so a
-      // payment and the quote that produced it read the same way.
-      lines: [...row.lines]
-        .sort((a, b) => TIER_VIEW_ORDER[a.tier] - TIER_VIEW_ORDER[b.tier])
-        .map((line) => ({
-          tier: line.tier,
-          seats: line.seats,
-          unitPriceXaf: line.unit_price_xaf,
-          amountXaf: line.amount_xaf,
-        })),
-      totalSeats: row.total_seats,
+      seats: row.total_seats,
+      unitPriceXaf: row.unit_price_xaf,
       amountXaf: row.amount_xaf,
       status: row.status,
       createdAt: row.created_at,

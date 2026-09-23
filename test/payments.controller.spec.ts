@@ -29,12 +29,9 @@ const signedIdentity = {
 
 const aPayment = {
   id: 'payment-1',
-  lines: [
-    { tier: 'START', seats: 5, unitPriceXaf: 4500, amountXaf: 22500 },
-    { tier: 'PRO', seats: 5, unitPriceXaf: 10000, amountXaf: 50000 },
-  ],
-  totalSeats: 10,
-  amountXaf: 72500,
+  seats: 10,
+  unitPriceXaf: 4500,
+  amountXaf: 45000,
   status: 'PENDING',
   createdAt: new Date('2026-08-24T00:00:00.000Z'),
 };
@@ -105,37 +102,26 @@ describe('PaymentsController', () => {
   };
 
   describe('creating a payment', () => {
-    it('passes the mix on the tier keys the service expects', async () => {
-      await pay({ start: 5, pro: 3, premium: 2 }, 'key-1').expect(201);
+    it('passes the seat count the service expects', async () => {
+      await pay({ seats: 12 }, 'key-1').expect(201);
 
-      expect(payments.create).toHaveBeenCalledWith(
-        signedIdentity,
-        { START: 5, PRO: 3, PREMIUM: 2 },
-        'key-1',
-      );
+      expect(payments.create).toHaveBeenCalledWith(signedIdentity, 12, 'key-1');
     });
 
-    it('records the mix for the signed-in center, never one named in the body', async () => {
-      await pay({ start: 10 }, 'key-1').expect(201);
+    it('records the order for the signed-in center, never one named in the body', async () => {
+      await pay({ seats: 10 }, 'key-1').expect(201);
 
-      expect(payments.create).toHaveBeenCalledWith(
-        signedIdentity,
-        { START: 10, PRO: undefined, PREMIUM: undefined },
-        'key-1',
-      );
+      expect(payments.create).toHaveBeenCalledWith(signedIdentity, 10, 'key-1');
     });
 
-    it('returns the record, itemised per tier', async () => {
-      const response = await pay({ start: 5, pro: 5 }, 'key-1').expect(201);
+    it('returns the record, with the price that applied', async () => {
+      const response = await pay({ seats: 10 }, 'key-1').expect(201);
 
       expect(response.body).toMatchObject({
         id: 'payment-1',
-        lines: [
-          { tier: 'START', seats: 5, unitPriceXaf: 4500, amountXaf: 22500 },
-          { tier: 'PRO', seats: 5, unitPriceXaf: 10000, amountXaf: 50000 },
-        ],
-        totalSeats: 10,
-        amountXaf: 72500,
+        seats: 10,
+        unitPriceXaf: 4500,
+        amountXaf: 45000,
         status: 'PENDING',
       });
     });
@@ -143,7 +129,7 @@ describe('PaymentsController', () => {
     it('requires an idempotency key', async () => {
       // Without one there is nothing to make a retry safe, and a dropped
       // response would leave the center unable to tell whether it had paid.
-      await pay({ start: 10 }).expect(400);
+      await pay({ seats: 10 }).expect(400);
 
       expect(payments.create).not.toHaveBeenCalled();
     });
@@ -153,7 +139,7 @@ describe('PaymentsController', () => {
       ['a whitespace key', '   '],
       ['an absurdly long key', 'k'.repeat(256)],
     ])('refuses %s', async (_case, key) => {
-      await pay({ start: 10 }, key).expect(400);
+      await pay({ seats: 10 }, key).expect(400);
       expect(payments.create).not.toHaveBeenCalled();
     });
 
@@ -161,7 +147,7 @@ describe('PaymentsController', () => {
       // Every call creates a durable row, and a fresh key makes a fresh one.
       // The idempotency index stops duplicates of ONE intent; it does nothing
       // about a flood of distinct ones.
-      await pay({ start: 10 }, 'key-1').expect(201);
+      await pay({ seats: 10 }, 'key-1').expect(201);
 
       expect(rateLimit.checkPaymentCreateLimit).toHaveBeenCalledWith(
         signedIdentity.centerId,
@@ -173,7 +159,7 @@ describe('PaymentsController', () => {
         new HttpException('TOO_MANY_REQUESTS', HttpStatus.TOO_MANY_REQUESTS),
       );
 
-      await pay({ start: 10 }, 'key-1').expect(429);
+      await pay({ seats: 10 }, 'key-1').expect(429);
 
       expect(payments.create).not.toHaveBeenCalled();
     });
@@ -183,21 +169,18 @@ describe('PaymentsController', () => {
         new ConflictException('IDEMPOTENCY_KEY_REUSED'),
       );
 
-      await pay({ start: 20 }, 'key-1').expect(409);
+      await pay({ seats: 20 }, 'key-1').expect(409);
     });
 
     /**
-     * A refused request must not cost the center its budget.
-     *
-     * Every tier field is optional, so `{}` clears the validation pipe and
-     * reaches the handler. Spending one of twenty an hour on a request that
-     * buys nothing means twenty empty submits can 429 a center out of the one
-     * route a lapsed center has to be able to reach.
+     * A refused request must not cost the center its budget: twenty empty
+     * submits would otherwise 429 a center out of the one route a lapsed
+     * center has to be able to reach.
      */
-    describe('an unusable mix costs no rate-limit budget', () => {
+    describe('an unusable order costs no rate-limit budget', () => {
       it.each([
         ['an empty body', {}],
-        ['every tier at zero', { start: 0, pro: 0, premium: 0 }],
+        ['zero seats', { seats: 0 }],
       ])('refuses %s without spending a slot', async (_case, body) => {
         await pay(body, 'key-1').expect(400);
 
@@ -205,16 +188,10 @@ describe('PaymentsController', () => {
         expect(payments.create).not.toHaveBeenCalled();
       });
 
-      it('says which refusal it is, not just 400', async () => {
-        const response = await pay({}, 'key-1').expect(400);
-
-        expect(response.body.error).toBe('SEAT_MIX_EMPTY');
-      });
-
-      it('still spends a slot on a mix worth pricing', async () => {
+      it('still spends a slot on an order worth pricing', async () => {
         // The limiter has to keep doing its job for real attempts, including
         // ones the pricing floors go on to refuse.
-        await pay({ start: 10 }, 'key-1').expect(201);
+        await pay({ seats: 10 }, 'key-1').expect(201);
 
         expect(rateLimit.checkPaymentCreateLimit).toHaveBeenCalledTimes(1);
       });
@@ -231,7 +208,7 @@ describe('PaymentsController', () => {
         }),
       );
 
-      const response = await pay({ start: 10 }, 'key-1').expect(403);
+      const response = await pay({ seats: 10 }, 'key-1').expect(403);
 
       expect(response.body.error).toBe('CENTER_PROFILE_INCOMPLETE');
       expect(response.body.missing).toEqual(['city', 'phone']);
@@ -239,26 +216,26 @@ describe('PaymentsController', () => {
 
     describe('the client cannot influence the price', () => {
       it.each([
-        ['a unit price', { start: 10, unitPriceXaf: 1 }],
-        ['a total', { start: 10, amountXaf: 1 }],
-        ['a status', { start: 10, status: 'SUCCEEDED' }],
-        ['another center', { start: 10, centerId: 'someone-else' }],
-        ['a line breakdown of its own', { start: 10, lines: [] }],
-        // The pre-tier shape. A body the old client sends must fail loudly
-        // rather than be read as an empty mix and priced at zero.
-        ['a seat count by its old name', { seats: 10 }],
+        ['a unit price', { seats: 10, unitPriceXaf: 1 }],
+        ['a total', { seats: 10, amountXaf: 1 }],
+        ['a status', { seats: 10, status: 'SUCCEEDED' }],
+        ['another center', { seats: 10, centerId: 'someone-else' }],
+        ['a line breakdown of its own', { seats: 10, lines: [] }],
+        // The tier shape. A body an old client sends must fail loudly rather
+        // than be read as no seats at all.
+        ['tiers, which no longer exist', { start: 5, pro: 5 }],
       ])('refuses %s', async (_case, body) => {
         await pay(body, 'key-1').expect(400);
         expect(payments.create).not.toHaveBeenCalled();
       });
     });
 
-    describe('each tier count must be a seat count', () => {
+    describe('the seat count must be a seat count', () => {
       it.each([
-        ['a string', { start: '10' }],
-        ['a fraction', { start: 10.5 }],
-        ['a negative', { start: -10 }],
-        ['an absurd number', { start: 20000 }],
+        ['a string', { seats: '10' }],
+        ['a fraction', { seats: 10.5 }],
+        ['a negative', { seats: -10 }],
+        ['an absurd number', { seats: 20000 }],
       ])('refuses %s', async (_case, body) => {
         await pay(body, 'key-1').expect(400);
         expect(payments.create).not.toHaveBeenCalled();
@@ -369,15 +346,16 @@ describe('PaymentsController', () => {
       expect(payments.list).not.toHaveBeenCalled();
     });
 
-    it('carries the tier breakdown into history', async () => {
+    it('carries the price that applied into history', async () => {
       // An invoice read back months later has to still say what was bought,
       // at the price that applied then.
       const response = await http().get('/api/centers/me/payments').expect(200);
 
-      expect(response.body.payments[0].lines).toEqual([
-        { tier: 'START', seats: 5, unitPriceXaf: 4500, amountXaf: 22500 },
-        { tier: 'PRO', seats: 5, unitPriceXaf: 10000, amountXaf: 50000 },
-      ]);
+      expect(response.body.payments[0]).toMatchObject({
+        seats: 10,
+        unitPriceXaf: 4500,
+        amountXaf: 45000,
+      });
     });
   });
 

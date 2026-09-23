@@ -3,7 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Tier } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { isUniqueViolationOn } from '../../shared/prisma-errors';
@@ -125,7 +124,6 @@ export class CenterTrialService {
           code: generateActivationCode(),
           // A trial seat is an ordinary Start seat at zero price, so a trial
           // student and a paid Start student differ only in the clock.
-          tier: Tier.START,
           expires_at: endsAt,
         },
       });

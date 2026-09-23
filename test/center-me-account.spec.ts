@@ -54,7 +54,7 @@ describe('CenterProfileService account state', () => {
       centerSubscription: {
         findUnique: jest.fn().mockResolvedValue(withSubscription()),
       },
-      centerSeat: { findMany: jest.fn().mockResolvedValue([]) },
+      centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
       $transaction: jest.fn(async (operations: unknown) =>
         Array.isArray(operations) ? Promise.all(operations) : operations,
       ),
@@ -96,17 +96,20 @@ describe('CenterProfileService account state', () => {
     expect(profile.account.trialEndsAt).toEqual(trialEndsAt);
   });
 
-  it('reports the seats a center holds, per tier, from the seat rows', async () => {
-    prisma.centerSeat.findMany.mockResolvedValue([
-      { tier: 'START', quantity: 7 },
-      { tier: 'PRO', quantity: 3 },
-    ]);
+  it('reports the seats a center holds, from its seat row', async () => {
+    prisma.centerSeat.findUnique.mockResolvedValue({ quantity: 7 });
 
     const profile = await service.getProfile(signedIdentity);
 
-    // Plan ids, the same words `GET /api/plans` uses. A client should not have
-    // to know that the database spells them differently.
-    expect(profile.account.seats).toEqual({ start: 7, pro: 3, premium: 0 });
+    expect(profile.account.seats).toBe(7);
+  });
+
+  it('reports no seats as zero, so a dashboard never renders undefined', async () => {
+    prisma.centerSeat.findUnique.mockResolvedValue(null);
+
+    const profile = await service.getProfile(signedIdentity);
+
+    expect(profile.account.seats).toBe(0);
   });
 
   it('reads the subscription scoped to the signed center, never an id from a client', async () => {
@@ -116,7 +119,7 @@ describe('CenterProfileService account state', () => {
       where: { center_id: 'center-1' },
       select: expect.any(Object),
     });
-    expect(prisma.centerSeat.findMany).toHaveBeenCalledWith(
+    expect(prisma.centerSeat.findUnique).toHaveBeenCalledWith(
       expect.objectContaining({ where: { center_id: 'center-1' } }),
     );
   });

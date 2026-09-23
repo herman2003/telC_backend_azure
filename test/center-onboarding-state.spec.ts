@@ -69,7 +69,7 @@ describe('onboarding state on the center profile', () => {
           paid_until: null,
         }),
       },
-      centerSeat: { findMany: jest.fn().mockResolvedValue([]) },
+      centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
     };
     service = new CenterProfileService(prisma, new SubscriptionPolicyService());
   });
