@@ -32,7 +32,6 @@ describe('CodeRedemptionService.redeem', () => {
     id: 'code-1',
     center_id: 'center-1',
     code: 'LQ-7K2P-94QX',
-    tier: 'START',
     status: 'ACTIVATED',
     student_id: null,
     expires_at: new Date(Date.now() + 13 * DAY_MS),
@@ -76,7 +75,7 @@ describe('CodeRedemptionService.redeem', () => {
 
     expect(prisma.student.update).toHaveBeenCalledWith({
       where: { id: 'student-1' },
-      data: { center_id: 'center-1', tier: 'START' },
+      data: { center_id: 'center-1' },
     });
     expect(result).toEqual(
       expect.objectContaining({
@@ -213,7 +212,7 @@ describe('CodeRedemptionService.redeem', () => {
 
     // Review finding 2: a student linked by an old per-student key has a
     // school but no code, so "holds a code" alone missed them, and redeeming
-    // another school's code silently moved them — possibly to a lower tier.
+    // another school's code silently moved them to the new school.
     it('a student an older key still ties to a school that is paying', async () => {
       prisma.student.findUnique.mockResolvedValue({
         id: 'student-1',
@@ -339,7 +338,7 @@ describe('CodeRedemptionService.redeem', () => {
 
       expect(prisma.student.update).toHaveBeenCalledWith({
         where: { id: 'student-1' },
-        data: { center_id: 'center-1', tier: 'START' },
+        data: { center_id: 'center-1' },
       });
     });
   });

@@ -26,7 +26,6 @@ const TRIAL_SEATS = 1;
  *
  * Not a special case, deliberately — see the seat row created in `register`.
  */
-const TRIAL_SEAT_TIER = 'START' as const;
 const TRIAL_SEAT_PRICE_XAF = 0;
 const VERIFICATION_RESEND_COOLDOWN_MS = 2 * 60 * 1000;
 const REGISTRATION_RESPONSE = { message: 'verification email sent' } as const;
@@ -182,16 +181,15 @@ export class CentersService {
 
         // Fourth insert, same transaction: the trial seat itself. A trial is
         // an ordinary seat row priced at zero rather than a flag, so seat
-        // counting, tier lookup and the quota check need no "unless they are
-        // on trial" branch. A trial student and a paid Start student then
-        // differ only in the clock.
+        // counting and the quota check need no "unless they are on trial"
+        // branch. A trial student and a paid student then differ only in the
+        // clock.
         //
         // Zero is legal here and illegal on a payment line, which is what
         // keeps a granted seat and a bought seat from being confused.
         await tx.centerSeat.create({
           data: {
             center_id: center.id,
-            tier: TRIAL_SEAT_TIER,
             quantity: TRIAL_SEATS,
             unit_price_xaf: TRIAL_SEAT_PRICE_XAF,
           },

@@ -1,9 +1,6 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { Tier } from '@prisma/client';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
-import { StudentTierGuard } from '../../shared/guards/student-tier.guard';
-import { RequiresTier } from '../../shared/decorators/requires-tier.decorator';
 import { ModelltestsService } from './modelltests.service';
 import type {
   ModelltestDetailDto,
@@ -11,20 +8,14 @@ import type {
 } from './dto/modelltest.dto';
 
 /**
- * The full timed exam simulation, and the line between Start and Pro.
+ * The Modelltest content, open to every student whose school is paying.
  *
- * `RequiresTier` sits on the class rather than on each route because the whole
- * module is the paid feature — a route added here is gated by default, which
- * is the right way round for a gate that decides what a tier is worth.
- *
- * Per-skill practice (`/api/reading`, `/api/listening`, `/api/writing`,
- * `/api/sprachbausteine` and speaking practice) is deliberately NOT gated.
- * Those work independently of this module, which is what makes Start a usable
- * product rather than a stub, and `subscription-enforcement.spec` pins their
- * openness so this gate cannot spread by accident.
+ * It used to be the line between Start and Pro. With Start the only plan
+ * (2026-09-23) there is no tier to compare, so the subscription guard is the
+ * whole rule here, exactly as for per-skill practice. What the new pricing
+ * sells instead — Prep Pass, Exam Day — gets its own check when it is built.
  */
-@UseGuards(JwtAuthGuard, StudentSubscriptionGuard, StudentTierGuard)
-@RequiresTier(Tier.PRO)
+@UseGuards(JwtAuthGuard, StudentSubscriptionGuard)
 @Controller('api/modelltests')
 export class ModelltestsController {
   constructor(private readonly service: ModelltestsService) {}

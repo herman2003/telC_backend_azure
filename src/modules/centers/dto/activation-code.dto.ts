@@ -13,34 +13,22 @@ export class ListActivationCodesQueryDto {
   @IsIn(['activated', 'connected', 'deactivated', 'all'])
   status?: 'activated' | 'connected' | 'deactivated' | 'all';
 
-  @ApiPropertyOptional({ enum: ['start', 'pro', 'premium', 'all'] })
+  @ApiPropertyOptional({ enum: ['start', 'all'] })
   @IsOptional()
-  @IsIn(['start', 'pro', 'premium', 'all'])
-  planId?: 'start' | 'pro' | 'premium' | 'all';
-}
-
-export class SeatsByPlanDto {
-  @ApiProperty({ example: 7 }) start: number;
-  @ApiProperty({ example: 3 }) pro: number;
-  @ApiProperty({ example: 0 }) premium: number;
+  @IsIn(['start', 'all'])
+  planId?: 'start' | 'all';
 }
 
 export class SeatSummaryDto {
-  @ApiProperty({
-    type: SeatsByPlanDto,
-    description: 'Seats held per plan, from the seat rows.',
-  })
-  bought: SeatsByPlanDto;
+  @ApiProperty({ example: 10, description: 'Seats held, from the seat row.' })
+  bought: number;
 
   @ApiProperty({
-    type: SeatsByPlanDto,
+    example: 6,
     description:
-      'Codes a student has redeemed, per plan. Counted from the codes themselves, so it always matches the list.',
+      'Codes a student has redeemed. Counted from the codes themselves, so it always matches the list.',
   })
-  used: SeatsByPlanDto;
-
-  @ApiProperty({ example: 10 }) boughtTotal: number;
-  @ApiProperty({ example: 6 }) usedTotal: number;
+  used: number;
 }
 
 /** A code as every route returns it. Mirrors `ActivationCodeView`. */
@@ -63,8 +51,8 @@ export class ActivationCodeDto {
   })
   status: 'activated' | 'connected' | 'deactivated';
 
-  @ApiProperty({ enum: ['start', 'pro', 'premium'], example: 'start' })
-  planId: 'start' | 'pro' | 'premium';
+  @ApiProperty({ enum: ['start'], example: 'start' })
+  planId: 'start';
 
   @ApiPropertyOptional({ nullable: true, example: 'Amina Nguema' })
   linkedName: string | null;

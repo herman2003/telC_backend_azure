@@ -2,50 +2,34 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
 import { MAX_SEATS_TOTAL } from '../pricing.service';
-import { QuoteLineDto } from './subscription-quote.dto';
 
 /**
- * The seats to pay for, per tier. Totals, not increments — the same shape the
- * quote endpoint takes, so a center pays for exactly what it was quoted.
+ * The seats to pay for. A total, not an increment — the same shape the quote
+ * endpoint takes, so a center pays for exactly what it was quoted.
  *
  * The idempotency key travels as a header rather than a field, following the
  * convention every payment API uses: it is part of how the request is made
  * rather than part of what is being bought.
  */
 export class CreatePaymentDto {
-  @ApiPropertyOptional({ minimum: 0, maximum: MAX_SEATS_TOTAL, example: 5 })
-  @IsOptional()
+  @ApiProperty({ minimum: 1, maximum: MAX_SEATS_TOTAL, example: 10 })
   @IsInt()
-  @Min(0)
+  @Min(1)
   @Max(MAX_SEATS_TOTAL)
-  start?: number;
-
-  @ApiPropertyOptional({ minimum: 0, maximum: MAX_SEATS_TOTAL, example: 3 })
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  @Max(MAX_SEATS_TOTAL)
-  pro?: number;
-
-  @ApiPropertyOptional({ minimum: 0, maximum: MAX_SEATS_TOTAL, example: 2 })
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  @Max(MAX_SEATS_TOTAL)
-  premium?: number;
+  seats: number;
 }
 
 export class PaymentResponseDto {
   @ApiProperty({ format: 'uuid' }) id: string;
 
-  @ApiProperty({
-    type: [QuoteLineDto],
-    description:
-      'The breakdown this payment was created from, each line carrying the price that applied at the time. An old invoice stays truthful after the list price moves.',
-  })
-  lines: QuoteLineDto[];
+  @ApiProperty({ example: 10 }) seats: number;
 
-  @ApiProperty({ example: 10 }) totalSeats: number;
+  @ApiProperty({
+    example: 4500,
+    description:
+      'The price per seat that applied when this payment was created, so an old invoice stays truthful after the list price moves.',
+  })
+  unitPriceXaf: number;
   @ApiProperty({ example: 92500 }) amountXaf: number;
 
   @ApiProperty({

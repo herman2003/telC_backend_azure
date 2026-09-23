@@ -67,12 +67,12 @@ describe('CenterActivationCodesController contract', () => {
 
   it('lists with the filters the page sends', async () => {
     await request(app.getHttpServer())
-      .get('/api/centers/me/activation-codes?status=connected&planId=pro')
+      .get('/api/centers/me/activation-codes?status=connected&planId=start')
       .expect(200);
 
     expect(codes.list).toHaveBeenCalledWith(signedIdentity, {
       status: 'connected',
-      planId: 'pro',
+      planId: 'start',
     });
   });
 

@@ -17,7 +17,7 @@ export class AiSpeakingAllowanceDto {
 }
 
 export class PlanDto {
-  @ApiProperty({ example: 'start', enum: ['start', 'pro', 'premium'] })
+  @ApiProperty({ example: 'start', enum: ['start'] })
   id: PlanId;
 
   @ApiProperty({
@@ -29,13 +29,6 @@ export class PlanDto {
 
   @ApiProperty({ type: AiSpeakingAllowanceDto })
   aiSpeaking: AiSpeakingAllowanceDto;
-
-  @ApiProperty({
-    example: false,
-    description:
-      'Whether this plan reaches the exam module, derived from the tier that guards `/api/modelltests`.',
-  })
-  examModule: boolean;
 }
 
 export class PlansResponseDto {

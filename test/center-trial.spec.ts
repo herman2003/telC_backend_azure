@@ -70,7 +70,6 @@ describe('CenterTrialService.start', () => {
     expect(code).toEqual(
       expect.objectContaining({
         center_id: 'center-1',
-        tier: 'START',
         expires_at: ends,
       }),
     );

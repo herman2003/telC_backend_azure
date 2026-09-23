@@ -48,20 +48,16 @@ describe('the shape of a center refusal', () => {
     });
   });
 
-  it('keeps both numbers on a student-count refusal', () => {
-    // Per-tier and total together. A center short in one tier is often also
-    // short overall, and carrying one number sends it round twice.
+  it('keeps the required total on a student-count refusal', () => {
     const { body } = sendThrough(
       new BadRequestException({
         message: 'SEATS_BELOW_STUDENT_COUNT',
-        requiredSeatsPerTier: { START: 12 },
         requiredSeatsTotal: 14,
       }),
     );
 
     expect(body).toMatchObject({
       error: 'SEATS_BELOW_STUDENT_COUNT',
-      requiredSeatsPerTier: { START: 12 },
       requiredSeatsTotal: 14,
     });
   });
@@ -116,20 +112,16 @@ describe('the shape of a center refusal', () => {
   it('carries a real PricingService refusal through intact', () => {
     // Not an invented payload. Whatever the service chooses to attach has to
     // reach the client, including fields added to the refusal later.
-    const refusal = new PricingService().explain(
-      { PRO: 1 },
-      {
-        tiers: { PRO: { stampedPriceXaf: null, studentCount: 3 } },
-        totalStudents: 3,
-      },
-    );
+    const refusal = new PricingService().explain(3, {
+      stampedPriceXaf: null,
+      totalStudents: 12,
+    });
 
     const { body } = sendThrough(new PricingService().asException(refusal!));
 
     expect(body).toMatchObject({
       error: 'SEATS_BELOW_STUDENT_COUNT',
-      requiredSeatsPerTier: { PRO: 3 },
-      requiredSeatsTotal: 10,
+      requiredSeatsTotal: 12,
     });
   });
 });

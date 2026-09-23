@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { Tier } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 
 /**
@@ -62,16 +61,11 @@ export class PaymentActivationService {
    * authority on whether money moved, and a success that arrives late has
    * still taken the center's money.
    *
-   * SEATS ARE SET, NOT ADDED. A payment's lines are everything the center will
-   * hold, the same "totals, not increments" meaning the quote has. Each line's
-   * quantity AND price are written; stamping the line's price rather than
-   * today's list price is what keeps grandfathering true, and it overwrites a
-   * zero-priced trial seat with the paid one.
-   *
-   * A tier the center held but this payment does not cover is removed — but
-   * only when no student holds it. A student is never left in a tier with no
-   * seat row. (Product decision (a); keeping uncovered tiers instead is the
-   * `removeUncoveredTiers` call below.)
+   * SEATS ARE SET, NOT ADDED. A payment's seat count is everything the center
+   * will hold, the same "totals, not increments" meaning the quote has. The
+   * quantity AND the price are written; stamping the payment's own price
+   * rather than today's list price is what keeps grandfathering true, and it
+   * overwrites a zero-priced trial seat with the paid one.
    *
    * MONEY RECEIVED IS HONOURED. If students were provisioned between quote and
    * payment, the center may now be over its seats. Activation still succeeds:
@@ -89,7 +83,8 @@ export class PaymentActivationService {
         where: { id: paymentId },
         select: {
           center_id: true,
-          lines: { select: { tier: true, seats: true, unit_price_xaf: true } },
+          total_seats: true,
+          unit_price_xaf: true,
         },
       });
 
@@ -113,11 +108,11 @@ export class PaymentActivationService {
       }
 
       const paidUntil = await this.extendPaidPeriod(tx, payment.center_id);
-      await this.setSeats(tx, payment.center_id, payment.lines);
-      await this.removeUncoveredTiers(
+      await this.setSeats(
         tx,
         payment.center_id,
-        payment.lines.map((line) => line.tier),
+        payment.total_seats,
+        payment.unit_price_xaf,
       );
 
       return {
@@ -200,54 +195,21 @@ export class PaymentActivationService {
     return paidUntil;
   }
 
-  /** Each line's quantity and price, written onto its tier's seat row. */
+  /** The payment's quantity and price, written onto the center's seat row. */
   private async setSeats(
     tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
     centerId: string,
-    lines: { tier: Tier; seats: number; unit_price_xaf: number }[],
+    seats: number,
+    unitPriceXaf: number,
   ): Promise<void> {
-    for (const line of lines) {
-      await tx.centerSeat.upsert({
-        where: { center_id_tier: { center_id: centerId, tier: line.tier } },
-        update: { quantity: line.seats, unit_price_xaf: line.unit_price_xaf },
-        create: {
-          center_id: centerId,
-          tier: line.tier,
-          quantity: line.seats,
-          unit_price_xaf: line.unit_price_xaf,
-        },
-      });
-    }
-  }
-
-  /**
-   * Removes seat rows for tiers this payment does not cover, unless a student
-   * still sits in that tier.
-   *
-   * The quote already refuses dropping a tier that has students. This guard
-   * covers only the minutes between quote and payment, when a student could
-   * have been moved into the tier.
-   */
-  private async removeUncoveredTiers(
-    tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
-    centerId: string,
-    coveredTiers: Tier[],
-  ): Promise<void> {
-    const uncovered = await tx.centerSeat.findMany({
-      where: { center_id: centerId, tier: { notIn: coveredTiers } },
-      select: { tier: true },
+    await tx.centerSeat.upsert({
+      where: { center_id: centerId },
+      update: { quantity: seats, unit_price_xaf: unitPriceXaf },
+      create: {
+        center_id: centerId,
+        quantity: seats,
+        unit_price_xaf: unitPriceXaf,
+      },
     });
-
-    for (const { tier } of uncovered) {
-      const studentsInTier = await tx.student.count({
-        where: { center_id: centerId, tier },
-      });
-
-      if (studentsInTier === 0) {
-        await tx.centerSeat.delete({
-          where: { center_id_tier: { center_id: centerId, tier } },
-        });
-      }
-    }
   }
 }

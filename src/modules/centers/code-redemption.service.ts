@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ActivationCodeStatus, Prisma, type CenterPlan } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
-import { planIdFor, type PlanId } from '../../shared/plan-id';
+import { PLAN_ID, type PlanId } from '../../shared/plan-id';
 import { isUniqueViolationOn } from '../../shared/prisma-errors';
 import { normalizeActivationCode } from './activation-code-format';
 import { SubscriptionPolicyService } from './subscription-policy.service';
@@ -88,7 +88,7 @@ export class CodeRedemptionService {
       code.status === ActivationCodeStatus.CONNECTED &&
       code.student_id === student.studentId
     ) {
-      return this.toResult(code.tier, code.center, code.expires_at);
+      return this.toResult(code.center, code.expires_at);
     }
 
     if (code.status === ActivationCodeStatus.CONNECTED) {
@@ -146,7 +146,7 @@ export class CodeRedemptionService {
 
         // A student an older per-student key still ties to a paying school has
         // a seat but no code, so looking only at codes would miss them — and
-        // redeeming would silently move them, possibly to a lower tier.
+        // redeeming would silently move them to another school.
         // Refused rather than switched: the usual cause is a mistake, and
         // moving a student between schools is the schools' job. A school that
         // has lapsed no longer holds them, so joining a new one is allowed.
@@ -193,7 +193,7 @@ export class CodeRedemptionService {
         // student actually getting the seat.
         await tx.student.update({
           where: { id: student.studentId },
-          data: { center_id: code.center_id, tier: code.tier },
+          data: { center_id: code.center_id },
         });
 
         await tx.activationCodeEvent.create({
@@ -218,7 +218,7 @@ export class CodeRedemptionService {
       throw error;
     }
 
-    return this.toResult(code.tier, code.center, code.expires_at);
+    return this.toResult(code.center, code.expires_at);
   }
 
   /**
@@ -292,10 +292,9 @@ export class CodeRedemptionService {
   }
 
   private toResult(
-    tier: Parameters<typeof planIdFor>[0],
     center: CenterFacts,
     expiresAt: Date | null,
   ): RedemptionResult {
-    return { planId: planIdFor(tier), centerName: center.name, expiresAt };
+    return { planId: PLAN_ID, centerName: center.name, expiresAt };
   }
 }

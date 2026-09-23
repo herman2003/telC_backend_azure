@@ -1,5 +1,5 @@
-import type { ActivationCodeStatus, Tier } from '@prisma/client';
-import { planIdFor, type PlanId } from '../../shared/plan-id';
+import type { ActivationCodeStatus } from '@prisma/client';
+import { PLAN_ID, type PlanId } from '../../shared/plan-id';
 
 /**
  * A code as a client sees it.
@@ -35,7 +35,6 @@ export function toActivationCodeView(row: {
   id: string;
   code: string;
   status: ActivationCodeStatus;
-  tier: Tier;
   linked_name: string | null;
   linked_email: string | null;
   connected_at: Date | null;
@@ -47,7 +46,7 @@ export function toActivationCodeView(row: {
     code: row.code,
     // Lower case, like the plan ids: the database's spelling stays inside.
     status: STATUS_VIEW[row.status],
-    planId: planIdFor(row.tier),
+    planId: PLAN_ID,
     linkedName: row.linked_name,
     linkedEmail: row.linked_email,
     connectedAt: row.connected_at,

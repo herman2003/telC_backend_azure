@@ -8,7 +8,6 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Trim } from './center-validation.decorators';
-import type { SeatsByPlan } from '../../../shared/plan-id';
 import {
   CenterAuthCenterDto,
   CenterAuthUserDto,
@@ -103,11 +102,10 @@ export class CenterAccountStateDto {
   studentsMayLearn: boolean;
 
   @ApiProperty({
-    example: { start: 7, pro: 3, premium: 0 },
-    description:
-      'Seats held per plan, zeros included, from the seat rows. Keyed by the same plan ids `GET /api/plans` uses, so a client never translates between two vocabularies. Absent and zero mean the same thing to a dashboard.',
+    example: 10,
+    description: 'Seats this center holds, from its seat row. Zero if none.',
   })
-  seats: SeatsByPlan;
+  seats: number;
 }
 
 /**

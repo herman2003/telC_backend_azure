@@ -1,25 +1,20 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import type { AiOperation, Tier } from '@prisma/client';
+import type { AiOperation } from '@prisma/client';
 import { AiUsageService } from './ai-usage.service';
 import { StudentEntitlementService } from './student-entitlement.service';
 
 /**
- * AI operations per student per rolling window, by tier.
+ * AI operations per student per rolling window.
  *
- * Constants rather than a table, for the same reasons as the tier prices: git
- * carries the history of when a number changed and why, a change gets a review
- * instead of an UPDATE someone runs at night, and the rows in `ai_usage` show
- * within weeks whether 2 is too stingy. The measurement arrives as a side
- * effect of enforcing rather than instead of it.
+ * One number since the tiers went (Start is the only plan): a constant rather
+ * than a table, so git carries the history of when it changed and why, a
+ * change gets a review instead of an UPDATE someone runs at night, and the
+ * rows in `ai_usage` show within weeks whether it is too stingy.
  *
- * A trial is not a fourth set of numbers. It is Start with a fourteen-day
- * clock and one seat, so there are three cases here rather than four.
+ * The new pricing replaces this with 5 sessions a month plus bought credits;
+ * that is its own phase, and this stays the daily rule until then.
  */
-export const TIER_AI_ALLOWANCE: Record<Tier, number> = {
-  START: 2,
-  PRO: 5,
-  PREMIUM: 20,
-};
+export const AI_ALLOWANCE_PER_WINDOW = 2;
 
 /**
  * A rolling window, not a calendar day.
@@ -34,26 +29,8 @@ export const AI_QUOTA_WINDOW_HOURS = 24;
 
 const HOUR_MS = 60 * 60 * 1000;
 
-/**
- * What a student with no tier gets.
- *
- * Nobody is paying for these calls, so they run at the cheapest rate rather
- * than at no rate. Refusing outright would break every independent student who
- * uses speaking today, and anyone a center removed. Leaving them unmetered
- * would let a center release its students to hand them an unlimited allowance
- * we pay Gemini for — and a quota with a way around it is not a quota.
- *
- * Deliberately one rule for both no-center and governed-without-a-tier.
- * Provisioning requires a tier, so the second case is only reachable by a
- * student who predates tiers entirely.
- */
-const NO_TIER_ALLOWANCE = TIER_AI_ALLOWANCE.START;
-
 export interface AiQuotaDecision {
   allowed: boolean;
-  /** Null for a student holding no tier. Reported as null rather than
-   *  substituted, so a client never shows a tier the student does not have. */
-  tier: Tier | null;
   usedToday: number;
   allowedToday: number;
   /** Never negative, even for a student somehow over their allowance. */
@@ -90,8 +67,7 @@ export class AiQuotaService {
     studentId: string,
     operation: AiOperation,
   ): Promise<AiQuotaDecision> {
-    const { tier, studentExists } =
-      await this.entitlement.forStudent(studentId);
+    const { studentExists } = await this.entitlement.forStudent(studentId);
 
     // A caller with no `students` row cannot be metered: `ai_usage.student_id`
     // is a foreign key to that table, so every insert for them fails, and
@@ -105,7 +81,6 @@ export class AiQuotaService {
     if (!studentExists) {
       return {
         allowed: false,
-        tier: null,
         usedToday: 0,
         allowedToday: 0,
         remaining: 0,
@@ -113,7 +88,7 @@ export class AiQuotaService {
       };
     }
 
-    const allowedToday = tier ? TIER_AI_ALLOWANCE[tier] : NO_TIER_ALLOWANCE;
+    const allowedToday = AI_ALLOWANCE_PER_WINDOW;
 
     // One cutoff for both reads. A second `new Date()` would drift by however
     // long the first query took, so the reset time could name a row that was
@@ -137,7 +112,6 @@ export class AiQuotaService {
 
     return {
       allowed,
-      tier,
       usedToday,
       allowedToday,
       remaining: Math.max(0, allowedToday - usedToday),
@@ -152,8 +126,7 @@ export class AiQuotaService {
    * needs to say something useful.
    *
    * The refusal is a sales moment rather than an error: "you have used 2 of 2
-   * today — back at 14:32, or ask your school about Pro" is only possible if
-   * the numbers travel with it. A bare 403 leaves a client with nothing to
+   * today — back at 14:32" is only possible if the numbers travel with it. A bare 403 leaves a client with nothing to
    * show but a failure.
    */
   async assertWithinQuota(
@@ -170,15 +143,11 @@ export class AiQuotaService {
     // they have used 0 of 0 today would invite them to wait for a reset that
     // will never come; what they actually need is an account.
     if (decision.allowedToday === 0) {
-      throw new ForbiddenException({
-        message: 'AI_REQUIRES_ACCOUNT',
-        tier: null,
-      });
+      throw new ForbiddenException({ message: 'AI_REQUIRES_ACCOUNT' });
     }
 
     throw new ForbiddenException({
       message: 'AI_QUOTA_EXCEEDED',
-      tier: decision.tier,
       usedToday: decision.usedToday,
       allowedToday: decision.allowedToday,
       resetsAt: decision.resetsAt,

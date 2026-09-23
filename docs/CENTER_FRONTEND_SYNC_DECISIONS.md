@@ -185,6 +185,14 @@ first student activation starts the clock.
 **Decided:** 2026-09-18, by the backend dev and Herman — **M3 adopted**.
 **Status:** decided, not built
 
+> **Superseded in part on 2026-09-23.** The Start/Pro/Premium tiers were
+> removed from the backend: one plan (Start, 4,500 XAF per student per month)
+> plus add-ons sold separately — Prep Pass, Exam Day, AI Assisted Learning, AI
+> Speaking credits — which are built as their own entitlements. Seats, codes,
+> payments and quotas are all keyed on the single plan now. The add-ons and
+> their billing are not built yet.
+
+
 The model is settled: renewal, adding seats, code expiry, invoice amounts and
 pro rata are built on the rules below. Some amounts inside those rules are
 still open (see "Still open" at the end of this entry); they change numbers,
@@ -709,6 +717,14 @@ list would instead add a query per call.
 
 **Decided:** 2026-09-17
 **Status:** decided, not built
+
+> **Superseded in part on 2026-09-23.** The Start/Pro/Premium tiers were
+> removed from the backend: one plan (Start, 4,500 XAF per student per month)
+> plus add-ons sold separately — Prep Pass, Exam Day, AI Assisted Learning, AI
+> Speaking credits — which are built as their own entitlements. Seats, codes,
+> payments and quotas are all keyed on the single plan now. The add-ons and
+> their billing are not built yet.
+
 
 ### The quota rule (settles B4)
 

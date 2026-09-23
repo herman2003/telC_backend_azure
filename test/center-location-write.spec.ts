@@ -65,7 +65,7 @@ describe('CenterProfileService location writes', () => {
           paid_until: null,
         }),
       },
-      centerSeat: { findMany: jest.fn().mockResolvedValue([]) },
+      centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
       $transaction: jest.fn(async (operations: unknown) =>
         Array.isArray(operations) ? Promise.all(operations) : operations,
       ),
