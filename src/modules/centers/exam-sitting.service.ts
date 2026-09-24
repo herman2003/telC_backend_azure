@@ -102,9 +102,13 @@ export class ExamSittingService {
       where: { session_id_student_id: { session_id: sessionId, student_id: studentId } },
       select: ATTEMPT_SELECT,
     });
-    // Before the gates, deliberately: a candidate who began at 08:59 must be
-    // able to reload at 09:01 and find their exam, not be told it is closed.
-    if (existing) return this.viewOf(existing);
+    // Before the window gate, deliberately: a candidate who began at 08:59
+    // must be able to reload at 09:01 and find their exam, not be told it is
+    // closed. Cancellation is the exception — see below.
+    if (existing) {
+      this.requireNotCancelled(existing.session);
+      return this.viewOf(existing);
+    }
 
     const admitted = await this.prisma.examSessionParticipant.findUnique({
       where: {
@@ -251,6 +255,7 @@ export class ExamSittingService {
     block: ExamBlock,
   ): Promise<StartedBlock> {
     const attempt = await this.load(studentId, attemptId);
+    this.requireNotCancelled(attempt.session);
     const schedule = await this.scheduleFor(attempt.session.level);
 
     const planned = schedule.find((row) => row.block === block);
@@ -313,6 +318,7 @@ export class ExamSittingService {
     answers: Record<string, unknown>,
   ): Promise<{ savedAt: Date; answerCount: number }> {
     const attempt = await this.load(studentId, attemptId);
+    this.requireNotCancelled(attempt.session);
     const row = attempt.blocks.find((b) => b.block === block);
 
     if (!row) throw new BadRequestException('BLOCK_NOT_STARTED');
@@ -361,6 +367,7 @@ export class ExamSittingService {
     answers: Record<string, unknown>;
   }> {
     const attempt = await this.load(studentId, attemptId);
+    this.requireNotCancelled(attempt.session);
     const row = attempt.blocks.find((b) => b.block === block);
 
     if (!row) throw new BadRequestException('BLOCK_NOT_STARTED');
@@ -443,6 +450,23 @@ export class ExamSittingService {
       throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
     }
     return attempt;
+  }
+
+  /**
+   * A cancelled sitting stops everyone, including the people already inside
+   * it.
+   *
+   * The closing time deliberately does not stop a candidate finishing what
+   * they began. Cancellation is different: the center called the exam off,
+   * and an exam that carries on being taken after that is not cancelled.
+   *
+   * Reading it stays allowed — `getAttempt` does not call this — so the app
+   * can show what happened rather than leave the screen blank.
+   */
+  private requireNotCancelled(session: { cancelled_at: Date | null }): void {
+    if (session.cancelled_at) {
+      throw new BadRequestException('EXAM_CANCELLED');
+    }
   }
 
   private startedView(

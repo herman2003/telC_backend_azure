@@ -22,8 +22,16 @@ describe('ExamScoringService', () => {
 
   beforeEach(() => {
     prisma = {
-      lesenAttempt: { create: jest.fn().mockResolvedValue({}) },
-      sprachbausteineAttempt: { create: jest.fn().mockResolvedValue({}) },
+      // deleteMany is how marking is made repeatable: a submit whose
+      // marking failed has to be safe to re-run without doubling every Teil.
+      lesenAttempt: {
+        create: jest.fn().mockResolvedValue({}),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      },
+      sprachbausteineAttempt: {
+        create: jest.fn().mockResolvedValue({}),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      },
       // Reading this at all is the mistake the exam must not make.
       get studentActivity(): never {
         throw new Error('An exam must never write training activity');
@@ -47,7 +55,10 @@ describe('ExamScoringService', () => {
         .fn()
         .mockResolvedValue({ q1: 'a', q2: 'b', q3: 'c', q4: 'd', q5: 'e' }),
     };
-    prisma.listeningAttempt = { create: jest.fn().mockResolvedValue({}) };
+    prisma.listeningAttempt = {
+      create: jest.fn().mockResolvedValue({}),
+      deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+    };
     service = new ExamScoringService(
       prisma,
       lesen,
@@ -210,15 +221,58 @@ describe('ExamScoringService', () => {
       expect(prisma.listeningAttempt.create).toHaveBeenCalledTimes(3);
       expect(prisma.listeningAttempt.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: expect.objectContaining({ exam_attempt_id: ATTEMPT }),
+          data: expect.objectContaining({
+            exam_attempt_id: ATTEMPT,
+            // The Teil number alone, as training writes it. 'teil1' made the
+            // history reader parse Number('teil1') and get NaN.
+            exercise_id: '1',
+          }),
         }),
       );
     });
   });
 
+  describe('marking twice', () => {
+    it('clears what a previous marking left, so a retry does not double it', async () => {
+      // Marking is not in the same transaction as closing the block, so a
+      // submit whose marking failed must be safe to re-run.
+      await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        block: 'LESEN_SPRACHBAUSTEINE',
+        answers: {},
+      });
+
+      expect(prisma.lesenAttempt.deleteMany).toHaveBeenCalledWith({
+        where: { exam_attempt_id: ATTEMPT },
+      });
+      expect(prisma.sprachbausteineAttempt.deleteMany).toHaveBeenCalled();
+    });
+
+    it('leaves the other blocks alone', async () => {
+      // Marking Hören must not wipe the Lesen rows already stored.
+      await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        block: 'HOEREN',
+        answers: {},
+      });
+
+      expect(prisma.listeningAttempt.deleteMany).toHaveBeenCalled();
+      expect(prisma.lesenAttempt.deleteMany).not.toHaveBeenCalled();
+    });
+  });
+
   describe('Schreiben', () => {
     it('stores the text and scores nothing, because a human marks it', async () => {
-      const writing = { create: jest.fn().mockResolvedValue({}) };
+      const writing = {
+        create: jest.fn().mockResolvedValue({}),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
       prisma.writingAttempt = writing;
 
       const scored = await service.scoreBlock({

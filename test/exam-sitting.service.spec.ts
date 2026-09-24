@@ -441,6 +441,56 @@ describe('ExamSittingService', () => {
     });
   });
 
+  describe('a sitting the center called off', () => {
+    const cancelled = () => ({
+      id: 'attempt-1',
+      student_id: STUDENT,
+      started_at: new Date(),
+      submitted_at: null,
+      session: openSession({ cancelled_at: new Date() }),
+      blocks: [
+        {
+          block: 'LESEN_SPRACHBAUSTEINE',
+          started_at: new Date(),
+          deadline_at: new Date(Date.now() + HOUR),
+          submitted_at: null,
+          answers: {},
+        },
+      ],
+    });
+
+    beforeEach(() => {
+      prisma.examAttempt.findUnique.mockResolvedValue(cancelled());
+      prisma.examAttempt.updateMany = jest.fn().mockResolvedValue({ count: 1 });
+    });
+
+    it('stops a candidate already inside it', async () => {
+      // Cancelling has to reach the people sitting it. Otherwise a center
+      // calls an exam off and candidates carry on taking it.
+      await expect(
+        service.startBlock(STUDENT, 'attempt-1', 'HOEREN'),
+      ).rejects.toThrow('EXAM_CANCELLED');
+    });
+
+    it('stops them saving into it', async () => {
+      await expect(
+        service.saveAnswers(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE', {}),
+      ).rejects.toThrow('EXAM_CANCELLED');
+    });
+
+    it('stops them submitting it', async () => {
+      await expect(
+        service.submitBlock(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE'),
+      ).rejects.toThrow('EXAM_CANCELLED');
+    });
+
+    it('refuses to hand back the attempt as startable', async () => {
+      await expect(service.start(STUDENT, 'session-1')).rejects.toThrow(
+        'EXAM_CANCELLED',
+      );
+    });
+  });
+
   describe('how much time is left', () => {
     it('reports the remaining seconds from the stored instant', async () => {
       prisma.examAttempt.findUnique.mockResolvedValue({

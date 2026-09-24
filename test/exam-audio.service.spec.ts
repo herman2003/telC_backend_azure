@@ -22,6 +22,7 @@ describe('ExamAudioService', () => {
   const runningHoeren = (over: Record<string, unknown> = {}) => ({
     id: ATTEMPT,
     student_id: STUDENT,
+    session: { modelltest_id: 'mt-1' },
     blocks: [
       {
         block: 'HOEREN',
@@ -44,6 +45,7 @@ describe('ExamAudioService', () => {
           audio_url: 'https://cdn.example/teil1.mp3',
           duration_minutes: 6,
           exam_plays_allowed: 1,
+          modelltest_id: 'mt-1',
         }),
       },
       examAudioPlay: {
@@ -124,6 +126,7 @@ describe('ExamAudioService', () => {
         audio_url: 'https://cdn.example/teil2.mp3',
         duration_minutes: 6,
         exam_plays_allowed: 2,
+        modelltest_id: 'mt-1',
       });
       prisma.examAudioPlay.updateMany.mockResolvedValue({ count: 1 });
       prisma.examAudioPlay.findUniqueOrThrow.mockResolvedValue({
@@ -133,6 +136,37 @@ describe('ExamAudioService', () => {
       const granted = await service.play(STUDENT, ATTEMPT, AUDIO);
 
       expect(granted.playsRemaining).toBe(1);
+    });
+
+    it('refuses a recording from another Modelltest', async () => {
+      // Without this, a candidate could spend a play on any listening
+      // exercise id — including the one a sitting next month will use — and
+      // stream a future exam's recording during this one.
+      prisma.listeningExercise.findUnique.mockResolvedValue({
+        id: AUDIO,
+        part: 1,
+        audio_url: 'https://cdn.example/other.mp3',
+        duration_minutes: 6,
+        exam_plays_allowed: 1,
+        modelltest_id: 'a-different-modelltest',
+      });
+
+      await expect(service.play(STUDENT, ATTEMPT, AUDIO)).rejects.toThrow(
+        'AUDIO_NOT_IN_EXAM',
+      );
+      expect(prisma.examAudioPlay.create).not.toHaveBeenCalled();
+    });
+
+    it('refuses once the block time has run out', async () => {
+      // Every other write to a block is gated on the deadline. A play is a
+      // write: it spends something.
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        runningHoeren({ deadline_at: new Date(Date.now() - 1000) }),
+      );
+
+      await expect(service.play(STUDENT, ATTEMPT, AUDIO)).rejects.toThrow(
+        'BLOCK_EXPIRED',
+      );
     });
 
     it('refuses when the Hören block is not running', async () => {
@@ -177,6 +211,7 @@ describe('ExamAudioService', () => {
         audio_url: 'https://cdn.example/teil1.mp3',
         duration_minutes: 0,
         exam_plays_allowed: 1,
+        modelltest_id: 'mt-1',
       });
 
       await expect(service.play(STUDENT, ATTEMPT, AUDIO)).rejects.toThrow(

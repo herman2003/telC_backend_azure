@@ -8,6 +8,7 @@ import { PrismaService } from '../../shared/services/prisma.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../listening/listening.service';
+import { WritingService } from '../writing/writing.service';
 import { withoutAnswerKey } from './exam-content';
 
 export interface ExamBlockContent {
@@ -37,6 +38,7 @@ export class ExamBlockContentService {
     private readonly lesen: LesenService,
     private readonly sprachbausteine: SprachbausteineService,
     private readonly listening: ListeningService,
+    private readonly writing: WritingService,
   ) {}
 
   async getBlockContent(
@@ -129,7 +131,11 @@ export class ExamBlockContentService {
       return withoutAnswerKey({ HOEREN: teile });
     }
 
-    // The task, not the marking. Schreiben is scored by a human.
-    return withoutAnswerKey({ SCHREIBEN: null });
+    // The task itself. Serving null here ran a thirty-minute timer over an
+    // empty screen — a candidate with nothing to write and no way to know
+    // why. There is no answer key to strip: a human marks it.
+    return withoutAnswerKey({
+      SCHREIBEN: await this.writing.getExerciseByModelltest(modelltestNumber),
+    });
   }
 }

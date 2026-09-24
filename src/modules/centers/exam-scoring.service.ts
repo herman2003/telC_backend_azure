@@ -89,6 +89,13 @@ export class ExamScoringService {
 
   async scoreBlock(input: ScoreBlockInput): Promise<ExamSectionScore[]> {
     const sections = BLOCK_SECTIONS[input.block];
+
+    // Repeatable on purpose. Marking is not in the same transaction as
+    // closing the block, so a submit whose marking failed has to be safe to
+    // retry — and a retry that appended a second set of rows would double
+    // every Teil of the block. Clearing this attempt's rows for these skills
+    // first makes running it twice the same as running it once.
+    await this.clearPrevious(input, sections);
     const scored: ExamSectionScore[] = [];
 
     for (const section of sections) {
@@ -100,6 +107,33 @@ export class ExamScoringService {
     }
 
     return scored;
+  }
+
+  /**
+   * Removes anything a previous marking of this block left behind.
+   *
+   * Scoped to this attempt and to the skills in this block, so marking
+   * Hören never disturbs the Lesen rows already stored.
+   */
+  private async clearPrevious(
+    input: ScoreBlockInput,
+    sections: { skill: ExamSkill; teil: string }[],
+  ): Promise<void> {
+    const skills = new Set(sections.map((section) => section.skill));
+    const where = { exam_attempt_id: input.attemptId };
+
+    if (skills.has('LESEN')) {
+      await this.prisma.lesenAttempt.deleteMany({ where });
+    }
+    if (skills.has('SPRACHBAUSTEINE')) {
+      await this.prisma.sprachbausteineAttempt.deleteMany({ where });
+    }
+    if (skills.has('HOEREN')) {
+      await this.prisma.listeningAttempt.deleteMany({ where });
+    }
+    if (skills.has('SCHREIBEN')) {
+      await this.prisma.writingAttempt.deleteMany({ where });
+    }
   }
 
   private async scoreSection(
@@ -118,7 +152,9 @@ export class ExamScoringService {
       await this.prisma.listeningAttempt.create({
         data: {
           student_id: input.studentId,
-          exercise_id: `teil${section.teil}`,
+          // The Teil number alone, as training writes it. `teil1` here made
+          // the history reader parse Number('teil1') and get NaN.
+          exercise_id: section.teil,
           status: 'completed',
           score,
           answers: answers as never,

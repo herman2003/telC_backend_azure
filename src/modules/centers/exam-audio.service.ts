@@ -72,6 +72,9 @@ export class ExamAudioService {
       select: {
         id: true,
         student_id: true,
+        // The sitting's Modelltest, so a play can be checked against the exam
+        // it belongs to rather than against any recording that exists.
+        session: { select: { modelltest_id: true } },
         blocks: {
           where: { block: 'HOEREN' },
           select: { deadline_at: true, submitted_at: true },
@@ -88,6 +91,11 @@ export class ExamAudioService {
     if (block.submitted_at) {
       throw new BadRequestException('BLOCK_ALREADY_SUBMITTED');
     }
+    // A play is a write — it spends something — so it is gated on the clock
+    // like every other write to a block.
+    if (new Date() >= block.deadline_at) {
+      throw new BadRequestException('BLOCK_EXPIRED');
+    }
 
     const audio = await this.prisma.listeningExercise.findUnique({
       where: { id: audioId },
@@ -96,9 +104,16 @@ export class ExamAudioService {
         audio_url: true,
         duration_minutes: true,
         exam_plays_allowed: true,
+        modelltest_id: true,
       },
     });
     if (!audio) throw new NotFoundException('AUDIO_NOT_FOUND');
+    // Without this a candidate could spend a play on any listening exercise
+    // id — including the one next month's sitting will use — and stream a
+    // future exam's recording during this one.
+    if (audio.modelltest_id !== attempt.session.modelltest_id) {
+      throw new BadRequestException('AUDIO_NOT_IN_EXAM');
+    }
     if (!audio.duration_minutes || audio.duration_minutes < 1) {
       // The link's validity is derived from the recording's length. Guessing
       // one would expire it mid-playback.

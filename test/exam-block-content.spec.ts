@@ -43,6 +43,7 @@ describe('ExamBlockContentService', () => {
   let lesen: any;
   let sprachbausteine: any;
   let listening: any;
+  let writing: any;
   let service: ExamBlockContentService;
 
   const attemptRow = (over: Record<string, unknown> = {}) => ({
@@ -79,11 +80,17 @@ describe('ExamBlockContentService', () => {
         }),
       ),
     };
+    writing = {
+      getExerciseByModelltest: jest
+        .fn()
+        .mockResolvedValue({ id: 'w1', prompt: 'Schreiben Sie eine E-Mail' }),
+    };
     service = new ExamBlockContentService(
       prisma,
       lesen,
       sprachbausteine,
       listening,
+      writing,
     );
   });
 
@@ -192,6 +199,37 @@ describe('ExamBlockContentService', () => {
       expect(json).not.toContain('audio_url');
       expect(json).not.toContain('bundled_audio_asset');
       expect(json).not.toContain('.mp3');
+    });
+  });
+
+  describe('Schreiben', () => {
+    it('serves the task, not an empty screen', async () => {
+      // Serving null ran a thirty-minute timer over nothing: a candidate
+      // with no task and no way to know why.
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        attemptRow({
+          blocks: [
+            {
+              block: 'SCHREIBEN',
+              started_at: new Date(),
+              deadline_at: new Date(Date.now() + HOUR),
+              submitted_at: null,
+              answers: {},
+            },
+          ],
+        }),
+      );
+
+      const content = await service.getBlockContent(
+        STUDENT,
+        ATTEMPT,
+        'SCHREIBEN',
+      );
+
+      expect((content.sections as any).SCHREIBEN).toMatchObject({
+        prompt: 'Schreiben Sie eine E-Mail',
+      });
+      expect(writing.getExerciseByModelltest).toHaveBeenCalledWith(2);
     });
   });
 

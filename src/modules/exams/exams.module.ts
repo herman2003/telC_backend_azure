@@ -15,6 +15,7 @@ import { ExamSessionPolicyService } from '../centers/exam-session-policy.service
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../listening/listening.service';
+import { WritingService } from '../writing/writing.service';
 
 /**
  * The candidate's half of the exam simulator.
@@ -44,6 +45,7 @@ import { ListeningService } from '../listening/listening.service';
     LesenService,
     SprachbausteineService,
     ListeningService,
+    WritingService,
   ],
 })
 export class ExamsModule {}

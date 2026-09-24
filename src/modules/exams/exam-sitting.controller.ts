@@ -199,6 +199,12 @@ export class ExamSittingController {
 
     // Marked on what the submit settled on, never on the request body: a late
     // submit keeps the answers saved before the deadline.
+    //
+    // Marking is not in the same transaction as the close, so it is made
+    // repeatable instead — `scoreBlock` clears this attempt's rows for these
+    // skills first. If marking fails here the block is already closed, and
+    // the operator can re-run it without doubling every Teil. Left as it was,
+    // a failure made a block permanently submitted and permanently unscored.
     const sections = await this.scoring.scoreBlock({
       attemptId,
       studentId: student.studentId,
