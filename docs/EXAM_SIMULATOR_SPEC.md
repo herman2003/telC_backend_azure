@@ -1,7 +1,7 @@
 # Spec: Exam simulator — a center runs a telc sitting
 
 Status: **DRAFT — awaiting review.** Branch `feat/exam-sessions`, off `dev` @ `2961109`.
-Drafted 2026-09-24. Product source: Audrey's requirements, decided with Herman.
+Drafted 2026-09-24. Requirements from a center manager, decided with Herman.
 
 ---
 
@@ -23,13 +23,13 @@ Correct any of these now.
 
 ## Objective
 
-Audrey coordinates exams by hand: telling students when to come, which test
-they sit, collecting papers, marking them, typing results into a spreadsheet.
+A center manager coordinates exams by hand: telling students when to come,
+which test they sit, collecting papers, marking them, typing results into a spreadsheet.
 
-**She creates a sitting in five steps, publishes it, and Lerniqo does the rest:
-opens it at the minute she chose, admits only the students she named, enforces
-the telc timing, marks what can be marked, and hands her the results to finish
-and export.**
+**They create a sitting in five steps, publish it, and Lerniqo does the rest:
+opens it at the minute they chose, admits only the students they named,
+enforces the telc timing, marks what can be marked, and hands back the results
+to finish and export.**
 
 ### Non-goals
 
@@ -124,11 +124,95 @@ The AI tier reuses `POST /api/writing/evaluate` and `POST /api/speaking/evaluate
 unchanged. The Flutter app transcribes speech on the device and sends text; no
 audio ever reaches the server.
 
+### Releasing a result
+
+Nothing is automatic and nothing is conditional. The manager sees which
+scores exist and decides when to release, however incomplete. Releasing is an
+action that can be taken more than once — the written scores now, the verdict
+after the oral — and a student sees only what has been released.
+
 ### Pass or fail
 
 The real telc rule, since this is a simulation: **60% of the written block and
 60% of the oral**, not one combined average. Decided on exact scores; rounded
 only for display.
+
+---
+
+## Across the three surfaces
+
+The feature lives in three places. The backend is the only one that decides
+anything; the other two render what it says.
+
+| | Dashboard (Next.js) | Flutter app (web + mobile) | Backend |
+|---|---|---|---|
+| Sessions | the five-step wizard, the session list, the detail page | — | owns them |
+| Participants | the picker, from the center's own students | — | the access rule |
+| Timing | shows the window it chose | counts down a deadline it was given | sets and enforces it |
+| Grading | types Schreiben and Sprechen scores | — | scores the rest, decides pass |
+| Results | table, detail, CSV, PDF, print | the student's own result | ships the numbers |
+| Notifications | — | the bell, the list | writes them |
+
+### The whole flow, end to end
+
+```
+DASHBOARD                     BACKEND                        FLUTTER APP
+
+Buy exam slots ─────────────► payment (Notch / Stripe)
+                              webhook verified
+                              exam_slots_remaining += N
+◄──────────────────────────── 10 slots
+
+Create session
+ 1 name + level (B1)
+ 2 pick a Modelltest ───────► "9 of 15 already trained
+◄──────────────────────────── on this one"
+ 3 pick participants ───────► only this center's students
+ 4 opening + 24/48/72h ─────► closes_at computed
+ 5 review
+Publish ────────────────────► spends 1 slot per participant
+                              status: SCHEDULED
+                              notification per student ────► "Exam on 5 Oct, 09:00"
+
+                    ── 05 Oct 09:00, nothing runs, the clock simply passes ──
+                              status: OPEN
+
+                                                             Student opens the app
+                              participant? open? ◄─────────── Start exam
+                              attempt created ─────────────►
+                              deadlineAt + serverNow ──────► 89:59 … ticking locally
+
+                                                             Block 1, 90 min
+                              autosave ◄──────────────────── answers as they go
+                              scored on submit ◄──────────── submit (or auto at 0:00)
+
+                                                             Block 2, Hören
+                              play counted, signed link ◄─── press play
+                              409 if none left ◄──────────── press play again
+
+                                                             Block 3, Schreiben
+                              stored, not scored ◄────────── submit
+
+Results page ◄─────────────── Lesen 78 · Hören 72 · SB 83
+                              Schreiben pending · Sprechen pending
+
+Type Schreiben 74 ──────────► stored with graded_by
+                    ── the oral happens in the center, on paper, with an examiner ──
+Type Sprechen 81 ───────────► written 60%? oral 60%? → PASS
+
+Release results ────────────► notification ─────────────────► "Your result is ready"
+                                                             Result + corrections
+Export CSV / PDF ◄─────────── flat rows, numbers already computed
+```
+
+### What each surface must never do
+
+- **Neither client computes a score, a total or a pass.** The server ships
+  final numbers; a client that averages them will disagree with the PDF.
+- **Neither client owns a clock.** The countdown is rendered from a deadline
+  the server gave, corrected by `serverNow`.
+- **Hiding a control is not a rule.** Every refusal above is also a refusal
+  server-side, because a client can be edited and the server cannot.
 
 ---
 
@@ -203,7 +287,7 @@ Each merges into `dev` on its own branch, with the four suites green.
 | | | Delivers |
 |---|---|---|
 | **1** | Sessions | The three session tables, the two columns, seeded B1 durations. Session CRUD, participants, publish with a server-enforced window, derived status, slot spending, the "already trained on this Modelltest" warning. No student side |
-| **2** | Slots | Buying exam slots through the existing payment flow. Small, and it lets Audrey test phase 1 end to end |
+| **2** | Slots | Buying exam slots through the existing payment flow. Small, and it lets a manager test phase 1 end to end |
 | **3** | Sitting | Student session list, attempt start, the three blocks with absolute deadlines, autosave, expiry. Counted Hören plays with signed single-use links |
 | **4** | Results | Auto-graded sections wired to the attempt, the manager's results table and participant detail, Schreiben and Sprechen entry with `graded_by`, the telc pass rule, release to the student |
 | **5** | Reach | `notifications` (exam published, results released) and the flat export endpoint the clients render as CSV and PDF |
@@ -225,6 +309,7 @@ does not depend on the backend — start it in parallel.
 
 | # | Question | Needed by |
 |---|---|---|
-| 1 | At 1,500, is the AI Sprechen session practice before the exam, or a second opinion the examiner reads? | Phase 6 |
-| 2 | May a center release written results while Sprechen is still missing, or does nothing go out until the result is final? | Phase 4 |
-| 3 | Licensed telc material or telc-format material written in-house? | Content, now |
+| 1 | At 1,500, is the AI Sprechen session practice, a second opinion, or the score itself? | Phase 6 |
+
+Content sourcing — licensed telc material or telc-format material written
+in-house — is a separate decision, taken after the software exists.
