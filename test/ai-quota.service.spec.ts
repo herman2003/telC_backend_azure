@@ -79,7 +79,7 @@ describe('AiQuotaService', () => {
      */
     it('gives a student no center governs the Start allowance', async () => {
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, wasGoverned: false }),
+        entitled({ status: 'NONE', wasGoverned: false }),
       );
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
@@ -89,7 +89,7 @@ describe('AiQuotaService', () => {
 
     it('gives a governed student the same', async () => {
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'ACTIVE', tier: null }),
+        entitled({ status: 'ACTIVE' }),
       );
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
@@ -101,11 +101,11 @@ describe('AiQuotaService', () => {
       // The loophole this closes: a center could otherwise release its
       // students to give them an unmetered allowance we pay for.
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, wasGoverned: false }),
+        entitled({ status: 'NONE', wasGoverned: false }),
       );
       const ungoverned = await service.check('s1', 'SPEAKING_EVALUATION');
 
-      entitlement.forStudent.mockResolvedValue(entitled({ tier: 'START' }));
+      entitlement.forStudent.mockResolvedValue(entitled({ status: 'ACTIVE' }));
       const start = await service.check('s1', 'SPEAKING_EVALUATION');
 
       expect(ungoverned.allowedToday).toBeLessThanOrEqual(start.allowedToday);
@@ -127,7 +127,7 @@ describe('AiQuotaService', () => {
   describe('a caller that cannot be metered', () => {
     it('is refused rather than given an allowance', async () => {
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, studentExists: false }),
+        entitled({ status: 'NONE', studentExists: false }),
       );
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
@@ -138,7 +138,7 @@ describe('AiQuotaService', () => {
     it('does not even ask how much they have used', async () => {
       // There is nothing to count, and asking would imply there might be.
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, studentExists: false }),
+        entitled({ status: 'NONE', studentExists: false }),
       );
 
       await service.check('s1', 'SPEAKING_EVALUATION');
@@ -148,7 +148,7 @@ describe('AiQuotaService', () => {
 
     it('says the account is what is missing, not the allowance', async () => {
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, studentExists: false }),
+        entitled({ status: 'NONE', studentExists: false }),
       );
 
       await expect(
@@ -313,7 +313,7 @@ describe('AiQuotaService', () => {
       // reach the student as SUBSCRIPTION_INACTIVE rather than as a quota
       // message about a school that has stopped paying.
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'BLOCKED', studentsMayLearn: false, tier: null }),
+        entitled({ status: 'BLOCKED', studentsMayLearn: false }),
       );
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
