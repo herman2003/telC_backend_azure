@@ -35,6 +35,7 @@ import {
   ListPaymentsQueryDto,
   PaymentPageDto,
   PaymentResponseDto,
+  StartCheckoutDto,
 } from './dto/payments.dto';
 import { CenterAuthGuard } from './guards/center-auth.guard';
 import { RateLimitService } from '../../shared/services/rate-limit.service';
@@ -124,7 +125,7 @@ export class PaymentsController {
   @ApiOperation({
     summary: 'Get the URL where the center pays for a pending payment',
     description:
-      'Opens a checkout with the payment provider the first time, and returns the same URL on every later call, so a retry or double-click never opens a second provider transaction. Only a PENDING payment can be checked out. Reachable by a blocked center: paying is the way back.',
+      'Opens a checkout with the chosen payment method (notchpay = Mobile Money, stripe = card) the first time, and returns the same URL on every later call. Both methods can be configured at once — the body picks which one. Only a PENDING payment can be checked out. Reachable by a blocked center: paying is the way back.',
   })
   @ApiOkResponse({ type: CheckoutSessionResponseDto })
   @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })
@@ -135,18 +136,27 @@ export class PaymentsController {
   })
   @ApiServiceUnavailableResponse({
     type: CenterErrorResponseDto,
-    description: 'PAYMENT_PROVIDER_NOT_CONFIGURED — no provider is set up.',
+    description:
+      'PAYMENT_PROVIDER_NOT_CONFIGURED — that payment method is not set up.',
   })
   async startCheckout(
     @CurrentCenterUser() centerUser: CenterAccessTokenPayload,
     @Param('paymentId') paymentId: string,
+    @Body() dto: StartCheckoutDto,
   ): Promise<CheckoutSessionResponseDto> {
     await this.rateLimitService.checkCheckoutStartLimit(centerUser.centerId);
 
-    const session = await this.checkout.startCheckout(centerUser, paymentId);
+    const session = await this.checkout.startCheckout(
+      centerUser,
+      paymentId,
+      dto.provider,
+    );
 
-    // Built field by field so the provider reference stays on the server.
-    return { paymentId: session.paymentId, checkoutUrl: session.checkoutUrl };
+    return {
+      paymentId: session.paymentId,
+      provider: session.provider,
+      checkoutUrl: session.checkoutUrl,
+    };
   }
 
   @Get('api/centers/me/payments')

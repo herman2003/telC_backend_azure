@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, Max, Min } from 'class-validator';
+import { IsIn, IsInt, IsOptional, Max, Min } from 'class-validator';
 import { MAX_SEATS_TOTAL } from '../pricing.service';
 import { QuoteLineDto } from './subscription-quote.dto';
 
@@ -33,6 +33,24 @@ export class CreatePaymentDto {
   @Min(0)
   @Max(MAX_SEATS_TOTAL)
   premium?: number;
+}
+
+/**
+ * Which payment method to open at checkout.
+ *
+ * `notchpay` — Orange Money / MTN Mobile Money (via Notch Collect).
+ * `stripe` — card.
+ * They are different methods; both can be configured on the server at once.
+ */
+export class StartCheckoutDto {
+  @ApiProperty({
+    enum: ['notchpay', 'stripe'],
+    example: 'notchpay',
+    description:
+      'notchpay = Mobile Money (Orange / MTN). stripe = card. Required.',
+  })
+  @IsIn(['notchpay', 'stripe'])
+  provider: 'notchpay' | 'stripe';
 }
 
 export class PaymentResponseDto {
@@ -74,6 +92,13 @@ export class CheckoutSessionResponseDto {
       'Redirect the center here. Calling checkout again for the same payment returns the same URL rather than opening a second provider transaction.',
   })
   checkoutUrl: string;
+
+  @ApiProperty({
+    enum: ['notchpay', 'stripe'],
+    example: 'notchpay',
+    description: 'Payment method that opened this checkout.',
+  })
+  provider: string;
 }
 
 export class ListPaymentsQueryDto {

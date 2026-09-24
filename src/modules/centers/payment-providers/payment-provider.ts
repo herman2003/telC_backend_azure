@@ -1,7 +1,18 @@
 import { DisabledPaymentProvider } from './disabled-payment-provider';
 import { FakePaymentProvider } from './fake-payment-provider';
+import { NotchPayProvider } from './notchpay-payment-provider';
+import { PaymentProviderRegistry } from './payment-provider-registry';
+import { StripePaymentProvider } from './stripe-payment-provider';
 
-/** Injection token. The implementation is chosen once, at boot. */
+export {
+  PaymentProviderRegistry,
+  PAYMENT_PROVIDER_REGISTRY,
+  registryOf,
+  CLIENT_PAYMENT_METHODS,
+  type PaymentMethodKind,
+} from './payment-provider-registry';
+
+/** @deprecated Prefer PAYMENT_PROVIDER_REGISTRY — kept for older test modules. */
 export const PAYMENT_PROVIDER = Symbol('PAYMENT_PROVIDER');
 
 /**
@@ -15,6 +26,10 @@ export interface CheckoutRequest {
   centerId: string;
   /** Computed by the server when the payment was created. Never a client value. */
   amountXaf: number;
+  /** Required by Notch Pay; filled by PaymentCheckoutService from the manager. */
+  customerEmail?: string;
+  customerName?: string;
+  customerPhone?: string;
 }
 
 export interface CheckoutSession {
@@ -46,8 +61,9 @@ export type WebhookHeaders = Record<string, string | string[] | undefined>;
  * paid time is `PaymentActivationService`'s job alone, so a provider cannot
  * get grandfathering or exactly-once wrong — it never touches those tables.
  *
- * Implementations: `FakePaymentProvider` for development and tests,
- * `DisabledPaymentProvider` as the default, and Notch Pay's, added in Phase 7.
+ * Implementations: `FakePaymentProvider`, `DisabledPaymentProvider`,
+ * `NotchPayProvider` (Mobile Money), `StripePaymentProvider` (card).
+ * Notch and Stripe coexist in {@link PaymentProviderRegistry}.
  */
 export interface PaymentProvider {
   readonly name: string;
@@ -65,36 +81,133 @@ export interface PaymentProvider {
 }
 
 export interface PaymentProviderSettings {
+  /**
+   * Enables the fake provider when set to `fake` (non-production only).
+   * Does NOT choose between Notch and Stripe — those activate from their keys.
+   */
   PAYMENT_PROVIDER?: string;
   NODE_ENV?: string;
   FAKE_PAYMENT_WEBHOOK_SECRET?: string;
+  /** Notch Pay public key (Authorization header). */
+  NOTCHPAY_PUBLIC_KEY?: string;
+  /** Optional private key (X-Grant). */
+  NOTCHPAY_PRIVATE_KEY?: string;
+  /** Webhook HMAC hash key. */
+  NOTCHPAY_WEBHOOK_SECRET?: string;
+  /** Optional API base; defaults to https://api.notchpay.co */
+  NOTCHPAY_BASE_URL?: string;
+  /** Redirect URL after the payer finishes on Notch's page. */
+  NOTCHPAY_CALLBACK_URL?: string;
+  /** Stripe secret key (sk_test_… / sk_live_…). */
+  STRIPE_SECRET_KEY?: string;
+  /** Stripe webhook signing secret (whsec_…). */
+  STRIPE_WEBHOOK_SECRET?: string;
+  /** Redirect after successful Stripe Checkout. */
+  STRIPE_SUCCESS_URL?: string;
+  /** Redirect after cancelled Stripe Checkout. */
+  STRIPE_CANCEL_URL?: string;
+  /** Allow sk_live_ outside production (default: refuse). */
+  STRIPE_ALLOW_LIVE_KEYS?: string;
+}
+
+function isTruthyFlag(raw: string | undefined): boolean {
+  const v = (raw ?? '').trim().toLowerCase();
+  return v === 'true' || v === '1' || v === 'yes' || v === 'on';
+}
+
+function assertStripeSecretKeySafe(
+  apiKey: string,
+  nodeEnv: string | undefined,
+  allowLiveKeys: string | undefined,
+): boolean {
+  const env = (nodeEnv ?? '').trim().toLowerCase();
+  if (env === 'production') return true;
+  if (!apiKey.startsWith('sk_live')) return true;
+  return isTruthyFlag(allowLiveKeys);
 }
 
 /**
- * Picks the provider from configuration, failing closed.
- *
- * `main` deploys itself, so the rule is: nothing that accepts payment events
- * is ever switched on by default or by accident. The fake needs to be asked
- * for by name, outside production, with a secret long enough not to be
- * guessed. Anything else — nothing set, a typo, a provider not yet written —
- * gets the disabled provider, which refuses every call with a 503.
- *
- * Phase 7 adds a `notchpay` branch here. Until then that name is disabled
- * too, deliberately: an unknown provider must never fall through to one that
- * accepts forged events.
+ * Builds every configured provider. Notch (Mobile Money) and Stripe (card)
+ * are independent: both register when their keys are present. The fake only
+ * when explicitly asked, outside production.
+ */
+export function buildPaymentProviders(
+  settings: PaymentProviderSettings,
+): Map<string, PaymentProvider> {
+  const map = new Map<string, PaymentProvider>();
+
+  const fakeSecret = settings.FAKE_PAYMENT_WEBHOOK_SECRET ?? '';
+  if (
+    settings.PAYMENT_PROVIDER === 'fake' &&
+    settings.NODE_ENV !== 'production' &&
+    fakeSecret.length >= MIN_FAKE_WEBHOOK_SECRET_LENGTH
+  ) {
+    map.set('fake', new FakePaymentProvider(fakeSecret));
+  }
+
+  const publicKey = settings.NOTCHPAY_PUBLIC_KEY?.trim() ?? '';
+  const notchWebhook = settings.NOTCHPAY_WEBHOOK_SECRET?.trim() ?? '';
+  const callbackUrl = settings.NOTCHPAY_CALLBACK_URL?.trim() ?? '';
+  if (publicKey.length > 0 && notchWebhook.length > 0 && callbackUrl.length > 0) {
+    map.set(
+      'notchpay',
+      new NotchPayProvider({
+        publicKey,
+        privateKey: settings.NOTCHPAY_PRIVATE_KEY?.trim() || undefined,
+        webhookSecret: notchWebhook,
+        baseUrl: settings.NOTCHPAY_BASE_URL?.trim() || undefined,
+        callbackUrl,
+      }),
+    );
+  }
+
+  const stripeSecret = settings.STRIPE_SECRET_KEY?.trim() ?? '';
+  const stripeWebhook = settings.STRIPE_WEBHOOK_SECRET?.trim() ?? '';
+  const stripeSuccess = settings.STRIPE_SUCCESS_URL?.trim() ?? '';
+  const stripeCancel = settings.STRIPE_CANCEL_URL?.trim() ?? '';
+  if (
+    stripeSecret.length > 0 &&
+    stripeWebhook.length > 0 &&
+    stripeSuccess.length > 0 &&
+    stripeCancel.length > 0 &&
+    assertStripeSecretKeySafe(
+      stripeSecret,
+      settings.NODE_ENV,
+      settings.STRIPE_ALLOW_LIVE_KEYS,
+    )
+  ) {
+    map.set(
+      'stripe',
+      new StripePaymentProvider({
+        secretKey: stripeSecret,
+        webhookSecret: stripeWebhook,
+        successUrl: stripeSuccess,
+        cancelUrl: stripeCancel,
+      }),
+    );
+  }
+
+  return map;
+}
+
+export function buildPaymentProviderRegistry(
+  settings: PaymentProviderSettings,
+): PaymentProviderRegistry {
+  return new PaymentProviderRegistry(buildPaymentProviders(settings));
+}
+
+/**
+ * @deprecated Single-provider picker. Prefer {@link buildPaymentProviderRegistry}.
+ * Returns one provider for older call sites: preferred name if set and present,
+ * otherwise disabled.
  */
 export function selectPaymentProvider(
   settings: PaymentProviderSettings,
 ): PaymentProvider {
-  const secret = settings.FAKE_PAYMENT_WEBHOOK_SECRET ?? '';
-
-  if (
-    settings.PAYMENT_PROVIDER === 'fake' &&
-    settings.NODE_ENV !== 'production' &&
-    secret.length >= MIN_FAKE_WEBHOOK_SECRET_LENGTH
-  ) {
-    return new FakePaymentProvider(secret);
+  const map = buildPaymentProviders(settings);
+  const preferred = settings.PAYMENT_PROVIDER?.trim();
+  if (preferred && map.has(preferred)) {
+    return map.get(preferred)!;
   }
-
   return new DisabledPaymentProvider();
 }

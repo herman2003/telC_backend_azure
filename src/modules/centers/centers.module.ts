@@ -21,9 +21,10 @@ import { PaymentWebhookService } from './payment-webhook.service';
 import { PaymentActivationService } from './payment-activation.service';
 import { PaymentCheckoutService } from './payment-checkout.service';
 import {
-  PAYMENT_PROVIDER,
-  selectPaymentProvider,
+  PAYMENT_PROVIDER_REGISTRY,
+  buildPaymentProviderRegistry,
 } from './payment-providers/payment-provider';
+import type { PaymentProviderSettings } from './payment-providers/payment-provider';
 import { CenterAuthGuard } from './guards/center-auth.guard';
 import { CenterSubscriptionGuard } from './guards/center-subscription.guard';
 import { CentersService } from './centers.service';
@@ -67,20 +68,36 @@ import { CenterSupportService } from './center-support.service';
     PaymentActivationService,
     PaymentCheckoutService,
     PaymentWebhookService,
-    // Chosen once at boot, failing closed: anything short of an explicit,
-    // non-production, properly secreted configuration is the disabled
-    // provider. See selectPaymentProvider.
+    // Notch (Mobile Money) and Stripe (card) both register when their keys
+    // are present — they are different methods, not alternatives. See
+    // buildPaymentProviderRegistry.
     {
-      provide: PAYMENT_PROVIDER,
+      provide: PAYMENT_PROVIDER_REGISTRY,
       inject: [ConfigService],
-      useFactory: (config: ConfigService) =>
-        selectPaymentProvider({
+      useFactory: (config: ConfigService) => {
+        const settings: PaymentProviderSettings = {
           PAYMENT_PROVIDER: config.get<string>('PAYMENT_PROVIDER'),
           NODE_ENV: config.get<string>('NODE_ENV'),
           FAKE_PAYMENT_WEBHOOK_SECRET: config.get<string>(
             'FAKE_PAYMENT_WEBHOOK_SECRET',
           ),
-        }),
+          NOTCHPAY_PUBLIC_KEY:
+            config.get<string>('NOTCHPAY_PUBLIC_KEY') ??
+            config.get<string>('NOTCHPAY_API_KEY'),
+          NOTCHPAY_PRIVATE_KEY: config.get<string>('NOTCHPAY_PRIVATE_KEY'),
+          NOTCHPAY_WEBHOOK_SECRET:
+            config.get<string>('NOTCHPAY_WEBHOOK_SECRET') ??
+            config.get<string>('NOTCHPAY_HASH_KEY'),
+          NOTCHPAY_BASE_URL: config.get<string>('NOTCHPAY_BASE_URL'),
+          NOTCHPAY_CALLBACK_URL: config.get<string>('NOTCHPAY_CALLBACK_URL'),
+          STRIPE_SECRET_KEY: config.get<string>('STRIPE_SECRET_KEY'),
+          STRIPE_WEBHOOK_SECRET: config.get<string>('STRIPE_WEBHOOK_SECRET'),
+          STRIPE_SUCCESS_URL: config.get<string>('STRIPE_SUCCESS_URL'),
+          STRIPE_CANCEL_URL: config.get<string>('STRIPE_CANCEL_URL'),
+          STRIPE_ALLOW_LIVE_KEYS: config.get<string>('STRIPE_ALLOW_LIVE_KEYS'),
+        };
+        return buildPaymentProviderRegistry(settings);
+      },
     },
     CenterStudentsService,
     CenterAuthGuard,
