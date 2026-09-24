@@ -132,6 +132,30 @@ exam exists**. That window closes when Modelltest 2 is seeded.
 
 ## 4 — Infrastructure
 
+### Before the first paying center: four deploy-safety items
+Added 2026-09-24. None of these matter while `main` is a demo; all of them
+matter the day a real center pays.
+
+1. **`/health` tells the truth.** It answers `{ok: true}` without touching the
+   database, and DigitalOcean uses it as the readiness probe — so a deploy
+   with an unreachable Neon is declared healthy and given traffic. One
+   `SELECT 1`.
+2. **`enableShutdownHooks()`.** Never called, so `OnModuleDestroy` and
+   `OnApplicationShutdown` never fire on SIGTERM. `PrismaService` and
+   `ValkeyService` both implement them; both leak on every deploy. One line.
+3. **Migrations as a PRE_DEPLOY job.** `npm start` runs `migrate deploy` in the
+   new container, so a failed migration does not fail a deploy step — it stops
+   the app from starting. DigitalOcean cancels a deployment whose PRE_DEPLOY
+   job fails, which is the behaviour we want.
+4. **Expand/contract for renames.** Once (3) is not enough — the rename in
+   `20260924160000_payment_quantity` broke the old container's reads for the
+   length of a cutover. With paying centers that is an outage mid-checkout.
+   Add, backfill, dual-write, cut over, drop a release later.
+
+Doing (3) makes every future migration safer, not just the next one, so it is
+the one worth doing first.
+
+
 ### No CI — nothing enforces that `main` is green
 **verified: no `.github/workflows` directory at all**
 
