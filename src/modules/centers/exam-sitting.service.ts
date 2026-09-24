@@ -152,6 +152,74 @@ export class ExamSittingService {
     }
   }
 
+  /**
+   * The sittings this student was admitted to.
+   *
+   * Only those: an exam nobody admitted them to should not appear at all,
+   * not appear and refuse. Each carries its derived status so the app can say
+   * "opens on 5 October" rather than showing a button that fails.
+   */
+  async mySessions(studentId: string): Promise<
+    {
+      sessionId: string;
+      name: string;
+      level: CefrLevel;
+      status: string;
+      opensAt: Date;
+      closesAt: Date;
+      attemptId: string | null;
+      submittedAt: Date | null;
+    }[]
+  > {
+    const admitted = await this.prisma.examSessionParticipant.findMany({
+      where: { student_id: studentId },
+      orderBy: { session: { opens_at: 'desc' } },
+      select: {
+        session: {
+          select: {
+            id: true,
+            name: true,
+            level: true,
+            opens_at: true,
+            closes_at: true,
+            published_at: true,
+            cancelled_at: true,
+            force_closed_at: true,
+            attempts: {
+              where: { student_id: studentId },
+              select: { id: true, submitted_at: true },
+            },
+          },
+        },
+      },
+    });
+
+    return admitted.map(({ session }) => ({
+      sessionId: session.id,
+      name: session.name,
+      level: session.level,
+      status: this.policy.statusOf(session),
+      opensAt: session.opens_at,
+      closesAt: session.closes_at,
+      attemptId: session.attempts[0]?.id ?? null,
+      submittedAt: session.attempts[0]?.submitted_at ?? null,
+    }));
+  }
+
+  /**
+   * What the scorer needs to mark this attempt: which Modelltest it is.
+   *
+   * Read through the attempt rather than taken from the request, so a
+   * candidate cannot ask to be marked against a different paper.
+   */
+  async attemptContextFor(
+    studentId: string,
+    attemptId: string,
+  ): Promise<{ modelltestId: string }> {
+    const attempt = await this.load(studentId, attemptId);
+    return { modelltestId: attempt.session.modelltest_id };
+  }
+
   async getAttempt(
     studentId: string,
     attemptId: string,

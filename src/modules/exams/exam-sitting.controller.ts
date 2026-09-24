@@ -1,0 +1,199 @@
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
+import { ExamBlock } from '@prisma/client';
+import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
+import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
+import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
+import { ExamSittingService } from '../centers/exam-sitting.service';
+import { ExamBlockContentService } from '../centers/exam-block-content.service';
+import { ExamScoringService } from '../centers/exam-scoring.service';
+import {
+  ExamBlockTimerDto,
+  SaveExamAnswersDto,
+  SubmitExamBlockDto,
+  SubmitExamBlockResultDto,
+} from './dto/exam-sitting.dto';
+
+/**
+ * A candidate sitting an exam.
+ *
+ * Deliberately NOT behind `StudentSubscriptionGuard`, unlike every other
+ * learning route. The center already paid for this candidate's place when it
+ * published the sitting, and refusing them because the school's monthly plan
+ * lapsed would take the exam fee and grant nothing. The participant row is
+ * the access rule here — see `ExamSittingService.start`.
+ */
+@ApiTags('Exams')
+@ApiBearerAuth()
+@Controller('api/exams')
+@UseGuards(JwtAuthGuard)
+export class ExamSittingController {
+  constructor(
+    private readonly sitting: ExamSittingService,
+    private readonly content: ExamBlockContentService,
+    private readonly scoring: ExamScoringService,
+  ) {}
+
+  @Get('sessions')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'The exam sittings I am admitted to',
+    description:
+      'Only sittings a center admitted this student to. Each carries its status, so the app can say "opens on 5 October" rather than showing a button that fails.',
+  })
+  @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })
+  mySessions(@CurrentStudent() student: AccessTokenPayload) {
+    return this.sitting.mySessions(student.studentId);
+  }
+
+  @Post('sessions/:sessionId/start')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Begin the exam, or return the attempt already begun',
+    description:
+      'Refused unless the sitting is open and this student was admitted to it. Called twice, it returns the same attempt: an exam you can restart is not an exam.',
+  })
+  @ApiBadRequestResponse({ description: 'EXAM_NOT_OPEN' })
+  @ApiNotFoundResponse({ description: 'NOT_A_PARTICIPANT' })
+  start(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('sessionId', ParseUUIDPipe) sessionId: string,
+  ) {
+    return this.sitting.start(student.studentId, sessionId);
+  }
+
+  @Get('attempts/:attemptId')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Where I am in the exam',
+    description:
+      'Every block with its state and the time left, plus the server clock. This is what a reload calls: nothing is lost and nothing is given back.',
+  })
+  @ApiNotFoundResponse({ description: 'EXAM_ATTEMPT_NOT_FOUND' })
+  getAttempt(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+  ) {
+    return this.sitting.getAttempt(student.studentId, attemptId);
+  }
+
+  @Post('attempts/:attemptId/blocks/:block/start')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Start a timed block, or resume it',
+    description:
+      'Returns an absolute deadline and the server clock. Called again after a refresh it returns the SAME deadline — issuing a fresh one would hand back the time already spent.',
+  })
+  @ApiOkResponse({ type: ExamBlockTimerDto })
+  @ApiBadRequestResponse({
+    description: 'BLOCK_OUT_OF_ORDER, BLOCK_IN_PROGRESS, BLOCK_ALREADY_SUBMITTED',
+  })
+  startBlock(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+    @Param('block') block: ExamBlock,
+  ) {
+    return this.sitting.startBlock(student.studentId, attemptId, block);
+  }
+
+  @Get('attempts/:attemptId/blocks/:block')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'The questions for a block I have started',
+    description:
+      'The same questions training serves, with every answer removed, plus whatever I have already saved. Only for a block that is running: the whole exam at once would let Schreiben be read during the time meant for Lesen.',
+  })
+  @ApiBadRequestResponse({ description: 'BLOCK_NOT_STARTED' })
+  blockContent(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+    @Param('block') block: ExamBlock,
+  ) {
+    return this.content.getBlockContent(student.studentId, attemptId, block);
+  }
+
+  @Put('attempts/:attemptId/blocks/:block/answers')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Save what I have answered so far',
+    description:
+      'Call it as the candidate works, so a crash costs seconds rather than ninety minutes. Refused once the deadline passes — but what was saved before it is what gets marked.',
+  })
+  @ApiBadRequestResponse({ description: 'BLOCK_EXPIRED' })
+  saveAnswers(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+    @Param('block') block: ExamBlock,
+    @Body() dto: SaveExamAnswersDto,
+  ) {
+    return this.sitting.saveAnswers(
+      student.studentId,
+      attemptId,
+      block,
+      dto.answers,
+    );
+  }
+
+  @Post('attempts/:attemptId/blocks/:block/submit')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Close a block and mark it',
+    description:
+      'A submit arriving after the deadline is accepted, but marked on the answers saved in time — refusing would leave the block unscored for ever, and accepting late answers would hand back time nobody had.',
+  })
+  @ApiOkResponse({ type: SubmitExamBlockResultDto })
+  @ApiBadRequestResponse({ description: 'BLOCK_ALREADY_SUBMITTED' })
+  async submitBlock(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+    @Param('block') block: ExamBlock,
+    @Body() dto: SubmitExamBlockDto,
+  ): Promise<SubmitExamBlockResultDto> {
+    const submitted = await this.sitting.submitBlock(
+      student.studentId,
+      attemptId,
+      block,
+      dto.answers,
+    );
+    const { modelltestId } = await this.sitting.attemptContextFor(
+      student.studentId,
+      attemptId,
+    );
+
+    // Marked on what the submit settled on, never on the request body: a late
+    // submit keeps the answers saved before the deadline.
+    const sections = await this.scoring.scoreBlock({
+      attemptId,
+      studentId: student.studentId,
+      modelltestId,
+      block,
+      answers: submitted.answers as Record<string, Record<string, unknown>>,
+    });
+
+    return {
+      block: submitted.block,
+      submittedAt: submitted.submittedAt,
+      late: submitted.late,
+      sections,
+    };
+  }
+}

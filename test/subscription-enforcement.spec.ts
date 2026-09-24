@@ -34,6 +34,12 @@ const EXEMPT: Record<string, string> = {
   // is bounded by LiveSessionLimitService, which caps guests by IP because a
   // guest studentId can be re-rolled at will.
   LiveTokenController: 'the live demo is deliberately open to guests',
+  // An exam is paid for per candidate, in advance, when the center publishes
+  // the sitting. Refusing a candidate because their school's monthly plan
+  // lapsed between the purchase and the exam would take the fee and grant
+  // nothing. The access rule here is the participant row: no subscription
+  // opens a sitting, and no lapsed one closes a sitting already bought.
+  ExamSittingController: 'an exam seat is bought per candidate, not monthly',
 };
 
 /** The seven the plan inventoried. Named so the scan cannot pass vacuously. */
