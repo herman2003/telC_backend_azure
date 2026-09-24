@@ -201,6 +201,31 @@ describe('buying exam slots', () => {
     await expect(balanceOf(center.id)).resolves.toBe(5);
   });
 
+  it('credits nothing when the provider says the payment failed', async () => {
+    const { center, identity } = await makeCenter();
+    const payment = await slots.purchase(identity, 5, 'key-1');
+
+    await expect(activation.markFailed(payment.id)).resolves.toMatchObject({
+      outcome: 'MARKED_FAILED',
+    });
+
+    await expect(balanceOf(center.id)).resolves.toBe(0);
+  });
+
+  it('still credits a success that arrives after a failure', async () => {
+    // The provider is the authority on whether money moved. A success
+    // delivered late has still taken the center's money, and refusing it
+    // would keep the money and grant nothing.
+    const { center, identity } = await makeCenter();
+    const payment = await slots.purchase(identity, 5, 'key-1');
+    await activation.markFailed(payment.id);
+
+    await expect(activation.activate(payment.id)).resolves.toMatchObject({
+      outcome: 'ACTIVATED',
+    });
+    await expect(balanceOf(center.id)).resolves.toBe(5);
+  });
+
   it('refuses a center that has not finished its profile', async () => {
     const center = await prisma.center.create({
       data: {
