@@ -136,7 +136,7 @@ Authorization: Bearer <accessToken>
 | content_revision     | string | Version string — cache-bust key; send this back unchanged in submit      |
 | issued_at            | string | ISO 8601 timestamp of when the response was generated                    |
 | audio_url            | string | HTTPS URL of the audio file (`""` = use bundled asset)                   |
-| bundled_audio_asset  | string | Path relative to Flutter `assets/` folder                               |
+| bundled_audio_asset  | string | **Dead. Never read by the app** — verified 2026-09-24. The bundled file is chosen by a hard-coded switch on the Teil, not from this column. Treat as reserved; do not build on it |
 | imagePath            | string | URL of the Teil image (Cloudflare R2)                                    |
 | questions            | array  | List of richtig/falsch statements (see below)                            |
 
