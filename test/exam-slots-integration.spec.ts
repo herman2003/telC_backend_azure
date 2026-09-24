@@ -13,10 +13,27 @@ import { PaymentActivationService } from '../src/modules/centers/payment-activat
 import { ExamSessionsService } from '../src/modules/centers/exam-sessions.service';
 import { ExamParticipantsService } from '../src/modules/centers/exam-participants.service';
 import { ExamSessionPolicyService } from '../src/modules/centers/exam-session-policy.service';
+import { PaymentCheckoutService } from '../src/modules/centers/payment-checkout.service';
+import { PaymentWebhookService } from '../src/modules/centers/payment-webhook.service';
+import {
+  FakePaymentProvider,
+  FAKE_SIGNATURE_HEADER,
+  signFakeWebhook,
+} from '../src/modules/centers/payment-providers/fake-payment-provider';
+import { registryOf } from '../src/modules/centers/payment-providers/payment-provider-registry';
+
+const SECRET = 'a-long-enough-fake-webhook-secret-for-tests';
 
 const prisma = new PrismaService();
 const slots = new ExamSlotsService(prisma);
 const activation = new PaymentActivationService(prisma);
+const provider = new FakePaymentProvider(SECRET);
+const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
+const webhooks = new PaymentWebhookService(
+  prisma,
+  activation,
+  registryOf(provider),
+);
 const policy = new ExamSessionPolicyService();
 const sessions = new ExamSessionsService(prisma, policy);
 const participants = new ExamParticipantsService(prisma, policy);
@@ -73,6 +90,18 @@ const subscriptionOf = (centerId: string) =>
   prisma.centerSubscription.findUniqueOrThrow({
     where: { center_id: centerId },
   });
+
+/** A signed provider event, as the webhook route would receive it. */
+const delivery = (payload: {
+  reference: string;
+  outcome: 'SUCCEEDED' | 'FAILED';
+}) => {
+  const rawBody = Buffer.from(JSON.stringify(payload));
+  return {
+    rawBody,
+    headers: { [FAKE_SIGNATURE_HEADER]: signFakeWebhook(SECRET, rawBody) },
+  };
+};
 
 beforeEach(wipe);
 
@@ -233,6 +262,38 @@ describe('a seat payment still behaves as it always did', () => {
 });
 
 describe('the whole loop', () => {
+  it('goes from checkout to a credited balance on a signed provider event', async () => {
+    // Not activation called by hand: the path a real payment takes. The
+    // webhook knows nothing about exam slots, which is the point of putting
+    // them on the payments table.
+    const { center, identity } = await makeCenter();
+    const payment = await slots.purchase(identity, 5, 'key-1');
+    const session = await checkout.startCheckout(identity, payment.id, 'fake');
+
+    const event = delivery({
+      reference: session.providerReference,
+      outcome: 'SUCCEEDED',
+    });
+    await webhooks.handle(event.rawBody, event.headers);
+
+    await expect(balanceOf(center.id)).resolves.toBe(5);
+  });
+
+  it('credits once when the provider delivers the same event twice', async () => {
+    const { center, identity } = await makeCenter();
+    const payment = await slots.purchase(identity, 5, 'key-1');
+    const session = await checkout.startCheckout(identity, payment.id, 'fake');
+    const event = delivery({
+      reference: session.providerReference,
+      outcome: 'SUCCEEDED',
+    });
+
+    await webhooks.handle(event.rawBody, event.headers);
+    await webhooks.handle(event.rawBody, event.headers);
+
+    await expect(balanceOf(center.id)).resolves.toBe(5);
+  });
+
   it('buys five slots and publishes a sitting for five candidates', async () => {
     // Every piece being right separately is not the same claim as the loop
     // closing. This is the claim the phase exists for.
