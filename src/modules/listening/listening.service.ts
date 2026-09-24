@@ -139,6 +139,81 @@ export class ListeningService {
     };
   }
 
+  /**
+   * One Teil as an exam serves it: the questions, the picture, and the id to
+   * ask for a play — never an address.
+   *
+   * A URL in the payload is a recording a candidate can replay without anyone
+   * counting it, so the exam gets the id and nothing else; the bytes come
+   * from `POST .../audio/{id}/play`, which spends a play first.
+   */
+  async getExamTeil(
+    modelltestNumber: number,
+    part: number,
+  ): Promise<{
+    audioId: string;
+    playsAllowed: number;
+    imagePath: string;
+    contentRevision: string;
+    questions: { id: string; prompt: string }[];
+  }> {
+    const exercise = await this.prisma.listeningExercise.findFirst({
+      where: { modelltest: { number: modelltestNumber }, part },
+      select: {
+        id: true,
+        content_revision: true,
+        image_url: true,
+        exam_plays_allowed: true,
+        questions: {
+          orderBy: { sort_order: 'asc' },
+          select: { question_number: true, prompt: true },
+        },
+      },
+    });
+    if (!exercise) this.throwExerciseNotFound();
+
+    return {
+      audioId: exercise.id,
+      playsAllowed: exercise.exam_plays_allowed,
+      imagePath: exercise.image_url,
+      contentRevision: exercise.content_revision,
+      questions: exercise.questions.map((question) => ({
+        id: `q${question.question_number}`,
+        prompt: question.prompt,
+      })),
+    };
+  }
+
+  /**
+   * What a Teil is marked against.
+   *
+   * Public because the exam scorer marks with it too. Two copies of an answer
+   * key are two things that can drift, and the one that drifts is always the
+   * one nobody is looking at.
+   */
+  async getAnswerKey(
+    modelltestNumber: number,
+    part: number,
+  ): Promise<Record<string, string>> {
+    const exercise = await this.prisma.listeningExercise.findFirst({
+      where: { modelltest: { number: modelltestNumber }, part },
+      select: {
+        questions: {
+          orderBy: { sort_order: 'asc' },
+          select: { question_number: true, correct_answer: true },
+        },
+      },
+    });
+    if (!exercise) this.throwExerciseNotFound();
+
+    return Object.fromEntries(
+      exercise.questions.map((question) => [
+        `q${question.question_number}`,
+        question.correct_answer,
+      ]),
+    );
+  }
+
   async submit(
     studentId: string,
     dto: SubmitListeningDto,

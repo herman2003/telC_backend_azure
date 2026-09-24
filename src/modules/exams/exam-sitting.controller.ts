@@ -192,7 +192,7 @@ export class ExamSittingController {
       block,
       dto.answers,
     );
-    const { modelltestId } = await this.sitting.attemptContextFor(
+    const { modelltestId, modelltestNumber } = await this.sitting.attemptContextFor(
       student.studentId,
       attemptId,
     );
@@ -203,6 +203,7 @@ export class ExamSittingController {
       attemptId,
       studentId: student.studentId,
       modelltestId,
+      modelltestNumber,
       block,
       answers: submitted.answers as Record<string, Record<string, unknown>>,
     });

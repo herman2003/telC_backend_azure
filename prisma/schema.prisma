@@ -483,6 +483,14 @@ model ListeningAttempt {
   created_at       DateTime  @default(now())
   completed_at     DateTime?
 
+  /// What the candidate chose, per question.
+  ///
+  /// Training never stored this — a Hören score was all anyone wanted. An
+  /// exam result gets disputed, and "we have the score but not the answers"
+  /// is not something a center can take back to a candidate. Nullable, so
+  /// every training row written before this stays as it was.
+  answers Json?
+
   // Column only, no relation — matches WritingAttempt and SprachbausteineAttempt.
   // Nullable on purpose: Hoeren content is not yet in the database, so an
   // attempt whose content_revision names no Modelltest (e.g. the historic

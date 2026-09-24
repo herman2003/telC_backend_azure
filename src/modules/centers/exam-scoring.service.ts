@@ -3,6 +3,7 @@ import type { ExamBlock } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
+import { ListeningService } from '../listening/listening.service';
 
 export type ExamSkill =
   | 'LESEN'
@@ -23,6 +24,15 @@ export interface ScoreBlockInput {
   attemptId: string;
   studentId: string;
   modelltestId: string;
+  /**
+   * Hören is reached by number rather than id, because that is how the
+   * listening service names a Modelltest.
+   *
+   * Required, not defaulted. A default of 1 would mark a Modelltest 2 exam
+   * against Modelltest 1's answers and produce a plausible, wrong score that
+   * nobody could spot.
+   */
+  modelltestNumber: number;
   block: ExamBlock;
   /**
    * Keyed `SKILL_TEIL`, each holding that Teil's answers exactly as the
@@ -74,6 +84,7 @@ export class ExamScoringService {
     private readonly prisma: PrismaService,
     private readonly lesen: LesenService,
     private readonly sprachbausteine: SprachbausteineService,
+    private readonly listening: ListeningService,
   ) {}
 
   async scoreBlock(input: ScoreBlockInput): Promise<ExamSectionScore[]> {
@@ -99,16 +110,25 @@ export class ExamScoringService {
     if (section.skill === 'SCHREIBEN') {
       return this.storeWriting(input, section, answers);
     }
-    if (section.skill === 'HOEREN') {
-      // Hören is not wired yet: its content delivery waits on the audio
-      // decision. Scoring it here before that would be a guess at a shape.
-      return { skill: section.skill, teil: section.teil, score: null, pending: true };
-    }
 
-    const answerKey = await this.answerKeyFor(input.modelltestId, section);
+    const answerKey = await this.answerKeyFor(input, section);
     const score = markAgainst(answerKey, answers);
 
-    if (section.skill === 'LESEN') {
+    if (section.skill === 'HOEREN') {
+      await this.prisma.listeningAttempt.create({
+        data: {
+          student_id: input.studentId,
+          exercise_id: `teil${section.teil}`,
+          status: 'completed',
+          score,
+          answers: answers as never,
+          content_revision: '',
+          modelltest_id: input.modelltestId,
+          completed_at: new Date(),
+          exam_attempt_id: input.attemptId,
+        },
+      });
+    } else if (section.skill === 'LESEN') {
       await this.prisma.lesenAttempt.create({
         data: {
           student_id: input.studentId,
@@ -169,19 +189,26 @@ export class ExamScoringService {
 
   /** The key training marks against, asked of the service that owns it. */
   private async answerKeyFor(
-    modelltestId: string,
+    input: ScoreBlockInput,
     section: { skill: ExamSkill; teil: string },
   ): Promise<Record<string, string>> {
     if (section.skill === 'LESEN') {
       const rules = await this.lesen.getSubmissionRules(
-        modelltestId,
+        input.modelltestId,
         section.teil,
       );
       return rules.answerKey;
     }
 
+    if (section.skill === 'HOEREN') {
+      return this.listening.getAnswerKey(
+        input.modelltestNumber,
+        Number(section.teil),
+      );
+    }
+
     const key = await this.sprachbausteine.getAnswerKey(
-      modelltestId,
+      input.modelltestId,
       section.teil as '1' | '2',
     );
     return key.answers;

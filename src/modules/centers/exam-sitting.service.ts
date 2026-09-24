@@ -215,9 +215,17 @@ export class ExamSittingService {
   async attemptContextFor(
     studentId: string,
     attemptId: string,
-  ): Promise<{ modelltestId: string }> {
+  ): Promise<{ modelltestId: string; modelltestNumber: number }> {
     const attempt = await this.load(studentId, attemptId);
-    return { modelltestId: attempt.session.modelltest_id };
+    const modelltest = await this.prisma.modelltest.findUniqueOrThrow({
+      where: { id: attempt.session.modelltest_id },
+      select: { number: true },
+    });
+
+    return {
+      modelltestId: attempt.session.modelltest_id,
+      modelltestNumber: modelltest.number,
+    };
   }
 
   async getAttempt(

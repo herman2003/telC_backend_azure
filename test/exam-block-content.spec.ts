@@ -42,6 +42,7 @@ describe('ExamBlockContentService', () => {
   let prisma: any;
   let lesen: any;
   let sprachbausteine: any;
+  let listening: any;
   let service: ExamBlockContentService;
 
   const attemptRow = (over: Record<string, unknown> = {}) => ({
@@ -68,7 +69,22 @@ describe('ExamBlockContentService', () => {
     sprachbausteine = {
       getExercise: jest.fn().mockResolvedValue(sbExercise),
     };
-    service = new ExamBlockContentService(prisma, lesen, sprachbausteine);
+    listening = {
+      getExamTeil: jest.fn().mockImplementation((_n: number, part: number) =>
+        Promise.resolve({
+          audioId: `audio-${part}`,
+          playsAllowed: part === 1 ? 1 : 2,
+          imagePath: `https://cdn.example/teil${part}.png`,
+          questions: [{ id: 'q1', prompt: 'Was sagt sie?' }],
+        }),
+      ),
+    };
+    service = new ExamBlockContentService(
+      prisma,
+      lesen,
+      sprachbausteine,
+      listening,
+    );
   });
 
   describe('what it serves', () => {
@@ -128,6 +144,54 @@ describe('ExamBlockContentService', () => {
       expect(content.deadlineAt).toBeInstanceOf(Date);
       expect(content.serverNow).toBeInstanceOf(Date);
       expect(content.remainingSeconds).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Hören', () => {
+    const hoerenRunning = () =>
+      attemptRow({
+        blocks: [
+          {
+            block: 'HOEREN',
+            started_at: new Date(Date.now() - 60_000),
+            deadline_at: new Date(Date.now() + HOUR),
+            submitted_at: null,
+            answers: {},
+          },
+        ],
+      });
+
+    beforeEach(() => {
+      prisma.examAttempt.findUnique.mockResolvedValue(hoerenRunning());
+    });
+
+    it('serves all three Teile of the block', async () => {
+      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
+
+      expect(Object.keys(content.sections)).toEqual(['HOEREN']);
+      expect((content.sections as any).HOEREN).toHaveLength(3);
+    });
+
+    it('names the recording and how often it may play', async () => {
+      // The app needs the id to ask for a play, and the allowance so it can
+      // stop offering one — the server refuses either way.
+      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
+
+      expect((content.sections as any).HOEREN[0]).toMatchObject({
+        audioId: 'audio-1',
+        playsAllowed: 1,
+      });
+    });
+
+    it('gives out no audio address, only the id to ask for one', async () => {
+      // A URL in the payload is a recording the candidate can replay without
+      // anyone counting it. The only way to the bytes is POST .../play.
+      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
+
+      const json = JSON.stringify(content);
+      expect(json).not.toContain('audio_url');
+      expect(json).not.toContain('bundled_audio_asset');
+      expect(json).not.toContain('.mp3');
     });
   });
 

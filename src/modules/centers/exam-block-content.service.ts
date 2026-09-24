@@ -7,6 +7,7 @@ import type { ExamBlock } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
+import { ListeningService } from '../listening/listening.service';
 import { withoutAnswerKey } from './exam-content';
 
 export interface ExamBlockContent {
@@ -35,6 +36,7 @@ export class ExamBlockContentService {
     private readonly prisma: PrismaService,
     private readonly lesen: LesenService,
     private readonly sprachbausteine: SprachbausteineService,
+    private readonly listening: ListeningService,
   ) {}
 
   async getBlockContent(
@@ -112,14 +114,22 @@ export class ExamBlockContentService {
       return withoutAnswerKey({ LESEN: lesen, SPRACHBAUSTEINE: sprachbausteine });
     }
 
-    if (block === 'SCHREIBEN') {
-      // The task, not the marking. Schreiben is scored by a human.
-      return withoutAnswerKey({ SCHREIBEN: null });
+    if (block === 'HOEREN') {
+      // All three Teile at once: they share one timed block, and the app
+      // needs to know what is coming to pace the candidate through it.
+      const teile = await Promise.all(
+        [1, 2, 3].map((part) =>
+          this.listening.getExamTeil(modelltestNumber, part),
+        ),
+      );
+
+      // Each Teil carries the id to ask for a play and how often it may be
+      // played — never an address. A URL here is a recording a candidate can
+      // replay with nobody counting it.
+      return withoutAnswerKey({ HOEREN: teile });
     }
 
-    // Hören waits on the audio decision: whether exam recordings are served
-    // per play or shipped in the app changes what belongs in this response,
-    // and guessing would mean building it twice.
-    throw new BadRequestException('BLOCK_CONTENT_NOT_AVAILABLE');
+    // The task, not the marking. Schreiben is scored by a human.
+    return withoutAnswerKey({ SCHREIBEN: null });
   }
 }

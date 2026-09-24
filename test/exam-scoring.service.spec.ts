@@ -17,6 +17,7 @@ describe('ExamScoringService', () => {
   let prisma: any;
   let lesen: any;
   let sprachbausteine: any;
+  let listening: any;
   let service: ExamScoringService;
 
   beforeEach(() => {
@@ -41,7 +42,18 @@ describe('ExamScoringService', () => {
         contentRevision: 'sb-1-v1',
       }),
     };
-    service = new ExamScoringService(prisma, lesen, sprachbausteine);
+    listening = {
+      getAnswerKey: jest
+        .fn()
+        .mockResolvedValue({ q1: 'a', q2: 'b', q3: 'c', q4: 'd', q5: 'e' }),
+    };
+    prisma.listeningAttempt = { create: jest.fn().mockResolvedValue({}) };
+    service = new ExamScoringService(
+      prisma,
+      lesen,
+      sprachbausteine,
+      listening,
+    );
   });
 
   describe('what it scores', () => {
@@ -50,6 +62,7 @@ describe('ExamScoringService', () => {
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
+        modelltestNumber: 2,
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {
           LESEN_1: { '1': 'a', '2': 'b', '3': 'x', '4': 'd' },
@@ -76,6 +89,7 @@ describe('ExamScoringService', () => {
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
+        modelltestNumber: 2,
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
       });
@@ -89,6 +103,7 @@ describe('ExamScoringService', () => {
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
+        modelltestNumber: 2,
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
       });
@@ -111,6 +126,7 @@ describe('ExamScoringService', () => {
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
+        modelltestNumber: 2,
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: { LESEN_1: { '1': 'a' } },
       });
@@ -139,6 +155,7 @@ describe('ExamScoringService', () => {
           attemptId: ATTEMPT,
           studentId: STUDENT,
           modelltestId: MODELLTEST,
+          modelltestNumber: 2,
           block: 'LESEN_SPRACHBAUSTEINE',
           answers: { LESEN_1: { '1': 'a' } },
         }),
@@ -150,12 +167,52 @@ describe('ExamScoringService', () => {
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
+        modelltestNumber: 2,
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
       });
 
       expect(prisma.lesenAttempt.create).toHaveBeenCalledTimes(3);
       expect(prisma.sprachbausteineAttempt.create).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('Hören', () => {
+    it('marks each Teil against the key training marks with', async () => {
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        block: 'HOEREN',
+        answers: { HOEREN_1: { q1: 'a', q2: 'b', q3: 'c', q4: 'd', q5: 'x' } },
+      });
+
+      expect(scored[0]).toMatchObject({
+        skill: 'HOEREN',
+        teil: '1',
+        score: 80,
+        pending: false,
+      });
+      expect(listening.getAnswerKey).toHaveBeenCalledWith(2, 1);
+    });
+
+    it('stamps the attempt rows with the exam, as the others do', async () => {
+      await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        block: 'HOEREN',
+        answers: {},
+      });
+
+      expect(prisma.listeningAttempt.create).toHaveBeenCalledTimes(3);
+      expect(prisma.listeningAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ exam_attempt_id: ATTEMPT }),
+        }),
+      );
     });
   });
 
@@ -168,6 +225,7 @@ describe('ExamScoringService', () => {
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
+        modelltestNumber: 2,
         block: 'SCHREIBEN',
         answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },
       });
