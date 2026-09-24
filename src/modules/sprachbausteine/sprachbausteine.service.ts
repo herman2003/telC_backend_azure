@@ -238,7 +238,12 @@ export class SprachbausteineService {
     return { attemptId, score: earlier?.score ?? score, answerKey: answers };
   }
 
-  private async getAnswerKey(
+  /**
+   * Public because the exam scorer marks against this same key. Two copies of
+   * an answer key are two things that can drift, and the one that drifts is
+   * always the one nobody is looking at.
+   */
+  async getAnswerKey(
     modelltestId: string,
     teilId: '1' | '2',
   ): Promise<{

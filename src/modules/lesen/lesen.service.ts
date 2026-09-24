@@ -373,7 +373,12 @@ export class LesenService {
     }
   }
 
-  private async getSubmissionRules(
+  /**
+   * Public because the exam scorer marks against this same key. Two copies of
+   * an answer key are two things that can drift, and the one that drifts is
+   * always the one nobody is looking at.
+   */
+  async getSubmissionRules(
     modelltestId: string,
     teilId: string,
   ): Promise<{
