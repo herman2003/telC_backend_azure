@@ -242,7 +242,13 @@ describe('SprachbausteineService answer security', () => {
     });
     expect(prisma.sprachbausteineAttempt.findMany).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: { student_id: 'student-1', erasure_id: null, teil_id: '1' },
+        // Training only: an exam attempt shares this table.
+        where: {
+          student_id: 'student-1',
+          erasure_id: null,
+          exam_attempt_id: null,
+          teil_id: '1',
+        },
       }),
     );
   });

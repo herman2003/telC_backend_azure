@@ -318,7 +318,9 @@ describe('LesenService history (D29)', () => {
     });
     expect(prisma.lesenAttempt.findMany.mock.calls[0][0].where).toEqual({
       student_id: 'student-1',
+      // Training only: an exam attempt shares this table.
       erasure_id: null,
+      exam_attempt_id: null,
       teil_id: '3',
     });
   });

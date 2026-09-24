@@ -337,6 +337,11 @@ export class LesenService {
           : undefined;
       const rows = await this.prisma.lesenAttempt.findMany({
         where: {
+          // Training only. An exam attempt lives in this same table and
+          // must not be read back as practice: it would show a candidate
+          // scores their center has not released, and count an exam as
+          // preparation for itself.
+          exam_attempt_id: null,
           student_id: studentId,
           erasure_id: null,
           ...(teilId ? { teil_id: teilId } : {}),
