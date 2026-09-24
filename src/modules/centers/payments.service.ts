@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { createHash } from 'crypto';
-import type { PaymentStatus } from '@prisma/client';
+import type { PaymentKind, PaymentStatus } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { PricingService } from './pricing.service';
@@ -18,6 +18,14 @@ import {
 
 export interface PaymentView {
   id: string;
+  /**
+   * What the money bought.
+   *
+   * A center's payment history holds seats and exam slots together, and the
+   * two are priced differently — ten of one is 45,000 XAF, ten of the other
+   * 10,000. An invoice that did not say which would be unreadable.
+   */
+  kind: PaymentKind;
   seats: number;
   /** Stamped at creation, so an invoice reads back exactly as it was agreed. */
   unitPriceXaf: number;
@@ -231,6 +239,7 @@ export class PaymentsService {
   /** Built field by field, so a column added later cannot leak into a response. */
   private toView(row: {
     id: string;
+    kind: PaymentKind;
     quantity: number;
     unit_price_xaf: number;
     amount_xaf: number;
@@ -239,6 +248,7 @@ export class PaymentsService {
   }): PaymentView {
     return {
       id: row.id,
+      kind: row.kind,
       seats: row.quantity,
       unitPriceXaf: row.unit_price_xaf,
       amountXaf: row.amount_xaf,

@@ -40,6 +40,14 @@ export class StartCheckoutDto {
 export class PaymentResponseDto {
   @ApiProperty({ format: 'uuid' }) id: string;
 
+  @ApiProperty({
+    enum: ['SEATS', 'EXAM_SLOTS'],
+    example: 'SEATS',
+    description:
+      'What the money bought. Seats and exam slots share this history and are priced differently, so an invoice list reads this to tell them apart. `seats` carries the quantity of whichever it is.',
+  })
+  kind: string;
+
   @ApiProperty({ example: 10 }) seats: number;
 
   @ApiProperty({
