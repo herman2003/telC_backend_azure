@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Inject,
   Injectable,
@@ -7,9 +8,11 @@ import {
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import {
-  PAYMENT_PROVIDER,
-  type PaymentProvider,
-} from './payment-providers/payment-provider';
+  CLIENT_PAYMENT_METHODS,
+  PAYMENT_PROVIDER_REGISTRY,
+  PaymentProviderRegistry,
+  type PaymentMethodKind,
+} from './payment-providers/payment-provider-registry';
 
 type SignedCenterIdentity = Pick<CenterAccessTokenPayload, 'centerId'>;
 
@@ -17,6 +20,8 @@ export interface StartedCheckout {
   paymentId: string;
   /** Kept server-side by the controller; returned here for callers that need it. */
   providerReference: string;
+  /** Which method was used: notchpay (Mobile Money) or stripe (card). */
+  provider: string;
   checkoutUrl: string;
 }
 
@@ -27,45 +32,45 @@ export interface StartedCheckout {
  * payment prices it and grants nothing, while starting a checkout talks to the
  * outside world. Keeping them apart also keeps the provider out of the
  * creation path, which must keep working when no provider is configured.
+ *
+ * Notch (Orange / MTN via Collect) and Stripe (card) are different methods —
+ * the center picks one; both can be configured at once.
  */
 @Injectable()
 export class PaymentCheckoutService {
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(PAYMENT_PROVIDER) private readonly provider: PaymentProvider,
+    @Inject(PAYMENT_PROVIDER_REGISTRY)
+    private readonly registry: PaymentProviderRegistry,
   ) {}
 
   /**
-   * Opens a checkout for a pending payment, once.
+   * Opens a checkout for a pending payment, once, with the chosen method.
    *
    * ONE PROVIDER TRANSACTION PER PAYMENT. The first checkout stores the
-   * provider's reference and URL; any later one returns what was stored
-   * without asking the provider again. A retried or double-clicked checkout
-   * that opened a second transaction could be paid as well, and its webhook
-   * would name a reference no payment holds.
-   *
-   * The reference is stored by compare-and-swap (`provider_reference IS
-   * NULL`), so of two simultaneous first clicks exactly one stores its
-   * session and the other returns that one. The provider is asked outside any
-   * database transaction on purpose: holding a lock across a network call to a
-   * third party is how a slow provider becomes an outage here.
-   *
-   * Only PENDING payments. A paid payment must not be paid twice, and a failed
-   * one is finished — the center creates a new payment instead.
+   * provider's reference, method name and URL; any later one returns what was
+   * stored without asking the provider again.
    */
   async startCheckout(
     identity: SignedCenterIdentity,
     paymentId: string,
+    method: PaymentMethodKind | 'fake',
   ): Promise<StartedCheckout> {
+    if (
+      method !== 'fake' &&
+      !CLIENT_PAYMENT_METHODS.includes(method as PaymentMethodKind)
+    ) {
+      throw new BadRequestException('PAYMENT_METHOD_INVALID');
+    }
+
     const payment = await this.prisma.payment.findFirst({
-      // Scoped by center in the query itself. Another center's payment is a
-      // 404, never a 403: a 403 would confirm the id exists.
       where: { id: paymentId, center_id: identity.centerId },
       select: {
         status: true,
         amount_xaf: true,
         provider_reference: true,
         checkout_url: true,
+        provider: true,
       },
     });
 
@@ -78,17 +83,35 @@ export class PaymentCheckoutService {
     }
 
     if (payment.provider_reference && payment.checkout_url) {
+      // Already opened — ignore a different method on retry; the stored
+      // session is the one that can be paid.
       return {
         paymentId,
         providerReference: payment.provider_reference,
+        provider: payment.provider ?? method,
         checkoutUrl: payment.checkout_url,
       };
     }
 
-    const session = await this.provider.createCheckout({
+    const provider = this.registry.require(method);
+
+    const manager = await this.prisma.centerUser.findFirst({
+      where: { center_id: identity.centerId },
+      orderBy: { created_at: 'asc' },
+      select: { email: true, phone: true },
+    });
+    const center = await this.prisma.center.findUnique({
+      where: { id: identity.centerId },
+      select: { name: true },
+    });
+
+    const session = await provider.createCheckout({
       paymentId,
       centerId: identity.centerId,
       amountXaf: payment.amount_xaf,
+      customerEmail: manager?.email,
+      customerPhone: manager?.phone ?? undefined,
+      customerName: center?.name,
     });
 
     const stored = await this.prisma.payment.updateMany({
@@ -96,18 +119,21 @@ export class PaymentCheckoutService {
       data: {
         provider_reference: session.providerReference,
         checkout_url: session.checkoutUrl,
+        provider: method,
       },
     });
 
     if (stored.count === 1) {
-      return { paymentId, ...session };
+      return { paymentId, provider: method, ...session };
     }
 
-    // Another request stored its session first. That is the session the
-    // center pays through, so it is the one to return.
     const winner = await this.prisma.payment.findUniqueOrThrow({
       where: { id: paymentId },
-      select: { provider_reference: true, checkout_url: true },
+      select: {
+        provider_reference: true,
+        checkout_url: true,
+        provider: true,
+      },
     });
 
     if (!winner.provider_reference || !winner.checkout_url) {
@@ -117,6 +143,7 @@ export class PaymentCheckoutService {
     return {
       paymentId,
       providerReference: winner.provider_reference,
+      provider: winner.provider ?? method,
       checkoutUrl: winner.checkout_url,
     };
   }

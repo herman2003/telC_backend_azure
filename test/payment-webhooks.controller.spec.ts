@@ -8,9 +8,10 @@ import { PaymentWebhookService } from '../src/modules/centers/payment-webhook.se
 import { PaymentActivationService } from '../src/modules/centers/payment-activation.service';
 import { PrismaService } from '../src/shared/services/prisma.service';
 import {
-  PAYMENT_PROVIDER,
-  type PaymentProvider,
-} from '../src/modules/centers/payment-providers/payment-provider';
+  PAYMENT_PROVIDER_REGISTRY,
+  registryOf,
+} from '../src/modules/centers/payment-providers/payment-provider-registry';
+import type { PaymentProvider } from '../src/modules/centers/payment-providers/payment-provider';
 import {
   FakePaymentProvider,
   FAKE_SIGNATURE_HEADER,
@@ -66,7 +67,7 @@ describe('POST /api/webhooks/payments', () => {
         PaymentWebhookService,
         { provide: PrismaService, useValue: prisma },
         { provide: PaymentActivationService, useValue: activation },
-        { provide: PAYMENT_PROVIDER, useValue: provider },
+        { provide: PAYMENT_PROVIDER_REGISTRY, useValue: registryOf(provider) },
       ],
     }).compile();
 
