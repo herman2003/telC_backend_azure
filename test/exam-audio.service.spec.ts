@@ -47,10 +47,12 @@ describe('ExamAudioService', () => {
         }),
       },
       examAudioPlay: {
-        upsert: jest.fn().mockResolvedValue({ plays_used: 1 }),
+        // Created at zero, then claimed by the conditional update. The
+        // create is allowed to fail: another request making the row first is
+        // exactly what should happen.
+        create: jest.fn().mockResolvedValue({ plays_used: 0 }),
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
-        findUnique: jest.fn().mockResolvedValue(null),
-        create: jest.fn().mockResolvedValue({ plays_used: 1 }),
+        findUniqueOrThrow: jest.fn().mockResolvedValue({ plays_used: 1 }),
       },
     };
     service = new ExamAudioService(prisma, 'a-secret-at-least-32-chars-long!!');
@@ -68,11 +70,33 @@ describe('ExamAudioService', () => {
       // The claim the whole design exists for. The button is hidden in the
       // app; this is what makes it a rule.
       prisma.examAudioPlay.updateMany.mockResolvedValue({ count: 0 });
-      prisma.examAudioPlay.findUnique.mockResolvedValue({ plays_used: 1 });
 
       await expect(service.play(STUDENT, ATTEMPT, AUDIO)).rejects.toThrow(
         'NO_PLAYS_LEFT',
       );
+    });
+
+    it('makes the counter row before claiming, so a first press is never lost', async () => {
+      // Two presses arriving together on a fresh recording used to race to
+      // create the row, and the loser was told NO_PLAYS_LEFT for a play it
+      // was entitled to.
+      await service.play(STUDENT, ATTEMPT, AUDIO);
+
+      expect(prisma.examAudioPlay.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ plays_used: 0 }),
+        }),
+      );
+    });
+
+    it('carries on when the row already exists', async () => {
+      prisma.examAudioPlay.create.mockRejectedValue(
+        Object.assign(new Error('unique'), { code: 'P2002' }),
+      );
+
+      await expect(
+        service.play(STUDENT, ATTEMPT, AUDIO),
+      ).resolves.toMatchObject({ playsRemaining: 0 });
     });
 
     it('spends the play in the statement, so two presses at once spend two', async () => {
@@ -102,6 +126,9 @@ describe('ExamAudioService', () => {
         exam_plays_allowed: 2,
       });
       prisma.examAudioPlay.updateMany.mockResolvedValue({ count: 1 });
+      prisma.examAudioPlay.findUniqueOrThrow.mockResolvedValue({
+        plays_used: 1,
+      });
 
       const granted = await service.play(STUDENT, ATTEMPT, AUDIO);
 

@@ -106,6 +106,24 @@ export class ExamAudioService {
     }
 
     const allowed = audio.exam_plays_allowed;
+
+    // The counter row is made first, at zero, so that the claim below is the
+    // only thing deciding whether a play is spent.
+    //
+    // An earlier version counted with the create itself, and two presses
+    // arriving together on a fresh recording both found no row: one created
+    // it, the other took the unique violation and was told NO_PLAYS_LEFT —
+    // losing a play the candidate was entitled to. An exam is the worst place
+    // to be stingy by accident.
+    try {
+      await this.prisma.examAudioPlay.create({
+        data: { attempt_id: attemptId, audio_id: audioId, plays_used: 0 },
+      });
+    } catch {
+      // Another request created it first, which is exactly what should
+      // happen. The claim below is still the arbiter.
+    }
+
     const spent = await this.prisma.examAudioPlay.updateMany({
       where: {
         attempt_id: attemptId,
@@ -114,37 +132,15 @@ export class ExamAudioService {
       },
       data: { plays_used: { increment: 1 } },
     });
+    if (spent.count !== 1) throw new BadRequestException('NO_PLAYS_LEFT');
 
-    let playNumber: number;
-    if (spent.count === 1) {
-      const row = await this.prisma.examAudioPlay.findUnique({
-        where: {
-          attempt_id_audio_id: { attempt_id: attemptId, audio_id: audioId },
-        },
-        select: { plays_used: true },
-      });
-      playNumber = row?.plays_used ?? 1;
-    } else {
-      // No row yet, or the allowance is gone. Creating claims the first play;
-      // a unique violation means another request created it first.
-      const existing = await this.prisma.examAudioPlay.findUnique({
-        where: {
-          attempt_id_audio_id: { attempt_id: attemptId, audio_id: audioId },
-        },
-        select: { plays_used: true },
-      });
-      if (existing) throw new BadRequestException('NO_PLAYS_LEFT');
-
-      try {
-        const created = await this.prisma.examAudioPlay.create({
-          data: { attempt_id: attemptId, audio_id: audioId, plays_used: 1 },
-          select: { plays_used: true },
-        });
-        playNumber = created.plays_used;
-      } catch {
-        throw new BadRequestException('NO_PLAYS_LEFT');
-      }
-    }
+    const row = await this.prisma.examAudioPlay.findUniqueOrThrow({
+      where: {
+        attempt_id_audio_id: { attempt_id: attemptId, audio_id: audioId },
+      },
+      select: { plays_used: true },
+    });
+    const playNumber = row.plays_used;
 
     const expiresAt = new Date(
       Date.now() +
