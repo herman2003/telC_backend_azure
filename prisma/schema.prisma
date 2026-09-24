@@ -334,6 +334,9 @@ model Payment {
   /// double-clicked checkout returns this instead of asking the provider
   /// again, which would open a second provider transaction for one payment.
   checkout_url       String?
+  /// Which payment method opened the checkout: `notchpay` (Mobile Money) or
+  /// `stripe` (card). Null until checkout; webhooks and refunds route by it.
+  provider           String?
   /// When activation granted access. Set once, by the same statement that
   /// moves the status, so the two can never disagree.
   succeeded_at       DateTime?
