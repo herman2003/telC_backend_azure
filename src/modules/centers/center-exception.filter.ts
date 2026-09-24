@@ -23,6 +23,19 @@ const CENTER_ERROR_MESSAGES: Record<string, string> = {
   INVALID_CENTER_REFRESH_TOKEN:
     'This session is no longer valid. Please log in again.',
   RATE_LIMIT_EXCEEDED: 'Too many requests. Please try again later.',
+  EXAM_SESSION_NOT_FOUND: 'That exam session does not exist.',
+  MODELLTEST_NOT_FOUND: 'That Modelltest does not exist.',
+  OPENS_AT_IN_PAST: 'The opening time must be in the future.',
+  ACCESS_WINDOW_INVALID: 'The access window must be 24, 48 or 72 hours.',
+  EXAM_ALREADY_OPEN:
+    'This exam has already opened and can no longer be changed.',
+  EXAM_ALREADY_PUBLISHED: 'This exam has already been published.',
+  EXAM_NOT_PUBLISHED: 'This exam has not been published yet.',
+  EXAM_CANCELLED: 'This exam was cancelled.',
+  NO_PARTICIPANTS: 'Choose at least one participant before publishing.',
+  NOT_ENOUGH_EXAM_SLOTS:
+    'You do not have enough exam slots for every participant.',
+  STUDENT_NOT_IN_CENTER: 'One of those students does not belong to your center.',
 };
 
 @Catch()
