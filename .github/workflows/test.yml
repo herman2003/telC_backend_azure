@@ -72,16 +72,16 @@ jobs:
       # `provision` argument never passed, and seven fixtures left carrying a
       # dropped column.
       #
-      # A ratchet rather than a hard zero, because the 19 errors below predate
-      # this gate and live in auth, writing and guest-token specs — fixing
-      # them belongs to whoever owns those areas, not to a commit that happens
-      # to add the gate. What this catches is a NEW one, which is the failure
-      # mode that actually bit.
+      # A ratchet rather than a hard zero. It started at 19; the auth, writing
+      # and guest-token specs it covered were repaired while merging dev into
+      # main, and the one left is prisma.config.ts, where `directUrl` is not
+      # in Prisma 7's datasource type but is what the migrations run through.
+      # What this catches is a NEW error, which is the failure mode that bit.
       #
       # Lower BASELINE whenever the real count drops. It must never be raised.
       - name: Type-check (no new errors)
         run: |
-          BASELINE=19
+          BASELINE=1
           COUNT=$(npx tsc --noEmit 2>&1 | grep -c "error TS" || true)
           echo "tsc --noEmit reported $COUNT error(s); baseline is $BASELINE"
           if [ "$COUNT" -gt "$BASELINE" ]; then

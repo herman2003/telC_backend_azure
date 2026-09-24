@@ -1,3 +1,4 @@
+import { AccessTokenPayload } from '../src/shared/interfaces/token-payload.interface';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { LiveTokenController } from '../src/modules/speaking/live/live-token.controller';
@@ -30,7 +31,14 @@ const mockLimitService = {
   sessionSeconds: 600,
 };
 
-const guestReq = { student: { studentId: 'guest-uuid', isGuest: true } };
+const guestReq = {
+  student: {
+    type: 'access',
+    studentId: 'guest-uuid',
+    deviceId: 'guest-device',
+    isGuest: true,
+  },
+} satisfies { student: AccessTokenPayload };
 
 describe('LiveTokenController', () => {
   let controller: LiveTokenController;

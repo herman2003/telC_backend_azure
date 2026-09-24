@@ -13,7 +13,6 @@ import { createGlobalValidationPipe } from '../src/shared/pipes/global-validatio
 const defaultPayload: AccessTokenPayload = {
   type: 'access',
   studentId: 'student-1',
-  isRegistered: true,
   deviceId: 'device-1',
 };
 

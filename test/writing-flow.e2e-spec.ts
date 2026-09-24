@@ -17,6 +17,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
+import type { AddressInfo } from 'net';
 import { io, Socket } from 'socket.io-client';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/shared/services/prisma.service';
@@ -54,7 +55,10 @@ const FLAWED_GERMAN =
       app.useGlobalFilters(new AuthExceptionFilter());
       await app.init();
       await app.listen(0);
-      const addr = app.getHttpServer().address();
+      // getHttpServer() is typed as the app, not as a listening server.
+      const addr = (
+        app.getHttpServer() as { address(): AddressInfo | string | null }
+      ).address();
       if (typeof addr !== 'object' || !addr) {
         throw new Error('Could not read HTTP server address');
       }
@@ -83,7 +87,6 @@ const FLAWED_GERMAN =
 
       validJwt = tokenService.generateAccessToken({
         studentId: testStudentId,
-        isRegistered: true,
         deviceId: 'test-device',
       });
     });
@@ -139,7 +142,7 @@ const FLAWED_GERMAN =
         },
       );
 
-      const res = await request(app.getHttpServer())
+      const res = await request(app!.getHttpServer())
         .post('/api/writing/submit')
         .set('Authorization', `Bearer ${validJwt}`)
         .set('Content-Type', 'application/json')
@@ -163,7 +166,7 @@ const FLAWED_GERMAN =
         expect(payload.feedback).not.toBe(STUB_FEEDBACK);
       }
 
-      const sessionsRes = await request(app.getHttpServer())
+      const sessionsRes = await request(app!.getHttpServer())
         .get('/api/writing/sessions')
         .set('Authorization', `Bearer ${validJwt}`)
         .expect(200);
