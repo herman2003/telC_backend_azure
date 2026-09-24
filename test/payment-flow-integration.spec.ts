@@ -28,6 +28,7 @@ import {
   FAKE_SIGNATURE_HEADER,
   signFakeWebhook,
 } from '../src/modules/centers/payment-providers/fake-payment-provider';
+import { registryOf } from '../src/modules/centers/payment-providers/payment-provider-registry';
 
 const SECRET = 'a-long-enough-fake-webhook-secret-for-tests';
 
@@ -38,9 +39,13 @@ const payments = new PaymentsService(
   new PricingService(),
   new CenterSeatsService(prisma),
 );
-const checkout = new PaymentCheckoutService(prisma, provider);
+const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
 const activation = new PaymentActivationService(prisma);
-const webhooks = new PaymentWebhookService(prisma, activation, provider);
+const webhooks = new PaymentWebhookService(
+  prisma,
+  activation,
+  registryOf(provider),
+);
 const entitlement = new StudentEntitlementService(
   prisma,
   new SubscriptionPolicyService(),
@@ -115,7 +120,7 @@ const delivery = (
 /** Create a payment and open its checkout, as a center clicking "pay" would. */
 async function payAndCheckout(identity: never, key: string) {
   const payment = await payments.create(identity, 10, key);
-  const session = await checkout.startCheckout(identity, payment.id);
+  const session = await checkout.startCheckout(identity, payment.id, 'fake');
   return { payment, session };
 }
 

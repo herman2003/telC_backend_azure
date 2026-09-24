@@ -58,6 +58,7 @@ describe('PaymentsController', () => {
       startCheckout: jest.fn().mockResolvedValue({
         paymentId: 'payment-1',
         providerReference: 'fake_payment-1',
+        provider: 'notchpay',
         checkoutUrl: 'https://checkout.fake-payments.invalid/fake_payment-1',
       }),
     };
@@ -244,8 +245,8 @@ describe('PaymentsController', () => {
   });
 
   describe('starting a checkout', () => {
-    const start = (paymentId = 'payment-1') =>
-      http().post(`/api/payments/${paymentId}/checkout`);
+    const start = (paymentId = 'payment-1', body = { provider: 'notchpay' }) =>
+      http().post(`/api/payments/${paymentId}/checkout`).send(body);
 
     it('returns where to pay, for the signed-in center payment', async () => {
       const response = await start().expect(200);
@@ -253,9 +254,11 @@ describe('PaymentsController', () => {
       expect(checkout.startCheckout).toHaveBeenCalledWith(
         signedIdentity,
         'payment-1',
+        'notchpay',
       );
       expect(response.body).toEqual({
         paymentId: 'payment-1',
+        provider: 'notchpay',
         checkoutUrl: 'https://checkout.fake-payments.invalid/fake_payment-1',
       });
     });
