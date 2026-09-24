@@ -26,6 +26,7 @@ import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.i
 import { ExamSittingService } from '../centers/exam-sitting.service';
 import { ExamBlockContentService } from '../centers/exam-block-content.service';
 import { ExamScoringService } from '../centers/exam-scoring.service';
+import { ExamAudioService } from '../centers/exam-audio.service';
 import {
   ExamBlockTimerDto,
   SaveExamAnswersDto,
@@ -51,6 +52,7 @@ export class ExamSittingController {
     private readonly sitting: ExamSittingService,
     private readonly content: ExamBlockContentService,
     private readonly scoring: ExamScoringService,
+    private readonly audio: ExamAudioService,
   ) {}
 
   @Get('sessions')
@@ -129,6 +131,22 @@ export class ExamSittingController {
     @Param('block') block: ExamBlock,
   ) {
     return this.content.getBlockContent(student.studentId, attemptId, block);
+  }
+
+  @Post('attempts/:attemptId/audio/:audioId/play')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Spend one play of a Hoeren recording',
+    description:
+      'Returns a signed link, valid for about twice the recording length so a slow download does not cost the play. Call it before every play and never fall back to a bundled file: telc allows one play because the repeat is inside the recording.',
+  })
+  @ApiBadRequestResponse({ description: 'NO_PLAYS_LEFT, BLOCK_NOT_STARTED' })
+  playAudio(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+    @Param('audioId', ParseUUIDPipe) audioId: string,
+  ) {
+    return this.audio.play(student.studentId, attemptId, audioId);
   }
 
   @Put('attempts/:attemptId/blocks/:block/answers')

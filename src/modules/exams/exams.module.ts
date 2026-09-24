@@ -1,7 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from '../auth/auth.module';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
+import { ConfigService } from '@nestjs/config';
 import { ExamSittingController } from './exam-sitting.controller';
+import { ExamAudioController } from './exam-audio.controller';
+import {
+  EXAM_AUDIO_SECRET,
+  ExamAudioService,
+} from '../centers/exam-audio.service';
 import { ExamSittingService } from '../centers/exam-sitting.service';
 import { ExamBlockContentService } from '../centers/exam-block-content.service';
 import { ExamScoringService } from '../centers/exam-scoring.service';
@@ -19,11 +25,20 @@ import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.servi
  */
 @Module({
   imports: [AuthModule, SubscriptionAccessModule],
-  controllers: [ExamSittingController],
+  controllers: [ExamSittingController, ExamAudioController],
   providers: [
     ExamSittingService,
     ExamBlockContentService,
     ExamScoringService,
+    ExamAudioService,
+    {
+      // The same secret the rest of the system signs with. A separate one
+      // would be a second thing to rotate and a second thing to forget.
+      provide: EXAM_AUDIO_SECRET,
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) =>
+        config.getOrThrow<string>('TOKEN_HMAC_SECRET'),
+    },
     ExamSessionPolicyService,
     LesenService,
     SprachbausteineService,

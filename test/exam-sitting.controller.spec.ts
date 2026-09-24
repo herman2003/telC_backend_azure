@@ -17,6 +17,7 @@ describe('ExamSittingController', () => {
   let sitting: any;
   let content: any;
   let scoring: any;
+  let audio: any;
   let controller: ExamSittingController;
 
   beforeEach(() => {
@@ -38,7 +39,8 @@ describe('ExamSittingController', () => {
     };
     content = { getBlockContent: jest.fn().mockResolvedValue({}) };
     scoring = { scoreBlock: jest.fn().mockResolvedValue([]) };
-    controller = new ExamSittingController(sitting, content, scoring);
+    audio = { play: jest.fn().mockResolvedValue({ playsRemaining: 0 }) };
+    controller = new ExamSittingController(sitting, content, scoring, audio);
   });
 
   describe('the guards it carries', () => {
