@@ -63,9 +63,10 @@ model Student {
   /// editable by their center. Null until either sets it.
   level CefrLevel?
 
-  center          Center?           @relation(fields: [center_id], references: [id], onDelete: SetNull)
+  center          Center?                  @relation(fields: [center_id], references: [id], onDelete: SetNull)
   ai_usage        AiUsage[]
   device_sessions DeviceSession[]
+  exam_sessions   ExamSessionParticipant[]
   activities      StudentActivity[]
 
   @@index([center_id])
@@ -128,8 +129,14 @@ model Center {
   created_at   DateTime @default(now())
   updated_at   DateTime @default(now()) @updatedAt
 
+  /// Exam slots bought and not yet spent. One is spent per participant when
+  /// a sitting is published; there is no minimum purchase, unlike seats, and
+  /// a candidate who does not turn up has still used theirs.
+  exam_slots_remaining Int @default(0)
+
   users            CenterUser[]
   activation_codes ActivationCode[]
+  exam_sessions    ExamSession[]
   payments         Payment[]
   seats            CenterSeat[]
   students         Student[]
@@ -295,6 +302,12 @@ model ActivationCodeEvent {
   @@map("activation_code_events")
 }
 
+/// What a payment bought. `total_seats` counts either.
+enum PaymentKind {
+  SEATS
+  EXAM_SLOTS
+}
+
 enum PaymentStatus {
   PENDING
   SUCCEEDED
@@ -312,7 +325,10 @@ model Payment {
   id        String @id @default(uuid())
   center_id String
 
-  /// Seats this payment buys.
+  /// What this payment buys. Exam slots ride on the same flow rather than a
+  /// second one, so a center has one payment history and one invoice shape.
+  kind           PaymentKind @default(SEATS)
+  /// Seats, or exam slots, this payment buys.
   total_seats    Int
   /// The price per seat that applied when the payment was created, which is
   /// what keeps an old invoice truthful after the list price moves.
@@ -779,6 +795,11 @@ model Modelltest {
   writingExercises              WritingExercise[]
   listeningExercises            ListeningExercise[]
   speakingExercises             SpeakingExercise[]
+  examSessions                  ExamSession[]
+
+  /// Kept out of the training catalogue, so an exam sitting can use material
+  /// no student has seen. False for everything that exists today.
+  exam_only Boolean @default(false)
 
   @@map("modelltests")
 }
@@ -1034,4 +1055,110 @@ model SupportRequest {
 
   @@index([center_id, kind, created_at])
   @@map("support_requests")
+}
+
+/// What a center bought for a sitting, fixed when it publishes.
+///
+/// MANUAL is the 1,000 XAF product: the trainer scores Schreiben, and the
+/// Sprechen that happened in the center. AI is 1,500 and adds the machine's
+/// proposal on both, which the trainer still confirms or overrides — a second
+/// opinion, never the verdict. Stamped on the session rather than read from
+/// the center, or a price change would silently re-grade exams a center has
+/// already paid for.
+enum ExamGradingTier {
+  MANUAL
+  AI
+}
+
+/// One timed block of a telc exam, as telc runs it.
+///
+/// Lesen and Sprachbausteine share ONE 90-minute block with free navigation
+/// between their five Teile — the mistake a per-Teil timer would make.
+/// Sprechen is absent on purpose: it happens in the center, in person, and
+/// reaches Lerniqo as a score somebody types in.
+enum ExamBlock {
+  LESEN_SPRACHBAUSTEINE
+  HOEREN
+  SCHREIBEN
+}
+
+/// How long a block lasts, per level, as telc specifies it.
+///
+/// Data rather than constants, because A2 and B2 are the same product with
+/// different numbers: adding them is a seed, not a deployment. Nothing lets a
+/// center edit these — a duration a center can change is not an exam.
+model ExamBlockDuration {
+  id       String    @id @default(uuid())
+  level    CefrLevel
+  block    ExamBlock
+  minutes  Int
+  /// The order a candidate sits them in, low first.
+  position Int
+
+  @@unique([level, block])
+  @@map("exam_block_durations")
+}
+
+/// A center's exam sitting: one Modelltest, a named list of candidates, and a
+/// window in which they may start.
+///
+/// There is no `status` column, for the reason `CenterSubscription` has none.
+/// A stored status needs a job to keep it true, and the direction it fails in
+/// is letting a closed exam be taken. These timestamps are the facts; the
+/// status is derived from them on read.
+model ExamSession {
+  id        String @id @default(uuid())
+  center_id String
+
+  /// The center's own wording — "Examen séquentiel B1 — Octobre". Lerniqo
+  /// imposes no taxonomy of exam types; the name carries that meaning.
+  name          String
+  level         CefrLevel
+  modelltest_id String          @db.Uuid
+  grading_tier  ExamGradingTier @default(MANUAL)
+
+  /// When candidates may begin. Enforced server-side: a published sitting is
+  /// not an open one.
+  opens_at  DateTime
+  /// Computed from the access window the center chose (24h, 48h, 72h), and
+  /// editable afterwards: a center may close its own exam early or reopen it
+  /// once the window has lapsed.
+  closes_at DateTime
+
+  /// Null while the sitting is a draft. Publishing is what spends slots, so
+  /// this is set once and never cleared.
+  published_at    DateTime?
+  cancelled_at    DateTime?
+  /// Set when the center closed the sitting by hand, before `closes_at`.
+  force_closed_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  center       Center                   @relation(fields: [center_id], references: [id], onDelete: Cascade)
+  modelltest   Modelltest               @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
+  participants ExamSessionParticipant[]
+
+  @@index([center_id, opens_at])
+  @@map("exam_sessions")
+}
+
+/// A student a center admitted to one sitting.
+///
+/// This row IS the access rule. Holding a Lerniqo account, or even a seat at
+/// the center running the exam, grants nothing here: only a row in this table
+/// opens that sitting to that student.
+model ExamSessionParticipant {
+  id         String @id @default(uuid())
+  session_id String
+  student_id String
+
+  created_at DateTime @default(now())
+
+  session ExamSession @relation(fields: [session_id], references: [id], onDelete: Cascade)
+  student Student     @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@unique([session_id, student_id])
+  @@index([student_id])
+  @@map("exam_session_participants")
 }

@@ -15,6 +15,7 @@ Correct any of these now.
 | 2 | **One user per center.** `CenterUser.role` has `MANAGER` in the enum but nothing creates one, so every center has a single `OWNER` who does everything, grading included | A grading permission check, on top of the audit columns already planned |
 | 3 | **B1 only at launch.** Every piece of content in the database is B1 | The wizard offers more levels and the duration table gains rows — data, not code |
 | 4 | **Exam slots are a counter on the center**, bought in advance, spent when a participant is assigned to a published session. No refunds, no no-show handling | A ledger table instead of a counter |
+| 4b | **Exam slots have no minimum.** A center may buy one. This is not the seat rule, where ten is the floor — a sitting for three candidates is a real thing a school does | Phase 2 gets a minimum and the wizard a warning |
 | 5 | The center decides when a student sees a result. Nothing is released automatically | — |
 | 6 | Modelltests used for exams are unseen material. Reusing a training Modelltest is allowed but warned about | Exam-only content becomes mandatory rather than optional |
 | 7 | Independent students (no center) cannot sit an exam yet | A second product: written-only, with nobody to score Sprechen |
@@ -119,6 +120,10 @@ re-grade exams somebody already paid for.
 | Lesen / Hören / Sprachbausteine | automatic | automatic |
 | Schreiben | stored, trainer scores it | stored, **AI proposes**, trainer confirms or overrides |
 | Sprechen | in the center, score typed in | in the center, score typed in, **plus** an AI speaking session in the app whose transcript the manager reads |
+
+At 1,500 the AI is a **second opinion, never the verdict**. The examiner opens
+the participant, reads the transcript and the machine's notes on grammar and
+vocabulary, and then types their own score. Lerniqo does not certify speaking.
 
 The AI tier reuses `POST /api/writing/evaluate` and `POST /api/speaking/evaluate`
 unchanged. The Flutter app transcribes speech on the device and sends text; no
@@ -307,9 +312,5 @@ does not depend on the backend — start it in parallel.
 
 ## Open questions
 
-| # | Question | Needed by |
-|---|---|---|
-| 1 | At 1,500, is the AI Sprechen session practice, a second opinion, or the score itself? | Phase 6 |
-
-Content sourcing — licensed telc material or telc-format material written
+None blocking. Content sourcing — licensed telc material or telc-format material written
 in-house — is a separate decision, taken after the software exists.
