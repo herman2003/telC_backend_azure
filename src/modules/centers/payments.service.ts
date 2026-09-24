@@ -102,7 +102,7 @@ export class PaymentsService {
         return tx.payment.create({
           data: {
             center_id: identity.centerId,
-            total_seats: quote.seats,
+            quantity: quote.seats,
             unit_price_xaf: quote.unitPriceXaf,
             amount_xaf: quote.totalXaf,
             idempotency_key: idempotencyKey,
@@ -338,7 +338,7 @@ export class PaymentsService {
   /** Built field by field, so a column added later cannot leak into a response. */
   private toView(row: {
     id: string;
-    total_seats: number;
+    quantity: number;
     unit_price_xaf: number;
     amount_xaf: number;
     status: PaymentStatus;
@@ -346,7 +346,7 @@ export class PaymentsService {
   }): PaymentView {
     return {
       id: row.id,
-      seats: row.total_seats,
+      seats: row.quantity,
       unitPriceXaf: row.unit_price_xaf,
       amountXaf: row.amount_xaf,
       status: row.status,

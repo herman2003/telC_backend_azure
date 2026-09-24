@@ -83,7 +83,7 @@ export class PaymentActivationService {
         where: { id: paymentId },
         select: {
           center_id: true,
-          total_seats: true,
+          quantity: true,
           unit_price_xaf: true,
         },
       });
@@ -111,7 +111,7 @@ export class PaymentActivationService {
       await this.setSeats(
         tx,
         payment.center_id,
-        payment.total_seats,
+        payment.quantity,
         payment.unit_price_xaf,
       );
 
