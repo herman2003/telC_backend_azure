@@ -86,11 +86,29 @@ Per-exercise data, not one rule. The server counts; hiding a button is not
 enforcement. A play is spent the moment it starts — a connection that drops at
 0:15 costs it, exactly as the recording would keep playing in the room.
 
-Exam audio is not a plain URL. Asking to play returns a single-use link signed
-with an HMAC over `(attemptId, audioId, playNumber, expiry)`, valid for about
-twice the audio's length. Copying it out of devtools gets a link that is
-already spent and expires in minutes. A candidate who saves the file itself is
-beyond what any unproctored exam can prevent, and we do not pretend otherwise.
+Exam audio is **served, never bundled** — decided 2026-09-24 with the Flutter
+team. Asking to play returns a link signed with an HMAC over
+`(attemptId, audioId, playNumber, expiry)`, and the app downloads it in full
+before playback starts, so a mid-exam network dip cannot stall a recording
+already running.
+
+Bundling was the alternative and was rejected on the app team's own evidence:
+the in-app play counter is widget state with no persistence and no app
+lifecycle handling, the play button is hidden rather than disabled when
+autoplay fails, and leaving the page resets the count. That is an honour
+system, not a rule, and a center cannot be told otherwise.
+
+Four things this forces on the server:
+
+| | |
+|---|---|
+| The token goes in the query string | On web the URL is handed to an `<audio>` element, which cannot send headers |
+| `content_revision` must stay non-empty for exam payloads | The app's URL path throws without it |
+| The per-Teil allowance comes from the server | The app has one hard-coded `2` for every Teil, so "once for Teil 1" is not what it does today |
+| The signed link stays valid for one play's worth of time | The file downloads in full first — seconds on a weak connection — and counting at the press of play would burn an allowance on a download that never arrived. The link's validity **is** the play: re-fetchable while it lasts, gone when it expires, which is about what the recording playing on in the room amounts to |
+
+A candidate who saves the file itself is beyond what any unproctored exam can
+prevent, and we do not pretend otherwise.
 
 ### Status is derived, never stored
 

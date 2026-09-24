@@ -169,6 +169,11 @@ export class ExamParticipantsService {
             session_id: sessionId,
             student_id: studentId,
           })),
+          // The difference was computed before the transaction, so two saves
+          // arriving together can both decide to add the same student. One
+          // insert then hit the unique index and surfaced as a 500; this
+          // makes the loser a no-op, which is what it always meant.
+          skipDuplicates: true,
         });
       }
     });
