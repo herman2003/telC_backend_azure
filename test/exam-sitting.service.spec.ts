@@ -145,9 +145,16 @@ describe('ExamSittingService', () => {
         'LESEN_SPRACHBAUSTEINE',
       );
 
-      expect(started.remainingSeconds).toBe(90 * 60);
-      expect(started.deadlineAt.getTime() - started.serverNow.getTime()).toBe(
+      // The exact claim: the deadline is ninety minutes after the START,
+      // both read from one instant. serverNow is a different, later instant —
+      // it is the clock at the moment of answering — so comparing against it
+      // is a claim about how long the call took.
+      expect(started.deadlineAt.getTime() - started.startedAt.getTime()).toBe(
         90 * 60 * 1000,
+      );
+      expect(started.remainingSeconds).toBe(90 * 60);
+      expect(started.serverNow.getTime()).toBeGreaterThanOrEqual(
+        started.startedAt.getTime(),
       );
     });
 
