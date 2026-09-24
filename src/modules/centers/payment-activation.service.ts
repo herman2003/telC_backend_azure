@@ -83,7 +83,8 @@ export class PaymentActivationService {
         where: { id: paymentId },
         select: {
           center_id: true,
-          total_seats: true,
+          kind: true,
+          quantity: true,
           unit_price_xaf: true,
         },
       });
@@ -107,11 +108,37 @@ export class PaymentActivationService {
         };
       }
 
+      // What the money bought. Exam slots are a balance, not a period: a
+      // center that buys slots is not thereby paid up, and a center that is
+      // paid up does not thereby hold slots.
+      if (payment.kind === 'EXAM_SLOTS') {
+        await tx.center.update({
+          where: { id: payment.center_id },
+          data: {
+            exam_slots_remaining: { increment: payment.quantity },
+          },
+        });
+
+        const subscription = await tx.centerSubscription.findUnique({
+          where: { center_id: payment.center_id },
+          select: { paid_until: true },
+        });
+
+        return {
+          outcome: 'ACTIVATED',
+          paymentId,
+          centerId: payment.center_id,
+          // Reported, not moved: buying an exam does not extend a
+          // subscription, and the caller should see that it did not.
+          paidUntil: subscription?.paid_until ?? null,
+        };
+      }
+
       const paidUntil = await this.extendPaidPeriod(tx, payment.center_id);
       await this.setSeats(
         tx,
         payment.center_id,
-        payment.total_seats,
+        payment.quantity,
         payment.unit_price_xaf,
       );
 

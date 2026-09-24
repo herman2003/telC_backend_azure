@@ -328,8 +328,10 @@ model Payment {
   /// What this payment buys. Exam slots ride on the same flow rather than a
   /// second one, so a center has one payment history and one invoice shape.
   kind           PaymentKind @default(SEATS)
-  /// Seats, or exam slots, this payment buys.
-  total_seats    Int
+  /// How many of whatever `kind` names: seats, exam slots, and whatever the
+  /// next center product counts. Called `total_seats` until 2026-09-24, when
+  /// it stopped being only seats.
+  quantity       Int
   /// The price per seat that applied when the payment was created, which is
   /// what keeps an old invoice truthful after the list price moves.
   unit_price_xaf Int

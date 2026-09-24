@@ -11,6 +11,8 @@ import { CenterSubscriptionController } from './center-subscription.controller';
 import { CenterSubscriptionService } from './center-subscription.service';
 import { CenterStudentsController } from './center-students.controller';
 import { ExamSessionsController } from './exam-sessions.controller';
+import { ExamSlotsController } from './exam-slots.controller';
+import { ExamSlotsService } from './exam-slots.service';
 import { ExamSessionsService } from './exam-sessions.service';
 import { ExamParticipantsService } from './exam-participants.service';
 import { ExamSessionPolicyService } from './exam-session-policy.service';
@@ -53,6 +55,7 @@ import { CenterSupportService } from './center-support.service';
     CenterSubscriptionController,
     CenterStudentsController,
     ExamSessionsController,
+    ExamSlotsController,
     CenterSupportController,
     PaymentsController,
     PaymentWebhooksController,
@@ -67,6 +70,7 @@ import { CenterSupportService } from './center-support.service';
     CodeRedemptionService,
     CenterSupportService,
     ExamSessionsService,
+    ExamSlotsService,
     ExamParticipantsService,
     ExamSessionPolicyService,
     SubscriptionPolicyService,

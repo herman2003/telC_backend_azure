@@ -101,7 +101,7 @@ async function makePayment(
   return prisma.payment.create({
     data: {
       center_id: centerId,
-      total_seats: 10,
+      quantity: 10,
       amount_xaf: 45000,
       status,
       idempotency_key: `checkout-${Date.now()}-${Math.random()}`,

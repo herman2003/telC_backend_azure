@@ -162,7 +162,7 @@ describe('payments against real Postgres', () => {
         where: { id: payment.id },
       });
       expect(row.unit_price_xaf).toBe(4_500);
-      expect(row.total_seats).toBe(10);
+      expect(row.quantity).toBe(10);
       expect(row.amount_xaf).toBe(45_000);
     });
 
@@ -230,7 +230,7 @@ describe('payments against real Postgres', () => {
         where: { id: payment.id },
       });
 
-      expect(row.amount_xaf).toBe(row.total_seats * row.unit_price_xaf);
+      expect(row.amount_xaf).toBe(row.quantity * row.unit_price_xaf);
     });
 
     /**
@@ -473,7 +473,7 @@ describe('payments against real Postgres', () => {
         where: { center_id: center.id },
       });
       expect(rows).toHaveLength(1);
-      expect(rows[0].total_seats).toBe(first.seats);
+      expect(rows[0].quantity).toBe(first.seats);
     });
 
     it('lets two different centers use the same key text', async () => {
