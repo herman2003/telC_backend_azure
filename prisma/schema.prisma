@@ -823,19 +823,27 @@ model Modelltest {
 }
 
 model ListeningExercise {
-  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  modelltest_id       String   @db.Uuid
+  id                  String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  modelltest_id       String  @db.Uuid
   part                Int
   title               String
   subtitle            String?
   instruction         String
-  content_revision    String   @unique
+  content_revision    String  @unique
   duration_minutes    Int
-  audio_url           String   @default("")
-  bundled_audio_asset String   @default("")
+  audio_url           String  @default("")
+  bundled_audio_asset String  @default("")
   image_url           String
   transcript          String?
-  created_at          DateTime @default(now()) @db.Timestamptz(6)
+
+  /// How often this recording may play in an exam.
+  ///
+  /// One, because telc's repeats live inside the file — "Sie hören es
+  /// zweimal" is the tape playing the passage twice, not the candidate
+  /// pressing play again. A row rather than a constant so a recording that
+  /// arrives without its repeat baked in is a data fix, not a deployment.
+  exam_plays_allowed Int      @default(1)
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
 
   modelltest Modelltest          @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
   questions  ListeningQuestion[]
