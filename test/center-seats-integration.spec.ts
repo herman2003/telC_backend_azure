@@ -1,13 +1,13 @@
 /**
- * The tier model, against real Postgres.
+ * The seat row, against real Postgres.
  *
- * A center holds seats per tier and may mix them. The claims here are all
- * about constraints — one row per tier, a free trial seat, a price that cannot
- * go negative — and constraints are the one thing a mock cannot have.
+ * One plan since 2026-09-23, so a center holds exactly one seat row. The
+ * claims here are all about constraints — one row per center, a free trial
+ * seat, a price that cannot go negative — and constraints are the one thing a
+ * mock cannot have.
  *
  * Runs against the disposable branch in `.env.test`, over the direct endpoint.
  */
-import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../src/shared/services/prisma.service';
 
 const prisma = new PrismaService();
@@ -38,88 +38,42 @@ describe('center seats against real Postgres', () => {
   });
 
   describe('holding seats', () => {
-    it('lets a center hold several tiers at once', async () => {
-      // The arrangement the pricing page sells: a mix, not one plan.
+    it('holds a centers whole allowance in one row', async () => {
       const center = await makeCenter();
 
-      await prisma.centerSeat.createMany({
-        data: [
-          {
-            center_id: center.id,
-            tier: 'START',
-            quantity: 5,
-            unit_price_xaf: 4500,
-          },
-          {
-            center_id: center.id,
-            tier: 'PRO',
-            quantity: 3,
-            unit_price_xaf: 10000,
-          },
-          {
-            center_id: center.id,
-            tier: 'PREMIUM',
-            quantity: 2,
-            unit_price_xaf: 20000,
-          },
-        ],
+      const seat = await prisma.centerSeat.create({
+        data: { center_id: center.id, quantity: 10, unit_price_xaf: 4500 },
       });
 
-      const seats = await prisma.centerSeat.findMany({
-        where: { center_id: center.id },
-        orderBy: { tier: 'asc' },
-      });
-
-      expect(seats).toHaveLength(3);
-      expect(seats.reduce((n, s) => n + s.quantity, 0)).toBe(10);
+      expect(seat).toMatchObject({ quantity: 10, unit_price_xaf: 4500 });
     });
 
-    it('refuses a second row for the same tier', async () => {
-      // Quantity belongs in one row per tier. Two rows would mean the seat
-      // count depends on remembering to sum them.
+    it('refuses a second row for the same center', async () => {
+      // Quantity belongs in one row. Two rows would mean the seat count
+      // depends on remembering to sum them.
       const center = await makeCenter();
       await prisma.centerSeat.create({
-        data: {
-          center_id: center.id,
-          tier: 'START',
-          quantity: 5,
-          unit_price_xaf: 4500,
-        },
+        data: { center_id: center.id, quantity: 5, unit_price_xaf: 4500 },
       });
 
       await expect(
         prisma.centerSeat.create({
-          data: {
-            center_id: center.id,
-            tier: 'START',
-            quantity: 1,
-            unit_price_xaf: 4500,
-          },
+          data: { center_id: center.id, quantity: 1, unit_price_xaf: 4500 },
         }),
       ).rejects.toMatchObject({ code: 'P2002' });
     });
 
-    it('lets two centers hold the same tier independently', async () => {
+    it('lets two centers hold seats independently', async () => {
       const a = await makeCenter();
       const b = await makeCenter();
 
       await prisma.centerSeat.create({
-        data: {
-          center_id: a.id,
-          tier: 'START',
-          quantity: 5,
-          unit_price_xaf: 4500,
-        },
+        data: { center_id: a.id, quantity: 5, unit_price_xaf: 4500 },
       });
 
       await expect(
         prisma.centerSeat.create({
-          data: {
-            center_id: b.id,
-            tier: 'START',
-            quantity: 5,
-            unit_price_xaf: 4800,
-          },
+          data: { center_id: b.id, quantity: 5, unit_price_xaf: 4800 },
         }),
       ).resolves.toBeDefined();
     });
@@ -132,29 +86,19 @@ describe('center seats against real Postgres', () => {
       const center = await makeCenter();
 
       const seat = await prisma.centerSeat.create({
-        data: {
-          center_id: center.id,
-          tier: 'START',
-          quantity: 10,
-          unit_price_xaf: 4500,
-        },
+        data: { center_id: center.id, quantity: 10, unit_price_xaf: 4000 },
       });
 
-      expect(seat.unit_price_xaf).toBe(4500);
+      expect(seat.unit_price_xaf).toBe(4000);
     });
 
     it('allows a free seat, which is how a trial is held', async () => {
-      // A trial is an ordinary Start seat priced at zero, so the check must be
-      // "not negative" rather than "positive".
+      // A trial is an ordinary seat priced at zero, so the check must be "not
+      // negative" rather than "positive".
       const center = await makeCenter();
 
       const seat = await prisma.centerSeat.create({
-        data: {
-          center_id: center.id,
-          tier: 'START',
-          quantity: 1,
-          unit_price_xaf: 0,
-        },
+        data: { center_id: center.id, quantity: 1, unit_price_xaf: 0 },
       });
 
       expect(seat.unit_price_xaf).toBe(0);
@@ -165,8 +109,8 @@ describe('center seats against real Postgres', () => {
 
       await expect(
         prisma.$executeRaw`
-          INSERT INTO center_seats (id, center_id, tier, quantity, unit_price_xaf, created_at, updated_at)
-          VALUES (${`neg-${Date.now()}`}, ${center.id}, 'START', 1, -1, now(), now())
+          INSERT INTO center_seats (id, center_id, quantity, unit_price_xaf, created_at, updated_at)
+          VALUES (${`neg-${Date.now()}`}, ${center.id}, 1, -1, now(), now())
         `,
       ).rejects.toThrow();
     });
@@ -178,66 +122,10 @@ describe('center seats against real Postgres', () => {
 
       await expect(
         prisma.$executeRaw`
-          INSERT INTO center_seats (id, center_id, tier, quantity, unit_price_xaf, created_at, updated_at)
-          VALUES (${`zero-${Date.now()}`}, ${center.id}, 'START', 0, 4500, now(), now())
+          INSERT INTO center_seats (id, center_id, quantity, unit_price_xaf, created_at, updated_at)
+          VALUES (${`zero-${Date.now()}`}, ${center.id}, 0, 4500, now(), now())
         `,
       ).rejects.toThrow();
-    });
-  });
-
-  describe('a student carries a tier', () => {
-    const makeStudent = async (
-      centerId: string | null,
-      tier: 'START' | 'PRO' | 'PREMIUM' | null,
-    ) =>
-      prisma.student.create({
-        data: {
-          email: `s-${Date.now()}-${Math.random()}@seats.integration.test`,
-          password_hash: await bcrypt.hash('x', 4),
-          email_verified: true,
-          center_id: centerId,
-          tier,
-        },
-      });
-
-    it('records which tier a center student occupies', async () => {
-      const center = await makeCenter();
-
-      const student = await makeStudent(center.id, 'PRO');
-
-      expect(student.tier).toBe('PRO');
-    });
-
-    it('leaves the tier null for a student no center governs', async () => {
-      // Students who predate centers, and anyone removed from one. The tier
-      // has to be nullable or they could not exist.
-      const student = await makeStudent(null, null);
-
-      expect(student.tier).toBeNull();
-    });
-
-    it('loses its center on delete but KEEPS a stale tier', async () => {
-      // Honest about what the schema does rather than what would be tidy.
-      // `center_id` nulls itself through ON DELETE SET NULL; `tier` does not,
-      // so a student outlives their center still marked PRO.
-      //
-      // That stale value must never be read on its own. A tier is only
-      // meaningful alongside a center, or a student whose center was deleted
-      // would keep Pro's larger quota with nobody paying for it. Every reader
-      // therefore checks center_id first — asserted where the quota is
-      // enforced, not here.
-      const center = await makeCenter();
-      const student = await makeStudent(center.id, 'PRO');
-
-      await prisma.centerSeat.deleteMany({ where: { center_id: center.id } });
-      await prisma.center.delete({ where: { id: center.id } });
-
-      const reread = await prisma.student.findUnique({
-        where: { id: student.id },
-      });
-
-      expect(reread!.center_id).toBeNull();
-      expect(reread!.tier).toBe('PRO');
     });
   });
 
@@ -246,12 +134,7 @@ describe('center seats against real Postgres', () => {
     // rather than being left as orphans.
     const center = await makeCenter();
     await prisma.centerSeat.create({
-      data: {
-        center_id: center.id,
-        tier: 'START',
-        quantity: 5,
-        unit_price_xaf: 4500,
-      },
+      data: { center_id: center.id, quantity: 5, unit_price_xaf: 4500 },
     });
 
     await prisma.center.delete({ where: { id: center.id } });

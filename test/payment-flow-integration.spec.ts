@@ -71,7 +71,7 @@ async function makeTrialCenter() {
       country_code: 'CM',
       city_id: 'douala',
       subscription: { create: { plan: 'TRIAL' } },
-      seats: { create: { tier: 'START', quantity: 1, unit_price_xaf: 0 } },
+      seats: { create: { quantity: 1, unit_price_xaf: 0 } },
     },
   });
   const manager = await prisma.centerUser.create({
@@ -90,7 +90,6 @@ async function makeTrialCenter() {
     data: {
       email: `flow-test-student-${center.id}@example.com`,
       center_id: center.id,
-      tier: 'START',
     },
   });
 
@@ -115,7 +114,7 @@ const delivery = (
 
 /** Create a payment and open its checkout, as a center clicking "pay" would. */
 async function payAndCheckout(identity: never, key: string) {
-  const payment = await payments.create(identity, { START: 10 }, key);
+  const payment = await payments.create(identity, 10, key);
   const session = await checkout.startCheckout(identity, payment.id);
   return { payment, session };
 }
@@ -156,14 +155,13 @@ describe('the whole flow', () => {
     await expect(entitlement.forStudent(student.id)).resolves.toMatchObject({
       status: 'ACTIVE',
       studentsMayLearn: true,
-      tier: 'START',
     });
     await expect(
       prisma.centerSeat.findMany({
         where: { center_id: center.id },
-        select: { tier: true, quantity: true, unit_price_xaf: true },
+        select: { quantity: true, unit_price_xaf: true },
       }),
-    ).resolves.toEqual([{ tier: 'START', quantity: 10, unit_price_xaf: 4500 }]);
+    ).resolves.toEqual([{ quantity: 10, unit_price_xaf: 4500 }]);
     expect(await paymentStatus(payment.id)).toBe('SUCCEEDED');
   });
 });

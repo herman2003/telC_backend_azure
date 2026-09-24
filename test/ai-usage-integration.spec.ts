@@ -43,11 +43,11 @@ async function wipe() {
   });
 }
 
-/** A paying center, so its students carry a real tier. */
-async function makeCenterStudent(tier: 'START' | 'PRO' | 'PREMIUM') {
+/** A student of a paying center. */
+async function makeCenterStudent(label = 'start') {
   const center = await prisma.center.create({
     data: {
-      name: `Ai Usage Test ${tier} ${Date.now()}-${Math.random()}`,
+      name: `Ai Usage Test ${label} ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
       subscription: {
@@ -61,9 +61,8 @@ async function makeCenterStudent(tier: 'START' | 'PRO' | 'PREMIUM') {
 
   return prisma.student.create({
     data: {
-      email: `ai-usage-test-${tier}-${Date.now()}-${Math.random()}@example.com`,
+      email: `ai-usage-test-${label}-${Date.now()}-${Math.random()}@example.com`,
       center_id: center.id,
-      tier,
     },
   });
 }
@@ -242,28 +241,23 @@ describe('ai usage against real Postgres', () => {
   });
 });
 /**
- * The allowance, end to end: a real student, a real tier, real rows.
+ * The allowance, end to end: a real student, real rows.
  *
- * The unit spec proves the arithmetic against mocks. This proves the tier
- * actually arrives from the database and that the window really excludes an
- * old row — the two places a mock would simply agree with whatever it was
- * told.
+ * The unit spec proves the arithmetic against mocks. This proves the window
+ * really excludes an old row — the place a mock would simply agree with
+ * whatever it was told.
  */
 describe('the AI allowance against real Postgres', () => {
-  it.each([
-    ['START', 2],
-    ['PRO', 5],
-    ['PREMIUM', 20],
-  ] as const)('gives a %s student %i per window', async (tier, allowed) => {
-    const student = await makeCenterStudent(tier);
+  it('gives a student of a paying center the allowance', async () => {
+    const student = await makeCenterStudent();
 
     await expect(
       quota.check(student.id, 'SPEAKING_EVALUATION'),
-    ).resolves.toMatchObject({ tier, allowedToday: allowed, allowed: true });
+    ).resolves.toMatchObject({ allowedToday: 2, allowed: true });
   });
 
-  it('refuses a Start student who has used two in the window', async () => {
-    const student = await makeCenterStudent('START');
+  it('refuses a student who has used two in the window', async () => {
+    const student = await makeCenterStudent();
     await usedAt(student.id, hoursAgo(1));
     await usedAt(student.id, hoursAgo(5));
 
@@ -272,8 +266,7 @@ describe('the AI allowance against real Postgres', () => {
     ).rejects.toMatchObject({
       response: expect.objectContaining({
         message: 'AI_QUOTA_EXCEEDED',
-        tier: 'START',
-        usedToday: 2,
+          usedToday: 2,
         allowedToday: 2,
       }),
     });
@@ -282,7 +275,7 @@ describe('the AI allowance against real Postgres', () => {
   it('lets the same student back in once a row ages out', async () => {
     // The whole point of a rolling window, and the thing a stored counter
     // would need a job to do.
-    const student = await makeCenterStudent('START');
+    const student = await makeCenterStudent();
     await usedAt(student.id, hoursAgo(1));
     await usedAt(student.id, hoursAgo(25));
 
@@ -292,7 +285,7 @@ describe('the AI allowance against real Postgres', () => {
   });
 
   it('reports a reset time drawn from the oldest counted row', async () => {
-    const student = await makeCenterStudent('START');
+    const student = await makeCenterStudent();
     const oldest = hoursAgo(20);
     await usedAt(student.id, hoursAgo(2));
     await usedAt(student.id, oldest);
@@ -306,19 +299,18 @@ describe('the AI allowance against real Postgres', () => {
     );
   });
 
-  it('gives a student no center governs the Start allowance', async () => {
+  it('gives a student no center governs the same allowance', async () => {
     const student = await makeStudent('independent');
 
     await expect(
       quota.check(student.id, 'SPEAKING_EVALUATION'),
-    ).resolves.toMatchObject({ tier: null, allowedToday: 2 });
+    ).resolves.toMatchObject({ allowedToday: 2 });
   });
 
-  it('ignores a tier left behind when the center is gone', async () => {
-    // students.tier survives a center delete while center_id is set to null.
-    // Reading the tier without a center would leave a student on Premium's
-    // twenty for ever on the strength of a row nobody governs.
-    const student = await makeCenterStudent('PREMIUM');
+  it('keeps metering a student whose center released them', async () => {
+    // Leaving a school must not turn the meter off: an unmetered caller is
+    // an unbounded supply of paid AI.
+    const student = await makeCenterStudent();
     await prisma.student.update({
       where: { id: student.id },
       data: { center_id: null },
@@ -326,7 +318,6 @@ describe('the AI allowance against real Postgres', () => {
 
     const decision = await quota.check(student.id, 'SPEAKING_EVALUATION');
 
-    expect(decision.tier).toBeNull();
     expect(decision.allowedToday).toBe(2);
   });
 });

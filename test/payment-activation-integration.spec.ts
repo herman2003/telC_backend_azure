@@ -5,6 +5,9 @@
  * against the disposable branch in `.env.test` and never against a mock. A
  * mocked Prisma will happily "activate" twice, add seats it should set, and
  * lose a paid_until extension, and report success every time.
+ *
+ * One plan since 2026-09-23: a center holds one seat row, and a payment
+ * carries the price it was quoted at rather than a per-tier breakdown.
  */
 import { PrismaService } from '../src/shared/services/prisma.service';
 import { PaymentActivationService } from '../src/modules/centers/payment-activation.service';
@@ -21,8 +24,6 @@ const entitlement = new StudentEntitlementService(
 const DAY_MS = 24 * 60 * 60 * 1000;
 /** The database clock and this process's clock differ by network latency. */
 const CLOCK_TOLERANCE_MS = 2 * 60 * 1000;
-
-type TierName = 'START' | 'PRO' | 'PREMIUM';
 
 async function wipe() {
   await prisma.student.deleteMany({
@@ -43,62 +44,41 @@ async function makeCenter(paidUntil: Date | null = null) {
       subscription: {
         create: { plan: paidUntil ? 'PAID' : 'TRIAL', paid_until: paidUntil },
       },
-      seats: { create: { tier: 'START', quantity: 1, unit_price_xaf: 0 } },
+      seats: { create: { quantity: 1, unit_price_xaf: 0 } },
     },
   });
 }
 
-async function setSeats(
-  centerId: string,
-  rows: { tier: TierName; quantity: number; price: number }[],
-) {
+async function setSeats(centerId: string, quantity: number, price: number) {
   await prisma.centerSeat.deleteMany({ where: { center_id: centerId } });
-  for (const row of rows) {
-    await prisma.centerSeat.create({
-      data: {
-        center_id: centerId,
-        tier: row.tier,
-        quantity: row.quantity,
-        unit_price_xaf: row.price,
-      },
-    });
-  }
+  await prisma.centerSeat.create({
+    data: { center_id: centerId, quantity, unit_price_xaf: price },
+  });
 }
 
 /**
- * A payment exactly as creation would leave it, with prices chosen by the
+ * A payment exactly as creation would leave it, at a price chosen by the
  * test. Inserted directly because what is under test is what activation does
- * with the lines, not how they were priced.
+ * with the payment, not how it was priced.
  */
-async function makePayment(
-  centerId: string,
-  lines: { tier: TierName; seats: number; price: number }[],
-) {
+async function makePayment(centerId: string, seats: number, price = 4500) {
   return prisma.payment.create({
     data: {
       center_id: centerId,
-      total_seats: lines.reduce((t, l) => t + l.seats, 0),
-      amount_xaf: lines.reduce((t, l) => t + l.seats * l.price, 0),
+      total_seats: seats,
+      unit_price_xaf: price,
+      amount_xaf: seats * price,
       idempotency_key: `activation-${Date.now()}-${Math.random()}`,
       request_hash: 'test',
-      lines: {
-        create: lines.map((l) => ({
-          tier: l.tier,
-          seats: l.seats,
-          unit_price_xaf: l.price,
-          amount_xaf: l.seats * l.price,
-        })),
-      },
     },
   });
 }
 
-async function makeStudent(centerId: string, tier: TierName) {
+async function makeStudent(centerId: string) {
   return prisma.student.create({
     data: {
       email: `activation-test-${Date.now()}-${Math.random()}@example.com`,
       center_id: centerId,
-      tier,
     },
   });
 }
@@ -106,8 +86,7 @@ async function makeStudent(centerId: string, tier: TierName) {
 const seatsOf = (centerId: string) =>
   prisma.centerSeat.findMany({
     where: { center_id: centerId },
-    orderBy: { tier: 'asc' },
-    select: { tier: true, quantity: true, unit_price_xaf: true },
+    select: { quantity: true, unit_price_xaf: true },
   });
 
 const subscriptionOf = (centerId: string) =>
@@ -132,9 +111,7 @@ afterAll(async () => {
 describe('activating a payment', () => {
   it('marks the payment succeeded, once', async () => {
     const center = await makeCenter();
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
 
     const result = await activation.activate(payment.id);
 
@@ -148,9 +125,7 @@ describe('activating a payment', () => {
 
   it('turns a trial center into a paid one for thirty days', async () => {
     const center = await makeCenter();
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
@@ -163,17 +138,14 @@ describe('activating a payment', () => {
     // The point of all of it. SubscriptionPolicyService derives ACTIVE from
     // paid_until, so nothing else has to be switched on.
     const center = await makeCenter();
-    const student = await makeStudent(center.id, 'START');
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const student = await makeStudent(center.id);
+    const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
     await expect(entitlement.forStudent(student.id)).resolves.toMatchObject({
       status: 'ACTIVE',
       studentsMayLearn: true,
-      tier: 'START',
     });
   });
 
@@ -187,86 +159,40 @@ describe('activating a payment', () => {
 describe('what activation writes into center_seats', () => {
   it('overwrites the zero-priced trial seat with the paid one', async () => {
     const center = await makeCenter();
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
     await expect(seatsOf(center.id)).resolves.toEqual([
-      { tier: 'START', quantity: 10, unit_price_xaf: 4500 },
+      { quantity: 10, unit_price_xaf: 4500 },
     ]);
   });
 
-  it('SETS the quantity rather than adding to it, because the mix is a total', async () => {
+  it('SETS the quantity rather than adding to it, because it is a total', async () => {
     // A center holding ten that pays for fifteen holds fifteen, not twenty-five.
     const center = await makeCenter();
-    await setSeats(center.id, [{ tier: 'START', quantity: 10, price: 4500 }]);
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 15, price: 4500 },
-    ]);
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 15, 4500);
 
     await activation.activate(payment.id);
 
     await expect(seatsOf(center.id)).resolves.toEqual([
-      { tier: 'START', quantity: 15, unit_price_xaf: 4500 },
+      { quantity: 15, unit_price_xaf: 4500 },
     ]);
   });
 
-  it('stamps the price from the payment line, not today list price', async () => {
-    // Grandfathering. The line carries the price the center agreed to at
+  it('stamps the price from the payment, not today list price', async () => {
+    // Grandfathering. The payment carries the price the center agreed to at
     // quote time; stamping the current constant instead would reprice a
     // center that was promised 4,000.
     const center = await makeCenter();
-    await setSeats(center.id, [{ tier: 'START', quantity: 10, price: 4000 }]);
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 12, price: 4000 },
-      { tier: 'PRO', seats: 3, price: 10000 },
-    ]);
+    await setSeats(center.id, 10, 4000);
+    const payment = await makePayment(center.id, 12, 4000);
 
     await activation.activate(payment.id);
 
     await expect(seatsOf(center.id)).resolves.toEqual([
-      { tier: 'START', quantity: 12, unit_price_xaf: 4000 },
-      { tier: 'PRO', quantity: 3, unit_price_xaf: 10000 },
-    ]);
-  });
-
-  it('removes a tier the payment no longer covers, when no student holds it', async () => {
-    const center = await makeCenter();
-    await setSeats(center.id, [
-      { tier: 'START', quantity: 10, price: 4500 },
-      { tier: 'PRO', quantity: 5, price: 10000 },
-    ]);
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 15, price: 4500 },
-    ]);
-
-    await activation.activate(payment.id);
-
-    await expect(seatsOf(center.id)).resolves.toEqual([
-      { tier: 'START', quantity: 15, unit_price_xaf: 4500 },
-    ]);
-  });
-
-  it('keeps a tier the payment does not cover while a student still holds it', async () => {
-    // Never strand a student without a seat. The quote refuses this case at
-    // creation; this covers students moved into Pro between quote and payment.
-    const center = await makeCenter();
-    await setSeats(center.id, [
-      { tier: 'START', quantity: 10, price: 4500 },
-      { tier: 'PRO', quantity: 5, price: 10000 },
-    ]);
-    await makeStudent(center.id, 'PRO');
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 15, price: 4500 },
-    ]);
-
-    await activation.activate(payment.id);
-
-    await expect(seatsOf(center.id)).resolves.toEqual([
-      { tier: 'START', quantity: 15, unit_price_xaf: 4500 },
-      { tier: 'PRO', quantity: 5, unit_price_xaf: 10000 },
+      { quantity: 12, unit_price_xaf: 4000 },
     ]);
   });
 
@@ -274,10 +200,8 @@ describe('what activation writes into center_seats', () => {
     // Money has moved. Refusing would take it and grant nothing; being over
     // the limit already blocks new provisioning without evicting anyone.
     const center = await makeCenter();
-    for (let i = 0; i < 12; i++) await makeStudent(center.id, 'START');
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    for (let i = 0; i < 12; i++) await makeStudent(center.id);
+    const payment = await makePayment(center.id, 10, 4500);
 
     await expect(activation.activate(payment.id)).resolves.toMatchObject({
       outcome: 'ACTIVATED',
@@ -289,9 +213,7 @@ describe('paid_until', () => {
   it('extends from the current end while the center is still paid up', async () => {
     // Paying early must not throw away the days already bought.
     const center = await makeCenter(new Date(Date.now() + 10 * DAY_MS));
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
@@ -304,9 +226,7 @@ describe('paid_until', () => {
   it('extends from now when the center had lapsed', async () => {
     // A lapsed center must not buy thirty days that are already in the past.
     const center = await makeCenter(new Date(Date.now() - 20 * DAY_MS));
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
@@ -321,9 +241,7 @@ describe('exactly once', () => {
   it('ignores a repeated activation of the same payment', async () => {
     // A provider that retries a webhook, or delivers it twice.
     const center = await makeCenter();
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
     const first = (await subscriptionOf(center.id)).paid_until;
@@ -336,9 +254,7 @@ describe('exactly once', () => {
 
   it('extends only once when the same payment is activated concurrently', async () => {
     const center = await makeCenter();
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
 
     const results = await Promise.all([
       activation.activate(payment.id),
@@ -359,12 +275,8 @@ describe('exactly once', () => {
   it('keeps both extensions when two different payments activate at once', async () => {
     // A read-then-write of paid_until would lose one of them.
     const center = await makeCenter();
-    const a = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
-    const b = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const a = await makePayment(center.id, 10, 4500);
+    const b = await makePayment(center.id, 10, 4500);
 
     await Promise.all([activation.activate(a.id), activation.activate(b.id)]);
 
@@ -378,9 +290,7 @@ describe('exactly once', () => {
 describe('failure', () => {
   it('marks a pending payment failed', async () => {
     const center = await makeCenter();
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
 
     await expect(activation.markFailed(payment.id)).resolves.toMatchObject({
       outcome: 'MARKED_FAILED',
@@ -398,9 +308,7 @@ describe('failure', () => {
   it('never undoes a success', async () => {
     // A failure event arriving after the success, out of order.
     const center = await makeCenter();
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
     await activation.activate(payment.id);
 
     await expect(activation.markFailed(payment.id)).resolves.toMatchObject({
@@ -416,9 +324,7 @@ describe('failure', () => {
     // The provider is the authority on whether money moved. A success that
     // arrives late has still taken the center's money.
     const center = await makeCenter();
-    const payment = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const payment = await makePayment(center.id, 10, 4500);
     await activation.markFailed(payment.id);
 
     await expect(activation.activate(payment.id)).resolves.toMatchObject({
@@ -432,12 +338,8 @@ describe('the provider reference', () => {
   it('cannot be shared by two payments', async () => {
     // One provider transaction must never be applied to two payments.
     const center = await makeCenter();
-    const a = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
-    const b = await makePayment(center.id, [
-      { tier: 'START', seats: 10, price: 4500 },
-    ]);
+    const a = await makePayment(center.id, 10, 4500);
+    const b = await makePayment(center.id, 10, 4500);
     await prisma.payment.update({
       where: { id: a.id },
       data: { provider_reference: 'ref-1' },
@@ -453,8 +355,8 @@ describe('the provider reference', () => {
 
   it('allows any number of payments with no reference yet', async () => {
     const center = await makeCenter();
-    await makePayment(center.id, [{ tier: 'START', seats: 10, price: 4500 }]);
-    await makePayment(center.id, [{ tier: 'START', seats: 10, price: 4500 }]);
+    await makePayment(center.id, 10, 4500);
+    await makePayment(center.id, 10, 4500);
 
     await expect(
       prisma.payment.count({
