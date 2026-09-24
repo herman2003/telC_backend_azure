@@ -10,6 +10,10 @@ import { CenterProfileService } from './center-profile.service';
 import { CenterSubscriptionController } from './center-subscription.controller';
 import { CenterSubscriptionService } from './center-subscription.service';
 import { CenterStudentsController } from './center-students.controller';
+import { ExamSessionsController } from './exam-sessions.controller';
+import { ExamSessionsService } from './exam-sessions.service';
+import { ExamParticipantsService } from './exam-participants.service';
+import { ExamSessionPolicyService } from './exam-session-policy.service';
 import { CenterStudentsService } from './center-students.service';
 import { SubscriptionPolicyService } from './subscription-policy.service';
 import { PricingService } from './pricing.service';
@@ -48,6 +52,7 @@ import { CenterSupportService } from './center-support.service';
     CenterProfileController,
     CenterSubscriptionController,
     CenterStudentsController,
+    ExamSessionsController,
     CenterSupportController,
     PaymentsController,
     PaymentWebhooksController,
@@ -61,6 +66,9 @@ import { CenterSupportService } from './center-support.service';
     CenterActivationCodesService,
     CodeRedemptionService,
     CenterSupportService,
+    ExamSessionsService,
+    ExamParticipantsService,
+    ExamSessionPolicyService,
     SubscriptionPolicyService,
     PricingService,
     CenterSeatsService,
