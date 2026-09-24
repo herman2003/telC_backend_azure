@@ -8,11 +8,11 @@ import {
   Optional,
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
+import type { CefrLevel } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { TokenService } from './token.service';
 import { TokenCryptoService } from './token-crypto.service';
 import { EmailService } from './email.service';
-import { GoogleService } from './google.service';
 import { Student } from '../../shared/interfaces/student.interface';
 import { DeviceSession } from '../../shared/interfaces/device-session.interface';
 import { AuthTokenResponse } from './dto/auth-response.dto';
@@ -20,8 +20,22 @@ import { RegisterRequestDto } from './dto/register-request.dto';
 import { LoginRequestDto } from './dto/login-request.dto';
 import { VerifyEmailRequestDto } from './dto/verify-email-request.dto';
 import { ValkeyService } from '../../shared/services/valkey.service';
+import {
+  StudentEntitlementService,
+  type StudentEntitlement,
+} from '../../shared/services/student-entitlement.service';
 
 const VERIFICATION_TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Sessions a student may hold at once (D21, changed to 1 on 2026-09-18).
+ *
+ * One, so that sharing an account means signing each other out — the
+ * deterrent. The accepted cost is that a student who moves between the phone
+ * and the web app signs in again each time. The per-student AI quota still
+ * caps whatever sharing remains.
+ */
+const MAX_ACTIVE_STUDENT_DEVICES = 1;
 const PASSWORD_RESET_TOKEN_TTL_MS = 10 * 60 * 1000;
 const VERIFICATION_RESEND_COOLDOWN_MS = 2 * 60 * 1000;
 
@@ -52,9 +66,34 @@ export class AuthService {
     private readonly tokenService: TokenService,
     private readonly tokenCrypto: TokenCryptoService,
     private readonly emailService: EmailService,
-    private readonly googleService: GoogleService,
+    // Required, not optional. Optional injection would let a wiring mistake
+    // drop subscription reporting from every response with no error anywhere
+    // — the field would simply stop appearing, and nothing would say so.
+    private readonly entitlementService: StudentEntitlementService,
     @Optional() private readonly valkeyService?: ValkeyService,
   ) {}
+
+  /**
+   * Reads the student's entitlement for reporting, never for enforcement.
+   *
+   * Failure is swallowed on purpose. This field exists so a client can explain
+   * itself before its first learning call; refusing a valid sign-in because a
+   * subscription row could not be read would trade a working login for a
+   * cosmetic detail. StudentSubscriptionGuard is what actually refuses access,
+   * and it answers a read failure with 503 rather than letting it pass.
+   */
+  private async readEntitlement(
+    studentId: string,
+  ): Promise<StudentEntitlement | undefined> {
+    try {
+      return await this.entitlementService.forStudent(studentId);
+    } catch (error) {
+      this.logger.warn(
+        `could not read entitlement for ${studentId}: ${(error as Error).message}`,
+      );
+      return undefined;
+    }
+  }
 
   /**
    * Create device session
@@ -143,6 +182,7 @@ export class AuthService {
           first_name: dto.firstName,
           last_name: dto.lastName,
           email: dto.email,
+          level: dto.level ?? null,
           password_hash: passwordHash,
           email_verified: false,
           email_verification_token: tokenHash,
@@ -399,6 +439,11 @@ export class AuthService {
       throw new BadRequestException('MISSING_REQUIRED_FIELDS');
     }
 
+    // Filled inside the transaction, acted on after it: the Valkey mark is
+    // not part of the database write, and must not run if that write rolls
+    // back.
+    let evictedSessionIds: string[] = [];
+
     try {
       const session = await this.prisma.$transaction(async (tx) => {
         const existingSession = await tx.deviceSession.findFirst({
@@ -414,16 +459,28 @@ export class AuthService {
           where: { student_id: studentId, revoked_at: null },
         });
 
-        if (!existingSession && activeCount >= 3) {
-          const oldestSession = await tx.deviceSession.findFirst({
+        // A new device beyond the limit is let in, never refused: without a
+        // "my devices" screen a refusal would leave the student no way
+        // forward. It signs out the sessions used longest ago — as many as it
+        // takes to get back under the limit, because a student who signed in
+        // under the older, larger limit may still hold several.
+        if (!existingSession && activeCount >= MAX_ACTIVE_STUDENT_DEVICES) {
+          const evicted = await tx.deviceSession.findMany({
             where: { student_id: studentId, revoked_at: null },
-            orderBy: { created_at: 'asc' },
+            orderBy: [{ last_used_at: 'asc' }, { created_at: 'asc' }],
+            take: activeCount - MAX_ACTIVE_STUDENT_DEVICES + 1,
             select: { id: true },
           });
 
-          if (oldestSession) {
-            await tx.deviceSession.deleteMany({
-              where: { id: { in: [oldestSession.id] } },
+          if (evicted.length > 0) {
+            evictedSessionIds = evicted.map(({ id }) => id);
+            // Revoked, not deleted: the old device's refresh then finds its
+            // session and answers SESSION_REVOKED, which is how the app knows
+            // to say "you signed in on another device". A deleted row reads
+            // as INVALID_SESSION, indistinguishable from a broken token.
+            await tx.deviceSession.updateMany({
+              where: { id: { in: evictedSessionIds }, revoked_at: null },
+              data: { revoked_at: new Date() },
             });
           }
         }
@@ -452,6 +509,19 @@ export class AuthService {
         return upsertedSession as unknown as DeviceSession;
       });
 
+      // Production runs without Valkey: the guard then reads the database,
+      // finds the evicted row revoked, and the old device is signed out on its
+      // next request. If Valkey is running, the guard trusts it and skips the
+      // database — so the evicted sessions are marked there too, and the rule
+      // holds either way. Best effort: a failed mark is the cache's problem,
+      // not the login's.
+      if (this.valkeyService && evictedSessionIds.length > 0) {
+        const valkey = this.valkeyService;
+        await Promise.all(
+          evictedSessionIds.map((id) => valkey.revokeSession(id)),
+        );
+      }
+
       return session;
     } catch (error) {
       throw new BadRequestException('DEVICE_SESSION_CREATION_FAILED');
@@ -476,6 +546,8 @@ export class AuthService {
 
     await this.updateStudentLastSeen(student.id);
 
+    const subscription = await this.readEntitlement(student.id);
+
     return {
       ...tokens,
       student: {
@@ -485,7 +557,24 @@ export class AuthService {
         email: student.email ?? '',
         emailVerified: true,
       },
+      ...(subscription ? { subscription } : {}),
     };
+  }
+
+  /**
+   * Issues a normal student session for an account that already exists.
+   *
+   * Used by center-managed activation, where the account was created by a
+   * center and the student has just set their own password. Deliberately a
+   * thin public door onto the existing private path, so an activated student
+   * gets byte-for-byte the same session shape as a registered one.
+   */
+  async issueSessionForStudent(
+    studentId: string,
+    deviceId: string,
+    deviceName?: string,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
+    return this.issueTokenPairForDevice(studentId, deviceId, deviceName);
   }
 
   private async issueTokenPairForDevice(
@@ -577,18 +666,25 @@ export class AuthService {
    */
   async updateStudentProfile(
     studentId: string,
-    updates: { firstName?: string; lastName?: string; email?: string },
+    updates: {
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      level?: CefrLevel;
+    },
   ): Promise<Student> {
     const data: {
       first_name?: string;
       last_name?: string;
       email?: string;
+      level?: CefrLevel;
       updated_at: Date;
     } = { updated_at: new Date() };
 
     if (updates.firstName?.trim()) data.first_name = updates.firstName.trim();
     if (updates.lastName?.trim()) data.last_name = updates.lastName.trim();
     if (updates.email?.trim()) data.email = updates.email.trim().toLowerCase();
+    if (updates.level) data.level = updates.level;
 
     try {
       const student = await this.prisma.student.update({
@@ -720,137 +816,5 @@ export class AuthService {
     }
 
     return session as unknown as DeviceSession;
-  }
-
-  /**
-   * Google OAuth Login
-   * Handles returning users, new users, and accounts awaiting linking
-   */
-  async googleLogin(dto: {
-    idToken: string;
-    deviceId: string;
-    deviceName?: string;
-  }): Promise<
-    AuthTokenResponse | { status: 'LINKING_REQUIRED'; linkingToken: string }
-  > {
-    const googlePayload = await this.googleService.verifyIdToken(dto.idToken);
-
-    // Check for returning user (existing OAuthAccount)
-    const oauthAccount = await this.prisma.oAuthAccount.findFirst({
-      where: {
-        provider: 'google',
-        provider_id: googlePayload.sub,
-      },
-      include: { student: true },
-    });
-
-    if (oauthAccount) {
-      const student = oauthAccount.student as VerificationStudentRecord;
-      return this.issueAuthResponse(student, dto.deviceId, dto.deviceName);
-    }
-
-    // Check if email exists
-    const existingStudent = (await this.prisma.student.findUnique({
-      where: { email: googlePayload.email },
-      select: {
-        id: true,
-        first_name: true,
-        last_name: true,
-        email: true,
-        email_verified: true,
-      } as any,
-    })) as VerificationStudentRecord | null;
-
-    if (existingStudent) {
-      // Email exists but no OAuth link → require linking
-      const linkingToken = this.tokenService.generateLinkingToken({
-        email: googlePayload.email,
-        provider: 'google',
-        providerId: googlePayload.sub,
-      });
-      return { status: 'LINKING_REQUIRED', linkingToken };
-    }
-
-    // Brand new user → create student + oauth account + issue tokens
-    const newStudent = await this.prisma.$transaction(async (tx) => {
-      const student = await tx.student.create({
-        data: {
-          first_name: googlePayload.given_name || null,
-          last_name: googlePayload.family_name || null,
-          email: googlePayload.email,
-          email_verified: googlePayload.email_verified,
-          password_hash: null,
-        },
-      });
-
-      await tx.oAuthAccount.create({
-        data: {
-          student_id: student.id,
-          provider: 'google',
-          provider_id: googlePayload.sub,
-        },
-      });
-
-      return student;
-    });
-
-    return this.issueAuthResponse(
-      {
-        id: newStudent.id,
-        first_name: newStudent.first_name,
-        last_name: newStudent.last_name,
-        email: newStudent.email,
-      } as VerificationStudentRecord,
-      dto.deviceId,
-      dto.deviceName,
-    );
-  }
-
-  /**
-   * Link Google account to existing student
-   * Consumes a linking token and creates OAuthAccount
-   */
-  async googleLink(dto: {
-    linkingToken: string;
-    deviceId: string;
-    deviceName?: string;
-  }): Promise<AuthTokenResponse> {
-    const linkingPayload = this.tokenService.verifyLinkingToken(
-      dto.linkingToken,
-    );
-
-    // Find student by email
-    const student = (await this.prisma.student.findUnique({
-      where: { email: linkingPayload.email },
-      select: {
-        id: true,
-        first_name: true,
-        last_name: true,
-        email: true,
-      } as any,
-    })) as VerificationStudentRecord | null;
-
-    if (!student) {
-      throw new BadRequestException('STUDENT_NOT_FOUND');
-    }
-
-    // Create OAuth account and mark email verified
-    await this.prisma.$transaction(async (tx) => {
-      await tx.oAuthAccount.create({
-        data: {
-          student_id: student.id,
-          provider: linkingPayload.provider,
-          provider_id: linkingPayload.providerId,
-        },
-      });
-
-      await tx.student.update({
-        where: { id: student.id },
-        data: { email_verified: true },
-      });
-    });
-
-    // Issue tokens
-    return this.issueAuthResponse(student, dto.deviceId, dto.deviceName);
   }
 }

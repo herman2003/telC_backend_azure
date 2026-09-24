@@ -1,0 +1,284 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+import { StudentEntitlementService } from '../src/shared/services/student-entitlement.service';
+import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const daysFromNow = (days: number) => new Date(Date.now() + days * DAY_MS);
+
+/**
+ * One flat row, because the lookup is a single LEFT JOIN rather than a nested
+ * Prisma select. The nested version reads as one query and issues three.
+ */
+const withSubscription = (overrides: Record<string, unknown>) => ({
+  center_id: 'center-1',
+  plan: 'TRIAL',
+  seats: 3,
+  trial_started_at: null,
+  trial_ends_at: null,
+  paid_until: null,
+  ...overrides,
+});
+
+describe('StudentEntitlementService', () => {
+  let prisma: any;
+  let service: StudentEntitlementService;
+
+  /** The query returns an array; these helpers keep that detail in one place. */
+  const givenRow = (row: unknown): void => {
+    prisma.$queryRaw.mockResolvedValue(row ? [row] : []);
+  };
+
+  beforeEach(() => {
+    prisma = { $queryRaw: jest.fn() };
+    service = new StudentEntitlementService(
+      prisma,
+      new SubscriptionPolicyService(),
+    );
+  });
+
+  it('reports a live trial', async () => {
+    givenRow(
+      withSubscription({
+        trial_started_at: daysFromNow(-3),
+        trial_ends_at: daysFromNow(27),
+      }),
+    );
+
+    await expect(service.forStudent('student-1')).resolves.toMatchObject({
+      status: 'TRIAL',
+      studentsMayLearn: true,
+    });
+  });
+
+  it('reports a block once a paid period lapses beyond grace', async () => {
+    givenRow(withSubscription({ paid_until: daysFromNow(-8) }));
+
+    await expect(service.forStudent('student-1')).resolves.toMatchObject({
+      status: 'BLOCKED',
+      studentsMayLearn: false,
+    });
+  });
+
+  it('reports when grace ends, so a client can say what is about to happen', async () => {
+    givenRow(withSubscription({ paid_until: daysFromNow(-2) }));
+
+    const entitlement = await service.forStudent('student-1');
+
+    expect(entitlement.status).toBe('GRACE_PERIOD');
+    expect(entitlement.graceEndsAt).toBeInstanceOf(Date);
+  });
+
+  describe('students no center governs', () => {
+    it('reports NONE rather than blocked for a student with no center', async () => {
+      givenRow({ center_id: null, plan: null, grandfathered_access: true });
+
+      // NONE is distinct from BLOCKED on purpose. A client must be able to
+      // tell "you have no school" from "your school stopped paying", because
+      // only one of those is worth showing an offer about.
+      await expect(service.forStudent('student-1')).resolves.toEqual({
+        status: 'NONE',
+        studentsMayLearn: true,
+        graceEndsAt: null,
+        studentExists: true,
+        wasGoverned: false,
+        accessRefusal: null,
+      });
+    });
+
+    it('reports NONE when the student row is gone', async () => {
+      givenRow(null);
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        status: 'NONE',
+        studentsMayLearn: true,
+      });
+    });
+  });
+
+  /**
+   * Two different kinds of "no center", which the service used to collapse
+   * into one answer.
+   *
+   * A genuine independent student has a row and no center. A guest token has
+   * NO ROW AT ALL — `/api/auth/guest` mints a random uuid and writes nothing.
+   * And a student a center released has a row, no center, and the code they
+   * once redeemed still on file.
+   *
+   * Callers that only ask "may they learn" can treat all three alike. Callers
+   * that spend money or gate a paid feature cannot.
+   */
+  describe('telling the three ungoverned cases apart', () => {
+    it('reports a real independent student as existing, never governed', async () => {
+      givenRow({ center_id: null, tier: null });
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        status: 'NONE',
+        studentExists: true,
+        wasGoverned: false,
+      });
+    });
+
+    it('reports a guest token as not existing at all', async () => {
+      // No row. Nothing can be attributed to this id — an ai_usage insert for
+      // it fails on the foreign key — so a caller that meters must be able to
+      // see that rather than being handed a cheerful allowance.
+      givenRow(null);
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        status: 'NONE',
+        studentExists: false,
+        wasGoverned: false,
+      });
+    });
+
+    it('reports a released student as formerly governed', async () => {
+      // Releasing clears center_id but leaves the code rows behind, so a code
+      // the student once redeemed is the evidence. It is evidence only:
+      // nothing grants access on the strength of it.
+      givenRow({ center_id: null, last_code_status: 'DEACTIVATED' });
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        status: 'NONE',
+        studentExists: true,
+        wasGoverned: true,
+        studentsMayLearn: false,
+      });
+    });
+
+    it('reports a governed student as governed', async () => {
+      givenRow(withSubscription({}));
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        studentExists: true,
+        wasGoverned: true,
+      });
+    });
+  });
+
+  /**
+   * D9 and D34: an account alone is not access; a code is.
+   *
+   * Except for the people already using the app without a school when this
+   * shipped. The migration that introduced the rule marked each of them, so
+   * "existing users keep access" means exactly the rows that existed then —
+   * no date to configure, and nobody created later can slip under it.
+   */
+  describe('an account alone is not access', () => {
+    it('lets a student who predates the rule keep learning', async () => {
+      givenRow({ center_id: null, grandfathered_access: true });
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        studentsMayLearn: true,
+        accessRefusal: null,
+      });
+    });
+
+    it('refuses a new account that has never redeemed a code', async () => {
+      givenRow({ center_id: null, grandfathered_access: false });
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        status: 'NONE',
+        studentsMayLearn: false,
+        accessRefusal: 'NO_CODE',
+      });
+    });
+
+    it('refuses a student a school took back, and says so', async () => {
+      givenRow({
+        center_id: null,
+        grandfathered_access: false,
+        last_code_status: 'DEACTIVATED',
+        last_code_expires_at: null,
+      });
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        studentsMayLearn: false,
+        accessRefusal: 'CODE_DEACTIVATED',
+      });
+    });
+
+    it('refuses a student whose code has run out, and says so', async () => {
+      givenRow({
+        center_id: null,
+        grandfathered_access: false,
+        last_code_status: 'CONNECTED',
+        last_code_expires_at: daysFromNow(-1),
+      });
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        studentsMayLearn: false,
+        accessRefusal: 'CODE_EXPIRED',
+      });
+    });
+
+    it('does not let the grandfather mark cover a student a school released', async () => {
+      // The mark was only ever set on rows no school governed. A code the
+      // student redeemed means one did; releasing them must not restore free
+      // access.
+      givenRow({
+        center_id: null,
+        last_code_status: 'DEACTIVATED',
+        grandfathered_access: true,
+      });
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        studentsMayLearn: false,
+      });
+    });
+
+    it('names the school as the reason once its subscription lapses', async () => {
+      givenRow(withSubscription({ paid_until: daysFromNow(-8) }));
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        studentsMayLearn: false,
+        accessRefusal: 'CENTER_UNPAID',
+      });
+    });
+
+    it('leaves a guest token alone until guest mode is decided (B16)', async () => {
+      givenRow(null);
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        studentsMayLearn: true,
+        accessRefusal: null,
+      });
+    });
+
+    it('still costs one query, refusal reason included', async () => {
+      givenRow({ center_id: null, grandfathered_access: false });
+
+      await service.forStudent('student-1');
+
+      expect(prisma.$queryRaw).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('fails closed when a center somehow has no subscription row', async () => {
+    givenRow({ center_id: 'center-1', plan: null });
+
+    await expect(service.forStudent('student-1')).resolves.toMatchObject({
+      status: 'BLOCKED',
+      studentsMayLearn: false,
+    });
+  });
+
+  it('lets a database failure surface, rather than inventing an answer', async () => {
+    prisma.$queryRaw.mockRejectedValue(new Error('connection lost'));
+
+    // The caller decides what an outage means: the guard turns it into a 503,
+    // and login omits the field rather than refusing a valid sign-in.
+    await expect(service.forStudent('student-1')).rejects.toThrow(
+      'connection lost',
+    );
+  });
+
+  it('costs one query', async () => {
+    givenRow(withSubscription({ paid_until: daysFromNow(30) }));
+
+    await service.forStudent('student-1');
+
+    // One statement, not one Prisma call. A nested `select` would satisfy the
+    // latter while issuing three round trips.
+    expect(prisma.$queryRaw).toHaveBeenCalledTimes(1);
+  });
+});

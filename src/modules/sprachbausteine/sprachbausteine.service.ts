@@ -12,6 +12,9 @@ import type {
   SubmitSprachbausteineResponseDto,
 } from './dto';
 import type { SubmitSprachbausteineDto } from './dto/submit-sprachbausteine.dto';
+import { recordActivity } from '../student-activity/student-activity.writer';
+import { submitOnce } from '../student-activity/submit-once';
+import { historyFields, teilStats } from '../student-activity/student-history';
 import type { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 
@@ -186,29 +189,53 @@ export class SprachbausteineService {
       ? Math.round((correct / Object.keys(answers).length) * 100)
       : 0;
 
-    await this.prisma.sprachbausteineAttempt.create({
-      data: {
-        student_id: studentId,
-        teil_id: dto.teil_id,
-        modelltest_id: modelltest.id,
-        status: 'completed',
-        score: score,
-        answers: dto.answers,
-        content_revision: dto.contentRevision,
-        duration_seconds: dto.durationSeconds ?? null,
-        // Unconditional today, because GET /exercise always ships the key.
-        // Written explicitly rather than left to the column default so that
-        // adding an exam mode later has an obvious place to become a condition.
-        answers_prefetched: true,
-        completed_at: new Date(),
-      },
-    });
+    const completedAt = new Date();
+    const { attemptId, earlier } = await submitOnce(
+      studentId,
+      dto.attemptId,
+      (id) =>
+        this.prisma.sprachbausteineAttempt.findUnique({
+          where: { attempt_id: id },
+          select: { student_id: true, score: true },
+        }),
+      (id) =>
+        this.prisma.$transaction(async (tx) => {
+          await tx.sprachbausteineAttempt.create({
+            data: {
+              attempt_id: id,
+              student_id: studentId,
+              teil_id: dto.teil_id,
+              modelltest_id: modelltest.id,
+              status: 'completed',
+              score: score,
+              answers: dto.answers,
+              content_revision: dto.contentRevision,
+              duration_seconds: dto.durationSeconds ?? null,
+              // Unconditional today, because GET /exercise always ships the
+              // key. Written explicitly rather than left to the column
+              // default so that adding an exam mode later has an obvious
+              // place to become a condition.
+              answers_prefetched: true,
+              completed_at: completedAt,
+            },
+          });
+          await recordActivity(tx, {
+            studentId,
+            skill: 'SPRACHBAUSTEINE',
+            teil: Number(dto.teil_id),
+            score,
+            durationSeconds: dto.durationSeconds,
+            modelltestId: modelltest.id,
+            attemptId: id,
+            completedAt,
+          });
+        }),
+    );
 
-    // After the create, never before: a key returned on a submission that
-    // failed to persist could be harvested by submitting and discarding the
-    // error, which would reopen the exposure the exercise endpoint was
-    // hardened against.
-    return { score, answerKey: answers };
+    // The key goes out after the write, never before: returning it on a
+    // submission that failed to persist would let it be harvested by
+    // submitting and discarding the error.
+    return { attemptId, score: earlier?.score ?? score, answerKey: answers };
   }
 
   private async getAnswerKey(
@@ -296,8 +323,17 @@ export class SprachbausteineService {
   }
 
   async getTeils(studentId: string): Promise<ExerciseTypeDto[]> {
-    const progress = await this.getProgressByTeil(studentId);
+    const [progress, stats] = await Promise.all([
+      this.getProgressByTeil(studentId),
+      teilStats(
+        this.prisma,
+        studentId,
+        'SPRACHBAUSTEINE',
+        TEIL_IDS.map(Number),
+      ),
+    ]);
     return TEIL_IDS.map((id) => ({
+      ...stats[Number(id)],
       ...TEIL_CATALOG[id],
       progress: progress[id] ?? 0,
     }));
@@ -311,7 +347,11 @@ export class SprachbausteineService {
 
     try {
       const rows = await this.prisma.sprachbausteineAttempt.findMany({
-        where: { student_id: studentId, status: 'completed' },
+        where: {
+          student_id: studentId,
+          status: 'completed',
+          erasure_id: null,
+        },
         select: { teil_id: true },
       });
 
@@ -340,12 +380,15 @@ export class SprachbausteineService {
       const rows = await this.prisma.sprachbausteineAttempt.findMany({
         where: {
           student_id: studentId,
+          erasure_id: null,
           ...(teilId ? { teil_id: teilId } : {}),
         },
         orderBy: { created_at: 'desc' },
         take: limit,
         select: {
           attempt_id: true,
+          teil_id: true,
+          modelltest_id: true,
           created_at: true,
           completed_at: true,
           score: true,
@@ -354,7 +397,17 @@ export class SprachbausteineService {
         },
       });
 
-      return rows.map((row) => this.mapRowToAttemptDto(row));
+      return rows.map((row) => ({
+        ...historyFields('SPRACHBAUSTEINE', {
+          attemptId: row.attempt_id,
+          teil: Number(row.teil_id),
+          score: row.score,
+          completedAt: row.completed_at ?? row.created_at,
+          durationSeconds: row.duration_seconds,
+          modelltestId: row.modelltest_id,
+        }),
+        ...this.mapRowToAttemptDto(row),
+      }));
     } catch (err) {
       this.logger.error(`Error in getSessions: ${(err as Error).message}`);
       return [];

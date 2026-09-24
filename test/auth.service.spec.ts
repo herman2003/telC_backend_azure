@@ -33,9 +33,6 @@ describe('AuthService', () => {
         update: jest.fn(),
         updateMany: jest.fn(),
       },
-      oAuthAccount: {
-        create: jest.fn(),
-      },
     };
 
     prismaMock = {
@@ -56,9 +53,6 @@ describe('AuthService', () => {
         upsert: jest.fn(),
         update: jest.fn(),
         updateMany: jest.fn(),
-      },
-      oAuthAccount: {
-        findFirst: jest.fn(),
       },
     };
 
@@ -87,25 +81,23 @@ describe('AuthService', () => {
       sendPasswordResetEmail: jest.fn().mockResolvedValue(undefined),
     };
 
-    const googleServiceMock = {
-      verifyIdToken: jest.fn(),
-    };
-
     service = new AuthService(
       prismaMock,
       tokenServiceMock,
       tokenCryptoMock,
       emailServiceMock,
-      googleServiceMock,
+      // Reporting only. What it returns is auth-subscription-report.spec's
+      // subject; here it just has to exist so responses can be built.
+      { forStudent: jest.fn().mockResolvedValue(undefined) } as never,
     );
   });
 
   describe('upsertDeviceSession', () => {
-    it('creates a new session when count < 3', async () => {
+    it('creates a new session while the student is under the device limit', async () => {
       const session = { id: 'session-1' };
 
       txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
-      txMock.deviceSession.count.mockResolvedValueOnce(2);
+      txMock.deviceSession.count.mockResolvedValueOnce(0);
       txMock.deviceSession.upsert.mockResolvedValueOnce(session);
 
       const result = await service.upsertDeviceSession(
@@ -142,31 +134,101 @@ describe('AuthService', () => {
       expect(result).toEqual(session);
     });
 
-    it('evicts the oldest session when count is 3', async () => {
+    // D21 (changed 2026-09-18): one session per student, so that sharing an
+    // account means signing each other out. A new login is never refused; it
+    // signs out the session that was there.
+    it('signs out the previous session when the student logs in elsewhere', async () => {
       const session = { id: 'session-2' };
 
       txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
-      txMock.deviceSession.count.mockResolvedValueOnce(3);
-      txMock.deviceSession.findFirst.mockResolvedValueOnce({
-        id: 'oldest-session',
-      });
+      txMock.deviceSession.count.mockResolvedValueOnce(1);
+      txMock.deviceSession.findMany.mockResolvedValueOnce([
+        { id: 'least-recently-used' },
+      ]);
       txMock.deviceSession.upsert.mockResolvedValueOnce(session);
 
       const result = await service.upsertDeviceSession(
         'student-1',
-        'device-2',
+        'device-3',
         'refresh-hash-2',
       );
 
-      expect(txMock.deviceSession.findFirst).toHaveBeenNthCalledWith(2, {
+      // Last used, not first created — and exactly enough to get back to the
+      // limit.
+      expect(txMock.deviceSession.findMany).toHaveBeenCalledWith({
         where: { student_id: 'student-1', revoked_at: null },
-        orderBy: { created_at: 'asc' },
+        orderBy: [{ last_used_at: 'asc' }, { created_at: 'asc' }],
+        take: 1,
         select: { id: true },
       });
-      expect(txMock.deviceSession.deleteMany).toHaveBeenCalledWith({
-        where: { id: { in: ['oldest-session'] } },
+      // Revoked, not deleted: the old device's refresh must find its session
+      // and answer SESSION_REVOKED, so the app can say "you signed in on
+      // another device" rather than a generic failure.
+      expect(txMock.deviceSession.updateMany).toHaveBeenCalledWith({
+        where: { id: { in: ['least-recently-used'] }, revoked_at: null },
+        data: { revoked_at: expect.any(Date) },
       });
+      expect(txMock.deviceSession.deleteMany).not.toHaveBeenCalled();
       expect(result).toEqual(session);
+    });
+
+    it('lets the first session in without signing anyone out', async () => {
+      txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
+      txMock.deviceSession.count.mockResolvedValueOnce(0);
+      txMock.deviceSession.upsert.mockResolvedValueOnce({ id: 'session-9' });
+
+      await service.upsertDeviceSession('student-1', 'device-1', 'hash');
+
+      expect(txMock.deviceSession.deleteMany).not.toHaveBeenCalled();
+    });
+
+    // Production runs without Valkey, so the guard reads the database and the
+    // revoked row already signs the old device out on its next request. If
+    // Valkey comes back, the guard trusts it and skips the database — so the
+    // evicted session is marked there too, and the rule holds either way.
+    it('marks the signed-out session revoked in Valkey, when Valkey is there', async () => {
+      const valkey = { revokeSession: jest.fn().mockResolvedValue(true) };
+      const withValkey = new AuthService(
+        prismaMock,
+        tokenServiceMock,
+        tokenCryptoMock,
+        emailServiceMock,
+        { forStudent: jest.fn().mockResolvedValue(undefined) } as never,
+        valkey as never,
+      );
+
+      txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
+      txMock.deviceSession.count.mockResolvedValueOnce(1);
+      txMock.deviceSession.findMany.mockResolvedValueOnce([
+        { id: 'previous-session' },
+      ]);
+      txMock.deviceSession.upsert.mockResolvedValueOnce({ id: 'session-new' });
+
+      await withValkey.upsertDeviceSession('student-1', 'device-2', 'hash');
+
+      expect(valkey.revokeSession).toHaveBeenCalledWith('previous-session');
+    });
+
+    it('signs out every older session when the student still holds several', async () => {
+      // Students who signed in under the older limit may hold up to three.
+      txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
+      txMock.deviceSession.count.mockResolvedValueOnce(3);
+      txMock.deviceSession.findMany.mockResolvedValueOnce([
+        { id: 's-1' },
+        { id: 's-2' },
+        { id: 's-3' },
+      ]);
+      txMock.deviceSession.upsert.mockResolvedValueOnce({ id: 'session-new' });
+
+      await service.upsertDeviceSession('student-1', 'device-4', 'hash');
+
+      expect(txMock.deviceSession.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ take: 3 }),
+      );
+      expect(txMock.deviceSession.updateMany).toHaveBeenCalledWith({
+        where: { id: { in: ['s-1', 's-2', 's-3'] }, revoked_at: null },
+        data: { revoked_at: expect.any(Date) },
+      });
     });
 
     it('reuses an existing device for the same student without evicting', async () => {
@@ -238,6 +300,15 @@ describe('AuthService', () => {
         dto.email,
         'raw-verification-token',
       );
+    });
+
+    it('stores the level the student declares at sign-up (D38)', async () => {
+      prismaMock.student.findUnique.mockResolvedValueOnce(null);
+      txMock.student.create.mockResolvedValueOnce({ id: 'student-1' });
+
+      await service.register({ ...dto, level: 'A2' });
+
+      expect(txMock.student.create.mock.calls[0][0].data.level).toBe('A2');
     });
 
     it('returns generic success and does nothing for an existing verified email', async () => {
@@ -980,223 +1051,6 @@ describe('AuthService', () => {
     });
   });
 
-  describe('googleLogin', () => {
-    it('returns tokens for returning user (existing OAuthAccount)', async () => {
-      const googleService = (service as any).googleService;
-      googleService.verifyIdToken = jest.fn().mockResolvedValueOnce({
-        sub: 'google-user-123',
-        email: 'john@example.com',
-        email_verified: true,
-      });
-
-      const oauthAccount = {
-        id: 'oauth-1',
-        student: {
-          id: 'student-1',
-          first_name: 'John',
-          last_name: 'Doe',
-          email: 'john@example.com',
-        },
-      };
-
-      prismaMock.oAuthAccount.findFirst.mockResolvedValueOnce(oauthAccount);
-      txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
-      txMock.deviceSession.count.mockResolvedValueOnce(0);
-      txMock.deviceSession.upsert.mockResolvedValueOnce({ id: 'session-1' });
-
-      const result = await service.googleLogin({
-        idToken: 'google-token',
-        deviceId: 'device-1',
-        deviceName: 'Chrome',
-      });
-
-      expect(result).toHaveProperty('accessToken');
-      expect(result).toHaveProperty('refreshToken');
-      expect((result as any).student.email).toBe('john@example.com');
-    });
-
-    it('returns LINKING_REQUIRED for existing unverified student email with no OAuth', async () => {
-      const googleService = (service as any).googleService;
-      googleService.verifyIdToken = jest.fn().mockResolvedValueOnce({
-        sub: 'google-user-123',
-        email: 'john@example.com',
-        email_verified: false,
-      });
-
-      prismaMock.oAuthAccount.findFirst.mockResolvedValueOnce(null);
-      prismaMock.student.findUnique.mockResolvedValueOnce({
-        id: 'student-1',
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'john@example.com',
-        email_verified: false,
-      });
-
-      const tokenService = (service as any).tokenService;
-      tokenService.generateLinkingToken = jest
-        .fn()
-        .mockReturnValueOnce('linking-token-jwt');
-
-      const result = await service.googleLogin({
-        idToken: 'google-token',
-        deviceId: 'device-1',
-      });
-
-      expect(result).toEqual({
-        status: 'LINKING_REQUIRED',
-        linkingToken: 'linking-token-jwt',
-      });
-    });
-
-    it('returns LINKING_REQUIRED for existing verified student email with no OAuth', async () => {
-      const googleService = (service as any).googleService;
-      googleService.verifyIdToken = jest.fn().mockResolvedValueOnce({
-        sub: 'google-user-456',
-        email: 'verified@example.com',
-        email_verified: true,
-      });
-
-      prismaMock.oAuthAccount.findFirst.mockResolvedValueOnce(null);
-      prismaMock.student.findUnique.mockResolvedValueOnce({
-        id: 'student-2',
-        first_name: 'Jane',
-        last_name: 'Doe',
-        email: 'verified@example.com',
-        email_verified: true,
-      });
-
-      const tokenService = (service as any).tokenService;
-      tokenService.generateLinkingToken = jest
-        .fn()
-        .mockReturnValueOnce('linking-token-for-verified');
-
-      const result = await service.googleLogin({
-        idToken: 'google-token',
-        deviceId: 'device-1',
-      });
-
-      expect(result).toEqual({
-        status: 'LINKING_REQUIRED',
-        linkingToken: 'linking-token-for-verified',
-      });
-    });
-
-    it('creates new student for brand new email', async () => {
-      const googleService = (service as any).googleService;
-      googleService.verifyIdToken = jest.fn().mockResolvedValueOnce({
-        sub: 'google-user-123',
-        email: 'newuser@example.com',
-        email_verified: true,
-        given_name: 'John',
-        family_name: 'Doe',
-      });
-
-      prismaMock.oAuthAccount.findFirst.mockResolvedValueOnce(null);
-      prismaMock.student.findUnique.mockResolvedValueOnce(null);
-
-      txMock.student.create.mockResolvedValueOnce({
-        id: 'student-new',
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'newuser@example.com',
-      });
-      txMock.oAuthAccount.create.mockResolvedValueOnce({});
-      txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
-      txMock.deviceSession.count.mockResolvedValueOnce(0);
-      txMock.deviceSession.upsert.mockResolvedValueOnce({ id: 'session-1' });
-
-      const result = await service.googleLogin({
-        idToken: 'google-token',
-        deviceId: 'device-1',
-      });
-
-      expect(result).toHaveProperty('accessToken');
-      expect(result).toHaveProperty('refreshToken');
-      expect((result as any).student.email).toBe('newuser@example.com');
-    });
-
-    it('throws INVALID_GOOGLE_TOKEN for invalid token', async () => {
-      const googleService = (service as any).googleService;
-      const error = new Error('INVALID_GOOGLE_TOKEN');
-      googleService.verifyIdToken = jest.fn().mockRejectedValueOnce(error);
-
-      await expect(
-        service.googleLogin({
-          idToken: 'invalid-token',
-          deviceId: 'device-1',
-        }),
-      ).rejects.toThrow();
-    });
-  });
-
-  describe('googleLink', () => {
-    it('links OAuth account and returns tokens', async () => {
-      const tokenService = (service as any).tokenService;
-      tokenService.verifyLinkingToken = jest.fn().mockReturnValueOnce({
-        email: 'john@example.com',
-        provider: 'google',
-        providerId: 'google-user-123',
-      });
-
-      prismaMock.student.findUnique.mockResolvedValueOnce({
-        id: 'student-1',
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'john@example.com',
-      });
-
-      txMock.oAuthAccount.create.mockResolvedValueOnce({});
-      txMock.student.update.mockResolvedValueOnce({});
-      txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
-      txMock.deviceSession.count.mockResolvedValueOnce(0);
-      txMock.deviceSession.upsert.mockResolvedValueOnce({ id: 'session-1' });
-
-      const result = await service.googleLink({
-        linkingToken: 'linking-jwt',
-        deviceId: 'device-1',
-      });
-
-      expect(result).toHaveProperty('accessToken');
-      expect(result).toHaveProperty('refreshToken');
-      expect(result.student.email).toBe('john@example.com');
-    });
-
-    it('throws error for invalid linking token', async () => {
-      const tokenService = (service as any).tokenService;
-      const error = new Error('LINKING_TOKEN_INVALID');
-      tokenService.verifyLinkingToken = jest.fn().mockImplementationOnce(() => {
-        throw error;
-      });
-
-      await expect(
-        service.googleLink({
-          linkingToken: 'invalid-linking-token',
-          deviceId: 'device-1',
-        }),
-      ).rejects.toThrow();
-    });
-
-    it('throws STUDENT_NOT_FOUND if email not in system', async () => {
-      const tokenService = (service as any).tokenService;
-      tokenService.verifyLinkingToken = jest.fn().mockReturnValueOnce({
-        email: 'unknown@example.com',
-        provider: 'google',
-        providerId: 'google-user-123',
-      });
-
-      prismaMock.student.findUnique.mockResolvedValueOnce(null);
-
-      await expect(
-        service.googleLink({
-          linkingToken: 'linking-jwt',
-          deviceId: 'device-1',
-        }),
-      ).rejects.toMatchObject({
-        response: { message: 'STUDENT_NOT_FOUND' },
-      });
-    });
-  });
-
   describe('revokeStudentDeviceSession', () => {
     it('revokes only a session owned by the authenticated student', async () => {
       prismaMock.deviceSession.updateMany.mockResolvedValueOnce({ count: 1 });
@@ -1222,6 +1076,53 @@ describe('AuthService', () => {
           'someone-elses-session',
         ),
       ).rejects.toThrow('INVALID_SESSION');
+    });
+  });
+  /**
+   * A center-provisioned student exists with no password until they redeem
+   * their activation key. Login must refuse that account rather than crash on
+   * a null hash — or, far worse, treat the absence of a credential as a match.
+   *
+   * The center created this account and knows the email. If a null hash ever
+   * authenticated, every provisioned student would be trivially reachable.
+   */
+  describe('an account with no password yet', () => {
+    it('is refused rather than matched', async () => {
+      prismaMock.student.findUnique.mockResolvedValue({
+        id: 'student-1',
+        email: 'awa@example.com',
+        password_hash: null,
+        email_verified: true,
+      });
+
+      await expect(
+        service.login({
+          email: 'awa@example.com',
+          password: 'any-password-at-all',
+          deviceId: 'device-1',
+        } as never),
+      ).rejects.toThrow('INVALID_CREDENTIALS');
+    });
+
+    it('never reaches a password comparison at all', async () => {
+      prismaMock.student.findUnique.mockResolvedValue({
+        id: 'student-1',
+        email: 'awa@example.com',
+        password_hash: null,
+        email_verified: true,
+      });
+
+      await service
+        .login({
+          email: 'awa@example.com',
+          password: 'x',
+          deviceId: 'device-1',
+        } as never)
+        .catch(() => undefined);
+
+      // bcrypt.compare with a null hash is undefined behaviour to rely on;
+      // the guard short-circuits before it is ever called.
+      expect(tokenServiceMock.generateTokenPair).not.toHaveBeenCalled();
     });
   });
 });

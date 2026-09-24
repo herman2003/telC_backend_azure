@@ -10,6 +10,8 @@ export interface Room {
   level: SpeakingLevel;
   topic: SpeakingTopic;
   usedTopicIds: string[];
+  /** Read aloud and typed to join (D32). Freed when the room goes. */
+  shortCode: string;
   hostSocketId: string | null;
   hostToken: string;
   guest: RoomGuest | null;

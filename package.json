@@ -26,7 +26,8 @@
     "prisma:push": "prisma db push",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "db:migrate-from-supabase": "node scripts/migrate-supabase-to-neon.mjs"
+    "db:migrate-from-supabase": "node scripts/migrate-supabase-to-neon.mjs",
+    "start:testdb": "powershell -ExecutionPolicy Bypass -File ./scripts/start-dev-testdb.ps1"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",
@@ -47,7 +48,6 @@
     "class-validator": "^0.14.3",
     "diff": "^9.0.0",
     "dotenv": "^17.2.4",
-    "google-auth-library": "^10.6.2",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "newrelic": "^14.3.7",
@@ -124,6 +124,9 @@
       "src/**/*.(t|j)s"
     ],
     "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "-integration\\.spec\\.ts$"
+    ]
   }
 }

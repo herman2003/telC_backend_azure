@@ -11,6 +11,7 @@ import {
   Ip,
   Delete,
   Param,
+  Logger,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
@@ -21,8 +22,6 @@ import { VerifyEmailRequestDto } from './dto/verify-email-request.dto';
 import { VerifyEmailPublicRequestDto } from './dto/verify-email-public-request.dto';
 import { ForgotPasswordRequestDto } from './dto/forgot-password-request.dto';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
-import { GoogleLoginRequestDto } from './dto/google-login-request.dto';
-import { GoogleLinkRequestDto } from './dto/google-link-request.dto';
 import { AuthTokenResponse } from './dto/auth-response.dto';
 import { RefreshRequestDto } from './dto/refresh-request.dto';
 import { RefreshResponseDto } from './dto/refresh-response.dto';
@@ -46,6 +45,10 @@ import {
   ApiExtraModels,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
+import {
+  StudentEntitlementService,
+  type StudentEntitlement,
+} from '../../shared/services/student-entitlement.service';
 import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
 import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import {
@@ -53,7 +56,6 @@ import {
   AuthStudentDto,
   AuthTokenResponseDto,
   DeviceSessionResponseDto,
-  GoogleLinkingRequiredDto,
   MessageResponseDto,
   SuccessResponseDto,
   VerifiedResponseDto,
@@ -65,22 +67,45 @@ interface StudentResponseDto {
   lastName: string | null;
   email: string | null;
   emailVerified: boolean;
+  level?: 'A1' | 'A2' | 'B1' | 'B2' | null;
 }
 
 @ApiTags('Auth')
-@ApiExtraModels(
-  AuthTokenResponseDto,
-  AuthStudentDto,
-  RefreshResponseDto,
-  GoogleLinkingRequiredDto,
-)
+@ApiExtraModels(AuthTokenResponseDto, AuthStudentDto, RefreshResponseDto)
 @Controller('api/auth')
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
+
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService,
     private readonly rateLimitService: RateLimitService,
+    // Required, for the same reason as in AuthService: optional injection
+    // would let a wiring mistake silently remove the field from every refresh.
+    private readonly entitlementService: StudentEntitlementService,
   ) {}
+
+  /**
+   * Reads the entitlement for reporting only. A failure is swallowed: the
+   * token pair has already rotated, and refusing the refresh over an
+   * unreadable subscription would strand a student whose center may be paid
+   * up. StudentSubscriptionGuard is what refuses learning.
+   */
+  private async readEntitlement(
+    studentId: string,
+  ): Promise<StudentEntitlement | undefined> {
+    try {
+      return await this.entitlementService.forStudent(studentId);
+    } catch (error) {
+      // Logged rather than swallowed. A subscription store that has stopped
+      // answering is worth knowing about, and this path would otherwise hide
+      // it completely: the refresh still succeeds, just without the field.
+      this.logger.warn(
+        `refresh: could not read entitlement for ${studentId}: ${(error as Error).message}`,
+      );
+      return undefined;
+    }
+  }
 
   /**
    * POST /api/auth/register
@@ -323,9 +348,16 @@ export class AuthController {
 
       await this.authService.updateStudentLastSeen(refreshPayload.studentId);
 
+      // Refresh keeps working for a blocked student, deliberately. Blocking it
+      // would strand them, and they need a live session for the moment their
+      // center pays again. The status rides along so a client learns it is
+      // blocked here rather than by a 403 on the next learning call.
+      const subscription = await this.readEntitlement(refreshPayload.studentId);
+
       return {
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
+        ...(subscription ? { subscription } : {}),
       };
     } catch (error) {
       if (error instanceof HttpException) {
@@ -373,7 +405,12 @@ export class AuthController {
     refreshToken: string;
     student: StudentResponseDto;
   }> {
-    if (!profileDto.firstName && !profileDto.lastName && !profileDto.email) {
+    if (
+      !profileDto.firstName &&
+      !profileDto.lastName &&
+      !profileDto.email &&
+      !profileDto.level
+    ) {
       throw new BadRequestException('NO_PROFILE_FIELDS');
     }
 
@@ -383,6 +420,7 @@ export class AuthController {
         firstName: profileDto.firstName,
         lastName: profileDto.lastName,
         email: profileDto.email,
+        level: profileDto.level,
       },
     );
 
@@ -414,6 +452,7 @@ export class AuthController {
         lastName: updated.last_name,
         email: updated.email,
         emailVerified: updated.email_verified,
+        level: updated.level ?? null,
       },
     };
   }
@@ -507,47 +546,5 @@ export class AuthController {
       sessionId,
     );
     return { success: true };
-  }
-
-  /**
-   * POST /api/auth/google
-   * Login or request linking with Google OAuth
-   */
-  @Post('google')
-  @ApiOperation({
-    summary: 'Google login (currently disabled)',
-    deprecated: true,
-  })
-  @ApiCreatedResponse({
-    description: 'Legacy response; this integration is currently not in use.',
-    schema: {
-      oneOf: [
-        { $ref: getSchemaPath(AuthTokenResponseDto) },
-        { $ref: getSchemaPath(GoogleLinkingRequiredDto) },
-      ],
-    },
-  })
-  async googleLogin(
-    @Body() dto: GoogleLoginRequestDto,
-  ): Promise<
-    AuthTokenResponse | { status: 'LINKING_REQUIRED'; linkingToken: string }
-  > {
-    return this.authService.googleLogin(dto);
-  }
-
-  /**
-   * POST /api/auth/google/link
-   * Link Google account to existing student
-   */
-  @Post('google/link')
-  @ApiOperation({
-    summary: 'Link a Google account (currently disabled)',
-    deprecated: true,
-  })
-  @ApiCreatedResponse({ type: AuthTokenResponseDto })
-  async googleLink(
-    @Body() dto: GoogleLinkRequestDto,
-  ): Promise<AuthTokenResponse> {
-    return this.authService.googleLink(dto);
   }
 }

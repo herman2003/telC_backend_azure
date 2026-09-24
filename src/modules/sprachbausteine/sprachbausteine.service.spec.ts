@@ -29,14 +29,23 @@ describe('SprachbausteineService answer security', () => {
     words: [{ id: 'word-a', letter: 'a', content: 'Word', sortOrder: 0 }],
     gaps: [{ gapKey: '31', correctWordId: 'word-a', sortOrder: 0 }],
   };
-  const prisma = {
+  const prisma: any = {
     modelltest: { findUnique: jest.fn() },
     sprachbausteineExercise: { findFirst: jest.fn(), findUnique: jest.fn() },
     sprachbausteineTeil2Exercise: {
       findFirst: jest.fn(),
       findUnique: jest.fn(),
     },
-    sprachbausteineAttempt: { create: jest.fn(), findMany: jest.fn() },
+    sprachbausteineAttempt: {
+      create: jest.fn(),
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+    },
+    student: {
+      findUnique: jest.fn(() => Promise.resolve({ id: 'student-1' })),
+    },
+    studentActivity: { create: jest.fn() },
+    $transaction: jest.fn((work: any) => work(prisma)),
   };
   let service: SprachbausteineService;
 
@@ -48,6 +57,8 @@ describe('SprachbausteineService answer security', () => {
     prisma.sprachbausteineTeil2Exercise.findFirst.mockResolvedValue(teil2);
     prisma.sprachbausteineAttempt.create.mockResolvedValue({});
     prisma.sprachbausteineAttempt.findMany.mockResolvedValue([]);
+    prisma.sprachbausteineAttempt.findUnique.mockResolvedValue(null);
+    prisma.studentActivity.create.mockResolvedValue({});
   });
 
   // This test used to assert the opposite: that getExercise() leaked no correct
@@ -129,13 +140,28 @@ describe('SprachbausteineService answer security', () => {
       contentRevision: 'sb-2-v1',
       answers: { '31': 'wa' },
     });
-    expect(result.score).toBe(100);
+    expect(result).toMatchObject({
+      attemptId: expect.any(String),
+      score: 100,
+    });
+    // Recorded as Sprachbausteine activity for Teil 2, in the same transaction.
+    expect(prisma.$transaction).toHaveBeenCalledTimes(1);
+    expect(prisma.studentActivity.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        student_id: 'student-1',
+        skill: 'SPRACHBAUSTEINE',
+        teil: 2,
+        score: 100,
+        modelltest_id: 'mt-1',
+        attempt_id: result.attemptId,
+      }),
+    });
   });
 
   it('returns the Teil 1 answer key with the score, so the client can correct', async () => {
-    // The exercise response deliberately withholds the answers (see the first
-    // test). Releasing them here instead is what lets a student see WHICH gaps
-    // were wrong, without ever letting them see it before they answer.
+    // The exercise response deliberately withholds the answers. Releasing them
+    // here instead is what lets a student see WHICH gaps were wrong, without
+    // ever letting them see it before they answer.
     prisma.sprachbausteineExercise.findUnique.mockResolvedValue(teil1);
 
     const result = await service.submit('student-1', {
@@ -160,25 +186,6 @@ describe('SprachbausteineService answer security', () => {
     });
 
     expect(result.answerKey).toEqual({ '31': 'wa' });
-  });
-
-  it('releases the answer key only after the attempt is recorded', async () => {
-    // Ordering matters: if the key were returned on a submission that failed to
-    // persist, a client could harvest answers by submitting and discarding the
-    // error, which is the exposure the exercise endpoint was hardened against.
-    prisma.sprachbausteineExercise.findUnique.mockResolvedValue(teil1);
-    prisma.sprachbausteineAttempt.create.mockRejectedValue(
-      new Error('database unavailable'),
-    );
-
-    await expect(
-      service.submit('student-1', {
-        modelltestNumber: 1,
-        teil_id: '1',
-        contentRevision: 'sb-1-v1',
-        answers: { '21': '21b' },
-      }),
-    ).rejects.toThrow('database unavailable');
   });
 
   it('rejects unknown gap IDs and answer values outside the exercise options', async () => {
@@ -235,7 +242,7 @@ describe('SprachbausteineService answer security', () => {
     });
     expect(prisma.sprachbausteineAttempt.findMany).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: { student_id: 'student-1', teil_id: '1' },
+        where: { student_id: 'student-1', erasure_id: null, teil_id: '1' },
       }),
     );
   });

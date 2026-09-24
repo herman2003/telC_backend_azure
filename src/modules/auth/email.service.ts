@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import {
+  escapeHtml,
+  LERNIQO_LOGO_ATTACHMENT,
+  readLerniqoLogo,
+  renderLerniqoEmail,
+  type EmailContent,
+} from './email.template';
 
 @Injectable()
 export class EmailService {
@@ -12,18 +17,74 @@ export class EmailService {
     this.resend = new Resend(this.config.getOrThrow<string>('RESEND_API_KEY'));
   }
 
-  async sendVerificationEmail(to: string, rawToken: string): Promise<void> {
-    const vitrineUrl =
+  /**
+   * Every transactional email leaves through here, so the branded shell, the
+   * CID logo attachment and the plain-text alternative cannot be forgotten on
+   * a new message — which is how five of the six ended up unbranded before.
+   */
+  private async send(
+    to: string,
+    content: EmailContent,
+    replyTo?: string,
+  ): Promise<void> {
+    await this.resend.emails.send({
+      from: this.config.getOrThrow<string>('EMAIL_FROM'),
+      to,
+      ...(replyTo ? { replyTo } : {}),
+      subject: content.subject,
+      html: renderLerniqoEmail(content),
+      text: content.text,
+      attachments: [{ ...LERNIQO_LOGO_ATTACHMENT, content: readLerniqoLogo() }],
+    });
+  }
+
+  /**
+   * Trailing slashes are stripped here rather than trusted to whoever edits
+   * the environment. `https://www.lerniqo.tech/` would otherwise build
+   * `...tech//verify-email`, which some routers answer with a 404 — and the
+   * failure would only ever be visible in a real inbox.
+   */
+  private getVitrineUrl(): string {
+    const configured =
       this.config.get<string>('VITRINE_URL') ||
       this.config.getOrThrow<string>('FRONTEND_URL');
-    const emailFrom = this.config.getOrThrow<string>('EMAIL_FROM');
-    const verificationLink = `${vitrineUrl}/verify-email?token=${rawToken}`;
 
-    await this.resend.emails.send({
-      from: emailFrom,
-      to,
-      subject: 'Verify your email address',
-      html: `<p>Click the link below to verify your email:</p><p><a href="${verificationLink}">${verificationLink}</a></p>`,
+    return configured.trim().replace(/\/+$/, '');
+  }
+
+  /**
+   * Both audiences verify on the same website page. The `type` parameter is
+   * what tells that page which endpoint to call, so a center token is never
+   * sent to the student verifier.
+   */
+  private verificationLink(rawToken: string, isCenter: boolean): string {
+    const suffix = isCenter ? '&type=center' : '';
+    return `${this.getVitrineUrl()}/verify-email?token=${rawToken}${suffix}`;
+  }
+
+  async sendVerificationEmail(to: string, rawToken: string): Promise<void> {
+    const link = this.verificationLink(rawToken, false);
+
+    await this.send(to, {
+      subject: 'Bestätige deine E-Mail-Adresse',
+      preheader: 'Nur noch ein Schritt bis zu deinem Lerniqo-Konto.',
+      heading: 'E-Mail-Adresse bestätigen',
+      paragraphs: [
+        'Willkommen bei Lerniqo.',
+        'Bestätige deine E-Mail-Adresse, um dein Konto zu aktivieren:',
+      ],
+      action: { label: 'E-Mail bestätigen', url: link },
+      notice:
+        'Wenn du kein Konto erstellt hast, kannst du diese E-Mail ignorieren.',
+      text: [
+        'E-Mail-Adresse bestätigen',
+        '',
+        'Willkommen bei Lerniqo.',
+        'Bestätige deine E-Mail-Adresse, um dein Konto zu aktivieren:',
+        link,
+        '',
+        'Wenn du kein Konto erstellt hast, kannst du diese E-Mail ignorieren.',
+      ].join('\n'),
     });
   }
 
@@ -45,145 +106,266 @@ export class EmailService {
     to: string,
     rawToken: string,
   ): Promise<void> {
-    const vitrineUrl =
-      this.config.get<string>('VITRINE_URL') ||
-      this.config.getOrThrow<string>('FRONTEND_URL');
-    const emailFrom = this.config.getOrThrow<string>('EMAIL_FROM');
-    const verificationLink = `${vitrineUrl}/verify-email?token=${rawToken}`;
+    const link = this.verificationLink(rawToken, false);
 
-    await this.resend.emails.send({
-      from: emailFrom,
-      to,
-      subject: 'Finish setting up your account',
-      html:
-        `<p>You already started creating an account with this email address, ` +
-        `but it has not been verified yet.</p>` +
-        `<p>Verify it here:</p>` +
-        `<p><a href="${verificationLink}">${verificationLink}</a></p>` +
-        `<p>Your password has not been changed. If you no longer remember the ` +
-        `password you chose, verify your address first, then use ` +
-        `&quot;Forgot password&quot; in the app to set a new one.</p>` +
-        `<p>If you did not try to create an account, you can ignore this email. ` +
-        `Nothing has changed.</p>`,
+    await this.send(to, {
+      subject: 'Schließe die Einrichtung deines Kontos ab',
+      preheader: 'Für diese Adresse gibt es bereits ein unbestätigtes Konto.',
+      heading: 'Konto noch nicht bestätigt',
+      paragraphs: [
+        'Für diese E-Mail-Adresse wurde bereits ein Konto angelegt, das noch nicht bestätigt ist.',
+        'Bestätige es mit diesem neuen Link:',
+      ],
+      action: { label: 'E-Mail bestätigen', url: link },
+      notice:
+        'Dein Passwort wurde nicht geändert. Wenn du es nicht mehr weißt, bestätige zuerst deine Adresse und nutze dann die Funktion &bdquo;Passwort vergessen&ldquo;. Wenn du kein Konto erstellen wolltest, kannst du diese E-Mail ignorieren &mdash; es hat sich nichts geändert.',
+      text: [
+        'Konto noch nicht bestätigt',
+        '',
+        'Für diese E-Mail-Adresse wurde bereits ein Konto angelegt, das noch nicht bestätigt ist.',
+        'Bestätige es mit diesem neuen Link:',
+        link,
+        '',
+        'Dein Passwort wurde nicht geändert.',
+      ].join('\n'),
+    });
+  }
+
+  async sendCenterVerificationEmail(
+    to: string,
+    rawToken: string,
+  ): Promise<void> {
+    const link = this.verificationLink(rawToken, true);
+
+    await this.send(to, {
+      subject: 'Bestätigen Sie Ihr Lerniqo-Sprachschulkonto',
+      preheader: 'Nur noch ein Schritt bis zu Ihrem Sprachschulkonto.',
+      heading: 'Sprachschulkonto bestätigen',
+      paragraphs: [
+        'Willkommen bei Lerniqo für Sprachschulen.',
+        'Bestätigen Sie Ihre E-Mail-Adresse, um die Einrichtung Ihres Sprachschulkontos abzuschließen:',
+      ],
+      action: { label: 'E-Mail bestätigen', url: link },
+      notice:
+        'Wenn Sie dieses Konto nicht angefordert haben, können Sie diese E-Mail ignorieren.',
+      text: [
+        'Sprachschulkonto bestätigen',
+        '',
+        'Willkommen bei Lerniqo für Sprachschulen.',
+        'Bestätigen Sie Ihre E-Mail-Adresse, um die Einrichtung abzuschließen:',
+        link,
+        '',
+        'Wenn Sie dieses Konto nicht angefordert haben, können Sie diese E-Mail ignorieren.',
+      ].join('\n'),
+    });
+  }
+
+  async sendExistingCenterVerificationEmail(
+    to: string,
+    rawToken: string,
+  ): Promise<void> {
+    const link = this.verificationLink(rawToken, true);
+
+    await this.send(to, {
+      subject: 'Schließen Sie die Einrichtung Ihres Sprachschulkontos ab',
+      preheader:
+        'Für diese Adresse besteht bereits ein unbestätigtes Sprachschulkonto.',
+      heading: 'Konto noch nicht bestätigt',
+      paragraphs: [
+        'Für diese E-Mail-Adresse besteht bereits ein unbestätigtes Sprachschulkonto.',
+        'Bestätigen Sie es mit diesem neuen Link:',
+      ],
+      action: { label: 'E-Mail bestätigen', url: link },
+      notice:
+        'Ihr Passwort und Ihre Sprachschuldaten wurden nicht geändert. Wenn Sie das Passwort nicht mehr kennen, bestätigen Sie zuerst Ihre E-Mail-Adresse und nutzen Sie dann die Funktion &bdquo;Passwort vergessen&ldquo;. Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren.',
+      text: [
+        'Konto noch nicht bestätigt',
+        '',
+        'Für diese E-Mail-Adresse besteht bereits ein unbestätigtes Sprachschulkonto.',
+        'Bestätigen Sie es mit diesem neuen Link:',
+        link,
+        '',
+        'Ihr Passwort wurde nicht geändert.',
+      ].join('\n'),
+    });
+  }
+
+  async sendCenterPasswordResetEmail(
+    to: string,
+    rawCode: string,
+  ): Promise<void> {
+    await this.send(to, {
+      subject: 'Ihr Lerniqo-Code zum Zurücksetzen des Passworts',
+      preheader:
+        'Mit diesem Code setzen Sie das Passwort Ihres Sprachschulkontos zurück.',
+      heading: 'Passwort zurücksetzen',
+      paragraphs: [
+        'Wir haben eine Anfrage erhalten, das Passwort Ihres Lerniqo-Sprachschulkontos zurückzusetzen.',
+      ],
+      code: { label: 'Ihr Bestätigungscode:', value: rawCode },
+      notice:
+        '<strong>Sicherheitshinweis:</strong> Der Code ist 10 Minuten gültig. Beim Zurücksetzen werden alle angemeldeten Geräte abgemeldet. Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren &mdash; Ihr Passwort bleibt unverändert.',
+      text: [
+        'Passwort zurücksetzen',
+        '',
+        'Wir haben eine Anfrage erhalten, das Passwort Ihres Lerniqo-Sprachschulkontos zurückzusetzen.',
+        '',
+        `Ihr Bestätigungscode: ${rawCode}`,
+        '',
+        'Der Code ist 10 Minuten gültig. Beim Zurücksetzen werden alle angemeldeten Geräte abgemeldet.',
+        'Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren.',
+      ].join('\n'),
+    });
+  }
+
+  /**
+   * Sent when a center provisions a student.
+   *
+   * It gates nothing — the student activates with the key their school hands
+   * them, not from here. It exists to prove the address works, so a typo comes
+   * back as a bounce the center can fix rather than silence, and so the
+   * student has heard from Lerniqo directly from day one.
+   *
+   * It deliberately carries no activation key: the key goes to the center.
+   */
+  async sendStudentWelcomeEmail(to: string, firstName: string): Promise<void> {
+    const greeting = firstName?.trim()
+      ? `Hallo ${firstName.trim()},`
+      : 'Hallo,';
+
+    await this.send(to, {
+      subject: 'Deine Sprachschule hat dich zu Lerniqo hinzugefügt',
+      preheader:
+        'Dein Zugang zu Lerniqo wurde von deiner Sprachschule angelegt.',
+      heading: 'Willkommen bei Lerniqo',
+      paragraphs: [
+        greeting,
+        'deine Sprachschule hat für dich ein Lerniqo-Konto angelegt.',
+        'Du erhältst deinen persönlichen Aktivierungscode direkt von deiner Sprachschule. Damit legst du dein eigenes Passwort fest und startest.',
+      ],
+      notice:
+        'Dein Passwort wählst nur du selbst — deine Sprachschule kennt es nicht. Wenn du nicht weißt, worum es geht, wende dich an deine Sprachschule.',
+      text: [
+        'Willkommen bei Lerniqo',
+        '',
+        greeting,
+        '',
+        'deine Sprachschule hat für dich ein Lerniqo-Konto angelegt.',
+        'Deinen persönlichen Aktivierungscode erhältst du direkt von deiner Sprachschule.',
+        '',
+        'Dein Passwort wählst nur du selbst.',
+      ].join('\n'),
     });
   }
 
   async sendPasswordResetEmail(to: string, rawCode: string): Promise<void> {
-    const emailFrom = this.config.getOrThrow<string>('EMAIL_FROM');
-    const logo = readFileSync(
-      join(__dirname, '..', '..', '..', 'public', 'logo.png'),
-    );
-
-    const subject = 'Dein Lerniqo-Code zum Zurücksetzen des Passworts';
-
-    const text = `
-Passwort zurücksetzen
-
-Hallo,
-
-wir haben eine Anfrage erhalten, dein Lerniqo-Passwort zurückzusetzen.
-
-Dein Bestätigungscode: ${rawCode}
-
-Gib diesen Code in der Lerniqo-App ein. Er ist 10 Minuten gültig.
-
-Wenn du diese Anfrage nicht gestellt hast, kannst du diese E-Mail ignorieren. Dein Passwort bleibt unverändert.
-
-Lerniqo
-Deine KI-gestützte Prüfungsvorbereitung für die telC-Sprachprüfung.
-www.lerniqo.tech
-    `.trim();
-
-    const html = `
-<!doctype html>
-<html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light only">
-    <title>${subject}</title>
-  </head>
-  <body style="margin:0;padding:0;background-color:#f3f6fa;font-family:Arial,Helvetica,sans-serif;color:#172033;">
-    <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
-      Mit diesem Code kannst du dein Lerniqo-Passwort zurücksetzen.
-    </div>
-
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#f3f6fa;">
-      <tr>
-        <td align="center" style="padding:32px 16px;">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:560px;background-color:#ffffff;border:1px solid #dfe7f1;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(15,35,65,0.08);">
-            <tr>
-              <td align="center" style="padding:28px 36px;background-color:#06285a;">
-                <img src="cid:lerniqo-logo" width="150" alt="Lerniqo" style="display:block;width:150px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;">
-              </td>
-            </tr>
-
-            <tr>
-              <td style="padding:38px 36px 34px;">
-                <h1 style="margin:0 0 24px;color:#06285a;font-size:26px;line-height:1.25;font-weight:800;text-align:center;">
-                  Passwort zurücksetzen
-                </h1>
-
-                <p style="margin:0 0 16px;font-size:16px;line-height:1.65;">Hallo,</p>
-                <p style="margin:0 0 22px;font-size:16px;line-height:1.65;">
-                  wir haben eine Anfrage erhalten, dein Lerniqo-Passwort zurückzusetzen.
-                </p>
-
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#f7f9fc;border:1px solid #cbd9eb;border-radius:14px;">
-                  <tr>
-                    <td align="center" style="padding:24px 16px;">
-                      <p style="margin:0 0 12px;color:#172033;font-size:15px;line-height:1.4;font-weight:700;">
-                        Dein Bestätigungscode:
-                      </p>
-                      <p style="margin:0;color:#06285a;font-family:'Courier New',Courier,monospace;font-size:38px;line-height:1.2;font-weight:800;letter-spacing:8px;">
-                        ${rawCode}
-                      </p>
-                    </td>
-                  </tr>
-                </table>
-
-                <p style="margin:24px 0;font-size:16px;line-height:1.65;">
-                  Gib diesen Code in der Lerniqo-App ein. Er ist <strong>10 Minuten gültig</strong>.
-                </p>
-
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#fff8e8;border:1px solid #f2b441;border-radius:10px;">
-                  <tr>
-                    <td style="padding:16px;color:#694f00;font-size:14px;line-height:1.6;">
-                      <strong>Sicherheitshinweis:</strong> Wenn du diese Anfrage nicht gestellt hast, kannst du diese E-Mail ignorieren. Dein Passwort bleibt unverändert.
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-
-            <tr>
-              <td align="center" style="padding:24px 36px;background-color:#f9fbfd;border-top:1px solid #dfe7f1;color:#667085;font-size:13px;line-height:1.6;">
-                <strong style="color:#172033;font-size:16px;">Lerniqo</strong><br>
-                Deine KI-gestützte Prüfungsvorbereitung für die telC-Sprachprüfung.<br>
-                <span style="color:#086bd8;">www.lerniqo.tech</span>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
-</html>
-    `;
-
-    await this.resend.emails.send({
-      from: emailFrom,
-      to,
-      subject,
-      html,
-      text,
-      attachments: [
-        {
-          filename: 'lerniqo-logo.png',
-          content: logo,
-          contentId: 'lerniqo-logo',
-        },
+    await this.send(to, {
+      subject: 'Dein Lerniqo-Code zum Zurücksetzen des Passworts',
+      preheader:
+        'Mit diesem Code kannst du dein Lerniqo-Passwort zurücksetzen.',
+      heading: 'Passwort zurücksetzen',
+      paragraphs: [
+        'Hallo,',
+        'wir haben eine Anfrage erhalten, dein Lerniqo-Passwort zurückzusetzen.',
       ],
+      code: { label: 'Dein Bestätigungscode:', value: rawCode },
+      notice:
+        '<strong>Sicherheitshinweis:</strong> Gib diesen Code in der Lerniqo-App ein. Er ist 10 Minuten gültig. Wenn du diese Anfrage nicht gestellt hast, kannst du diese E-Mail ignorieren &mdash; dein Passwort bleibt unverändert.',
+      text: [
+        'Passwort zurücksetzen',
+        '',
+        'Hallo,',
+        '',
+        'wir haben eine Anfrage erhalten, dein Lerniqo-Passwort zurückzusetzen.',
+        '',
+        `Dein Bestätigungscode: ${rawCode}`,
+        '',
+        'Gib diesen Code in der Lerniqo-App ein. Er ist 10 Minuten gültig.',
+        '',
+        'Wenn du diese Anfrage nicht gestellt hast, kannst du diese E-Mail ignorieren.',
+      ].join('\n'),
+    });
+  }
+
+  /**
+   * A support message or deletion request, to the Lerniqo team (D24, D37).
+   * In English: it is read by the team, not by a school.
+   *
+   * Every field was typed by a caller, so each is escaped before it enters the
+   * HTML — the template takes paragraphs as markup.
+   */
+  async sendSupportRequestToTeam(
+    to: string,
+    request: {
+      subject: string;
+      replyTo: string;
+      fields: [label: string, value: string][];
+      message?: string;
+    },
+  ): Promise<void> {
+    const rows = request.fields.map(
+      ([label, value]) => `<strong>${label}:</strong> ${escapeHtml(value)}`,
+    );
+    const message = request.message
+      ? escapeHtml(request.message).replace(/\n/g, '<br>')
+      : null;
+    await this.send(
+      to,
+      {
+        subject: request.subject,
+        preheader: request.subject,
+        heading: request.subject,
+        paragraphs: message ? [...rows, message] : rows,
+        text: [
+          request.subject,
+          '',
+          ...request.fields.map(([label, value]) => `${label}: ${value}`),
+          ...(request.message ? ['', request.message] : []),
+        ].join('\n'),
+      },
+      request.replyTo,
+    );
+  }
+
+  /** "We received your message", to the manager's account address (D24). */
+  async sendSupportAcknowledgement(
+    to: string,
+    firstName: string,
+  ): Promise<void> {
+    const greeting = `Hallo ${escapeHtml(firstName.trim())},`;
+    await this.send(to, {
+      subject: 'Wir haben Ihre Nachricht erhalten',
+      preheader: 'Das Lerniqo-Team meldet sich so bald wie möglich bei Ihnen.',
+      heading: 'Nachricht erhalten',
+      paragraphs: [
+        greeting,
+        'vielen Dank für Ihre Nachricht an das Lerniqo-Team. Wir melden uns so bald wie möglich bei Ihnen.',
+      ],
+      text: [
+        `Hallo ${firstName.trim()},`,
+        '',
+        'vielen Dank für Ihre Nachricht an das Lerniqo-Team. Wir melden uns so bald wie möglich bei Ihnen.',
+      ].join('\n'),
+    });
+  }
+
+  /** The deletion request was received; nothing is deleted yet (D37). */
+  async sendDeletionRequestAcknowledgement(
+    to: string,
+    firstName: string,
+  ): Promise<void> {
+    const greeting = `Hallo ${escapeHtml(firstName.trim())},`;
+    const body =
+      'wir haben Ihre Anfrage erhalten, Ihr Lerniqo-Konto und alle zugehörigen Daten zu löschen. Eine Administratorin oder ein Administrator wird Sie kontaktieren, um die Löschung mit Ihnen zu besprechen.';
+    const notice =
+      'Bis dahin bleibt Ihr Konto unverändert: Plätze, Codes und Lernende funktionieren weiter.';
+    await this.send(to, {
+      subject: 'Ihre Anfrage zur Kontolöschung',
+      preheader: 'Wir melden uns bei Ihnen, bevor etwas gelöscht wird.',
+      heading: 'Anfrage erhalten',
+      paragraphs: [greeting, body],
+      notice,
+      text: [`Hallo ${firstName.trim()},`, '', body, '', notice].join('\n'),
     });
   }
 }

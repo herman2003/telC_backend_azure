@@ -7,6 +7,22 @@ datasource db {
   provider = "postgresql"
 }
 
+enum CenterPlan {
+  TRIAL
+  PAID
+}
+
+enum CenterUserRole {
+  OWNER
+  MANAGER
+}
+
+/// What a seat entitles its student to.
+///
+/// A trial is not a separate plan: it is an ordinary seat priced at zero with a
+/// 14-day clock, so trial and paid Start students behave identically
+/// everywhere except the clock. That keeps the quota logic to three cases
+/// rather than four.
 model Student {
   id           String   @id @default(uuid())
   first_name   String?
@@ -23,27 +39,38 @@ model Student {
   password_reset_token       String?
   password_reset_expires     DateTime?
 
-  device_sessions DeviceSession[]
-  exam_sessions   ExamSession[]
-  lesen_sessions  LesenSession[]
-  oauth_accounts  OAuthAccount[]
+  /// WhatsApp number. Optional, and the channel that actually reaches people
+  /// in-market — email deliverability is the weaker of the two, which matters
+  /// for renewal reminders and for reaching a student whose center lapses.
+  phone String?
 
+  /// The center that provisioned this student, and the seat-counting boundary.
+  /// Nullable: students who predate the center model, and any future
+  /// independent student, simply have none.
+  center_id String?
+
+  /// True for a student who was using the app without a school when access
+  /// started requiring an activation code (D34).
+  ///
+  /// Set once, by the migration that introduced the rule, on every row that
+  /// had no center and no seat at that moment — so "people already using the
+  /// app keep it" means exactly those rows, with no date to configure and no
+  /// way for an account created later to fall under it. Nothing writes it
+  /// afterwards.
+  grandfathered_access Boolean @default(false)
+
+  /// The student's current German level (D38). Declared by the student,
+  /// editable by their center. Null until either sets it.
+  level CefrLevel?
+
+  center          Center?           @relation(fields: [center_id], references: [id], onDelete: SetNull)
+  ai_usage        AiUsage[]
+  device_sessions DeviceSession[]
+  activities      StudentActivity[]
+
+  @@index([center_id])
   @@index([email])
   @@map("students")
-}
-
-model OAuthAccount {
-  id          String   @id @default(uuid())
-  student_id  String
-  provider    String
-  provider_id String
-  created_at  DateTime @default(now())
-
-  student Student @relation(fields: [student_id], references: [id])
-
-  @@unique([provider, provider_id])
-  @@index([student_id])
-  @@map("oauth_accounts")
 }
 
 model DeviceSession {
@@ -63,75 +90,332 @@ model DeviceSession {
   @@map("device_sessions")
 }
 
-model ExamSession {
-  session_id                 String    @id @default(uuid())
-  user_id                    String?
-  student_id                 String?
-  teil_number                Int
-  status                     String
-  use_timer                  Boolean?  @default(true)
-  time_limit_seconds         Int?
-  server_start_time          DateTime?
-  pause_timestamp            DateTime?
-  elapsed_time               Int?      @default(0)
-  context_from_previous_teil Boolean?  @default(false)
-  created_at                 DateTime? @default(now())
-  updated_at                 DateTime? @default(now())
-  completed_at               DateTime?
+model Center {
+  id   String @id @default(uuid())
+  /// The only thing registration collects about the center itself, so it stays
+  /// required — optional here would let a five-field signup write a row that
+  /// says nothing.
+  name String
 
-  student          Student?         @relation(fields: [student_id], references: [id])
-  teil_transcripts TeilTranscript[]
-  teil_evaluations TeilEvaluation[]
-  gemini_sessions  GeminiSession[]
+  logo_url String?
 
-  @@map("exam_sessions")
+  /// Where the school is, as ids rather than prose.
+  ///
+  /// A controlled country decides the address rules, the currency and later
+  /// the tax; free text would give back "Douala / douala / Dla", which no
+  /// report can group. Collected during onboarding rather than at
+  /// registration, so all of it is nullable until a center completes its
+  /// profile.
+  country_code String?
+  /// Never supplied by a client: it is looked up from the chosen city, so a
+  /// city can never end up filed under a region it does not belong to.
+  region_id    String?
+  /// The city we list, or…
+  city_id      String?
+  /// …the one we do not. A school in a town missing from the list types it
+  /// here and is never blocked from onboarding; a name typed often enough is
+  /// promoted into the list, and these rows repointed.
+  city_other   String?
+
+  /// The rest of the address, required or not depending on the country: a
+  /// quarter is how an address is given in Cameroon, while Germany needs
+  /// street, number and postal code. The rule lives beside the country list,
+  /// not here — a column cannot express "required only for CM".
+  district     String?
+  postal_code  String?
+  street       String?
+  house_number String?
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+
+  users            CenterUser[]
+  activation_codes ActivationCode[]
+  payments         Payment[]
+  seats            CenterSeat[]
+  students         Student[]
+  subscription     CenterSubscription?
+
+  @@map("centers")
 }
 
-model GeminiSession {
-  id                String    @id @default(uuid())
-  exam_session_id   String
-  gemini_session_id String?
-  status            String?
-  created_at        DateTime? @default(now())
-  closed_at         DateTime?
-  error_message     String?
+/// One per center, created with the center so a center without a subscription
+/// is a bug rather than a supported state.
+///
+/// There is no `status` column on purpose. A stored status has to be kept
+/// correct by a scheduled job, and when that job runs late the failure
+/// direction is granting access nobody paid for. These timestamps are the
+/// facts; `SubscriptionPolicyService` derives the status from them on read.
+model CenterSubscription {
+  id        String     @id @default(uuid())
+  center_id String     @unique
+  plan      CenterPlan @default(TRIAL)
 
-  exam_session ExamSession @relation(fields: [exam_session_id], references: [session_id])
+  /// Set by the first student activation (Phase 4), not at registration.
+  trial_started_at DateTime?
+  trial_ends_at    DateTime?
+  /// Set by verified payment (Phase 7). Grace is derived from it, and applies
+  /// only to a lapsed paid period — an expired trial blocks immediately.
+  paid_until       DateTime?
 
-  @@map("gemini_sessions")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
+
+  @@map("center_subscriptions")
 }
 
-model TeilTranscript {
-  id                   String    @id @default(uuid())
-  session_id           String
-  transcript_text      String
-  conversation_history Json?
-  word_count           Int?      @default(0)
-  interrupted_at       DateTime?
-  created_at           DateTime? @default(now())
-
-  exam_session ExamSession @relation(fields: [session_id], references: [session_id])
-
-  @@map("teil_transcripts")
+/// The seats a center holds.
+///
+/// One row per center: Start is the only plan (the tiers were removed on
+/// 2026-09-23), so a seat count never depends on summing several rows.
+/// A chargeable AI operation, one value per thing a quota is counted against.
+///
+/// An enum rather than free text so a typo cannot silently create a new
+/// category that no allowance covers. Only speaking is metered today; Premium's
+/// "AI in every module" adds values here, and each new value needs an
+/// allowance before it is written.
+enum AiOperation {
+  SPEAKING_EVALUATION
 }
 
-model TeilEvaluation {
-  id                      String    @id @default(uuid())
-  session_id              String
-  pronunciation_score     Float?
-  fluency_score           Float?
-  grammar_score           Float?
-  vocabulary_score        Float?
-  overall_score           Float?
-  corrections_json        Json?
-  strengths               String?
-  areas_for_improvement   String?
-  evaluation_requested_at DateTime?
-  created_at              DateTime? @default(now())
+model CenterSeat {
+  id        String @id @default(uuid())
+  center_id String
+  /// Seats held. Never zero: a row saying "no seats" is not the same as no
+  /// row, and would make every count ambiguous.
+  quantity  Int
 
-  exam_session ExamSession @relation(fields: [session_id], references: [session_id])
+  /// The price this center pays per seat, copied in at purchase rather
+  /// than looked up. This is what makes grandfathering automatic — raising the
+  /// list price later cannot rewrite what a center already agreed to.
+  ///
+  /// Zero is legal, and is how a free trial seat is held.
+  unit_price_xaf Int
 
-  @@map("teil_evaluations")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
+
+  @@unique([center_id])
+  @@map("center_seats")
+}
+
+/// Where an activation code stands.
+///
+/// `ACTIVATED` is a code waiting for a student, `CONNECTED` one a student has
+/// redeemed, `DEACTIVATED` one the center has taken back. There is no
+/// `EXPIRED`: expiry is a date compared on read, so a code cannot sit in the
+/// wrong state because no job ran.
+enum ActivationCodeStatus {
+  ACTIVATED
+  CONNECTED
+  DEACTIVATED
+}
+
+/// One seat, as a value a center can hand to a student.
+///
+/// Created only by the backend — a trial starting, or a payment succeeding —
+/// so the number of codes and the number of seats paid for cannot disagree.
+/// There is no route that makes one by hand.
+model ActivationCode {
+  id        String               @id @default(uuid())
+  center_id String
+  /// `LQ-XXXX-XXXX`, stored readable rather than hashed: a manager has to see
+  /// it again on the Users page to hand it out. Deactivation, not secrecy, is
+  /// what protects a seat.
+  code      String               @unique
+  status    ActivationCodeStatus @default(ACTIVATED)
+
+  /// The student who redeemed it, and what they were called at that moment.
+  /// Name and email are copied rather than joined so the center still sees who
+  /// held a seat after the student is gone; the id is the link that matters.
+  student_id   String?
+  linked_name  String?
+  linked_email String?
+  connected_at DateTime?
+  /// Where the redemption came from. A center holds the code and can redeem it
+  /// itself, so this is the audit trail that makes that visible afterwards.
+  connected_ip String?
+
+  /// When the seat stops working, compared on read. Null means it follows the
+  /// center's subscription rather than a date of its own — which is what every
+  /// paid code does (D4: all codes of a school end with its pack). Only the
+  /// trial code carries a date.
+  expires_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
+
+  events ActivationCodeEvent[]
+
+  /// The Users page lists a center's codes by state; redemption looks one up
+  /// by its value, which the unique index above already covers.
+  ///
+  /// Also enforced, outside this schema: a student holds at most ONE
+  /// connected code — a partial unique index on (student_id) where
+  /// status = 'CONNECTED', in migration 20260918200000. Prisma cannot express
+  /// a partial index; it is what makes two simultaneous redemptions by one
+  /// student fail instead of both succeeding.
+  @@index([center_id, status])
+  @@index([student_id])
+  @@map("activation_codes")
+}
+
+/// Every change a center makes to one of its codes.
+///
+/// Append-only. It answers "who cut this student off, and when" after the
+/// fact, and it is the count behind any future limit on how often one seat may
+/// move between students — without it, a school could rotate one paid seat
+/// through a whole class and nothing would show it.
+model ActivationCodeEvent {
+  id             String               @id @default(uuid())
+  code_id        String
+  center_id      String
+  /// The manager who acted. Null would mean the system acted; nothing does yet.
+  center_user_id String?
+  from_status    ActivationCodeStatus
+  to_status      ActivationCodeStatus
+  /// Who held the seat at that moment, so a deactivation still names the
+  /// student it cut off after the code has been handed to someone else.
+  student_id     String?
+  /// Set on a RESET, and only there: the value the code had before it was
+  /// replaced (D39). Filled means "this event is a reset" — the reset limit
+  /// counts these rows, never status moves, so a reset cannot be mistaken for
+  /// a deactivate-then-activate or missed because the statuses matched.
+  previous_code  String?
+  created_at     DateTime             @default(now())
+
+  code ActivationCode @relation(fields: [code_id], references: [id], onDelete: Cascade)
+
+  @@index([code_id, created_at])
+  @@map("activation_code_events")
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  EXPIRED
+}
+
+/// A center's intent to pay for seats.
+///
+/// Nothing here grants access. Only a verified provider event may move
+/// `paid_until` (Phase 7), which is why `SUCCEEDED` exists in the enum from
+/// the start but is never written in this phase — Phase 7 needs somewhere to
+/// put a verified result without another migration.
+model Payment {
+  id        String @id @default(uuid())
+  center_id String
+
+  /// Seats this payment buys.
+  total_seats    Int
+  /// The price per seat that applied when the payment was created, which is
+  /// what keeps an old invoice truthful after the list price moves.
+  unit_price_xaf Int
+  /// What the whole payment comes to, snapshotted at creation. A price change
+  /// next year must not rewrite what a center agreed to this year, so this is
+  /// a copy rather than a join back to today's prices.
+  amount_xaf     Int
+
+  status PaymentStatus @default(PENDING)
+
+  /// The payment provider's own id for this transaction, stored when a
+  /// checkout starts. A webhook finds its payment by this, and it is unique so
+  /// one provider transaction can never be applied to two payments. Null until
+  /// a checkout exists; Postgres allows any number of nulls under a unique
+  /// index.
+  provider_reference String?   @unique
+  /// Where the center is sent to pay, stored with the reference. A repeated or
+  /// double-clicked checkout returns this instead of asking the provider
+  /// again, which would open a second provider transaction for one payment.
+  checkout_url       String?
+  /// When activation granted access. Set once, by the same statement that
+  /// moves the status, so the two can never disagree.
+  succeeded_at       DateTime?
+  /// When the provider reported the payment failed. A later success still
+  /// activates — the provider is the authority on whether money moved.
+  failed_at          DateTime?
+
+  /// Supplied by the client and claimed atomically by the unique index below.
+  /// The index is the concurrency control: two simultaneous requests race to
+  /// insert, one wins, and the loser is answered from the row that won.
+  idempotency_key String
+  /// Fingerprint of the request the key was first used with. A replay carrying
+  /// the same key but different seats is a different intent wearing the same
+  /// name, and is refused rather than handed the original record.
+  request_hash    String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
+
+  @@unique([center_id, idempotency_key])
+  @@index([center_id, created_at])
+  @@map("payments")
+}
+
+model CenterUser {
+  id         String         @id @default(uuid())
+  center_id  String
+  role       CenterUserRole @default(OWNER)
+  first_name String
+  last_name  String
+  email      String         @unique
+  /// The manager's own number, not the school's public line, and collected
+  /// during onboarding rather than at registration. Nullable for that reason.
+  /// This is who gets contacted about a late payment or a locked account.
+  phone      String?
+
+  /// Where the manager is, which is not necessarily where the school is — a
+  /// chain's owner may sit in Yaoundé while the school is in Douala. Same
+  /// three columns as the center, and the same rule: the region is derived
+  /// from the city, never sent by a client. No address fields: nothing is
+  /// posted to a manager.
+  country_code String?
+  region_id    String?
+  city_id      String?
+  city_other   String?
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+  last_seen_at DateTime @default(now())
+
+  password_hash              String
+  email_verified             Boolean   @default(false)
+  email_verification_token   String?
+  email_verification_expires DateTime?
+  password_reset_token       String?
+  password_reset_expires     DateTime?
+
+  center          Center                @relation(fields: [center_id], references: [id], onDelete: Restrict)
+  device_sessions CenterDeviceSession[]
+
+  @@index([center_id])
+  @@index([email_verification_token])
+  @@index([password_reset_token])
+  @@map("center_users")
+}
+
+model CenterDeviceSession {
+  id                 String    @id @default(uuid())
+  center_user_id     String
+  device_id          String
+  refresh_token_hash String
+  device_name        String?
+  last_used_at       DateTime  @default(now())
+  created_at         DateTime  @default(now())
+  revoked_at         DateTime?
+
+  center_user CenterUser @relation(fields: [center_user_id], references: [id], onDelete: Cascade)
+
+  @@unique([center_user_id, device_id])
+  @@index([center_user_id])
+  @@map("center_device_sessions")
 }
 
 model WritingAttempt {
@@ -152,6 +436,10 @@ model WritingAttempt {
   created_at        DateTime  @default(now())
   completed_at      DateTime?
 
+  /// Set when a code reset hid this row for erasure (D39); null = visible.
+  erasure_id String?
+
+  @@index([erasure_id])
   @@map("writing_attempts")
 }
 
@@ -176,20 +464,12 @@ model ListeningAttempt {
   listening_exercise_id String?            @db.Uuid
   listening_exercise    ListeningExercise? @relation(fields: [listening_exercise_id], references: [id], onDelete: Restrict)
 
+  /// Set when a code reset hid this row for erasure (D39); null = visible.
+  erasure_id String?
+
   @@index([listening_exercise_id])
+  @@index([erasure_id])
   @@map("listening_attempts")
-}
-
-model NewsletterSubscriber {
-  id              String   @id @default(uuid())
-  email           String   @unique
-  full_name       String
-  consent_version String
-  consented_at    DateTime @default(now())
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
-
-  @@map("newsletter_subscribers")
 }
 
 model SprachbausteineAttempt {
@@ -210,7 +490,11 @@ model SprachbausteineAttempt {
   created_at         DateTime  @default(now())
   completed_at       DateTime?
 
+  /// Set when a code reset hid this row for erasure (D39); null = visible.
+  erasure_id String?
+
   @@index([student_id, teil_id])
+  @@index([erasure_id])
   @@map("sprachbausteine_attempts")
 }
 
@@ -242,35 +526,6 @@ model LesenQuestion {
   passage LesenPassage @relation(fields: [passage_id], references: [id])
 
   @@map("lesen_questions")
-}
-
-model LesenSession {
-  session_id   String    @id @default(uuid())
-  user_id      String?
-  student_id   String?
-  question_ids String[]
-  status       String
-  started_at   DateTime? @default(now())
-  completed_at DateTime?
-
-  student Student?      @relation(fields: [student_id], references: [id])
-  results LesenResult[]
-
-  @@map("lesen_sessions")
-}
-
-model LesenResult {
-  id              String    @id @default(uuid())
-  session_id      String
-  user_answers    Json
-  score           Float
-  correct_count   Int
-  total_questions Int
-  created_at      DateTime? @default(now())
-
-  session LesenSession @relation(fields: [session_id], references: [session_id])
-
-  @@map("lesen_results")
 }
 
 model LesenTeil2Exercise {
@@ -608,4 +863,172 @@ model WritingExercise {
 
   @@unique([modelltest_id])
   @@map("writing_exercises")
+}
+
+/// One row per successful chargeable AI operation.
+///
+/// Written after the AI returns something usable, never when the student
+/// presses start: the alternative charges a student for our own outage, and a
+/// bad afternoon on our side would cost a Start student their whole day.
+/// Metered APIs do not bill a 500, and neither does this.
+///
+/// The rows are the quota. Nothing is stored per student and nothing resets on
+/// a schedule — the allowance is "how many of these are newer than 24 hours
+/// ago", which is why there is no counter here to drift from the rows it
+/// claims to describe. They double as the measurement of whether the
+/// allowances are set right, which arrives as a side effect of enforcing them.
+model AiUsage {
+  id         String      @id @default(uuid())
+  student_id String
+  operation  AiOperation
+  created_at DateTime    @default(now())
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  /// Exactly the quota question: this student, this operation, newer than a
+  /// timestamp. Column order matters — student first because it is the
+  /// equality, created_at second because it is the range.
+  @@index([student_id, operation, created_at])
+  @@map("ai_usage")
+}
+
+/// A CEFR level, as far as this product goes (D38).
+enum CefrLevel {
+  A1
+  A2
+  B1
+  B2
+}
+
+/// The five skills of the telc B1 exam, as a student practises them.
+enum Skill {
+  HOEREN
+  LESEN
+  SPRACHBAUSTEINE
+  SCHREIBEN
+  SPRECHEN
+}
+
+/// One row per completed attempt, the same shape for every skill (D26).
+///
+/// What the dashboard, the app's history and its home screen read. The
+/// detailed attempt stays in its own table; this is the summary, written in
+/// the same transaction so neither can exist without the other.
+///
+/// A Writing attempt lands here when its correction finishes with a real
+/// score, not at submit: until then there is nothing to summarise.
+model StudentActivity {
+  id               String   @id @default(uuid())
+  student_id       String
+  skill            Skill
+  teil             Int
+  score            Int
+  /// Carried rather than assumed, so a skill scored on another scale later
+  /// never needs every reader to know it. 100 for every skill today.
+  max_score        Int
+  duration_seconds Int?
+  /// Null when the attempt belongs to no Modelltest (historic listening rows).
+  modelltest_id    String?  @db.Uuid
+  /// The detailed row, in the table the skill names.
+  attempt_id       String
+  /// When the attempt was completed.
+  created_at       DateTime @default(now())
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  /// Set when a code reset hid this row for erasure (D39); null = visible.
+  erasure_id String?
+
+  @@unique([skill, attempt_id])
+  @@index([student_id, created_at])
+  @@index([student_id, skill, created_at])
+  @@index([erasure_id])
+  @@map("student_activities")
+}
+
+/// A scored Lesen Teil. Lesen stored nothing before phase 11.
+model LesenAttempt {
+  attempt_id       String   @id @default(uuid())
+  student_id       String
+  teil_id          String
+  modelltest_id    String   @db.Uuid
+  score            Int
+  answers          Json
+  duration_seconds Int?
+  created_at       DateTime @default(now())
+
+  /// Set when a code reset hid this row for erasure (D39); null = visible.
+  erasure_id String?
+
+  @@index([student_id, teil_id])
+  @@index([erasure_id])
+  @@map("lesen_attempts")
+}
+
+/// An evaluated speaking transcript. `evaluate` stored nothing before phase 11.
+model SpeakingAttempt {
+  attempt_id       String   @id @default(uuid())
+  student_id       String
+  teil_number      Int
+  /// Null only for rows stored before the column existed.
+  modelltest_id    String?  @db.Uuid
+  transcript       String
+  score            Int
+  /// The evaluation as returned to the student: sub-scores, text, corrections.
+  evaluation       Json
+  duration_seconds Int?
+  created_at       DateTime @default(now())
+
+  /// Set when a code reset hid this row for erasure (D39); null = visible.
+  erasure_id String?
+
+  @@index([student_id, teil_number])
+  @@index([erasure_id])
+  @@map("speaking_attempts")
+}
+
+/// A reset took this seat from a student; their learning data on it is
+/// hidden now and erased once `erase_after` passes (D39). Until then support
+/// can restore it. The rows it covers carry its id in `erasure_id`.
+model DataErasure {
+  id             String    @id @default(uuid())
+  student_id     String
+  center_id      String
+  code_id        String
+  center_user_id String?
+  /// The window of the student's time on the seat: what is erased.
+  since          DateTime
+  until          DateTime
+  created_at     DateTime  @default(now())
+  erase_after    DateTime
+  erased_at      DateTime?
+  restored_at    DateTime?
+
+  @@index([erase_after])
+  @@index([student_id])
+  @@map("data_erasures")
+}
+
+enum SupportRequestKind {
+  CONTACT
+  ACCOUNT_DELETION
+}
+
+/// A message from a center to the Lerniqo team (D24), or its request to have
+/// the account deleted (D37). Stored before it is emailed, so a mail failure
+/// loses nothing: `emailed_at` stays null and the row can be found.
+model SupportRequest {
+  id             String             @id @default(uuid())
+  kind           SupportRequestKind
+  center_id      String
+  center_user_id String
+  /// As typed in the form; the trusted identity is the two ids above.
+  name           String
+  email          String
+  message        String?
+  created_at     DateTime           @default(now())
+  emailed_at     DateTime?
+
+  @@index([center_id, kind, created_at])
+  @@map("support_requests")
 }

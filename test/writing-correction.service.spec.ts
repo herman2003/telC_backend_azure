@@ -28,7 +28,10 @@ const FAKE_EXERCISE = {
     ],
     callToAction:
       'Vereinbaren Sie einen Besichtigungstermin oder fordern Sie weitere Informationen an:',
-    contact: { name: 'CenterBüros GmbH', lines: ['Neuer Wall 120', '50160 Köln'] },
+    contact: {
+      name: 'CenterBüros GmbH',
+      lines: ['Neuer Wall 120', '50160 Köln'],
+    },
   },
   taskInstructions:
     'Sie arbeiten in einem Übersetzerbüro. Ihr Chef möchte größere Büroräume mieten.',
@@ -46,10 +49,15 @@ const FAKE_EXERCISE = {
 describe('WritingCorrectionService', () => {
   let service: WritingCorrectionService;
 
-  const mockPrismaService = {
+  const mockPrismaService: any = {
     writingAttempt: {
       update: jest.fn(),
     },
+    student: {
+      findUnique: jest.fn(() => Promise.resolve({ id: 'student-1' })),
+    },
+    studentActivity: { findUnique: jest.fn(), create: jest.fn() },
+    $transaction: jest.fn((work: any) => work(mockPrismaService)),
   };
   const mockGateway = { notifyCorrectionReady: jest.fn() };
   const mockModelService = { generateTextResponse: jest.fn() };
@@ -78,7 +86,12 @@ describe('WritingCorrectionService', () => {
   }`;
 
   beforeEach(async () => {
-    mockPrismaService.writingAttempt.update.mockResolvedValue({});
+    mockPrismaService.writingAttempt.update.mockResolvedValue({
+      student_id: 'student-1',
+      modelltest_id: 'mt-1',
+    });
+    mockPrismaService.studentActivity.findUnique.mockResolvedValue(null);
+    mockPrismaService.studentActivity.create.mockResolvedValue({});
     mockModelService.generateTextResponse.mockRejectedValue(
       new Error('Model unavailable'),
     );
@@ -99,6 +112,56 @@ describe('WritingCorrectionService', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  describe('activity (D26)', () => {
+    it('records a real score as Schreiben activity when the correction completes', async () => {
+      mockModelService.generateTextResponse.mockResolvedValue(validModelJson);
+
+      await service.runCorrection(jobData);
+
+      expect(mockPrismaService.$transaction).toHaveBeenCalledTimes(1);
+      expect(mockPrismaService.studentActivity.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          student_id: 'student-1',
+          skill: 'SCHREIBEN',
+          teil: 1,
+          score: 82,
+          max_score: 100,
+          modelltest_id: 'mt-1',
+          attempt_id: jobData.attemptId,
+        }),
+      });
+    });
+
+    it('stores a fractional model score as whole points', async () => {
+      mockModelService.generateTextResponse.mockResolvedValue(
+        validModelJson.replace('"score": 82', '"score": 81.6'),
+      );
+
+      await service.runCorrection(jobData);
+
+      expect(
+        mockPrismaService.writingAttempt.update.mock.calls[0][0].data.score,
+      ).toBe(82);
+    });
+
+    it('records nothing for the stub score of a failed model', async () => {
+      await service.runCorrection(jobData);
+
+      expect(mockPrismaService.studentActivity.create).not.toHaveBeenCalled();
+    });
+
+    it('records an attempt once when its correction runs twice', async () => {
+      mockModelService.generateTextResponse.mockResolvedValue(validModelJson);
+      mockPrismaService.studentActivity.findUnique.mockResolvedValue({
+        id: 'activity-1',
+      });
+
+      await service.runCorrection(jobData);
+
+      expect(mockPrismaService.studentActivity.create).not.toHaveBeenCalled();
+    });
   });
 
   describe('runCorrection', () => {
@@ -263,8 +326,7 @@ describe('WritingCorrectionService', () => {
 
       await service.runCorrection(jobData);
 
-      const promptSent =
-        mockModelService.generateTextResponse.mock.calls[0][0];
+      const promptSent = mockModelService.generateTextResponse.mock.calls[0][0];
       for (const bp of FAKE_EXERCISE.bulletPoints) {
         expect(promptSent).toContain(bp);
       }

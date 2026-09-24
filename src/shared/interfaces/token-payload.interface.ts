@@ -17,11 +17,24 @@ export interface RefreshTokenPayload {
   exp?: number;
 }
 
-export interface LinkingTokenPayload {
-  type: 'linking';
-  email: string;
-  provider: string;
-  providerId: string;
+export interface CenterAccessTokenPayload {
+  type: 'access';
+  actorType: 'CENTER_USER';
+  centerUserId: string;
+  centerId: string;
+  deviceId: string;
+  sessionId: string;
+  iat?: number;
+  exp?: number;
+}
+
+export interface CenterRefreshTokenPayload {
+  type: 'refresh';
+  actorType: 'CENTER_USER';
+  centerUserId: string;
+  centerId: string;
+  deviceId: string;
+  sessionId: string;
   iat?: number;
   exp?: number;
 }

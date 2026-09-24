@@ -1,0 +1,356 @@
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { createHash } from 'crypto';
+import type { PaymentStatus } from '@prisma/client';
+import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
+import { PrismaService } from '../../shared/services/prisma.service';
+import { PricingService } from './pricing.service';
+import { CenterSeatsService } from './center-seats.service';
+import { deriveOnboardingState, suppliedLocationOf } from './center-onboarding';
+
+/**
+ * The manager is carried as well as the center, because profile completeness
+ * asks about the signed-in manager's phone — the same manager the dashboard
+ * asks about, so both surfaces answer alike.
+ */
+type SignedCenterIdentity = Pick<
+  CenterAccessTokenPayload,
+  'centerId' | 'centerUserId'
+>;
+
+export interface PaymentView {
+  id: string;
+  seats: number;
+  /** Stamped at creation, so an invoice reads back exactly as it was agreed. */
+  unitPriceXaf: number;
+  amountXaf: number;
+  status: PaymentStatus;
+  createdAt: Date;
+}
+
+export interface PaymentPage {
+  payments: PaymentView[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+/** Prisma's unique-violation code. The insert race is decided by this. */
+const UNIQUE_VIOLATION = 'P2002';
+
+/** The column that makes a P2002 a replay rather than a bug. */
+const IDEMPOTENCY_COLUMN = 'idempotency_key';
+
+@Injectable()
+export class PaymentsService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly pricing: PricingService,
+    private readonly seats: CenterSeatsService,
+  ) {}
+
+  /**
+   * Records a center's intent to pay for seats.
+   *
+   * Grants nothing. `paid_until` and `seats` are not touched here and must not
+   * be — only a verified provider event may move them, in Phase 7.
+   *
+   * The amount is computed from the center's own terms at the moment of
+   * creation and copied onto the row. The caller contributes a seat count and
+   * an idempotency key, and nothing else it sends can reach the price.
+   */
+  async create(
+    identity: SignedCenterIdentity,
+    seats: number,
+    idempotencyKey: string,
+  ): Promise<PaymentView> {
+    // Shape-checked before a transaction is opened: an unusable order should
+    // not hold a connection, and the refusal does not depend on any row.
+    const wanted = this.pricing.requireSeats(seats);
+    const requestHash = this.fingerprint(identity.centerId, wanted);
+
+    // Before anything is priced or written. A center can run a trial on an
+    // email address alone, but taking money needs a country for currency and
+    // tax, a city for support, and a phone to chase an unpaid invoice — so the
+    // gate sits here rather than at provisioning. Quoting stays open, because
+    // looking at a price is not a commitment.
+    await this.assertProfileComplete(identity);
+
+    try {
+      // Priced and written in one transaction, so a refused quote leaves no
+      // row.
+      //
+      // What this does NOT guarantee: the transaction is READ COMMITTED, so a
+      // price stamp or a provisioning run committing between the reads and the
+      // insert is not seen. That is accepted rather than fixed with
+      // Serializable, which would turn the same-key insert race below into
+      // serialization failures and 500s. Nothing here moves money or grants
+      // access, and the guarantees that matter live in
+      // PaymentActivationService: it stamps the payment's own price, sets
+      // seats exactly once, and honours a payment even if students were added
+      // in the meantime.
+      const created = await this.prisma.$transaction(async (tx) => {
+        const quote = this.pricing.quote(
+          wanted,
+          await this.seats.pricingContextFor(identity.centerId, tx),
+        );
+
+        return tx.payment.create({
+          data: {
+            center_id: identity.centerId,
+            total_seats: quote.seats,
+            unit_price_xaf: quote.unitPriceXaf,
+            amount_xaf: quote.totalXaf,
+            idempotency_key: idempotencyKey,
+            request_hash: requestHash,
+          },
+        });
+      });
+
+      return this.toView(created);
+    } catch (error) {
+      if (!this.isIdempotencyViolation(error)) {
+        throw error;
+      }
+
+      // Lost the insert race, or this is a straightforward retry. Either way
+      // the row that won is the answer — provided it was the same intent.
+      return this.reconcileReplay(
+        identity.centerId,
+        idempotencyKey,
+        requestHash,
+      );
+    }
+  }
+
+  /**
+   * Refuses a center that has not finished its profile, naming every field it
+   * still owes.
+   *
+   * The `missing` list is what makes the refusal actionable: a client renders
+   * the remaining checklist from it rather than holding a second copy of the
+   * rules, so a fourth required field changes nothing on the frontend.
+   */
+  private async assertProfileComplete(
+    identity: SignedCenterIdentity,
+  ): Promise<void> {
+    const manager = await this.prisma.centerUser.findFirst({
+      // Scoped by center as well as id, so a manager id from another center
+      // cannot be used to answer this question.
+      where: { id: identity.centerUserId, center_id: identity.centerId },
+      select: {
+        phone: true,
+        center: {
+          select: {
+            country_code: true,
+            city_id: true,
+            city_other: true,
+          },
+        },
+      },
+    });
+
+    if (!manager) {
+      throw new NotFoundException('CENTER_NOT_FOUND');
+    }
+
+    const onboarding = deriveOnboardingState({
+      // Through the shared helper, so the till and the dashboard agree on
+      // what "complete" means. A center told it is ready to pay, then refused
+      // when it pays, is the worst possible place for these two to differ.
+      ...suppliedLocationOf(manager.center),
+      phone: manager.phone,
+    });
+
+    if (!onboarding.complete) {
+      throw new ForbiddenException({
+        message: 'CENTER_PROFILE_INCOMPLETE',
+        missing: onboarding.missing,
+      });
+    }
+  }
+
+  async get(
+    identity: SignedCenterIdentity,
+    paymentId: string,
+  ): Promise<PaymentView> {
+    const payment = await this.prisma.payment.findFirst({
+      // Scoped by center in the query itself. Fetching then comparing would
+      // work too, and would be one refactor away from leaking.
+      where: { id: paymentId, center_id: identity.centerId },
+    });
+
+    // 404 rather than 403 for another center's payment, matching the student
+    // routes: a 403 confirms the id exists, which is itself an answer.
+    if (!payment) {
+      throw new NotFoundException('PAYMENT_NOT_FOUND');
+    }
+
+    return this.toView(payment);
+  }
+
+  async list(
+    identity: SignedCenterIdentity,
+    { page, pageSize }: { page: number; pageSize: number },
+  ): Promise<PaymentPage> {
+    const where = { center_id: identity.centerId };
+
+    const [rows, total] = await Promise.all([
+      this.prisma.payment.findMany({
+        where,
+        // Two keys, because `created_at` is TIMESTAMP(3) and two payments can
+        // land in the same millisecond. A tie makes the sort unstable, and an
+        // unstable sort across pages can show one row twice and another never.
+        // The id is a uuid, so it says nothing about time — it is here only to
+        // break the tie the same way on every request.
+        orderBy: [{ created_at: 'desc' }, { id: 'desc' }],
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+      this.prisma.payment.count({ where }),
+    ]);
+
+    return {
+      payments: rows.map((row) => this.toView(row)),
+      total,
+      page,
+      pageSize,
+    };
+  }
+
+  /**
+   * Answers a request whose key was already used.
+   *
+   * Same intent, same answer: the original record, so a retried or
+   * double-clicked request is harmless. Different intent, refusal: returning
+   * the original would tell a client it had bought 20 seats when the row says
+   * 10, and that disagreement would only surface at reconciliation.
+   */
+  private async reconcileReplay(
+    centerId: string,
+    idempotencyKey: string,
+    requestHash: string,
+  ): Promise<PaymentView> {
+    const existing = await this.prisma.payment.findUnique({
+      where: {
+        center_id_idempotency_key: {
+          center_id: centerId,
+          idempotency_key: idempotencyKey,
+        },
+      },
+    });
+
+    // Only reachable if the row disappeared between the failed insert and this
+    // read. Rethrowing the conflict is safer than retrying into a loop.
+    if (!existing) {
+      throw new ConflictException('IDEMPOTENCY_KEY_REUSED');
+    }
+
+    if (existing.request_hash !== requestHash) {
+      throw new ConflictException('IDEMPOTENCY_KEY_REUSED');
+    }
+
+    return this.toView(existing);
+  }
+
+  /**
+   * What the key was first used for.
+   *
+   * Covers the center and the seat count, so a replay asking for a different
+   * number of seats is a different intent wearing the same name.
+   *
+   * It covers the seats and NOT the price, because a fingerprint has to
+   * identify the caller's intent and the price is the server's answer to it.
+   * An earlier version hashed the priced lines, which meant a stamped price
+   * changing between an attempt and its retry — the by-hand stamping workflow,
+   * or the planned 4,500 to 4,800 move — turned a byte-identical retry into
+   * IDEMPOTENCY_KEY_REUSED. A client following the documented contract answers
+   * that with a fresh key, producing a second payment for one intent: exactly
+   * what the unique index exists to prevent.
+   *
+   * The center is included so a hash can never be compared across centers by
+   * accident.
+   */
+  private fingerprint(centerId: string, seats: number): string {
+    return createHash('sha256')
+      .update(JSON.stringify({ centerId, seats }))
+      .digest('hex');
+  }
+
+  /**
+   * Whether this error is the idempotency index rejecting a duplicate.
+   *
+   * The constraint is checked, not just the code. Other unique indexes exist
+   * on this path, so treating any P2002 as a replay would look for a row by
+   * idempotency key, not find one, and answer a server bug with 409
+   * IDEMPOTENCY_KEY_REUSED — a client error the client cannot act on and
+   * nobody can debug from the response.
+   */
+  private isIdempotencyViolation(error: unknown): boolean {
+    if (
+      typeof error !== 'object' ||
+      error === null ||
+      (error as { code?: unknown }).code !== UNIQUE_VIOLATION
+    ) {
+      return false;
+    }
+
+    return this.violatedColumns(error).includes(IDEMPOTENCY_COLUMN);
+  }
+
+  /**
+   * Which columns a unique violation names.
+   *
+   * Two shapes, because this runs on the `PrismaPg` driver adapter. The
+   * adapter reports the constraint under `meta.driverAdapterError`, and
+   * `meta.target` — what Prisma's own engine sets, and what the documentation
+   * describes — is simply absent. Reading only `target` therefore matched
+   * nothing and quietly turned every replay back into a 500, which is how this
+   * function earned its test.
+   *
+   * Both are read so the behaviour does not depend on which one a future
+   * Prisma release populates.
+   */
+  private violatedColumns(error: object): string[] {
+    const meta = (error as { meta?: Record<string, unknown> }).meta ?? {};
+
+    const target = meta.target;
+    if (Array.isArray(target)) {
+      return target.map(String);
+    }
+    if (typeof target === 'string') {
+      return [target];
+    }
+
+    const fields = (
+      meta as {
+        driverAdapterError?: { cause?: { constraint?: { fields?: unknown } } };
+      }
+    ).driverAdapterError?.cause?.constraint?.fields;
+
+    return Array.isArray(fields) ? fields.map(String) : [];
+  }
+
+  /** Built field by field, so a column added later cannot leak into a response. */
+  private toView(row: {
+    id: string;
+    total_seats: number;
+    unit_price_xaf: number;
+    amount_xaf: number;
+    status: PaymentStatus;
+    created_at: Date;
+  }): PaymentView {
+    return {
+      id: row.id,
+      seats: row.total_seats,
+      unitPriceXaf: row.unit_price_xaf,
+      amountXaf: row.amount_xaf,
+      status: row.status,
+      createdAt: row.created_at,
+    };
+  }
+}
