@@ -71,6 +71,7 @@ const ATTEMPT_SELECT = {
       started_at: true,
       deadline_at: true,
       submitted_at: true,
+      answers: true,
     },
   },
 } as const;
@@ -217,6 +218,123 @@ export class ExamSittingService {
     });
 
     return this.startedView(block, startedAt, deadlineAt);
+  }
+
+  /**
+   * Saves what the candidate has answered so far.
+   *
+   * Called as they go, so a crash costs seconds rather than ninety minutes.
+   * The whole answer set each time rather than a delta: a client that has to
+   * merge is a client that can lose an answer, and the payload is small.
+   *
+   * Refused once the deadline has passed. What was saved before it still
+   * counts — see `submitBlock`.
+   */
+  async saveAnswers(
+    studentId: string,
+    attemptId: string,
+    block: ExamBlock,
+    answers: Record<string, unknown>,
+  ): Promise<{ savedAt: Date; answerCount: number }> {
+    const attempt = await this.load(studentId, attemptId);
+    const row = attempt.blocks.find((b) => b.block === block);
+
+    if (!row) throw new BadRequestException('BLOCK_NOT_STARTED');
+    if (row.submitted_at) {
+      throw new BadRequestException('BLOCK_ALREADY_SUBMITTED');
+    }
+
+    const savedAt = new Date();
+    if (savedAt >= row.deadline_at) {
+      throw new BadRequestException('BLOCK_EXPIRED');
+    }
+
+    // Conditional on the deadline in the statement as well, so an autosave
+    // in flight when the clock runs out cannot land after it.
+    const saved = await this.prisma.examAttemptBlock.updateMany({
+      where: {
+        attempt_id: attemptId,
+        block,
+        submitted_at: null,
+        deadline_at: { gt: savedAt },
+      },
+      data: { answers: answers as never },
+    });
+    if (saved.count !== 1) throw new BadRequestException('BLOCK_EXPIRED');
+
+    return { savedAt, answerCount: Object.keys(answers).length };
+  }
+
+  /**
+   * Closes a block and returns what will be scored.
+   *
+   * A late submit is accepted, not refused: the app auto-submits at 00:00 and
+   * that request can arrive a moment later, and refusing would leave the
+   * block open and unscored for ever. What is refused is the LATE ANSWERS —
+   * the block is closed on whatever was saved before the deadline.
+   */
+  async submitBlock(
+    studentId: string,
+    attemptId: string,
+    block: ExamBlock,
+    answers?: Record<string, unknown>,
+  ): Promise<{
+    block: ExamBlock;
+    submittedAt: Date;
+    late: boolean;
+    answers: Record<string, unknown>;
+  }> {
+    const attempt = await this.load(studentId, attemptId);
+    const row = attempt.blocks.find((b) => b.block === block);
+
+    if (!row) throw new BadRequestException('BLOCK_NOT_STARTED');
+    if (row.submitted_at) {
+      throw new BadRequestException('BLOCK_ALREADY_SUBMITTED');
+    }
+
+    const submittedAt = new Date();
+    const late = submittedAt >= row.deadline_at;
+    const finalAnswers = late
+      ? ((row.answers ?? {}) as Record<string, unknown>)
+      : (answers ?? ((row.answers ?? {}) as Record<string, unknown>));
+
+    const closed = await this.prisma.examAttemptBlock.updateMany({
+      where: { attempt_id: attemptId, block, submitted_at: null },
+      data: { answers: finalAnswers as never, submitted_at: submittedAt },
+    });
+    // Lost the race with another submit of the same block. The first one is
+    // the submission; this one changed nothing.
+    if (closed.count !== 1) {
+      throw new BadRequestException('BLOCK_ALREADY_SUBMITTED');
+    }
+
+    await this.closeAttemptIfFinished(attemptId, attempt.session.level);
+
+    return { block, submittedAt, late, answers: finalAnswers };
+  }
+
+  /**
+   * Marks the attempt finished once its last block is in.
+   *
+   * Derived from the blocks rather than counted by the client, so an app that
+   * stops early leaves an attempt that is visibly unfinished rather than one
+   * that claims to be done.
+   */
+  private async closeAttemptIfFinished(
+    attemptId: string,
+    level: CefrLevel,
+  ): Promise<void> {
+    const schedule = await this.scheduleFor(level);
+    const submitted = await this.prisma.examAttemptBlock.count({
+      where: { attempt_id: attemptId, submitted_at: { not: null } },
+    });
+
+    if (submitted >= schedule.length) {
+      await this.prisma.examAttempt.updateMany({
+        where: { id: attemptId, submitted_at: null },
+        data: { submitted_at: new Date() },
+      });
+    }
   }
 
   /** The blocks of a level, in the order telc sits them. */

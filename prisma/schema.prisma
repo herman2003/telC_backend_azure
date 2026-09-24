@@ -1228,6 +1228,14 @@ model ExamAttemptBlock {
   deadline_at  DateTime
   submitted_at DateTime?
 
+  /// What the candidate has answered so far, saved as they go.
+  ///
+  /// A crash, a flat battery or a closed tab costs seconds rather than ninety
+  /// minutes. It is also what gets scored when a block is submitted late:
+  /// answers arriving after the deadline are not counted, but the ones saved
+  /// before it are, so no block is ever left unscored.
+  answers Json @default("{}")
+
   attempt ExamAttempt @relation(fields: [attempt_id], references: [id], onDelete: Cascade)
 
   @@unique([attempt_id, block])

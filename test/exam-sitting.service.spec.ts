@@ -55,6 +55,7 @@ describe('ExamSittingService', () => {
       },
       examBlockDuration: { findMany: jest.fn().mockResolvedValue(durations) },
       examAttemptBlock: {
+        count: jest.fn().mockResolvedValue(0),
         findMany: jest.fn().mockResolvedValue([]),
         create: jest.fn().mockImplementation(({ data }) => ({
           id: 'block-1',
@@ -271,6 +272,172 @@ describe('ExamSittingService', () => {
       await expect(
         service.startBlock(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE'),
       ).rejects.toThrow('EXAM_ATTEMPT_NOT_FOUND');
+    });
+  });
+
+  describe('saving as the candidate goes', () => {
+    const running = (over: Record<string, unknown> = {}) => ({
+      id: 'attempt-1',
+      student_id: STUDENT,
+      started_at: new Date(),
+      submitted_at: null,
+      session: openSession(),
+      blocks: [
+        {
+          block: 'LESEN_SPRACHBAUSTEINE',
+          started_at: new Date(Date.now() - 10 * 60 * 1000),
+          deadline_at: new Date(Date.now() + 80 * 60 * 1000),
+          submitted_at: null,
+          answers: { '1': 'a' },
+          ...over,
+        },
+      ],
+    });
+
+    beforeEach(() => {
+      prisma.examAttempt.findUnique.mockResolvedValue(running());
+      prisma.examAttempt.updateMany = jest.fn().mockResolvedValue({ count: 1 });
+    });
+
+    it('stores the whole answer set, not a delta', async () => {
+      // A client that has to merge is a client that can lose an answer.
+      await service.saveAnswers(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE', {
+        '1': 'b',
+        '2': 'c',
+      });
+
+      expect(prisma.examAttemptBlock.updateMany).toHaveBeenCalledWith(
+        expect.objectContaining({ data: { answers: { '1': 'b', '2': 'c' } } }),
+      );
+    });
+
+    it('refuses to save once the time has gone', async () => {
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        running({ deadline_at: new Date(Date.now() - 1000) }),
+      );
+
+      await expect(
+        service.saveAnswers(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE', {}),
+      ).rejects.toThrow('BLOCK_EXPIRED');
+    });
+
+    it('carries the deadline into the statement, not only the check', async () => {
+      // An autosave in flight when the clock runs out must not land after it.
+      await service.saveAnswers(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE', {});
+
+      expect(prisma.examAttemptBlock.updateMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            submitted_at: null,
+            deadline_at: { gt: expect.any(Date) },
+          }),
+        }),
+      );
+    });
+
+    it('refuses to save into a block that was submitted', async () => {
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        running({ submitted_at: new Date() }),
+      );
+
+      await expect(
+        service.saveAnswers(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE', {}),
+      ).rejects.toThrow('BLOCK_ALREADY_SUBMITTED');
+    });
+  });
+
+  describe('submitting a block', () => {
+    const running = (over: Record<string, unknown> = {}) => ({
+      id: 'attempt-1',
+      student_id: STUDENT,
+      started_at: new Date(),
+      submitted_at: null,
+      session: openSession(),
+      blocks: [
+        {
+          block: 'LESEN_SPRACHBAUSTEINE',
+          started_at: new Date(Date.now() - 10 * 60 * 1000),
+          deadline_at: new Date(Date.now() + 80 * 60 * 1000),
+          submitted_at: null,
+          answers: { '1': 'saved' },
+          ...over,
+        },
+      ],
+    });
+
+    beforeEach(() => {
+      prisma.examAttempt.findUnique.mockResolvedValue(running());
+      prisma.examAttempt.updateMany = jest.fn().mockResolvedValue({ count: 1 });
+    });
+
+    it('takes the answers sent with a submit made in time', async () => {
+      const result = await service.submitBlock(
+        STUDENT,
+        'attempt-1',
+        'LESEN_SPRACHBAUSTEINE',
+        { '1': 'final' },
+      );
+
+      expect(result).toMatchObject({ late: false, answers: { '1': 'final' } });
+    });
+
+    it('accepts a late submit but scores what was saved in time', async () => {
+      // The app auto-submits at 00:00 and that request can arrive a moment
+      // later. Refusing would leave the block open and unscored for ever;
+      // taking the late answers would hand back time nobody had.
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        running({ deadline_at: new Date(Date.now() - 1000) }),
+      );
+
+      const result = await service.submitBlock(
+        STUDENT,
+        'attempt-1',
+        'LESEN_SPRACHBAUSTEINE',
+        { '1': 'too-late' },
+      );
+
+      expect(result).toMatchObject({ late: true, answers: { '1': 'saved' } });
+    });
+
+    it('closes the block with a claim, so two submits close it once', async () => {
+      prisma.examAttemptBlock.updateMany.mockResolvedValue({ count: 0 });
+
+      await expect(
+        service.submitBlock(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE'),
+      ).rejects.toThrow('BLOCK_ALREADY_SUBMITTED');
+    });
+
+    it('leaves the attempt open while blocks remain', async () => {
+      prisma.examAttemptBlock.count.mockResolvedValue(1);
+
+      await service.submitBlock(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE');
+
+      expect(prisma.examAttempt.updateMany).not.toHaveBeenCalled();
+    });
+
+    it('finishes the attempt when its last block is in', async () => {
+      // Derived from the blocks rather than announced by the client, so an
+      // app that stops early leaves an attempt visibly unfinished.
+      prisma.examAttemptBlock.count.mockResolvedValue(3);
+
+      await service.submitBlock(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE');
+
+      expect(prisma.examAttempt.updateMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'attempt-1', submitted_at: null },
+        }),
+      );
+    });
+
+    it('refuses to submit a block that never started', async () => {
+      prisma.examAttempt.findUnique.mockResolvedValue({
+        ...running(),
+        blocks: [],
+      });
+
+      await expect(
+        service.submitBlock(STUDENT, 'attempt-1', 'HOEREN'),
+      ).rejects.toThrow('BLOCK_NOT_STARTED');
     });
   });
 
