@@ -19,6 +19,7 @@ function makeRoom(overrides: Partial<Room> = {}): Room {
     level: 'B1',
     topic: SPEAKING_TOPICS[0],
     usedTopicIds: [SPEAKING_TOPICS[0].id],
+    shortCode: 'K7M2QX',
     hostSocketId: null,
     hostToken: HOST_TOKEN,
     guest: null,

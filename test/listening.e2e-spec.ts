@@ -5,6 +5,7 @@ import { App } from 'supertest/types';
 import { ListeningController } from '../src/modules/listening/listening.controller';
 import { ListeningService } from '../src/modules/listening/listening.service';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
+import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
 import { createGlobalValidationPipe } from '../src/shared/pipes/global-validation.pipe';
 import { PrismaService } from '../src/shared/services/prisma.service';
 
@@ -33,15 +34,20 @@ describe('Listening API scoring and answer security (e2e)', () => {
       },
     ],
   };
-  const prisma = {
+  const prisma: any = {
     listeningExercise: { findFirst: jest.fn() },
-    listeningAttempt: { create: jest.fn() },
+    listeningAttempt: { create: jest.fn(), findUnique: jest.fn() },
+    student: { findUnique: jest.fn() },
+    studentActivity: { create: jest.fn() },
+    $transaction: jest.fn((work: any) => work(prisma)),
   };
 
   beforeEach(async () => {
     jest.clearAllMocks();
     prisma.listeningExercise.findFirst.mockResolvedValue(exercise);
     prisma.listeningAttempt.create.mockResolvedValue({});
+    prisma.student.findUnique.mockResolvedValue({ id: 'student-1' });
+    prisma.studentActivity.create.mockResolvedValue({});
 
     const moduleRef = await Test.createTestingModule({
       controllers: [ListeningController],
@@ -59,6 +65,10 @@ describe('Listening API scoring and answer security (e2e)', () => {
           return true;
         },
       })
+      // Entitlement is StudentSubscriptionGuard's own spec to prove; this file
+      // is about the route behaving correctly for a student who may learn.
+      .overrideGuard(StudentSubscriptionGuard)
+      .useValue({ canActivate: () => true })
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -93,6 +103,7 @@ describe('Listening API scoring and answer security (e2e)', () => {
       .expect(201);
 
     expect(response.body).toEqual({
+      attemptId: expect.any(String),
       score: 50,
       answerKey: { q41: '+', q42: '-' },
     });

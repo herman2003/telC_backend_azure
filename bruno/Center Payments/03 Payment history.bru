@@ -1,0 +1,58 @@
+meta {
+  name: 03 Payment history
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/payments?page=1&pageSize=20
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  pageSize: 20
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.payments[0].lines[0].tier: isDefined
+}
+
+docs {
+  This center's payments, newest first.
+
+  Each payment carries its per-tier breakdown, each line with the price that
+  applied at the time. That is the point of storing lines rather than a single
+  price: an invoice read back months later still says what was bought and what
+  it cost, even after the list price has moved.
+
+  Ordering is by `(created_at, id)`, not `created_at` alone. Two payments can
+  land in the same millisecond, and a tie makes the sort unstable — which
+  across pages can show one row twice and another never. Create several
+  payments quickly, then page through with `?page=1&pageSize=2` and
+  `?page=2&pageSize=2`, and confirm no payment appears in both pages or in
+  neither.
+
+  Use it to confirm the idempotency behaviour in `02 Create payment`: after
+  sending the same key twice, there is exactly ONE row here, not two.
+
+  ## Checks
+
+  - `?pageSize=5000` -> 400. Capped at 100, so a dashboard refresh cannot turn
+    into an unbounded query over a long history.
+  - `?page=0` -> 400.
+  - No Authorization header -> 401.
+
+  ## Scoping
+
+  There is no route that lists another center's payments. The center comes
+  from the token, never from the query string — try adding
+  `?centerId=someone-else` and note that it changes nothing, because the
+  parameter does not exist and is rejected by the global pipe.
+}

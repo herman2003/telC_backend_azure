@@ -1,4 +1,5 @@
 import { UnauthorizedException } from '@nestjs/common';
+import * as jwt from 'jsonwebtoken';
 import { TokenService } from '../src/modules/auth/token.service';
 
 describe('TokenService', () => {
@@ -12,6 +13,8 @@ describe('TokenService', () => {
       'test-refresh-secret-that-is-different-and-long-enough-1234567890';
     process.env.JWT_ACCESS_TOKEN_EXPIRY = '1h';
     process.env.JWT_REFRESH_TOKEN_EXPIRY = '30d';
+    process.env.TOKEN_HMAC_SECRET =
+      'test-hmac-secret-that-is-long-enough-for-testing-purposes-1234567890';
   });
 
   beforeEach(() => {
@@ -74,7 +77,6 @@ describe('TokenService', () => {
     });
 
     it('should reject a token signed with wrong secret', () => {
-      const jwt = require('jsonwebtoken');
       const wrongToken = jwt.sign(
         {
           studentId: 'student-123',
@@ -90,7 +92,6 @@ describe('TokenService', () => {
     });
 
     it('should reject an expired token', () => {
-      const jwt = require('jsonwebtoken');
       const expiredToken = jwt.sign(
         {
           type: 'access',
@@ -145,11 +146,10 @@ describe('TokenService', () => {
     });
 
     it('guest token expires in approximately 2 hours', () => {
-      const jwtLib = require('jsonwebtoken');
       const token = tokenService.generateGuestAccessToken({
         studentId: 'guest-uuid-456',
       });
-      const decoded = jwtLib.decode(token) as { iat: number; exp: number };
+      const decoded = jwt.decode(token) as { iat: number; exp: number };
       expect(decoded.exp - decoded.iat).toBe(2 * 60 * 60); // 7200s
     });
 
@@ -235,7 +235,6 @@ describe('TokenService', () => {
     });
 
     it('should reject refresh token signed with wrong secret', () => {
-      const jwt = require('jsonwebtoken');
       const wrongToken = jwt.sign(
         {
           studentId: 'student-123',
@@ -334,6 +333,103 @@ describe('TokenService', () => {
 
   // ─── Default Expiry Tests ────────────────────────────
 
+  describe('center token isolation', () => {
+    const centerPayload = {
+      centerUserId: 'center-user-123',
+      centerId: 'center-456',
+      deviceId: 'device-789',
+      sessionId: 'center-session-101',
+    };
+
+    it('generates a center token pair with explicit center identity claims', () => {
+      const tokens = tokenService.generateCenterTokenPair(centerPayload);
+
+      const access = tokenService.verifyCenterAccessToken(tokens.accessToken);
+      const refresh = tokenService.verifyCenterRefreshToken(
+        tokens.refreshToken,
+      );
+
+      expect(access).toEqual(
+        expect.objectContaining({
+          type: 'access',
+          actorType: 'CENTER_USER',
+          ...centerPayload,
+        }),
+      );
+      expect(refresh).toEqual(
+        expect.objectContaining({
+          type: 'refresh',
+          actorType: 'CENTER_USER',
+          ...centerPayload,
+        }),
+      );
+    });
+
+    it('student verification rejects a center access token', () => {
+      const tokens = tokenService.generateCenterTokenPair(centerPayload);
+
+      expect(() => tokenService.verifyAccessToken(tokens.accessToken)).toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('student verification rejects a hybrid token carrying a center actor claim', () => {
+      const token = jwt.sign(
+        {
+          type: 'access',
+          actorType: 'CENTER_USER',
+          studentId: 'student-123',
+          centerUserId: 'center-user-123',
+          centerId: 'center-456',
+          deviceId: 'device-789',
+          sessionId: 'session-101',
+        },
+        process.env.JWT_ACCESS_SECRET as string,
+        {
+          algorithm: 'HS256',
+          issuer: 'lerniqo-api',
+          audience: 'lerniqo-app',
+          expiresIn: '1h',
+        },
+      );
+
+      expect(() => tokenService.verifyAccessToken(token)).toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('center verification rejects a student access token', () => {
+      const token = tokenService.generateAccessToken({
+        studentId: 'student-123',
+        deviceId: 'device-789',
+        sessionId: 'student-session-101',
+      });
+
+      expect(() => tokenService.verifyCenterAccessToken(token)).toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('center refresh verification rejects a student refresh token', () => {
+      const token = tokenService.generateRefreshToken({
+        studentId: 'student-123',
+        deviceId: 'device-789',
+        sessionId: 'student-session-101',
+      });
+
+      expect(() => tokenService.verifyCenterRefreshToken(token)).toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('generates distinct center refresh tokens for the same session', () => {
+      const first = tokenService.generateCenterTokenPair(centerPayload);
+      const second = tokenService.generateCenterTokenPair(centerPayload);
+
+      expect(second.refreshToken).not.toBe(first.refreshToken);
+    });
+  });
+
   describe('default expiry values (no env override)', () => {
     let savedAccess: string | undefined;
     let savedRefresh: string | undefined;
@@ -354,23 +450,21 @@ describe('TokenService', () => {
     });
 
     it('access token default expiry is 15 minutes', () => {
-      const jwtLib = require('jsonwebtoken');
       const token = tokenService.generateAccessToken({
         studentId: 'x',
         deviceId: 'y',
       });
-      const decoded = jwtLib.decode(token) as { iat: number; exp: number };
+      const decoded = jwt.decode(token) as { iat: number; exp: number };
       expect(decoded.exp - decoded.iat).toBe(15 * 60);
     });
 
     it('refresh token default expiry is 7 days', () => {
-      const jwtLib = require('jsonwebtoken');
       const token = tokenService.generateRefreshToken({
         studentId: 'x',
         deviceId: 'y',
         sessionId: 'z',
       });
-      const decoded = jwtLib.decode(token) as { iat: number; exp: number };
+      const decoded = jwt.decode(token) as { iat: number; exp: number };
       expect(decoded.exp - decoded.iat).toBe(7 * 24 * 60 * 60);
     });
   });
@@ -411,6 +505,55 @@ describe('TokenService', () => {
       );
 
       expect(isMatch).toBe(false);
+    });
+  });
+  /**
+   * Regression guard for a real defect: refresh tokens were hashed with
+   * bcrypt, which truncates its input at 72 bytes. A refresh token is a
+   * ~400-byte JWT whose first 72 bytes — header plus the opening of the
+   * payload — are identical for every token issued to the same session, so a
+   * spent token compared equal to its replacement and rotation was never
+   * single-use. These assertions fail against any truncating hash.
+   */
+  describe('refresh token hashing does not truncate', () => {
+    const payload = {
+      studentId: 'student-1',
+      deviceId: 'device-1',
+      sessionId: 'session-1',
+    };
+
+    it('distinguishes two tokens that share their first 72 bytes', async () => {
+      const spent = tokenService.generateRefreshToken(payload);
+      const replacement = tokenService.generateRefreshToken(payload);
+
+      // Precondition: the tokens really do collide over bcrypt's input window.
+      expect(spent).not.toBe(replacement);
+      expect(spent.slice(0, 72)).toBe(replacement.slice(0, 72));
+
+      const replacementHash = await tokenService.hashRefreshToken(replacement);
+
+      expect(
+        await tokenService.compareRefreshToken(spent, replacementHash),
+      ).toBe(false);
+      expect(
+        await tokenService.compareRefreshToken(replacement, replacementHash),
+      ).toBe(true);
+    });
+
+    it('distinguishes inputs that differ only past byte 72', async () => {
+      const shared = 'x'.repeat(72);
+      const hash = await tokenService.hashRefreshToken(`${shared}alpha`);
+
+      expect(
+        await tokenService.compareRefreshToken(`${shared}beta`, hash),
+      ).toBe(false);
+    });
+
+    it('rejects a hash of the wrong shape without throwing', async () => {
+      expect(await tokenService.compareRefreshToken('token', '')).toBe(false);
+      expect(await tokenService.compareRefreshToken('token', 'nonsense')).toBe(
+        false,
+      );
     });
   });
 });

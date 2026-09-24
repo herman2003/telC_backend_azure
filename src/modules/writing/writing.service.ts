@@ -5,6 +5,7 @@ import {
   Logger,
   Optional,
   Inject,
+  ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import type {
@@ -14,6 +15,8 @@ import type {
   WritingExerciseStimulus,
 } from './dto';
 import type { SubmitWritingDto } from './dto';
+import { submitOnce } from '../student-activity/submit-once';
+import { historyFields } from '../student-activity/student-history';
 
 export interface WritingCorrectionQueue {
   add(data: {
@@ -68,9 +71,7 @@ export class WritingService {
   async getExerciseByModelltest(
     modelltestNumber: number,
   ): Promise<WritingExerciseDto> {
-    let row: Awaited<
-      ReturnType<typeof this.prisma.writingExercise.findFirst>
-    >;
+    let row: Awaited<ReturnType<typeof this.prisma.writingExercise.findFirst>>;
     try {
       row = await this.prisma.writingExercise.findFirst({
         where: { modelltest: { number: modelltestNumber } },
@@ -106,12 +107,14 @@ export class WritingService {
       const rows = await this.prisma.writingAttempt.findMany({
         where: {
           student_id: studentId,
+          erasure_id: null,
           ...(exerciseId ? { exercise_id: exerciseId } : {}),
         },
         orderBy: { created_at: 'desc' },
         take: limit,
         select: {
           attempt_id: true,
+          modelltest_id: true,
           created_at: true,
           completed_at: true,
           score: true,
@@ -125,7 +128,17 @@ export class WritingService {
         },
       });
 
-      return rows.map((row) => this.mapRowToAttemptDto(row));
+      return rows.map((row) => ({
+        ...historyFields('SCHREIBEN', {
+          attemptId: row.attempt_id,
+          teil: 1,
+          score: row.score,
+          completedAt: row.completed_at,
+          durationSeconds: row.duration_seconds,
+          modelltestId: row.modelltest_id,
+        }),
+        ...this.mapRowToAttemptDto(row),
+      }));
     } catch (err) {
       this.logger.error(`Error in getSessions: ${(err as Error).message}`);
       return [];
@@ -178,21 +191,36 @@ export class WritingService {
       });
     }
 
-    const attemptId = crypto.randomUUID();
     const createdAt = new Date().toISOString();
 
+    let stored: {
+      attemptId: string;
+      earlier: { student_id: string; status: string } | null;
+    };
     try {
-      await this.prisma.writingAttempt.create({
-        data: {
-          attempt_id: attemptId,
-          student_id: studentId,
-          exercise_id: exerciseId,
-          modelltest_id: exercise.modelltest_id ?? undefined,
-          content: content.trim(),
-          status: 'pending',
+      stored = await submitOnce(
+        studentId,
+        dto.attemptId,
+        (id) =>
+          this.prisma.writingAttempt.findUnique({
+            where: { attempt_id: id },
+            select: { student_id: true, status: true },
+          }),
+        async (id) => {
+          await this.prisma.writingAttempt.create({
+            data: {
+              attempt_id: id,
+              student_id: studentId,
+              exercise_id: exerciseId,
+              modelltest_id: exercise.modelltest_id ?? undefined,
+              content: content.trim(),
+              status: 'pending',
+            },
+          });
         },
-      });
+      );
     } catch (err) {
+      if (err instanceof ConflictException) throw err;
       this.logger.error(
         `Failed to create writing attempt: ${(err as Error).message}`,
       );
@@ -202,6 +230,17 @@ export class WritingService {
         message: 'Failed to save submission',
         messageKey: 'writingSubmitFailed',
       });
+    }
+
+    const { attemptId, earlier } = stored;
+    // A repeat is already stored and already queued for correction: queueing
+    // it again would correct it, and charge for it, twice.
+    if (earlier) {
+      return {
+        attemptId,
+        status: earlier.status,
+        message: 'Submission already received.',
+      };
     }
 
     if (this.correctionQueue) {

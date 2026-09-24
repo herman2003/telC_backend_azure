@@ -11,10 +11,6 @@ describe('RateLimitService', () => {
     delete process.env.RATE_LIMIT_VERIFY_EMAIL_PUBLIC_WINDOW_MINUTES;
     delete process.env.RATE_LIMIT_RESET_PASSWORD_MAX_ATTEMPTS;
     delete process.env.RATE_LIMIT_RESET_PASSWORD_WINDOW_MINUTES;
-    delete process.env.RATE_LIMIT_NEWSLETTER_IP_MAX_ATTEMPTS;
-    delete process.env.RATE_LIMIT_NEWSLETTER_IP_WINDOW_MINUTES;
-    delete process.env.RATE_LIMIT_NEWSLETTER_EMAIL_MAX_ATTEMPTS;
-    delete process.env.RATE_LIMIT_NEWSLETTER_EMAIL_WINDOW_MINUTES;
     delete process.env.RATE_LIMIT_GUEST_SESSION_MAX_ATTEMPTS;
     delete process.env.RATE_LIMIT_GUEST_SESSION_WINDOW_MINUTES;
     delete process.env.RATE_LIMIT_WRITING_GUEST_SUBMIT_MAX_ATTEMPTS;
@@ -24,6 +20,36 @@ describe('RateLimitService', () => {
     delete process.env.RATE_LIMIT_REGISTER_EMAIL_MAX_ATTEMPTS;
     delete process.env.RATE_LIMIT_REGISTER_EMAIL_WINDOW_MINUTES;
     service = new RateLimitService();
+  });
+
+  describe('checkRoomCodeLookupLimit (D32)', () => {
+    it('allows a student 20 guesses in 10 minutes, then refuses', async () => {
+      for (let i = 0; i < 20; i++) {
+        await service.checkRoomCodeLookupLimit('student-1', '1.2.3.4');
+      }
+      await expect(
+        Promise.resolve().then(() =>
+          service.checkRoomCodeLookupLimit('student-1', '1.2.3.4'),
+        ),
+      ).rejects.toThrow('RATE_LIMIT_EXCEEDED');
+    });
+
+    it('lets a whole class behind one router look codes up', async () => {
+      for (let i = 0; i < 100; i++) {
+        await service.checkRoomCodeLookupLimit(`student-${i}`, '1.2.3.4');
+      }
+    });
+
+    it('stops many accounts guessing from one IP, however fresh each account is', async () => {
+      for (let i = 0; i < 100; i++) {
+        await service.checkRoomCodeLookupLimit(`student-${i}`, '1.2.3.4');
+      }
+      await expect(
+        Promise.resolve().then(() =>
+          service.checkRoomCodeLookupLimit('student-fresh', '1.2.3.4'),
+        ),
+      ).rejects.toThrow('RATE_LIMIT_EXCEEDED');
+    });
   });
 
   describe('checkRegisterLimit', () => {
@@ -105,6 +131,38 @@ describe('RateLimitService', () => {
     });
   });
 
+  describe('checkCenterRegisterLimit', () => {
+    it('uses an email budget independent from student registration', () => {
+      for (let i = 0; i < 5; i++) {
+        void service.checkRegisterLimit('1.2.3.4', 'manager@example.com');
+      }
+
+      expect(() =>
+        service.checkCenterRegisterLimit('1.2.3.4', 'manager@example.com'),
+      ).not.toThrow();
+    });
+
+    it('throws 429 on the 6th center attempt for the same email', () => {
+      for (let i = 0; i < 5; i++) {
+        void service.checkCenterRegisterLimit('1.2.3.4', 'manager@example.com');
+      }
+
+      expect(() =>
+        service.checkCenterRegisterLimit('10.0.0.99', 'manager@example.com'),
+      ).toThrow(HttpException);
+    });
+
+    it('uses an IP budget independent from student registration', () => {
+      for (let i = 0; i < 20; i++) {
+        void service.checkRegisterLimit('1.2.3.4', `student${i}@example.com`);
+      }
+
+      expect(() =>
+        service.checkCenterRegisterLimit('1.2.3.4', 'manager@example.com'),
+      ).not.toThrow();
+    });
+  });
+
   describe('checkGuestSessionLimit', () => {
     it('allows requests up to the default limit (10) from one IP', () => {
       for (let i = 0; i < 10; i++) {
@@ -121,7 +179,9 @@ describe('RateLimitService', () => {
         fail('expected HttpException');
       } catch (err) {
         expect(err).toBeInstanceOf(HttpException);
-        expect((err as HttpException).getStatus()).toBe(HttpStatus.TOO_MANY_REQUESTS);
+        expect((err as HttpException).getStatus()).toBe(
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
         expect((err as HttpException).message).toBe('RATE_LIMIT_EXCEEDED');
       }
     });
@@ -193,7 +253,9 @@ describe('RateLimitService', () => {
         fail('expected HttpException');
       } catch (err) {
         expect(err).toBeInstanceOf(HttpException);
-        expect((err as HttpException).getStatus()).toBe(HttpStatus.TOO_MANY_REQUESTS);
+        expect((err as HttpException).getStatus()).toBe(
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
         expect((err as HttpException).message).toBe('RATE_LIMIT_EXCEEDED');
       }
     });
@@ -202,9 +264,7 @@ describe('RateLimitService', () => {
       for (let i = 0; i < 5; i++) {
         service.checkForgotPasswordLimit('1.1.1.1');
       }
-      expect(() =>
-        service.checkForgotPasswordLimit('2.2.2.2'),
-      ).not.toThrow();
+      expect(() => service.checkForgotPasswordLimit('2.2.2.2')).not.toThrow();
     });
   });
 
@@ -227,7 +287,9 @@ describe('RateLimitService', () => {
         fail('expected HttpException');
       } catch (err) {
         expect(err).toBeInstanceOf(HttpException);
-        expect((err as HttpException).getStatus()).toBe(HttpStatus.TOO_MANY_REQUESTS);
+        expect((err as HttpException).getStatus()).toBe(
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
         expect((err as HttpException).message).toBe('RATE_LIMIT_EXCEEDED');
       }
     });
@@ -261,7 +323,9 @@ describe('RateLimitService', () => {
         fail('expected HttpException');
       } catch (err) {
         expect(err).toBeInstanceOf(HttpException);
-        expect((err as HttpException).getStatus()).toBe(HttpStatus.TOO_MANY_REQUESTS);
+        expect((err as HttpException).getStatus()).toBe(
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
         expect((err as HttpException).message).toBe('RATE_LIMIT_EXCEEDED');
       }
     });
@@ -270,9 +334,7 @@ describe('RateLimitService', () => {
       for (let i = 0; i < 20; i++) {
         service.checkResetPasswordLimit('1.1.1.1');
       }
-      expect(() =>
-        service.checkResetPasswordLimit('2.2.2.2'),
-      ).not.toThrow();
+      expect(() => service.checkResetPasswordLimit('2.2.2.2')).not.toThrow();
     });
 
     it('uses a different cache namespace than checkForgotPasswordLimit', () => {
@@ -281,67 +343,6 @@ describe('RateLimitService', () => {
       }
       // forgot-password exhausted; reset-password still has its own budget.
       expect(() => service.checkResetPasswordLimit('1.2.3.4')).not.toThrow();
-    });
-  });
-
-  describe('checkNewsletterSubscribeLimit', () => {
-    it('allows 2 calls with the same email (per-email cap)', () => {
-      for (let i = 0; i < 2; i++) {
-        expect(() =>
-          service.checkNewsletterSubscribeLimit('1.2.3.4', 'a@b.com'),
-        ).not.toThrow();
-      }
-    });
-
-    it('throws 429 on the 3rd call with the same email', () => {
-      service.checkNewsletterSubscribeLimit('1.2.3.4', 'a@b.com');
-      service.checkNewsletterSubscribeLimit('1.2.3.4', 'a@b.com');
-
-      try {
-        service.checkNewsletterSubscribeLimit('1.2.3.4', 'a@b.com');
-        fail('expected HttpException');
-      } catch (err) {
-        expect(err).toBeInstanceOf(HttpException);
-        expect((err as HttpException).getStatus()).toBe(HttpStatus.TOO_MANY_REQUESTS);
-        expect((err as HttpException).message).toBe('RATE_LIMIT_EXCEEDED');
-      }
-    });
-
-    it('allows 5 calls with different emails from the same IP', () => {
-      for (let i = 0; i < 5; i++) {
-        expect(() =>
-          service.checkNewsletterSubscribeLimit('1.2.3.4', `user${i}@example.com`),
-        ).not.toThrow();
-      }
-    });
-
-    it('throws 429 on the 6th call from the same IP even with a new email', () => {
-      for (let i = 0; i < 5; i++) {
-        service.checkNewsletterSubscribeLimit('1.2.3.4', `user${i}@example.com`);
-      }
-
-      expect(() =>
-        service.checkNewsletterSubscribeLimit('1.2.3.4', 'fresh@example.com'),
-      ).toThrow(HttpException);
-    });
-
-    it('isolates limits per IP', () => {
-      for (let i = 0; i < 5; i++) {
-        service.checkNewsletterSubscribeLimit('1.1.1.1', `user${i}@example.com`);
-      }
-      expect(() =>
-        service.checkNewsletterSubscribeLimit('2.2.2.2', 'fresh@example.com'),
-      ).not.toThrow();
-    });
-
-    it('uses a separate cache namespace from forgot-password and reset-password', () => {
-      for (let i = 0; i < 5; i++) {
-        service.checkForgotPasswordLimit('1.2.3.4');
-      }
-      // forgot-password is exhausted; newsletter has its own counter.
-      expect(() =>
-        service.checkNewsletterSubscribeLimit('1.2.3.4', 'fresh@example.com'),
-      ).not.toThrow();
     });
   });
 });

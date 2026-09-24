@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import * as bcrypt from 'bcryptjs';
-import { randomUUID } from 'crypto';
+import { createHmac, randomUUID, timingSafeEqual } from 'crypto';
 import {
   AccessTokenPayload,
   RefreshTokenPayload,
-  LinkingTokenPayload,
+  CenterAccessTokenPayload,
+  CenterRefreshTokenPayload,
 } from '../../shared/interfaces/token-payload.interface';
 
 @Injectable()
@@ -14,6 +14,7 @@ export class TokenService {
   private readonly refreshTokenSecret: string;
   private readonly accessTokenExpiry: string;
   private readonly refreshTokenExpiry: string;
+  private readonly refreshTokenHashSecret: string;
   private readonly issuer = 'lerniqo-api';
   private readonly audience = 'lerniqo-app';
 
@@ -22,6 +23,10 @@ export class TokenService {
     this.refreshTokenSecret = this.requireSecret('JWT_REFRESH_SECRET');
     this.accessTokenExpiry = process.env.JWT_ACCESS_TOKEN_EXPIRY || '15m';
     this.refreshTokenExpiry = process.env.JWT_REFRESH_TOKEN_EXPIRY || '7d';
+    // Falls back to the refresh signing secret so an existing deployment does
+    // not need a new variable before it can take this fix.
+    this.refreshTokenHashSecret =
+      process.env.TOKEN_HMAC_SECRET || this.refreshTokenSecret;
   }
 
   private requireSecret(
@@ -132,6 +137,69 @@ export class TokenService {
     };
   }
 
+  generateCenterAccessToken(payload: {
+    centerUserId: string;
+    centerId: string;
+    deviceId: string;
+    sessionId: string;
+  }): string {
+    return jwt.sign(
+      {
+        type: 'access',
+        actorType: 'CENTER_USER',
+        centerUserId: payload.centerUserId,
+        centerId: payload.centerId,
+        deviceId: payload.deviceId,
+        sessionId: payload.sessionId,
+      },
+      this.accessTokenSecret,
+      {
+        algorithm: 'HS256',
+        issuer: this.issuer,
+        audience: this.audience,
+        expiresIn: this.accessTokenExpiry as jwt.SignOptions['expiresIn'],
+      },
+    );
+  }
+
+  generateCenterRefreshToken(payload: {
+    centerUserId: string;
+    centerId: string;
+    deviceId: string;
+    sessionId: string;
+  }): string {
+    return jwt.sign(
+      {
+        type: 'refresh',
+        actorType: 'CENTER_USER',
+        centerUserId: payload.centerUserId,
+        centerId: payload.centerId,
+        deviceId: payload.deviceId,
+        sessionId: payload.sessionId,
+      },
+      this.refreshTokenSecret,
+      {
+        algorithm: 'HS256',
+        issuer: this.issuer,
+        audience: this.audience,
+        jwtid: randomUUID(),
+        expiresIn: this.refreshTokenExpiry as jwt.SignOptions['expiresIn'],
+      },
+    );
+  }
+
+  generateCenterTokenPair(payload: {
+    centerUserId: string;
+    centerId: string;
+    deviceId: string;
+    sessionId: string;
+  }): { accessToken: string; refreshToken: string } {
+    return {
+      accessToken: this.generateCenterAccessToken(payload),
+      refreshToken: this.generateCenterRefreshToken(payload),
+    };
+  }
+
   /**
    * Verify and decode an access token
    * Throws UnauthorizedException if invalid/expired
@@ -145,6 +213,8 @@ export class TokenService {
       }) as AccessTokenPayload;
       if (
         decoded.type !== 'access' ||
+        (decoded as AccessTokenPayload & { actorType?: unknown }).actorType !==
+          undefined ||
         typeof decoded.studentId !== 'string' ||
         typeof decoded.deviceId !== 'string'
       ) {
@@ -175,6 +245,8 @@ export class TokenService {
       }) as RefreshTokenPayload;
       if (
         decoded.type !== 'refresh' ||
+        (decoded as RefreshTokenPayload & { actorType?: unknown }).actorType !==
+          undefined ||
         typeof decoded.studentId !== 'string' ||
         typeof decoded.deviceId !== 'string' ||
         typeof decoded.sessionId !== 'string'
@@ -193,74 +265,94 @@ export class TokenService {
     }
   }
 
-  /**
-   * Hash a refresh token before storing in DB
-   * Uses bcrypt with cost factor 10
-   */
-  async hashRefreshToken(token: string): Promise<string> {
-    return bcrypt.hash(token, 10);
-  }
-
-  /**
-   * Compare a plain refresh token with its stored hash
-   */
-  async compareRefreshToken(token: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(token, hash);
-  }
-
-  /**
-   * Generate a linking token for OAuth account linking (30 minutes)
-   * Contains: email, provider, providerId
-   */
-  generateLinkingToken(payload: {
-    email: string;
-    provider: string;
-    providerId: string;
-  }): string {
-    return jwt.sign(
-      {
-        type: 'linking',
-        email: payload.email,
-        provider: payload.provider,
-        providerId: payload.providerId,
-      },
-      this.accessTokenSecret,
-      {
-        algorithm: 'HS256',
-        issuer: this.issuer,
-        audience: this.audience,
-        expiresIn: '30m',
-      },
-    );
-  }
-
-  /**
-   * Verify and decode a linking token
-   */
-  verifyLinkingToken(token: string): LinkingTokenPayload {
+  verifyCenterAccessToken(token: string): CenterAccessTokenPayload {
     try {
       const decoded = jwt.verify(token, this.accessTokenSecret, {
         algorithms: ['HS256'],
         issuer: this.issuer,
         audience: this.audience,
-      }) as LinkingTokenPayload;
+      }) as CenterAccessTokenPayload;
       if (
-        decoded.type !== 'linking' ||
-        typeof decoded.email !== 'string' ||
-        typeof decoded.provider !== 'string' ||
-        typeof decoded.providerId !== 'string'
+        decoded.type !== 'access' ||
+        decoded.actorType !== 'CENTER_USER' ||
+        typeof decoded.centerUserId !== 'string' ||
+        typeof decoded.centerId !== 'string' ||
+        typeof decoded.deviceId !== 'string' ||
+        typeof decoded.sessionId !== 'string'
       ) {
-        throw new UnauthorizedException('LINKING_TOKEN_INVALID');
+        throw new UnauthorizedException('INVALID_CENTER_ACCESS_TOKEN');
       }
       return decoded;
-    } catch (error) {
-      if (error instanceof jwt.TokenExpiredError) {
-        throw new UnauthorizedException('LINKING_TOKEN_EXPIRED');
-      }
-      if (error instanceof jwt.JsonWebTokenError) {
-        throw new UnauthorizedException('LINKING_TOKEN_INVALID');
-      }
-      throw new UnauthorizedException('LINKING_TOKEN_INVALID');
+    } catch {
+      throw new UnauthorizedException('INVALID_CENTER_ACCESS_TOKEN');
     }
   }
+
+  verifyCenterRefreshToken(token: string): CenterRefreshTokenPayload {
+    try {
+      const decoded = jwt.verify(token, this.refreshTokenSecret, {
+        algorithms: ['HS256'],
+        issuer: this.issuer,
+        audience: this.audience,
+      }) as CenterRefreshTokenPayload;
+      if (
+        decoded.type !== 'refresh' ||
+        decoded.actorType !== 'CENTER_USER' ||
+        typeof decoded.centerUserId !== 'string' ||
+        typeof decoded.centerId !== 'string' ||
+        typeof decoded.deviceId !== 'string' ||
+        typeof decoded.sessionId !== 'string'
+      ) {
+        throw new UnauthorizedException('INVALID_CENTER_REFRESH_TOKEN');
+      }
+      return decoded;
+    } catch {
+      throw new UnauthorizedException('INVALID_CENTER_REFRESH_TOKEN');
+    }
+  }
+
+  /**
+   * Hash a refresh token before storing it.
+   *
+   * HMAC-SHA256, deliberately not bcrypt. bcrypt truncates its input at 72
+   * bytes, and a refresh token is a ~400-byte JWT whose first 72 bytes —
+   * header plus the opening of the payload — are identical for every token
+   * issued to the same session. Hashing one with bcrypt therefore made a spent
+   * token compare equal to its replacement, so rotation was never single-use
+   * and a leaked refresh token stayed valid for its whole lifetime.
+   *
+   * bcrypt earns its cost for low-entropy secrets that people choose. A signed
+   * JWT already carries far more entropy than any password, so there is
+   * nothing to slow an attacker down against — a fast keyed digest over the
+   * *whole* input is both correct and cheaper.
+   *
+   * Kept async so every existing caller keeps working unchanged.
+   */
+  async hashRefreshToken(token: string): Promise<string> {
+    return Promise.resolve(this.digestRefreshToken(token));
+  }
+
+  /**
+   * Compare a presented refresh token with its stored hash, in constant time.
+   */
+  async compareRefreshToken(token: string, hash: string): Promise<boolean> {
+    const expected = Buffer.from(this.digestRefreshToken(token), 'utf8');
+    const stored = Buffer.from(hash ?? '', 'utf8');
+
+    // timingSafeEqual throws on a length mismatch, which any legacy bcrypt
+    // hash will be. Those cannot be verified any more by design, so they fail
+    // closed and the student signs in again.
+    if (expected.length !== stored.length) {
+      return Promise.resolve(false);
+    }
+
+    return Promise.resolve(timingSafeEqual(expected, stored));
+  }
+
+  private digestRefreshToken(token: string): string {
+    return createHmac('sha256', this.refreshTokenHashSecret)
+      .update(token)
+      .digest('hex');
+  }
+
 }

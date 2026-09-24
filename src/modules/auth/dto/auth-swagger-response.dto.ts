@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { SubscriptionStatusDto } from './subscription-status.dto';
 
 export class AuthStudentDto {
   @ApiProperty({ format: 'uuid' })
@@ -15,6 +16,14 @@ export class AuthStudentDto {
 
   @ApiProperty({ example: true })
   emailVerified: boolean;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    enum: ['A1', 'A2', 'B1', 'B2'],
+    description:
+      'Returned by the profile update; read it from GET /api/progress/me.',
+  })
+  level?: 'A1' | 'A2' | 'B1' | 'B2' | null;
 }
 
 export class AuthTokenResponseDto {
@@ -31,6 +40,13 @@ export class AuthTokenResponseDto {
 
   @ApiProperty({ type: AuthStudentDto })
   student: AuthStudentDto;
+
+  @ApiPropertyOptional({
+    type: SubscriptionStatusDto,
+    description:
+      'Where the student stands, so a client knows before its first learning call rather than discovering a block through a 403. Absent if the subscription could not be read; that never fails the sign-in.',
+  })
+  subscription?: SubscriptionStatusDto;
 }
 
 export class MessageResponseDto {
@@ -74,14 +90,4 @@ export class AuthErrorResponseDto {
 
   @ApiProperty({ example: 'Invalid refresh token.' })
   message: string | string[];
-}
-
-export class GoogleLinkingRequiredDto {
-  @ApiProperty({ enum: ['LINKING_REQUIRED'] })
-  status: 'LINKING_REQUIRED';
-
-  @ApiProperty({
-    description: 'Short-lived token used by the Google linking endpoint.',
-  })
-  linkingToken: string;
 }

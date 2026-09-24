@@ -1,6 +1,14 @@
 import { Transform } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { StrongPassword } from '../../../shared/strong-password.decorator';
+import { CefrLevel } from '@prisma/client';
 
 export class RegisterRequestDto {
   @ApiProperty({ example: 'Ada' })
@@ -21,9 +29,23 @@ export class RegisterRequestDto {
   )
   email: string;
 
-  @ApiProperty({ minLength: 8, format: 'password' })
+  @ApiProperty({
+    minLength: 8,
+    format: 'password',
+    description:
+      'At least 8 characters with an uppercase letter, a digit and a special character; at most 72 bytes (T2).',
+  })
   @IsNotEmpty({ message: 'Password is required' })
   @IsString({ message: 'Password must be a string' })
-  @MinLength(8, { message: 'Password must be at least 8 characters' })
+  @StrongPassword()
   password: string;
+
+  @ApiPropertyOptional({
+    enum: CefrLevel,
+    example: CefrLevel.A2,
+    description: 'The student current German level, as they judge it (D38).',
+  })
+  @IsOptional()
+  @IsEnum(CefrLevel)
+  level?: CefrLevel;
 }

@@ -7,11 +7,15 @@ import { AuthModule } from './modules/auth/auth.module';
 import { SpeakingModule } from './modules/speaking/speaking.module';
 import { WritingModule } from './modules/writing/writing.module';
 import { ListeningModule } from './modules/listening/listening.module';
+import { ProgressModule } from './modules/progress/progress.module';
+import { SeatErasureModule } from './modules/student-activity/seat-erasure.module';
 import { SprachbausteineModule } from './modules/sprachbausteine/sprachbausteine.module';
 import { LesenModule } from './modules/lesen/lesen.module';
 import { ModelltestsModule } from './modules/modelltests/modelltests.module';
-import { NewsletterModule } from './modules/newsletter/newsletter.module';
 import { RateLimitModule } from './shared/rate-limit.module';
+import { CentersModule } from './modules/centers/centers.module';
+import { LocationsModule } from './modules/locations/locations.module';
+import { PlansModule } from './modules/plans/plans.module';
 
 @Module({
   imports: [
@@ -22,13 +26,17 @@ import { RateLimitModule } from './shared/rate-limit.module';
     PrismaModule,
     RateLimitModule,
     AuthModule,
+    CentersModule,
     SpeakingModule,
     WritingModule,
     ListeningModule,
+    ProgressModule,
+    SeatErasureModule,
     ModelltestsModule,
     SprachbausteineModule,
     LesenModule,
-    NewsletterModule,
+    LocationsModule,
+    PlansModule,
   ],
   controllers: [AppController],
   providers: [AppService],

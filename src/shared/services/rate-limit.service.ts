@@ -22,10 +22,6 @@ export class RateLimitService {
   private readonly verifyEmailPublicWindowSeconds: number;
   private readonly resetPasswordMaxAttempts: number;
   private readonly resetPasswordWindowSeconds: number;
-  private readonly newsletterIpMaxAttempts: number;
-  private readonly newsletterIpWindowSeconds: number;
-  private readonly newsletterEmailMaxAttempts: number;
-  private readonly newsletterEmailWindowSeconds: number;
   private readonly guestSessionMaxAttempts: number;
   private readonly guestSessionWindowSeconds: number;
   private readonly writingGuestSubmitMaxAttempts: number;
@@ -88,26 +84,6 @@ export class RateLimitService {
     );
     this.resetPasswordWindowSeconds = resetPasswordWindowMinutes * 60;
 
-    this.newsletterIpMaxAttempts = parseInt(
-      process.env.RATE_LIMIT_NEWSLETTER_IP_MAX_ATTEMPTS || '5',
-      10,
-    );
-    const newsletterIpWindowMinutes = parseInt(
-      process.env.RATE_LIMIT_NEWSLETTER_IP_WINDOW_MINUTES || '15',
-      10,
-    );
-    this.newsletterIpWindowSeconds = newsletterIpWindowMinutes * 60;
-
-    this.newsletterEmailMaxAttempts = parseInt(
-      process.env.RATE_LIMIT_NEWSLETTER_EMAIL_MAX_ATTEMPTS || '2',
-      10,
-    );
-    const newsletterEmailWindowMinutes = parseInt(
-      process.env.RATE_LIMIT_NEWSLETTER_EMAIL_WINDOW_MINUTES || '15',
-      10,
-    );
-    this.newsletterEmailWindowSeconds = newsletterEmailWindowMinutes * 60;
-
     this.guestSessionMaxAttempts = parseInt(
       process.env.RATE_LIMIT_GUEST_SESSION_MAX_ATTEMPTS || '10',
       10,
@@ -155,7 +131,7 @@ export class RateLimitService {
   /**
    * Read the current counter for a key and throw 429 if it has reached `max`.
    * Returns the current count so the caller can increment it via {@link record}.
-   * Split from `record` so multi-bucket limits (newsletter) can assert ALL
+   * Split from `record` so multi-bucket limits can assert ALL
    * buckets before incrementing ANY — preserving all-or-nothing semantics.
    */
   private assertUnderLimit(cacheKey: string, max: number): number {
@@ -251,6 +227,25 @@ export class RateLimitService {
   }
 
   /**
+   * Center login uses the student login policy values but isolated keys.
+   * Neither product can consume the other's IP or email budget.
+   */
+  checkCenterLoginLimit(ip: string, email: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:centers:login:ip:${ip}`,
+        max: this.loginIpMaxAttempts,
+        ttlSeconds: this.loginWindowSeconds,
+      },
+      {
+        key: `ratelimit:centers:login:email:${email.trim().toLowerCase()}`,
+        max: this.loginEmailMaxAttempts,
+        ttlSeconds: this.loginWindowSeconds,
+      },
+    ]);
+  }
+
+  /**
    * Rate limit for POST /api/auth/verify-email-public. Throws 429 when exceeded.
    * Key is typically the requester's IP address.
    */
@@ -258,6 +253,109 @@ export class RateLimitService {
     return this.enforceDistributed([
       {
         key: `ratelimit:auth:verify-email-public:${key}`,
+        max: this.verifyEmailPublicMaxAttempts,
+        ttlSeconds: this.verifyEmailPublicWindowSeconds,
+      },
+    ]);
+  }
+
+  /** Center recovery reuses the student policy values under isolated keys. */
+  checkCenterForgotPasswordLimit(ip: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:centers:forgot-password:ip:${ip}`,
+        max: this.forgotPasswordMaxAttempts,
+        ttlSeconds: this.forgotPasswordWindowSeconds,
+      },
+    ]);
+  }
+
+  /** Caps random-spray guessing against the six-digit center reset code. */
+  checkCenterResetPasswordLimit(ip: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:centers:reset-password:ip:${ip}`,
+        max: this.resetPasswordMaxAttempts,
+        ttlSeconds: this.resetPasswordWindowSeconds,
+      },
+    ]);
+  }
+
+  /**
+   * Caps guessing at the CURRENT password from inside an open session.
+   *
+   * Keyed on the center user rather than the IP: the caller is authenticated,
+   * and what needs protecting is one account — an attacker holding a stolen
+   * session would otherwise be free to try passwords until one matched, and
+   * every match hands them the ability to lock the owner out.
+   */
+  checkCenterChangePasswordLimit(centerUserId: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:centers:change-password:user:${centerUserId}`,
+        max: this.resetPasswordMaxAttempts,
+        ttlSeconds: this.resetPasswordWindowSeconds,
+      },
+    ]);
+  }
+
+  /**
+   * Caps guessing at activation codes, which are stored readable and so can
+   * only be protected by how fast anyone may try them.
+   *
+   * Two buckets, because they stop different things. Per student is the tight
+   * one: an honest student types a code a handful of times, not dozens. Per IP
+   * is deliberately loose, because a whole classroom behind one school router
+   * redeems its codes in the same quarter of an hour, and a tight IP limit
+   * would lock out the class the product was sold to.
+   */
+  checkCodeRedeemLimit(studentId: string, ip: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:codes:redeem:student:${studentId}`,
+        max: 5,
+        ttlSeconds: 15 * 60,
+      },
+      {
+        key: `ratelimit:codes:redeem:ip:${ip}`,
+        max: 60,
+        ttlSeconds: 15 * 60,
+      },
+    ]);
+  }
+
+  /**
+   * Caps guessing at speaking-room short codes (D32). A code is guessable by
+   * design and hides only a practice room, but guesses should not be free.
+   *
+   * Two buckets, as for activation codes. Per student is the tight one: an
+   * honest student types one code, maybe twice. Per IP is the backstop against
+   * accounts made in bulk, kept loose because a whole class behind one school
+   * router looks codes up in the same few minutes.
+   */
+  checkRoomCodeLookupLimit(
+    studentId: string,
+    ip: string,
+  ): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:speaking:room-code:student:${studentId}`,
+        max: 20,
+        ttlSeconds: 10 * 60,
+      },
+      {
+        key: `ratelimit:speaking:room-code:ip:${ip}`,
+        max: 100,
+        ttlSeconds: 10 * 60,
+      },
+    ]);
+  }
+
+  /** Center verification is isolated from student verification traffic. */
+  checkCenterVerifyEmailLimit(ip: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:centers:verify-email:ip:${ip}`,
         max: this.verifyEmailPublicMaxAttempts,
         ttlSeconds: this.verifyEmailPublicWindowSeconds,
       },
@@ -275,33 +373,6 @@ export class RateLimitService {
         key: `ratelimit:auth:reset-password:${key}`,
         max: this.resetPasswordMaxAttempts,
         ttlSeconds: this.resetPasswordWindowSeconds,
-      },
-    ]);
-  }
-
-  /**
-   * Rate limit for POST /api/newsletter/subscribe. Throws 429 when exceeded.
-   * Enforces both per-IP and per-email caps. Per-email defends against
-   * targeted spam from rotating IPs; per-IP defends against bursts.
-   * Both buckets are asserted before either is incremented.
-   */
-  checkNewsletterSubscribeLimit(
-    ipKey: string,
-    emailKey: string,
-  ): void | Promise<void> {
-    const emailCacheKey = `ratelimit:newsletter:subscribe:email:${emailKey}`;
-    const ipCacheKey = `ratelimit:newsletter:subscribe:ip:${ipKey}`;
-
-    return this.enforceDistributed([
-      {
-        key: emailCacheKey,
-        max: this.newsletterEmailMaxAttempts,
-        ttlSeconds: this.newsletterEmailWindowSeconds,
-      },
-      {
-        key: ipCacheKey,
-        max: this.newsletterIpMaxAttempts,
-        ttlSeconds: this.newsletterIpWindowSeconds,
       },
     ]);
   }
@@ -353,6 +424,31 @@ export class RateLimitService {
   }
 
   /**
+   * Rate limit for POST /api/centers/register.
+   *
+   * The limits intentionally use the same policy values as student
+   * registration but a different namespace. A student-registration request
+   * must never consume a language center's registration budget, or vice versa.
+   */
+  checkCenterRegisterLimit(
+    ipKey: string,
+    emailKey: string,
+  ): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:centers:register:email:${emailKey.trim().toLowerCase()}`,
+        max: this.registerEmailMaxAttempts,
+        ttlSeconds: this.registerEmailWindowSeconds,
+      },
+      {
+        key: `ratelimit:centers:register:ip:${ipKey}`,
+        max: this.registerIpMaxAttempts,
+        ttlSeconds: this.registerIpWindowSeconds,
+      },
+    ]);
+  }
+
+  /**
    * Rate limit for POST /api/writing/submit when the caller is a guest.
    * Capped per IP (default 3/hour) — much tighter than the per-student limit
    * for logged-in users. Protects the free-tier Gemini quota from scripted abuse.
@@ -363,6 +459,76 @@ export class RateLimitService {
         key: `ratelimit:writing:submit:guest:${ip}`,
         max: this.writingGuestSubmitMaxAttempts,
         ttlSeconds: this.writingGuestSubmitWindowSeconds,
+      },
+    ]);
+  }
+
+  /**
+   * Rate limit for POST /api/payments.
+   *
+   * Keyed on the center rather than the IP, because the caller is
+   * authenticated and the resource being protected is that center's own row
+   * count. Every payment creates a durable record, and a new idempotency key
+   * makes a new one, so without a ceiling a signed-in center can grow the
+   * table without bound — the idempotency index prevents duplicates of one
+   * intent, not a flood of distinct ones.
+   *
+   * Twenty an hour is far above any honest use. A center pays monthly, and
+   * even a person clicking through several failed attempts stays well inside
+   * it.
+   */
+  checkPaymentCreateLimit(centerId: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:payments:create:center:${centerId}`,
+        max: 20,
+        ttlSeconds: 60 * 60,
+      },
+    ]);
+  }
+
+  /**
+   * A hard ceiling on AI evaluations per student, independent of the quota.
+   *
+   * The quota is the product rule and this is not a second copy of it — it is
+   * the atomicity the quota does not have. `AiQuotaService` counts `ai_usage`
+   * rows and then the caller acts: a burst of concurrent requests all read the
+   * same count and all pass, so a student allowed two could land thirty in
+   * parallel before the first row commits. Rows cannot be reserved without
+   * either charging for failures or locking, so the burst is bounded here, in
+   * Valkey, where a counter increments atomically.
+   *
+   * Set at the most generous tier's allowance rather than the caller's own, so
+   * this never refuses a request the quota would have allowed — the quota
+   * stays the rule anyone reads, and this only stops the pile-up. It is an
+   * hour rather than the quota's 24, because a burst is what it exists to
+   * catch and a longer window would start doing the quota's job badly.
+   */
+  checkAiEvaluationLimit(studentId: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:ai:evaluate:student:${studentId}`,
+        max: 20,
+        ttlSeconds: 60 * 60,
+      },
+    ]);
+  }
+
+  /**
+   * Checkouts a center may start per hour.
+   *
+   * Its own budget rather than the payment-creation one. A first checkout asks
+   * the provider to open a transaction, which is worth bounding; but a center
+   * clicking "pay" a few times must not use up the slots it needs to create a
+   * payment in the first place. Repeats of an existing checkout are answered
+   * from the database, so honest use stays far below this.
+   */
+  checkCheckoutStartLimit(centerId: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:payments:checkout:center:${centerId}`,
+        max: 20,
+        ttlSeconds: 60 * 60,
       },
     ]);
   }
