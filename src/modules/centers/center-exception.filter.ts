@@ -31,6 +31,8 @@ const CENTER_ERROR_MESSAGES: Record<string, string> = {
     'This exam has already opened and can no longer be changed.',
   EXAM_ALREADY_PUBLISHED: 'This exam has already been published.',
   EXAM_NOT_PUBLISHED: 'This exam has not been published yet.',
+  EXAM_NOT_CLOSED:
+    'Only a closed exam can be reopened. Change its closing time instead.',
   EXAM_CANCELLED: 'This exam was cancelled.',
   NO_PARTICIPANTS: 'Choose at least one participant before publishing.',
   NOT_ENOUGH_EXAM_SLOTS:

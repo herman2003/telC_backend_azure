@@ -131,6 +131,33 @@ export class ListExamSessionsQueryDto {
   pageSize: number = 20;
 }
 
+export class EligibleStudentsQueryDto {
+  @ApiPropertyOptional({ default: 1 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page: number = 1;
+
+  @ApiPropertyOptional({ default: 50, maximum: 200 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(200)
+  pageSize: number = 50;
+
+  @ApiPropertyOptional({
+    maxLength: 100,
+    description: 'Matches a name or an email, case-insensitively.',
+  })
+  @Trim()
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  search?: string;
+}
+
 export class ExamSessionDto {
   @ApiProperty() id: string;
   @ApiProperty({ example: 'Examen séquentiel B1 — Octobre' }) name: string;
@@ -178,6 +205,11 @@ export class EligibleStudentDto {
       'Has already worked on this Modelltest in training, so their score in an exam using it would say nothing. Show it as a warning; it does not block anything.',
   })
   trainedOnModelltest: boolean;
+}
+
+export class EligibleStudentListDto {
+  @ApiProperty({ type: [EligibleStudentDto] }) students: EligibleStudentDto[];
+  @ApiProperty({ example: 42 }) total: number;
 }
 
 export class SetParticipantsResultDto {

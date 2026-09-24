@@ -5,6 +5,7 @@ const mockPrisma = {
   modelltest: {
     findMany: jest.fn(),
     findUnique: jest.fn(),
+    findFirst: jest.fn(),
   },
 };
 
@@ -61,7 +62,10 @@ describe('ModelltestsService', () => {
         number: 2,
         title: 'Modelltest 2',
       });
+      // Exam-only material is withheld from the training catalogue, so a
+      // sitting can use a Modelltest nobody has worked through.
       expect(mockPrisma.modelltest.findMany).toHaveBeenCalledWith({
+        where: { exam_only: false },
         orderBy: { number: 'asc' },
       });
     });
@@ -77,7 +81,7 @@ describe('ModelltestsService', () => {
 
   describe('getByNumber', () => {
     it('returns detail DTO with grouped exercise IDs when found', async () => {
-      mockPrisma.modelltest.findUnique.mockResolvedValue(MT1_ROW);
+      mockPrisma.modelltest.findFirst.mockResolvedValue(MT1_ROW);
 
       const result = await service.getByNumber(1);
 
@@ -94,8 +98,9 @@ describe('ModelltestsService', () => {
         listening: ['he1-uuid'],
         speaking: ['sp1-uuid'],
       });
-      expect(mockPrisma.modelltest.findUnique).toHaveBeenCalledWith({
-        where: { number: 1 },
+      expect(mockPrisma.modelltest.findFirst).toHaveBeenCalledWith({
+        // By number alone a student could reach exam material anyway.
+        where: { number: 1, exam_only: false },
         include: {
           sprachbausteineExercises: { select: { id: true } },
           sprachbausteineTeil2Exercises: { select: { id: true } },
@@ -110,7 +115,7 @@ describe('ModelltestsService', () => {
     });
 
     it('throws NotFoundException when number does not exist', async () => {
-      mockPrisma.modelltest.findUnique.mockResolvedValue(null);
+      mockPrisma.modelltest.findFirst.mockResolvedValue(null);
 
       await expect(service.getByNumber(99)).rejects.toThrow(NotFoundException);
     });

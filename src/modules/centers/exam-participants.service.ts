@@ -51,17 +51,37 @@ export class ExamParticipantsService {
   /**
    * The center's students, each marked with whether they are already in and
    * whether they have trained on this sitting's Modelltest.
+   *
+   * Paged and searchable, because a school with four hundred students is an
+   * ordinary school and the wizard's third step is a picker, not a dump.
    */
   async listEligible(
     identity: SignedCenterIdentity,
     sessionId: string,
-  ): Promise<EligibleStudentView[]> {
+    query: { page: number; pageSize: number; search?: string },
+  ): Promise<{ students: EligibleStudentView[]; total: number }> {
     const session = await this.load(identity, sessionId);
 
-    const [students, admitted, trained] = await Promise.all([
+    const search = query.search?.trim();
+    const where = {
+      center_id: identity.centerId,
+      ...(search
+        ? {
+            OR: [
+              { first_name: { contains: search, mode: 'insensitive' as const } },
+              { last_name: { contains: search, mode: 'insensitive' as const } },
+              { email: { contains: search, mode: 'insensitive' as const } },
+            ],
+          }
+        : {}),
+    };
+
+    const [students, total, admitted, trained] = await Promise.all([
       this.prisma.student.findMany({
-        where: { center_id: identity.centerId },
+        where,
         orderBy: [{ first_name: 'asc' }, { email: 'asc' }],
+        skip: (query.page - 1) * query.pageSize,
+        take: query.pageSize,
         select: {
           id: true,
           first_name: true,
@@ -69,6 +89,7 @@ export class ExamParticipantsService {
           email: true,
         },
       }),
+      this.prisma.student.count({ where }),
       this.prisma.examSessionParticipant.findMany({
         where: { session_id: sessionId },
         select: { student_id: true },
@@ -87,14 +108,17 @@ export class ExamParticipantsService {
     const isAdmitted = new Set(admitted.map((row) => row.student_id));
     const hasTrained = new Set(trained.map((row) => row.student_id));
 
-    return students.map((student) => ({
-      id: student.id,
-      firstName: student.first_name,
-      lastName: student.last_name,
-      email: student.email,
-      selected: isAdmitted.has(student.id),
-      trainedOnModelltest: hasTrained.has(student.id),
-    }));
+    return {
+      students: students.map((student) => ({
+        id: student.id,
+        firstName: student.first_name,
+        lastName: student.last_name,
+        email: student.email,
+        selected: isAdmitted.has(student.id),
+        trainedOnModelltest: hasTrained.has(student.id),
+      })),
+      total,
+    };
   }
 
   /**
@@ -175,19 +199,17 @@ export class ExamParticipantsService {
       throw new BadRequestException('OPENS_AT_IN_PAST');
     }
 
-    const participantCount = await this.prisma.examSessionParticipant.count({
-      where: { session_id: sessionId },
-    });
-    if (participantCount === 0) {
-      throw new BadRequestException('NO_PARTICIPANTS');
-    }
-
     return this.prisma.$transaction(async (tx) => {
-      const remaining = await this.spendSlots(
-        tx,
-        identity,
-        participantCount,
-      );
+      // Counted inside the transaction that spends for it. Counting first and
+      // spending after would admit, unpaid for, anyone added in between.
+      const participantCount = await tx.examSessionParticipant.count({
+        where: { session_id: sessionId },
+      });
+      if (participantCount === 0) {
+        throw new BadRequestException('NO_PARTICIPANTS');
+      }
+
+      const remaining = await this.spendSlots(tx, identity, participantCount);
 
       // The WHERE is the concurrency control: the second of two simultaneous
       // publishes matches no row, and is told so rather than spending again.

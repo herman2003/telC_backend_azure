@@ -277,10 +277,12 @@ describe('the admitted list', () => {
     const eligible = await participants.listEligible(
       identity(center.id),
       draft.id,
+      { page: 1, pageSize: 50 },
     );
 
-    expect(eligible).toHaveLength(3);
-    const byId = new Map(eligible.map((row) => [row.id, row]));
+    expect(eligible.students).toHaveLength(3);
+    expect(eligible.total).toBe(3);
+    const byId = new Map(eligible.students.map((row) => [row.id, row]));
     expect(byId.get(students[0])).toMatchObject({
       selected: true,
       trainedOnModelltest: false,
@@ -299,7 +301,40 @@ describe('the admitted list', () => {
     const draft = await makeDraft(mine.id);
 
     await expect(
-      participants.listEligible(identity(mine.id), draft.id),
-    ).resolves.toEqual([]);
+      participants.listEligible(identity(mine.id), draft.id, {
+        page: 1,
+        pageSize: 50,
+      }),
+    ).resolves.toEqual({ students: [], total: 0 });
+  });
+
+  it('pages the picker and searches it, so a big school is usable', async () => {
+    // A list endpoint without a page is a list endpoint that eventually
+    // times out. Four hundred students is an ordinary school.
+    const center = await makeCenter(10);
+    await makeStudents(center.id, 5);
+    const named = await prisma.student.create({
+      data: {
+        email: `exam-test-search-${Date.now()}@example.com`,
+        center_id: center.id,
+        first_name: 'Ngeleka',
+      },
+    });
+    const draft = await makeDraft(center.id);
+
+    const firstPage = await participants.listEligible(
+      identity(center.id),
+      draft.id,
+      { page: 1, pageSize: 2 },
+    );
+    expect(firstPage.students).toHaveLength(2);
+    expect(firstPage.total).toBe(6);
+
+    const found = await participants.listEligible(
+      identity(center.id),
+      draft.id,
+      { page: 1, pageSize: 50, search: 'ngel' },
+    );
+    expect(found.students.map((row) => row.id)).toEqual([named.id]);
   });
 });

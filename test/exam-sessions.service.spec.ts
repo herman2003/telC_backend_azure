@@ -293,6 +293,32 @@ describe('ExamSessionsService', () => {
       );
     });
 
+    it('refuses to reopen one that has not opened yet', async () => {
+      // The bug this guards: a sitting opening in two days, reopened for 24
+      // hours, would be given a closing time a day BEFORE its opening — a
+      // window nobody can ever sit, and a 500 from the check constraint.
+      prisma.examSession.findFirst.mockResolvedValue(
+        row({
+          published_at: new Date(Date.now() - HOUR),
+          opens_at: new Date(Date.now() + 48 * HOUR),
+          closes_at: new Date(Date.now() + 96 * HOUR),
+        }),
+      );
+
+      await expect(service.reopen(identity, 'session-1', 24)).rejects.toThrow(
+        'EXAM_NOT_CLOSED',
+      );
+      expect(prisma.examSession.update).not.toHaveBeenCalled();
+    });
+
+    it('refuses to reopen one that is still open, which would shorten it', async () => {
+      prisma.examSession.findFirst.mockResolvedValue(open());
+
+      await expect(service.reopen(identity, 'session-1', 24)).rejects.toThrow(
+        'EXAM_NOT_CLOSED',
+      );
+    });
+
     it('refuses to reopen a cancelled sitting', async () => {
       prisma.examSession.findFirst.mockResolvedValue(
         row({ cancelled_at: new Date() }),

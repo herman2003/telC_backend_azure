@@ -224,11 +224,16 @@ export class ExamSessionsService {
   }
 
   /**
-   * Gives a lapsed sitting another window, counted from now.
+   * Gives a closed sitting another window, counted from now.
    *
    * `force_closed_at` is cleared as well, or a sitting the center closed by
    * hand could never be reopened — the derived status reads that column
    * before it reads the clock.
+   *
+   * Only a CLOSED sitting can be reopened. Reopening one that has not opened
+   * yet would move its closing time to a point before its opening, which is
+   * a sitting nobody can ever sit; reopening one that is already open would
+   * silently shorten it. Both are refusals, not 500s from a check constraint.
    */
   async reopen(
     identity: SignedCenterIdentity,
@@ -239,6 +244,9 @@ export class ExamSessionsService {
     if (session.cancelled_at) throw new BadRequestException('EXAM_CANCELLED');
     if (!session.published_at) {
       throw new BadRequestException('EXAM_NOT_PUBLISHED');
+    }
+    if (this.policy.statusOf(session) !== 'CLOSED') {
+      throw new BadRequestException('EXAM_NOT_CLOSED');
     }
 
     const updated = await this.prisma.examSession.update({

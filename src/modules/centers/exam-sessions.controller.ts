@@ -32,7 +32,8 @@ import { ExamSessionsService } from './exam-sessions.service';
 import { ExamParticipantsService } from './exam-participants.service';
 import {
   CreateExamSessionDto,
-  EligibleStudentDto,
+  EligibleStudentListDto,
+  EligibleStudentsQueryDto,
   ExamSessionDto,
   ExamSessionListDto,
   ListExamSessionsQueryDto,
@@ -129,12 +130,13 @@ export class ExamSessionsController {
     description:
       'Step 3 of the wizard. Marks who is already in, and who has already worked on this Modelltest in training — a student who practised it has seen the answers.',
   })
-  @ApiOkResponse({ type: [EligibleStudentDto] })
+  @ApiOkResponse({ type: EligibleStudentListDto })
   eligibleStudents(
     @CurrentCenterUser() user: CenterAccessTokenPayload,
     @Param('sessionId', ParseUUIDPipe) sessionId: string,
+    @Query() query: EligibleStudentsQueryDto,
   ) {
-    return this.participants.listEligible(user, sessionId);
+    return this.participants.listEligible(user, sessionId, query);
   }
 
   @Put(':sessionId/participants')
