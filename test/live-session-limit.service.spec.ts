@@ -94,8 +94,12 @@ describe('LiveSessionLimitService', () => {
     it('keys registered students by studentId, so one NAT does not lock out a class', async () => {
       const service = makeService({ ELENA_CONCURRENT_MAX: '10' });
 
+      // Released between the two, because one student may only hold one live
+      // session at a time. This test is about how the daily cap is keyed.
       await service.acquire(STUDENT, 's1');
+      await service.release('s1', STUDENT);
       await service.acquire(STUDENT, 's2');
+      await service.release('s2', STUDENT);
       // Same IP, different student — must still be allowed.
       await expect(
         service.acquire({ ...STUDENT, studentId: 'student-2' }, 's3'),
@@ -180,6 +184,97 @@ describe('LiveSessionLimitService', () => {
       } finally {
         jest.useRealTimers();
       }
+    });
+  });
+
+  describe('one live session per student', () => {
+    it('refuses a student who already has one open', async () => {
+      // The pool is global, so before this a student could hold two slots
+      // while somebody else was told Elena was busy with another person.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+
+      expect(await messageKeyOf(service.acquire(STUDENT, 'second'))).toBe(
+        'elenaSessionAlreadyOpen',
+      );
+    });
+
+    it('does not spend their allowance on that refusal', async () => {
+      // Being told "you already have one open" must not also cost the session
+      // they are trying to start. Two of two used, for one conversation.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '2',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+      await messageKeyOf(service.acquire(STUDENT, 'refused'));
+      await service.release('first', STUDENT);
+
+      await expect(service.acquire(STUDENT, 'second')).resolves.toBeUndefined();
+    });
+
+    it('lets them start again the moment they end the last one', async () => {
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+      await service.release('first', STUDENT);
+
+      await expect(service.acquire(STUDENT, 'second')).resolves.toBeUndefined();
+    });
+
+    it('frees a crashed app by expiry, so nobody is locked out for the day', async () => {
+      // The backend never learns that a browser-to-Google session ended. If
+      // the slot only cleared on /live-session/end, an app that died would
+      // cost the student every remaining session they had.
+      jest.useFakeTimers();
+      try {
+        const service = makeService({
+          ELENA_IP_DAILY_MAX: '99',
+          ELENA_CONCURRENT_MAX: '10',
+          GEMINI_LIVE_SESSION_MAX_MINUTES: '5',
+        });
+
+        await service.acquire(STUDENT, 'crashed');
+        jest.advanceTimersByTime(6 * 60 * 1000);
+
+        await expect(service.acquire(STUDENT, 'next')).resolves.toBeUndefined();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('leaves another student alone', async () => {
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+
+      await expect(
+        service.acquire({ ...STUDENT, studentId: 'student-2' }, 'theirs'),
+      ).resolves.toBeUndefined();
+    });
+
+    it('leaves guests exactly as they were', async () => {
+      // Guests are keyed by IP, and a school or a cybercafe is one IP. A
+      // per-identity live slot would let one visitor block the building.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(GUEST, 'g1');
+
+      await expect(service.acquire(GUEST, 'g2')).resolves.toBeUndefined();
     });
   });
 

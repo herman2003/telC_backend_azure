@@ -10,6 +10,10 @@ import { ValkeyService } from '../../../shared/services/valkey.service';
 
 const CONCURRENT_KEY = 'elena:active';
 
+/** One student, one live conversation. The key is per student, so the pool it
+ *  describes has exactly one place in it. */
+const liveSlotKey = (studentId: string) => `elena:live:student:${studentId}`;
+
 export interface LiveSessionCaller {
   /** Client IP. The only stable identity a guest has — see {@link LiveSessionLimitService.identityKey}. */
   ip: string;
@@ -36,6 +40,12 @@ export class LiveSessionLimitService {
   private readonly cache = new NodeCache();
   /** member → expiry epoch ms. Fallback for the concurrency pool only. */
   private readonly localSlots = new Map<string, number>();
+  /** student key → the session they hold and when it lapses. The same
+   *  fallback, for the per-student pool. */
+  private readonly localLiveSlots = new Map<
+    string,
+    { sessionId: string; expiresAt: number }
+  >();
 
   private readonly ipMax: number;
   private readonly ipWindowSeconds: number;
@@ -77,6 +87,16 @@ export class LiveSessionLimitService {
    * admission call, so two simultaneous requests cannot both take the last one.
    */
   async acquire(caller: LiveSessionCaller, sessionId: string): Promise<void> {
+    // First, and read-only. A student who already has Elena open is not
+    // competing for anything shared, so finding out must not cost them one of
+    // the sessions they are entitled to — and the answer is about them alone.
+    if (await this.holdsLiveSession(caller)) {
+      throw this.refuse(
+        'elenaSessionAlreadyOpen',
+        'Vous avez déjà une session ouverte avec Elena. Terminez-la avant d’en commencer une autre.',
+      );
+    }
+
     if (await this.poolIsFull()) {
       throw this.refuse(
         'elenaBusyNow',
@@ -109,9 +129,73 @@ export class LiveSessionLimitService {
       );
     }
 
+    // After the atomic claim above, so a caller that lost the race for the
+    // last shared slot leaves no live slot of their own behind.
+    await this.takeLiveSlot(caller, sessionId);
+
     this.logger.log(
       JSON.stringify({ event: 'elena.session.granted', sessionId }),
     );
+  }
+
+  /**
+   * Whether this caller already has a conversation open.
+   *
+   * Registered students only. Guests are keyed by IP, and a school or a
+   * cybercafé is one IP: a per-identity live slot would let one visitor block
+   * the building. Their spend is bounded by the daily IP cap instead, which is
+   * what it was already doing.
+   */
+  private async holdsLiveSession(caller: LiveSessionCaller): Promise<boolean> {
+    const key = this.liveKeyFor(caller);
+    if (!key) return false;
+
+    const distributed = await this.valkey?.countConcurrent(
+      key,
+      this.sessionMaxSeconds,
+    );
+    if (distributed !== null && distributed !== undefined) {
+      return distributed >= 1;
+    }
+
+    const held = this.localLiveSlots.get(key);
+    if (!held) return false;
+    if (held.expiresAt <= Date.now()) {
+      // Expiry rather than a release call, for the same reason the shared pool
+      // works that way: an app that dies never tells us. A student whose phone
+      // crashed waits out the session ceiling, not the day.
+      this.localLiveSlots.delete(key);
+      return false;
+    }
+    return true;
+  }
+
+  private async takeLiveSlot(
+    caller: LiveSessionCaller,
+    sessionId: string,
+  ): Promise<void> {
+    const key = this.liveKeyFor(caller);
+    if (!key) return;
+
+    const distributed = await this.valkey?.trackConcurrent(
+      key,
+      sessionId,
+      1,
+      this.sessionMaxSeconds,
+    );
+    if (distributed !== null && distributed !== undefined) return;
+
+    this.localLiveSlots.set(key, {
+      sessionId,
+      expiresAt: Date.now() + this.sessionMaxSeconds * 1000,
+    });
+  }
+
+  /** Null for anyone this rule does not apply to. */
+  private liveKeyFor(caller: LiveSessionCaller): string | null {
+    return caller.isGuest || !caller.studentId
+      ? null
+      : liveSlotKey(caller.studentId);
   }
 
   /**
@@ -156,9 +240,20 @@ export class LiveSessionLimitService {
    * capability held by whoever was given the id at mint time, which is a random
    * UUID never shared with anyone else.
    */
-  async release(sessionId: string): Promise<void> {
+  async release(sessionId: string, caller?: LiveSessionCaller): Promise<void> {
     this.localSlots.delete(sessionId);
     await this.valkey?.releaseConcurrent(CONCURRENT_KEY, sessionId);
+
+    // The caller's own slot goes with it. Freeing the shared pool and leaving
+    // the student's own place taken would lock them out of the very session
+    // they just made room for. Without a caller — an older client, or a
+    // release from somewhere that does not know who — it lapses on its own.
+    const key = caller ? this.liveKeyFor(caller) : null;
+    if (key) {
+      const held = this.localLiveSlots.get(key);
+      if (held?.sessionId === sessionId) this.localLiveSlots.delete(key);
+      await this.valkey?.releaseConcurrent(key, sessionId);
+    }
     this.logger.log(
       JSON.stringify({ event: 'elena.session.released', sessionId }),
     );
@@ -187,10 +282,7 @@ export class LiveSessionLimitService {
     if (distributed !== null && distributed !== undefined) return distributed;
 
     if (this.pruneLocalSlots() >= this.concurrentMax) return false;
-    this.localSlots.set(
-      sessionId,
-      Date.now() + this.sessionMaxSeconds * 1000,
-    );
+    this.localSlots.set(sessionId, Date.now() + this.sessionMaxSeconds * 1000);
     return true;
   }
 
