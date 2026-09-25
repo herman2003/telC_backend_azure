@@ -92,11 +92,18 @@ export class ExamReleaseService {
       });
     }
 
+    // One transaction for the whole sitting. The refusal above already
+    // stopped a class being released in halves for want of a mark; this stops
+    // it happening for want of a connection. A write failing on the eleventh
+    // of fifteen candidates would otherwise leave ten told and five not, with
+    // nothing saying which.
     const releasedAt = new Date();
-    for (const result of results) {
-      await this.store(result, releasedAt);
-    }
-    await this.tell(results, sessionId);
+    await this.prisma.$transaction(async (tx) => {
+      for (const result of results) {
+        await this.store(result, releasedAt, tx);
+      }
+      await this.tell(results, sessionId, tx);
+    });
 
     return { released: results.length, incomplete, releasedAt };
   }
@@ -125,8 +132,10 @@ export class ExamReleaseService {
     }
 
     const releasedAt = new Date();
-    await this.store(result, releasedAt);
-    await this.tell([result], attempt.session_id);
+    await this.prisma.$transaction(async (tx) => {
+      await this.store(result, releasedAt, tx);
+      await this.tell([result], attempt.session_id, tx);
+    });
 
     return { released: 1, incomplete, releasedAt };
   }
@@ -175,11 +184,13 @@ export class ExamReleaseService {
   private async tell(
     results: ExamResultView[],
     sessionId: string,
+    tx: Prisma.TransactionClient,
   ): Promise<void> {
     await this.notifications.notifyMany(
       results.map((result) => result.studentId),
       'EXAM_RESULT_RELEASED',
       { sessionId },
+      tx,
     );
   }
 
@@ -187,8 +198,9 @@ export class ExamReleaseService {
   private async store(
     result: ExamResultView,
     releasedAt: Date,
+    tx: Prisma.TransactionClient,
   ): Promise<void> {
-    await this.prisma.examAttempt.update({
+    await tx.examAttempt.update({
       where: { id: result.attemptId },
       data: {
         released_at: releasedAt,
