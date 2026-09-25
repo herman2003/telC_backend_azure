@@ -14,6 +14,7 @@ describe('ExamResultsController', () => {
 
   let results: any;
   let grading: any;
+  let release: any;
   let controller: ExamResultsController;
 
   beforeEach(() => {
@@ -22,7 +23,11 @@ describe('ExamResultsController', () => {
       forAttempt: jest.fn().mockResolvedValue({ outcome: 'PASSED' }),
     };
     grading = { recordMark: jest.fn().mockResolvedValue({ points: 40 }) };
-    controller = new ExamResultsController(results, grading);
+    release = {
+      releaseSession: jest.fn().mockResolvedValue({ released: 3 }),
+      releaseAttempt: jest.fn().mockResolvedValue({ released: 1 }),
+    };
+    controller = new ExamResultsController(results, grading, release);
   });
 
   it('is behind the center guard', () => {
@@ -47,6 +52,12 @@ describe('ExamResultsController', () => {
     await controller.attemptResult(user, 'attempt-1');
 
     expect(results.forAttempt).toHaveBeenCalledWith('attempt-1', 'center-1');
+  });
+
+  it('releases a sitting as the signed center', async () => {
+    await controller.releaseSession(user, 'session-1');
+
+    expect(release.releaseSession).toHaveBeenCalledWith(user, 'session-1');
   });
 
   it('records a mark as the signed manager', async () => {

@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   ParseUUIDPipe,
+  Post,
   Put,
   UseFilters,
   UseGuards,
@@ -26,6 +27,7 @@ import { CenterAuthGuard } from './guards/center-auth.guard';
 import { CenterErrorResponseDto } from './dto/center-error-response.dto';
 import { ExamResultService } from './exam-result.service';
 import { ExamGradingService } from './exam-grading.service';
+import { ExamReleaseService } from './exam-release.service';
 import {
   ExamCandidateRowDto,
   RecordExamMarkDto,
@@ -47,6 +49,7 @@ export class ExamResultsController {
   constructor(
     private readonly results: ExamResultService,
     private readonly grading: ExamGradingService,
+    private readonly release: ExamReleaseService,
   ) {}
 
   @Get('exam-sessions/:sessionId/results')
@@ -79,6 +82,35 @@ export class ExamResultsController {
     @Param('attemptId', ParseUUIDPipe) attemptId: string,
   ) {
     return this.results.forAttempt(attemptId, user.centerId);
+  }
+
+  @Post('exam-sessions/:sessionId/results/release')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Let this sitting see their results',
+    description:
+      'Freezes each candidate result as it stands and shows it to them. May be done more than once — the written marks now, the verdict after the oral — and releasing again replaces what they see. An incomplete result is released if you ask for it: "you passed the written half" is worth telling somebody a week before the oral is marked.',
+  })
+  @ApiNotFoundResponse({ type: CenterErrorResponseDto })
+  releaseSession(
+    @CurrentCenterUser() user: CenterAccessTokenPayload,
+    @Param('sessionId', ParseUUIDPipe) sessionId: string,
+  ) {
+    return this.release.releaseSession(user, sessionId);
+  }
+
+  @Post('exam-attempts/:attemptId/results/release')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Let one candidate see their result',
+    description: 'For the late oral, or a mark corrected after a complaint.',
+  })
+  @ApiNotFoundResponse({ type: CenterErrorResponseDto })
+  releaseAttempt(
+    @CurrentCenterUser() user: CenterAccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+  ) {
+    return this.release.releaseAttempt(user, attemptId);
   }
 
   @Put('exam-attempts/:attemptId/marks')

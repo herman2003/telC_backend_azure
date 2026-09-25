@@ -11,6 +11,8 @@ import {
 import { ExamSittingService } from '../centers/exam-sitting.service';
 import { ExamBlockContentService } from '../centers/exam-block-content.service';
 import { ExamScoringService } from '../centers/exam-scoring.service';
+import { ExamReleaseService } from '../centers/exam-release.service';
+import { ExamResultService } from '../centers/exam-result.service';
 import { ExamSessionPolicyService } from '../centers/exam-session-policy.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
@@ -32,6 +34,8 @@ import { WritingService } from '../writing/writing.service';
     ExamSittingService,
     ExamBlockContentService,
     ExamScoringService,
+    ExamReleaseService,
+    ExamResultService,
     ExamAudioService,
     {
       // The same secret the rest of the system signs with. A separate one

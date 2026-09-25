@@ -15,6 +15,7 @@ import { ExamSlotsController } from './exam-slots.controller';
 import { ExamResultsController } from './exam-results.controller';
 import { ExamResultService } from './exam-result.service';
 import { ExamGradingService } from './exam-grading.service';
+import { ExamReleaseService } from './exam-release.service';
 import { ExamSlotsService } from './exam-slots.service';
 import { ExamSessionsService } from './exam-sessions.service';
 import { ExamParticipantsService } from './exam-participants.service';
@@ -77,6 +78,7 @@ import { CenterSupportService } from './center-support.service';
     ExamSlotsService,
     ExamResultService,
     ExamGradingService,
+    ExamReleaseService,
     ExamParticipantsService,
     ExamSessionPolicyService,
     SubscriptionPolicyService,

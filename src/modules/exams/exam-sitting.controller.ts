@@ -27,6 +27,7 @@ import { ExamSittingService } from '../centers/exam-sitting.service';
 import { ExamBlockContentService } from '../centers/exam-block-content.service';
 import { ExamScoringService } from '../centers/exam-scoring.service';
 import { ExamAudioService } from '../centers/exam-audio.service';
+import { ExamReleaseService } from '../centers/exam-release.service';
 import {
   ExamBlockTimerDto,
   SaveExamAnswersDto,
@@ -53,6 +54,7 @@ export class ExamSittingController {
     private readonly content: ExamBlockContentService,
     private readonly scoring: ExamScoringService,
     private readonly audio: ExamAudioService,
+    private readonly release: ExamReleaseService,
   ) {}
 
   @Get('sessions')
@@ -65,6 +67,22 @@ export class ExamSittingController {
   @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })
   mySessions(@CurrentStudent() student: AccessTokenPayload) {
     return this.sitting.mySessions(student.studentId);
+  }
+
+  @Get('attempts/:attemptId/result')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'My result, once my center has released it',
+    description:
+      'Exactly what was released and nothing more — a snapshot, so a re-mark cannot change a verdict under me between two refreshes. Until the center releases, this answers RESULT_NOT_RELEASED: the exam has no result as far as I am concerned.',
+  })
+  @ApiBadRequestResponse({ description: 'RESULT_NOT_RELEASED' })
+  @ApiNotFoundResponse({ description: 'EXAM_ATTEMPT_NOT_FOUND' })
+  myResult(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+  ) {
+    return this.release.forStudent(student.studentId, attemptId);
   }
 
   @Post('sessions/:sessionId/start')
