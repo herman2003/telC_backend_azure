@@ -11,11 +11,17 @@ import { PrismaService } from '../src/shared/services/prisma.service';
 import { ExamSessionsService } from '../src/modules/centers/exam-sessions.service';
 import { ExamParticipantsService } from '../src/modules/centers/exam-participants.service';
 import { ExamSessionPolicyService } from '../src/modules/centers/exam-session-policy.service';
+import { NotificationsService } from '../src/shared/services/notifications.service';
 
 const prisma = new PrismaService();
 const policy = new ExamSessionPolicyService();
 const sessions = new ExamSessionsService(prisma, policy);
-const participants = new ExamParticipantsService(prisma, policy);
+const notifications = new NotificationsService(prisma);
+const participants = new ExamParticipantsService(
+  prisma,
+  policy,
+  notifications,
+);
 
 const identity = (centerId: string) =>
   ({ centerId, centerUserId: `${centerId}-owner` }) as never;
@@ -178,6 +184,42 @@ describe('publishing a sitting', () => {
 
     expect(results.filter((r) => r.status === 'fulfilled')).toHaveLength(1);
     await expect(slotsOf(center.id)).resolves.toBe(7);
+  });
+
+  it('tells every candidate, in the transaction that published it', async () => {
+    // An exam published with nobody told is worse than a publish that
+    // failed: only one of the two is visible to anybody.
+    const center = await makeCenter(10);
+    const students = await makeStudents(center.id, 3);
+    const draft = await makeDraft(center.id);
+    await participants.setParticipants(identity(center.id), draft.id, students);
+
+    await participants.publish(identity(center.id), draft.id);
+
+    const told = await prisma.notification.findMany({
+      where: { student_id: { in: students }, kind: 'EXAM_PUBLISHED' },
+      select: { student_id: true, payload: true },
+    });
+    expect(told).toHaveLength(3);
+    // Facts, not a sentence: the app writes the wording.
+    expect(told[0].payload).toMatchObject({ sessionId: draft.id });
+  });
+
+  it('tells nobody when the publish is refused', async () => {
+    // Four slots, six candidates. The refusal has to take the notifications
+    // with it, or three students are waiting for an exam that never opened.
+    const center = await makeCenter(4);
+    const students = await makeStudents(center.id, 6);
+    const draft = await makeDraft(center.id);
+    await participants.setParticipants(identity(center.id), draft.id, students);
+
+    await expect(
+      participants.publish(identity(center.id), draft.id),
+    ).rejects.toThrow('NOT_ENOUGH_EXAM_SLOTS');
+
+    await expect(
+      prisma.notification.count({ where: { student_id: { in: students } } }),
+    ).resolves.toBe(0);
   });
 
   it('refuses a sitting nobody is admitted to', async () => {

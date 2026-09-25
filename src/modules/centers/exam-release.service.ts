@@ -7,6 +7,7 @@ import type { Prisma } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import type { SignedCenterIdentity } from './payment-shared';
 import { ExamResultService, type ExamResultView } from './exam-result.service';
+import { NotificationsService } from '../../shared/services/notifications.service';
 
 export interface ReleaseSummary {
   released: number;
@@ -50,6 +51,7 @@ export class ExamReleaseService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly results: ExamResultService,
+    private readonly notifications: NotificationsService,
   ) {}
 
   /** Releases every candidate in a sitting. */
@@ -90,10 +92,18 @@ export class ExamReleaseService {
       });
     }
 
+    // One transaction for the whole sitting. The refusal above already
+    // stopped a class being released in halves for want of a mark; this stops
+    // it happening for want of a connection. A write failing on the eleventh
+    // of fifteen candidates would otherwise leave ten told and five not, with
+    // nothing saying which.
     const releasedAt = new Date();
-    for (const result of results) {
-      await this.store(result, releasedAt);
-    }
+    await this.prisma.$transaction(async (tx) => {
+      for (const result of results) {
+        await this.store(result, releasedAt, tx);
+      }
+      await this.tell(results, sessionId, tx);
+    });
 
     return { released: results.length, incomplete, releasedAt };
   }
@@ -106,7 +116,7 @@ export class ExamReleaseService {
   ): Promise<ReleaseSummary> {
     const attempt = await this.prisma.examAttempt.findFirst({
       where: { id: attemptId, session: { center_id: identity.centerId } },
-      select: { id: true },
+      select: { id: true, session_id: true },
     });
     if (!attempt) throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
 
@@ -122,7 +132,10 @@ export class ExamReleaseService {
     }
 
     const releasedAt = new Date();
-    await this.store(result, releasedAt);
+    await this.prisma.$transaction(async (tx) => {
+      await this.store(result, releasedAt, tx);
+      await this.tell([result], attempt.session_id, tx);
+    });
 
     return { released: 1, incomplete, releasedAt };
   }
@@ -157,12 +170,37 @@ export class ExamReleaseService {
     } as ReleasedResult;
   }
 
+  /**
+   * Tells the candidates their result is ready.
+   *
+   * The notification carries the sitting and nothing about the verdict. It is
+   * a nudge to go and look; a phone screen at a bus stop is not where
+   * somebody should learn they failed, and a payload that said so would be
+   * read by whoever glanced at the lock screen.
+   *
+   * Told again on a re-release, deliberately: a result that changed is
+   * exactly the thing a candidate needs to hear about twice.
+   */
+  private async tell(
+    results: ExamResultView[],
+    sessionId: string,
+    tx: Prisma.TransactionClient,
+  ): Promise<void> {
+    await this.notifications.notifyMany(
+      results.map((result) => result.studentId),
+      'EXAM_RESULT_RELEASED',
+      { sessionId },
+      tx,
+    );
+  }
+
   /** Freezes one candidate's result as it stands. */
   private async store(
     result: ExamResultView,
     releasedAt: Date,
+    tx: Prisma.TransactionClient,
   ): Promise<void> {
-    await this.prisma.examAttempt.update({
+    await tx.examAttempt.update({
       where: { id: result.attemptId },
       data: {
         released_at: releasedAt,

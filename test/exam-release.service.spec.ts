@@ -27,6 +27,7 @@ describe('ExamReleaseService', () => {
 
   let prisma: any;
   let results: any;
+  let notifications: any;
   let service: ExamReleaseService;
 
   beforeEach(() => {
@@ -37,9 +38,14 @@ describe('ExamReleaseService', () => {
           attempts: [{ id: 'attempt-1' }, { id: 'attempt-2' }],
         }),
       },
+      // Releasing a sitting is one transaction: half a class told their
+      // results because a write failed in the middle is worse than either
+      // outcome.
+      $transaction: jest.fn().mockImplementation(async (fn: any) => fn(prisma)),
       examAttempt: {
         findFirst: jest.fn().mockResolvedValue({
           id: 'attempt-1',
+          session_id: 'session-1',
           released_at: null,
           released_result: null,
           session: { center_id: 'center-1' },
@@ -59,7 +65,8 @@ describe('ExamReleaseService', () => {
           ),
         ),
     };
-    service = new ExamReleaseService(prisma, results);
+    notifications = { notifyMany: jest.fn().mockResolvedValue(undefined) };
+    service = new ExamReleaseService(prisma, results, notifications);
   });
 
   describe('releasing a sitting', () => {
@@ -185,6 +192,28 @@ describe('ExamReleaseService', () => {
           where: { id: 'session-1', center_id: 'center-1' },
         }),
       );
+    });
+  });
+
+  describe('all of it or none of it', () => {
+    it('writes a sitting inside one transaction', async () => {
+      await service.releaseSession(identity, 'session-1');
+
+      expect(prisma.$transaction).toHaveBeenCalled();
+    });
+
+    it('tells nobody when a write fails halfway', async () => {
+      // Two candidates, the second update throws. The first must not be
+      // released and nobody must be told, or a class learns their results
+      // in halves.
+      prisma.examAttempt.update
+        .mockResolvedValueOnce({})
+        .mockRejectedValueOnce(new Error('connection lost'));
+
+      await expect(
+        service.releaseSession(identity, 'session-1'),
+      ).rejects.toThrow('connection lost');
+      expect(notifications.notifyMany).not.toHaveBeenCalled();
     });
   });
 
