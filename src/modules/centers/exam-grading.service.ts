@@ -59,13 +59,27 @@ export class ExamGradingService {
       select: {
         id: true,
         submitted_at: true,
+        blocks: { select: { block: true, submitted_at: true } },
         session: { select: { level: true, center_id: true } },
       },
     });
     if (!attempt) throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
-    if (!attempt.submitted_at) {
-      // Marking a Schreiben still being written would score a draft.
-      throw new BadRequestException('EXAM_NOT_FINISHED');
+
+    // Per block, not per attempt.
+    //
+    // Schreiben cannot be marked while it is still being written — that
+    // would score a draft. Sprechen has no block at all: it happened in a
+    // room with an examiner, and refusing it because the candidate walked
+    // out before Hören would leave a mark that exists on paper with nowhere
+    // to go, and a result stuck INCOMPLETE for ever.
+    //
+    // An earlier version gated both on the whole attempt being submitted,
+    // which made an abandoned exam permanently unmarkable.
+    if (input.skill === 'SCHREIBEN') {
+      const block = attempt.blocks.find((row) => row.block === 'SCHREIBEN');
+      if (!block?.submitted_at) {
+        throw new BadRequestException('BLOCK_NOT_SUBMITTED');
+      }
     }
 
     const weight = await this.prisma.examSectionWeight.findUnique({

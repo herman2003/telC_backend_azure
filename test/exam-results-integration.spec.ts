@@ -12,6 +12,7 @@ import { PrismaService } from '../src/shared/services/prisma.service';
 import { ExamResultService } from '../src/modules/centers/exam-result.service';
 import { ExamGradingService } from '../src/modules/centers/exam-grading.service';
 import { ExamReleaseService } from '../src/modules/centers/exam-release.service';
+import type { SignedCenterIdentity } from '../src/modules/centers/payment-shared';
 
 const prisma = new PrismaService();
 const results = new ExamResultService(prisma);
@@ -88,6 +89,16 @@ async function makeMarkedAttempt(percent: number) {
       session_id: session.id,
       student_id: student.id,
       submitted_at: new Date(),
+      // Schreiben cannot be marked until its block is in — marking one still
+      // being written would score a draft.
+      blocks: {
+        create: {
+          block: 'SCHREIBEN',
+          started_at: new Date(Date.now() - 60 * 60 * 1000),
+          deadline_at: new Date(Date.now() - 30 * 60 * 1000),
+          submitted_at: new Date(Date.now() - 30 * 60 * 1000),
+        },
+      },
     },
   });
 
@@ -128,10 +139,10 @@ async function makeMarkedAttempt(percent: number) {
     });
   }
 
-  const identity = {
+  const identity: SignedCenterIdentity = {
     centerId: center.id,
     centerUserId: manager.id,
-  } as never;
+  };
   return { center, student, session, attempt, identity, manager };
 }
 

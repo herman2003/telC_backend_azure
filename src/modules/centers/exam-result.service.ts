@@ -120,7 +120,27 @@ export class ExamResultService {
     const weights = await this.weightsFor(attempt.session.level);
     const marks = (await this.marksForMany([attemptId])).get(attemptId);
 
-    const sections = this.sectionsOf(weights, marks ?? new Map());
+    return this.assemble(attempt, weights, marks ?? new Map());
+  }
+
+  /** One attempt's result from parts already loaded. The single view and the
+   *  batched one go through here, so they cannot disagree. */
+  private assemble(
+    attempt: {
+      id: string;
+      student_id: string;
+      submitted_at: Date | null;
+      released_at: Date | null;
+    },
+    weights: {
+      skill: Skill;
+      teil: number;
+      max_points: number;
+      part: string;
+    }[],
+    marks: Map<string, MarkedValue>,
+  ): ExamResultView {
+    const sections = this.sectionsOf(weights, marks);
     const written = this.half(weights, sections, 'WRITTEN');
     const oral = this.half(weights, sections, 'ORAL');
     const awaiting = this.awaitingOf(sections);
@@ -192,6 +212,41 @@ export class ExamResultService {
   ): ExamOutcome {
     if (awaiting.length > 0) return 'INCOMPLETE';
     return written.passed && oral.passed ? 'PASSED' : 'FAILED';
+  }
+
+  /**
+   * Full results for several attempts at once.
+   *
+   * Six queries whatever the number, not six each. Releasing a sitting of
+   * four hundred used to call `forAttempt` per candidate — the very N+1 the
+   * table was batched to avoid, reintroduced one file away from the fix.
+   *
+   * The attempts must already be known to belong to the caller's center:
+   * this takes ids, not a permission.
+   */
+  async forAttempts(attemptIds: string[]): Promise<ExamResultView[]> {
+    if (attemptIds.length === 0) return [];
+
+    const attempts = await this.prisma.examAttempt.findMany({
+      where: { id: { in: attemptIds } },
+      select: {
+        id: true,
+        student_id: true,
+        submitted_at: true,
+        released_at: true,
+        session: { select: { level: true } },
+      },
+    });
+    if (attempts.length === 0) return [];
+
+    // Every attempt in one sitting shares a level, and a caller batching
+    // across levels is not a thing this has to be fast at.
+    const weights = await this.weightsFor(attempts[0].session.level);
+    const marks = await this.marksForMany(attempts.map((a) => a.id));
+
+    return attempts.map((attempt) =>
+      this.assemble(attempt, weights, marks.get(attempt.id) ?? new Map()),
+    );
   }
 
   /**

@@ -47,7 +47,18 @@ describe('ExamReleaseService', () => {
         update: jest.fn().mockResolvedValue({}),
       },
     };
-    results = { forAttempt: jest.fn().mockResolvedValue(resultOf()) };
+    results = {
+      forAttempt: jest.fn().mockResolvedValue(resultOf()),
+      // Releasing a sitting batches: one call for the whole class rather
+      // than one per candidate.
+      forAttempts: jest
+        .fn()
+        .mockImplementation((ids: string[]) =>
+          Promise.resolve(
+            ids.map((id) => ({ ...resultOf(), attemptId: id })),
+          ),
+        ),
+    };
     service = new ExamReleaseService(prisma, results);
   });
 
@@ -79,8 +90,15 @@ describe('ExamReleaseService', () => {
       // want, and a thing it should have to say out loud. A candidate who
       // later asks why they were told "pending" deserves an answer better
       // than "the dashboard sent it".
-      results.forAttempt.mockResolvedValue(
-        resultOf({ outcome: 'INCOMPLETE', awaiting: ['SPRECHEN'] }),
+      const incompleteResult = resultOf({
+        outcome: 'INCOMPLETE',
+        awaiting: ['SPRECHEN'],
+      });
+      results.forAttempt.mockResolvedValue(incompleteResult);
+      results.forAttempts.mockImplementation((ids: string[]) =>
+        Promise.resolve(
+          ids.map((id) => ({ ...incompleteResult, attemptId: id })),
+        ),
       );
 
       await expect(
@@ -90,8 +108,15 @@ describe('ExamReleaseService', () => {
     });
 
     it('says how many are incomplete, so the warning can name a number', async () => {
-      results.forAttempt.mockResolvedValue(
-        resultOf({ outcome: 'INCOMPLETE', awaiting: ['SPRECHEN'] }),
+      const incompleteResult = resultOf({
+        outcome: 'INCOMPLETE',
+        awaiting: ['SPRECHEN'],
+      });
+      results.forAttempt.mockResolvedValue(incompleteResult);
+      results.forAttempts.mockImplementation((ids: string[]) =>
+        Promise.resolve(
+          ids.map((id) => ({ ...incompleteResult, attemptId: id })),
+        ),
       );
 
       await expect(
@@ -107,8 +132,15 @@ describe('ExamReleaseService', () => {
     it('releases them anyway when the center says so', async () => {
       // The written marks now, the verdict after the oral — for the
       // candidate who needs a score before the oral has happened.
-      results.forAttempt.mockResolvedValue(
-        resultOf({ outcome: 'INCOMPLETE', awaiting: ['SPRECHEN'] }),
+      const incompleteResult = resultOf({
+        outcome: 'INCOMPLETE',
+        awaiting: ['SPRECHEN'],
+      });
+      results.forAttempt.mockResolvedValue(incompleteResult);
+      results.forAttempts.mockImplementation((ids: string[]) =>
+        Promise.resolve(
+          ids.map((id) => ({ ...incompleteResult, attemptId: id })),
+        ),
       );
 
       const released = await service.releaseSession(identity, 'session-1', {

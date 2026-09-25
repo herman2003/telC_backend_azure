@@ -69,10 +69,12 @@ export class ExamReleaseService {
     // either released whole or not at all. Half a class told their marks and
     // half not, because the refusal came in the middle, is the worst outcome
     // here.
-    const results = await Promise.all(
-      session.attempts.map((attempt) =>
-        this.results.forAttempt(attempt.id, identity.centerId),
-      ),
+    //
+    // Batched: one call for the sitting rather than one per candidate. The
+    // attempts came from a query already scoped to this center, so passing
+    // ids is not a way round the scoping.
+    const results = await this.results.forAttempts(
+      session.attempts.map((attempt) => attempt.id),
     );
     const incomplete = results.filter(
       (result) => result.awaiting.length > 0,

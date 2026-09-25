@@ -24,6 +24,7 @@ describe('ExamGradingService', () => {
         findFirst: jest.fn().mockResolvedValue({
           id: ATTEMPT,
           submitted_at: new Date(),
+          blocks: [{ block: 'SCHREIBEN', submitted_at: new Date() }],
           session: { level: 'B1', center_id: 'center-1' },
         }),
       },
@@ -201,11 +202,12 @@ describe('ExamGradingService', () => {
       );
     });
 
-    it('refuses to mark an exam the candidate has not finished', async () => {
-      // Marking a Schreiben still being written would score a draft.
+    it('refuses to mark a Schreiben still being written', async () => {
+      // Scoring a draft. The block is what says whether it is finished.
       prisma.examAttempt.findFirst.mockResolvedValue({
         id: ATTEMPT,
         submitted_at: null,
+        blocks: [{ block: 'SCHREIBEN', submitted_at: null }],
         session: { level: 'B1', center_id: 'center-1' },
       });
 
@@ -215,7 +217,46 @@ describe('ExamGradingService', () => {
           teil: 1,
           points: 30,
         }),
-      ).rejects.toThrow('EXAM_NOT_FINISHED');
+      ).rejects.toThrow('BLOCK_NOT_SUBMITTED');
+    });
+
+    it('marks a Schreiben whose block is in, even if the exam is unfinished', async () => {
+      // Someone who wrote their Schreiben and then walked out before Hören.
+      // The Schreiben is finished; it can be marked.
+      prisma.examAttempt.findFirst.mockResolvedValue({
+        id: ATTEMPT,
+        submitted_at: null,
+        blocks: [{ block: 'SCHREIBEN', submitted_at: new Date() }],
+        session: { level: 'B1', center_id: 'center-1' },
+      });
+
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'SCHREIBEN',
+          teil: 1,
+          points: 30,
+        }),
+      ).resolves.toMatchObject({ points: 30 });
+    });
+
+    it('marks Sprechen whatever happened in the app', async () => {
+      // The oral happened in a room with an examiner. Blocking it because a
+      // candidate abandoned the written exam would leave a mark that exists
+      // on paper with nowhere to go, and a result stuck INCOMPLETE for ever.
+      prisma.examAttempt.findFirst.mockResolvedValue({
+        id: ATTEMPT,
+        submitted_at: null,
+        blocks: [],
+        session: { level: 'B1', center_id: 'center-1' },
+      });
+
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'SPRECHEN',
+          teil: 1,
+          points: 50,
+        }),
+      ).resolves.toMatchObject({ points: 50 });
     });
   });
 });
