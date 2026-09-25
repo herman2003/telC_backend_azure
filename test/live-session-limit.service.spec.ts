@@ -278,6 +278,58 @@ describe('LiveSessionLimitService', () => {
     });
   });
 
+  describe('what a session actually cost', () => {
+    // The Live API bills tokens, not minutes, and the backend never sees
+    // Google's usage metadata because the app connects to Google directly.
+    // What it can measure by itself is how long a conversation really ran —
+    // and every cost estimate so far has assumed the full ceiling. If real
+    // sessions are ninety seconds, the estimate is three times too high.
+    it('logs how long the conversation ran', async () => {
+      jest.useFakeTimers();
+      const logged: string[] = [];
+      try {
+        const service = makeService({ ELENA_CONCURRENT_MAX: '10' });
+        jest
+          .spyOn(service['logger'], 'log')
+          .mockImplementation((message: unknown) => {
+            logged.push(String(message));
+          });
+
+        await service.acquire(STUDENT, 's1');
+        jest.advanceTimersByTime(92_000);
+        await service.release('s1', STUDENT);
+      } finally {
+        jest.useRealTimers();
+      }
+
+      const ended = logged
+        .map((line) => JSON.parse(line) as Record<string, unknown>)
+        .find((entry) => entry.event === 'elena.session.ended');
+
+      expect(ended).toMatchObject({ sessionId: 's1', durationSeconds: 92 });
+    });
+
+    it('says so rather than guessing when it never saw the start', async () => {
+      // A restart, another instance, or a release for a session this process
+      // never minted. A zero there would quietly drag the average down.
+      const logged: string[] = [];
+      const service = makeService();
+      jest
+        .spyOn(service['logger'], 'log')
+        .mockImplementation((message: unknown) => {
+          logged.push(String(message));
+        });
+
+      await service.release('never-minted-here');
+
+      const ended = logged
+        .map((line) => JSON.parse(line) as Record<string, unknown>)
+        .find((entry) => entry.event === 'elena.session.ended');
+
+      expect(ended).toMatchObject({ durationSeconds: null });
+    });
+  });
+
   describe('release', () => {
     it('frees the slot immediately, without waiting out the ceiling', async () => {
       const service = makeService({

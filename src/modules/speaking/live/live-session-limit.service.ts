@@ -46,6 +46,15 @@ export class LiveSessionLimitService {
     string,
     { sessionId: string; expiresAt: number }
   >();
+  /**
+   * sessionId → when it was granted, for the duration in the closing log line.
+   *
+   * Telemetry, not a limit, so it lives in this process and nothing depends on
+   * it being complete: a restart loses the starts it was holding and those
+   * sessions close with a null duration rather than a wrong one. Pruned on the
+   * ceiling, so an app that never calls /end cannot grow this map for ever.
+   */
+  private readonly sessionStarts = new Map<string, number>();
 
   private readonly ipMax: number;
   private readonly ipWindowSeconds: number;
@@ -133,6 +142,8 @@ export class LiveSessionLimitService {
     // last shared slot leaves no live slot of their own behind.
     await this.takeLiveSlot(caller, sessionId);
 
+    this.rememberStart(sessionId);
+
     this.logger.log(
       JSON.stringify({ event: 'elena.session.granted', sessionId }),
     );
@@ -189,6 +200,17 @@ export class LiveSessionLimitService {
       sessionId,
       expiresAt: Date.now() + this.sessionMaxSeconds * 1000,
     });
+  }
+
+  private rememberStart(sessionId: string): void {
+    const now = Date.now();
+    const ceiling = this.sessionMaxSeconds * 1000;
+    for (const [id, startedAt] of this.sessionStarts) {
+      // Anything past the ceiling ended without telling us, which is the case
+      // /live-session/end exists to avoid and cannot be relied on to cover.
+      if (now - startedAt > ceiling) this.sessionStarts.delete(id);
+    }
+    this.sessionStarts.set(sessionId, now);
   }
 
   /** Null for anyone this rule does not apply to. */
@@ -256,6 +278,23 @@ export class LiveSessionLimitService {
     }
     this.logger.log(
       JSON.stringify({ event: 'elena.session.released', sessionId }),
+    );
+
+    // Separate from the line above, and the one worth keeping. Every cost
+    // estimate for Elena assumes a conversation runs the full ceiling; this is
+    // the number that says whether that is true. Null when this process never
+    // saw the start — a zero there would quietly drag the average down.
+    const startedAt = this.sessionStarts.get(sessionId);
+    this.sessionStarts.delete(sessionId);
+    this.logger.log(
+      JSON.stringify({
+        event: 'elena.session.ended',
+        sessionId,
+        durationSeconds:
+          startedAt === undefined
+            ? null
+            : Math.round((Date.now() - startedAt) / 1000),
+      }),
     );
   }
 
