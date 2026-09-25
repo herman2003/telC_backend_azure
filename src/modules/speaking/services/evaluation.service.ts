@@ -22,6 +22,14 @@ interface SpeakingAttemptInput {
   attemptId?: string;
   durationSeconds?: number;
   modelltestNumber?: number;
+  /**
+   * The exam sitting this belongs to, on the 1,500 tier.
+   *
+   * Set, it keeps the transcript out of the student's practice history and
+   * ties it to the attempt a manager reads. Unset, this is ordinary
+   * practice, which is everything else that calls here.
+   */
+  examAttemptId?: string;
 }
 
 interface StoredSpeakingAttempt {
@@ -175,19 +183,26 @@ export class EvaluationService {
                 score,
                 evaluation: evaluation as unknown as Prisma.InputJsonValue,
                 duration_seconds: attempt.durationSeconds ?? null,
+                exam_attempt_id: attempt.examAttemptId ?? null,
                 created_at: completedAt,
               },
             });
-            await recordActivity(tx, {
-              studentId,
-              skill: 'SPRECHEN',
-              teil: teilNumber,
-              score,
-              durationSeconds: attempt.durationSeconds,
-              modelltestId: attempt.modelltestId,
-              attemptId: id,
-              completedAt,
-            });
+            // Practice is recorded; an exam is not. An AI speaking session
+            // sat inside a sitting must not move the readiness score a
+            // center reads, or the dashboard would count the exam as
+            // preparation for itself.
+            if (!attempt.examAttemptId) {
+              await recordActivity(tx, {
+                studentId,
+                skill: 'SPRECHEN',
+                teil: teilNumber,
+                score,
+                durationSeconds: attempt.durationSeconds,
+                modelltestId: attempt.modelltestId,
+                attemptId: id,
+                completedAt,
+              });
+            }
           }),
       );
       return earlier;

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -28,8 +29,10 @@ import { ExamBlockContentService } from '../centers/exam-block-content.service';
 import { ExamScoringService } from '../centers/exam-scoring.service';
 import { ExamAudioService } from '../centers/exam-audio.service';
 import { ExamReleaseService } from '../centers/exam-release.service';
+import { EvaluationService } from '../speaking/services/evaluation.service';
 import {
   ExamBlockTimerDto,
+  ExamSpeakingDto,
   SaveExamAnswersDto,
   SubmitExamBlockDto,
   SubmitExamBlockResultDto,
@@ -55,6 +58,7 @@ export class ExamSittingController {
     private readonly scoring: ExamScoringService,
     private readonly audio: ExamAudioService,
     private readonly release: ExamReleaseService,
+    private readonly speaking: EvaluationService,
   ) {}
 
   @Get('sessions')
@@ -165,6 +169,37 @@ export class ExamSittingController {
     @Param('audioId', ParseUUIDPipe) audioId: string,
   ) {
     return this.audio.play(student.studentId, attemptId, audioId);
+  }
+
+  @Post('attempts/:attemptId/speaking')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'An AI speaking session inside the exam (1,500 tier only)',
+    description:
+      "Transcribed on the device and sent as text; no audio reaches the server. The evaluation is a second opinion for the examiner, never a mark: the oral that counts happened in the center, and somebody types that score. Refused on a sitting the center did not buy it for.",
+  })
+  @ApiBadRequestResponse({ description: 'EXAM_TIER_WITHOUT_AI' })
+  @ApiNotFoundResponse({ description: 'EXAM_ATTEMPT_NOT_FOUND' })
+  async examSpeaking(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Param('attemptId', ParseUUIDPipe) attemptId: string,
+    @Body() dto: ExamSpeakingDto,
+  ) {
+    const { modelltestNumber, gradingTier } =
+      await this.sitting.attemptContextFor(student.studentId, attemptId);
+
+    // What the center bought decides this, not the request. A manual sitting
+    // running the model would be a bill nobody agreed to.
+    if (gradingTier !== 'AI') {
+      throw new BadRequestException('EXAM_TIER_WITHOUT_AI');
+    }
+
+    return this.speaking.evaluateTranscript(
+      student.studentId,
+      dto.teilNumber,
+      dto.transcript,
+      { modelltestNumber, examAttemptId: attemptId },
+    );
   }
 
   @Put('attempts/:attemptId/blocks/:block/answers')

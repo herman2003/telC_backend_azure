@@ -1056,6 +1056,12 @@ model SpeakingAttempt {
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  /// Set when this was an AI speaking session inside an exam sitting (the
+  /// 1,500 tier), null for ordinary practice. Training reads filter on it
+  /// being null, or a candidate would find their exam transcript in their
+  /// own practice history before the center released anything.
+  exam_attempt_id String?
+
   @@index([student_id, teil_number])
   @@index([erasure_id])
   @@map("speaking_attempts")

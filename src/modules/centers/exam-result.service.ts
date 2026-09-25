@@ -61,6 +61,26 @@ export interface ExamSessionResults {
   };
 }
 
+/**
+ * What the machine thought, for the person who marks.
+ *
+ * Never a mark and never counted. It sits beside an empty field so a trainer
+ * has somewhere to start, and the examiner still types their own number.
+ */
+export interface ExamSuggestion {
+  skill: Skill;
+  source: 'AI';
+  /** Converted into telc's points for the Teil, so it reads like a mark
+   *  would — which is the only way it is useful to compare against one. */
+  points: number | null;
+  maxPoints: number;
+  /** What the model said about it. */
+  notes: string | null;
+  corrections: unknown;
+  /** What the candidate actually said, for Sprechen. */
+  transcript: string | null;
+}
+
 export interface ExamResultView {
   attemptId: string;
   studentId: string;
@@ -72,6 +92,8 @@ export interface ExamResultView {
   outcome: ExamOutcome;
   /** The skills still waiting for a person. Empty means the verdict stands. */
   awaiting: Skill[];
+  /** Empty unless the center bought the AI tier. */
+  suggestions: ExamSuggestion[];
 }
 
 /**
@@ -120,7 +142,87 @@ export class ExamResultService {
     const weights = await this.weightsFor(attempt.session.level);
     const marks = (await this.marksForMany([attemptId])).get(attemptId);
 
-    return this.assemble(attempt, weights, marks ?? new Map());
+    return {
+      ...this.assemble(attempt, weights, marks ?? new Map()),
+      suggestions: await this.suggestionsFor(attemptId, weights),
+    };
+  }
+
+  /**
+   * What the model offered, on a sitting that paid for it.
+   *
+   * Read from where the evaluations already wrote them rather than copied
+   * into a table of their own: the AI's Schreiben score lives on the writing
+   * attempt and its Sprechen transcript on the speaking attempt, and two
+   * records of one opinion is one record too many.
+   *
+   * A percentage is turned into the Teil's points so a trainer can compare it
+   * with the mark they are about to give. It is still a suggestion.
+   */
+  private async suggestionsFor(
+    attemptId: string,
+    weights: { skill: Skill; teil: number; max_points: number }[],
+  ): Promise<ExamSuggestion[]> {
+    const [writing, speaking] = await Promise.all([
+      this.prisma.writingAttempt.findMany({
+        where: { exam_attempt_id: attemptId },
+        select: {
+          score: true,
+          feedback: true,
+          corrections: true,
+        },
+      }),
+      this.prisma.speakingAttempt.findMany({
+        where: { exam_attempt_id: attemptId },
+        select: {
+          teil_number: true,
+          transcript: true,
+          score: true,
+          evaluation: true,
+        },
+      }),
+    ]);
+
+    const pointsFor = (skill: Skill, percent: number | null) => {
+      const weight = weights.find((w) => w.skill === skill);
+      if (!weight || percent === null) return null;
+      return Math.round((percent / 100) * weight.max_points);
+    };
+    const maxFor = (skill: Skill) =>
+      weights.find((w) => w.skill === skill)?.max_points ?? 0;
+
+    const suggestions: ExamSuggestion[] = [];
+
+    for (const row of writing) {
+      // A row with no score is a Schreiben stored but not yet looked at by
+      // the model — nothing to suggest.
+      if (row.score === null) continue;
+      suggestions.push({
+        skill: 'SCHREIBEN',
+        source: 'AI',
+        points: pointsFor('SCHREIBEN', row.score),
+        maxPoints: maxFor('SCHREIBEN'),
+        notes: row.feedback,
+        corrections: row.corrections,
+        transcript: null,
+      });
+    }
+
+    for (const row of speaking) {
+      suggestions.push({
+        skill: 'SPRECHEN',
+        source: 'AI',
+        points: pointsFor('SPRECHEN', row.score),
+        maxPoints: maxFor('SPRECHEN'),
+        notes: null,
+        corrections: row.evaluation,
+        // The reason the tier exists: the examiner reads what was said
+        // before deciding what the oral in the room was worth.
+        transcript: row.transcript,
+      });
+    }
+
+    return suggestions;
   }
 
   /** One attempt's result from parts already loaded. The single view and the
@@ -139,7 +241,7 @@ export class ExamResultService {
       part: string;
     }[],
     marks: Map<string, MarkedValue>,
-  ): ExamResultView {
+  ): Omit<ExamResultView, 'suggestions'> {
     const sections = this.sectionsOf(weights, marks);
     const written = this.half(weights, sections, 'WRITTEN');
     const oral = this.half(weights, sections, 'ORAL');
@@ -244,9 +346,12 @@ export class ExamResultService {
     const weights = await this.weightsFor(attempts[0].session.level);
     const marks = await this.marksForMany(attempts.map((a) => a.id));
 
-    return attempts.map((attempt) =>
-      this.assemble(attempt, weights, marks.get(attempt.id) ?? new Map()),
-    );
+    // No suggestions here: a table of forty candidates has no room for
+    // forty transcripts, and the manager opens one candidate to read one.
+    return attempts.map((attempt) => ({
+      ...this.assemble(attempt, weights, marks.get(attempt.id) ?? new Map()),
+      suggestions: [],
+    }));
   }
 
   /**

@@ -90,6 +90,7 @@ describe('ExamResultService', () => {
       sprachbausteineAttempt: { findMany: jest.fn().mockResolvedValue([]) },
       listeningAttempt: { findMany: jest.fn().mockResolvedValue([]) },
       writingAttempt: { findMany: jest.fn().mockResolvedValue([]) },
+      speakingAttempt: { findMany: jest.fn().mockResolvedValue([]) },
     };
     service = new ExamResultService(prisma);
   });
@@ -192,6 +193,83 @@ describe('ExamResultService', () => {
       expect(result.written.points).toBe(134);
       expect(result.written.passed).toBe(false);
       expect(result.outcome).toBe('FAILED');
+    });
+  });
+
+  describe('what the machine suggested', () => {
+    it('reports the AI Schreiben score as a suggestion, not a mark', async () => {
+      load(100);
+      prisma.writingAttempt.findMany.mockResolvedValue([
+        {
+          exam_attempt_id: ATTEMPT,
+          score: 71,
+          feedback: 'Gute Struktur, einige Fehler bei den Artikeln.',
+          corrections: [{ from: 'der Buch', to: 'das Buch' }],
+        },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.suggestions).toEqual([
+        expect.objectContaining({
+          skill: 'SCHREIBEN',
+          // 71% of Schreiben's 45 points.
+          points: 32,
+          maxPoints: 45,
+          source: 'AI',
+        }),
+      ]);
+      // And the mark itself is still nobody's.
+      expect(result.awaiting).toContain('SCHREIBEN');
+    });
+
+    it('hands the examiner the transcript to read', async () => {
+      load(100);
+      prisma.speakingAttempt.findMany.mockResolvedValue([
+        {
+          exam_attempt_id: ATTEMPT,
+          teil_number: 1,
+          transcript: 'Ich heisse Marie und komme aus Douala.',
+          score: 68,
+          evaluation: { grammar: 70, vocabulary: 66 },
+        },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.suggestions).toEqual([
+        expect.objectContaining({
+          skill: 'SPRECHEN',
+          transcript: 'Ich heisse Marie und komme aus Douala.',
+          source: 'AI',
+        }),
+      ]);
+    });
+
+    it('suggests nothing on a sitting that bought nothing', async () => {
+      load(100);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.suggestions).toEqual([]);
+    });
+
+    it('never lets a suggestion count toward the verdict', async () => {
+      // The whole rule. A machine's opinion beside an examiner's is a second
+      // opinion; a machine's opinion instead of one is a different product.
+      load(100);
+      prisma.writingAttempt.findMany.mockResolvedValue([
+        { exam_attempt_id: ATTEMPT, score: 100, feedback: null, corrections: null },
+      ]);
+      prisma.speakingAttempt.findMany.mockResolvedValue([
+        { exam_attempt_id: ATTEMPT, teil_number: 1, transcript: 'x', score: 100, evaluation: {} },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.outcome).toBe('INCOMPLETE');
+      expect(result.awaiting).toEqual(['SCHREIBEN', 'SPRECHEN']);
+      expect(result.oral.points).toBe(0);
     });
   });
 
