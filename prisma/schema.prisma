@@ -1221,8 +1221,21 @@ model ExamAttempt {
   session ExamSession @relation(fields: [session_id], references: [id], onDelete: Cascade)
   student Student     @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
-  blocks ExamAttemptBlock[]
-  plays  ExamAudioPlay[]
+  /// When the center released this result to the candidate, and what it
+  /// released. Null means the candidate sees nothing at all — not a partial
+  /// result, not a "pending": the exam simply has no result yet as far as
+  /// they are concerned.
+  released_at     DateTime?
+  /// A copy of the result as it was released.
+  ///
+  /// A snapshot, not a view: a candidate who was told they passed must not
+  /// find that changed because somebody re-marked afterwards. Re-releasing
+  /// replaces it, deliberately and visibly.
+  released_result Json?
+
+  blocks   ExamAttemptBlock[]
+  plays    ExamAudioPlay[]
+  sections ExamSectionResult[]
 
   @@unique([session_id, student_id])
   @@index([student_id])
@@ -1276,4 +1289,67 @@ model ExamAudioPlay {
 
   @@unique([attempt_id, audio_id])
   @@map("exam_audio_plays")
+}
+
+/// Which half of the exam a skill belongs to.
+///
+/// telc passes them separately — 60% of the written block AND 60% of the
+/// oral — so a candidate strong on paper and silent in the room fails, and no
+/// combined average can express that.
+enum ExamPart {
+  WRITTEN
+  ORAL
+}
+
+/// What each Teil is worth, in telc's own points.
+///
+/// A percentage per Teil cannot be added into a verdict without these: Lesen
+/// is 75 points and Sprachbausteine 30, so a perfect Sprachbausteine does not
+/// rescue a poor Lesen. Rows rather than constants, because A2 and B2 are the
+/// same product with different numbers.
+model ExamSectionWeight {
+  id    String    @id @default(uuid())
+  level CefrLevel
+  skill Skill
+  teil  Int
+
+  /// telc's points for this Teil.
+  max_points Int
+  part       ExamPart
+
+  @@unique([level, skill, teil])
+  @@map("exam_section_weights")
+}
+
+/// A mark a person gave.
+///
+/// Only the two telc does not let a machine decide: Schreiben, which a
+/// trainer reads, and Sprechen, which happened in a room with an examiner and
+/// reaches Lerniqo as a number somebody types. The automatic marks stay in
+/// the per-skill attempt rows where phase 18 wrote them — copying them here
+/// would be two records of one fact, and one of them would drift.
+///
+/// `graded_by` is not decoration. A grade is the one number somebody may
+/// later be asked to defend.
+model ExamSectionResult {
+  id         String @id @default(uuid())
+  attempt_id String
+  skill      Skill
+  teil       Int
+
+  /// Out of the Teil's `max_points`, not a percentage: an examiner marks in
+  /// telc's points, and converting on the way in would lose the number they
+  /// actually wrote down.
+  points    Int
+  /// The center user who gave it.
+  graded_by String
+  graded_at DateTime @default(now())
+  /// What the examiner wants remembered — an oral date, a note on why.
+  note      String?
+
+  attempt ExamAttempt @relation(fields: [attempt_id], references: [id], onDelete: Cascade)
+
+  @@unique([attempt_id, skill, teil])
+  @@index([attempt_id])
+  @@map("exam_section_results")
 }

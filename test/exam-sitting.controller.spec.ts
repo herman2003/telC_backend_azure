@@ -18,6 +18,7 @@ describe('ExamSittingController', () => {
   let content: any;
   let scoring: any;
   let audio: any;
+  let release: any;
   let controller: ExamSittingController;
 
   beforeEach(() => {
@@ -40,7 +41,14 @@ describe('ExamSittingController', () => {
     content = { getBlockContent: jest.fn().mockResolvedValue({}) };
     scoring = { scoreBlock: jest.fn().mockResolvedValue([]) };
     audio = { play: jest.fn().mockResolvedValue({ playsRemaining: 0 }) };
-    controller = new ExamSittingController(sitting, content, scoring, audio);
+    release = { forStudent: jest.fn().mockResolvedValue({ outcome: 'PASSED' }) };
+    controller = new ExamSittingController(
+      sitting,
+      content,
+      scoring,
+      audio,
+      release,
+    );
   });
 
   describe('the guards it carries', () => {
@@ -85,6 +93,14 @@ describe('ExamSittingController', () => {
           ...call.mock.calls[0].slice(1),
         );
       }
+    });
+  });
+
+  describe('my own result', () => {
+    it('asks only for this student, and only for what was released', async () => {
+      await controller.myResult(student, 'attempt-1');
+
+      expect(release.forStudent).toHaveBeenCalledWith('student-1', 'attempt-1');
     });
   });
 
