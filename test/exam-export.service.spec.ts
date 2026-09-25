@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { ExamExportService } from '../src/modules/centers/exam-export.service';
 
 /**
@@ -50,7 +50,13 @@ describe('ExamExportService', () => {
       forSession: jest.fn().mockResolvedValue({
         sessionId: 'session-1',
         candidates: [candidate()],
-        summary: { candidates: 1, awaitingMarks: 0, released: 0, passed: 1, failed: 0 },
+        summary: {
+          candidates: 1,
+          awaitingMarks: 0,
+          released: 0,
+          passed: 1,
+          failed: 0,
+        },
       }),
       forAttempts: jest.fn().mockResolvedValue([
         {
@@ -58,7 +64,13 @@ describe('ExamExportService', () => {
           studentId: 'student-1',
           sections: [
             { skill: 'LESEN', teil: 1, points: 20, maxPoints: 25, percent: 80 },
-            { skill: 'SPRECHEN', teil: 1, points: 50, maxPoints: 75, percent: 67 },
+            {
+              skill: 'SPRECHEN',
+              teil: 1,
+              points: 50,
+              maxPoints: 75,
+              percent: 67,
+            },
           ],
         },
       ]),
@@ -117,7 +129,13 @@ describe('ExamExportService', () => {
             oral: { points: 0, maxPoints: 75, percent: 0, passed: false },
           }),
         ],
-        summary: { candidates: 1, awaitingMarks: 1, released: 0, passed: 0, failed: 0 },
+        summary: {
+          candidates: 1,
+          awaitingMarks: 1,
+          released: 0,
+          passed: 0,
+          failed: 0,
+        },
       });
 
       const exported = await service.forSession(CENTER, 'session-1');
@@ -140,7 +158,13 @@ describe('ExamExportService', () => {
             oral: null,
           }),
         ],
-        summary: { candidates: 1, awaitingMarks: 0, released: 0, passed: 0, failed: 0 },
+        summary: {
+          candidates: 1,
+          awaitingMarks: 0,
+          released: 0,
+          passed: 0,
+          failed: 0,
+        },
       });
 
       const exported = await service.forSession(CENTER, 'session-1');
@@ -163,9 +187,9 @@ describe('ExamExportService', () => {
     it('refuses a sitting belonging to another center', async () => {
       prisma.examSession.findFirst.mockResolvedValue(null);
 
-      await expect(
-        service.forSession(CENTER, 'session-1'),
-      ).rejects.toThrow('EXAM_SESSION_NOT_FOUND');
+      await expect(service.forSession(CENTER, 'session-1')).rejects.toThrow(
+        'EXAM_SESSION_NOT_FOUND',
+      );
       expect(results.forSession).not.toHaveBeenCalled();
     });
 

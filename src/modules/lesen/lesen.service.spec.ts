@@ -17,7 +17,7 @@ describe('LesenService answer security', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new LesenService(prisma as any);
+    service = new LesenService(prisma);
     prisma.modelltest.findUnique.mockResolvedValue({ id: 'mt-1' });
     prisma.lesenAttempt.findUnique.mockResolvedValue(null);
     prisma.lesenAttempt.create.mockResolvedValue({});

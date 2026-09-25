@@ -247,10 +247,13 @@ describe('from marks to a verdict', () => {
       where: { attempt_id: attempt.id },
     });
     expect(rows).toHaveLength(1);
-    expect(rows[0]).toMatchObject({ points: 40, graded_by: identity.centerUserId });
+    expect(rows[0]).toMatchObject({
+      points: 40,
+      graded_by: identity.centerUserId,
+    });
   });
 
-  it('refuses another center\'s attempt', async () => {
+  it("refuses another center's attempt", async () => {
     const mine = await makeMarkedAttempt(100);
     const theirs = await makeMarkedAttempt(100);
 
@@ -303,9 +306,9 @@ describe('releasing', () => {
   it('shows the candidate nothing until it is released', async () => {
     const { student, attempt } = await complete();
 
-    await expect(
-      release.forStudent(student.id, attempt.id),
-    ).rejects.toThrow('RESULT_NOT_RELEASED');
+    await expect(release.forStudent(student.id, attempt.id)).rejects.toThrow(
+      'RESULT_NOT_RELEASED',
+    );
   });
 
   it('does not change what a candidate was told when a mark is revisited', async () => {
@@ -384,7 +387,7 @@ describe('releasing', () => {
     ).resolves.toMatchObject({ outcome: 'FAILED' });
   });
 
-  it('shows one candidate nothing of another\'s', async () => {
+  it("shows one candidate nothing of another's", async () => {
     const mine = await complete();
     const theirs = await complete();
     await release.releaseSession(theirs.identity, theirs.session.id);

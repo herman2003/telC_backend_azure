@@ -31,13 +31,15 @@ describe('ExamGradingService', () => {
       examSectionWeight: {
         // telc's real weights: Schreiben is 45 and Sprechen 75. One number
         // for both made a legitimate oral mark look like a typo.
-        findUnique: jest.fn().mockImplementation(({ where }) =>
-          Promise.resolve(
-            where.level_skill_teil.skill === 'SPRECHEN'
-              ? { max_points: 75 }
-              : { max_points: 45 },
+        findUnique: jest
+          .fn()
+          .mockImplementation(({ where }) =>
+            Promise.resolve(
+              where.level_skill_teil.skill === 'SPRECHEN'
+                ? { max_points: 75 }
+                : { max_points: 45 },
+            ),
           ),
-        ),
       },
       examSectionResult: {
         upsert: jest.fn().mockImplementation(({ create }) => ({
@@ -71,7 +73,7 @@ describe('ExamGradingService', () => {
       expect(recorded).toMatchObject({ points: 32, gradedBy: 'owner-1' });
     });
 
-    it('keeps the examiner\'s note, for the oral that happened elsewhere', async () => {
+    it("keeps the examiner's note, for the oral that happened elsewhere", async () => {
       await service.recordMark(identity, ATTEMPT, {
         skill: 'SPRECHEN',
         teil: 1,

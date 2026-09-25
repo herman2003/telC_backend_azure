@@ -88,9 +88,7 @@ describe('AiQuotaService', () => {
     });
 
     it('gives a governed student the same', async () => {
-      entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'ACTIVE' }),
-      );
+      entitlement.forStudent.mockResolvedValue(entitled({ status: 'ACTIVE' }));
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
 

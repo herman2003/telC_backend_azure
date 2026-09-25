@@ -19,7 +19,9 @@ describe('ExamSessionPolicyService', () => {
   const at = (hoursFromNow: number) =>
     new Date(now.getTime() + hoursFromNow * HOUR);
 
-  const session = (over: Partial<ExamSessionRecord> = {}): ExamSessionRecord => ({
+  const session = (
+    over: Partial<ExamSessionRecord> = {},
+  ): ExamSessionRecord => ({
     opens_at: at(-1),
     closes_at: at(47),
     published_at: at(-24),
@@ -33,7 +35,10 @@ describe('ExamSessionPolicyService', () => {
       // A draft with an opening time in the past is an ordinary thing: the
       // manager set a date, went to lunch, and came back tomorrow.
       expect(
-        policy.statusOf(session({ published_at: null, opens_at: at(-48) }), now),
+        policy.statusOf(
+          session({ published_at: null, opens_at: at(-48) }),
+          now,
+        ),
       ).toBe('DRAFT');
     });
 
@@ -58,17 +63,17 @@ describe('ExamSessionPolicyService', () => {
     });
 
     it('closes it early when the center said so', () => {
-      expect(
-        policy.statusOf(session({ force_closed_at: at(-1) }), now),
-      ).toBe('CLOSED');
+      expect(policy.statusOf(session({ force_closed_at: at(-1) }), now)).toBe(
+        'CLOSED',
+      );
     });
 
     it('reports cancelled ahead of everything else', () => {
       // A cancelled sitting inside its own window is still cancelled. Reading
       // the window first would reopen an exam the center called off.
-      expect(
-        policy.statusOf(session({ cancelled_at: at(-2) }), now),
-      ).toBe('CANCELLED');
+      expect(policy.statusOf(session({ cancelled_at: at(-2) }), now)).toBe(
+        'CANCELLED',
+      );
     });
 
     it('reports cancelled even for a draft, so a cancelled draft is not editable', () => {

@@ -56,10 +56,8 @@ describe('ExamAudioController', () => {
   });
 
   it('carries no JWT guard, because an <audio> element cannot send one', () => {
-    const guards = (Reflect.getMetadata(
-      '__guards__',
-      ExamAudioController,
-    ) ?? []) as unknown[];
+    const guards = (Reflect.getMetadata('__guards__', ExamAudioController) ??
+      []) as unknown[];
 
     expect(guards).not.toContain(JwtAuthGuard);
   });

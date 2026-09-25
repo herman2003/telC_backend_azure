@@ -25,7 +25,7 @@ describe('AppModule', () => {
   it('resolves every dependency', async () => {
     // require, not import: the secrets above have to be in place before the
     // module is loaded, and an import statement is hoisted above them.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const { AppModule } = require('../src/app.module') as {
       AppModule: new () => unknown;
     };

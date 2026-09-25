@@ -1,7 +1,4 @@
-import {
-  BadRequestException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import axios from 'axios';
 import type {
   CheckoutRequest,
@@ -23,7 +20,10 @@ import {
   type NotchPayWebhookEvent,
 } from './notchpay.util';
 
-export { NOTCHPAY_SIGNATURE_HEADER, signNotchPayWebhook } from './notchpay.util';
+export {
+  NOTCHPAY_SIGNATURE_HEADER,
+  signNotchPayWebhook,
+} from './notchpay.util';
 
 export interface NotchPayProviderConfig {
   publicKey: string;
@@ -65,9 +65,8 @@ export class NotchPayProvider implements PaymentProvider {
     private readonly config: NotchPayProviderConfig,
     httpPost: NotchPayHttpPost = defaultHttpPost,
   ) {
-    this.baseUrl = (
-      config.baseUrl?.trim().replace(/\/$/, '') || 'https://api.notchpay.co'
-    );
+    this.baseUrl =
+      config.baseUrl?.trim().replace(/\/$/, '') || 'https://api.notchpay.co';
     this.httpPost = httpPost;
   }
 
@@ -173,9 +172,7 @@ export class NotchPayProvider implements PaymentProvider {
    * states are refused — never treated as success.
    */
   private resolveOutcome(event: NotchPayWebhookEvent): VerifiedOutcome | null {
-    let status = notchPayMapEventTypeToStatus(
-      notchPayExtractEventType(event),
-    );
+    let status = notchPayMapEventTypeToStatus(notchPayExtractEventType(event));
     if (status === 'PENDING') {
       status = notchPayNormalizePaymentStatus(
         notchPayExtractProviderStatus(event),

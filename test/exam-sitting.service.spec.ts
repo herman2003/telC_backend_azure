@@ -323,7 +323,12 @@ describe('ExamSittingService', () => {
 
     it('carries the deadline into the statement, not only the check', async () => {
       // An autosave in flight when the clock runs out must not land after it.
-      await service.saveAnswers(STUDENT, 'attempt-1', 'LESEN_SPRACHBAUSTEINE', {});
+      await service.saveAnswers(
+        STUDENT,
+        'attempt-1',
+        'LESEN_SPRACHBAUSTEINE',
+        {},
+      );
 
       expect(prisma.examAttemptBlock.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({

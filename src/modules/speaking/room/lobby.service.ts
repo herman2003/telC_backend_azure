@@ -109,7 +109,9 @@ export class LobbyService {
     // time means the person who has been staring at a spinner longest is the
     // one whose client drives the offer.
     const [host, guest] =
-      partner.joinedAt <= seeker.joinedAt ? [partner, seeker] : [seeker, partner];
+      partner.joinedAt <= seeker.joinedAt
+        ? [partner, seeker]
+        : [seeker, partner];
 
     this.logger.log(
       JSON.stringify({

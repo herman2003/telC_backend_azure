@@ -152,9 +152,7 @@ describe('the clock', () => {
     });
 
     const view = await sitting.getAttempt(student.id, attempt.id);
-    const block = view.blocks.find(
-      (b) => b.block === 'LESEN_SPRACHBAUSTEINE',
-    )!;
+    const block = view.blocks.find((b) => b.block === 'LESEN_SPRACHBAUSTEINE')!;
 
     expect(block.remainingSeconds).toBeGreaterThan(49 * 60);
     expect(block.remainingSeconds).toBeLessThanOrEqual(50 * 60);
@@ -185,12 +183,9 @@ describe('answers and submitting', () => {
     const attempt = await sitting.start(student.id, sessionId);
     await sitting.startBlock(student.id, attempt.id, 'LESEN_SPRACHBAUSTEINE');
 
-    await sitting.saveAnswers(
-      student.id,
-      attempt.id,
-      'LESEN_SPRACHBAUSTEINE',
-      { LESEN_1: { '1': 'saved-in-time' } },
-    );
+    await sitting.saveAnswers(student.id, attempt.id, 'LESEN_SPRACHBAUSTEINE', {
+      LESEN_1: { '1': 'saved-in-time' },
+    });
 
     // The clock runs out before the submit lands. started_at moves with it:
     // the database refuses a block that closes before it opens, which is the
@@ -309,9 +304,9 @@ describe('playing a recording', () => {
     const first = await audio.play(student.id, attempt.id, audioId);
     expect(first.playsRemaining).toBe(0);
 
-    await expect(
-      audio.play(student.id, attempt.id, audioId),
-    ).rejects.toThrow('NO_PLAYS_LEFT');
+    await expect(audio.play(student.id, attempt.id, audioId)).rejects.toThrow(
+      'NO_PLAYS_LEFT',
+    );
   });
 
   it('counts two presses arriving together as two plays, not one', async () => {
@@ -336,9 +331,9 @@ describe('playing a recording', () => {
       select: { plays_used: true },
     });
     expect(row.plays_used).toBe(2);
-    await expect(
-      audio.play(student.id, attempt.id, audioId),
-    ).rejects.toThrow('NO_PLAYS_LEFT');
+    await expect(audio.play(student.id, attempt.id, audioId)).rejects.toThrow(
+      'NO_PLAYS_LEFT',
+    );
   });
 
   it('signs a link this server accepts back', async () => {
@@ -365,8 +360,8 @@ describe('playing a recording', () => {
     const attempt = await sitting.start(student.id, sessionId);
     const { id: audioId } = await anAudio();
 
-    await expect(
-      audio.play(student.id, attempt.id, audioId),
-    ).rejects.toThrow('BLOCK_NOT_STARTED');
+    await expect(audio.play(student.id, attempt.id, audioId)).rejects.toThrow(
+      'BLOCK_NOT_STARTED',
+    );
   });
 });

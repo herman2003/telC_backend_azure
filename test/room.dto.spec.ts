@@ -119,9 +119,14 @@ describe('ShuffleTopicDto', () => {
     expect(await validate(dto)).toHaveLength(0);
   });
 
-  it.each([{}, { roomId: '' }, { roomId: 'not-a-uuid' }])('rejects invalid input %p', async (input) => {
-    const dto = plainToInstance(ShuffleTopicDto, input);
+  it.each([{}, { roomId: '' }, { roomId: 'not-a-uuid' }])(
+    'rejects invalid input %p',
+    async (input) => {
+      const dto = plainToInstance(ShuffleTopicDto, input);
 
-    expect((await validate(dto)).some((error) => error.property === 'roomId')).toBe(true);
-  });
+      expect(
+        (await validate(dto)).some((error) => error.property === 'roomId'),
+      ).toBe(true);
+    },
+  );
 });

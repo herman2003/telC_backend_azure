@@ -80,7 +80,10 @@ async function makeCenter(over: Record<string, unknown> = {}) {
       email_verified: true,
     },
   });
-  return { center, identity: { centerId: center.id, centerUserId: manager.id } as never };
+  return {
+    center,
+    identity: { centerId: center.id, centerUserId: manager.id } as never,
+  };
 }
 
 const balanceOf = async (centerId: string) =>

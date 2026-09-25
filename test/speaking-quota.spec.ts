@@ -344,7 +344,6 @@ describe('speaking evaluation and the AI quota', () => {
       expect(quota.assertWithinQuota).toHaveBeenCalled();
     });
   });
-
 });
 
 /**
@@ -381,5 +380,4 @@ describe('the guards on the speaking controller', () => {
       guards.indexOf(GuestBlockGuard),
     );
   });
-
 });

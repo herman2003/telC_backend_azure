@@ -37,7 +37,8 @@ const CENTER_ERROR_MESSAGES: Record<string, string> = {
   NO_PARTICIPANTS: 'Choose at least one participant before publishing.',
   NOT_ENOUGH_EXAM_SLOTS:
     'You do not have enough exam slots for every participant.',
-  STUDENT_NOT_IN_CENTER: 'One of those students does not belong to your center.',
+  STUDENT_NOT_IN_CENTER:
+    'One of those students does not belong to your center.',
 };
 
 @Catch()

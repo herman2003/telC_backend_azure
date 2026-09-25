@@ -129,7 +129,8 @@ export class ExamSittingController {
   })
   @ApiOkResponse({ type: ExamBlockTimerDto })
   @ApiBadRequestResponse({
-    description: 'BLOCK_OUT_OF_ORDER, BLOCK_IN_PROGRESS, BLOCK_ALREADY_SUBMITTED',
+    description:
+      'BLOCK_OUT_OF_ORDER, BLOCK_IN_PROGRESS, BLOCK_ALREADY_SUBMITTED',
   })
   startBlock(
     @CurrentStudent() student: AccessTokenPayload,
@@ -176,7 +177,7 @@ export class ExamSittingController {
   @ApiOperation({
     summary: 'An AI speaking session inside the exam (1,500 tier only)',
     description:
-      "Transcribed on the device and sent as text; no audio reaches the server. The evaluation is a second opinion for the examiner, never a mark: the oral that counts happened in the center, and somebody types that score. Refused on a sitting the center did not buy it for.",
+      'Transcribed on the device and sent as text; no audio reaches the server. The evaluation is a second opinion for the examiner, never a mark: the oral that counts happened in the center, and somebody types that score. Refused on a sitting the center did not buy it for.',
   })
   @ApiBadRequestResponse({ description: 'EXAM_TIER_WITHOUT_AI' })
   @ApiNotFoundResponse({ description: 'EXAM_ATTEMPT_NOT_FOUND' })
@@ -252,10 +253,7 @@ export class ExamSittingController {
       dto.answers,
     );
     const { modelltestId, modelltestNumber, gradingTier } =
-      await this.sitting.attemptContextFor(
-        student.studentId,
-        attemptId,
-      );
+      await this.sitting.attemptContextFor(student.studentId, attemptId);
 
     // Marked on what the submit settled on, never on the request body: a late
     // submit keeps the answers saved before the deadline.

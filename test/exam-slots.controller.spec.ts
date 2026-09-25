@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import { BadRequestException } from '@nestjs/common';
 import { ExamSlotsController } from '../src/modules/centers/exam-slots.controller';
 import { CenterAuthGuard } from '../src/modules/centers/guards/center-auth.guard';
@@ -25,7 +25,9 @@ describe('ExamSlotsController', () => {
         .mockResolvedValue({ slotsRemaining: 7, aiSlotsRemaining: 3 }),
       purchase: jest.fn().mockResolvedValue({ id: 'payment-1' }),
     };
-    rateLimit = { checkPaymentCreateLimit: jest.fn().mockResolvedValue(undefined) };
+    rateLimit = {
+      checkPaymentCreateLimit: jest.fn().mockResolvedValue(undefined),
+    };
     controller = new ExamSlotsController(slots, rateLimit);
   });
 

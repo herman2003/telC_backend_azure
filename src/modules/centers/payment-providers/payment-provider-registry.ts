@@ -78,10 +78,7 @@ export function registryOf(
   );
 }
 
-function headerPresent(
-  headers: WebhookHeaders,
-  name: string,
-): boolean {
+function headerPresent(headers: WebhookHeaders, name: string): boolean {
   const value = headers[name];
   if (Array.isArray(value)) {
     return typeof value[0] === 'string' && value[0].length > 0;

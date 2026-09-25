@@ -1,7 +1,4 @@
-import {
-  BadRequestException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import Stripe from 'stripe';
 import type {
   CheckoutRequest,
@@ -124,15 +121,12 @@ export class StripePaymentProvider implements PaymentProvider {
   private mapEvent(event: Stripe.Event): VerifiedPaymentEvent {
     switch (event.type) {
       case 'checkout.session.completed': {
-        const session = event.data.object as Stripe.Checkout.Session;
+        const session = event.data.object;
         if (!session.id) {
           throw new BadRequestException('WEBHOOK_PAYLOAD_INVALID');
         }
         // unpaid / no_payment_required with incomplete money must not activate
-        if (
-          session.payment_status === 'unpaid' &&
-          session.mode === 'payment'
-        ) {
+        if (session.payment_status === 'unpaid' && session.mode === 'payment') {
           throw new BadRequestException('WEBHOOK_PAYLOAD_INVALID');
         }
         return {
@@ -141,7 +135,7 @@ export class StripePaymentProvider implements PaymentProvider {
         };
       }
       case 'checkout.session.async_payment_succeeded': {
-        const session = event.data.object as Stripe.Checkout.Session;
+        const session = event.data.object;
         if (!session.id) {
           throw new BadRequestException('WEBHOOK_PAYLOAD_INVALID');
         }
@@ -149,7 +143,7 @@ export class StripePaymentProvider implements PaymentProvider {
       }
       case 'checkout.session.async_payment_failed':
       case 'checkout.session.expired': {
-        const session = event.data.object as Stripe.Checkout.Session;
+        const session = event.data.object;
         if (!session.id) {
           throw new BadRequestException('WEBHOOK_PAYLOAD_INVALID');
         }

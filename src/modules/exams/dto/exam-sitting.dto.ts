@@ -57,7 +57,9 @@ export class ExamSpeakingDto {
 export class ExamBlockTimerDto {
   @ApiProperty({ enum: ExamBlock }) block: ExamBlock;
   @ApiProperty() startedAt: Date;
-  @ApiProperty({ description: 'An instant. The countdown is rendered from it.' })
+  @ApiProperty({
+    description: 'An instant. The countdown is rendered from it.',
+  })
   deadlineAt: Date;
 
   @ApiProperty({

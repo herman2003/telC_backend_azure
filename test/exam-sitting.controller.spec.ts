@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { ExamSittingController } from '../src/modules/exams/exam-sitting.controller';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
@@ -44,7 +44,9 @@ describe('ExamSittingController', () => {
     content = { getBlockContent: jest.fn().mockResolvedValue({}) };
     scoring = { scoreBlock: jest.fn().mockResolvedValue([]) };
     audio = { play: jest.fn().mockResolvedValue({ playsRemaining: 0 }) };
-    release = { forStudent: jest.fn().mockResolvedValue({ outcome: 'PASSED' }) };
+    release = {
+      forStudent: jest.fn().mockResolvedValue({ outcome: 'PASSED' }),
+    };
     speaking = {
       evaluateTranscript: jest.fn().mockResolvedValue({ score: 68 }),
     };
@@ -166,9 +168,14 @@ describe('ExamSittingController', () => {
     it('scores what the submit settled on, not what the client sent', async () => {
       // A late submit keeps the answers saved before the deadline. Scoring
       // the request body instead would hand back time nobody had.
-      await controller.submitBlock(student, 'attempt-1', 'LESEN_SPRACHBAUSTEINE', {
-        answers: { LESEN_1: { '1': 'too-late' } },
-      });
+      await controller.submitBlock(
+        student,
+        'attempt-1',
+        'LESEN_SPRACHBAUSTEINE',
+        {
+          answers: { LESEN_1: { '1': 'too-late' } },
+        },
+      );
 
       expect(scoring.scoreBlock).toHaveBeenCalledWith(
         expect.objectContaining({
