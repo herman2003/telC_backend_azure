@@ -76,7 +76,7 @@ describe('ExamResultService', () => {
   beforeEach(() => {
     prisma = {
       examAttempt: {
-        findUnique: jest.fn().mockResolvedValue({
+        findFirst: jest.fn().mockResolvedValue({
           id: ATTEMPT,
           student_id: 'student-1',
           submitted_at: new Date(),

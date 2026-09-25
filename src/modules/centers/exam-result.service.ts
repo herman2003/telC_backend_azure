@@ -90,9 +90,23 @@ export interface ExamResultView {
 export class ExamResultService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async forAttempt(attemptId: string): Promise<ExamResultView> {
-    const attempt = await this.prisma.examAttempt.findUnique({
-      where: { id: attemptId },
+  /**
+   * One candidate's result.
+   *
+   * `centerId` is optional only because the student's own view asks the same
+   * question about themselves. When a manager asks, it is always given: of
+   * everything in this feature, handing out another school's marks is the
+   * worst thing that could happen.
+   */
+  async forAttempt(
+    attemptId: string,
+    centerId?: string,
+  ): Promise<ExamResultView> {
+    const attempt = await this.prisma.examAttempt.findFirst({
+      where: {
+        id: attemptId,
+        ...(centerId ? { session: { center_id: centerId } } : {}),
+      },
       select: {
         id: true,
         student_id: true,
