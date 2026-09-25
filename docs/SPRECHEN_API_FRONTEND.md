@@ -185,7 +185,7 @@ Transcripts arrive from Gemini itself via `inputTranscription` /
 **POST** `/api/speaking/live-session/end` — `{ "sessionId": "..." }` → `204`
 
 Not optional. Only 2 sessions can run at once; without this call the slot is
-held for the full 10 minutes and blocks everyone else. Send it on hang-up, on
+held for the full 5 minutes and blocks everyone else. Send it on hang-up, on
 navigating away, and on `beforeunload`.
 
 ### 3.4 Caps and their messages

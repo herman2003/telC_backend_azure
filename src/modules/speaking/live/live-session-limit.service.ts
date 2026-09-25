@@ -49,8 +49,12 @@ export class LiveSessionLimitService {
       parseInt(process.env.ELENA_IP_WINDOW_MINUTES || '1440', 10) * 60;
     this.globalMax = parseInt(process.env.ELENA_GLOBAL_DAILY_MAX || '50', 10);
     this.concurrentMax = parseInt(process.env.ELENA_CONCURRENT_MAX || '2', 10);
+    // Five, not ten. It is what Start promises, and it is also what keeps the
+    // promise affordable: the Live API bills tokens, not minutes, so earlier
+    // audio is reprocessed as the conversation grows and a ten-minute session
+    // costs more than two five-minute ones.
     this.sessionMaxSeconds =
-      parseInt(process.env.GEMINI_LIVE_SESSION_MAX_MINUTES || '10', 10) * 60;
+      parseInt(process.env.GEMINI_LIVE_SESSION_MAX_MINUTES || '5', 10) * 60;
   }
 
   get sessionSeconds(): number {

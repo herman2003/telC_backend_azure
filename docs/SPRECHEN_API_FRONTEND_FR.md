@@ -379,7 +379,7 @@ Réponse `204`, sans contenu.
 
 > ⚠️ **Ce n'est pas optionnel.** Seules **2 sessions simultanées** sont possibles.
 > Le backend ne peut pas savoir qu'une conversation navigateur↔Google est
-> terminée : sans cet appel, la place reste occupée **10 minutes** et bloque les
+> terminée : sans cet appel, la place reste occupée **5 minutes** et bloque les
 > autres utilisateurs. Ce cas s'est produit lors des tests.
 
 À appeler dans les trois cas : raccrochage, navigation hors de l'écran, et

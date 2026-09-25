@@ -36,6 +36,27 @@ async function messageKeyOf(promise: Promise<unknown>): Promise<string> {
 }
 
 describe('LiveSessionLimitService', () => {
+  describe('how long a session may run', () => {
+    it('gives five minutes when nothing is configured', () => {
+      // The number Start promises, and the number the economics rest on:
+      // billing is token-based, so context is reprocessed as a conversation
+      // grows and ten minutes costs more than twice five. A default changed
+      // by accident would be silent, which is why it is asserted.
+      const previous = { ...process.env };
+      delete process.env.GEMINI_LIVE_SESSION_MAX_MINUTES;
+      const service = new LiveSessionLimitService();
+      process.env = previous;
+
+      expect(service.sessionSeconds).toBe(300);
+    });
+
+    it('still honours an explicit setting', () => {
+      expect(
+        makeService({ GEMINI_LIVE_SESSION_MAX_MINUTES: '3' }).sessionSeconds,
+      ).toBe(180);
+    });
+  });
+
   describe('per-identity daily cap', () => {
     it('allows exactly the configured number of sessions', async () => {
       const service = makeService();
