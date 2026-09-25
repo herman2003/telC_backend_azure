@@ -438,9 +438,14 @@ En cas de dépassement : `429`, avec un champ `messageKey`.
 |---|---|---|
 | `elenaDailyLimit` | 2 sessions par IP et par jour atteintes | « Vous avez utilisé vos 2 sessions avec Elena aujourd'hui. » |
 | `elenaBusyToday` | budget quotidien global atteint | « Elena est très demandée aujourd'hui. Réessayez demain. » |
-| `elenaBusyNow` | 2 sessions déjà en cours | « Elena parle avec quelqu'un d'autre. Réessayez dans quelques minutes. » |
+| `elenaBusyNow` | le pool partagé est plein — quelqu'un d'autre parle | « Elena parle avec quelqu'un d'autre. Réessayez dans quelques minutes. » |
+| `elenaSessionAlreadyOpen` | **cet** étudiant a déjà une session ouverte | « Vous avez déjà une session ouverte avec Elena. Terminez-la avant d'en commencer une autre. » |
 
-**Dans les trois cas, proposer la salle avec une vraie personne comme
+`elenaSessionAlreadyOpen` n'est pas `elenaBusyNow` : la personne qui bloque,
+c'est l'étudiant lui-même. Ne pas l'envoyer attendre — lui proposer de terminer
+la session en cours. Ce refus ne lui coûte aucune session.
+
+**Dans les trois autres cas, proposer la salle avec une vraie personne comme
 alternative.** Un cul-de-sac ferait perdre l'utilisateur.
 
 Se fier à `messageKey`, pas au texte du message : c'est la clé qui est stable.

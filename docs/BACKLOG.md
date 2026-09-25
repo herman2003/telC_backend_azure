@@ -199,6 +199,27 @@ than the drift itself suggests.
 
 ---
 
+### Elena: concurrency, the guest budget, and a legacy model
+
+Three things left out of block 22a deliberately, each a configuration change
+rather than logic.
+
+**`ELENA_CONCURRENT_MAX` is 2, platform-wide.** Two students in the world can
+talk to Elena at once. A class of twenty doing Sprechen together sees eighteen
+refusals, which reads as broken rather than busy. Concurrency is not the
+budget — `ELENA_GLOBAL_DAILY_MAX` is — so raising it to 10 costs nothing extra.
+
+**Guests and paying students share one daily budget.** A busy demo day can
+therefore starve a centre that paid 4 500 a head. Wants its own
+`ELENA_GUEST_DAILY_MAX`, around 20 of the 50, so the demo can never take the
+last session from somebody who bought it.
+
+**`gemini-3.1-flash-live-preview` is a legacy preview.** Google recommends
+moving to Gemini 3.8 Live. The model is already env-configurable, so the
+migration is cheap — but the price changes with it, and the whole
+33-to-66-FCFA-a-session arithmetic that justifies a 300 FCFA credit has to be
+re-run at the new rate. Do it before block 24 prices anything.
+
 ## 5 — Consistency and housekeeping
 
 ### `modelltest` param convention differs across three modules

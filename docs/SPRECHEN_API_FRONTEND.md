@@ -196,7 +196,8 @@ navigating away, and on `beforeunload`.
 |---|---|
 | `elenaDailyLimit` | 2 sessions per IP per day used up |
 | `elenaBusyToday` | global daily budget reached |
-| `elenaBusyNow` | 2 sessions already running |
+| `elenaBusyNow` | the shared pool is full — somebody else is talking |
+| `elenaSessionAlreadyOpen` | **this** student already has Elena open. Not the same as `elenaBusyNow`: the person in the way is them. End the other session first — it costs them nothing to be refused here |
 
 ### 3.5 Grade the transcript
 

@@ -3,7 +3,7 @@
 **Written:** 2026-09-25
 **Block:** 22a of `docs/BUILD_BLOCKS_22_27.md`
 **Answers to:** `docs/OFFRES_LERNIQO.md` §1, Sprechen IA Light
-**Status:** awaiting human review before Phase 2 (plan)
+**Status:** built and reviewed on `feat/elena-session-rules`. The Flutter half is `docs/ELENA_FLUTTER_CHANGE_REQUEST.md`.
 
 ---
 
@@ -95,19 +95,25 @@ Design constraints, in order of how much they matter:
 ### Order inside `acquire`
 
 Load-bearing, and the existing comment explains why the current order is what
-it is. The new check goes **first**:
+it is. The new claim goes **first**:
 
 ```
-1. does this student already hold a live session?   → refuse, spend nothing
-2. is the global pool full?                          → refuse, spend nothing
-3. consume the caller's own daily allowance          → refuse if spent
+1. claim this student's own slot, atomically          → refuse, spend nothing
+2. is the global pool full?                           → refuse, give the slot back
+3. consume the caller's own daily allowance           → refuse, give the slot back
 4. consume the global daily counter
 5. claim the concurrency slot (atomic)
-6. claim the per-student slot
 ```
 
-Step 1 costs one read and protects the student's allowance. Step 6 comes after
-the atomic claim so a lost race leaves no orphan per-student slot.
+**The claim is the check.** An earlier draft read whether the slot was held and
+took it at the end; review found that two requests arriving together both read
+"free" and both were granted — the one thing this rule exists to stop. A double
+tap is enough to trigger it.
+
+Claiming first means every later refusal has to hand the slot back, or a
+student turned away by somebody else's traffic would lose five minutes of their
+own. Nothing shared is touched before step 2, so the refusal in step 1 still
+costs them nothing.
 
 ---
 
@@ -206,10 +212,22 @@ silent.
 - [ ] Guests behave exactly as they do today.
 - [ ] The Flutter change request for R2 and R3 is written and sent.
 
-## Open questions
+## Answered while building
 
-1. **`ELENA_CONCURRENT_MAX` is 2 globally.** Two students on the whole platform
-   can talk to Elena at once. With per-student slots in place, is 2 still the
-   number you want, or should it rise? *(Cost question, not a technical one.)*
-2. **Guests keep 2 sessions per IP per 24 h.** The offer describes what a Start
-   student gets; it says nothing about the demo. Leave guests as they are?
+1. **`ELENA_CONCURRENT_MAX` stays 2 in this block, and should become 10.**
+   Concurrency is not the budget — `ELENA_GLOBAL_DAILY_MAX` is. At 2, a class
+   of twenty doing Sprechen together sees eighteen refusals, which reads as
+   broken rather than busy. Raising it costs nothing extra because the daily
+   cap still holds the line. Left as a one-line configuration change rather
+   than folded in here.
+2. **Guests keep 2 per IP per 24 h.** Cutting them to 1 punishes shared
+   connections, and a school or a cybercafé is one IP. The real issue is that
+   guests and paying students share one daily budget, so a busy demo day can
+   starve a centre that paid — the fix is a separate `ELENA_GUEST_DAILY_MAX`,
+   also left as a backlog item rather than widened into this block.
+
+## Still open, for block 23
+
+The global daily cap must be checked **after** a student's own allowance once
+allowances exist. A student who spent 300 FCFA on a credit and is refused by a
+platform-wide counter is a refund request.
