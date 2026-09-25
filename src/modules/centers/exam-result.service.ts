@@ -239,7 +239,9 @@ export class ExamResultService {
     const attemptIds = session.attempts.map((attempt) => attempt.id);
     const marks = await this.marksForMany(attemptIds);
 
-    const rows = session.attempts.map((attempt) => {
+    // Typed, not inferred: inference takes the shape of the first map, and a
+    // no-show row — null attempt, NOT_TAKEN, no halves — does not fit it.
+    const rows: ExamCandidateRow[] = session.attempts.map((attempt) => {
       const sections = this.sectionsOf(
         weights,
         marks.get(attempt.id) ?? new Map(),
