@@ -118,6 +118,24 @@ describe('ExamSittingController', () => {
       );
     });
 
+    it('does not spend the training allowance, which is smaller than the exam', async () => {
+      // The training allowance is two evaluations per window and a telc exam
+      // has three Sprechen Teile. Charging the exam against it would refuse
+      // a candidate on Teil 3, in the middle of a sitting their center paid
+      // 1,500 XAF a head for.
+      await controller.examSpeaking(student, 'attempt-1', {
+        teilNumber: 3,
+        transcript: 'Wir planen zusammen.',
+      });
+
+      expect(speaking.evaluateTranscript).toHaveBeenCalledWith(
+        'student-1',
+        3,
+        'Wir planen zusammen.',
+        expect.objectContaining({ skipQuota: true }),
+      );
+    });
+
     it('refuses on a sitting the center did not buy it for', async () => {
       // A manual sitting running the model would be a bill nobody agreed to.
       sitting.attemptContextFor.mockResolvedValue({

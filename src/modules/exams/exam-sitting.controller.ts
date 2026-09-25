@@ -198,7 +198,13 @@ export class ExamSittingController {
       student.studentId,
       dto.teilNumber,
       dto.transcript,
-      { modelltestNumber, examAttemptId: attemptId },
+      {
+        modelltestNumber,
+        examAttemptId: attemptId,
+        // The sitting was paid for per candidate; the practice allowance is
+        // two per window and this exam has three Teile.
+        skipQuota: true,
+      },
     );
   }
 

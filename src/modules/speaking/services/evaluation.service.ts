@@ -30,6 +30,16 @@ interface SpeakingAttemptInput {
    * practice, which is everything else that calls here.
    */
   examAttemptId?: string;
+  /**
+   * Skip the practice allowance, because this sitting was already paid for.
+   *
+   * The allowance is two evaluations per window and a telc exam has three
+   * Sprechen Teile, so charging an exam against it would refuse a candidate
+   * on Teil 3 — in the middle of a sitting their center paid 1,500 XAF a
+   * head for. The bound here is the exam itself: one evaluation per Teil,
+   * enforced where the attempt is known.
+   */
+  skipQuota?: boolean;
 }
 
 interface StoredSpeakingAttempt {
@@ -91,6 +101,23 @@ export class EvaluationService {
       if (earlier) return this.fromStored(earlier);
     }
 
+    // An exam is bounded by the exam rather than by the allowance: one
+    // evaluation per Teil, which is exactly the three telc asks for. Without
+    // it, skipping the quota would leave a candidate free to call the model
+    // in a loop for as long as the block is open.
+    if (studentId && attempt.examAttemptId) {
+      const already = await this.prisma.speakingAttempt.findFirst({
+        where: {
+          exam_attempt_id: attempt.examAttemptId,
+          teil_number: teilNumber,
+        },
+        select: { attempt_id: true },
+      });
+      if (already) {
+        throw new ConflictException('EXAM_TEIL_ALREADY_EVALUATED');
+      }
+    }
+
     // Before the quota and the model: an unknown Modelltest is the caller's
     // mistake, and must not cost the student a session.
     const modelltest = studentId
@@ -109,13 +136,16 @@ export class EvaluationService {
     // StudentSubscriptionGuard makes for the same reason. Refusing here would
     // be a decision about authentication taken in the wrong place.
     if (studentId) {
-      // Before the quota, and atomic where the quota is not. The quota counts
-      // rows and then the caller acts, so a concurrent burst all reads the
-      // same count and all passes — a student allowed two could land dozens
-      // in parallel before the first row commits. This bounds the pile-up in
-      // Valkey; the quota remains the rule that decides the answer.
+      // The burst limit applies to everyone, exam or not: it bounds how fast
+      // anybody can pile calls into the model.
       await this.rateLimit.checkAiEvaluationLimit(studentId);
-      await this.quota.assertWithinQuota(studentId, 'SPEAKING_EVALUATION');
+
+      // The practice allowance does not. See `skipQuota`: two per window
+      // against an exam of three Teile would fail a candidate on the last
+      // one, for a sitting that was paid for separately.
+      if (!attempt.skipQuota) {
+        await this.quota.assertWithinQuota(studentId, 'SPEAKING_EVALUATION');
+      }
     }
 
     const prompt = this.buildPrompt(teilNumber, transcript);
