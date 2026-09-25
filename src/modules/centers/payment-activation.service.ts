@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma, type EntitlementProduct } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 
 /**
@@ -11,6 +12,47 @@ import { PrismaService } from '../../shared/services/prisma.service';
 export const PAID_PERIOD_DAYS = 30;
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * The payment kinds that grant an entitlement rather than seats or a period.
+ *
+ * `PaymentKind` and `EntitlementProduct` share their names deliberately, so an
+ * invoice line and the row it granted read alike, and this set is the one
+ * place that relies on it.
+ */
+const ENTITLEMENT_KINDS = new Set<string>([
+  'PREP_PASS',
+  'AI_SPEAKING_CREDIT',
+  'AI_ASSISTED_LEARNING',
+]);
+
+interface CapTargets {
+  codeIds: string[];
+  capPerCode: number;
+}
+
+/**
+ * What the manager chose, read back out of a JSON column.
+ *
+ * Shape-checked rather than cast. The column is written from a request, and
+ * anything unrecognisable means no caps rather than a failed activation — the
+ * money has already moved.
+ */
+function readCapTargets(metadata: Prisma.JsonValue | null): CapTargets | null {
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+    return null;
+  }
+
+  const { codeIds, capPerCode } = metadata as Record<string, unknown>;
+  if (!Array.isArray(codeIds) || codeIds.length === 0) return null;
+  if (typeof capPerCode !== 'number' || !Number.isInteger(capPerCode)) {
+    return null;
+  }
+  if (capPerCode <= 0) return null;
+
+  const ids = codeIds.filter((id): id is string => typeof id === 'string');
+  return ids.length > 0 ? { codeIds: ids, capPerCode } : null;
+}
 
 /**
  * Generous on purpose. This runs from a provider webhook, where a slow answer
@@ -86,6 +128,7 @@ export class PaymentActivationService {
           kind: true,
           quantity: true,
           unit_price_xaf: true,
+          metadata: true,
         },
       });
 
@@ -137,6 +180,32 @@ export class PaymentActivationService {
           centerId: payment.center_id,
           // Reported, not moved: buying an exam does not extend a
           // subscription, and the caller should see that it did not.
+          paidUntil: subscription?.paid_until ?? null,
+        };
+      }
+
+      // The add-ons. Like exam slots, a balance rather than a period: buying
+      // credits is not paying for Start, and a centre that tops up must not
+      // thereby extend the period it owes money for.
+      if (ENTITLEMENT_KINDS.has(payment.kind)) {
+        await this.grantEntitlement(
+          tx,
+          payment.center_id,
+          payment.kind as unknown as EntitlementProduct,
+          payment.quantity,
+          payment.metadata,
+        );
+
+        const subscription = await tx.centerSubscription.findUnique({
+          where: { center_id: payment.center_id },
+          select: { paid_until: true },
+        });
+
+        return {
+          outcome: 'ACTIVATED',
+          paymentId,
+          centerId: payment.center_id,
+          // Reported, not moved, for the same reason exam slots report it.
           paidUntil: subscription?.paid_until ?? null,
         };
       }
@@ -200,6 +269,57 @@ export class PaymentActivationService {
    * a time zone, and date arithmetic across the driver boundary can shift by
    * the local UTC offset.
    */
+  /**
+   * Credits the pool, then applies the caps the manager chose at purchase.
+   *
+   * The order matters. **The pool is credited whatever happens to the caps**:
+   * the money has moved, and an activation that failed because one seat had
+   * been deactivated in the meantime would leave the centre paying for
+   * nothing. A cap that cannot be applied is dropped, silently and on purpose.
+   *
+   * `metadata` reached us from the purchase request hours earlier and is
+   * treated as untrusted on the way out: only codes that still exist, still
+   * belong to this centre and are not deactivated get one. Without that check
+   * a centre could cap a rival's seat by sending its id.
+   */
+  private async grantEntitlement(
+    tx: Prisma.TransactionClient,
+    centerId: string,
+    product: EntitlementProduct,
+    quantity: number,
+    metadata: Prisma.JsonValue | null,
+  ): Promise<void> {
+    await tx.centerEntitlementPool.upsert({
+      where: { center_id_product: { center_id: centerId, product } },
+      create: { center_id: centerId, product, balance: quantity },
+      // Accumulates. A second purchase is more of the same pot, never a reset.
+      update: { balance: { increment: quantity } },
+    });
+
+    const targets = readCapTargets(metadata);
+    if (!targets) return;
+
+    const usable = await tx.activationCode.findMany({
+      where: {
+        id: { in: targets.codeIds },
+        center_id: centerId,
+        status: { not: 'DEACTIVATED' },
+      },
+      select: { id: true },
+    });
+
+    for (const code of usable) {
+      await tx.codeEntitlementCap.upsert({
+        where: { code_id_product: { code_id: code.id, product } },
+        create: { code_id: code.id, product, cap: targets.capPerCode },
+        // Raised, not replaced: a second purchase for one seat is more
+        // allowance, and replacing would silently undo a cap a manager had
+        // raised by hand.
+        update: { cap: { increment: targets.capPerCode } },
+      });
+    }
+  }
+
   private async extendPaidPeriod(
     tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
     centerId: string,
