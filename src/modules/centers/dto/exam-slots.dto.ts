@@ -53,7 +53,7 @@ export class ExamSlotPaymentDto {
     description:
       'What the payment bought. Slots share the payments table with seats, so an invoice list reads this to tell them apart.',
   })
-  kind: 'EXAM_SLOTS';
+  kind: 'EXAM_SLOTS' | 'EXAM_SLOTS_AI';
 
   @ApiProperty({ example: 10 }) quantity: number;
   @ApiProperty({ example: 1000 }) unitPriceXaf: number;
