@@ -17,11 +17,7 @@ const prisma = new PrismaService();
 const policy = new ExamSessionPolicyService();
 const sessions = new ExamSessionsService(prisma, policy);
 const notifications = new NotificationsService(prisma);
-const participants = new ExamParticipantsService(
-  prisma,
-  policy,
-  notifications,
-);
+const participants = new ExamParticipantsService(prisma, policy, notifications);
 
 const identity = (centerId: string) =>
   ({ centerId, centerUserId: `${centerId}-owner` }) as never;
@@ -38,11 +34,12 @@ async function wipe() {
   });
 }
 
-async function makeCenter(slots: number) {
+async function makeCenter(slots: number, aiSlots = 0) {
   return prisma.center.create({
     data: {
       name: `Exam Test ${Date.now()}-${Math.random()}`,
       exam_slots_remaining: slots,
+      exam_ai_slots_remaining: aiSlots,
       subscription: { create: { plan: 'TRIAL' } },
     },
   });
@@ -81,6 +78,14 @@ const slotsOf = async (centerId: string) =>
       select: { exam_slots_remaining: true },
     })
   ).exam_slots_remaining;
+
+const aiSlotsOf = async (centerId: string) =>
+  (
+    await prisma.center.findUniqueOrThrow({
+      where: { id: centerId },
+      select: { exam_ai_slots_remaining: true },
+    })
+  ).exam_ai_slots_remaining;
 
 beforeEach(wipe);
 
@@ -378,5 +383,85 @@ describe('the admitted list', () => {
       { page: 1, pageSize: 50, search: 'ngel' },
     );
     expect(found.students.map((row) => row.id)).toEqual([named.id]);
+  });
+});
+
+/**
+ * Two products, two pools.
+ *
+ * The AI tier is 1,500 XAF a candidate against 1,000, and it is publishing
+ * that decides which one a sitting is. A tier that could be chosen without
+ * the slots to pay for it would be the expensive product given away.
+ */
+describe('publishing on the AI tier', () => {
+  it('spends the AI pool and stamps the sitting', async () => {
+    const center = await makeCenter(10, 6);
+    const students = await makeStudents(center.id, 4);
+    const draft = await makeDraft(center.id);
+    await participants.setParticipants(identity(center.id), draft.id, students);
+
+    const result = await participants.publish(
+      identity(center.id),
+      draft.id,
+      'AI',
+    );
+
+    expect(result).toMatchObject({ slotsSpent: 4, slotsRemaining: 2 });
+    await expect(aiSlotsOf(center.id)).resolves.toBe(2);
+    // The cheap pool is untouched: it paid for nothing here.
+    await expect(slotsOf(center.id)).resolves.toBe(10);
+    await expect(
+      sessions.get(identity(center.id), draft.id),
+    ).resolves.toMatchObject({ gradingTier: 'AI' });
+  });
+
+  it('refuses the AI tier to a center that only bought the cheap one', async () => {
+    // Ten manual slots and no AI slots. Without this, a center could publish
+    // AI on manual money and get the model for free.
+    const center = await makeCenter(10, 0);
+    const students = await makeStudents(center.id, 2);
+    const draft = await makeDraft(center.id);
+    await participants.setParticipants(identity(center.id), draft.id, students);
+
+    await expect(
+      participants.publish(identity(center.id), draft.id, 'AI'),
+    ).rejects.toThrow('NOT_ENOUGH_EXAM_SLOTS');
+    await expect(slotsOf(center.id)).resolves.toBe(10);
+    await expect(
+      sessions.get(identity(center.id), draft.id),
+    ).resolves.toMatchObject({ gradingTier: 'MANUAL', status: 'DRAFT' });
+  });
+
+  it('charges a late candidate to the pool the sitting was published on', async () => {
+    // Adding somebody to a published AI sitting is a late sale of the AI
+    // product, so it comes out of the AI pool — not the cheap one.
+    const center = await makeCenter(10, 6);
+    const students = await makeStudents(center.id, 4);
+    const draft = await makeDraft(center.id);
+    await participants.setParticipants(identity(center.id), draft.id, students);
+    await participants.publish(identity(center.id), draft.id, 'AI');
+
+    const late = await makeStudents(center.id, 1);
+    await participants.setParticipants(identity(center.id), draft.id, [
+      ...students,
+      ...late,
+    ]);
+
+    await expect(aiSlotsOf(center.id)).resolves.toBe(1);
+    await expect(slotsOf(center.id)).resolves.toBe(10);
+  });
+
+  it('stays MANUAL when nothing asks for the machine', async () => {
+    const center = await makeCenter(10, 6);
+    const students = await makeStudents(center.id, 2);
+    const draft = await makeDraft(center.id);
+    await participants.setParticipants(identity(center.id), draft.id, students);
+
+    await participants.publish(identity(center.id), draft.id);
+
+    await expect(aiSlotsOf(center.id)).resolves.toBe(6);
+    await expect(
+      sessions.get(identity(center.id), draft.id),
+    ).resolves.toMatchObject({ gradingTier: 'MANUAL' });
   });
 });

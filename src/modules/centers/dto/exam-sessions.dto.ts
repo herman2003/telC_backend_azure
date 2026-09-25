@@ -114,6 +114,18 @@ export class SetParticipantsDto {
   studentIds: string[];
 }
 
+export class PublishExamSessionDto {
+  @ApiPropertyOptional({
+    enum: ['MANUAL', 'AI'],
+    default: 'MANUAL',
+    description:
+      "Which product this sitting is, and therefore which pool pays for it. MANUAL spends ordinary exam slots; AI spends AI slots and gives every trainer the machine's opinion beside the mark they type. Publishing is refused when the chosen pool cannot cover every candidate.",
+  })
+  @IsOptional()
+  @IsIn(['MANUAL', 'AI'])
+  gradingTier?: 'MANUAL' | 'AI';
+}
+
 export class ListExamSessionsQueryDto {
   @ApiPropertyOptional({ default: 1 })
   @IsOptional()
@@ -226,5 +238,11 @@ export class PublishExamSessionResultDto {
   @ApiProperty() publishedAt: Date;
   @ApiProperty({ example: 15 }) participantCount: number;
   @ApiProperty({ example: 15 }) slotsSpent: number;
-  @ApiProperty({ example: 5 }) slotsRemaining: number;
+  @ApiProperty({
+    example: 5,
+    description: 'What is left in the pool this sitting was paid from.',
+  })
+  slotsRemaining: number;
+
+  @ApiProperty({ enum: ['MANUAL', 'AI'] }) gradingTier: ExamGradingTier;
 }

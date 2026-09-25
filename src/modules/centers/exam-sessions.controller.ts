@@ -42,6 +42,7 @@ import {
   SetParticipantsDto,
   SetParticipantsResultDto,
   UpdateExamSessionDto,
+  PublishExamSessionDto,
 } from './dto/exam-sessions.dto';
 
 /**
@@ -161,7 +162,7 @@ export class ExamSessionsController {
   @ApiOperation({
     summary: 'Publish the sitting',
     description:
-      'Spends one exam slot per admitted candidate, in the same transaction. Publishing does not open the exam: it opens itself at the opening time.',
+      'Spends one slot per admitted candidate, in the same transaction, from the pool matching the tier — ordinary slots for MANUAL, AI slots for AI. The tier is fixed here and not on the draft, because this is where it is paid for. Publishing does not open the exam: it opens itself at the opening time.',
   })
   @ApiOkResponse({ type: PublishExamSessionResultDto })
   @ApiBadRequestResponse({ type: CenterErrorResponseDto })
@@ -169,8 +170,9 @@ export class ExamSessionsController {
   publish(
     @CurrentCenterUser() user: CenterAccessTokenPayload,
     @Param('sessionId', ParseUUIDPipe) sessionId: string,
+    @Body() dto: PublishExamSessionDto,
   ) {
-    return this.participants.publish(user, sessionId);
+    return this.participants.publish(user, sessionId, dto.gradingTier);
   }
 
   @Post(':sessionId/cancel')
@@ -192,7 +194,8 @@ export class ExamSessionsController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Stop admitting candidates now',
-    description: 'Before the window was due to end. The center exam, the center call.',
+    description:
+      'Before the window was due to end. The center exam, the center call.',
   })
   @ApiOkResponse({ type: ExamSessionDto })
   close(
