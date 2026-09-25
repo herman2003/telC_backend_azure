@@ -74,6 +74,10 @@ import { GeminiService } from '../speaking/services/gemini.service';
       inject: [WritingCorrectionService],
     },
   ],
-  exports: [WritingService],
+  // WritingCorrectionService is exported for the exam simulator: an AI-tier
+  // sitting asks it for a suggestion on a candidate's Schreiben. Exported
+  // rather than rebuilt, because it carries the prompt, the timeout and the
+  // stub fallback, and a second copy would drift from all three.
+  exports: [WritingService, WritingCorrectionService],
 })
 export class WritingModule {}

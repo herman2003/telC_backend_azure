@@ -210,10 +210,11 @@ export class ExamSittingController {
       block,
       dto.answers,
     );
-    const { modelltestId, modelltestNumber } = await this.sitting.attemptContextFor(
-      student.studentId,
-      attemptId,
-    );
+    const { modelltestId, modelltestNumber, gradingTier } =
+      await this.sitting.attemptContextFor(
+        student.studentId,
+        attemptId,
+      );
 
     // Marked on what the submit settled on, never on the request body: a late
     // submit keeps the answers saved before the deadline.
@@ -228,6 +229,7 @@ export class ExamSittingController {
       studentId: student.studentId,
       modelltestId,
       modelltestNumber,
+      gradingTier,
       block,
       answers: submitted.answers as Record<string, Record<string, unknown>>,
     });

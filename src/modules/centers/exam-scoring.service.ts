@@ -4,6 +4,7 @@ import { PrismaService } from '../../shared/services/prisma.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../listening/listening.service';
+import { WritingCorrectionService } from '../writing/writing-correction.service';
 
 export type ExamSkill =
   | 'LESEN'
@@ -33,6 +34,8 @@ export interface ScoreBlockInput {
    * nobody could spot.
    */
   modelltestNumber: number;
+  /** What the center bought. AI adds a suggestion beside the empty mark. */
+  gradingTier: 'MANUAL' | 'AI';
   block: ExamBlock;
   /**
    * Keyed `SKILL_TEIL`, each holding that Teil's answers exactly as the
@@ -85,6 +88,7 @@ export class ExamScoringService {
     private readonly lesen: LesenService,
     private readonly sprachbausteine: SprachbausteineService,
     private readonly listening: ListeningService,
+    private readonly correction: WritingCorrectionService,
   ) {}
 
   async scoreBlock(input: ScoreBlockInput): Promise<ExamSectionScore[]> {
@@ -209,16 +213,40 @@ export class ExamScoringService {
     section: { skill: ExamSkill; teil: string },
     answers: Record<string, unknown>,
   ): Promise<ExamSectionScore> {
-    await this.prisma.writingAttempt.create({
+    const content = typeof answers.text === 'string' ? answers.text : '';
+    const row = await this.prisma.writingAttempt.create({
       data: {
         student_id: input.studentId,
         exercise_id: `exam-${input.modelltestId}`,
         modelltest_id: input.modelltestId,
-        content: typeof answers.text === 'string' ? answers.text : '',
+        content,
         status: 'pending',
         exam_attempt_id: input.attemptId,
       },
     });
+
+    if (input.gradingTier === 'AI') {
+      // A suggestion for the trainer, never a mark and never the
+      // candidate's. `notify: false` is what keeps it off their socket —
+      // the correction service pushes score and feedback to the student
+      // otherwise, which in an exam would be the mark arriving before a
+      // human had read the work.
+      //
+      // Not awaited: a model can take twenty seconds, and a candidate
+      // pressing submit should not wait for an opinion nobody has asked
+      // for yet. runCorrection does not throw, and the catch is for the
+      // case it ever starts to.
+      void this.correction
+        .runCorrection({
+          attemptId: row.attempt_id,
+          studentId: input.studentId,
+          exerciseId: `exam-${input.modelltestId}`,
+          content,
+          createdAt: new Date().toISOString(),
+          notify: false,
+        })
+        .catch(() => undefined);
+    }
 
     return { skill: section.skill, teil: section.teil, score: null, pending: true };
   }
