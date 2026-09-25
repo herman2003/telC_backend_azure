@@ -29,6 +29,13 @@ describe('exam work stays out of training reads', () => {
       model: 'sprachbausteineAttempt',
     },
     { file: 'src/modules/writing/writing.service.ts', model: 'writingAttempt' },
+    // Added when the AI tier put a speaking session inside an exam. Sprechen
+    // was outside the exam when the other four were listed, which is exactly
+    // how a table gets missed.
+    {
+      file: 'src/modules/speaking/services/speaking.service.ts',
+      model: 'speakingAttempt',
+    },
   ];
 
   const READING_METHODS = [

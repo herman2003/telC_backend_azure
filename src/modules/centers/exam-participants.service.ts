@@ -4,11 +4,25 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import type { Prisma } from '@prisma/client';
+import type { ExamGradingTier, Prisma } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { ExamSessionPolicyService } from './exam-session-policy.service';
 import { NotificationsService } from '../../shared/services/notifications.service';
+
+/**
+ * Which pool a tier is paid out of.
+ *
+ * Two columns rather than one balance with a discount: a center can hold some
+ * of each, and neither can be spent as the other.
+ */
+const SLOT_COLUMN: Record<
+  ExamGradingTier,
+  'exam_slots_remaining' | 'exam_ai_slots_remaining'
+> = {
+  MANUAL: 'exam_slots_remaining',
+  AI: 'exam_ai_slots_remaining',
+};
 
 type SignedCenterIdentity = Pick<CenterAccessTokenPayload, 'centerId'>;
 
@@ -33,7 +47,9 @@ export interface PublishResult {
   publishedAt: Date;
   participantCount: number;
   slotsSpent: number;
+  /** What is left in the pool this sitting was paid from. */
   slotsRemaining: number;
+  gradingTier: ExamGradingTier;
 }
 
 /**
@@ -70,7 +86,9 @@ export class ExamParticipantsService {
       ...(search
         ? {
             OR: [
-              { first_name: { contains: search, mode: 'insensitive' as const } },
+              {
+                first_name: { contains: search, mode: 'insensitive' as const },
+              },
               { last_name: { contains: search, mode: 'insensitive' as const } },
               { email: { contains: search, mode: 'insensitive' as const } },
             ],
@@ -158,7 +176,11 @@ export class ExamParticipantsService {
     const slotsToSpend = session.published_at ? added.length : 0;
 
     await this.prisma.$transaction(async (tx) => {
-      if (slotsToSpend > 0) await this.spendSlots(tx, identity, slotsToSpend);
+      if (slotsToSpend > 0) {
+        // Out of the pool this sitting was published on: a late candidate on
+        // an AI sitting is a late sale of the AI product.
+        await this.spendSlots(tx, identity, slotsToSpend, session.grading_tier);
+      }
 
       if (removed.length > 0) {
         await tx.examSessionParticipant.deleteMany({
@@ -194,6 +216,7 @@ export class ExamParticipantsService {
   async publish(
     identity: SignedCenterIdentity,
     sessionId: string,
+    tier: ExamGradingTier = 'MANUAL',
   ): Promise<PublishResult> {
     const session = await this.load(identity, sessionId);
     if (session.cancelled_at) throw new BadRequestException('EXAM_CANCELLED');
@@ -218,13 +241,22 @@ export class ExamParticipantsService {
         throw new BadRequestException('NO_PARTICIPANTS');
       }
 
-      const remaining = await this.spendSlots(tx, identity, participantCount);
+      const remaining = await this.spendSlots(
+        tx,
+        identity,
+        participantCount,
+        tier,
+      );
 
       // The WHERE is the concurrency control: the second of two simultaneous
       // publishes matches no row, and is told so rather than spending again.
       const claimed = await tx.examSession.updateMany({
         where: { id: sessionId, published_at: null },
-        data: { published_at: new Date() },
+        // Stamped here rather than on the draft: the tier is whatever the
+        // slots that paid were, and those are spent one statement earlier in
+        // this same transaction. A draft cannot be edited into the expensive
+        // product, because editing a draft costs nothing.
+        data: { published_at: new Date(), grading_tier: tier },
       });
       if (claimed.count !== 1) {
         throw new ConflictException('EXAM_ALREADY_PUBLISHED');
@@ -261,6 +293,7 @@ export class ExamParticipantsService {
         participantCount,
         slotsSpent: participantCount,
         slotsRemaining: remaining,
+        gradingTier: tier,
       };
     });
   }
@@ -277,23 +310,32 @@ export class ExamParticipantsService {
     tx: Prisma.TransactionClient,
     identity: SignedCenterIdentity,
     count: number,
+    tier: ExamGradingTier,
   ): Promise<number> {
+    const column = SLOT_COLUMN[tier];
+
     const spent = await tx.center.updateMany({
       where: {
         id: identity.centerId,
-        exam_slots_remaining: { gte: count },
+        [column]: { gte: count },
       },
-      data: { exam_slots_remaining: { decrement: count } },
+      data: { [column]: { decrement: count } },
     });
     if (spent.count !== 1) {
+      // The same refusal for either pool. A center that bought the cheap
+      // product and asked for the expensive one has not run out of money —
+      // it has not bought this product at all — but from the dashboard both
+      // mean "buy more of what you are trying to spend".
       throw new BadRequestException('NOT_ENOUGH_EXAM_SLOTS');
     }
 
     const center = await tx.center.findUniqueOrThrow({
       where: { id: identity.centerId },
-      select: { exam_slots_remaining: true },
+      select: { exam_slots_remaining: true, exam_ai_slots_remaining: true },
     });
-    return center.exam_slots_remaining;
+    return tier === 'AI'
+      ? center.exam_ai_slots_remaining
+      : center.exam_slots_remaining;
   }
 
   /** Every id must be a student of the signed center: a list is not a way to
@@ -323,6 +365,7 @@ export class ExamParticipantsService {
         published_at: true,
         cancelled_at: true,
         force_closed_at: true,
+        grading_tier: true,
       },
     });
     if (!session) throw new NotFoundException('EXAM_SESSION_NOT_FOUND');

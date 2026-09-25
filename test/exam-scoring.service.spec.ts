@@ -18,6 +18,7 @@ describe('ExamScoringService', () => {
   let lesen: any;
   let sprachbausteine: any;
   let listening: any;
+  let correction: any;
   let service: ExamScoringService;
 
   beforeEach(() => {
@@ -59,11 +60,13 @@ describe('ExamScoringService', () => {
       create: jest.fn().mockResolvedValue({}),
       deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
     };
+    correction = { runCorrection: jest.fn().mockResolvedValue(undefined) };
     service = new ExamScoringService(
       prisma,
       lesen,
       sprachbausteine,
       listening,
+      correction,
     );
   });
 
@@ -74,6 +77,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {
           LESEN_1: { '1': 'a', '2': 'b', '3': 'x', '4': 'd' },
@@ -101,6 +105,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
       });
@@ -115,6 +120,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
       });
@@ -138,6 +144,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: { LESEN_1: { '1': 'a' } },
       });
@@ -167,6 +174,7 @@ describe('ExamScoringService', () => {
           studentId: STUDENT,
           modelltestId: MODELLTEST,
           modelltestNumber: 2,
+          gradingTier: 'MANUAL',
           block: 'LESEN_SPRACHBAUSTEINE',
           answers: { LESEN_1: { '1': 'a' } },
         }),
@@ -179,6 +187,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
       });
@@ -195,6 +204,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: { HOEREN_1: { q1: 'a', q2: 'b', q3: 'c', q4: 'd', q5: 'x' } },
       });
@@ -214,6 +224,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: {},
       });
@@ -241,6 +252,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
       });
@@ -258,12 +270,78 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: {},
       });
 
       expect(prisma.listeningAttempt.deleteMany).toHaveBeenCalled();
       expect(prisma.lesenAttempt.deleteMany).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('the AI tier', () => {
+    const writeSchreiben = (gradingTier: 'MANUAL' | 'AI') => {
+      prisma.writingAttempt = {
+        create: jest.fn().mockResolvedValue({ attempt_id: 'writing-1' }),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      return service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        gradingTier,
+        block: 'SCHREIBEN',
+        answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },
+      });
+    };
+
+    it('asks the model for a suggestion when the center bought it', async () => {
+      await writeSchreiben('AI');
+
+      expect(correction.runCorrection).toHaveBeenCalledWith(
+        expect.objectContaining({
+          attemptId: 'writing-1',
+          studentId: STUDENT,
+          content: 'Sehr geehrte Damen und Herren',
+        }),
+      );
+    });
+
+    it('never sends the candidate the suggestion', async () => {
+      // The correction service pushes score and feedback to the student's
+      // socket when it finishes. In an exam that would hand a candidate
+      // their Schreiben mark before a human had read it and before the
+      // center released anything.
+      await writeSchreiben('AI');
+
+      expect(correction.runCorrection).toHaveBeenCalledWith(
+        expect.objectContaining({ notify: false }),
+      );
+    });
+
+    it('asks for nothing at all on a manual sitting', async () => {
+      // Not "runs it and hides it". The difference is what the center paid
+      // for, and a model call costs money.
+      await writeSchreiben('MANUAL');
+
+      expect(correction.runCorrection).not.toHaveBeenCalled();
+    });
+
+    it('still reports Schreiben as needing a person', async () => {
+      // A suggestion is not a mark. The result stays INCOMPLETE until
+      // somebody types a number.
+      const scored = await writeSchreiben('AI');
+
+      expect(scored[0]).toMatchObject({ score: null, pending: true });
+    });
+
+    it('does not let a model failure cost a candidate their Schreiben', async () => {
+      correction.runCorrection.mockRejectedValue(new Error('model timeout'));
+
+      await expect(writeSchreiben('AI')).resolves.toBeDefined();
+      expect(prisma.writingAttempt.create).toHaveBeenCalled();
     });
   });
 
@@ -280,6 +358,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        gradingTier: 'MANUAL',
         block: 'SCHREIBEN',
         answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },
       });

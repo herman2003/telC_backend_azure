@@ -20,7 +20,9 @@ describe('ExamSlotsController', () => {
 
   beforeEach(() => {
     slots = {
-      balance: jest.fn().mockResolvedValue(7),
+      balance: jest
+        .fn()
+        .mockResolvedValue({ slotsRemaining: 7, aiSlotsRemaining: 3 }),
       purchase: jest.fn().mockResolvedValue({ id: 'payment-1' }),
     };
     rateLimit = { checkPaymentCreateLimit: jest.fn().mockResolvedValue(undefined) };
@@ -40,6 +42,7 @@ describe('ExamSlotsController', () => {
     it('asks about the signed center, never one the caller names', async () => {
       await expect(controller.balance(user)).resolves.toEqual({
         slotsRemaining: 7,
+        aiSlotsRemaining: 3,
       });
       expect(slots.balance).toHaveBeenCalledWith(user);
     });
@@ -52,13 +55,13 @@ describe('ExamSlotsController', () => {
       expect(rateLimit.checkPaymentCreateLimit).toHaveBeenCalledWith(
         'center-1',
       );
-      expect(slots.purchase).toHaveBeenCalledWith(user, 10, 'key-1');
+      expect(slots.purchase).toHaveBeenCalledWith(user, 10, 'key-1', 'MANUAL');
     });
 
     it('trims the key, because a header often arrives padded', async () => {
       await controller.purchase(user, { quantity: 10 }, '  key-1  ');
 
-      expect(slots.purchase).toHaveBeenCalledWith(user, 10, 'key-1');
+      expect(slots.purchase).toHaveBeenCalledWith(user, 10, 'key-1', 'MANUAL');
     });
 
     it.each([

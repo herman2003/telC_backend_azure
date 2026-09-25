@@ -12,9 +12,30 @@ import {
   type SignedCenterIdentity,
 } from './payment-shared';
 
-/** One candidate, one sitting. The 1,500 XAF tier with AI correction is a
- *  later phase; this is the price of the product that exists. */
+/** One candidate, one sitting, marked by people. */
 export const EXAM_SLOT_PRICE_XAF = 1_000;
+
+/**
+ * The same sitting with the machine's opinion beside the examiner's.
+ *
+ * Five hundred more a candidate, which covers two model calls many times
+ * over. What it buys is not a cheaper mark — a person still gives every
+ * Schreiben and Sprechen mark — but the work of forming one.
+ */
+export const EXAM_SLOT_PRICE_XAF_AI = 1_500;
+
+/** Which product a purchase is for. */
+export type ExamSlotTier = 'MANUAL' | 'AI';
+
+const PRICE: Record<ExamSlotTier, number> = {
+  MANUAL: EXAM_SLOT_PRICE_XAF,
+  AI: EXAM_SLOT_PRICE_XAF_AI,
+};
+
+const PAYMENT_KIND: Record<ExamSlotTier, 'EXAM_SLOTS' | 'EXAM_SLOTS_AI'> = {
+  MANUAL: 'EXAM_SLOTS',
+  AI: 'EXAM_SLOTS_AI',
+};
 
 /**
  * A ceiling, not a business rule.
@@ -29,13 +50,19 @@ export const MAX_EXAM_SLOTS_PER_ORDER = 5_000;
 
 export interface ExamSlotQuote {
   quantity: number;
+  tier: ExamSlotTier;
   unitPriceXaf: number;
   totalXaf: number;
 }
 
+export interface ExamSlotBalance {
+  slotsRemaining: number;
+  aiSlotsRemaining: number;
+}
+
 export interface ExamSlotPaymentView {
   id: string;
-  kind: 'EXAM_SLOTS';
+  kind: 'EXAM_SLOTS' | 'EXAM_SLOTS_AI';
   quantity: number;
   unitPriceXaf: number;
   amountXaf: number;
@@ -59,16 +86,23 @@ export interface ExamSlotPaymentView {
 export class ExamSlotsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /** What the center currently holds. */
-  async balance(identity: SignedCenterIdentity): Promise<number> {
+  /** Both pools: a center may hold some of each. */
+  async balance(identity: SignedCenterIdentity): Promise<ExamSlotBalance> {
     const center = await this.prisma.center.findUniqueOrThrow({
       where: { id: identity.centerId },
-      select: { exam_slots_remaining: true },
+      select: {
+        exam_slots_remaining: true,
+        exam_ai_slots_remaining: true,
+      },
     });
-    return center.exam_slots_remaining;
+
+    return {
+      slotsRemaining: center.exam_slots_remaining,
+      aiSlotsRemaining: center.exam_ai_slots_remaining,
+    };
   }
 
-  quote(quantity: number): ExamSlotQuote {
+  quote(quantity: number, tier: ExamSlotTier): ExamSlotQuote {
     if (!Number.isInteger(quantity) || quantity < 1) {
       throw new BadRequestException('EXAM_SLOTS_INVALID');
     }
@@ -81,8 +115,9 @@ export class ExamSlotsService {
 
     return {
       quantity,
-      unitPriceXaf: EXAM_SLOT_PRICE_XAF,
-      totalXaf: quantity * EXAM_SLOT_PRICE_XAF,
+      tier,
+      unitPriceXaf: PRICE[tier],
+      totalXaf: quantity * PRICE[tier],
     };
   }
 
@@ -94,11 +129,12 @@ export class ExamSlotsService {
     identity: SignedCenterIdentity,
     quantity: number,
     idempotencyKey: string,
+    tier: ExamSlotTier = 'MANUAL',
   ): Promise<ExamSlotPaymentView> {
     // Shape-checked before anything is read: an unusable order should not
     // reach the database, and the refusal depends on no row.
-    const quote = this.quote(quantity);
-    const requestHash = this.fingerprintFor(identity.centerId, quantity);
+    const quote = this.quote(quantity, tier);
+    const requestHash = this.fingerprintFor(identity.centerId, quantity, tier);
 
     // The same gate as seats. Taking money needs a country for the currency,
     // a city for support and a phone to chase an unpaid invoice.
@@ -108,7 +144,7 @@ export class ExamSlotsService {
       const created = await this.prisma.payment.create({
         data: {
           center_id: identity.centerId,
-          kind: 'EXAM_SLOTS',
+          kind: PAYMENT_KIND[tier],
           quantity: quote.quantity,
           unit_price_xaf: quote.unitPriceXaf,
           amount_xaf: quote.totalXaf,
@@ -119,7 +155,7 @@ export class ExamSlotsService {
           status: undefined,
         },
       });
-      return this.toView(created);
+      return this.toView(created, tier);
     } catch (error) {
       if (!isIdempotencyViolation(error)) throw error;
 
@@ -129,6 +165,7 @@ export class ExamSlotsService {
         identity.centerId,
         idempotencyKey,
         requestHash,
+        tier,
       );
     }
   }
@@ -147,9 +184,15 @@ export class ExamSlotsService {
    * Public because the tests assert against it rather than against a hash
    * literal that would have to be recomputed by hand.
    */
-  fingerprintFor(centerId: string, quantity: number): string {
+  fingerprintFor(
+    centerId: string,
+    quantity: number,
+    tier: ExamSlotTier,
+  ): string {
     return createHash('sha256')
-      .update(JSON.stringify({ centerId, kind: 'EXAM_SLOTS', quantity }))
+      .update(
+        JSON.stringify({ centerId, kind: PAYMENT_KIND[tier], quantity }),
+      )
       .digest('hex');
   }
 
@@ -157,6 +200,7 @@ export class ExamSlotsService {
     centerId: string,
     idempotencyKey: string,
     requestHash: string,
+    tier: ExamSlotTier,
   ): Promise<ExamSlotPaymentView> {
     const existing = await this.prisma.payment.findUnique({
       where: {
@@ -173,7 +217,7 @@ export class ExamSlotsService {
       throw new ConflictException('IDEMPOTENCY_KEY_REUSED');
     }
 
-    return this.toView(existing);
+    return this.toView(existing, tier);
   }
 
   /** Built field by field, so a column added later cannot leak into a
@@ -185,10 +229,10 @@ export class ExamSlotsService {
     amount_xaf: number;
     status: PaymentStatus;
     created_at: Date;
-  }): ExamSlotPaymentView {
+  }, tier: ExamSlotTier): ExamSlotPaymentView {
     return {
       id: row.id,
-      kind: 'EXAM_SLOTS',
+      kind: PAYMENT_KIND[tier],
       quantity: row.quantity,
       unitPriceXaf: row.unit_price_xaf,
       amountXaf: row.amount_xaf,

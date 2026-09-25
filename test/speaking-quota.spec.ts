@@ -39,6 +39,7 @@ describe('speaking evaluation and the AI quota', () => {
       modelltest: { findUnique: jest.fn().mockResolvedValue({ id: 'mt-1' }) },
       speakingAttempt: {
         findUnique: jest.fn().mockResolvedValue(null),
+        findFirst: jest.fn().mockResolvedValue(null),
         create: jest.fn().mockResolvedValue({}),
       },
       student: { findUnique: jest.fn().mockResolvedValue({ id: 'student-1' }) },
@@ -289,6 +290,61 @@ describe('speaking evaluation and the AI quota', () => {
       expect(usage.recordDelivered).not.toHaveBeenCalled();
     });
   });
+
+  describe('inside an exam, which was paid for separately', () => {
+    // The practice allowance is two per window. A telc Sprechen has three
+    // Teile, so charging the exam against it would refuse a candidate on
+    // Teil 3, mid-sitting, on a 1,500 XAF-a-head product.
+    const inExam = (teil: number) =>
+      service.evaluateTranscript('student-1', teil, 'Wir planen zusammen.', {
+        examAttemptId: 'exam-attempt-1',
+        skipQuota: true,
+      });
+
+    it('does not spend the practice allowance', async () => {
+      await inExam(3);
+
+      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
+      expect(gemini.generateTextResponse).toHaveBeenCalled();
+    });
+
+    it('still obeys the burst limit, which is about our bill', async () => {
+      await inExam(1);
+
+      expect(rateLimit.checkAiEvaluationLimit).toHaveBeenCalledWith(
+        'student-1',
+      );
+    });
+
+    it('allows one evaluation per Teil and no more', async () => {
+      // The bound that replaces the allowance. Without it, skipping the quota
+      // would leave an exam candidate able to call the model in a loop.
+      prisma.speakingAttempt.findFirst.mockResolvedValue({ id: 'earlier' });
+
+      await expect(inExam(2)).rejects.toThrow('EXAM_TEIL_ALREADY_EVALUATED');
+      expect(gemini.generateTextResponse).not.toHaveBeenCalled();
+    });
+
+    it('looks for the earlier one by attempt and Teil, not by student', async () => {
+      // By student would refuse the candidate's second Teil; by attempt alone
+      // would refuse all three.
+      await inExam(2);
+
+      expect(prisma.speakingAttempt.findFirst).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { exam_attempt_id: 'exam-attempt-1', teil_number: 2 },
+        }),
+      );
+    });
+
+    it('leaves training alone: no exam, no per-Teil check', async () => {
+      await evaluate();
+
+      expect(prisma.speakingAttempt.findFirst).not.toHaveBeenCalled();
+      expect(quota.assertWithinQuota).toHaveBeenCalled();
+    });
+  });
+
 });
 
 /**
@@ -325,4 +381,5 @@ describe('the guards on the speaking controller', () => {
       guards.indexOf(GuestBlockGuard),
     );
   });
+
 });

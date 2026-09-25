@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from '../auth/auth.module';
+import { WritingModule } from '../writing/writing.module';
+import { SpeakingModule } from '../speaking/speaking.module';
+import { NotificationsService } from '../../shared/services/notifications.service';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
 import { ConfigService } from '@nestjs/config';
 import { ExamSittingController } from './exam-sitting.controller';
@@ -28,13 +31,19 @@ import { WritingService } from '../writing/writing.service';
  * when a block may start, wherever the question is asked from.
  */
 @Module({
-  imports: [AuthModule, SubscriptionAccessModule],
+  imports: [
+    AuthModule,
+    SubscriptionAccessModule,
+    WritingModule,
+    SpeakingModule,
+  ],
   controllers: [ExamSittingController, ExamAudioController],
   providers: [
     ExamSittingService,
     ExamBlockContentService,
     ExamScoringService,
     ExamReleaseService,
+    NotificationsService,
     ExamResultService,
     ExamAudioService,
     {

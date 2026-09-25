@@ -58,6 +58,7 @@ const ATTEMPT_SELECT = {
       id: true,
       level: true,
       modelltest_id: true,
+      grading_tier: true,
       opens_at: true,
       closes_at: true,
       published_at: true,
@@ -219,7 +220,11 @@ export class ExamSittingService {
   async attemptContextFor(
     studentId: string,
     attemptId: string,
-  ): Promise<{ modelltestId: string; modelltestNumber: number }> {
+  ): Promise<{
+    modelltestId: string;
+    modelltestNumber: number;
+    gradingTier: 'MANUAL' | 'AI';
+  }> {
     const attempt = await this.load(studentId, attemptId);
     const modelltest = await this.prisma.modelltest.findUniqueOrThrow({
       where: { id: attempt.session.modelltest_id },
@@ -229,6 +234,9 @@ export class ExamSittingService {
     return {
       modelltestId: attempt.session.modelltest_id,
       modelltestNumber: modelltest.number,
+      // Read from the sitting, never from the request: what the center paid
+      // for is not something a client gets to say.
+      gradingTier: attempt.session.grading_tier,
     };
   }
 

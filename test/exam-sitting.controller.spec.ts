@@ -19,6 +19,7 @@ describe('ExamSittingController', () => {
   let scoring: any;
   let audio: any;
   let release: any;
+  let speaking: any;
   let controller: ExamSittingController;
 
   beforeEach(() => {
@@ -34,20 +35,26 @@ describe('ExamSittingController', () => {
         late: false,
         answers: { LESEN_1: { '1': 'a' } },
       }),
-      attemptContextFor: jest
-        .fn()
-        .mockResolvedValue({ modelltestId: 'mt-1' }),
+      attemptContextFor: jest.fn().mockResolvedValue({
+        modelltestId: 'mt-1',
+        modelltestNumber: 1,
+        gradingTier: 'AI',
+      }),
     };
     content = { getBlockContent: jest.fn().mockResolvedValue({}) };
     scoring = { scoreBlock: jest.fn().mockResolvedValue([]) };
     audio = { play: jest.fn().mockResolvedValue({ playsRemaining: 0 }) };
     release = { forStudent: jest.fn().mockResolvedValue({ outcome: 'PASSED' }) };
+    speaking = {
+      evaluateTranscript: jest.fn().mockResolvedValue({ score: 68 }),
+    };
     controller = new ExamSittingController(
       sitting,
       content,
       scoring,
       audio,
       release,
+      speaking,
     );
   });
 
@@ -93,6 +100,57 @@ describe('ExamSittingController', () => {
           ...call.mock.calls[0].slice(1),
         );
       }
+    });
+  });
+
+  describe('the AI speaking session', () => {
+    it('ties the transcript to this exam, so it never lands in practice', async () => {
+      await controller.examSpeaking(student, 'attempt-1', {
+        teilNumber: 1,
+        transcript: 'Ich heisse Marie.',
+      });
+
+      expect(speaking.evaluateTranscript).toHaveBeenCalledWith(
+        'student-1',
+        1,
+        'Ich heisse Marie.',
+        expect.objectContaining({ examAttemptId: 'attempt-1' }),
+      );
+    });
+
+    it('does not spend the training allowance, which is smaller than the exam', async () => {
+      // The training allowance is two evaluations per window and a telc exam
+      // has three Sprechen Teile. Charging the exam against it would refuse
+      // a candidate on Teil 3, in the middle of a sitting their center paid
+      // 1,500 XAF a head for.
+      await controller.examSpeaking(student, 'attempt-1', {
+        teilNumber: 3,
+        transcript: 'Wir planen zusammen.',
+      });
+
+      expect(speaking.evaluateTranscript).toHaveBeenCalledWith(
+        'student-1',
+        3,
+        'Wir planen zusammen.',
+        expect.objectContaining({ skipQuota: true }),
+      );
+    });
+
+    it('refuses on a sitting the center did not buy it for', async () => {
+      // A manual sitting running the model would be a bill nobody agreed to.
+      sitting.attemptContextFor.mockResolvedValue({
+        modelltestId: 'mt-1',
+        modelltestNumber: 1,
+        gradingTier: 'MANUAL',
+      });
+
+      await expect(
+        controller.examSpeaking(student, 'attempt-1', {
+          teilNumber: 1,
+          transcript: 'Ich heisse Marie.',
+        }),
+      ).rejects.toThrow('EXAM_TIER_WITHOUT_AI');
+      expect(speaking.evaluateTranscript).not.toHaveBeenCalled();
     });
   });
 

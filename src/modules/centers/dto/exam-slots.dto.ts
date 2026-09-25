@@ -1,10 +1,20 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, Max, Min } from 'class-validator';
+import { IsIn, IsInt, IsOptional, Max, Min } from 'class-validator';
 import { PaymentStatus } from '@prisma/client';
 import { MAX_EXAM_SLOTS_PER_ORDER } from '../exam-slots.service';
 
 export class PurchaseExamSlotsDto {
+  @ApiPropertyOptional({
+    enum: ['MANUAL', 'AI'],
+    default: 'MANUAL',
+    description:
+      "MANUAL is 1,000 XAF a candidate and marked by people. AI is 1,500 and adds the machine's opinion beside the examiner's — it never replaces a mark, only informs it.",
+  })
+  @IsOptional()
+  @IsIn(['MANUAL', 'AI'])
+  tier?: 'MANUAL' | 'AI';
+
   @ApiProperty({
     example: 10,
     minimum: 1,
@@ -22,9 +32,17 @@ export class PurchaseExamSlotsDto {
 export class ExamSlotBalanceDto {
   @ApiProperty({
     example: 7,
-    description: 'Bought and not yet spent. One goes per candidate at publish.',
+    description:
+      'The 1,000 XAF product: bought and not yet spent. One goes per candidate at publish.',
   })
   slotsRemaining: number;
+
+  @ApiProperty({
+    example: 3,
+    description:
+      'The 1,500 XAF product, counted apart. A sitting spends from the pool matching what it was published as.',
+  })
+  aiSlotsRemaining: number;
 }
 
 export class ExamSlotPaymentDto {

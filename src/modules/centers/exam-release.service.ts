@@ -194,17 +194,28 @@ export class ExamReleaseService {
     );
   }
 
-  /** Freezes one candidate's result as it stands. */
+  /**
+   * Freezes one candidate's result as it stands.
+   *
+   * Without the suggestions. They exist for the person deciding a mark, and
+   * the candidate is reading one that has already been decided — "the machine
+   * said 32" beside a trainer's 28 is an argument, not a result. The
+   * sitting-wide release batches and never carried them; this keeps the two
+   * paths telling a student the same thing.
+   */
   private async store(
     result: ExamResultView,
     releasedAt: Date,
     tx: Prisma.TransactionClient,
   ): Promise<void> {
+    const released: Omit<ExamResultView, 'suggestions'> = { ...result };
+    delete (released as Partial<ExamResultView>).suggestions;
+
     await tx.examAttempt.update({
       where: { id: result.attemptId },
       data: {
         released_at: releasedAt,
-        released_result: result as unknown as Prisma.InputJsonValue,
+        released_result: released as unknown as Prisma.InputJsonValue,
       },
     });
   }

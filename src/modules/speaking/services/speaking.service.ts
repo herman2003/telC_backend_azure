@@ -75,6 +75,11 @@ export class SpeakingService {
     try {
       const rows = await this.prisma.speakingAttempt.findMany({
         where: {
+          // Training only. An AI speaking session sat inside an exam lives in
+          // this same table, and a candidate must not find their exam
+          // transcript in their practice history before the center has
+          // released anything.
+          exam_attempt_id: null,
           student_id: studentId,
           erasure_id: null,
           ...(teilNumber !== undefined && teilNumber >= 1 && teilNumber <= 3

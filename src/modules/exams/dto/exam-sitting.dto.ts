@@ -1,5 +1,15 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsObject, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 import { ExamBlock } from '@prisma/client';
 
 export class SaveExamAnswersDto {
@@ -20,6 +30,28 @@ export class SubmitExamBlockDto {
   @IsOptional()
   @IsObject()
   answers?: Record<string, Record<string, unknown>>;
+}
+
+export class ExamSpeakingDto {
+  @ApiProperty({
+    example: 1,
+    description: 'Which Sprechen Teil this was.',
+  })
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(3)
+  teilNumber: number;
+
+  @ApiProperty({
+    maxLength: 10_000,
+    description:
+      'What the candidate said, transcribed on the device. No audio reaches the server.',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(10_000)
+  transcript: string;
 }
 
 export class ExamBlockTimerDto {
