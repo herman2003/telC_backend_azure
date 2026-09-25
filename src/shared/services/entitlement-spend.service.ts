@@ -244,6 +244,16 @@ export class EntitlementSpendService {
   ): Promise<void> {
     if (!COUNTED.has(product)) return;
 
+    // Checked here as well as in `mayUse`, and not only for tidiness. A centre
+    // can lapse between the two calls, and a caller written later may not ask
+    // the first question at all. Either way the harm is identical: money the
+    // centre paid for, spent while they are being told they may not spend it.
+    const { studentsMayLearn, studentExists } =
+      await this.access.forStudent(studentId);
+    if (!studentExists || !studentsMayLearn) {
+      throw new ForbiddenException('FROZEN');
+    }
+
     const seat = await this.seatOf(studentId);
     if (!seat) throw new ForbiddenException('NO_CODE');
 

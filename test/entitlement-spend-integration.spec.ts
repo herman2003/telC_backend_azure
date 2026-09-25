@@ -378,3 +378,38 @@ describe('what the student reads', () => {
     });
   });
 });
+
+describe('spending is guarded on its own, not only by mayUse', () => {
+  it('refuses to spend credits a frozen centre still holds', async () => {
+    // mayUse checks the freeze, and every caller is supposed to ask it first.
+    // That is not enough: a centre can lapse between the two calls, and a
+    // caller written later may simply not ask. Either way the harm is the
+    // same — money the centre paid for, spent while they are being told they
+    // may not spend it.
+    const { center, student, code } = await makeSeat(
+      new Date(Date.now() - 60 * DAY_MS),
+    );
+    await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
+    await fillPool(center.id, 60);
+    await setCap(code.id, 10);
+
+    await expect(
+      spend.spend(student.id, 'AI_SPEAKING_CREDIT'),
+    ).rejects.toThrow('FROZEN');
+
+    await expect(poolOf(center.id)).resolves.toBe(60);
+    await expect(capOf(code.id)).resolves.toMatchObject({ used: 0 });
+  });
+
+  it('does not let a frozen centre lose a free session either', async () => {
+    // The free five are Start's, and Start is what has lapsed.
+    const { center, student } = await makeSeat(
+      new Date(Date.now() - 60 * DAY_MS),
+    );
+    await fillPool(center.id, 60);
+
+    await expect(
+      spend.spend(student.id, 'AI_SPEAKING_CREDIT'),
+    ).rejects.toThrow('FROZEN');
+  });
+});
