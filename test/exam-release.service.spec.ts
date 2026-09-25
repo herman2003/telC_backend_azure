@@ -27,6 +27,7 @@ describe('ExamReleaseService', () => {
 
   let prisma: any;
   let results: any;
+  let notifications: any;
   let service: ExamReleaseService;
 
   beforeEach(() => {
@@ -40,6 +41,7 @@ describe('ExamReleaseService', () => {
       examAttempt: {
         findFirst: jest.fn().mockResolvedValue({
           id: 'attempt-1',
+          session_id: 'session-1',
           released_at: null,
           released_result: null,
           session: { center_id: 'center-1' },
@@ -59,7 +61,8 @@ describe('ExamReleaseService', () => {
           ),
         ),
     };
-    service = new ExamReleaseService(prisma, results);
+    notifications = { notifyMany: jest.fn().mockResolvedValue(undefined) };
+    service = new ExamReleaseService(prisma, results, notifications);
   });
 
   describe('releasing a sitting', () => {

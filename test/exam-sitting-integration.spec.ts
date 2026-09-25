@@ -14,13 +14,18 @@ import { ExamSessionPolicyService } from '../src/modules/centers/exam-session-po
 import { ExamAudioService } from '../src/modules/centers/exam-audio.service';
 import { ExamSessionsService } from '../src/modules/centers/exam-sessions.service';
 import { ExamParticipantsService } from '../src/modules/centers/exam-participants.service';
+import { NotificationsService } from '../src/shared/services/notifications.service';
 
 const prisma = new PrismaService();
 const policy = new ExamSessionPolicyService();
 const sitting = new ExamSittingService(prisma, policy);
 const audio = new ExamAudioService(prisma, 'a-secret-at-least-32-chars-long!!');
 const sessions = new ExamSessionsService(prisma, policy);
-const participants = new ExamParticipantsService(prisma, policy);
+const participants = new ExamParticipantsService(
+  prisma,
+  policy,
+  new NotificationsService(prisma),
+);
 
 const MINUTE = 60 * 1000;
 const HOUR = 60 * MINUTE;

@@ -12,12 +12,14 @@ import { PrismaService } from '../src/shared/services/prisma.service';
 import { ExamResultService } from '../src/modules/centers/exam-result.service';
 import { ExamGradingService } from '../src/modules/centers/exam-grading.service';
 import { ExamReleaseService } from '../src/modules/centers/exam-release.service';
+import { NotificationsService } from '../src/shared/services/notifications.service';
 import type { SignedCenterIdentity } from '../src/modules/centers/payment-shared';
 
 const prisma = new PrismaService();
 const results = new ExamResultService(prisma);
 const grading = new ExamGradingService(prisma);
-const release = new ExamReleaseService(prisma, results);
+const notifications = new NotificationsService(prisma);
+const release = new ExamReleaseService(prisma, results, notifications);
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -330,6 +332,40 @@ describe('releasing', () => {
     await expect(
       release.forStudent(student.id, attempt.id),
     ).resolves.toMatchObject({ outcome: 'PASSED' });
+  });
+
+  it('tells the candidate their result is ready', async () => {
+    const { session, identity, student } = await complete();
+
+    await release.releaseSession(identity, session.id);
+
+    const told = await prisma.notification.findMany({
+      where: { student_id: student.id, kind: 'EXAM_RESULT_RELEASED' },
+      select: { payload: true },
+    });
+    expect(told).toHaveLength(1);
+    // The facts, not the verdict: a notification is a nudge to go and look,
+    // and a phone screen is not where somebody should learn they failed.
+    expect(told[0].payload).toMatchObject({ sessionId: session.id });
+    expect(JSON.stringify(told[0].payload)).not.toContain('PASSED');
+  });
+
+  it('tells them again when the result is corrected and re-released', async () => {
+    const { session, identity, student, attempt } = await complete();
+    await release.releaseSession(identity, session.id);
+    await grading.recordMark(identity, attempt.id, {
+      skill: 'SPRECHEN',
+      teil: 1,
+      points: 10,
+    });
+
+    await release.releaseSession(identity, session.id);
+
+    await expect(
+      prisma.notification.count({
+        where: { student_id: student.id, kind: 'EXAM_RESULT_RELEASED' },
+      }),
+    ).resolves.toBe(2);
   });
 
   it('shows the correction once the center releases again', async () => {

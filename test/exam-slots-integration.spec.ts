@@ -12,6 +12,7 @@ import { ExamSlotsService } from '../src/modules/centers/exam-slots.service';
 import { PaymentActivationService } from '../src/modules/centers/payment-activation.service';
 import { ExamSessionsService } from '../src/modules/centers/exam-sessions.service';
 import { ExamParticipantsService } from '../src/modules/centers/exam-participants.service';
+import { NotificationsService } from '../src/shared/services/notifications.service';
 import { ExamSessionPolicyService } from '../src/modules/centers/exam-session-policy.service';
 import { PaymentCheckoutService } from '../src/modules/centers/payment-checkout.service';
 import { PaymentWebhookService } from '../src/modules/centers/payment-webhook.service';
@@ -36,7 +37,11 @@ const webhooks = new PaymentWebhookService(
 );
 const policy = new ExamSessionPolicyService();
 const sessions = new ExamSessionsService(prisma, policy);
-const participants = new ExamParticipantsService(prisma, policy);
+const participants = new ExamParticipantsService(
+  prisma,
+  policy,
+  new NotificationsService(prisma),
+);
 
 const HOUR = 60 * 60 * 1000;
 const DAY = 24 * HOUR;

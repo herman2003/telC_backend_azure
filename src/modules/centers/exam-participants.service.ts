@@ -8,6 +8,7 @@ import type { Prisma } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { ExamSessionPolicyService } from './exam-session-policy.service';
+import { NotificationsService } from '../../shared/services/notifications.service';
 
 type SignedCenterIdentity = Pick<CenterAccessTokenPayload, 'centerId'>;
 
@@ -46,6 +47,7 @@ export class ExamParticipantsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly policy: ExamSessionPolicyService,
+    private readonly notifications: NotificationsService,
   ) {}
 
   /**
@@ -207,9 +209,11 @@ export class ExamParticipantsService {
     return this.prisma.$transaction(async (tx) => {
       // Counted inside the transaction that spends for it. Counting first and
       // spending after would admit, unpaid for, anyone added in between.
-      const participantCount = await tx.examSessionParticipant.count({
+      const admitted = await tx.examSessionParticipant.findMany({
         where: { session_id: sessionId },
+        select: { student_id: true },
       });
+      const participantCount = admitted.length;
       if (participantCount === 0) {
         throw new BadRequestException('NO_PARTICIPANTS');
       }
@@ -228,8 +232,29 @@ export class ExamParticipantsService {
 
       const published = await tx.examSession.findUniqueOrThrow({
         where: { id: sessionId },
-        select: { published_at: true },
+        select: {
+          published_at: true,
+          name: true,
+          opens_at: true,
+          closes_at: true,
+        },
       });
+
+      // In the same transaction as the publish itself. An exam published with
+      // nobody told is worse than a publish that failed, because only one of
+      // the two is visible to anybody — and a refusal further up has to take
+      // the telling with it.
+      await this.notifications.notifyMany(
+        admitted.map((row) => row.student_id),
+        'EXAM_PUBLISHED',
+        {
+          sessionId,
+          name: published.name,
+          opensAt: published.opens_at.toISOString(),
+          closesAt: published.closes_at.toISOString(),
+        },
+        tx,
+      );
 
       return {
         publishedAt: published.published_at!,
