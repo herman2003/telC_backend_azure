@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  HttpException,
   HttpCode,
   HttpStatus,
   Ip,
@@ -31,9 +32,48 @@ import {
   LiveSessionCaller,
   LiveSessionLimitService,
 } from './live-session-limit.service';
+import { AiUsageService } from '../../../shared/services/ai-usage.service';
+import {
+  EntitlementSpendService,
+  type EntitlementDecision,
+} from '../../../shared/services/entitlement-spend.service';
 import { CreateLiveTokenDto } from './dto/create-live-token.dto';
 import { EndLiveSessionDto } from './dto/end-live-session.dto';
 import { LiveTokenResponseDto } from './dto/live-token-response.dto';
+
+/**
+ * What a student is told when they have run out, and why each is different.
+ *
+ * A frozen centre has not run out of anything — the credits are sitting there
+ * waiting to be paid for — and telling the student they are out would be both
+ * wrong and something they cannot act on.
+ */
+const ELENA_REFUSALS: Record<string, { key: string; message: string }> = {
+  FROZEN: {
+    key: 'elenaCenterUnpaid',
+    message:
+      'Votre centre doit régler son abonnement pour que vos sessions reprennent.',
+  },
+  NO_CAP: {
+    key: 'elenaNoAllowance',
+    message:
+      'Vous avez utilisé vos sessions du mois. Demandez des crédits à votre centre.',
+  },
+  CAP_REACHED: {
+    key: 'elenaNoAllowance',
+    message:
+      'Vous avez utilisé vos sessions du mois. Demandez des crédits à votre centre.',
+  },
+  POOL_EMPTY: {
+    key: 'elenaMonthlyLimit',
+    message: 'Vous avez utilisé vos sessions du mois. Elles reviennent le 1er.',
+  },
+  NO_CODE: {
+    key: 'elenaNoAllowance',
+    message:
+      'Vous avez utilisé vos sessions du mois. Demandez des crédits à votre centre.',
+  },
+};
 
 /**
  * Issues the credential for a live spoken session with Elena.
@@ -57,6 +97,8 @@ export class LiveTokenController {
     private readonly geminiService: GeminiService,
     private readonly promptService: ExaminerPromptService,
     private readonly limitService: LiveSessionLimitService,
+    private readonly entitlements: EntitlementSpendService,
+    private readonly usage: AiUsageService,
   ) {}
 
   @Post('live-token')
@@ -84,8 +126,17 @@ export class LiveTokenController {
     @Body() dto: CreateLiveTokenDto,
   ): Promise<LiveTokenResponseDto> {
     const sessionId = randomUUID();
+    const caller = this.callerOf(ip, req);
 
-    await this.limitService.acquire(this.callerOf(ip, req), sessionId);
+    // What Start sells, before what we can afford. A registered student gets
+    // five conversations a month and then draws on the credits their centre
+    // bought; a guest has no allowance and is metered by IP inside the limit
+    // service instead.
+    const decision = caller.isGuest
+      ? null
+      : await this.requireAllowance(caller);
+
+    await this.limitService.acquire(caller, sessionId);
 
     const topic = await this.loadTopic(dto.teilNumber, dto.modelltest ?? 1);
     const instruction = this.promptService.build(dto.teilNumber, topic);
@@ -95,6 +146,22 @@ export class LiveTokenController {
       instruction,
       sessionSeconds,
     );
+
+    // After the token exists, never before. A failure on our side must not
+    // cost a student a session they never had — the same rule the AI quota
+    // follows for the same reason. `spend` is a no-op while free sessions
+    // remain, so the row below is what the allowance is counted from either
+    // way.
+    if (decision && req.student?.studentId) {
+      await this.entitlements.spend(
+        req.student.studentId,
+        'AI_SPEAKING_CREDIT',
+      );
+      await this.usage.recordDelivered(
+        req.student.studentId,
+        'SPEAKING_LIVE_SESSION',
+      );
+    }
 
     this.logger.log(
       JSON.stringify({
@@ -140,6 +207,31 @@ export class LiveTokenController {
     // their own beside the shared one, and freeing the pool while leaving that
     // taken would lock them out of the session they just made room for.
     await this.limitService.release(dto.sessionId, this.callerOf(ip, req));
+  }
+
+  /**
+   * Refuses a student who has neither a free session left nor a credit to
+   * spend, saying which of the two it is.
+   *
+   * Four different situations, four messages. "Your centre stopped paying" and
+   * "your centre has not given you any" and "you have used everything you were
+   * given" are not the same sentence, and only some of them are something the
+   * student can act on.
+   */
+  private async requireAllowance(
+    caller: LiveSessionCaller,
+  ): Promise<EntitlementDecision> {
+    const decision = await this.entitlements.mayUse(
+      caller.studentId!,
+      'AI_SPEAKING_CREDIT',
+    );
+    if (decision.allowed) return decision;
+
+    const refusal = ELENA_REFUSALS[decision.reason ?? 'POOL_EMPTY'];
+    throw new HttpException(
+      { messageKey: refusal.key, message: refusal.message },
+      HttpStatus.TOO_MANY_REQUESTS,
+    );
   }
 
   private callerOf(

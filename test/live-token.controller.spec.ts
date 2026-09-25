@@ -4,6 +4,8 @@ import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { LiveTokenController } from '../src/modules/speaking/live/live-token.controller';
 import { ExaminerPromptService } from '../src/modules/speaking/live/examiner-prompt.service';
 import { LiveSessionLimitService } from '../src/modules/speaking/live/live-session-limit.service';
+import { EntitlementSpendService } from '../src/shared/services/entitlement-spend.service';
+import { AiUsageService } from '../src/shared/services/ai-usage.service';
 import { SpeakingService } from '../src/modules/speaking/services/speaking.service';
 import { GeminiService } from '../src/modules/speaking/services/gemini.service';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
@@ -29,6 +31,22 @@ const mockLimitService = {
   acquire: jest.fn(),
   release: jest.fn(),
   sessionSeconds: 600,
+};
+
+const mockEntitlements = {
+  mayUse: jest.fn(),
+  spend: jest.fn(),
+};
+const mockUsage = { recordDelivered: jest.fn() };
+
+/** Allowed, with free sessions still in hand. */
+const freeSessionsLeft = {
+  allowed: true,
+  reason: null,
+  freeRemaining: 3,
+  creditsAvailable: 0,
+  resetsAt: new Date('2026-11-01'),
+  expiresAt: null,
 };
 
 const guestReq = {
@@ -61,6 +79,9 @@ describe('LiveTokenController', () => {
       model: 'gemini-live-2.5-flash-preview',
     });
     mockLimitService.acquire.mockResolvedValue(undefined);
+    mockEntitlements.mayUse.mockResolvedValue(freeSessionsLeft);
+    mockEntitlements.spend.mockResolvedValue(undefined);
+    mockUsage.recordDelivered.mockResolvedValue(undefined);
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [LiveTokenController],
@@ -69,6 +90,8 @@ describe('LiveTokenController', () => {
         { provide: GeminiService, useValue: mockGeminiService },
         { provide: ExaminerPromptService, useValue: mockPromptService },
         { provide: LiveSessionLimitService, useValue: mockLimitService },
+        { provide: EntitlementSpendService, useValue: mockEntitlements },
+        { provide: AiUsageService, useValue: mockUsage },
       ],
     })
       .overrideGuard(JwtAuthGuard)
@@ -148,6 +171,107 @@ describe('LiveTokenController', () => {
     });
 
     expect(result.topic).toBeUndefined();
+  });
+
+  describe('what a registered student is allowed', () => {
+    it('checks the allowance before minting anything', async () => {
+      await controller.createLiveToken('1.2.3.4', studentReq, {
+        teilNumber: 1,
+      });
+
+      expect(mockEntitlements.mayUse).toHaveBeenCalledWith(
+        'student-1',
+        'AI_SPEAKING_CREDIT',
+      );
+    });
+
+    it('mints nothing when they have neither a free session nor a credit', async () => {
+      mockEntitlements.mayUse.mockResolvedValue({
+        allowed: false,
+        reason: 'CAP_REACHED',
+        freeRemaining: 0,
+        creditsAvailable: 0,
+        resetsAt: new Date(),
+        expiresAt: null,
+      });
+
+      await expect(
+        controller.createLiveToken('1.2.3.4', studentReq, { teilNumber: 1 }),
+      ).rejects.toThrow(HttpException);
+
+      expect(mockGeminiService.mintLiveToken).not.toHaveBeenCalled();
+      expect(mockLimitService.acquire).not.toHaveBeenCalled();
+    });
+
+    it('says a lapsed centre is a lapsed centre, not an empty allowance', async () => {
+      // The student has not run out of anything — their credits are sitting
+      // there waiting to be paid for. Telling them they are out would be both
+      // wrong and something they cannot act on.
+      mockEntitlements.mayUse.mockResolvedValue({
+        allowed: false,
+        reason: 'FROZEN',
+        freeRemaining: 0,
+        creditsAvailable: 0,
+        resetsAt: null,
+        expiresAt: null,
+      });
+
+      const refusal = await controller
+        .createLiveToken('1.2.3.4', studentReq, { teilNumber: 1 })
+        .catch((error: HttpException) => error.getResponse());
+
+      expect(refusal).toMatchObject({ messageKey: 'elenaCenterUnpaid' });
+    });
+
+    it('records the session only after the token exists', async () => {
+      // A failure on our side must not cost a student a session they never
+      // had, which is the same rule the AI quota follows.
+      const order: string[] = [];
+      mockGeminiService.mintLiveToken.mockImplementation(() => {
+        order.push('mint');
+        return Promise.resolve({ token: 't', model: 'm' });
+      });
+      mockUsage.recordDelivered.mockImplementation(() => {
+        order.push('record');
+        return Promise.resolve(undefined);
+      });
+
+      await controller.createLiveToken('1.2.3.4', studentReq, {
+        teilNumber: 1,
+      });
+
+      expect(order).toEqual(['mint', 'record']);
+    });
+
+    it('spends before recording, so the row does not pay for itself', async () => {
+      // `spend` is a no-op while free sessions remain, and it decides that by
+      // counting the rows. Recording first would make every session look free.
+      const order: string[] = [];
+      mockEntitlements.spend.mockImplementation(() => {
+        order.push('spend');
+        return Promise.resolve(undefined);
+      });
+      mockUsage.recordDelivered.mockImplementation(() => {
+        order.push('record');
+        return Promise.resolve(undefined);
+      });
+
+      await controller.createLiveToken('1.2.3.4', studentReq, {
+        teilNumber: 1,
+      });
+
+      expect(order).toEqual(['spend', 'record']);
+    });
+
+    it('leaves guests out of it entirely', async () => {
+      // A guest has no account to charge and no allowance to check. They are
+      // bounded by IP inside the limit service, as they were before.
+      await controller.createLiveToken('1.2.3.4', guestReq, { teilNumber: 1 });
+
+      expect(mockEntitlements.mayUse).not.toHaveBeenCalled();
+      expect(mockEntitlements.spend).not.toHaveBeenCalled();
+      expect(mockUsage.recordDelivered).not.toHaveBeenCalled();
+    });
   });
 
   describe('endLiveSession', () => {

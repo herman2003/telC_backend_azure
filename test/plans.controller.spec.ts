@@ -4,7 +4,7 @@ import request from 'supertest';
 import { App } from 'supertest/types';
 import { PlansController } from '../src/modules/plans/plans.controller';
 import { START_PRICE_XAF } from '../src/modules/centers/pricing.service';
-import { AI_ALLOWANCE_PER_WINDOW } from '../src/shared/services/ai-quota.service';
+import { FREE_LIVE_SESSIONS_PER_MONTH } from '../src/shared/services/entitlement-spend.service';
 
 /**
  * What a plan costs and allows, served from the constants the backend
@@ -70,12 +70,15 @@ describe('PlansController contract', () => {
     );
   });
 
-  it('reports the AI allowance the quota service enforces, per 24 hours', async () => {
+  it('reports the AI allowance Start actually includes, per calendar month', async () => {
+    // Five a month, from the constant the spend service enforces — not a
+    // number typed here. A catalogue that advertised what the backend does not
+    // do is the whole reason the frontend stopped keeping its own copy.
     const body = await fetchPlans();
 
     expect(planById(body, 'start').aiSpeaking).toEqual({
-      limit: AI_ALLOWANCE_PER_WINDOW,
-      window: 'per_24h',
+      limit: FREE_LIVE_SESSIONS_PER_MONTH,
+      window: 'per_month',
     });
   });
 

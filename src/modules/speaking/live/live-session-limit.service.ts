@@ -144,12 +144,23 @@ export class LiveSessionLimitService {
       );
     }
 
-    const identity = this.identityKey(caller);
-    if (!(await this.consume(identity, this.ipMax, this.ipWindowSeconds))) {
-      throw this.refuse(
-        'elenaDailyLimit',
-        `Vous avez utilisé vos ${this.ipMax} sessions avec Elena aujourd’hui.`,
-      );
+    // Guests only. A registered student's allowance is what Start sells them
+    // — five conversations a month, then whatever credits their centre bought
+    // — and that is decided before this service is reached, by
+    // `EntitlementSpendService`. Applying a second daily cap here would refuse
+    // a student who had already paid for the session, which is the shape of
+    // bug this codebase has now fixed twice.
+    //
+    // Guests have no allowance to check and no account to charge, so the IP
+    // cap remains the only thing standing between a demo and our bill.
+    if (this.isCappedByIp(caller)) {
+      const identity = this.identityKey(caller);
+      if (!(await this.consume(identity, this.ipMax, this.ipWindowSeconds))) {
+        throw this.refuse(
+          'elenaDailyLimit',
+          `Vous avez utilisé vos ${this.ipMax} sessions avec Elena aujourd’hui.`,
+        );
+      }
     }
 
     if (!(await this.consume(this.globalKey(), this.globalMax, 86_400))) {
@@ -217,6 +228,11 @@ export class LiveSessionLimitService {
       if (now - startedAt > ceiling) this.sessionStarts.delete(id);
     }
     this.sessionStarts.set(sessionId, now);
+  }
+
+  /** Whether this caller is metered by IP rather than by an allowance. */
+  private isCappedByIp(caller: LiveSessionCaller): boolean {
+    return caller.isGuest || !caller.studentId;
   }
 
   /** Null for anyone this rule does not apply to. */
