@@ -32,53 +32,65 @@ here.
 
 ## Block 22 — Fix Sprechen IA Light
 
-### Intent
+> **Split on 2026-09-25**, after `/deprecation-and-migration`. Two systems were
+> hiding behind one name, and only one of them can be fixed without schema.
 
-Start (4 500 FCFA/élève/mois) promises each student **5 AI speaking sessions a
-month**. The code gives **2 per rolling 24 hours**. We are already selling one
-thing and shipping another.
+### What the investigation found
 
-Bring the code to the promise:
+"Sprechen IA Light" is **Elena**, the live Gemini conversation
+(`LiveSessionLimitService`, Valkey counters) — not `AiQuotaService`, which
+meters transcript evaluation in Postgres. The offer's four rules land on Elena.
 
-- 5 sessions per **calendar month**, not a rolling window
-- **5 minutes** maximum per session
-- auto-close after **30 seconds of silence at the start**
-- auto-close on prolonged inactivity
-- **one active session at a time** per student
+Two consequences:
 
-No payment work. No new product. This is Start doing what Start says.
+- **No data migration is needed.** The Postgres quota is derived from rows, and
+  Elena's counters are TTL buckets. Nothing stored has to be rewritten.
+- **A monthly allowance cannot live in Valkey.** Those counters expire by TTL
+  and degrade to in-process memory when Valkey is down, so a restart would hand
+  out free sessions. Five-a-month belongs in Postgres — in the same table
+  block 23 builds, because AI Speaking credits extend exactly this counter.
 
-### Why first
+### Block 22a — the session rules (no schema)
 
-It is small, it is wrong in production now, and its new counter is the first
-thing block 23's entitlement table will hold. Fixing it after 23 would mean
-designing it twice.
+**Intent.** Make a live session behave as Start promises, using only what
+already exists.
 
-### Skills, in order
+- session cap **10 minutes → 5** (`GEMINI_LIVE_SESSION_MAX_MINUTES`)
+- close after **30 seconds of silence at the start**
+- close after **60 seconds of silence mid-session**
+- **one active session per student** — today's concurrency pool is global, not
+  per student
 
 | | Skill | What it must produce |
 |---|---|---|
-| 1 | `/deprecation-and-migration` | The plan for students **mid-window** when the change lands. A rolling 24h counter becoming a monthly one is a semantic change: decide whether existing usage carries over, resets, or is forgiven — and write the migration that does it |
-| 2 | `/spec-driven-development` | The spec for all five rules, including what the client sees when a session is refused and what "prolonged inactivity" means in seconds |
-| 3 | `/agent-skills:build` | The implementation, TDD, task by task |
-| 4 | `/code-review-and-quality` | Review before merge. Fix what it finds, then re-run the four suites |
+| 1 | `/spec-driven-development` | The four rules, including what the client is told on each close and how a dropped connection is distinguished from silence |
+| 2 | `/agent-skills:build` | The implementation, TDD |
+| 3 | `/code-review-and-quality` | Review before merge |
 
-### 🛑 Human checkpoints
+🛑 **Human checkpoints** — confirm the close messages are the ones the app
+should show; the four suites before merge.
 
-- **After step 1** — the mid-window decision is a *commercial* one (a student
-  who has used their 2 today: do they get 5 more?). User confirms before code.
-- **After step 2** — confirm "prolonged inactivity" in seconds, and whether the
-  5-minute cap is hard (cut mid-sentence) or soft (warn, then cut).
-- **Before merge** — the four suites, stated with their numbers.
+**Done when** a session dies at 5 minutes, a silent start dies at 30 seconds, a
+silent middle dies at 60, and a student cannot hold two at once.
 
-### Done when
+### Block 22b — the monthly allowance (folded into block 23)
 
-A Start student gets exactly 5 sessions in a calendar month, a session dies at
-5 minutes, a silent start dies at 30 seconds, a second session is refused while
-one is live — and the frontends have been told, because all four are
-user-visible changes.
+**Intent.** 5 sessions per **calendar month, UTC**, per student, counted in
+Postgres, extended later by bought credits.
 
----
+Built as part of block 23, on the entitlement table. Building it in Valkey
+first would mean building it twice.
+
+**One design rule, decided now:** every caller asks a single function
+`quotaWindowStart(now)` where the window begins. Today it returns the start of
+the UTC month and nothing else.
+
+That seam exists so that *if* a grandfathering rule is ever needed after
+launch — a student mid-window on switch-over day — it is one line inside one
+function instead of a hunt through every caller. **No such constant is written
+now:** the product has not launched, production is demo data, and there is no
+student whose history could be punished. Dead code with a future date in it
+never gets deleted.
 
 ## Block 23 — The entitlement foundation ⬅ the block that matters
 
@@ -291,6 +303,6 @@ The whole block. Nothing starts without it.
 
 ## The order, in one line
 
-**22** (small, already wrong) → **23** (the shape everything reuses) → **24**
+**22a** (small, no schema) → **23** (with 22b inside it) (the shape everything reuses) → **24**
 (easiest real product) → **25** (same shape, an expiry) → **26** (four
 sub-blocks, mostly AI) → **27** (a conversation) → **ship**.
