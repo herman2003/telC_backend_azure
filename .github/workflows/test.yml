@@ -72,16 +72,20 @@ jobs:
       # `provision` argument never passed, and seven fixtures left carrying a
       # dropped column.
       #
-      # A ratchet rather than a hard zero. It started at 19; the auth, writing
-      # and guest-token specs it covered were repaired while merging dev into
-      # main, and the one left is prisma.config.ts, where `directUrl` is not
-      # in Prisma 7's datasource type but is what the migrations run through.
-      # What this catches is a NEW error, which is the failure mode that bit.
+      # A ratchet, now at zero. It started at 19; the auth, writing and
+      # guest-token specs were repaired while merging dev into main, and the
+      # last one — `directUrl` in prisma.config.ts — turned out to be a real
+      # bug rather than a typing quirk: the key is not in Prisma 7's
+      # datasource type, was ignored at runtime, and every migration had been
+      # running over the pooled endpoint instead of the direct one.
+      #
+      # Keep it at zero. A baseline above zero is a place for the next one to
+      # hide.
       #
       # Lower BASELINE whenever the real count drops. It must never be raised.
       - name: Type-check (no new errors)
         run: |
-          BASELINE=1
+          BASELINE=0
           COUNT=$(npx tsc --noEmit 2>&1 | grep -c "error TS" || true)
           echo "tsc --noEmit reported $COUNT error(s); baseline is $BASELINE"
           if [ "$COUNT" -gt "$BASELINE" ]; then
