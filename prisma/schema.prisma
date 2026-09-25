@@ -194,6 +194,13 @@ model CenterSubscription {
 /// allowance before it is written.
 enum AiOperation {
   SPEAKING_EVALUATION
+  /// One conversation with Elena. The unit Start sells — five a month — and
+  /// the unit an AI Speaking credit buys.
+  ///
+  /// A row rather than a counter, so the allowance is derived on read and
+  /// there is nothing to reset on a schedule and nothing that can drift from
+  /// the sessions it claims to describe.
+  SPEAKING_LIVE_SESSION
 }
 
 model CenterSeat {
