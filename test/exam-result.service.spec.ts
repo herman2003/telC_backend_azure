@@ -32,15 +32,30 @@ describe('ExamResultService', () => {
   let prisma: any;
   let service: ExamResultService;
 
+  /** Every call made on the mocked client, so an N+1 can be asserted. */
+  const countQueries = () =>
+    Object.values(prisma)
+      .flatMap((model) => Object.values(model as Record<string, unknown>))
+      .filter((fn): fn is jest.Mock => typeof fn === 'function' && 'mock' in fn)
+      .reduce((total, fn) => total + fn.mock.calls.length, 0);
+
   /** Every automatic Teil at the same percentage, which keeps the sums easy
    *  to check by hand. */
-  const autoAt = (percent: number) => ({
-    lesen: [1, 2, 3].map((teil) => ({ teil_id: String(teil), score: percent })),
+  const autoAt = (percent: number, attemptId = ATTEMPT) => ({
+    // exam_attempt_id is what groups a sitting's marks by candidate in one
+    // read, so the fixtures carry it as the real query selects it.
+    lesen: [1, 2, 3].map((teil) => ({
+      exam_attempt_id: attemptId,
+      teil_id: String(teil),
+      score: percent,
+    })),
     sprachbausteine: [1, 2].map((teil) => ({
+      exam_attempt_id: attemptId,
       teil_id: String(teil),
       score: percent,
     })),
     hoeren: [1, 2, 3].map((teil) => ({
+      exam_attempt_id: attemptId,
       exercise_id: String(teil),
       score: percent,
     })),
@@ -53,7 +68,9 @@ describe('ExamResultService', () => {
       auto.sprachbausteine,
     );
     prisma.listeningAttempt.findMany.mockResolvedValue(auto.hoeren);
-    prisma.examSectionResult.findMany.mockResolvedValue(manual);
+    prisma.examSectionResult.findMany.mockResolvedValue(
+      manual.map((mark) => ({ attempt_id: ATTEMPT, ...(mark as object) })),
+    );
   };
 
   beforeEach(() => {
@@ -175,6 +192,100 @@ describe('ExamResultService', () => {
       expect(result.written.points).toBe(134);
       expect(result.written.passed).toBe(false);
       expect(result.outcome).toBe('FAILED');
+    });
+  });
+
+  describe('a whole sitting at once', () => {
+    const attemptsFor = (count: number) =>
+      Array.from({ length: count }, (_, i) => ({
+        id: `attempt-${i}`,
+        student_id: `student-${i}`,
+        submitted_at: new Date(),
+        released_at: null,
+        student: {
+          first_name: `First${i}`,
+          last_name: `Last${i}`,
+          email: `s${i}@example.com`,
+        },
+      }));
+
+    beforeEach(() => {
+      prisma.examSession = {
+        findFirst: jest.fn().mockResolvedValue({
+          id: 'session-1',
+          level: 'B1',
+          attempts: attemptsFor(3),
+          participants: [],
+        }),
+      };
+      load(100, []);
+    });
+
+    it('reads the sitting in a fixed number of queries, not one per candidate', async () => {
+      // A school with four hundred candidates would otherwise mean sixteen
+      // hundred round trips to draw one table.
+      const before = countQueries();
+
+      await service.forSession('center-1', 'session-1');
+
+      const perCandidate = countQueries() - before;
+      expect(perCandidate).toBeLessThanOrEqual(6);
+    });
+
+    it('returns one row per candidate, named', async () => {
+      const table = await service.forSession('center-1', 'session-1');
+
+      expect(table.candidates).toHaveLength(3);
+      expect(table.candidates[0]).toMatchObject({
+        studentId: 'student-0',
+        firstName: 'First0',
+        outcome: 'INCOMPLETE',
+      });
+    });
+
+    it('counts what the manager needs to see at a glance', async () => {
+      const table = await service.forSession('center-1', 'session-1');
+
+      expect(table.summary).toMatchObject({
+        candidates: 3,
+        awaitingMarks: 3,
+        released: 0,
+      });
+    });
+
+    it('includes an admitted candidate who never turned up', async () => {
+      // A no-show is a row with nothing in it, not a missing row: a manager
+      // reconciling fifteen names against twelve results needs the three.
+      prisma.examSession.findFirst.mockResolvedValue({
+        id: 'session-1',
+        level: 'B1',
+        attempts: attemptsFor(1),
+        participants: [
+          {
+            student_id: 'absent-1',
+            student: {
+              first_name: 'Absent',
+              last_name: 'One',
+              email: 'absent@example.com',
+            },
+          },
+        ],
+      });
+
+      const table = await service.forSession('center-1', 'session-1');
+
+      expect(table.candidates).toHaveLength(2);
+      expect(
+        table.candidates.find((c) => c.studentId === 'absent-1'),
+      ).toMatchObject({ outcome: 'NOT_TAKEN', attemptId: null });
+    });
+
+    it('refuses a sitting belonging to another center', async () => {
+      prisma.examSession.findFirst.mockResolvedValue(null);
+
+      await expect(
+        service.forSession('center-1', 'session-1'),
+      ).rejects.toThrow('EXAM_SESSION_NOT_FOUND');
     });
   });
 

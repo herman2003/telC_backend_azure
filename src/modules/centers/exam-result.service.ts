@@ -10,6 +10,13 @@ export const HUMAN_MARKED: readonly Skill[] = ['SCHREIBEN', 'SPRECHEN'];
 
 export type ExamOutcome = 'PASSED' | 'FAILED' | 'INCOMPLETE';
 
+/** PERCENT comes from an answer key, POINTS from an examiner's form. */
+interface MarkedValue {
+  kind: 'PERCENT' | 'POINTS';
+  value: number;
+  markedBy: 'SERVER' | 'PERSON';
+}
+
 export interface ExamSectionResultView {
   skill: Skill;
   teil: number;
@@ -26,6 +33,32 @@ export interface ExamHalfView {
   maxPoints: number;
   percent: number;
   passed: boolean;
+}
+
+export interface ExamCandidateRow {
+  studentId: string;
+  attemptId: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  /** NOT_TAKEN for someone admitted who never started. */
+  outcome: ExamOutcome | 'NOT_TAKEN';
+  written: ExamHalfView | null;
+  oral: ExamHalfView | null;
+  awaiting: Skill[];
+  releasedAt: Date | null;
+}
+
+export interface ExamSessionResults {
+  sessionId: string;
+  candidates: ExamCandidateRow[];
+  summary: {
+    candidates: number;
+    awaitingMarks: number;
+    released: number;
+    passed: number;
+    failed: number;
+  };
 }
 
 export interface ExamResultView {
@@ -71,15 +104,40 @@ export class ExamResultService {
     if (!attempt) throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
 
     const weights = await this.weightsFor(attempt.session.level);
-    const marks = await this.marksFor(attemptId);
+    const marks = (await this.marksForMany([attemptId])).get(attemptId);
 
-    const sections = weights.map((weight) => {
+    const sections = this.sectionsOf(weights, marks ?? new Map());
+    const written = this.half(weights, sections, 'WRITTEN');
+    const oral = this.half(weights, sections, 'ORAL');
+    const awaiting = this.awaitingOf(sections);
+
+    return {
+      attemptId: attempt.id,
+      studentId: attempt.student_id,
+      submittedAt: attempt.submitted_at,
+      releasedAt: attempt.released_at,
+      sections,
+      written,
+      oral,
+      outcome: this.outcomeOf(awaiting, written, oral),
+      awaiting,
+    };
+  }
+
+  /**
+   * One Teil's mark, in telc's points.
+   *
+   * The two kinds arrive in different units and this is the only place that
+   * knows both: the server marks out of a hundred, because that is what an
+   * answer key gives, and a person marks in points, because that is what an
+   * examiner writes on the form.
+   */
+  private sectionsOf(
+    weights: { skill: Skill; teil: number; max_points: number; part: string }[],
+    marks: Map<string, MarkedValue>,
+  ): ExamSectionResultView[] {
+    return weights.map((weight) => {
       const mark = marks.get(`${weight.skill}_${weight.teil}`);
-
-      // The two kinds of mark arrive in different units, and this is the one
-      // place that knows both. The server marks out of a hundred because
-      // that is what an answer key gives; a person marks in telc's points
-      // because that is what an examiner writes on the form.
       const points =
         mark === undefined
           ? null
@@ -99,35 +157,126 @@ export class ExamResultService {
         markedBy: mark?.markedBy ?? null,
       } satisfies ExamSectionResultView;
     });
+  }
 
-    const written = this.half(weights, sections, 'WRITTEN');
-    const oral = this.half(weights, sections, 'ORAL');
-
-    // Only the two a person gives can be missing. An automatic Teil the
-    // candidate never reached was marked zero when the block was submitted.
-    const awaiting = HUMAN_MARKED.filter((skill) =>
+  /** Only the two a person gives can be missing. An automatic Teil the
+   *  candidate never reached was marked zero when the block was submitted. */
+  private awaitingOf(sections: ExamSectionResultView[]): Skill[] {
+    return HUMAN_MARKED.filter((skill) =>
       sections.some(
         (section) => section.skill === skill && section.points === null,
       ),
     );
+  }
+
+  /** A verdict with a mark missing would fail every candidate the moment they
+   *  put their pen down, since Sprechen happens days later. */
+  private outcomeOf(
+    awaiting: Skill[],
+    written: ExamHalfView,
+    oral: ExamHalfView,
+  ): ExamOutcome {
+    if (awaiting.length > 0) return 'INCOMPLETE';
+    return written.passed && oral.passed ? 'PASSED' : 'FAILED';
+  }
+
+  /**
+   * Every candidate in one sitting.
+   *
+   * Six queries whatever the size of the school, not four per candidate: a
+   * sitting of four hundred would otherwise be sixteen hundred round trips to
+   * draw one table. The marks come back in one read each and are grouped in
+   * memory.
+   */
+  async forSession(
+    centerId: string,
+    sessionId: string,
+  ): Promise<ExamSessionResults> {
+    const session = await this.prisma.examSession.findFirst({
+      // Scoped by center in the query: another school's sitting is a 404.
+      where: { id: sessionId, center_id: centerId },
+      select: {
+        id: true,
+        level: true,
+        attempts: {
+          select: {
+            id: true,
+            student_id: true,
+            submitted_at: true,
+            released_at: true,
+            student: {
+              select: { first_name: true, last_name: true, email: true },
+            },
+          },
+        },
+        participants: {
+          select: {
+            student_id: true,
+            student: {
+              select: { first_name: true, last_name: true, email: true },
+            },
+          },
+        },
+      },
+    });
+    if (!session) throw new NotFoundException('EXAM_SESSION_NOT_FOUND');
+
+    const weights = await this.weightsFor(session.level);
+    const attemptIds = session.attempts.map((attempt) => attempt.id);
+    const marks = await this.marksForMany(attemptIds);
+
+    const rows = session.attempts.map((attempt) => {
+      const sections = this.sectionsOf(
+        weights,
+        marks.get(attempt.id) ?? new Map(),
+      );
+      const written = this.half(weights, sections, 'WRITTEN');
+      const oral = this.half(weights, sections, 'ORAL');
+      const awaiting = this.awaitingOf(sections);
+
+      return {
+        studentId: attempt.student_id,
+        attemptId: attempt.id,
+        firstName: attempt.student.first_name,
+        lastName: attempt.student.last_name,
+        email: attempt.student.email,
+        outcome: this.outcomeOf(awaiting, written, oral),
+        written,
+        oral,
+        awaiting,
+        releasedAt: attempt.released_at,
+      } satisfies ExamCandidateRow;
+    });
+
+    // A no-show is a row with nothing in it, not a missing row: a manager
+    // reconciling fifteen names against twelve results needs the other three.
+    const sat = new Set(rows.map((row) => row.studentId));
+    for (const participant of session.participants) {
+      if (sat.has(participant.student_id)) continue;
+      rows.push({
+        studentId: participant.student_id,
+        attemptId: null,
+        firstName: participant.student.first_name,
+        lastName: participant.student.last_name,
+        email: participant.student.email,
+        outcome: 'NOT_TAKEN',
+        written: null,
+        oral: null,
+        awaiting: [],
+        releasedAt: null,
+      });
+    }
 
     return {
-      attemptId: attempt.id,
-      studentId: attempt.student_id,
-      submittedAt: attempt.submitted_at,
-      releasedAt: attempt.released_at,
-      sections,
-      written,
-      oral,
-      // A verdict with a mark missing would fail every candidate the moment
-      // they put their pen down, since Sprechen happens days later.
-      outcome:
-        awaiting.length > 0
-          ? 'INCOMPLETE'
-          : written.passed && oral.passed
-            ? 'PASSED'
-            : 'FAILED',
-      awaiting,
+      sessionId: session.id,
+      candidates: rows,
+      summary: {
+        candidates: rows.length,
+        awaitingMarks: rows.filter((row) => row.awaiting.length > 0).length,
+        released: rows.filter((row) => row.releasedAt !== null).length,
+        passed: rows.filter((row) => row.outcome === 'PASSED').length,
+        failed: rows.filter((row) => row.outcome === 'FAILED').length,
+      },
     };
   }
 
@@ -179,77 +328,80 @@ export class ExamResultService {
    * results table would be two records of one fact, and the one nobody looks
    * at is the one that drifts.
    */
-  private async marksFor(attemptId: string): Promise<
-    Map<
-      string,
-      {
-        /** PERCENT from an answer key, POINTS from an examiner's form. */
-        kind: 'PERCENT' | 'POINTS';
-        value: number;
-        markedBy: 'SERVER' | 'PERSON';
-      }
-    >
-  > {
-    const where = { exam_attempt_id: attemptId };
+  private async marksForMany(
+    attemptIds: string[],
+  ): Promise<Map<string, Map<string, MarkedValue>>> {
+    const byAttempt = new Map<string, Map<string, MarkedValue>>();
+    for (const id of attemptIds) byAttempt.set(id, new Map());
+    if (attemptIds.length === 0) return byAttempt;
+
+    // One read per table for the whole sitting rather than four per
+    // candidate: a school of four hundred is six queries, not sixteen
+    // hundred.
+    const where = { exam_attempt_id: { in: attemptIds } };
     const [lesen, sprachbausteine, hoeren, human] = await Promise.all([
       this.prisma.lesenAttempt.findMany({
         where,
-        select: { teil_id: true, score: true },
+        select: { exam_attempt_id: true, teil_id: true, score: true },
       }),
       this.prisma.sprachbausteineAttempt.findMany({
         where,
-        select: { teil_id: true, score: true },
+        select: { exam_attempt_id: true, teil_id: true, score: true },
       }),
       this.prisma.listeningAttempt.findMany({
         where,
-        select: { exercise_id: true, score: true },
+        select: { exam_attempt_id: true, exercise_id: true, score: true },
       }),
       this.prisma.examSectionResult.findMany({
-        where: { attempt_id: attemptId },
-        select: { skill: true, teil: true, points: true },
+        where: { attempt_id: { in: attemptIds } },
+        select: { attempt_id: true, skill: true, teil: true, points: true },
       }),
     ]);
 
-    const marks = new Map<
-      string,
-      {
-        kind: 'PERCENT' | 'POINTS';
-        value: number;
-        markedBy: 'SERVER' | 'PERSON';
-      }
-    >();
+    const put = (
+      attemptId: string | null,
+      skill: Skill,
+      teil: string | number,
+      mark: MarkedValue,
+    ) => {
+      if (!attemptId) return;
+      const teilNumber = Number(teil);
+      if (!Number.isInteger(teilNumber)) return;
+      byAttempt.get(attemptId)?.set(`${skill}_${teilNumber}`, mark);
+    };
 
     // The automatic rows hold percentages out of a hundred.
-    const auto: [Skill, { teil: string; score: number | null }[]][] = [
-      ['LESEN', lesen.map((r) => ({ teil: r.teil_id, score: r.score }))],
-      [
-        'SPRACHBAUSTEINE',
-        sprachbausteine.map((r) => ({ teil: r.teil_id, score: r.score })),
-      ],
-      ['HOEREN', hoeren.map((r) => ({ teil: r.exercise_id, score: r.score }))],
-    ];
-    for (const [skill, rows] of auto) {
-      for (const row of rows) {
-        const teil = Number(row.teil);
-        if (!Number.isInteger(teil)) continue;
-        marks.set(`${skill}_${teil}`, {
-          kind: 'PERCENT',
-          value: row.score ?? 0,
-          markedBy: 'SERVER',
-        });
-      }
+    for (const row of lesen) {
+      put(row.exam_attempt_id, 'LESEN', row.teil_id, {
+        kind: 'PERCENT',
+        value: row.score ?? 0,
+        markedBy: 'SERVER',
+      });
     }
-
+    for (const row of sprachbausteine) {
+      put(row.exam_attempt_id, 'SPRACHBAUSTEINE', row.teil_id, {
+        kind: 'PERCENT',
+        value: row.score ?? 0,
+        markedBy: 'SERVER',
+      });
+    }
+    for (const row of hoeren) {
+      put(row.exam_attempt_id, 'HOEREN', row.exercise_id, {
+        kind: 'PERCENT',
+        value: row.score ?? 0,
+        markedBy: 'SERVER',
+      });
+    }
     // A person's mark wins over anything automatic for the same Teil: it is
     // the later judgement, and the one somebody signed.
     for (const row of human) {
-      marks.set(`${row.skill}_${row.teil}`, {
+      put(row.attempt_id, row.skill, row.teil, {
         kind: 'POINTS',
         value: row.points,
         markedBy: 'PERSON',
       });
     }
 
-    return marks;
+    return byAttempt;
   }
 }
