@@ -9,7 +9,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsBoolean, IsInt, IsOptional, Min } from 'class-validator';
 import {
   ApiBearerAuth,
@@ -30,7 +30,15 @@ export class ListNotificationsQueryDto {
     description: 'What a bell shows: only the ones not yet read.',
   })
   @IsOptional()
-  @Type(() => Boolean)
+  // Not `@Type(() => Boolean)`: a query string carries text, and
+  // Boolean('false') is true — a student asking for everything would have
+  // silently received the unread list. Mapped by hand, and anything that is
+  // neither word is refused rather than guessed at.
+  @Transform(({ value }) => {
+    if (value === 'true' || value === true) return true;
+    if (value === 'false' || value === false) return false;
+    return value;
+  })
   @IsBoolean()
   unreadOnly?: boolean;
 
