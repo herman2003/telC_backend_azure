@@ -40,6 +40,10 @@ const EXEMPT: Record<string, string> = {
   // nothing. The access rule here is the participant row: no subscription
   // opens a sitting, and no lapsed one closes a sitting already bought.
   ExamSittingController: 'an exam seat is bought per candidate, not monthly',
+  // Being told something is not learning. A student whose center lapsed
+  // should still be told their exam result is ready — especially then, since
+  // the exam was paid for per candidate and separately from the monthly plan.
+  NotificationsController: 'a notification is not a lesson',
 };
 
 /** The seven the plan inventoried. Named so the scan cannot pass vacuously. */
