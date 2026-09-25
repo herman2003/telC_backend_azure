@@ -28,6 +28,7 @@ import { CenterErrorResponseDto } from './dto/center-error-response.dto';
 import { ExamResultService } from './exam-result.service';
 import { ExamGradingService } from './exam-grading.service';
 import { ExamReleaseService } from './exam-release.service';
+import { ExamExportService } from './exam-export.service';
 import {
   ExamCandidateRowDto,
   RecordExamMarkDto,
@@ -51,6 +52,7 @@ export class ExamResultsController {
     private readonly results: ExamResultService,
     private readonly grading: ExamGradingService,
     private readonly release: ExamReleaseService,
+    private readonly exporter: ExamExportService,
   ) {}
 
   @Get('exam-sessions/:sessionId/results')
@@ -83,6 +85,21 @@ export class ExamResultsController {
     @Param('attemptId', ParseUUIDPipe) attemptId: string,
   ) {
     return this.results.forAttempt(attemptId, user.centerId);
+  }
+
+  @Get('exam-sessions/:sessionId/results/export')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'The whole sitting as rows, for CSV or PDF',
+    description:
+      'Rows rather than a file: the dashboard and the app both render already, so a PDF built here would be a library and a font for nothing. Every number is finished — a client that worked one out would eventually disagree with the screen. Unpaginated on purpose: a file missing page two is not a file.',
+  })
+  @ApiNotFoundResponse({ type: CenterErrorResponseDto })
+  exportResults(
+    @CurrentCenterUser() user: CenterAccessTokenPayload,
+    @Param('sessionId', ParseUUIDPipe) sessionId: string,
+  ) {
+    return this.exporter.forSession(user.centerId, sessionId);
   }
 
   @Post('exam-sessions/:sessionId/results/release')

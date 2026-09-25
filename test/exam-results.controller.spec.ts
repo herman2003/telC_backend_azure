@@ -15,6 +15,7 @@ describe('ExamResultsController', () => {
   let results: any;
   let grading: any;
   let release: any;
+  let exporter: any;
   let controller: ExamResultsController;
 
   beforeEach(() => {
@@ -27,7 +28,13 @@ describe('ExamResultsController', () => {
       releaseSession: jest.fn().mockResolvedValue({ released: 3 }),
       releaseAttempt: jest.fn().mockResolvedValue({ released: 1 }),
     };
-    controller = new ExamResultsController(results, grading, release);
+    exporter = { forSession: jest.fn().mockResolvedValue({ rows: [] }) };
+    controller = new ExamResultsController(
+      results,
+      grading,
+      release,
+      exporter,
+    );
   });
 
   it('is behind the center guard', () => {
@@ -58,6 +65,12 @@ describe('ExamResultsController', () => {
     await controller.releaseSession(user, 'session-1', {});
 
     expect(release.releaseSession).toHaveBeenCalledWith(user, 'session-1', {});
+  });
+
+  it('exports a sitting scoped to the signed center', async () => {
+    await controller.exportResults(user, 'session-1');
+
+    expect(exporter.forSession).toHaveBeenCalledWith('center-1', 'session-1');
   });
 
   it('records a mark as the signed manager', async () => {
