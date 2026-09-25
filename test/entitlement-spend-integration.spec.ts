@@ -322,3 +322,59 @@ describe('spending under load', () => {
     await expect(poolOf(center.id)).resolves.toBe(40);
   });
 });
+
+describe('what the student reads', () => {
+  it('answers all three products and the freeze in one call', async () => {
+    const { center, student, code } = await makeSeat();
+    await fillPool(center.id, 40);
+    await setCap(code.id, 10);
+    await usedSessions(student.id, 2);
+    await prisma.codeEntitlement.create({
+      data: {
+        code_id: code.id,
+        product: 'PREP_PASS',
+        expires_at: new Date(Date.now() + 40 * DAY_MS),
+      },
+    });
+
+    const mine = await spend.forStudent(student.id);
+
+    expect(mine).toMatchObject({
+      prepPass: { active: true },
+      aiAssisted: { active: false, expiresAt: null },
+      aiSpeaking: { freeRemaining: 3, creditsAvailable: 10 },
+      frozen: false,
+    });
+  });
+
+  it('shows what is waiting rather than zeroes when the centre has lapsed', async () => {
+    // The screen that explains why nothing works. Reporting nothing would
+    // leave the app unable to tell "you have none" from "yours are frozen".
+    const { center, student, code } = await makeSeat(
+      new Date(Date.now() - 60 * DAY_MS),
+    );
+    await fillPool(center.id, 60);
+    await setCap(code.id, 10);
+
+    const mine = await spend.forStudent(student.id);
+
+    expect(mine.frozen).toBe(true);
+    expect(mine.prepPass.active).toBe(false);
+  });
+
+  it('caps what it reports at what the seat may actually draw', async () => {
+    // The pool holds forty, this seat may take four more. Four is the number
+    // the student can use, and the only one worth showing them.
+    const { center, student, code } = await makeSeat();
+    await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
+    await fillPool(center.id, 40);
+    await setCap(code.id, 10, 6);
+
+    const mine = await spend.forStudent(student.id);
+
+    expect(mine.aiSpeaking).toMatchObject({
+      freeRemaining: 0,
+      creditsAvailable: 4,
+    });
+  });
+});

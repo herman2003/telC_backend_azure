@@ -75,6 +75,26 @@ export interface EntitlementDecision {
   expiresAt: Date | null;
 }
 
+export interface HeldPeriodView {
+  active: boolean;
+  expiresAt: Date | null;
+}
+
+export interface StudentEntitlementsView {
+  prepPass: HeldPeriodView;
+  aiAssisted: HeldPeriodView;
+  aiSpeaking: {
+    freeRemaining: number;
+    resetsAt: Date;
+    /** What this student can actually use: the smaller of the pool and what
+     *  is left of their cap. */
+    creditsAvailable: number;
+  };
+  /** True when the centre's Start subscription has lapsed. Everything above
+   *  is what they will have back the moment it is paid. */
+  frozen: boolean;
+}
+
 /** Products that are a balance drawn against a cap. Everything else is a
  *  period. */
 const COUNTED: ReadonlySet<EntitlementProduct> = new Set([
@@ -261,6 +281,46 @@ export class EntitlementSpendService {
         throw new ForbiddenException('NO_CREDITS_REMAINING');
       }
     });
+  }
+
+  /**
+   * Everything the app needs to decide what to show, in one call.
+   *
+   * Three products and one flag rather than three round trips, because a
+   * client assembling this itself would be a fourth place that has to know
+   * which product is a period and which is a balance.
+   *
+   * A frozen centre still gets real numbers back, not zeroes: the student
+   * should be able to see what is waiting for them.
+   */
+  async forStudent(
+    studentId: string,
+    now = new Date(),
+  ): Promise<StudentEntitlementsView> {
+    const [prepPass, aiAssisted, aiSpeaking] = await Promise.all([
+      this.mayUse(studentId, 'PREP_PASS', now),
+      this.mayUse(studentId, 'AI_ASSISTED_LEARNING', now),
+      this.mayUse(studentId, 'AI_SPEAKING_CREDIT', now),
+    ]);
+
+    const frozen = prepPass.reason === 'FROZEN';
+
+    return {
+      prepPass: {
+        active: prepPass.allowed,
+        expiresAt: prepPass.expiresAt,
+      },
+      aiAssisted: {
+        active: aiAssisted.allowed,
+        expiresAt: aiAssisted.expiresAt,
+      },
+      aiSpeaking: {
+        freeRemaining: aiSpeaking.freeRemaining,
+        resetsAt: aiSpeaking.resetsAt ?? quotaWindowEnd(now),
+        creditsAvailable: aiSpeaking.creditsAvailable,
+      },
+      frozen,
+    };
   }
 
   /** How many of the month's free sessions are left. */
