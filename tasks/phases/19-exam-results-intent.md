@@ -61,6 +61,15 @@ Sprachbausteine already marked and Schreiben and Sprechen waiting, types the
 two missing marks, watches the verdict compute itself on telc's rule, presses
 release, and the candidate sees exactly what was released and nothing more.
 
+## What changed while building it
+
+| | |
+|---|---|
+| Releasing an incomplete result needs `allowIncomplete` | Planned as always-allowed. Made explicit instead, so "we told them before the oral" is a decision the server saw rather than something a client did quietly |
+| Marking is gated per block, not per attempt | The plan said a finished exam. A candidate who walked out before Hoeren could then never have their oral recorded, and the oral happened in a room regardless |
+| One batched assembler behind both result paths | Releasing a sitting called the single-candidate path per candidate — the same N+1 the table had just been batched to avoid |
+| `prisma.config.ts` fixed on the way past | `directUrl` is not in Prisma 7's datasource type, was ignored, and every migration had been running over the pooler |
+
 ## Open questions
 
 None. The pass rule, the release behaviour and who may grade were all settled
