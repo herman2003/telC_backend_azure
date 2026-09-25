@@ -96,16 +96,47 @@ export class LiveSessionLimitService {
    * admission call, so two simultaneous requests cannot both take the last one.
    */
   async acquire(caller: LiveSessionCaller, sessionId: string): Promise<void> {
-    // First, and read-only. A student who already has Elena open is not
-    // competing for anything shared, so finding out must not cost them one of
-    // the sessions they are entitled to — and the answer is about them alone.
-    if (await this.holdsLiveSession(caller)) {
+    // First, and the claim IS the check. Reading whether this student holds a
+    // slot and then taking it leaves a window a double tap fits through, and
+    // both requests would be granted — which is the bug this whole rule
+    // exists to prevent. It costs them nothing to be refused here: their own
+    // pool is not shared with anybody, so nothing else has been touched yet.
+    const liveKey = this.liveKeyFor(caller);
+    if (liveKey && !(await this.claimLiveSlot(liveKey, sessionId))) {
       throw this.refuse(
         'elenaSessionAlreadyOpen',
         'Vous avez déjà une session ouverte avec Elena. Terminez-la avant d’en commencer une autre.',
       );
     }
 
+    try {
+      await this.passSharedGates(caller, sessionId);
+    } catch (error) {
+      // Claimed before the shared gates, so it has to be handed back when one
+      // of them refuses. A student turned away by a full pool must not also
+      // lose five minutes of their own.
+      if (liveKey) await this.dropLiveSlot(liveKey, sessionId);
+      throw error;
+    }
+
+    this.rememberStart(sessionId);
+
+    this.logger.log(
+      JSON.stringify({ event: 'elena.session.granted', sessionId }),
+    );
+  }
+
+  /**
+   * Everything that is shared with other callers: the pool, the caller's daily
+   * allowance, the global budget, and the concurrency slot.
+   *
+   * Split out so `acquire` can undo the student's own claim when one of these
+   * refuses, without the undo being buried in four places.
+   */
+  private async passSharedGates(
+    caller: LiveSessionCaller,
+    sessionId: string,
+  ): Promise<void> {
     if (await this.poolIsFull()) {
       throw this.refuse(
         'elenaBusyNow',
@@ -137,69 +168,44 @@ export class LiveSessionLimitService {
         'Elena parle avec quelqu’un d’autre. Réessayez dans quelques minutes.',
       );
     }
-
-    // After the atomic claim above, so a caller that lost the race for the
-    // last shared slot leaves no live slot of their own behind.
-    await this.takeLiveSlot(caller, sessionId);
-
-    this.rememberStart(sessionId);
-
-    this.logger.log(
-      JSON.stringify({ event: 'elena.session.granted', sessionId }),
-    );
   }
 
   /**
-   * Whether this caller already has a conversation open.
+   * Takes this student's one place, or reports that it is already taken.
    *
-   * Registered students only. Guests are keyed by IP, and a school or a
-   * cybercafé is one IP: a per-identity live slot would let one visitor block
-   * the building. Their spend is bounded by the daily IP cap instead, which is
-   * what it was already doing.
+   * A pool of exactly one, claimed through the same atomic call the shared
+   * pool uses. The fallback checks and sets without awaiting in between, so
+   * two requests on one process cannot both find it free either.
    */
-  private async holdsLiveSession(caller: LiveSessionCaller): Promise<boolean> {
-    const key = this.liveKeyFor(caller);
-    if (!key) return false;
-
-    const distributed = await this.valkey?.countConcurrent(
-      key,
-      this.sessionMaxSeconds,
-    );
-    if (distributed !== null && distributed !== undefined) {
-      return distributed >= 1;
-    }
-
-    const held = this.localLiveSlots.get(key);
-    if (!held) return false;
-    if (held.expiresAt <= Date.now()) {
-      // Expiry rather than a release call, for the same reason the shared pool
-      // works that way: an app that dies never tells us. A student whose phone
-      // crashed waits out the session ceiling, not the day.
-      this.localLiveSlots.delete(key);
-      return false;
-    }
-    return true;
-  }
-
-  private async takeLiveSlot(
-    caller: LiveSessionCaller,
+  private async claimLiveSlot(
+    key: string,
     sessionId: string,
-  ): Promise<void> {
-    const key = this.liveKeyFor(caller);
-    if (!key) return;
-
+  ): Promise<boolean> {
     const distributed = await this.valkey?.trackConcurrent(
       key,
       sessionId,
       1,
       this.sessionMaxSeconds,
     );
-    if (distributed !== null && distributed !== undefined) return;
+    if (distributed !== null && distributed !== undefined) return distributed;
+
+    const held = this.localLiveSlots.get(key);
+    // Expiry rather than a release call, for the same reason the shared pool
+    // works that way: an app that dies never tells us. A student whose phone
+    // crashed waits out the session ceiling, not the day.
+    if (held && held.expiresAt > Date.now()) return false;
 
     this.localLiveSlots.set(key, {
       sessionId,
       expiresAt: Date.now() + this.sessionMaxSeconds * 1000,
     });
+    return true;
+  }
+
+  private async dropLiveSlot(key: string, sessionId: string): Promise<void> {
+    const held = this.localLiveSlots.get(key);
+    if (held?.sessionId === sessionId) this.localLiveSlots.delete(key);
+    await this.valkey?.releaseConcurrent(key, sessionId);
   }
 
   private rememberStart(sessionId: string): void {
@@ -271,11 +277,7 @@ export class LiveSessionLimitService {
     // they just made room for. Without a caller — an older client, or a
     // release from somewhere that does not know who — it lapses on its own.
     const key = caller ? this.liveKeyFor(caller) : null;
-    if (key) {
-      const held = this.localLiveSlots.get(key);
-      if (held?.sessionId === sessionId) this.localLiveSlots.delete(key);
-      await this.valkey?.releaseConcurrent(key, sessionId);
-    }
+    if (key) await this.dropLiveSlot(key, sessionId);
     this.logger.log(
       JSON.stringify({ event: 'elena.session.released', sessionId }),
     );

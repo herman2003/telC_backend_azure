@@ -251,6 +251,49 @@ describe('LiveSessionLimitService', () => {
       }
     });
 
+    it('refuses the second of two simultaneous starts', async () => {
+      // A double tap, or a retry racing the first request. Reading whether a
+      // slot is held and then taking it leaves a window where both callers
+      // read "free" — which is why the claim itself has to be the check.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_GLOBAL_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      const outcomes = await Promise.allSettled([
+        service.acquire(STUDENT, 'a'),
+        service.acquire(STUDENT, 'b'),
+      ]);
+
+      expect(
+        outcomes.filter((outcome) => outcome.status === 'fulfilled'),
+      ).toHaveLength(1);
+    });
+
+    it('gives the slot back when a later cap refuses the session', async () => {
+      // The live slot is claimed before the shared gates, so a student turned
+      // away by a full pool must not be left holding a place of their own —
+      // that would lock them out of Elena for five minutes over somebody
+      // else's traffic.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '1',
+      });
+
+      await service.acquire({ ...STUDENT, studentId: 'other' }, 'fills-pool');
+      expect(await messageKeyOf(service.acquire(STUDENT, 'refused'))).toBe(
+        'elenaBusyNow',
+      );
+
+      await service.release('fills-pool', {
+        ...STUDENT,
+        studentId: 'other',
+      });
+
+      await expect(service.acquire(STUDENT, 'now-ok')).resolves.toBeUndefined();
+    });
+
     it('leaves another student alone', async () => {
       const service = makeService({
         ELENA_IP_DAILY_MAX: '99',
