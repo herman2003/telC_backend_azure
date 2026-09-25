@@ -10,7 +10,23 @@ import { ExamResultService, type ExamResultView } from './exam-result.service';
 
 export interface ReleaseSummary {
   released: number;
+  /** How many went out with a mark still missing. */
+  incomplete: number;
   releasedAt: Date;
+}
+
+export interface ReleaseOptions {
+  /**
+   * Release results a human has not finished marking.
+   *
+   * Off by default, and refused rather than warned about. Telling a candidate
+   * "pending" before the oral is a real thing a center may want — someone
+   * needing a written score for a deadline — but it is a decision, and a
+   * decision the server should have seen. When that candidate later asks why
+   * they were told nothing was final, "the dashboard sent it" is not an
+   * answer anybody can use.
+   */
+  allowIncomplete?: boolean;
 }
 
 export type ReleasedResult = Omit<ExamResultView, 'releasedAt'> & {
@@ -40,6 +56,7 @@ export class ExamReleaseService {
   async releaseSession(
     identity: SignedCenterIdentity,
     sessionId: string,
+    options: ReleaseOptions = {},
   ): Promise<ReleaseSummary> {
     const session = await this.prisma.examSession.findFirst({
       // Scoped in the query: another school's sitting is a 404, not a 403.
@@ -48,18 +65,42 @@ export class ExamReleaseService {
     });
     if (!session) throw new NotFoundException('EXAM_SESSION_NOT_FOUND');
 
-    const releasedAt = new Date();
-    for (const attempt of session.attempts) {
-      await this.snapshot(attempt.id, identity.centerId, releasedAt);
+    // Every result is computed before anything is written, so a sitting is
+    // either released whole or not at all. Half a class told their marks and
+    // half not, because the refusal came in the middle, is the worst outcome
+    // here.
+    const results = await Promise.all(
+      session.attempts.map((attempt) =>
+        this.results.forAttempt(attempt.id, identity.centerId),
+      ),
+    );
+    const incomplete = results.filter(
+      (result) => result.awaiting.length > 0,
+    ).length;
+
+    if (incomplete > 0 && !options.allowIncomplete) {
+      throw new BadRequestException({
+        message: 'RESULTS_INCOMPLETE',
+        incomplete,
+        // So the dashboard's warning can name a number rather than a vague
+        // "some results".
+        total: results.length,
+      });
     }
 
-    return { released: session.attempts.length, releasedAt };
+    const releasedAt = new Date();
+    for (const result of results) {
+      await this.store(result, releasedAt);
+    }
+
+    return { released: results.length, incomplete, releasedAt };
   }
 
   /** Releases one candidate — the late oral, the corrected mark. */
   async releaseAttempt(
     identity: SignedCenterIdentity,
     attemptId: string,
+    options: ReleaseOptions = {},
   ): Promise<ReleaseSummary> {
     const attempt = await this.prisma.examAttempt.findFirst({
       where: { id: attemptId, session: { center_id: identity.centerId } },
@@ -67,10 +108,21 @@ export class ExamReleaseService {
     });
     if (!attempt) throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
 
-    const releasedAt = new Date();
-    await this.snapshot(attemptId, identity.centerId, releasedAt);
+    const result = await this.results.forAttempt(attemptId, identity.centerId);
+    const incomplete = result.awaiting.length > 0 ? 1 : 0;
 
-    return { released: 1, releasedAt };
+    if (incomplete && !options.allowIncomplete) {
+      throw new BadRequestException({
+        message: 'RESULTS_INCOMPLETE',
+        incomplete,
+        total: 1,
+      });
+    }
+
+    const releasedAt = new Date();
+    await this.store(result, releasedAt);
+
+    return { released: 1, incomplete, releasedAt };
   }
 
   /**
@@ -103,22 +155,13 @@ export class ExamReleaseService {
     } as ReleasedResult;
   }
 
-  /**
-   * Freezes one candidate's result as it stands.
-   *
-   * An incomplete result is released if the center asks for it. Refusing
-   * would make a candidate wait a week for the oral before learning anything
-   * at all, and "you passed the written half" is worth telling them.
-   */
-  private async snapshot(
-    attemptId: string,
-    centerId: string,
+  /** Freezes one candidate's result as it stands. */
+  private async store(
+    result: ExamResultView,
     releasedAt: Date,
   ): Promise<void> {
-    const result = await this.results.forAttempt(attemptId, centerId);
-
     await this.prisma.examAttempt.update({
-      where: { id: attemptId },
+      where: { id: result.attemptId },
       data: {
         released_at: releasedAt,
         released_result: result as unknown as Prisma.InputJsonValue,

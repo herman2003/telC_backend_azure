@@ -74,25 +74,54 @@ describe('ExamReleaseService', () => {
       expect(released.released).toBe(2);
     });
 
-    it('releases an incomplete result when the center chooses to', async () => {
-      // The written marks now, the verdict after the oral. Refusing would
-      // make a candidate wait a week to learn anything at all.
+    it('refuses to release results that are still incomplete', async () => {
+      // Releasing before the oral is marked is a real thing a center may
+      // want, and a thing it should have to say out loud. A candidate who
+      // later asks why they were told "pending" deserves an answer better
+      // than "the dashboard sent it".
       results.forAttempt.mockResolvedValue(
         resultOf({ outcome: 'INCOMPLETE', awaiting: ['SPRECHEN'] }),
       );
 
+      await expect(
+        service.releaseSession(identity, 'session-1'),
+      ).rejects.toThrow('RESULTS_INCOMPLETE');
+      expect(prisma.examAttempt.update).not.toHaveBeenCalled();
+    });
+
+    it('says how many are incomplete, so the warning can name a number', async () => {
+      results.forAttempt.mockResolvedValue(
+        resultOf({ outcome: 'INCOMPLETE', awaiting: ['SPRECHEN'] }),
+      );
+
+      await expect(
+        service.releaseSession(identity, 'session-1'),
+      ).rejects.toMatchObject({
+        response: expect.objectContaining({
+          message: 'RESULTS_INCOMPLETE',
+          incomplete: 2,
+        }),
+      });
+    });
+
+    it('releases them anyway when the center says so', async () => {
+      // The written marks now, the verdict after the oral — for the
+      // candidate who needs a score before the oral has happened.
+      results.forAttempt.mockResolvedValue(
+        resultOf({ outcome: 'INCOMPLETE', awaiting: ['SPRECHEN'] }),
+      );
+
+      const released = await service.releaseSession(identity, 'session-1', {
+        allowIncomplete: true,
+      });
+
+      expect(released).toMatchObject({ released: 2, incomplete: 2 });
+    });
+
+    it('needs no permission when every mark is in', async () => {
       const released = await service.releaseSession(identity, 'session-1');
 
-      expect(released.released).toBe(2);
-      expect(prisma.examAttempt.update).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: expect.objectContaining({
-            released_result: expect.objectContaining({
-              outcome: 'INCOMPLETE',
-            }),
-          }),
-        }),
-      );
+      expect(released).toMatchObject({ released: 2, incomplete: 0 });
     });
 
     it('replaces an earlier release rather than adding to it', async () => {

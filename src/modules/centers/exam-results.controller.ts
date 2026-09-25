@@ -31,6 +31,7 @@ import { ExamReleaseService } from './exam-release.service';
 import {
   ExamCandidateRowDto,
   RecordExamMarkDto,
+  ReleaseResultsDto,
 } from './dto/exam-results.dto';
 
 /**
@@ -89,14 +90,19 @@ export class ExamResultsController {
   @ApiOperation({
     summary: 'Let this sitting see their results',
     description:
-      'Freezes each candidate result as it stands and shows it to them. May be done more than once — the written marks now, the verdict after the oral — and releasing again replaces what they see. An incomplete result is released if you ask for it: "you passed the written half" is worth telling somebody a week before the oral is marked.',
+      'Freezes each candidate result as it stands and shows it to them. May be done more than once — the written marks now, the verdict after the oral — and releasing again replaces what they see. Refused while any mark is missing unless you send allowIncomplete, so releasing before the oral is a decision on the record.',
+  })
+  @ApiBadRequestResponse({
+    description:
+      'RESULTS_INCOMPLETE, with how many are unmarked. Send allowIncomplete to go ahead.',
   })
   @ApiNotFoundResponse({ type: CenterErrorResponseDto })
   releaseSession(
     @CurrentCenterUser() user: CenterAccessTokenPayload,
     @Param('sessionId', ParseUUIDPipe) sessionId: string,
+    @Body() dto: ReleaseResultsDto,
   ) {
-    return this.release.releaseSession(user, sessionId);
+    return this.release.releaseSession(user, sessionId, dto);
   }
 
   @Post('exam-attempts/:attemptId/results/release')
@@ -109,8 +115,9 @@ export class ExamResultsController {
   releaseAttempt(
     @CurrentCenterUser() user: CenterAccessTokenPayload,
     @Param('attemptId', ParseUUIDPipe) attemptId: string,
+    @Body() dto: ReleaseResultsDto,
   ) {
-    return this.release.releaseAttempt(user, attemptId);
+    return this.release.releaseAttempt(user, attemptId, dto);
   }
 
   @Put('exam-attempts/:attemptId/marks')

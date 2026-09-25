@@ -1,6 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsIn, IsInt, IsOptional, IsString, MaxLength, Min } from 'class-validator';
+import {
+  IsBoolean,
+  IsIn,
+  IsInt,
+  IsOptional,
+  IsString,
+  MaxLength,
+  Min,
+} from 'class-validator';
 import { Skill } from '@prisma/client';
 import { Trim } from './center-validation.decorators';
 
@@ -39,6 +47,17 @@ export class RecordExamMarkDto {
   @IsString()
   @MaxLength(500)
   note?: string;
+}
+
+export class ReleaseResultsDto {
+  @ApiPropertyOptional({
+    default: false,
+    description:
+      'Release results a human has not finished marking. Off by default: the server refuses rather than warns, so that "we told them before the oral" is a decision somebody made and not something a client did quietly.',
+  })
+  @IsOptional()
+  @IsBoolean()
+  allowIncomplete?: boolean;
 }
 
 export class ExamHalfDto {

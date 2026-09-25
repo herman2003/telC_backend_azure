@@ -55,9 +55,9 @@ describe('ExamResultsController', () => {
   });
 
   it('releases a sitting as the signed center', async () => {
-    await controller.releaseSession(user, 'session-1');
+    await controller.releaseSession(user, 'session-1', {});
 
-    expect(release.releaseSession).toHaveBeenCalledWith(user, 'session-1');
+    expect(release.releaseSession).toHaveBeenCalledWith(user, 'session-1', {});
   });
 
   it('records a mark as the signed manager', async () => {
