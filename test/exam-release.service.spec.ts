@@ -224,6 +224,26 @@ describe('ExamReleaseService', () => {
       expect(prisma.examAttempt.update).toHaveBeenCalledTimes(1);
     });
 
+    it('does not freeze the AI suggestions into what the student reads', async () => {
+      // A suggestion is for the examiner deciding a mark, not for the
+      // candidate reading one. Releasing it would show a student "the machine
+      // said 32" beside the number a person actually gave them — and the
+      // sitting-wide release, which batches, never carried them anyway.
+      results.forAttempt.mockResolvedValue({
+        ...resultOf(),
+        suggestions: [
+          { skill: 'SPRECHEN', source: 'AI', points: 50, transcript: 'Ich...' },
+        ],
+      });
+
+      await service.releaseAttempt(identity, 'attempt-1');
+
+      const stored = prisma.examAttempt.update.mock.calls[0][0].data
+        .released_result;
+      expect(stored.suggestions).toBeUndefined();
+      expect(stored.outcome).toBeDefined();
+    });
+
     it('refuses an attempt belonging to another center', async () => {
       prisma.examAttempt.findFirst.mockResolvedValue(null);
 
