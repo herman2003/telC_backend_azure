@@ -40,6 +40,15 @@ const guestReq = {
   },
 } satisfies { student: AccessTokenPayload };
 
+const studentReq = {
+  student: {
+    type: 'access',
+    studentId: 'student-1',
+    deviceId: 'device-1',
+    isGuest: false,
+  },
+} satisfies { student: AccessTokenPayload };
+
 describe('LiveTokenController', () => {
   let controller: LiveTokenController;
 
@@ -147,9 +156,31 @@ describe('LiveTokenController', () => {
         teilNumber: 2,
       });
 
-      await controller.endLiveSession({ sessionId: minted.sessionId });
+      await controller.endLiveSession('1.2.3.4', guestReq, {
+        sessionId: minted.sessionId,
+      });
 
-      expect(mockLimitService.release).toHaveBeenCalledWith(minted.sessionId);
+      expect(mockLimitService.release).toHaveBeenCalledWith(
+        minted.sessionId,
+        expect.objectContaining({ isGuest: true }),
+      );
+    });
+
+    it('says who is ending it, so their own live slot is freed too', async () => {
+      // Releasing the shared pool and leaving the student's own place taken
+      // would lock them out of the session they just made room for.
+      const minted = await controller.createLiveToken('1.2.3.4', studentReq, {
+        teilNumber: 1,
+      });
+
+      await controller.endLiveSession('1.2.3.4', studentReq, {
+        sessionId: minted.sessionId,
+      });
+
+      expect(mockLimitService.release).toHaveBeenCalledWith(
+        minted.sessionId,
+        expect.objectContaining({ studentId: 'student-1', isGuest: false }),
+      );
     });
 
     it('returns the same sessionId it reserved the slot under', async () => {

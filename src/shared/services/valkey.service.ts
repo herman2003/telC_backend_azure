@@ -178,7 +178,7 @@ export class ValkeyService implements OnModuleInit, OnApplicationShutdown {
    *
    * The pool is TTL-driven so an abandoned session always frees itself; this is
    * the fast path for a session that ended cleanly, which matters because a
-   * two-minute conversation would otherwise hold a slot for the full ten.
+   * two-minute conversation would otherwise hold a slot for the full five.
    */
   async releaseConcurrent(key: string, member: string): Promise<void> {
     if (!this.client?.isReady) return;

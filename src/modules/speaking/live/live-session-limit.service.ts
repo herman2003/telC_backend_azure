@@ -10,6 +10,10 @@ import { ValkeyService } from '../../../shared/services/valkey.service';
 
 const CONCURRENT_KEY = 'elena:active';
 
+/** One student, one live conversation. The key is per student, so the pool it
+ *  describes has exactly one place in it. */
+const liveSlotKey = (studentId: string) => `elena:live:student:${studentId}`;
+
 export interface LiveSessionCaller {
   /** Client IP. The only stable identity a guest has — see {@link LiveSessionLimitService.identityKey}. */
   ip: string;
@@ -36,6 +40,21 @@ export class LiveSessionLimitService {
   private readonly cache = new NodeCache();
   /** member → expiry epoch ms. Fallback for the concurrency pool only. */
   private readonly localSlots = new Map<string, number>();
+  /** student key → the session they hold and when it lapses. The same
+   *  fallback, for the per-student pool. */
+  private readonly localLiveSlots = new Map<
+    string,
+    { sessionId: string; expiresAt: number }
+  >();
+  /**
+   * sessionId → when it was granted, for the duration in the closing log line.
+   *
+   * Telemetry, not a limit, so it lives in this process and nothing depends on
+   * it being complete: a restart loses the starts it was holding and those
+   * sessions close with a null duration rather than a wrong one. Pruned on the
+   * ceiling, so an app that never calls /end cannot grow this map for ever.
+   */
+  private readonly sessionStarts = new Map<string, number>();
 
   private readonly ipMax: number;
   private readonly ipWindowSeconds: number;
@@ -49,8 +68,12 @@ export class LiveSessionLimitService {
       parseInt(process.env.ELENA_IP_WINDOW_MINUTES || '1440', 10) * 60;
     this.globalMax = parseInt(process.env.ELENA_GLOBAL_DAILY_MAX || '50', 10);
     this.concurrentMax = parseInt(process.env.ELENA_CONCURRENT_MAX || '2', 10);
+    // Five, not ten. It is what Start promises, and it is also what keeps the
+    // promise affordable: the Live API bills tokens, not minutes, so earlier
+    // audio is reprocessed as the conversation grows and a ten-minute session
+    // costs more than two five-minute ones.
     this.sessionMaxSeconds =
-      parseInt(process.env.GEMINI_LIVE_SESSION_MAX_MINUTES || '10', 10) * 60;
+      parseInt(process.env.GEMINI_LIVE_SESSION_MAX_MINUTES || '5', 10) * 60;
   }
 
   get sessionSeconds(): number {
@@ -73,6 +96,47 @@ export class LiveSessionLimitService {
    * admission call, so two simultaneous requests cannot both take the last one.
    */
   async acquire(caller: LiveSessionCaller, sessionId: string): Promise<void> {
+    // First, and the claim IS the check. Reading whether this student holds a
+    // slot and then taking it leaves a window a double tap fits through, and
+    // both requests would be granted — which is the bug this whole rule
+    // exists to prevent. It costs them nothing to be refused here: their own
+    // pool is not shared with anybody, so nothing else has been touched yet.
+    const liveKey = this.liveKeyFor(caller);
+    if (liveKey && !(await this.claimLiveSlot(liveKey, sessionId))) {
+      throw this.refuse(
+        'elenaSessionAlreadyOpen',
+        'Vous avez déjà une session ouverte avec Elena. Terminez-la avant d’en commencer une autre.',
+      );
+    }
+
+    try {
+      await this.passSharedGates(caller, sessionId);
+    } catch (error) {
+      // Claimed before the shared gates, so it has to be handed back when one
+      // of them refuses. A student turned away by a full pool must not also
+      // lose five minutes of their own.
+      if (liveKey) await this.dropLiveSlot(liveKey, sessionId);
+      throw error;
+    }
+
+    this.rememberStart(sessionId);
+
+    this.logger.log(
+      JSON.stringify({ event: 'elena.session.granted', sessionId }),
+    );
+  }
+
+  /**
+   * Everything that is shared with other callers: the pool, the caller's daily
+   * allowance, the global budget, and the concurrency slot.
+   *
+   * Split out so `acquire` can undo the student's own claim when one of these
+   * refuses, without the undo being buried in four places.
+   */
+  private async passSharedGates(
+    caller: LiveSessionCaller,
+    sessionId: string,
+  ): Promise<void> {
     if (await this.poolIsFull()) {
       throw this.refuse(
         'elenaBusyNow',
@@ -104,10 +168,62 @@ export class LiveSessionLimitService {
         'Elena parle avec quelqu’un d’autre. Réessayez dans quelques minutes.',
       );
     }
+  }
 
-    this.logger.log(
-      JSON.stringify({ event: 'elena.session.granted', sessionId }),
+  /**
+   * Takes this student's one place, or reports that it is already taken.
+   *
+   * A pool of exactly one, claimed through the same atomic call the shared
+   * pool uses. The fallback checks and sets without awaiting in between, so
+   * two requests on one process cannot both find it free either.
+   */
+  private async claimLiveSlot(
+    key: string,
+    sessionId: string,
+  ): Promise<boolean> {
+    const distributed = await this.valkey?.trackConcurrent(
+      key,
+      sessionId,
+      1,
+      this.sessionMaxSeconds,
     );
+    if (distributed !== null && distributed !== undefined) return distributed;
+
+    const held = this.localLiveSlots.get(key);
+    // Expiry rather than a release call, for the same reason the shared pool
+    // works that way: an app that dies never tells us. A student whose phone
+    // crashed waits out the session ceiling, not the day.
+    if (held && held.expiresAt > Date.now()) return false;
+
+    this.localLiveSlots.set(key, {
+      sessionId,
+      expiresAt: Date.now() + this.sessionMaxSeconds * 1000,
+    });
+    return true;
+  }
+
+  private async dropLiveSlot(key: string, sessionId: string): Promise<void> {
+    const held = this.localLiveSlots.get(key);
+    if (held?.sessionId === sessionId) this.localLiveSlots.delete(key);
+    await this.valkey?.releaseConcurrent(key, sessionId);
+  }
+
+  private rememberStart(sessionId: string): void {
+    const now = Date.now();
+    const ceiling = this.sessionMaxSeconds * 1000;
+    for (const [id, startedAt] of this.sessionStarts) {
+      // Anything past the ceiling ended without telling us, which is the case
+      // /live-session/end exists to avoid and cannot be relied on to cover.
+      if (now - startedAt > ceiling) this.sessionStarts.delete(id);
+    }
+    this.sessionStarts.set(sessionId, now);
+  }
+
+  /** Null for anyone this rule does not apply to. */
+  private liveKeyFor(caller: LiveSessionCaller): string | null {
+    return caller.isGuest || !caller.studentId
+      ? null
+      : liveSlotKey(caller.studentId);
   }
 
   /**
@@ -152,11 +268,35 @@ export class LiveSessionLimitService {
    * capability held by whoever was given the id at mint time, which is a random
    * UUID never shared with anyone else.
    */
-  async release(sessionId: string): Promise<void> {
+  async release(sessionId: string, caller?: LiveSessionCaller): Promise<void> {
     this.localSlots.delete(sessionId);
     await this.valkey?.releaseConcurrent(CONCURRENT_KEY, sessionId);
+
+    // The caller's own slot goes with it. Freeing the shared pool and leaving
+    // the student's own place taken would lock them out of the very session
+    // they just made room for. Without a caller — an older client, or a
+    // release from somewhere that does not know who — it lapses on its own.
+    const key = caller ? this.liveKeyFor(caller) : null;
+    if (key) await this.dropLiveSlot(key, sessionId);
     this.logger.log(
       JSON.stringify({ event: 'elena.session.released', sessionId }),
+    );
+
+    // Separate from the line above, and the one worth keeping. Every cost
+    // estimate for Elena assumes a conversation runs the full ceiling; this is
+    // the number that says whether that is true. Null when this process never
+    // saw the start — a zero there would quietly drag the average down.
+    const startedAt = this.sessionStarts.get(sessionId);
+    this.sessionStarts.delete(sessionId);
+    this.logger.log(
+      JSON.stringify({
+        event: 'elena.session.ended',
+        sessionId,
+        durationSeconds:
+          startedAt === undefined
+            ? null
+            : Math.round((Date.now() - startedAt) / 1000),
+      }),
     );
   }
 
@@ -183,10 +323,7 @@ export class LiveSessionLimitService {
     if (distributed !== null && distributed !== undefined) return distributed;
 
     if (this.pruneLocalSlots() >= this.concurrentMax) return false;
-    this.localSlots.set(
-      sessionId,
-      Date.now() + this.sessionMaxSeconds * 1000,
-    );
+    this.localSlots.set(sessionId, Date.now() + this.sessionMaxSeconds * 1000);
     return true;
   }
 

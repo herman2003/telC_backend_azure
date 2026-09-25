@@ -27,7 +27,10 @@ import {
   ExaminerPromptService,
   ExaminerTopic,
 } from './examiner-prompt.service';
-import { LiveSessionLimitService } from './live-session-limit.service';
+import {
+  LiveSessionCaller,
+  LiveSessionLimitService,
+} from './live-session-limit.service';
 import { CreateLiveTokenDto } from './dto/create-live-token.dto';
 import { EndLiveSessionDto } from './dto/end-live-session.dto';
 import { LiveTokenResponseDto } from './dto/live-token-response.dto';
@@ -70,7 +73,10 @@ export class LiveTokenController {
   @ApiTooManyRequestsResponse({
     description:
       'A cap was hit. messageKey is one of elenaDailyLimit, elenaBusyToday, ' +
-      'elenaBusyNow — each maps to a different message and all offer the human room.',
+      'elenaBusyNow, elenaSessionAlreadyOpen — each maps to a different ' +
+      'message and all offer the human room. elenaSessionAlreadyOpen means ' +
+      'this student already has Elena open: end that one first. It costs ' +
+      'them nothing.',
   })
   async createLiveToken(
     @Ip() ip: string,
@@ -79,14 +85,7 @@ export class LiveTokenController {
   ): Promise<LiveTokenResponseDto> {
     const sessionId = randomUUID();
 
-    await this.limitService.acquire(
-      {
-        ip: ip || 'unknown',
-        studentId: req.student?.studentId,
-        isGuest: req.student?.isGuest === true,
-      },
-      sessionId,
-    );
+    await this.limitService.acquire(this.callerOf(ip, req), sessionId);
 
     const topic = await this.loadTopic(dto.teilNumber, dto.modelltest ?? 1);
     const instruction = this.promptService.build(dto.teilNumber, topic);
@@ -125,13 +124,33 @@ export class LiveTokenController {
       'Call when the conversation ends. The pool of concurrent sessions is ' +
       'otherwise TTL-driven — the backend never learns that a ' +
       'browser-to-Google session finished — so a two-minute conversation ' +
-      'would hold a slot for the full session ceiling and keep others out. ' +
+      'would hold a slot for the full session ceiling and keep others out, ' +
+      'including the student themselves, who may only have one open at a ' +
+      'time. ' +
       'Idempotent, and always 204: an unknown or already-released id is not ' +
       'reported, so this cannot be used to probe which sessions exist.',
   })
   @ApiNoContentResponse({ description: 'Slot released, or was not held' })
-  async endLiveSession(@Body() dto: EndLiveSessionDto): Promise<void> {
-    await this.limitService.release(dto.sessionId);
+  async endLiveSession(
+    @Ip() ip: string,
+    @Request() req: { student?: AccessTokenPayload },
+    @Body() dto: EndLiveSessionDto,
+  ): Promise<void> {
+    // Who is ending it, not only which session. A student holds a live slot of
+    // their own beside the shared one, and freeing the pool while leaving that
+    // taken would lock them out of the session they just made room for.
+    await this.limitService.release(dto.sessionId, this.callerOf(ip, req));
+  }
+
+  private callerOf(
+    ip: string,
+    req: { student?: AccessTokenPayload },
+  ): LiveSessionCaller {
+    return {
+      ip: ip || 'unknown',
+      studentId: req.student?.studentId,
+      isGuest: req.student?.isGuest === true,
+    };
   }
 
   /**
