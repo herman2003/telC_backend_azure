@@ -136,6 +136,13 @@ model Center {
   /// a candidate who does not turn up has still used theirs.
   exam_slots_remaining Int @default(0)
 
+  /// Slots for the 1,500 XAF product, counted apart from the 1,000 one.
+  ///
+  /// Two columns rather than one with a tier, because they are two prices: a
+  /// center holding ten cheap slots must not be able to run ten AI exams,
+  /// and a single pool would have to remember what each slot cost.
+  exam_ai_slots_remaining Int @default(0)
+
   users            CenterUser[]
   activation_codes ActivationCode[]
   exam_sessions    ExamSession[]
@@ -308,6 +315,9 @@ model ActivationCodeEvent {
 enum PaymentKind {
   SEATS
   EXAM_SLOTS
+  /// The 1,500 XAF tier. Its own value rather than a flag beside EXAM_SLOTS,
+  /// so an invoice reads back as the product that was actually sold.
+  EXAM_SLOTS_AI
 }
 
 enum PaymentStatus {

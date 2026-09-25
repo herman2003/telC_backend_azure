@@ -61,14 +61,15 @@ export class ExamSlotsController {
   @ApiOperation({
     summary: 'How many exam slots this center holds',
     description:
-      'One is spent per candidate when a sitting is published. Publishing is refused when the balance would not cover every candidate.',
+      'Both products, counted apart. One is spent per candidate when a sitting is published, from the pool matching what the sitting was published as, and publishing is refused when that pool would not cover every candidate.',
   })
   @ApiOkResponse({ type: ExamSlotBalanceDto })
   @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })
-  async balance(
+  balance(
     @CurrentCenterUser() user: CenterAccessTokenPayload,
   ): Promise<ExamSlotBalanceDto> {
-    return { slotsRemaining: await this.slots.balance(user) };
+    // Both pools, because a center may hold some of each.
+    return this.slots.balance(user);
   }
 
   @Post('purchase')
@@ -91,7 +92,7 @@ export class ExamSlotsController {
     @CurrentCenterUser() user: CenterAccessTokenPayload,
     @Body() dto: PurchaseExamSlotsDto,
     @Headers('idempotency-key') idempotencyKey?: string,
-  ): Promise<ExamSlotPaymentDto> {
+  ) {
     // The same limiter as seats, keyed on the center: the idempotency index
     // stops duplicates of one intent, and nothing stops a flood of distinct
     // ones, because a fresh key is a fresh payment by design.
@@ -101,6 +102,7 @@ export class ExamSlotsController {
       user,
       dto.quantity,
       this.requireIdempotencyKey(idempotencyKey),
+      dto.tier ?? 'MANUAL',
     );
   }
 

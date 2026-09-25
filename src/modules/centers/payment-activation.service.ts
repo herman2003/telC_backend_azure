@@ -111,12 +111,19 @@ export class PaymentActivationService {
       // What the money bought. Exam slots are a balance, not a period: a
       // center that buys slots is not thereby paid up, and a center that is
       // paid up does not thereby hold slots.
-      if (payment.kind === 'EXAM_SLOTS') {
+      // Both exam products, each into its own pool. Matching only
+      // EXAM_SLOTS would send an AI purchase down the seats path: it would
+      // extend the subscription, overwrite the seat row, and leave the
+      // center with no exam slots at all for money it had spent.
+      if (payment.kind === 'EXAM_SLOTS' || payment.kind === 'EXAM_SLOTS_AI') {
+        const pool =
+          payment.kind === 'EXAM_SLOTS_AI'
+            ? { exam_ai_slots_remaining: { increment: payment.quantity } }
+            : { exam_slots_remaining: { increment: payment.quantity } };
+
         await tx.center.update({
           where: { id: payment.center_id },
-          data: {
-            exam_slots_remaining: { increment: payment.quantity },
-          },
+          data: pool,
         });
 
         const subscription = await tx.centerSubscription.findUnique({

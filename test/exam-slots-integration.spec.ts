@@ -231,6 +231,45 @@ describe('buying exam slots', () => {
     await expect(balanceOf(center.id)).resolves.toBe(5);
   });
 
+  it('credits the AI pool, and only the AI pool', async () => {
+    // Without its own branch an EXAM_SLOTS_AI payment falls through to the
+    // seats path: it would extend the subscription and overwrite the seat
+    // row, and the center would get no exam slots at all.
+    const { center, identity } = await makeCenter();
+    const payment = await slots.purchase(identity, 5, 'key-ai', 'AI');
+
+    await activation.activate(payment.id);
+
+    const after = await prisma.center.findUniqueOrThrow({
+      where: { id: center.id },
+      select: {
+        exam_slots_remaining: true,
+        exam_ai_slots_remaining: true,
+      },
+    });
+    expect(after).toEqual({
+      exam_slots_remaining: 0,
+      exam_ai_slots_remaining: 5,
+    });
+    // And the subscription is where it was.
+    await expect(subscriptionOf(center.id)).resolves.toMatchObject({
+      plan: 'TRIAL',
+      paid_until: null,
+    });
+  });
+
+  it('charges 1,500 a candidate for it', async () => {
+    const { identity } = await makeCenter();
+
+    const payment = await slots.purchase(identity, 5, 'key-ai', 'AI');
+
+    expect(payment).toMatchObject({
+      kind: 'EXAM_SLOTS_AI',
+      unitPriceXaf: 1_500,
+      amountXaf: 7_500,
+    });
+  });
+
   it('refuses a center that has not finished its profile', async () => {
     const center = await prisma.center.create({
       data: {
