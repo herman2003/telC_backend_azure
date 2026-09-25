@@ -11,6 +11,7 @@ import { CenterSubscriptionController } from './center-subscription.controller';
 import { CenterSubscriptionService } from './center-subscription.service';
 import { CenterStudentsController } from './center-students.controller';
 import { ExamSessionsController } from './exam-sessions.controller';
+import { EntitlementsController } from './entitlements.controller';
 import { ExamSlotsController } from './exam-slots.controller';
 import { ExamResultsController } from './exam-results.controller';
 import { ExamResultService } from './exam-result.service';
@@ -18,6 +19,7 @@ import { ExamGradingService } from './exam-grading.service';
 import { ExamReleaseService } from './exam-release.service';
 import { ExamExportService } from './exam-export.service';
 import { NotificationsService } from '../../shared/services/notifications.service';
+import { EntitlementsService } from './entitlements.service';
 import { ExamSlotsService } from './exam-slots.service';
 import { ExamSessionsService } from './exam-sessions.service';
 import { ExamParticipantsService } from './exam-participants.service';
@@ -61,6 +63,7 @@ import { CenterSupportService } from './center-support.service';
     CenterSubscriptionController,
     CenterStudentsController,
     ExamSessionsController,
+    EntitlementsController,
     ExamSlotsController,
     ExamResultsController,
     CenterSupportController,
@@ -77,6 +80,7 @@ import { CenterSupportService } from './center-support.service';
     CodeRedemptionService,
     CenterSupportService,
     ExamSessionsService,
+    EntitlementsService,
     ExamSlotsService,
     ExamResultService,
     ExamGradingService,
