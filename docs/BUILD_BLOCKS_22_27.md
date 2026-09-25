@@ -92,97 +92,76 @@ now:** the product has not launched, production is demo data, and there is no
 student whose history could be punished. Dead code with a future date in it
 never gets deleted.
 
-## Block 23 — The entitlement foundation ⬅ the block that matters
+## Block 23 — The entitlement foundation, delivering AI Speaking credits
 
-### Intent
+> **Design:** `ENTITLEMENTS_INTERFACE_DESIGN.md` · **Decision:** `adr/0002` ·
+> **Spec:** `ENTITLEMENTS_SPEC.md`. All three agreed 2026-09-25.
 
-Three of the five products are held by a **student**, not a center: Prep Pass
-(60 days), AI Speaking credits (a balance), AI Assisted Learning (a monthly
-add-on). The schema has nowhere to put any of them. A center holds seats and
-exam slots; a student holds nothing.
+### Why block 24 is folded in here
 
-Build one shape that all three reuse:
+An abstraction with no consumer is a guess. Tasks 1–5 are plumbing nobody can
+buy; task 6 makes Elena draw on it, and at that point **AI Speaking credits
+work end to end** — bought, pooled, capped, spent. The foundation is proven by
+a real product instead of by the next block discovering it is the wrong shape.
 
-- an **entitlement** row: which student, which product, and either a balance or
-  an expiry
-- new `PaymentKind` values for the three products
-- one service that **grants** on a verified webhook and **spends** on use
-- the center pays; the student holds. See the ADR in step 2
+### The shape
 
-### Why it is the expensive one
+```
+a POOL is counted          a CAP is permission        an ASSIGNMENT is timed
+(center_id, product)       (code_id, product)         (code_id, product)
+ balance: 40                cap: 10, used: 6           expires_at: …
+```
 
-24, 25 and 26 are each a few days *if this is right* and a rewrite each if it
-is not. Every hour spent on the shape here is repaid three times.
+The cap sits on the **activation code**, not the student: a code exists before
+anybody holds it, so a centre can buy ahead, and a seat that changes hands
+carries what was bought for it.
 
-### Decision already taken
+### Settled while speccing
 
-**The center pays, always.** The schema is B2B2C, the offer sheet prices
-everything "par élève" sold to the centre, and student-direct payment would
-mean a new checkout plus app-store rules on mobile. Students never see money.
-Record it, do not re-litigate it.
+| | |
+|---|---|
+| `payments.metadata Json?` | the manager's chosen codes and cap have to survive from the purchase to the webhook, and there is no column anywhere for that |
+| the Elena conversation is the unit | it becomes a row in `ai_usage`; the monthly allowance is derived from it, so nothing resets on a schedule |
+| grading loses its own allowance | a correction after a paid session must not meet a second counter. One with no session behind it counts as a session. The burst limit stays |
+| a cap is total, not monthly | a monthly cap needs a reset job, which this codebase does not have, or derived counting, which breaks when a seat changes hands |
+
+### The tasks
+
+| | task | delivers |
+|---|---|---|
+| 1 | three tables, the enums, `payments.metadata`, the migration | the shape |
+| 2 | grant on the verified webhook, into the pool | money lands before anything is handed out |
+| 3 | caps: set, remove, list | the manager's screen |
+| 4 | `mayUse` / `spend`, and the Start freeze | the interface all three products call |
+| 5 | `GET /api/me/entitlements` | what the app renders |
+| 6 | **22b** — Elena as a row, 5 a month, credits after | the first real consumer of task 4 |
 
 ### Skills, in order
 
-| | Skill | What it must produce |
+| | Skill | note |
 |---|---|---|
-| 1 | `/api-and-interface-design` | **The step of this block.** The entitlement table, the endpoints a center uses to buy for N students, the endpoint a student's client reads to know what they hold, and the internal spend interface. Design it against all three future products at once, not just the first |
-| 2 | `/documentation-and-adrs` | One ADR: *the center pays, the student holds.* With the alternatives rejected and why, because this will be questioned in six months |
-| 3 | `/spec-driven-development` | The spec, built on the shape from step 1 |
-| 4 | `/planning-and-task-breakdown` | The split. This is too big for one pass — expect 4–6 tasks, each shippable |
-| 5 | `/agent-skills:build` | Build, one task at a time, TDD |
-| 6 | `/security-and-hardening` | It grants paid things from a webhook. Check: replay, idempotency, a grant that cannot be forged, a spend that cannot go negative under concurrency, and a center that cannot grant to another center's student |
-| 7 | `/code-review-and-quality` | Review before merge |
+| 1 | `/api-and-interface-design` | ✅ done |
+| 2 | `/documentation-and-adrs` | ✅ done — ADR 0002 |
+| 3 | `/spec-driven-development` | ✅ done |
+| 4 | `/agent-skills:build` | one task at a time |
+| 5 | `/security-and-hardening` | it grants paid things from a webhook |
+| 6 | `/code-review-and-quality` | before merge |
 
-### 🛑 Human checkpoints
+🛑 **Human checkpoints** — any finding on the money path is reported before it
+is fixed; the four suites before merge.
 
-- **After step 1** — the user reads the table and the endpoints before any
-  spec. This is the one review that pays for itself.
-- **After step 4** — the user approves the task split before building.
-- **After step 6** — any finding on the money path is reported to the user
-  before it is fixed, not after.
-- **Before merge** — the four suites.
-
-### Done when
-
-A center can buy a product for a named set of its students, a verified webhook
-grants it, a student's client can read what they hold, spending it is atomic,
-and nothing in the design is specific to any one of the three products.
+**Done when** a centre buys 40 credits for four seats, the webhook grants them,
+a fifth student with no cap is refused, a student spends their five free
+sessions before any credit, two simultaneous spends of the last credit leave
+the pool at zero rather than minus one, and a lapsed centre freezes without
+losing anything.
 
 ---
 
-## Block 24 — AI Speaking credits
+## Block 24 — folded into block 23
 
-### Intent
-
-**300 FCFA per credit. 1 credit = one 5-minute AI session.** A center buys a
-pack, the credits go to its students, and a student who has used their 5 Start
-sessions spends credits instead.
-
-Pure balance. If block 23 is right, this is the exam-slot pattern with a
-different noun.
-
-### Skills, in order
-
-| | Skill | What it must produce |
-|---|---|---|
-| 1 | `/spec-driven-development` | What a credit is, what spends one, whether it expires, and the order of spend: Start's 5 free sessions first, then credits |
-| 2 | `/agent-skills:build` | Build |
-| 3 | `/code-review-and-quality` | Review before merge |
-
-The spine, nothing more. If this block starts wanting a design skill, block 23
-was not finished.
-
-### 🛑 Human checkpoints
-
-- **After step 1** — confirm two things: do credits expire, and are they held
-  per student or pooled by the center for any student to draw on?
-- **Before merge** — the four suites.
-
-### Done when
-
-A center buys 100 credits, a student out of free sessions spends one, the
-balance drops by exactly one under concurrent calls, and the free allowance is
-always used first.
+AI Speaking credits ship with the foundation that carries them. The number is
+kept rather than reused, so nothing in the history has to be renumbered.
 
 ---
 
@@ -303,6 +282,7 @@ The whole block. Nothing starts without it.
 
 ## The order, in one line
 
-**22a** (small, no schema) → **23** (with 22b inside it) (the shape everything reuses) → **24**
-(easiest real product) → **25** (same shape, an expiry) → **26** (four
-sub-blocks, mostly AI) → **27** (a conversation) → **ship**.
+**22a** done → **23** the shape, with 22b and AI Speaking credits inside it →
+**25** Prep Pass, same shape plus an expiry → **26** AI Assisted Learning, four
+sub-blocks and mostly AI rather than payment → **27** a conversation, not code
+→ **ship**. Block 24 is folded into 23.
