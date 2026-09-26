@@ -4,10 +4,12 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   HttpCode,
   HttpStatus,
   Param,
   ParseUUIDPipe,
+  Post,
   Put,
   UseFilters,
   UseGuards,
@@ -15,6 +17,9 @@ import {
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiHeader,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -28,12 +33,19 @@ import { CenterExceptionFilter } from './center-exception.filter';
 import { CurrentCenterUser } from './decorators/current-center-user.decorator';
 import { CenterAuthGuard } from './guards/center-auth.guard';
 import { CenterErrorResponseDto } from './dto/center-error-response.dto';
+import { RateLimitService } from '../../shared/services/rate-limit.service';
+import { EntitlementPurchaseService } from './entitlement-purchase.service';
 import { EntitlementsService } from './entitlements.service';
 import {
+  EntitlementPaymentDto,
   EntitlementsOverviewDto,
   GrantedPeriodDto,
+  PurchaseEntitlementsDto,
   SetCapDto,
 } from './dto/entitlements.dto';
+
+/** Long enough for a uuid and then some; anything longer is a client bug. */
+const MAX_IDEMPOTENCY_KEY_LENGTH = 200;
 
 const PRODUCTS = new Set<string>(Object.values(EntitlementProduct));
 
@@ -54,7 +66,11 @@ const PRODUCTS = new Set<string>(Object.values(EntitlementProduct));
 @UseFilters(CenterExceptionFilter)
 @UseGuards(CenterAuthGuard)
 export class EntitlementsController {
-  constructor(private readonly entitlements: EntitlementsService) {}
+  constructor(
+    private readonly entitlements: EntitlementsService,
+    private readonly purchases: EntitlementPurchaseService,
+    private readonly rateLimitService: RateLimitService,
+  ) {}
 
   @Get('entitlements')
   @HttpCode(HttpStatus.OK)
@@ -67,6 +83,48 @@ export class EntitlementsController {
   @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })
   overview(@CurrentCenterUser() user: CenterAccessTokenPayload) {
     return this.entitlements.overview(user);
+  }
+
+  @Post('entitlements/purchase')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({
+    summary: 'Buy an add-on',
+    description:
+      'Records the intention and grants nothing: only a verified provider event credits the pool. Open it at POST /api/payments/{paymentId}/checkout, exactly as for seats and exam slots. Picking seats here is optional \u2014 a center may top the pool up now and decide who draws on it later.',
+  })
+  @ApiHeader({
+    name: 'Idempotency-Key',
+    required: true,
+    description:
+      'A value unique to this attempt, such as a uuid. Retrying with it is safe; reusing it for a different product, quantity or set of seats is refused, because all three are part of what was agreed.',
+  })
+  @ApiCreatedResponse({ type: EntitlementPaymentDto })
+  @ApiBadRequestResponse({ type: CenterErrorResponseDto })
+  @ApiConflictResponse({
+    description: 'IDEMPOTENCY_KEY_REUSED',
+    type: CenterErrorResponseDto,
+  })
+  async purchase(
+    @CurrentCenterUser() user: CenterAccessTokenPayload,
+    @Body() dto: PurchaseEntitlementsDto,
+    @Headers('idempotency-key') idempotencyKey?: string,
+  ) {
+    // The same limiter as seats and exam slots, keyed on the center: the
+    // idempotency index stops duplicates of one intent, and nothing stops a
+    // flood of distinct ones, because a fresh key is a fresh payment by
+    // design.
+    await this.rateLimitService.checkPaymentCreateLimit(user.centerId);
+
+    return this.purchases.purchase(
+      user,
+      this.requireIdempotencyKey(idempotencyKey),
+      {
+        product: dto.product,
+        quantity: dto.quantity,
+        codeIds: dto.codeIds,
+        capPerCode: dto.capPerCode,
+      },
+    );
   }
 
   @Put('codes/:codeId/entitlements/:product')
@@ -119,6 +177,16 @@ export class EntitlementsController {
     @Param('product') product: string,
   ) {
     return this.entitlements.revoke(user, codeId, this.requireProduct(product));
+  }
+
+  private requireIdempotencyKey(raw?: string): string {
+    const key = raw?.trim();
+
+    if (!key || key.length > MAX_IDEMPOTENCY_KEY_LENGTH) {
+      throw new BadRequestException('IDEMPOTENCY_KEY_REQUIRED');
+    }
+
+    return key;
   }
 
   /** A path parameter is a string until something checks it. */

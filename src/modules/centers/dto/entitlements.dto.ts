@@ -1,7 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, Max, Min } from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayUnique,
+  IsArray,
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsUUID,
+  Max,
+  Min,
+} from 'class-validator';
 import { EntitlementProduct } from '@prisma/client';
+import { MAX_ENTITLEMENTS_PER_ORDER } from '../entitlement-purchase.service';
+
+/** Enough seats for a large school in one order. */
+const MAX_CODES = 500;
 
 /**
  * Deliberately generous, and deliberately bounded.
@@ -24,6 +38,70 @@ export class SetCapDto {
   @Min(0)
   @Max(MAX_CAP)
   cap: number;
+}
+
+export class PurchaseEntitlementsDto {
+  @ApiProperty({
+    enum: EntitlementProduct,
+    description:
+      'Which add-on. Priced server-side: 300 XAF a credit, 3,000 a Prep Pass, 2,000 a month of AI Assisted Learning.',
+  })
+  @IsEnum(EntitlementProduct)
+  product: EntitlementProduct;
+
+  @ApiProperty({
+    example: 40,
+    minimum: 1,
+    maximum: MAX_ENTITLEMENTS_PER_ORDER,
+    description:
+      'How many. Credits go into the pool and are drawn against a cap; passes and months are taken from the pool one at a time as they are handed out.',
+  })
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(MAX_ENTITLEMENTS_PER_ORDER)
+  quantity: number;
+
+  @ApiPropertyOptional({
+    type: [String],
+    description:
+      'The seats this is being bought for, as activation code ids. Optional: a center may top the pool up now and decide who draws on it later. Applied by the webhook, never at this request \u2014 nothing is granted before money moves.',
+  })
+  @IsOptional()
+  @IsArray()
+  @ArrayUnique()
+  @ArrayMaxSize(MAX_CODES)
+  @IsUUID('4', { each: true })
+  codeIds?: string[];
+
+  @ApiPropertyOptional({
+    example: 10,
+    minimum: 1,
+    description:
+      'How much of the pool each chosen seat may draw. Required alongside codeIds; without it the pool is credited and no cap is set.',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  capPerCode?: number;
+}
+
+export class EntitlementPaymentDto {
+  @ApiProperty() id: string;
+  @ApiProperty({ enum: EntitlementProduct }) kind: EntitlementProduct;
+  @ApiProperty({ example: 40 }) quantity: number;
+  @ApiProperty({ example: 300 }) unitPriceXaf: number;
+  @ApiProperty({ example: 12000 }) amountXaf: number;
+
+  @ApiProperty({
+    example: 'PENDING',
+    description:
+      'Always PENDING here. Only a verified provider event turns it into an entitlement.',
+  })
+  status: string;
+
+  @ApiProperty() createdAt: Date;
 }
 
 export class PoolDto {

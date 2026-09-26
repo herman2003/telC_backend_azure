@@ -19,6 +19,7 @@ import { ExamGradingService } from './exam-grading.service';
 import { ExamReleaseService } from './exam-release.service';
 import { ExamExportService } from './exam-export.service';
 import { NotificationsService } from '../../shared/services/notifications.service';
+import { EntitlementPurchaseService } from './entitlement-purchase.service';
 import { EntitlementsService } from './entitlements.service';
 import { ExamSlotsService } from './exam-slots.service';
 import { ExamSessionsService } from './exam-sessions.service';
@@ -80,6 +81,7 @@ import { CenterSupportService } from './center-support.service';
     CodeRedemptionService,
     CenterSupportService,
     ExamSessionsService,
+    EntitlementPurchaseService,
     EntitlementsService,
     ExamSlotsService,
     ExamResultService,
