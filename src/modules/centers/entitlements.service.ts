@@ -53,9 +53,22 @@ export interface CapView {
 
 export interface EntitlementsOverview {
   pools: PoolView[];
-  caps: CapView[];
+  /** How many seats hold a cap, per product. The seats themselves are a page
+   *  at a time — see {@link EntitlementsService.cappedCodes}. */
+  capped: { product: EntitlementProduct; seats: number }[];
   assigned: { product: EntitlementProduct; seats: number }[];
 }
+
+export interface CappedCodesPage {
+  codes: CapView[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+/** A dashboard table, not a data export. */
+const MAX_PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = 20;
 
 /**
  * What a center holds, and who may draw on it.
@@ -77,24 +90,26 @@ export class EntitlementsService {
     private readonly policy: SubscriptionPolicyService,
   ) {}
 
-  /** Everything the manager's screen renders. */
+  /**
+   * The summary a manager's screen opens with.
+   *
+   * Counts rather than lists. A center with five hundred codes across three
+   * products would otherwise be sent fifteen hundred rows every time the
+   * dashboard loaded, to render two numbers; the seats themselves come a page
+   * at a time from `cappedCodes`.
+   */
   async overview(
     identity: SignedCenterIdentity,
   ): Promise<EntitlementsOverview> {
-    const [pools, caps, assigned, frozen] = await Promise.all([
+    const [pools, capped, assigned, frozen] = await Promise.all([
       this.prisma.centerEntitlementPool.findMany({
         where: { center_id: identity.centerId },
         select: { product: true, balance: true },
       }),
-      this.prisma.codeEntitlementCap.findMany({
-        where: { code: { center_id: identity.centerId } },
-        select: {
-          code_id: true,
-          product: true,
-          cap: true,
-          used: true,
-          code: { select: { code: true, linked_name: true } },
-        },
+      this.prisma.codeEntitlementCap.groupBy({
+        by: ['product'],
+        where: { code: { center_id: identity.centerId }, cap: { gt: 0 } },
+        _count: { _all: true },
       }),
       this.prisma.codeEntitlement.groupBy({
         by: ['product'],
@@ -109,7 +124,74 @@ export class EntitlementsService {
 
     return {
       pools: pools.map((pool) => ({ ...pool, frozen })),
-      caps: caps.map((row) => ({
+      capped: capped.map((row) => ({
+        product: row.product,
+        seats: row._count._all,
+      })),
+      assigned: assigned.map((row) => ({
+        product: row.product,
+        seats: row._count._all,
+      })),
+    };
+  }
+
+  /**
+   * One page of the seats that may draw on a pool.
+   *
+   * Paged because a school's seat count is not bounded by anything this
+   * service controls, and an unbounded list endpoint is a slow page waiting
+   * for its first big customer.
+   *
+   * Zero caps are included: a seat a manager stopped is exactly the row they
+   * come here to find and raise again.
+   */
+  async cappedCodes(
+    identity: SignedCenterIdentity,
+    product: EntitlementProduct,
+    query: { page?: number; pageSize?: number; search?: string } = {},
+  ): Promise<CappedCodesPage> {
+    const page = Math.max(1, Math.trunc(query.page ?? 1));
+    const pageSize = Math.min(
+      MAX_PAGE_SIZE,
+      Math.max(1, Math.trunc(query.pageSize ?? DEFAULT_PAGE_SIZE)),
+    );
+
+    const where = {
+      product,
+      code: {
+        center_id: identity.centerId,
+        ...(query.search
+          ? {
+              OR: [
+                { code: { contains: query.search, mode: 'insensitive' } },
+                {
+                  linked_name: { contains: query.search, mode: 'insensitive' },
+                },
+              ],
+            }
+          : {}),
+      },
+    } satisfies Prisma.CodeEntitlementCapWhereInput;
+
+    const [rows, total] = await Promise.all([
+      this.prisma.codeEntitlementCap.findMany({
+        where,
+        select: {
+          code_id: true,
+          product: true,
+          cap: true,
+          used: true,
+          code: { select: { code: true, linked_name: true } },
+        },
+        orderBy: { code: { code: 'asc' } },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+      this.prisma.codeEntitlementCap.count({ where }),
+    ]);
+
+    return {
+      codes: rows.map((row) => ({
         codeId: row.code_id,
         code: row.code.code,
         holder: row.code.linked_name,
@@ -117,10 +199,9 @@ export class EntitlementsService {
         cap: row.cap,
         used: row.used,
       })),
-      assigned: assigned.map((row) => ({
-        product: row.product,
-        seats: row._count._all,
-      })),
+      total,
+      page,
+      pageSize,
     };
   }
 

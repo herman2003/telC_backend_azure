@@ -216,13 +216,7 @@ describe('what the centre sees', () => {
         { product: 'PREP_PASS', balance: 5, frozen: false },
       ]),
     );
-    expect(view.caps).toEqual([
-      expect.objectContaining({
-        product: 'AI_SPEAKING_CREDIT',
-        cap: 12,
-        used: 0,
-      }),
-    ]);
+    expect(view.capped).toEqual([{ product: 'AI_SPEAKING_CREDIT', seats: 1 }]);
     expect(view.assigned).toEqual([{ product: 'PREP_PASS', seats: 1 }]);
   });
 
@@ -263,7 +257,7 @@ describe('what the centre sees', () => {
     const view = await entitlements.overview(identity(mine.id));
 
     expect(view.pools).toEqual([]);
-    expect(view.caps).toEqual([]);
+    expect(view.capped).toEqual([]);
   });
 });
 
@@ -314,5 +308,72 @@ describe('stopping a seat', () => {
     expect(
       Math.abs(still.expires_at.getTime() - granted.expiresAt.getTime()),
     ).toBeLessThan(CLOCK_TOLERANCE_MS);
+  });
+});
+
+describe('the seat list is paged', () => {
+  /** A school with more seats than fits in one summary response. */
+  async function centreWithCaps(count: number) {
+    const center = await makeCenter();
+    await fillPool(center.id, 'AI_SPEAKING_CREDIT', 500);
+    for (let i = 0; i < count; i++) {
+      const code = await makeCode(center.id);
+      await prisma.codeEntitlementCap.create({
+        data: { code_id: code.id, product: 'AI_SPEAKING_CREDIT', cap: 10 },
+      });
+    }
+    return center;
+  }
+
+  it('keeps the overview a summary, not a list of every seat', async () => {
+    // A centre with 500 codes across three products would otherwise get
+    // 1,500 rows every time the dashboard loads. The overview says how many
+    // seats hold a cap; the paged route says which.
+    const center = await centreWithCaps(5);
+
+    const view = await entitlements.overview(identity(center.id));
+
+    expect(view).not.toHaveProperty('caps');
+    expect(view.capped).toEqual([{ product: 'AI_SPEAKING_CREDIT', seats: 5 }]);
+  });
+
+  it('returns one page of seats at a time, with the total', async () => {
+    const center = await centreWithCaps(5);
+
+    const page = await entitlements.cappedCodes(
+      identity(center.id),
+      'AI_SPEAKING_CREDIT',
+      { page: 1, pageSize: 2 },
+    );
+
+    expect(page.total).toBe(5);
+    expect(page.codes).toHaveLength(2);
+    expect(page.codes[0]).toMatchObject({ cap: 10, used: 0 });
+  });
+
+  it('caps the page size, so one request cannot ask for everything', async () => {
+    const center = await centreWithCaps(3);
+
+    const page = await entitlements.cappedCodes(
+      identity(center.id),
+      'AI_SPEAKING_CREDIT',
+      { page: 1, pageSize: 5000 },
+    );
+
+    expect(page.pageSize).toBeLessThanOrEqual(100);
+  });
+
+  it('shows nothing of another centre', async () => {
+    const mine = await makeCenter();
+    const theirs = await centreWithCaps(3);
+
+    const page = await entitlements.cappedCodes(
+      identity(mine.id),
+      'AI_SPEAKING_CREDIT',
+      { page: 1, pageSize: 20 },
+    );
+
+    expect(page.total).toBe(0);
+    expect(theirs).toBeDefined();
   });
 });

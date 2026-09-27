@@ -7,7 +7,9 @@ import {
   IsEnum,
   IsInt,
   IsOptional,
+  IsString,
   IsUUID,
+  MaxLength,
   Max,
   Min,
 } from 'class-validator';
@@ -137,10 +139,58 @@ export class AssignedDto {
   seats: number;
 }
 
+export class CappedSummaryDto {
+  @ApiProperty({ enum: EntitlementProduct }) product: EntitlementProduct;
+
+  @ApiProperty({
+    example: 14,
+    description: 'How many seats may draw on this pool.',
+  })
+  seats: number;
+}
+
 export class EntitlementsOverviewDto {
   @ApiProperty({ type: [PoolDto] }) pools: PoolDto[];
-  @ApiProperty({ type: [CapDto] }) caps: CapDto[];
+
+  @ApiProperty({
+    type: [CappedSummaryDto],
+    description:
+      'Counts, not the seats themselves. A center with five hundred codes would otherwise be sent fifteen hundred rows to render two numbers; the list is at GET /entitlements/{product}/codes.',
+  })
+  capped: CappedSummaryDto[];
+
   @ApiProperty({ type: [AssignedDto] }) assigned: AssignedDto[];
+}
+
+export class CappedCodesQueryDto {
+  @ApiPropertyOptional({ default: 1, minimum: 1 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page?: number;
+
+  @ApiPropertyOptional({ default: 20, maximum: 100 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  pageSize?: number;
+
+  @ApiPropertyOptional({
+    description: 'Matches the code itself or the name of whoever holds it.',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  search?: string;
+}
+
+export class CappedCodesPageDto {
+  @ApiProperty({ type: [CapDto] }) codes: CapDto[];
+  @ApiProperty({ example: 137 }) total: number;
+  @ApiProperty({ example: 1 }) page: number;
+  @ApiProperty({ example: 20 }) pageSize: number;
 }
 
 export class GrantedPeriodDto {

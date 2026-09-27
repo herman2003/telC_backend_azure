@@ -11,6 +11,7 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Query,
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
@@ -37,6 +38,8 @@ import { RateLimitService } from '../../shared/services/rate-limit.service';
 import { EntitlementPurchaseService } from './entitlement-purchase.service';
 import { EntitlementsService } from './entitlements.service';
 import {
+  CappedCodesPageDto,
+  CappedCodesQueryDto,
   EntitlementPaymentDto,
   EntitlementsOverviewDto,
   GrantedPeriodDto,
@@ -83,6 +86,28 @@ export class EntitlementsController {
   @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })
   overview(@CurrentCenterUser() user: CenterAccessTokenPayload) {
     return this.entitlements.overview(user);
+  }
+
+  @Get('entitlements/:product/codes')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Which seats may draw on this pool',
+    description:
+      'Paged, because a school’s seat count is not bounded by anything this API controls and an unbounded list is a slow page waiting for its first big customer. Seats stopped at zero are included: that is the row a manager comes here to raise again.',
+  })
+  @ApiParam({ name: 'product', enum: EntitlementProduct })
+  @ApiOkResponse({ type: CappedCodesPageDto })
+  @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })
+  cappedCodes(
+    @CurrentCenterUser() user: CenterAccessTokenPayload,
+    @Param('product') product: string,
+    @Query() query: CappedCodesQueryDto,
+  ) {
+    return this.entitlements.cappedCodes(
+      user,
+      this.requireProduct(product),
+      query,
+    );
   }
 
   @Post('entitlements/purchase')

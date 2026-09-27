@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
 import { GeminiService } from './gemini.service';
-import { AiQuotaService } from '../../../shared/services/ai-quota.service';
 import { AiUsageService } from '../../../shared/services/ai-usage.service';
 import { RateLimitService } from '../../../shared/services/rate-limit.service';
 import { PrismaService } from '../../../shared/services/prisma.service';
@@ -30,16 +29,6 @@ interface SpeakingAttemptInput {
    * practice, which is everything else that calls here.
    */
   examAttemptId?: string;
-  /**
-   * Skip the practice allowance, because this sitting was already paid for.
-   *
-   * The allowance is two evaluations per window and a telc exam has three
-   * Sprechen Teile, so charging an exam against it would refuse a candidate
-   * on Teil 3 — in the middle of a sitting their center paid 1,500 XAF a
-   * head for. The bound here is the exam itself: one evaluation per Teil,
-   * enforced where the attempt is known.
-   */
-  skipQuota?: boolean;
 }
 
 interface StoredSpeakingAttempt {
@@ -54,7 +43,6 @@ export class EvaluationService {
 
   constructor(
     private readonly geminiService: GeminiService,
-    private readonly quota: AiQuotaService,
     private readonly usage: AiUsageService,
     private readonly rateLimit: RateLimitService,
     private readonly prisma: PrismaService,

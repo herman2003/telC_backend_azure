@@ -28,7 +28,6 @@ describe('speaking evaluation and the AI quota', () => {
   };
 
   let gemini: { generateTextResponse: jest.Mock };
-  let quota: { assertWithinQuota: jest.Mock };
   let usage: { recordDelivered: jest.Mock };
   let rateLimit: { checkAiEvaluationLimit: jest.Mock };
   let prisma: any;
@@ -51,7 +50,6 @@ describe('speaking evaluation and the AI quota', () => {
         .fn()
         .mockResolvedValue(JSON.stringify(A_RESULT)),
     };
-    quota = { assertWithinQuota: jest.fn().mockResolvedValue(undefined) };
     usage = { recordDelivered: jest.fn().mockResolvedValue(undefined) };
     rateLimit = {
       checkAiEvaluationLimit: jest.fn().mockResolvedValue(undefined),
@@ -59,7 +57,6 @@ describe('speaking evaluation and the AI quota', () => {
 
     service = new EvaluationService(
       gemini as never,
-      quota as never,
       usage as never,
       rateLimit as never,
       prisma as never,
@@ -219,7 +216,6 @@ describe('speaking evaluation and the AI quota', () => {
       );
 
       expect(result).toEqual(earlier);
-      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
       expect(gemini.generateTextResponse).not.toHaveBeenCalled();
       expect(prisma.speakingAttempt.create).not.toHaveBeenCalled();
     });
@@ -257,7 +253,6 @@ describe('speaking evaluation and the AI quota', () => {
           modelltestNumber: 9,
         }),
       ).rejects.toThrow('Modelltest 9 not found');
-      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
       expect(gemini.generateTextResponse).not.toHaveBeenCalled();
     });
 
@@ -271,14 +266,13 @@ describe('speaking evaluation and the AI quota', () => {
   });
 
   describe('a request with no student', () => {
-    it('is neither checked nor recorded', async () => {
+    it('is not recorded, because there is nobody to record it against', async () => {
       // The same choice StudentSubscriptionGuard makes: a token naming nobody
       // has nobody to look up. Charging an anonymous caller is impossible, and
       // refusing them here would be a decision about authentication taken in
       // the wrong place.
       await expect(evaluateAnonymously()).resolves.toBeDefined();
 
-      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
       expect(usage.recordDelivered).not.toHaveBeenCalled();
     });
   });
@@ -286,15 +280,14 @@ describe('speaking evaluation and the AI quota', () => {
   describe('grading no longer has an allowance of its own', () => {
     // The conversation is the unit Start sells, and it is charged when it
     // starts. Charging the correction that follows it as well would refuse a
-    // student their feedback on a session they had already paid for — which
-    // is the phase 21 bug with different names: three Sprechen Teile meeting
-    // an allowance of two.
-    it('does not check the practice allowance at all', async () => {
-      await evaluate();
-
-      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
-    });
-
+    // student their feedback on a session they had already paid for — the
+    // phase 21 bug with different names: three Sprechen Teile meeting an
+    // allowance of two.
+    //
+    // There is no assertion here that the old allowance is unchecked, because
+    // the service no longer takes AiQuotaService at all — a test for that
+    // would be asserting against a constructor parameter that does not exist.
+    // What is left to protect is the limit that remains.
     it('still obeys the burst limit, which is about our bill', async () => {
       // Twenty an hour. It bounds how fast anybody can pile calls into the
       // model, which is a different question from what they are entitled to.
@@ -313,13 +306,11 @@ describe('speaking evaluation and the AI quota', () => {
     const inExam = (teil: number) =>
       service.evaluateTranscript('student-1', teil, 'Wir planen zusammen.', {
         examAttemptId: 'exam-attempt-1',
-        skipQuota: true,
       });
 
-    it('does not spend the practice allowance', async () => {
+    it('reaches the model at all, on the Teil the exam asked for', async () => {
       await inExam(3);
 
-      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
       expect(gemini.generateTextResponse).toHaveBeenCalled();
     });
 
