@@ -75,45 +75,39 @@ describe('speaking evaluation and the AI quota', () => {
     service.evaluateTranscript(undefined, 1, 'Ich heiße Awa...');
 
   describe('before the AI call', () => {
-    it('checks the allowance', async () => {
-      await evaluate();
-
-      expect(quota.assertWithinQuota).toHaveBeenCalledWith(
-        'student-1',
-        'SPEAKING_EVALUATION',
-      );
-    });
-
-    it('does not call Gemini when the allowance is spent', async () => {
+    // The allowance moved. Until 2026-09-25 grading had one of its own, two
+    // per rolling day, checked here. It does not any more: what Lerniqo sells
+    // is the conversation, charged when it starts, and refusing the correction
+    // that follows would take feedback away from a student who had already
+    // paid for the session.
+    it('does not call Gemini when the burst limit refuses', async () => {
       // The point of checking first. A refusal after the call would cost us
       // the request and give the student nothing.
-      quota.assertWithinQuota.mockRejectedValue(
-        new ForbiddenException({ message: 'AI_QUOTA_EXCEEDED' }),
+      rateLimit.checkAiEvaluationLimit.mockRejectedValue(
+        new ForbiddenException({ message: 'RATE_LIMITED' }),
       );
 
-      await expect(evaluate()).rejects.toThrow('AI_QUOTA_EXCEEDED');
+      await expect(evaluate()).rejects.toThrow('RATE_LIMITED');
       expect(gemini.generateTextResponse).not.toHaveBeenCalled();
     });
 
-    it('records nothing when the allowance is spent', async () => {
-      quota.assertWithinQuota.mockRejectedValue(
-        new ForbiddenException({ message: 'AI_QUOTA_EXCEEDED' }),
+    it('records nothing when the burst limit refuses', async () => {
+      rateLimit.checkAiEvaluationLimit.mockRejectedValue(
+        new ForbiddenException({ message: 'RATE_LIMITED' }),
       );
 
-      await expect(evaluate()).rejects.toThrow('AI_QUOTA_EXCEEDED');
+      await expect(evaluate()).rejects.toThrow('RATE_LIMITED');
       expect(usage.recordDelivered).not.toHaveBeenCalled();
     });
 
     it('lets the refusal through unchanged, numbers and all', async () => {
-      // The refusal is a sales moment. Wrapping it would strip the figures a
-      // client needs to offer the upgrade.
+      // A refusal is a sales moment. Wrapping it would strip the figures a
+      // client needs to say something useful.
       const refusal = new ForbiddenException({
-        message: 'AI_QUOTA_EXCEEDED',
-        tier: 'START',
-        usedToday: 2,
-        allowedToday: 2,
+        message: 'RATE_LIMITED',
+        retryAfterSeconds: 120,
       });
-      quota.assertWithinQuota.mockRejectedValue(refusal);
+      rateLimit.checkAiEvaluationLimit.mockRejectedValue(refusal);
 
       await expect(evaluate()).rejects.toBe(refusal);
     });
@@ -164,10 +158,6 @@ describe('speaking evaluation and the AI quota', () => {
         order.push('limit');
         return Promise.resolve();
       });
-      quota.assertWithinQuota.mockImplementation(() => {
-        order.push('check');
-        return Promise.resolve();
-      });
       gemini.generateTextResponse.mockImplementation(() => {
         order.push('call');
         return Promise.resolve(JSON.stringify(A_RESULT));
@@ -179,7 +169,9 @@ describe('speaking evaluation and the AI quota', () => {
 
       await evaluate();
 
-      expect(order).toEqual(['limit', 'check', 'call', 'record']);
+      // The row is written after the model answers, never before: a failure
+      // on our side must not spend something the student then does not get.
+      expect(order).toEqual(['limit', 'call', 'record']);
     });
   });
 
@@ -291,6 +283,29 @@ describe('speaking evaluation and the AI quota', () => {
     });
   });
 
+  describe('grading no longer has an allowance of its own', () => {
+    // The conversation is the unit Start sells, and it is charged when it
+    // starts. Charging the correction that follows it as well would refuse a
+    // student their feedback on a session they had already paid for — which
+    // is the phase 21 bug with different names: three Sprechen Teile meeting
+    // an allowance of two.
+    it('does not check the practice allowance at all', async () => {
+      await evaluate();
+
+      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
+    });
+
+    it('still obeys the burst limit, which is about our bill', async () => {
+      // Twenty an hour. It bounds how fast anybody can pile calls into the
+      // model, which is a different question from what they are entitled to.
+      await evaluate();
+
+      expect(rateLimit.checkAiEvaluationLimit).toHaveBeenCalledWith(
+        'student-1',
+      );
+    });
+  });
+
   describe('inside an exam, which was paid for separately', () => {
     // The practice allowance is two per window. A telc Sprechen has three
     // Teile, so charging the exam against it would refuse a candidate on
@@ -341,7 +356,7 @@ describe('speaking evaluation and the AI quota', () => {
       await evaluate();
 
       expect(prisma.speakingAttempt.findFirst).not.toHaveBeenCalled();
-      expect(quota.assertWithinQuota).toHaveBeenCalled();
+      expect(gemini.generateTextResponse).toHaveBeenCalled();
     });
   });
 });

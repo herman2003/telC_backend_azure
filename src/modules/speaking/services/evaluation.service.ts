@@ -136,16 +136,23 @@ export class EvaluationService {
     // StudentSubscriptionGuard makes for the same reason. Refusing here would
     // be a decision about authentication taken in the wrong place.
     if (studentId) {
-      // The burst limit applies to everyone, exam or not: it bounds how fast
-      // anybody can pile calls into the model.
+      // The only limit left here, and it is about our bill rather than the
+      // student's plan: twenty an hour bounds how fast anybody can pile calls
+      // into the model.
+      //
+      // Grading no longer has an allowance of its own. What Lerniqo sells is
+      // the conversation, charged when it starts — five a month on Start, then
+      // a credit — and charging the correction that follows it as well would
+      // refuse a student their feedback on a session they had already paid
+      // for. That is the phase 21 bug wearing different names: a telc exam of
+      // three Sprechen Teile meeting an allowance of two.
+      //
+      // The open edge is a transcript that arrives with no conversation behind
+      // it, from the browser's own speech recognition. That path is bounded
+      // only by the burst limit today; retiring it, or charging it as a
+      // session, is in the backlog and needs the app to say which it still
+      // uses.
       await this.rateLimit.checkAiEvaluationLimit(studentId);
-
-      // The practice allowance does not. See `skipQuota`: two per window
-      // against an exam of three Teile would fail a candidate on the last
-      // one, for a sitting that was paid for separately.
-      if (!attempt.skipQuota) {
-        await this.quota.assertWithinQuota(studentId, 'SPEAKING_EVALUATION');
-      }
     }
 
     const prompt = this.buildPrompt(teilNumber, transcript);

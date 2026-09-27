@@ -68,6 +68,10 @@ const ELENA_REFUSALS: Record<string, { key: string; message: string }> = {
     key: 'elenaMonthlyLimit',
     message: 'Vous avez utilisé vos sessions du mois. Elles reviennent le 1er.',
   },
+  NO_ACCOUNT: {
+    key: 'elenaRequiresAccount',
+    message: 'Créez un compte pour parler avec Elena.',
+  },
   NO_CODE: {
     key: 'elenaNoAllowance',
     message:

@@ -42,6 +42,15 @@ export function quotaWindowEnd(now = new Date()): Date {
 export type EntitlementRefusal =
   /** The center's Start subscription has lapsed. Nothing is lost. */
   | 'FROZEN'
+  /**
+   * No `students` row at all — a guest token, which names a fresh uuid and
+   * writes nothing.
+   *
+   * Kept apart from FROZEN because the sentences differ entirely: "your school
+   * must settle its subscription" is advice a guest cannot act on, about a
+   * relationship they do not have. What they need is an account.
+   */
+  | 'NO_ACCOUNT'
   /** No live activation code, so no seat to hold anything. */
   | 'NO_CODE'
   /** The center holds none of this product. */
@@ -153,12 +162,13 @@ export class EntitlementSpendService {
     const { studentsMayLearn, studentExists } =
       await this.access.forStudent(studentId);
 
+    // A guest is not a lapsed center, and the two must not share an answer.
+    if (!studentExists) return refused('NO_ACCOUNT');
+
     // Frozen before anything else is read. A lapsed center has not run out of
     // credits — they are sitting there, waiting to be paid for — and telling
     // the student they are out would be both wrong and unactionable.
-    if (!studentExists || !studentsMayLearn) {
-      return refused('FROZEN');
-    }
+    if (!studentsMayLearn) return refused('FROZEN');
 
     const seat = await this.seatOf(studentId);
     if (!seat) return refused('NO_CODE');
@@ -250,9 +260,8 @@ export class EntitlementSpendService {
     // centre paid for, spent while they are being told they may not spend it.
     const { studentsMayLearn, studentExists } =
       await this.access.forStudent(studentId);
-    if (!studentExists || !studentsMayLearn) {
-      throw new ForbiddenException('FROZEN');
-    }
+    if (!studentExists) throw new ForbiddenException('NO_ACCOUNT');
+    if (!studentsMayLearn) throw new ForbiddenException('FROZEN');
 
     const seat = await this.seatOf(studentId);
     if (!seat) throw new ForbiddenException('NO_CODE');
@@ -313,6 +322,7 @@ export class EntitlementSpendService {
       this.mayUse(studentId, 'AI_SPEAKING_CREDIT', now),
     ]);
 
+    // Only a lapsed centre is frozen. A guest has nothing to thaw.
     const frozen = prepPass.reason === 'FROZEN';
 
     return {

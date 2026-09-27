@@ -393,9 +393,9 @@ describe('spending is guarded on its own, not only by mayUse', () => {
     await fillPool(center.id, 60);
     await setCap(code.id, 10);
 
-    await expect(
-      spend.spend(student.id, 'AI_SPEAKING_CREDIT'),
-    ).rejects.toThrow('FROZEN');
+    await expect(spend.spend(student.id, 'AI_SPEAKING_CREDIT')).rejects.toThrow(
+      'FROZEN',
+    );
 
     await expect(poolOf(center.id)).resolves.toBe(60);
     await expect(capOf(code.id)).resolves.toMatchObject({ used: 0 });
@@ -408,8 +408,23 @@ describe('spending is guarded on its own, not only by mayUse', () => {
     );
     await fillPool(center.id, 60);
 
-    await expect(
-      spend.spend(student.id, 'AI_SPEAKING_CREDIT'),
-    ).rejects.toThrow('FROZEN');
+    await expect(spend.spend(student.id, 'AI_SPEAKING_CREDIT')).rejects.toThrow(
+      'FROZEN',
+    );
+  });
+});
+
+describe('a caller with no account', () => {
+  it('is told there is no account, not that a centre has lapsed', async () => {
+    // A guest token names a uuid with no students row. Answering FROZEN would
+    // have the app say "your centre must settle its subscription" to somebody
+    // who has no centre — advice they cannot act on, about a relationship
+    // they do not have.
+    const decision = await spend.mayUse(
+      '00000000-0000-4000-8000-000000000000',
+      'AI_SPEAKING_CREDIT',
+    );
+
+    expect(decision).toMatchObject({ allowed: false, reason: 'NO_ACCOUNT' });
   });
 });
