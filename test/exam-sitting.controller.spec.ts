@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { ExamSittingController } from '../src/modules/exams/exam-sitting.controller';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
@@ -44,7 +44,9 @@ describe('ExamSittingController', () => {
     content = { getBlockContent: jest.fn().mockResolvedValue({}) };
     scoring = { scoreBlock: jest.fn().mockResolvedValue([]) };
     audio = { play: jest.fn().mockResolvedValue({ playsRemaining: 0 }) };
-    release = { forStudent: jest.fn().mockResolvedValue({ outcome: 'PASSED' }) };
+    release = {
+      forStudent: jest.fn().mockResolvedValue({ outcome: 'PASSED' }),
+    };
     speaking = {
       evaluateTranscript: jest.fn().mockResolvedValue({ score: 68 }),
     };
@@ -118,11 +120,12 @@ describe('ExamSittingController', () => {
       );
     });
 
-    it('does not spend the training allowance, which is smaller than the exam', async () => {
-      // The training allowance is two evaluations per window and a telc exam
-      // has three Sprechen Teile. Charging the exam against it would refuse
-      // a candidate on Teil 3, in the middle of a sitting their center paid
-      // 1,500 XAF a head for.
+    it('sends the attempt with it, so the transcript lands on the sitting', async () => {
+      // There is no allowance left to spend: grading stopped having one of
+      // its own when the conversation became the unit that is charged. What
+      // still matters is that the exam reaches the model with the attempt
+      // attached, so the transcript lands on the right sitting rather than in
+      // the candidate's practice history.
       await controller.examSpeaking(student, 'attempt-1', {
         teilNumber: 3,
         transcript: 'Wir planen zusammen.',
@@ -132,7 +135,7 @@ describe('ExamSittingController', () => {
         'student-1',
         3,
         'Wir planen zusammen.',
-        expect.objectContaining({ skipQuota: true }),
+        expect.objectContaining({ examAttemptId: 'attempt-1' }),
       );
     });
 
@@ -166,9 +169,14 @@ describe('ExamSittingController', () => {
     it('scores what the submit settled on, not what the client sent', async () => {
       // A late submit keeps the answers saved before the deadline. Scoring
       // the request body instead would hand back time nobody had.
-      await controller.submitBlock(student, 'attempt-1', 'LESEN_SPRACHBAUSTEINE', {
-        answers: { LESEN_1: { '1': 'too-late' } },
-      });
+      await controller.submitBlock(
+        student,
+        'attempt-1',
+        'LESEN_SPRACHBAUSTEINE',
+        {
+          answers: { LESEN_1: { '1': 'too-late' } },
+        },
+      );
 
       expect(scoring.scoreBlock).toHaveBeenCalledWith(
         expect.objectContaining({

@@ -9,7 +9,7 @@ export class AiSpeakingAllowanceDto {
   limit: number;
 
   @ApiProperty({
-    example: 'per_24h',
+    example: 'per_month',
     description:
       'A rolling 24-hour window, not a calendar day: there is no timezone in it and nothing resets at midnight.',
   })

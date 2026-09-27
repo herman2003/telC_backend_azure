@@ -113,7 +113,10 @@ export class ExamBlockContentService {
         this.sprachbausteine.getExercise(modelltestNumber),
       ]);
 
-      return withoutAnswerKey({ LESEN: lesen, SPRACHBAUSTEINE: sprachbausteine });
+      return withoutAnswerKey({
+        LESEN: lesen,
+        SPRACHBAUSTEINE: sprachbausteine,
+      });
     }
 
     if (block === 'HOEREN') {

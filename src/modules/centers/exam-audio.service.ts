@@ -158,8 +158,7 @@ export class ExamAudioService {
     const playNumber = row.plays_used;
 
     const expiresAt = new Date(
-      Date.now() +
-        audio.duration_minutes * LINK_LIFETIME_FACTOR * 60 * 1000,
+      Date.now() + audio.duration_minutes * LINK_LIFETIME_FACTOR * 60 * 1000,
     );
     const token = this.signFor({ attemptId, audioId, playNumber, expiresAt });
 

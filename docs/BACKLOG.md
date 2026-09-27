@@ -220,6 +220,26 @@ migration is cheap — but the price changes with it, and the whole
 33-to-66-FCFA-a-session arithmetic that justifies a 300 FCFA credit has to be
 re-run at the new rate. Do it before block 24 prices anything.
 
+### Four high npm audit findings in production dependencies
+
+`npm audit --omit=dev` reports four high-severity advisories — `deepmerge-ts`,
+`fast-uri`, `multer`, `mysql2` — and one moderate (`qs`). All transitive, none
+introduced by recent work: the count is identical on a clean tree.
+
+`mysql2` is the interesting one, since nothing here uses MySQL; it is worth
+finding out which package drags it in before deciding whether to patch or drop
+it. Do this before the first paying centre, alongside the other deploy items.
+
+### `npm run lint` reports 1116 problems, so it gates nothing
+
+950 errors and 166 warnings across `src` and `test`, unchanged whether or not
+the working tree has changes. A lint step nobody can read is a lint step nobody
+runs, and new code passing cleanly is currently invisible in the noise.
+
+Worth one pass with `--fix`, then a decision about the rules that remain: either
+they are worth obeying and the violations get fixed, or they are not and they
+come out of the config.
+
 ## 5 — Consistency and housekeeping
 
 ### `modelltest` param convention differs across three modules

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { ExamResultService } from '../src/modules/centers/exam-result.service';
 
 /**
@@ -124,7 +124,10 @@ describe('ExamResultService', () => {
 
   describe('the two halves', () => {
     it('counts the written block out of 225 and the oral out of 75', async () => {
-      load(100, [{ skill: 'SCHREIBEN', teil: 1, points: 45 }, { skill: 'SPRECHEN', teil: 1, points: 75 }]);
+      load(100, [
+        { skill: 'SCHREIBEN', teil: 1, points: 45 },
+        { skill: 'SPRECHEN', teil: 1, points: 75 },
+      ]);
 
       const result = await service.forAttempt(ATTEMPT);
 
@@ -144,9 +147,12 @@ describe('ExamResultService', () => {
     });
   });
 
-  describe('pass or fail, on telc\'s rule', () => {
+  describe("pass or fail, on telc's rule", () => {
     it('passes only when BOTH halves reach sixty per cent', async () => {
-      load(60, [{ skill: 'SCHREIBEN', teil: 1, points: 27 }, { skill: 'SPRECHEN', teil: 1, points: 45 }]);
+      load(60, [
+        { skill: 'SCHREIBEN', teil: 1, points: 27 },
+        { skill: 'SPRECHEN', teil: 1, points: 45 },
+      ]);
 
       const result = await service.forAttempt(ATTEMPT);
 
@@ -259,10 +265,21 @@ describe('ExamResultService', () => {
       // opinion; a machine's opinion instead of one is a different product.
       load(100);
       prisma.writingAttempt.findMany.mockResolvedValue([
-        { exam_attempt_id: ATTEMPT, score: 100, feedback: null, corrections: null },
+        {
+          exam_attempt_id: ATTEMPT,
+          score: 100,
+          feedback: null,
+          corrections: null,
+        },
       ]);
       prisma.speakingAttempt.findMany.mockResolvedValue([
-        { exam_attempt_id: ATTEMPT, teil_number: 1, transcript: 'x', score: 100, evaluation: {} },
+        {
+          exam_attempt_id: ATTEMPT,
+          teil_number: 1,
+          transcript: 'x',
+          score: 100,
+          evaluation: {},
+        },
       ]);
 
       const result = await service.forAttempt(ATTEMPT);
@@ -361,9 +378,9 @@ describe('ExamResultService', () => {
     it('refuses a sitting belonging to another center', async () => {
       prisma.examSession.findFirst.mockResolvedValue(null);
 
-      await expect(
-        service.forSession('center-1', 'session-1'),
-      ).rejects.toThrow('EXAM_SESSION_NOT_FOUND');
+      await expect(service.forSession('center-1', 'session-1')).rejects.toThrow(
+        'EXAM_SESSION_NOT_FOUND',
+      );
     });
   });
 

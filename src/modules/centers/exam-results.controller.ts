@@ -145,7 +145,8 @@ export class ExamResultsController {
       "In telc's points, not a percentage. Marking again replaces the mark and records who changed it. The other three skills were marked against an answer key and are refused here.",
   })
   @ApiBadRequestResponse({
-    description: 'SKILL_NOT_HUMAN_MARKED, POINTS_ABOVE_MAXIMUM, EXAM_NOT_FINISHED',
+    description:
+      'SKILL_NOT_HUMAN_MARKED, POINTS_ABOVE_MAXIMUM, EXAM_NOT_FINISHED',
   })
   recordMark(
     @CurrentCenterUser() user: CenterAccessTokenPayload,

@@ -73,15 +73,17 @@ describe('ExamSlotsService', () => {
       ['a negative count', -5],
       ['a fraction', 2.5],
     ])('refuses %s', (_case, quantity) => {
-      expect(() => service.quote(quantity, 'MANUAL')).toThrow('EXAM_SLOTS_INVALID');
+      expect(() => service.quote(quantity, 'MANUAL')).toThrow(
+        'EXAM_SLOTS_INVALID',
+      );
     });
 
     it('refuses an order larger than one school could ever sit', () => {
       // Without a ceiling a typo turns into an amount the column cannot hold,
       // and the refusal becomes "integer out of range" from Postgres.
-      expect(() => service.quote(MAX_EXAM_SLOTS_PER_ORDER + 1, 'MANUAL')).toThrow(
-        'EXAM_SLOTS_ABOVE_MAXIMUM',
-      );
+      expect(() =>
+        service.quote(MAX_EXAM_SLOTS_PER_ORDER + 1, 'MANUAL'),
+      ).toThrow('EXAM_SLOTS_ABOVE_MAXIMUM');
     });
   });
 
@@ -210,7 +212,9 @@ describe('ExamSlotsService', () => {
         request_hash: service.fingerprintFor('center-1', 5, 'MANUAL'),
       }));
 
-      await expect(service.purchase(identity, 5, 'key-1')).resolves.toMatchObject({
+      await expect(
+        service.purchase(identity, 5, 'key-1'),
+      ).resolves.toMatchObject({
         id: 'payment-1',
       });
     });

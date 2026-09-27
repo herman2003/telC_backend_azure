@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { NotificationsService } from '../src/shared/services/notifications.service';
 
 /**
@@ -73,7 +73,7 @@ describe('NotificationsService', () => {
   });
 
   describe('marking one read', () => {
-    it('marks only this student\'s own', async () => {
+    it("marks only this student's own", async () => {
       // Scoped in the statement: an id from elsewhere must change nothing,
       // not throw after the fact.
       await service.markRead(STUDENT, 'notification-1');
@@ -108,11 +108,10 @@ describe('NotificationsService', () => {
 
   describe('writing them', () => {
     it('stores facts rather than a sentence', async () => {
-      await service.notifyMany(
-        ['student-1', 'student-2'],
-        'EXAM_PUBLISHED',
-        { sessionId: 'session-1', opensAt: '2026-10-05T09:00:00.000Z' },
-      );
+      await service.notifyMany(['student-1', 'student-2'], 'EXAM_PUBLISHED', {
+        sessionId: 'session-1',
+        opensAt: '2026-10-05T09:00:00.000Z',
+      });
 
       expect(prisma.notification.createMany).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -137,7 +136,12 @@ describe('NotificationsService', () => {
       // because only one of the two is visible to anybody.
       const tx = { notification: { createMany: jest.fn() } };
 
-      await service.notifyMany(['student-1'], 'EXAM_PUBLISHED', {}, tx as never);
+      await service.notifyMany(
+        ['student-1'],
+        'EXAM_PUBLISHED',
+        {},
+        tx as never,
+      );
 
       expect(tx.notification.createMany).toHaveBeenCalled();
       expect(prisma.notification.createMany).not.toHaveBeenCalled();

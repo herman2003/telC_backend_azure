@@ -84,9 +84,9 @@ describe('GeminiService.mintLiveToken', () => {
   it('locks output to audio, so the token cannot be reused as a text API', async () => {
     await service.mintLiveToken('INSTRUCTION', 600);
 
-    expect(lastConfig().liveConnectConstraints.config.responseModalities).toEqual(
-      ['AUDIO'],
-    );
+    expect(
+      lastConfig().liveConnectConstraints.config.responseModalities,
+    ).toEqual(['AUDIO']);
   });
 
   it('seals in the server-built instruction', async () => {

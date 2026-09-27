@@ -51,7 +51,7 @@ describe('SprachbausteineService answer security', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new SprachbausteineService(prisma as any);
+    service = new SprachbausteineService(prisma);
     prisma.modelltest.findUnique.mockResolvedValue({ id: 'mt-1' });
     prisma.sprachbausteineExercise.findFirst.mockResolvedValue(teil1);
     prisma.sprachbausteineTeil2Exercise.findFirst.mockResolvedValue(teil2);

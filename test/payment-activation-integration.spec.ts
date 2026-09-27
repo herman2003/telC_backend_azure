@@ -83,6 +83,49 @@ async function makeStudent(centerId: string) {
   });
 }
 
+
+async function makeCode(centerId: string) {
+  return prisma.activationCode.create({
+    data: {
+      center_id: centerId,
+      code: `LQ-ACTV-${Math.random().toString(36).slice(2, 10).toUpperCase()}`,
+    },
+  });
+}
+
+/** An add-on purchase as the centre's screen would leave it. */
+async function makeAddOnPayment(
+  centerId: string,
+  kind: 'AI_SPEAKING_CREDIT' | 'PREP_PASS',
+  quantity: number,
+  metadata?: { codeIds: string[]; capPerCode: number },
+) {
+  const price = kind === 'PREP_PASS' ? 3000 : 300;
+  return prisma.payment.create({
+    data: {
+      center_id: centerId,
+      kind,
+      quantity,
+      unit_price_xaf: price,
+      amount_xaf: quantity * price,
+      idempotency_key: `activation-${Date.now()}-${Math.random()}`,
+      request_hash: 'test',
+      ...(metadata ? { metadata } : {}),
+    },
+  });
+}
+
+const poolOf = async (
+  centerId: string,
+  product: 'AI_SPEAKING_CREDIT' | 'PREP_PASS',
+) =>
+  (
+    await prisma.centerEntitlementPool.findUnique({
+      where: { center_id_product: { center_id: centerId, product } },
+      select: { balance: true },
+    })
+  )?.balance ?? null;
+
 const seatsOf = (centerId: string) =>
   prisma.centerSeat.findMany({
     where: { center_id: centerId },
@@ -363,5 +406,189 @@ describe('the provider reference', () => {
         where: { center_id: center.id, provider_reference: null },
       }),
     ).resolves.toBe(2);
+  });
+});
+
+describe('an add-on payment', () => {
+  it('credits the pool rather than the subscription', async () => {
+    // Buying credits is not paying for Start. A centre that tops up must not
+    // thereby extend the period it owes money for.
+    const center = await makeCenter();
+    const payment = await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40);
+
+    const result = await activation.activate(payment.id);
+
+    expect(result.outcome).toBe('ACTIVATED');
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(40);
+    expect(result.paidUntil).toBeNull();
+  });
+
+  it('adds to a pool that already exists', async () => {
+    // Buying twice accumulates. The history of who bought what is `payments`;
+    // a second ledger here would be a second thing to keep true.
+    const center = await makeCenter();
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 25)).id,
+    );
+
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(65);
+  });
+
+  it('keeps the products in separate pots', async () => {
+    const center = await makeCenter();
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'PREP_PASS', 6)).id,
+    );
+
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(40);
+    await expect(poolOf(center.id, 'PREP_PASS')).resolves.toBe(6);
+  });
+
+  it('applies the caps the manager chose at purchase', async () => {
+    // The choice was made hours earlier and nothing may be granted before
+    // money moves, so it travelled on the payment.
+    const center = await makeCenter();
+    const first = await makeCode(center.id);
+    const second = await makeCode(center.id);
+    const payment = await makeAddOnPayment(
+      center.id,
+      'AI_SPEAKING_CREDIT',
+      20,
+      { codeIds: [first.id, second.id], capPerCode: 10 },
+    );
+
+    await activation.activate(payment.id);
+
+    const caps = await prisma.codeEntitlementCap.findMany({
+      where: { code_id: { in: [first.id, second.id] } },
+      select: { cap: true, used: true },
+    });
+    expect(caps).toHaveLength(2);
+    expect(caps.every((row) => row.cap === 10 && row.used === 0)).toBe(true);
+  });
+
+  it('raises a cap that already exists rather than replacing it', async () => {
+    // A second purchase for the same seat is more allowance, not a reset —
+    // and a reset would silently undo a cap a manager had raised by hand.
+    const center = await makeCenter();
+    const code = await makeCode(center.id);
+    await prisma.codeEntitlementCap.create({
+      data: {
+        code_id: code.id,
+        product: 'AI_SPEAKING_CREDIT',
+        cap: 10,
+        used: 6,
+      },
+    });
+
+    await activation.activate(
+      (
+        await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 10, {
+          codeIds: [code.id],
+          capPerCode: 10,
+        })
+      ).id,
+    );
+
+    const cap = await prisma.codeEntitlementCap.findUniqueOrThrow({
+      where: {
+        code_id_product: { code_id: code.id, product: 'AI_SPEAKING_CREDIT' },
+      },
+    });
+    expect(cap.cap).toBe(20);
+    expect(cap.used).toBe(6);
+  });
+
+  it('still credits the pool when a chosen code has since been deactivated', async () => {
+    // The money moved. A grant that cannot be fully applied must not fail the
+    // activation and leave the centre paying for nothing.
+    const center = await makeCenter();
+    const live = await makeCode(center.id);
+    const gone = await makeCode(center.id);
+    await prisma.activationCode.update({
+      where: { id: gone.id },
+      data: { status: 'DEACTIVATED' },
+    });
+
+    await activation.activate(
+      (
+        await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 20, {
+          codeIds: [live.id, gone.id],
+          capPerCode: 10,
+        })
+      ).id,
+    );
+
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(20);
+    const caps = await prisma.codeEntitlementCap.findMany({
+      where: { code_id: { in: [live.id, gone.id] } },
+    });
+    expect(caps.map((row) => row.code_id)).toEqual([live.id]);
+  });
+
+  it('ignores a code belonging to another centre', async () => {
+    // Metadata is client-supplied and re-validated here. Without the check a
+    // centre could cap a rival's seat by sending its id.
+    const mine = await makeCenter();
+    const theirs = await makeCenter();
+    const theirCode = await makeCode(theirs.id);
+
+    await activation.activate(
+      (
+        await makeAddOnPayment(mine.id, 'AI_SPEAKING_CREDIT', 10, {
+          codeIds: [theirCode.id],
+          capPerCode: 10,
+        })
+      ).id,
+    );
+
+    await expect(poolOf(mine.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(10);
+    await expect(
+      prisma.codeEntitlementCap.findMany({ where: { code_id: theirCode.id } }),
+    ).resolves.toHaveLength(0);
+  });
+
+  it('grants once when the same webhook arrives twice', async () => {
+    const center = await makeCenter();
+    const code = await makeCode(center.id);
+    const payment = await makeAddOnPayment(
+      center.id,
+      'AI_SPEAKING_CREDIT',
+      40,
+      { codeIds: [code.id], capPerCode: 10 },
+    );
+
+    await activation.activate(payment.id);
+    const second = await activation.activate(payment.id);
+
+    expect(second.outcome).toBe('ALREADY_ACTIVE');
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(40);
+    const cap = await prisma.codeEntitlementCap.findUniqueOrThrow({
+      where: {
+        code_id_product: { code_id: code.id, product: 'AI_SPEAKING_CREDIT' },
+      },
+    });
+    expect(cap.cap).toBe(10);
+  });
+
+  it('leaves the seat count alone', async () => {
+    // Credits are not seats. A centre that buys an add-on has not bought
+    // anybody the right to learn.
+    const center = await makeCenter();
+    await setSeats(center.id, 10, 4500);
+
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+
+    await expect(seatsOf(center.id)).resolves.toEqual([
+      { quantity: 10, unit_price_xaf: 4500 },
+    ]);
   });
 });

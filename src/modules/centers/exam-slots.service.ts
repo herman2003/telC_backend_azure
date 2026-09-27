@@ -190,9 +190,7 @@ export class ExamSlotsService {
     tier: ExamSlotTier,
   ): string {
     return createHash('sha256')
-      .update(
-        JSON.stringify({ centerId, kind: PAYMENT_KIND[tier], quantity }),
-      )
+      .update(JSON.stringify({ centerId, kind: PAYMENT_KIND[tier], quantity }))
       .digest('hex');
   }
 
@@ -222,14 +220,17 @@ export class ExamSlotsService {
 
   /** Built field by field, so a column added later cannot leak into a
    *  response. */
-  private toView(row: {
-    id: string;
-    quantity: number;
-    unit_price_xaf: number;
-    amount_xaf: number;
-    status: PaymentStatus;
-    created_at: Date;
-  }, tier: ExamSlotTier): ExamSlotPaymentView {
+  private toView(
+    row: {
+      id: string;
+      quantity: number;
+      unit_price_xaf: number;
+      amount_xaf: number;
+      status: PaymentStatus;
+      created_at: Date;
+    },
+    tier: ExamSlotTier,
+  ): ExamSlotPaymentView {
     return {
       id: row.id,
       kind: PAYMENT_KIND[tier],

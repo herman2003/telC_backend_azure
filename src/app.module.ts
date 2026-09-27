@@ -15,6 +15,7 @@ import { ModelltestsModule } from './modules/modelltests/modelltests.module';
 import { RateLimitModule } from './shared/rate-limit.module';
 import { CentersModule } from './modules/centers/centers.module';
 import { ExamsModule } from './modules/exams/exams.module';
+import { MeModule } from './modules/me/me.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LocationsModule } from './modules/locations/locations.module';
 import { PlansModule } from './modules/plans/plans.module';
@@ -30,6 +31,7 @@ import { PlansModule } from './modules/plans/plans.module';
     AuthModule,
     CentersModule,
     ExamsModule,
+    MeModule,
     NotificationsModule,
     SpeakingModule,
     WritingModule,

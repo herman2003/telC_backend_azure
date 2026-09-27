@@ -6,11 +6,7 @@ import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.servi
 import { ListeningService } from '../listening/listening.service';
 import { WritingCorrectionService } from '../writing/writing-correction.service';
 
-export type ExamSkill =
-  | 'LESEN'
-  | 'SPRACHBAUSTEINE'
-  | 'HOEREN'
-  | 'SCHREIBEN';
+export type ExamSkill = 'LESEN' | 'SPRACHBAUSTEINE' | 'HOEREN' | 'SCHREIBEN';
 
 export interface ExamSectionScore {
   skill: ExamSkill;
@@ -248,7 +244,12 @@ export class ExamScoringService {
         .catch(() => undefined);
     }
 
-    return { skill: section.skill, teil: section.teil, score: null, pending: true };
+    return {
+      skill: section.skill,
+      teil: section.teil,
+      score: null,
+      pending: true,
+    };
   }
 
   /** The key training marks against, asked of the service that owns it. */
@@ -288,7 +289,8 @@ function markAgainst(
   const questions = Object.entries(answerKey);
   if (questions.length === 0) return 0;
 
-  const correct = questions.filter(([id, answer]) => answers[id] === answer)
-    .length;
+  const correct = questions.filter(
+    ([id, answer]) => answers[id] === answer,
+  ).length;
   return Math.round((correct / questions.length) * 100);
 }

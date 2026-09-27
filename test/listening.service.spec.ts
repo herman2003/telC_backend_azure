@@ -54,7 +54,7 @@ describe('ListeningService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new ListeningService(prisma as any);
+    service = new ListeningService(prisma);
     prisma.modelltest.findUnique.mockResolvedValue({ id: 'mt-1' });
     prisma.listeningAttempt.findMany.mockResolvedValue([]);
     prisma.listeningAttempt.create.mockResolvedValue({});

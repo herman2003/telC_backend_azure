@@ -60,9 +60,7 @@ describe('ExamReleaseService', () => {
       forAttempts: jest
         .fn()
         .mockImplementation((ids: string[]) =>
-          Promise.resolve(
-            ids.map((id) => ({ ...resultOf(), attemptId: id })),
-          ),
+          Promise.resolve(ids.map((id) => ({ ...resultOf(), attemptId: id }))),
         ),
     };
     notifications = { notifyMany: jest.fn().mockResolvedValue(undefined) };
@@ -238,8 +236,8 @@ describe('ExamReleaseService', () => {
 
       await service.releaseAttempt(identity, 'attempt-1');
 
-      const stored = prisma.examAttempt.update.mock.calls[0][0].data
-        .released_result;
+      const stored =
+        prisma.examAttempt.update.mock.calls[0][0].data.released_result;
       expect(stored.suggestions).toBeUndefined();
       expect(stored.outcome).toBeDefined();
     });
@@ -299,7 +297,7 @@ describe('ExamReleaseService', () => {
       ).rejects.toThrow('RESULT_NOT_RELEASED');
     });
 
-    it('refuses to show one student another student\'s result', async () => {
+    it("refuses to show one student another student's result", async () => {
       prisma.examAttempt.findFirst.mockResolvedValue(null);
 
       await expect(

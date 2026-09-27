@@ -111,8 +111,12 @@ describe('RoomGateway — lobby', () => {
       gateway.handleFindPartner(makeClient('a'), { displayName: 'Anna' });
       gateway.handleFindPartner(makeClient('b'), { displayName: 'Ben' });
 
-      const toA = payloadsTo('a').find(([e]) => e === 'partner-found')![1] as any;
-      const toB = payloadsTo('b').find(([e]) => e === 'partner-found')![1] as any;
+      const toA = payloadsTo('a').find(
+        ([e]) => e === 'partner-found',
+      )![1] as any;
+      const toB = payloadsTo('b').find(
+        ([e]) => e === 'partner-found',
+      )![1] as any;
 
       expect(toA.displayName).toBe('Ben');
       expect(toB.displayName).toBe('Anna');
@@ -151,9 +155,9 @@ describe('RoomGateway — lobby', () => {
       // 'b' queues, matches with 'a', so nobody is left to notify.
       gateway.handleFindPartner(makeClient('b'), { displayName: 'Ben' });
 
-      expect(payloadsTo('a').filter(([e]) => e === 'waiting-count')).toHaveLength(
-        0,
-      );
+      expect(
+        payloadsTo('a').filter(([e]) => e === 'waiting-count'),
+      ).toHaveLength(0);
     });
   });
 
@@ -223,9 +227,9 @@ describe('RoomGateway — lobby', () => {
 
       gateway.handleDisconnect(solo);
 
-      expect(payloadsTo('a').filter(([e]) => e === 'waiting-count')).toHaveLength(
-        0,
-      );
+      expect(
+        payloadsTo('a').filter(([e]) => e === 'waiting-count'),
+      ).toHaveLength(0);
     });
   });
 });

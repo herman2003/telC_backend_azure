@@ -8,11 +8,7 @@ import {
   Res,
 } from '@nestjs/common';
 import type { Response } from 'express';
-import {
-  ApiExcludeEndpoint,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { ExamAudioService } from '../centers/exam-audio.service';
 

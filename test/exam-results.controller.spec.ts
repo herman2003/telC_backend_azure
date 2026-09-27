@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import { ExamResultsController } from '../src/modules/centers/exam-results.controller';
 import { CenterAuthGuard } from '../src/modules/centers/guards/center-auth.guard';
 
@@ -29,12 +29,7 @@ describe('ExamResultsController', () => {
       releaseAttempt: jest.fn().mockResolvedValue({ released: 1 }),
     };
     exporter = { forSession: jest.fn().mockResolvedValue({ rows: [] }) };
-    controller = new ExamResultsController(
-      results,
-      grading,
-      release,
-      exporter,
-    );
+    controller = new ExamResultsController(results, grading, release, exporter);
   });
 
   it('is behind the center guard', () => {

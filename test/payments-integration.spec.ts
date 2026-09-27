@@ -304,7 +304,6 @@ describe('payments against real Postgres', () => {
         payments.create(identity(center.id), 10, 'key-1'),
       ).rejects.toThrow('CENTER_NOT_FOUND');
     });
-
   });
 
   /**
@@ -435,21 +434,13 @@ describe('payments against real Postgres', () => {
      */
     it('answers a retry from the original row after the price moved', async () => {
       const center = await makeCenter();
-      const first = await payments.create(
-        identity(center.id),
-        10,
-        'same-key',
-      );
+      const first = await payments.create(identity(center.id), 10, 'same-key');
       expect(first.unitPriceXaf).toBe(4_500);
 
       // The by-hand stamping workflow, or the planned move to 4,800.
       await holdSeats(center.id, 10, 4_000);
 
-      const replay = await payments.create(
-        identity(center.id),
-        10,
-        'same-key',
-      );
+      const replay = await payments.create(identity(center.id), 10, 'same-key');
 
       expect(replay.id).toBe(first.id);
       // Still the price it was actually charged, not a reprice.

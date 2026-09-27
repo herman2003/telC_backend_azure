@@ -44,6 +44,13 @@ const EXEMPT: Record<string, string> = {
   // should still be told their exam result is ready — especially then, since
   // the exam was paid for per candidate and separately from the monthly plan.
   NotificationsController: 'a notification is not a lesson',
+  // The screen that explains why nothing else works. A student whose center
+  // has lapsed must be able to read what is waiting for them — the response
+  // carries `frozen: true` and the real balances, so the app can say "your
+  // credits are held" rather than showing zeroes or an error. Refusing here
+  // would leave it with nothing to show at the one moment it matters.
+  MyEntitlementsController:
+    'reading what is frozen is how a student learns it is frozen',
 };
 
 /** The seven the plan inventoried. Named so the scan cannot pass vacuously. */

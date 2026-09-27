@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
 import { GeminiService } from './gemini.service';
-import { AiQuotaService } from '../../../shared/services/ai-quota.service';
 import { AiUsageService } from '../../../shared/services/ai-usage.service';
 import { RateLimitService } from '../../../shared/services/rate-limit.service';
 import { PrismaService } from '../../../shared/services/prisma.service';
@@ -30,16 +29,6 @@ interface SpeakingAttemptInput {
    * practice, which is everything else that calls here.
    */
   examAttemptId?: string;
-  /**
-   * Skip the practice allowance, because this sitting was already paid for.
-   *
-   * The allowance is two evaluations per window and a telc exam has three
-   * Sprechen Teile, so charging an exam against it would refuse a candidate
-   * on Teil 3 — in the middle of a sitting their center paid 1,500 XAF a
-   * head for. The bound here is the exam itself: one evaluation per Teil,
-   * enforced where the attempt is known.
-   */
-  skipQuota?: boolean;
 }
 
 interface StoredSpeakingAttempt {
@@ -54,7 +43,6 @@ export class EvaluationService {
 
   constructor(
     private readonly geminiService: GeminiService,
-    private readonly quota: AiQuotaService,
     private readonly usage: AiUsageService,
     private readonly rateLimit: RateLimitService,
     private readonly prisma: PrismaService,
@@ -136,16 +124,23 @@ export class EvaluationService {
     // StudentSubscriptionGuard makes for the same reason. Refusing here would
     // be a decision about authentication taken in the wrong place.
     if (studentId) {
-      // The burst limit applies to everyone, exam or not: it bounds how fast
-      // anybody can pile calls into the model.
+      // The only limit left here, and it is about our bill rather than the
+      // student's plan: twenty an hour bounds how fast anybody can pile calls
+      // into the model.
+      //
+      // Grading no longer has an allowance of its own. What Lerniqo sells is
+      // the conversation, charged when it starts — five a month on Start, then
+      // a credit — and charging the correction that follows it as well would
+      // refuse a student their feedback on a session they had already paid
+      // for. That is the phase 21 bug wearing different names: a telc exam of
+      // three Sprechen Teile meeting an allowance of two.
+      //
+      // The open edge is a transcript that arrives with no conversation behind
+      // it, from the browser's own speech recognition. That path is bounded
+      // only by the burst limit today; retiring it, or charging it as a
+      // session, is in the backlog and needs the app to say which it still
+      // uses.
       await this.rateLimit.checkAiEvaluationLimit(studentId);
-
-      // The practice allowance does not. See `skipQuota`: two per window
-      // against an exam of three Teile would fail a candidate on the last
-      // one, for a sitting that was paid for separately.
-      if (!attempt.skipQuota) {
-        await this.quota.assertWithinQuota(studentId, 'SPEAKING_EVALUATION');
-      }
     }
 
     const prompt = this.buildPrompt(teilNumber, transcript);

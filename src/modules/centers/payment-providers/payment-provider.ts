@@ -148,7 +148,11 @@ export function buildPaymentProviders(
   const publicKey = settings.NOTCHPAY_PUBLIC_KEY?.trim() ?? '';
   const notchWebhook = settings.NOTCHPAY_WEBHOOK_SECRET?.trim() ?? '';
   const callbackUrl = settings.NOTCHPAY_CALLBACK_URL?.trim() ?? '';
-  if (publicKey.length > 0 && notchWebhook.length > 0 && callbackUrl.length > 0) {
+  if (
+    publicKey.length > 0 &&
+    notchWebhook.length > 0 &&
+    callbackUrl.length > 0
+  ) {
     map.set(
       'notchpay',
       new NotchPayProvider({

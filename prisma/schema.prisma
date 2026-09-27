@@ -143,13 +143,14 @@ model Center {
   /// and a single pool would have to remember what each slot cost.
   exam_ai_slots_remaining Int @default(0)
 
-  users            CenterUser[]
-  activation_codes ActivationCode[]
-  exam_sessions    ExamSession[]
-  payments         Payment[]
-  seats            CenterSeat[]
-  students         Student[]
-  subscription     CenterSubscription?
+  users             CenterUser[]
+  activation_codes  ActivationCode[]
+  exam_sessions     ExamSession[]
+  payments          Payment[]
+  seats             CenterSeat[]
+  students          Student[]
+  subscription      CenterSubscription?
+  entitlement_pools CenterEntitlementPool[]
 
   @@map("centers")
 }
@@ -193,6 +194,13 @@ model CenterSubscription {
 /// allowance before it is written.
 enum AiOperation {
   SPEAKING_EVALUATION
+  /// One conversation with Elena. The unit Start sells — five a month — and
+  /// the unit an AI Speaking credit buys.
+  ///
+  /// A row rather than a counter, so the allowance is derived on read and
+  /// there is nothing to reset on a schedule and nothing that can drift from
+  /// the sessions it claims to describe.
+  SPEAKING_LIVE_SESSION
 }
 
 model CenterSeat {
@@ -266,7 +274,9 @@ model ActivationCode {
 
   center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
 
-  events ActivationCodeEvent[]
+  events           ActivationCodeEvent[]
+  entitlement_caps CodeEntitlementCap[]
+  entitlements     CodeEntitlement[]
 
   /// The Users page lists a center's codes by state; redemption looks one up
   /// by its value, which the unique index above already covers.
@@ -279,6 +289,99 @@ model ActivationCode {
   @@index([center_id, status])
   @@index([student_id])
   @@map("activation_codes")
+}
+
+/// One of the add-ons sold beside Start.
+///
+/// The same words as the matching `PaymentKind` values, so an invoice line and
+/// the row it granted read alike.
+enum EntitlementProduct {
+  PREP_PASS
+  AI_SPEAKING_CREDIT
+  AI_ASSISTED_LEARNING
+}
+
+/// What a center bought and has not handed out. The money.
+///
+/// One pot per product rather than one balance with a discount: a center may
+/// hold credits and passes at once, and neither may be spent as the other.
+/// Buying twice accumulates here — the history of who bought what and when is
+/// `payments`, and a second ledger would be a second thing to keep true.
+model CenterEntitlementPool {
+  center_id String
+  product   EntitlementProduct
+  /// Never below zero: the check constraint in the migration is the backstop
+  /// under the conditional update that spends one, the same way the exam slot
+  /// columns are guarded.
+  balance   Int                @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
+
+  @@id([center_id, product])
+  @@map("center_entitlement_pools")
+}
+
+/// Who may draw on the pool, and how much of it. The permission.
+///
+/// A ceiling, not a wallet. Credit is never moved onto a seat, so a student who
+/// does not use theirs strands nothing: what is left stays in the pool for
+/// whoever needs it, and a student two sessions short costs the center one
+/// number rather than a second purchase.
+///
+/// It hangs off the activation code rather than the student because a code
+/// exists before anybody holds it — so a center can buy ahead — and because a
+/// seat that changes hands should carry what was bought for it (ADR 0002). A
+/// student holds at most one connected code, so per-code and per-student are
+/// the same number whenever somebody holds it.
+model CodeEntitlementCap {
+  code_id String
+  product EntitlementProduct
+  /// Zero by default, and that is the authorization: nobody spends until a
+  /// manager says so.
+  cap     Int                @default(0)
+  /// Counted here rather than from `ai_usage`, because a cap belongs to the
+  /// seat and a seat can change hands — counting rows would charge whoever
+  /// holds the code now for what the last holder used.
+  ///
+  /// Deliberately NOT constrained to stay under `cap`: lowering a cap to zero
+  /// is how a manager stops somebody mid-term, and their spent sessions are
+  /// history rather than a contradiction. `used < cap` is the spend condition,
+  /// checked when spending.
+  used    Int                @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  code ActivationCode @relation(fields: [code_id], references: [id], onDelete: Cascade)
+
+  @@id([code_id, product])
+  @@map("code_entitlement_caps")
+}
+
+/// A period granted to one seat: a Prep Pass, a month of AI Assisted Learning.
+///
+/// It left the pool and does not come back. One row per product per code, so a
+/// second pass extends the date rather than opening a parallel one — two live
+/// passes on one seat is not a state anything should have to reason about.
+model CodeEntitlement {
+  code_id    String
+  product    EntitlementProduct
+  /// Compared on read. There is no `active` column for the reason a
+  /// subscription has no `status` one: a stored flag needs a job to keep it
+  /// true, and the direction it fails in is granting what nobody paid for.
+  expires_at DateTime
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  code ActivationCode @relation(fields: [code_id], references: [id], onDelete: Cascade)
+
+  @@id([code_id, product])
+  @@index([product, expires_at])
+  @@map("code_entitlements")
 }
 
 /// Every change a center makes to one of its codes.
@@ -318,6 +421,11 @@ enum PaymentKind {
   /// The 1,500 XAF tier. Its own value rather than a flag beside EXAM_SLOTS,
   /// so an invoice reads back as the product that was actually sold.
   EXAM_SLOTS_AI
+  /// The three add-ons. Named identically to `EntitlementProduct`, so an
+  /// invoice line and the entitlement it granted say the same word.
+  PREP_PASS
+  AI_SPEAKING_CREDIT
+  AI_ASSISTED_LEARNING
 }
 
 enum PaymentStatus {
@@ -382,6 +490,18 @@ model Payment {
   /// the same key but different seats is a different intent wearing the same
   /// name, and is refused rather than handed the original record.
   request_hash    String
+
+  /// What this payment was for, beyond how many: the codes the manager picked
+  /// and the cap they chose.
+  ///
+  /// Nothing may be granted before money moves, and hours can pass between the
+  /// purchase and the webhook, so the choice has to survive in between. Read
+  /// once, at activation, and re-validated there — a code deactivated in the
+  /// meantime has its cap dropped, while the pool is still credited, because
+  /// the money moved either way.
+  ///
+  /// Null for a purchase that needs none: seats, exam slots, a bare top-up.
+  metadata Json?
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt

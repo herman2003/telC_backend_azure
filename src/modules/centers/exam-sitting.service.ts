@@ -100,7 +100,9 @@ export class ExamSittingService {
    */
   async start(studentId: string, sessionId: string): Promise<ExamAttemptView> {
     const existing = await this.prisma.examAttempt.findUnique({
-      where: { session_id_student_id: { session_id: sessionId, student_id: studentId } },
+      where: {
+        session_id_student_id: { session_id: sessionId, student_id: studentId },
+      },
       select: ATTEMPT_SELECT,
     });
     // Before the window gate, deliberately: a candidate who began at 08:59
@@ -148,7 +150,10 @@ export class ExamSittingService {
       // race to insert, and the loser reads the row that won.
       const won = await this.prisma.examAttempt.findUnique({
         where: {
-          session_id_student_id: { session_id: sessionId, student_id: studentId },
+          session_id_student_id: {
+            session_id: sessionId,
+            student_id: studentId,
+          },
         },
         select: ATTEMPT_SELECT,
       });
@@ -547,8 +552,5 @@ function stateOf(
 
 /** Never negative: a countdown shows 00:00, not minus four minutes. */
 function remainingSecondsAt(deadlineAt: Date, now: Date): number {
-  return Math.max(
-    0,
-    Math.round((deadlineAt.getTime() - now.getTime()) / 1000),
-  );
+  return Math.max(0, Math.round((deadlineAt.getTime() - now.getTime()) / 1000));
 }

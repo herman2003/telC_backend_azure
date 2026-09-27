@@ -150,7 +150,11 @@ describe('starting a checkout', () => {
     const center = await makeCenter();
     const payment = await makePayment(center.id);
 
-    const first = await checkout.startCheckout(identity(center.id), payment.id, 'fake');
+    const first = await checkout.startCheckout(
+      identity(center.id),
+      payment.id,
+      'fake',
+    );
     const second = await checkout.startCheckout(
       identity(center.id),
       payment.id,
@@ -219,10 +223,7 @@ describe('what a checkout refuses', () => {
   });
 
   it('stores nothing when no provider is configured', async () => {
-    const checkout = new PaymentCheckoutService(
-      prisma,
-      registryOf(),
-    );
+    const checkout = new PaymentCheckoutService(prisma, registryOf());
     const center = await makeCenter();
     const payment = await makePayment(center.id);
 

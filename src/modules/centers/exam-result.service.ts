@@ -470,7 +470,10 @@ export class ExamResultService {
       inPart.has(`${section.skill}_${section.teil}`),
     );
 
-    const points = mine.reduce((sum, section) => sum + (section.points ?? 0), 0);
+    const points = mine.reduce(
+      (sum, section) => sum + (section.points ?? 0),
+      0,
+    );
     const maxPoints = mine.reduce((sum, section) => sum + section.maxPoints, 0);
 
     return {

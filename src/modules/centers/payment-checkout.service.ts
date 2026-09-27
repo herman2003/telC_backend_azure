@@ -56,10 +56,7 @@ export class PaymentCheckoutService {
     paymentId: string,
     method: PaymentMethodKind | 'fake',
   ): Promise<StartedCheckout> {
-    if (
-      method !== 'fake' &&
-      !CLIENT_PAYMENT_METHODS.includes(method as PaymentMethodKind)
-    ) {
+    if (method !== 'fake' && !CLIENT_PAYMENT_METHODS.includes(method)) {
       throw new BadRequestException('PAYMENT_METHOD_INVALID');
     }
 
