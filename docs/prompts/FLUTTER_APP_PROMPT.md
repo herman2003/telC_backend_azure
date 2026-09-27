@@ -215,6 +215,73 @@ the student's own history.
 
 ---
 
+## 9. What changed after 2026-09-25 (blocks 22a and 23)
+
+Three things, and none of them is restated here in detail — each has its own
+document, and a second copy would be a second thing to keep true.
+
+### 9.1 Elena is sold by the month, and sessions are shorter
+
+→ **`docs/ELENA_FLUTTER_CHANGE_REQUEST.md`** has the whole list. In summary:
+
+- a session now ends at **5 minutes**, not 10 (`expiresInSeconds` is 300)
+- the app must close a session after **30 s of silence at the start** and
+  **60 s mid-conversation** — the backend hears no audio and cannot do it
+- **always** call `POST /api/speaking/live-session/end`; a student may hold
+  only one live session at a time and an unreported one blocks them for up to
+  five minutes
+- new refusals on `POST /api/speaking/live-token`, all 429 with a
+  `messageKey`: `elenaSessionAlreadyOpen`, `elenaCenterUnpaid`,
+  `elenaNoAllowance`, `elenaMonthlyLimit`, `elenaRequiresAccount`
+
+### 9.2 `GET /api/plans` changed shape — this one breaks
+
+```diff
+- aiSpeaking: { limit: 2, window: "per_24h" }
++ aiSpeaking: { limit: 5, window: "per_month" }
+```
+
+Any client matching `per_24h` stops recognising it. That is deliberate:
+rendering "per day" over a monthly number is worse than rendering nothing.
+
+### 9.3 A student can see what they hold
+
+One new route, and it is the only one the app needs for add-ons:
+
+```http
+GET /api/me/entitlements
+→ { prepPass:   { active, expiresAt },
+    aiAssisted: { active, expiresAt },
+    aiSpeaking: { freeRemaining, resetsAt, creditsAvailable },
+    frozen }
+```
+
+- `freeRemaining` — Start's five sessions this month. Spent before any credit.
+- `creditsAvailable` — already the smaller of the school's pool and this
+  student's own cap. **One number; do not compute a minimum yourself.**
+- `frozen` — the school's subscription lapsed. Nothing is lost and nothing is
+  spendable. Say that, rather than showing zeroes.
+
+No subscription guard on this route, on purpose: it is the screen that
+explains why nothing else works, so it answers a student whose school has
+lapsed.
+
+There is **no student-facing purchase anywhere**. Schools buy; students hold.
+Do not build a checkout.
+
+### Also, still outstanding from before
+
+Two bugs in the **training** Hören screens, from the exam work:
+
+1. Teil 1 allows 2 plays; it should be 1 — the repeat is inside the audio file.
+2. The play button is **hidden** rather than disabled after a play, so a failed
+   autoplay on web leaves no button and allows unlimited replays.
+
+The exam simulator has its own document:
+**`docs/EXAM_SIMULATOR_FLUTTER_PROMPT.md`**.
+
+---
+
 ## How to check your work
 
 Against a local backend on `dev`: register (with the password rule and a
