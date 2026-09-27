@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
@@ -46,5 +47,23 @@ async function bootstrap() {
 
   const port = Number(process.env.PORT) || 3000;
   await app.listen(port, '0.0.0.0');
+
+  // Which database this process is actually talking to, host only — never the
+  // credentials. `.env` is production and `.env.test` is a disposable branch,
+  // and the difference between them is invisible until something has already
+  // been written. One line at boot makes it impossible to be unsure.
+  Logger.log(`Listening on ${port}, database ${databaseHost()}`, 'Bootstrap');
+}
+
+function databaseHost(): string {
+  const url = process.env.DATABASE_URL;
+  if (!url) return 'none configured';
+  try {
+    return new URL(url).host;
+  } catch {
+    // A malformed URL is the database layer's problem to report, not this
+    // line's; saying so beats crashing the boot log.
+    return 'unreadable';
+  }
 }
 void bootstrap();
