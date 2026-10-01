@@ -42,6 +42,13 @@ jobs:
       # app.e2e-spec.ts at module boot. Verified by running the suites
       # locally with .env removed and only these variables set.
       GEMINI_API_KEY: ci-dummy-gemini-key
+      # ExamsModule signs audio links with this and reads it through
+      # getOrThrow, so the module graph will not build without it. Added after
+      # CI caught it: the exam audio work made it required and did not add it
+      # here, so app.e2e-spec passed only on a machine with a real .env and
+      # failed the first time CI ran on a clean checkout. Nothing verifies a
+      # token in these suites; the value only has to exist.
+      TOKEN_HMAC_SECRET: ci-dummy-hmac-secret-not-a-real-key
       # JWT secrets are supplied by test/jest-e2e-setup.ts, which pads them to
       # the length AppModule's validation requires. Left unset on purpose so
       # that fallback stays exercised.
