@@ -48,9 +48,6 @@ All three are this task.
    later: the day a school first paid is only knowable on the day it pays.
 5. **A late payment after being blocked sets a new anchor day** (rule 7). A
    payment in grace does not move it.
-6. **The backfill is a script, not a route.** It runs once, by hand, against a
-   named centre.
-
 → Correct these now or the task split proceeds on them.
 
 ---
@@ -138,21 +135,23 @@ it is separate work and is not in scope.
 
 ---
 
-## 6. The backfill
+## 6. No backfill script
 
-`scripts/backfill-activation-codes.mjs`, run by hand:
+Considered and dropped. One centre is stuck —
+`testapplication551@gmail.com`, a test account — and production is demo data
+that has not launched.
 
-- for a named centre, or every centre with `paid_until` set
-- mint up to `center_seats.quantity` using the §3 rule
-- retire a trial code the same way as §4
-- set `anchor_day` from the payment that paid them, where it can be found
-- **dry run by default**; `--apply` to write
-- refuses to run against `ep-wandering-hall` unless `--production` is passed
-  explicitly, for the reason every other script in this repo refuses
+A script with dry-run flags and a production guard, maintained from now on, to
+fix one row in a test database is not worth having. **Herman re-runs the
+payment once this ships**, which fixes his centre and proves the new code at
+the same time. A script would have done only the first.
 
-It fixes `testapplication551@gmail.com`: 1 code → 10, the connected one kept.
+And a tool that mints activation codes outside a payment is a permanent way to
+create paid access without payment. Worth writing when it is needed and
+deleting after; not worth keeping against the possibility.
 
----
+If a centre does turn out to be stuck, it is a few lines of SQL run once, with
+the real numbers in front of whoever runs them.
 
 ## 7. Success criteria
 
@@ -169,8 +168,9 @@ It fixes `testapplication551@gmail.com`: 1 code → 10, the connected one kept.
       2 minted.
 - [ ] `anchor_day` is set on first payment and **unchanged** by a later one,
       unless the centre was blocked.
-- [ ] The backfill takes the test centre from 1 to 10 without touching the
-      `CONNECTED` row, and is a no-op on a second run.
+- [ ] Re-running the 10-seat payment on the stuck test centre takes it from
+      1 code to 10, keeping the `CONNECTED` one — the same path a new school
+      takes, not a special one.
 
 ## 8. Testing
 
@@ -199,7 +199,7 @@ production.
 - **Always:** four suites green before merge; the mint counted and written in
   one transaction.
 - **Ask first:** anything that changes what an existing code's `expires_at`
-  means; running the backfill against production.
+  means; any route or script that mints a code outside a verified payment.
 - **Never:** delete an activation code; clear `center_id` on the student being
   moved; mint outside the activation transaction.
 
