@@ -231,6 +231,11 @@ export class PaymentActivationService {
         };
       }
 
+      // Before the paid period is extended, and that order is load-bearing:
+      // the anchor day only moves for a centre that was BLOCKED, and blocked
+      // is derived from `paid_until`. Extending first would make every centre
+      // look ACTIVE here, so one coming back after a lapse would keep an
+      // anchor day it is no longer paying for.
       await this.setAnchorDay(tx, payment.center_id);
       const paidUntil = await this.extendPaidPeriod(tx, payment.center_id);
       await this.setSeats(
