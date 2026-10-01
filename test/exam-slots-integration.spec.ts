@@ -9,6 +9,7 @@
  */
 import { PrismaService } from '../src/shared/services/prisma.service';
 import { ExamSlotsService } from '../src/modules/centers/exam-slots.service';
+import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
 import { PaymentActivationService } from '../src/modules/centers/payment-activation.service';
 import { ExamSessionsService } from '../src/modules/centers/exam-sessions.service';
 import { ExamParticipantsService } from '../src/modules/centers/exam-participants.service';
@@ -27,7 +28,10 @@ const SECRET = 'a-long-enough-fake-webhook-secret-for-tests';
 
 const prisma = new PrismaService();
 const slots = new ExamSlotsService(prisma);
-const activation = new PaymentActivationService(prisma);
+const activation = new PaymentActivationService(
+  prisma,
+  new SubscriptionPolicyService(),
+);
 const provider = new FakePaymentProvider(SECRET);
 const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
 const webhooks = new PaymentWebhookService(

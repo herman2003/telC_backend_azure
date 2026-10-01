@@ -40,7 +40,10 @@ const payments = new PaymentsService(
   new CenterSeatsService(prisma),
 );
 const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
-const activation = new PaymentActivationService(prisma);
+const activation = new PaymentActivationService(
+  prisma,
+  new SubscriptionPolicyService(),
+);
 const webhooks = new PaymentWebhookService(
   prisma,
   activation,

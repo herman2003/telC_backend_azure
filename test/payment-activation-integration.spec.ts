@@ -15,7 +15,10 @@ import { StudentEntitlementService } from '../src/shared/services/student-entitl
 import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
 
 const prisma = new PrismaService();
-const activation = new PaymentActivationService(prisma);
+const activation = new PaymentActivationService(
+  prisma,
+  new SubscriptionPolicyService(),
+);
 const entitlement = new StudentEntitlementService(
   prisma,
   new SubscriptionPolicyService(),
@@ -928,5 +931,117 @@ describe('the trial code is retired when a school starts paying', () => {
       where: { id: trial.id },
     });
     expect(after.status).toBe('CONNECTED');
+  });
+});
+
+describe('the anchor day', () => {
+  // D4 rule 9: every period of a centre ends on the same day of the month,
+  // counted in Africa/Douala. Stored now because it cannot be recovered
+  // later — the day a school first paid is only knowable on the day it pays
+  // — and because `code-reset-allowance.ts` already says in a comment that
+  // it is waiting for the column.
+
+  /** Today, where the rule says to count it. */
+  const doualaDay = () =>
+    new Date(
+      new Date().toLocaleString('en-US', { timeZone: 'Africa/Douala' }),
+    ).getDate();
+
+  /**
+   * A day that is definitely not today.
+   *
+   * Pinning a fixture to a literal 1 made two of these tests pass on the 1st
+   * of the month whatever the code did, and fail on the 2nd. A fixture that
+   * is only correct one day in thirty is worse than no fixture.
+   */
+  const someOtherDay = () => (doualaDay() % 28) + 1;
+
+  const anchorOf = async (centerId: string) =>
+    (
+      await prisma.centerSubscription.findUniqueOrThrow({
+        where: { center_id: centerId },
+        select: { anchor_day: true },
+      })
+    ).anchor_day;
+
+  it('is set by the first payment', async () => {
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const day = await anchorOf(center.id);
+    expect(day).not.toBeNull();
+    expect(day).toBeGreaterThanOrEqual(1);
+    expect(day).toBeLessThanOrEqual(31);
+  });
+
+  it('is the day in Douala, not in UTC', async () => {
+    // Africa/Douala is UTC+1, so anything after 23:00 UTC is already
+    // tomorrow there. A school paying at 23:30 on the 31st anchors on the
+    // 1st, and billing it on the 31st would be a day early every month.
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(anchorOf(center.id)).resolves.toBe(doualaDay());
+  });
+
+  it('is not moved by a later payment', async () => {
+    // Rule 3: adding seats mid-period never moves the renewal date. A school
+    // that buys six more seats on the 5th still renews on the 1st.
+    const center = await makeCenter();
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const pinned = someOtherDay();
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: pinned },
+    });
+    await activation.activate((await makePayment(center.id, 16)).id);
+
+    await expect(anchorOf(center.id)).resolves.toBe(pinned);
+  });
+
+  it('starts again when a blocked centre pays', async () => {
+    // Rule 7: more than seven days late and the centre is blocked; paying
+    // then starts a new period that day, because the blocked days are not
+    // charged. Keeping the old anchor would bill them for time they spent
+    // locked out.
+    const center = await makeCenter(new Date(Date.now() - 60 * DAY_MS));
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: someOtherDay() },
+    });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(anchorOf(center.id)).resolves.toBe(doualaDay());
+  });
+
+  it('is left alone by a centre still inside its grace period', async () => {
+    // Rule 7 again, the other half: up to seven days late the anchor does
+    // not change. Only being blocked resets it.
+    const center = await makeCenter(new Date(Date.now() - 2 * DAY_MS));
+    const pinned = someOtherDay();
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: pinned },
+    });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(anchorOf(center.id)).resolves.toBe(pinned);
+  });
+
+  it('is not touched by an add-on payment', async () => {
+    const center = await makeCenter();
+    await activation.activate((await makePayment(center.id, 10)).id);
+    const first = await anchorOf(center.id);
+
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+
+    await expect(anchorOf(center.id)).resolves.toBe(first);
   });
 });

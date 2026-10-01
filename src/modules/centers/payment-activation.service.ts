@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, type EntitlementProduct } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { generateActivationCode } from './activation-code-format';
+import { SubscriptionPolicyService } from './subscription-policy.service';
 
 /**
  * How long one payment buys.
@@ -63,6 +64,22 @@ function readCapTargets(metadata: Prisma.JsonValue | null): CapTargets | null {
  */
 const ACTIVATION_TRANSACTION = { maxWait: 10_000, timeout: 20_000 };
 
+/**
+ * Today's day of the month in Africa/Douala.
+ *
+ * Through `Intl` rather than by adding an hour to UTC: the offset is a fact
+ * about the zone, not a constant, and hard-coding +1 is how a date library
+ * eventually gets it wrong.
+ */
+export function doualaDayOfMonth(now = new Date()): number {
+  return Number(
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Africa/Douala',
+      day: 'numeric',
+    }).format(now),
+  );
+}
+
 export type ActivationOutcome = 'ACTIVATED' | 'ALREADY_ACTIVE';
 
 export interface ActivationResult {
@@ -89,7 +106,10 @@ export interface FailureResult {
  */
 @Injectable()
 export class PaymentActivationService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly policy: SubscriptionPolicyService,
+  ) {}
 
   /**
    * Grants what a payment bought, exactly once.
@@ -211,6 +231,7 @@ export class PaymentActivationService {
         };
       }
 
+      await this.setAnchorDay(tx, payment.center_id);
       const paidUntil = await this.extendPaidPeriod(tx, payment.center_id);
       await this.setSeats(
         tx,
@@ -353,6 +374,54 @@ export class PaymentActivationService {
   }
 
   /** The payment's quantity and price, written onto the center's seat row. */
+  /**
+   * Remembers the day of the month this centre's periods end on (D4 rule 9).
+   *
+   * A day, not a date, because the rule is that the day survives months that
+   * do not have it: 31 January becomes 28 February and then 31 March again.
+   * A stored date would lose that the first time it met a short month.
+   *
+   * Counted in **Africa/Douala**. The server runs in UTC, and Douala is an
+   * hour ahead, so a school paying at 23:30 UTC on the 31st has already
+   * reached the 1st where it is sitting. Anchoring on the 31st would bill it
+   * a day early, every month, for the life of the account.
+   *
+   * SET ONCE, then left alone. Adding seats mid-period must never move the
+   * renewal date (rule 3) — the exception is a centre that was BLOCKED, where
+   * paying starts a new period that day because the blocked days were never
+   * charged (rule 7). A centre in grace keeps its day: it is late, not
+   * starting again.
+   *
+   * Nothing reads this yet. It is captured now because it cannot be recovered
+   * later — the day a school first paid is only knowable on the day it pays —
+   * and `code-reset-allowance.ts` already names it as what will replace its
+   * stand-in period.
+   */
+  private async setAnchorDay(
+    tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
+    centerId: string,
+  ): Promise<void> {
+    const subscription = await tx.centerSubscription.findUnique({
+      where: { center_id: centerId },
+      select: {
+        anchor_day: true,
+        plan: true,
+        trial_started_at: true,
+        trial_ends_at: true,
+        paid_until: true,
+      },
+    });
+    if (!subscription) return;
+
+    const blocked = this.policy.evaluate(subscription).status === 'BLOCKED';
+    if (subscription.anchor_day !== null && !blocked) return;
+
+    await tx.centerSubscription.update({
+      where: { center_id: centerId },
+      data: { anchor_day: doualaDayOfMonth() },
+    });
+  }
+
   /**
    * Replaces the trial's codes with paid ones.
    *
