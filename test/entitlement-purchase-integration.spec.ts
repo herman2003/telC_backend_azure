@@ -7,11 +7,15 @@
  */
 import { PrismaService } from '../src/shared/services/prisma.service';
 import { EntitlementPurchaseService } from '../src/modules/centers/entitlement-purchase.service';
+import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
 import { PaymentActivationService } from '../src/modules/centers/payment-activation.service';
 
 const prisma = new PrismaService();
 const purchases = new EntitlementPurchaseService(prisma);
-const activation = new PaymentActivationService(prisma);
+const activation = new PaymentActivationService(
+  prisma,
+  new SubscriptionPolicyService(),
+);
 
 async function wipe() {
   // Managers first: center_users has no cascade, so deleting the centre out

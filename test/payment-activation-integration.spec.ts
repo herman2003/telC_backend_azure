@@ -15,7 +15,10 @@ import { StudentEntitlementService } from '../src/shared/services/student-entitl
 import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
 
 const prisma = new PrismaService();
-const activation = new PaymentActivationService(prisma);
+const activation = new PaymentActivationService(
+  prisma,
+  new SubscriptionPolicyService(),
+);
 const entitlement = new StudentEntitlementService(
   prisma,
   new SubscriptionPolicyService(),
@@ -83,7 +86,6 @@ async function makeStudent(centerId: string) {
   });
 }
 
-
 async function makeCode(centerId: string) {
   return prisma.activationCode.create({
     data: {
@@ -125,6 +127,29 @@ const poolOf = async (
       select: { balance: true },
     })
   )?.balance ?? null;
+
+const codesOf = (centerId: string) =>
+  prisma.activationCode.findMany({
+    where: { center_id: centerId },
+    select: { code: true, status: true, expires_at: true, student_id: true },
+    orderBy: { created_at: 'asc' },
+  });
+
+const liveCodeCount = (centerId: string) =>
+  prisma.activationCode.count({
+    where: { center_id: centerId, status: { not: 'DEACTIVATED' } },
+  });
+
+/** A code the centre already holds, as the trial or an earlier payment left it. */
+async function giveCode(centerId: string, over: Record<string, unknown> = {}) {
+  return prisma.activationCode.create({
+    data: {
+      center_id: centerId,
+      code: `LQ-MINT-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+      ...over,
+    },
+  });
+}
 
 const seatsOf = (centerId: string) =>
   prisma.centerSeat.findMany({
@@ -590,5 +615,433 @@ describe('an add-on payment', () => {
     await expect(seatsOf(center.id)).resolves.toEqual([
       { quantity: 10, unit_price_xaf: 4500 },
     ]);
+  });
+});
+
+describe('a paid centre gets codes to hand out', () => {
+  // The P0. Until this existed, activation set the seat count and the paid
+  // period and minted nothing, so a school could pay for ten places and
+  // enrol one student — the one holding the trial code.
+
+  it('mints one code per seat when the centre holds none', async () => {
+    const center = await makeCenter();
+    const payment = await makePayment(center.id, 10);
+
+    await activation.activate(payment.id);
+
+    const codes = await codesOf(center.id);
+    expect(codes).toHaveLength(10);
+    expect(codes.every((row) => row.status === 'ACTIVATED')).toBe(true);
+  });
+
+  it('gives paid codes no expiry of their own', async () => {
+    // They follow `paid_until`. A date here would be a second thing to keep
+    // true, and it would go stale the moment the centre renews.
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 3)).id);
+
+    const codes = await codesOf(center.id);
+    expect(codes.every((row) => row.expires_at === null)).toBe(true);
+  });
+
+  it('tops up rather than replacing what the centre already holds', async () => {
+    // Ten seats with one code already means nine new ones. Never ten, and
+    // never deleting the one that exists — somebody may be using it.
+    const center = await makeCenter();
+    const existing = await giveCode(center.id, { status: 'CONNECTED' });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const codes = await codesOf(center.id);
+    expect(codes).toHaveLength(10);
+    expect(codes.map((row) => row.code)).toContain(existing.code);
+  });
+
+  it('does not count deactivated codes toward the quota', async () => {
+    // DEACTIVATED is terminal: nothing brings a code back. Counting them
+    // would quietly cost the school a seat it keeps paying for, every time a
+    // manager takes one back.
+    const center = await makeCenter();
+    await giveCode(center.id, { status: 'DEACTIVATED' });
+    await giveCode(center.id, { status: 'DEACTIVATED' });
+    await giveCode(center.id, { status: 'ACTIVATED' });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(liveCodeCount(center.id)).resolves.toBe(10);
+    // The dead ones are history, and history is not deleted.
+    await expect(codesOf(center.id)).resolves.toHaveLength(12);
+  });
+
+  it('mints nothing the second time the same webhook arrives', async () => {
+    const center = await makeCenter();
+    const payment = await makePayment(center.id, 10);
+
+    await activation.activate(payment.id);
+    await activation.activate(payment.id);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(10);
+  });
+
+  it('mints nothing extra when the centre pays a second time', async () => {
+    // Renewal, and the case the counting actually exists for. A replayed
+    // webhook never reaches here — the payment is already SUCCEEDED and
+    // activation returns early — so the same payment twice proves nothing
+    // about minting. Two DIFFERENT payments do: without counting what is
+    // already held, a school that renews would end up with twenty codes for
+    // ten seats, and twenty places to learn for the price of ten.
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(10);
+  });
+
+  it('mints up to the new quota when the centre buys more seats', async () => {
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+    await activation.activate((await makePayment(center.id, 16)).id);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(16);
+  });
+
+  it('mints nothing when two activations race', async () => {
+    // The count is taken inside the transaction that mints, so the second
+    // sees the first's rows. Counting outside would hand a school twenty
+    // codes for ten seats.
+    const center = await makeCenter();
+    const payment = await makePayment(center.id, 10);
+
+    await Promise.allSettled([
+      activation.activate(payment.id),
+      activation.activate(payment.id),
+    ]);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(10);
+  });
+
+  it('mints nothing for a centre already at its quota', async () => {
+    const center = await makeCenter();
+    for (let i = 0; i < 10; i++) await giveCode(center.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(10);
+  });
+
+  it('gives every code a distinct value', async () => {
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const codes = await codesOf(center.id);
+    expect(new Set(codes.map((row) => row.code)).size).toBe(10);
+    expect(
+      codes.every((row) => /^LQ-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(row.code)),
+    ).toBe(true);
+  });
+
+  it('mints nothing for an add-on payment', async () => {
+    // Credits are not seats. Buying them must not hand out places to learn.
+    const center = await makeCenter();
+
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(0);
+  });
+});
+
+describe('the trial code is retired when a school starts paying', () => {
+  // D4 rule 2: "A trial student is moved to a paid code automatically and the
+  // trial code is retired." A trial code carries an expiry of its own; a paid
+  // one follows `paid_until`. Leaving the student on the trial code would cut
+  // them off on the old trial date, days after their school paid.
+
+  /** The trial, as `center-trial.service` leaves it: one code with a date. */
+  async function trialCode(centerId: string, studentId?: string) {
+    return prisma.activationCode.create({
+      data: {
+        center_id: centerId,
+        code: `LQ-TRIA-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+        expires_at: new Date(Date.now() + 5 * DAY_MS),
+        ...(studentId
+          ? {
+              status: 'CONNECTED' as const,
+              student_id: studentId,
+              linked_name: 'Awa Mbarga',
+              linked_email: 'awa@example.com',
+              connected_at: new Date(),
+            }
+          : {}),
+      },
+    });
+  }
+
+  it('moves the student onto a paid code and retires the old one', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    const trial = await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const retired = await prisma.activationCode.findUniqueOrThrow({
+      where: { id: trial.id },
+    });
+    expect(retired.status).toBe('DEACTIVATED');
+
+    const paid = await prisma.activationCode.findFirstOrThrow({
+      where: { center_id: center.id, status: 'CONNECTED' },
+    });
+    expect(paid.id).not.toBe(trial.id);
+    expect(paid.student_id).toBe(student.id);
+    expect(paid.expires_at).toBeNull();
+  });
+
+  it('keeps the student attached to their school', async () => {
+    // The ordinary deactivation path clears `center_id` — that is how a
+    // manager removes somebody. Doing it here would cut off the very student
+    // the school has just paid for.
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const after = await prisma.student.findUniqueOrThrow({
+      where: { id: student.id },
+      select: { center_id: true },
+    });
+    expect(after.center_id).toBe(center.id);
+  });
+
+  it('carries the student name and email onto the new code', async () => {
+    // A manager looking at the Users page should see the same person on the
+    // seat, not an empty row that happens to be connected.
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const paid = await prisma.activationCode.findFirstOrThrow({
+      where: { center_id: center.id, status: 'CONNECTED' },
+    });
+    expect(paid).toMatchObject({
+      linked_name: 'Awa Mbarga',
+      linked_email: 'awa@example.com',
+    });
+    expect(paid.connected_at).not.toBeNull();
+  });
+
+  it('still ends at exactly one code per seat', async () => {
+    // The move must not cost the school a place, nor hand it a spare.
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(liveCodeCount(center.id)).resolves.toBe(10);
+  });
+
+  it('retires a trial code nobody redeemed', async () => {
+    // Left alone it would expire on the old trial date, and a school would
+    // hand out a code that dies in a week.
+    const center = await makeCenter();
+    const unused = await trialCode(center.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const after = await prisma.activationCode.findUniqueOrThrow({
+      where: { id: unused.id },
+    });
+    expect(after.status).toBe('DEACTIVATED');
+    await expect(liveCodeCount(center.id)).resolves.toBe(10);
+  });
+
+  it('leaves no code carrying an expiry of its own', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+    await trialCode(center.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const live = await prisma.activationCode.findMany({
+      where: { center_id: center.id, status: { not: 'DEACTIVATED' } },
+      select: { expires_at: true },
+    });
+    expect(live.every((row) => row.expires_at === null)).toBe(true);
+  });
+
+  it('records the move, so it can be explained afterwards', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    const trial = await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const events = await prisma.activationCodeEvent.findMany({
+      where: { center_id: center.id },
+      orderBy: { created_at: 'asc' },
+    });
+    const retirement = events.find((event) => event.code_id === trial.id);
+    expect(retirement).toMatchObject({
+      from_status: 'CONNECTED',
+      to_status: 'DEACTIVATED',
+      student_id: student.id,
+      // Nobody at the school acted: the payment did.
+      center_user_id: null,
+    });
+  });
+
+  it('does nothing on a renewal, because no trial code is left', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+    const afterFirst = await prisma.activationCode.count({
+      where: { center_id: center.id },
+    });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(
+      prisma.activationCode.count({ where: { center_id: center.id } }),
+    ).resolves.toBe(afterFirst);
+    await expect(liveCodeCount(center.id)).resolves.toBe(10);
+  });
+
+  it('leaves an add-on payment well alone', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    const trial = await trialCode(center.id, student.id);
+
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+
+    const after = await prisma.activationCode.findUniqueOrThrow({
+      where: { id: trial.id },
+    });
+    expect(after.status).toBe('CONNECTED');
+  });
+});
+
+describe('the anchor day', () => {
+  // D4 rule 9: every period of a centre ends on the same day of the month,
+  // counted in Africa/Douala. Stored now because it cannot be recovered
+  // later — the day a school first paid is only knowable on the day it pays
+  // — and because `code-reset-allowance.ts` already says in a comment that
+  // it is waiting for the column.
+
+  /** Today, where the rule says to count it. */
+  const doualaDay = () =>
+    new Date(
+      new Date().toLocaleString('en-US', { timeZone: 'Africa/Douala' }),
+    ).getDate();
+
+  /**
+   * A day that is definitely not today.
+   *
+   * Pinning a fixture to a literal 1 made two of these tests pass on the 1st
+   * of the month whatever the code did, and fail on the 2nd. A fixture that
+   * is only correct one day in thirty is worse than no fixture.
+   */
+  const someOtherDay = () => (doualaDay() % 28) + 1;
+
+  const anchorOf = async (centerId: string) =>
+    (
+      await prisma.centerSubscription.findUniqueOrThrow({
+        where: { center_id: centerId },
+        select: { anchor_day: true },
+      })
+    ).anchor_day;
+
+  it('is set by the first payment', async () => {
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const day = await anchorOf(center.id);
+    expect(day).not.toBeNull();
+    expect(day).toBeGreaterThanOrEqual(1);
+    expect(day).toBeLessThanOrEqual(31);
+  });
+
+  it('is the day in Douala, not in UTC', async () => {
+    // Africa/Douala is UTC+1, so anything after 23:00 UTC is already
+    // tomorrow there. A school paying at 23:30 on the 31st anchors on the
+    // 1st, and billing it on the 31st would be a day early every month.
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(anchorOf(center.id)).resolves.toBe(doualaDay());
+  });
+
+  it('is not moved by a later payment', async () => {
+    // Rule 3: adding seats mid-period never moves the renewal date. A school
+    // that buys six more seats on the 5th still renews on the 1st.
+    const center = await makeCenter();
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const pinned = someOtherDay();
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: pinned },
+    });
+    await activation.activate((await makePayment(center.id, 16)).id);
+
+    await expect(anchorOf(center.id)).resolves.toBe(pinned);
+  });
+
+  it('starts again when a blocked centre pays', async () => {
+    // Rule 7: more than seven days late and the centre is blocked; paying
+    // then starts a new period that day, because the blocked days are not
+    // charged. Keeping the old anchor would bill them for time they spent
+    // locked out.
+    const center = await makeCenter(new Date(Date.now() - 60 * DAY_MS));
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: someOtherDay() },
+    });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(anchorOf(center.id)).resolves.toBe(doualaDay());
+  });
+
+  it('is left alone by a centre still inside its grace period', async () => {
+    // Rule 7 again, the other half: up to seven days late the anchor does
+    // not change. Only being blocked resets it.
+    const center = await makeCenter(new Date(Date.now() - 2 * DAY_MS));
+    const pinned = someOtherDay();
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: pinned },
+    });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(anchorOf(center.id)).resolves.toBe(pinned);
+  });
+
+  it('is not touched by an add-on payment', async () => {
+    const center = await makeCenter();
+    await activation.activate((await makePayment(center.id, 10)).id);
+    const first = await anchorOf(center.id);
+
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+
+    await expect(anchorOf(center.id)).resolves.toBe(first);
   });
 });
