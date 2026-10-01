@@ -83,7 +83,6 @@ async function makeStudent(centerId: string) {
   });
 }
 
-
 async function makeCode(centerId: string) {
   return prisma.activationCode.create({
     data: {
@@ -125,6 +124,29 @@ const poolOf = async (
       select: { balance: true },
     })
   )?.balance ?? null;
+
+const codesOf = (centerId: string) =>
+  prisma.activationCode.findMany({
+    where: { center_id: centerId },
+    select: { code: true, status: true, expires_at: true, student_id: true },
+    orderBy: { created_at: 'asc' },
+  });
+
+const liveCodeCount = (centerId: string) =>
+  prisma.activationCode.count({
+    where: { center_id: centerId, status: { not: 'DEACTIVATED' } },
+  });
+
+/** A code the centre already holds, as the trial or an earlier payment left it. */
+async function giveCode(centerId: string, over: Record<string, unknown> = {}) {
+  return prisma.activationCode.create({
+    data: {
+      center_id: centerId,
+      code: `LQ-MINT-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+      ...over,
+    },
+  });
+}
 
 const seatsOf = (centerId: string) =>
   prisma.centerSeat.findMany({
@@ -590,5 +612,143 @@ describe('an add-on payment', () => {
     await expect(seatsOf(center.id)).resolves.toEqual([
       { quantity: 10, unit_price_xaf: 4500 },
     ]);
+  });
+});
+
+describe('a paid centre gets codes to hand out', () => {
+  // The P0. Until this existed, activation set the seat count and the paid
+  // period and minted nothing, so a school could pay for ten places and
+  // enrol one student — the one holding the trial code.
+
+  it('mints one code per seat when the centre holds none', async () => {
+    const center = await makeCenter();
+    const payment = await makePayment(center.id, 10);
+
+    await activation.activate(payment.id);
+
+    const codes = await codesOf(center.id);
+    expect(codes).toHaveLength(10);
+    expect(codes.every((row) => row.status === 'ACTIVATED')).toBe(true);
+  });
+
+  it('gives paid codes no expiry of their own', async () => {
+    // They follow `paid_until`. A date here would be a second thing to keep
+    // true, and it would go stale the moment the centre renews.
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 3)).id);
+
+    const codes = await codesOf(center.id);
+    expect(codes.every((row) => row.expires_at === null)).toBe(true);
+  });
+
+  it('tops up rather than replacing what the centre already holds', async () => {
+    // Ten seats with one code already means nine new ones. Never ten, and
+    // never deleting the one that exists — somebody may be using it.
+    const center = await makeCenter();
+    const existing = await giveCode(center.id, { status: 'CONNECTED' });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const codes = await codesOf(center.id);
+    expect(codes).toHaveLength(10);
+    expect(codes.map((row) => row.code)).toContain(existing.code);
+  });
+
+  it('does not count deactivated codes toward the quota', async () => {
+    // DEACTIVATED is terminal: nothing brings a code back. Counting them
+    // would quietly cost the school a seat it keeps paying for, every time a
+    // manager takes one back.
+    const center = await makeCenter();
+    await giveCode(center.id, { status: 'DEACTIVATED' });
+    await giveCode(center.id, { status: 'DEACTIVATED' });
+    await giveCode(center.id, { status: 'ACTIVATED' });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(liveCodeCount(center.id)).resolves.toBe(10);
+    // The dead ones are history, and history is not deleted.
+    await expect(codesOf(center.id)).resolves.toHaveLength(12);
+  });
+
+  it('mints nothing the second time the same webhook arrives', async () => {
+    const center = await makeCenter();
+    const payment = await makePayment(center.id, 10);
+
+    await activation.activate(payment.id);
+    await activation.activate(payment.id);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(10);
+  });
+
+  it('mints nothing extra when the centre pays a second time', async () => {
+    // Renewal, and the case the counting actually exists for. A replayed
+    // webhook never reaches here — the payment is already SUCCEEDED and
+    // activation returns early — so the same payment twice proves nothing
+    // about minting. Two DIFFERENT payments do: without counting what is
+    // already held, a school that renews would end up with twenty codes for
+    // ten seats, and twenty places to learn for the price of ten.
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(10);
+  });
+
+  it('mints up to the new quota when the centre buys more seats', async () => {
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+    await activation.activate((await makePayment(center.id, 16)).id);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(16);
+  });
+
+  it('mints nothing when two activations race', async () => {
+    // The count is taken inside the transaction that mints, so the second
+    // sees the first's rows. Counting outside would hand a school twenty
+    // codes for ten seats.
+    const center = await makeCenter();
+    const payment = await makePayment(center.id, 10);
+
+    await Promise.allSettled([
+      activation.activate(payment.id),
+      activation.activate(payment.id),
+    ]);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(10);
+  });
+
+  it('mints nothing for a centre already at its quota', async () => {
+    const center = await makeCenter();
+    for (let i = 0; i < 10; i++) await giveCode(center.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(10);
+  });
+
+  it('gives every code a distinct value', async () => {
+    const center = await makeCenter();
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const codes = await codesOf(center.id);
+    expect(new Set(codes.map((row) => row.code)).size).toBe(10);
+    expect(
+      codes.every((row) => /^LQ-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(row.code)),
+    ).toBe(true);
+  });
+
+  it('mints nothing for an add-on payment', async () => {
+    // Credits are not seats. Buying them must not hand out places to learn.
+    const center = await makeCenter();
+
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+
+    await expect(codesOf(center.id)).resolves.toHaveLength(0);
   });
 });

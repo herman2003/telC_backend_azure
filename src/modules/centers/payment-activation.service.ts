@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, type EntitlementProduct } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
+import { generateActivationCode } from './activation-code-format';
 
 /**
  * How long one payment buys.
@@ -217,6 +218,7 @@ export class PaymentActivationService {
         payment.quantity,
         payment.unit_price_xaf,
       );
+      await this.mintMissingCodes(tx, payment.center_id, payment.quantity);
 
       return {
         outcome: 'ACTIVATED',
@@ -350,6 +352,64 @@ export class PaymentActivationService {
   }
 
   /** The payment's quantity and price, written onto the center's seat row. */
+  /**
+   * Gives the center one code per seat it has paid for.
+   *
+   * Without this a school could buy ten places and enrol one student: seats
+   * were counted and the paid period extended, but codes were created in
+   * exactly one place in the backend — the trial — so there was nothing to
+   * hand out (D4 rule 2).
+   *
+   * TOPS UP, NEVER REPLACES. Ten seats with one code already held means nine
+   * new ones. Existing codes are never touched: somebody may be using one,
+   * and a code is how a student keeps their access.
+   *
+   * DEACTIVATED ONES DO NOT COUNT. That status is terminal — nothing brings a
+   * code back — so counting them would quietly cost a school a seat it keeps
+   * paying for every time a manager takes one back.
+   *
+   * TWO SEPARATE GUARDS, against two separate mistakes. A replayed webhook
+   * never reaches here at all: the compare-and-swap on the payment row sends
+   * a second call for the same payment down the ALREADY_ACTIVE path. What
+   * the counting protects against is a SECOND PAYMENT — a renewal — which
+   * legitimately runs this branch again. Without it, a school renewing ten
+   * seats would end up holding twenty codes, and twenty places to learn for
+   * the price of ten.
+   *
+   * The count sits inside the transaction that mints, so two payments landing
+   * together cannot both see an empty centre: the second waits on the first's
+   * locks and then counts its rows.
+   *
+   * On the rare collision the unique index rejects the insert and the whole
+   * activation fails, which is what `generateActivationCode` documents as the
+   * caller's job: the provider retries the webhook and the retry generates
+   * fresh values. A pre-check would be, in that function's words, a race
+   * dressed up as a guarantee.
+   */
+  private async mintMissingCodes(
+    tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
+    centerId: string,
+    seats: number,
+  ): Promise<void> {
+    const holding = await tx.activationCode.count({
+      where: { center_id: centerId, status: { not: 'DEACTIVATED' } },
+    });
+
+    const missing = Math.max(0, seats - holding);
+    if (missing === 0) return;
+
+    await tx.activationCode.createMany({
+      data: Array.from({ length: missing }, () => ({
+        center_id: centerId,
+        code: generateActivationCode(),
+        // Null, so the code follows the center's `paid_until`. Only a trial
+        // code carries a date of its own, which is what makes it the one to
+        // retire when a school starts paying.
+        expires_at: null,
+      })),
+    });
+  }
+
   private async setSeats(
     tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
     centerId: string,
