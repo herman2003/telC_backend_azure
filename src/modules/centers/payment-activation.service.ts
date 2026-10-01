@@ -218,6 +218,7 @@ export class PaymentActivationService {
         payment.quantity,
         payment.unit_price_xaf,
       );
+      await this.retireTrialCodes(tx, payment.center_id);
       await this.mintMissingCodes(tx, payment.center_id, payment.quantity);
 
       return {
@@ -352,6 +353,101 @@ export class PaymentActivationService {
   }
 
   /** The payment's quantity and price, written onto the center's seat row. */
+  /**
+   * Replaces the trial's codes with paid ones.
+   *
+   * A trial code carries an expiry of its own; a paid code carries none and
+   * follows the center's `paid_until`. That difference is what identifies a
+   * trial code here, and it is also why leaving one alone would be a bug: the
+   * student would lose access on the old trial date, days after their school
+   * paid (D4 rule 2).
+   *
+   * THE ORDER IS LOAD-BEARING. A student may hold at most one connected code
+   * — a partial unique index, migration 20260918200000 — so the replacement
+   * cannot be inserted while the trial one is still CONNECTED. The old row is
+   * deactivated first, in the same transaction, and only then is the new one
+   * written.
+   *
+   * AND THE STUDENT KEEPS THEIR SCHOOL. The ordinary deactivation path clears
+   * `students.center_id`, because that is how a manager removes somebody.
+   * Here nobody is being removed: they are being moved onto the seat their
+   * school has just paid for, and clearing it would cut off the one student
+   * the payment was meant to keep.
+   *
+   * Runs on every paid activation and finds nothing after the first, because
+   * no dated code is left to find.
+   */
+  private async retireTrialCodes(
+    tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
+    centerId: string,
+  ): Promise<void> {
+    const dated = await tx.activationCode.findMany({
+      where: {
+        center_id: centerId,
+        expires_at: { not: null },
+        status: { not: 'DEACTIVATED' },
+      },
+      select: {
+        id: true,
+        status: true,
+        student_id: true,
+        linked_name: true,
+        linked_email: true,
+        connected_at: true,
+      },
+    });
+
+    for (const code of dated) {
+      await tx.activationCode.update({
+        where: { id: code.id },
+        data: { status: 'DEACTIVATED' },
+      });
+
+      await tx.activationCodeEvent.create({
+        data: {
+          code_id: code.id,
+          center_id: centerId,
+          // Nobody at the school acted. The payment did.
+          center_user_id: null,
+          from_status: code.status,
+          to_status: 'DEACTIVATED',
+          student_id: code.student_id,
+        },
+      });
+
+      // Only a redeemed one needs a replacement carrying its student. An
+      // unredeemed trial code is simply gone, and `mintMissingCodes` tops the
+      // center back up to its quota.
+      if (!code.student_id) continue;
+
+      const moved = await tx.activationCode.create({
+        data: {
+          center_id: centerId,
+          code: generateActivationCode(),
+          status: 'CONNECTED',
+          student_id: code.student_id,
+          // Copied, so the Users page still names the person on the seat
+          // rather than showing a connected row with nobody on it.
+          linked_name: code.linked_name,
+          linked_email: code.linked_email,
+          connected_at: code.connected_at,
+          expires_at: null,
+        },
+      });
+
+      await tx.activationCodeEvent.create({
+        data: {
+          code_id: moved.id,
+          center_id: centerId,
+          center_user_id: null,
+          from_status: 'ACTIVATED',
+          to_status: 'CONNECTED',
+          student_id: code.student_id,
+        },
+      });
+    }
+  }
+
   /**
    * Gives the center one code per seat it has paid for.
    *

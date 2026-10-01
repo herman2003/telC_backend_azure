@@ -752,3 +752,181 @@ describe('a paid centre gets codes to hand out', () => {
     await expect(codesOf(center.id)).resolves.toHaveLength(0);
   });
 });
+
+describe('the trial code is retired when a school starts paying', () => {
+  // D4 rule 2: "A trial student is moved to a paid code automatically and the
+  // trial code is retired." A trial code carries an expiry of its own; a paid
+  // one follows `paid_until`. Leaving the student on the trial code would cut
+  // them off on the old trial date, days after their school paid.
+
+  /** The trial, as `center-trial.service` leaves it: one code with a date. */
+  async function trialCode(centerId: string, studentId?: string) {
+    return prisma.activationCode.create({
+      data: {
+        center_id: centerId,
+        code: `LQ-TRIA-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+        expires_at: new Date(Date.now() + 5 * DAY_MS),
+        ...(studentId
+          ? {
+              status: 'CONNECTED' as const,
+              student_id: studentId,
+              linked_name: 'Awa Mbarga',
+              linked_email: 'awa@example.com',
+              connected_at: new Date(),
+            }
+          : {}),
+      },
+    });
+  }
+
+  it('moves the student onto a paid code and retires the old one', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    const trial = await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const retired = await prisma.activationCode.findUniqueOrThrow({
+      where: { id: trial.id },
+    });
+    expect(retired.status).toBe('DEACTIVATED');
+
+    const paid = await prisma.activationCode.findFirstOrThrow({
+      where: { center_id: center.id, status: 'CONNECTED' },
+    });
+    expect(paid.id).not.toBe(trial.id);
+    expect(paid.student_id).toBe(student.id);
+    expect(paid.expires_at).toBeNull();
+  });
+
+  it('keeps the student attached to their school', async () => {
+    // The ordinary deactivation path clears `center_id` — that is how a
+    // manager removes somebody. Doing it here would cut off the very student
+    // the school has just paid for.
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const after = await prisma.student.findUniqueOrThrow({
+      where: { id: student.id },
+      select: { center_id: true },
+    });
+    expect(after.center_id).toBe(center.id);
+  });
+
+  it('carries the student name and email onto the new code', async () => {
+    // A manager looking at the Users page should see the same person on the
+    // seat, not an empty row that happens to be connected.
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const paid = await prisma.activationCode.findFirstOrThrow({
+      where: { center_id: center.id, status: 'CONNECTED' },
+    });
+    expect(paid).toMatchObject({
+      linked_name: 'Awa Mbarga',
+      linked_email: 'awa@example.com',
+    });
+    expect(paid.connected_at).not.toBeNull();
+  });
+
+  it('still ends at exactly one code per seat', async () => {
+    // The move must not cost the school a place, nor hand it a spare.
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(liveCodeCount(center.id)).resolves.toBe(10);
+  });
+
+  it('retires a trial code nobody redeemed', async () => {
+    // Left alone it would expire on the old trial date, and a school would
+    // hand out a code that dies in a week.
+    const center = await makeCenter();
+    const unused = await trialCode(center.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const after = await prisma.activationCode.findUniqueOrThrow({
+      where: { id: unused.id },
+    });
+    expect(after.status).toBe('DEACTIVATED');
+    await expect(liveCodeCount(center.id)).resolves.toBe(10);
+  });
+
+  it('leaves no code carrying an expiry of its own', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+    await trialCode(center.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const live = await prisma.activationCode.findMany({
+      where: { center_id: center.id, status: { not: 'DEACTIVATED' } },
+      select: { expires_at: true },
+    });
+    expect(live.every((row) => row.expires_at === null)).toBe(true);
+  });
+
+  it('records the move, so it can be explained afterwards', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    const trial = await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    const events = await prisma.activationCodeEvent.findMany({
+      where: { center_id: center.id },
+      orderBy: { created_at: 'asc' },
+    });
+    const retirement = events.find((event) => event.code_id === trial.id);
+    expect(retirement).toMatchObject({
+      from_status: 'CONNECTED',
+      to_status: 'DEACTIVATED',
+      student_id: student.id,
+      // Nobody at the school acted: the payment did.
+      center_user_id: null,
+    });
+  });
+
+  it('does nothing on a renewal, because no trial code is left', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    await trialCode(center.id, student.id);
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+    const afterFirst = await prisma.activationCode.count({
+      where: { center_id: center.id },
+    });
+
+    await activation.activate((await makePayment(center.id, 10)).id);
+
+    await expect(
+      prisma.activationCode.count({ where: { center_id: center.id } }),
+    ).resolves.toBe(afterFirst);
+    await expect(liveCodeCount(center.id)).resolves.toBe(10);
+  });
+
+  it('leaves an add-on payment well alone', async () => {
+    const center = await makeCenter();
+    const student = await makeStudent(center.id);
+    const trial = await trialCode(center.id, student.id);
+
+    await activation.activate(
+      (await makeAddOnPayment(center.id, 'AI_SPEAKING_CREDIT', 40)).id,
+    );
+
+    const after = await prisma.activationCode.findUniqueOrThrow({
+      where: { id: trial.id },
+    });
+    expect(after.status).toBe('CONNECTED');
+  });
+});

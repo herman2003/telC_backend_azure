@@ -394,7 +394,9 @@ model ActivationCodeEvent {
   id             String               @id @default(uuid())
   code_id        String
   center_id      String
-  /// The manager who acted. Null would mean the system acted; nothing does yet.
+  /// The manager who acted, or null when the system did. Activation moves a
+  /// trial student onto a paid code without anybody pressing anything, and
+  /// those two events are the only ones with no manager behind them.
   center_user_id String?
   from_status    ActivationCodeStatus
   to_status      ActivationCodeStatus
