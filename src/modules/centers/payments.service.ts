@@ -1,12 +1,11 @@
 import {
+  BadRequestException,
   ConflictException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { createHash } from 'crypto';
 import type { PaymentKind, PaymentStatus } from '@prisma/client';
-import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { PricingService } from './pricing.service';
 import { CenterSeatsService } from './center-seats.service';
@@ -15,6 +14,7 @@ import {
   isIdempotencyViolation,
   type SignedCenterIdentity,
 } from './payment-shared';
+import { amountWithVatXaf } from './vat';
 
 export interface PaymentView {
   id: string;
@@ -96,23 +96,63 @@ export class PaymentsService {
       // seats exactly once, and honours a payment even if students were added
       // in the meantime.
       const created = await this.prisma.$transaction(async (tx) => {
+        // Replay first: a key that already bought this intent must return the
+        // original row even if the seat pool has since been stamped (which
+        // would make a fresh order look like NOTHING_TO_PAY).
+        const existing = await tx.payment.findUnique({
+          where: {
+            center_id_idempotency_key: {
+              center_id: identity.centerId,
+              idempotency_key: idempotencyKey,
+            },
+          },
+        });
+        if (existing) {
+          if (existing.request_hash !== requestHash) {
+            throw new ConflictException('IDEMPOTENCY_KEY_REUSED');
+          }
+          return existing;
+        }
+
         const quote = this.pricing.quote(
           wanted,
           await this.seats.pricingContextFor(identity.centerId, tx),
         );
+
+        // `quantity` on the payment is the TARGET seat pool (activation sets
+        // it). The amount charged is only seats added above an already-paid
+        // pool — same rule as the dashboard upsell UI. A trial row (unit
+        // price 0) is not a paid pool.
+        const held = await tx.centerSeat.findUnique({
+          where: { center_id: identity.centerId },
+          select: { quantity: true, unit_price_xaf: true },
+        });
+        const paidSeats =
+          held != null && held.unit_price_xaf > 0 ? held.quantity : 0;
+
+        if (wanted < paidSeats) {
+          throw new BadRequestException({
+            message: 'SEATS_BELOW_PAID_FLOOR',
+            requiredSeatsTotal: paidSeats,
+          });
+        }
+
+        const billableSeats = wanted - paidSeats;
+        if (billableSeats === 0) {
+          throw new BadRequestException({ message: 'NOTHING_TO_PAY' });
+        }
 
         return tx.payment.create({
           data: {
             center_id: identity.centerId,
             quantity: quote.seats,
             unit_price_xaf: quote.unitPriceXaf,
-            amount_xaf: quote.totalXaf,
+            amount_xaf: amountWithVatXaf(billableSeats * quote.unitPriceXaf),
             idempotency_key: idempotencyKey,
             request_hash: requestHash,
           },
         });
       });
-
       return this.toView(created);
     } catch (error) {
       if (!isIdempotencyViolation(error)) {

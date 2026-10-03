@@ -16,6 +16,7 @@ import {
   assertCenterProfileComplete,
   isIdempotencyViolation,
 } from './payment-shared';
+import { amountWithVatXaf } from './vat';
 
 // Both halves: the profile gate reads the signed manager's phone, and
 // scoping it by centre as well as id is what stops a manager id from
@@ -151,10 +152,11 @@ export class EntitlementPurchaseService {
     }
 
     const unitPriceXaf = ENTITLEMENT_PRICE_XAF[order.product];
+    // unitPrice HT; amountXaf TTC (providers have no VAT parameter).
     return {
       quantity: order.quantity,
       unitPriceXaf,
-      amountXaf: order.quantity * unitPriceXaf,
+      amountXaf: amountWithVatXaf(order.quantity * unitPriceXaf),
     };
   }
 
