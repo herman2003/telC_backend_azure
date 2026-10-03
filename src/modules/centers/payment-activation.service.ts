@@ -2,16 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, type EntitlementProduct } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { generateActivationCode } from './activation-code-format';
-import { SubscriptionPolicyService } from './subscription-policy.service';
-
-/**
- * How long one payment buys.
- *
- * A fixed day count rather than "one calendar month", so there is no
- * month-end arithmetic to get wrong (31 January plus a month) and it sits
- * alongside the day-based trial and grace constants.
- */
-export const PAID_PERIOD_DAYS = 30;
+import {
+  GRACE_PERIOD_DAYS,
+  SubscriptionPolicyService,
+} from './subscription-policy.service';
+import { anchorDayFrom, periodEndAfter } from './billing-period';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -71,15 +66,6 @@ const ACTIVATION_TRANSACTION = { maxWait: 10_000, timeout: 20_000 };
  * about the zone, not a constant, and hard-coding +1 is how a date library
  * eventually gets it wrong.
  */
-export function doualaDayOfMonth(now = new Date()): number {
-  return Number(
-    new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Africa/Douala',
-      day: 'numeric',
-    }).format(now),
-  );
-}
-
 export type ActivationOutcome = 'ACTIVATED' | 'ALREADY_ACTIVE';
 
 export interface ActivationResult {
@@ -393,8 +379,10 @@ export class PaymentActivationService {
     tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
     centerId: string,
   ): Promise<Date> {
-    const rows = await tx.$queryRaw<{ paid_until: Date | null }[]>`
-      SELECT paid_until
+    const rows = await tx.$queryRaw<
+      { paid_until: Date | null; anchor_day: number | null }[]
+    >`
+      SELECT paid_until, anchor_day
         FROM center_subscriptions
        WHERE center_id = ${centerId}
          FOR UPDATE
@@ -404,11 +392,26 @@ export class PaymentActivationService {
       throw new NotFoundException('CENTER_SUBSCRIPTION_NOT_FOUND');
     }
 
-    const now = Date.now();
-    const current = rows[0].paid_until?.getTime() ?? now;
-    const paidUntil = new Date(
-      Math.max(now, current) + PAID_PERIOD_DAYS * DAY_MS,
-    );
+    const now = new Date();
+    const { paid_until: current, anchor_day: anchor } = rows[0];
+
+    // WHERE THE NEW PERIOD STARTS FROM, which is the whole of rules 7 and 9.
+    //
+    // While the center is paid up, and through the grace week after that, the
+    // period runs from the one that ended: days already bought are not thrown
+    // away, and a school paying six days late is not given those six days for
+    // nothing — it had access through them. Once grace has run out the center
+    // was blocked, blocked days are not charged, and the period starts today.
+    const lapsed =
+      current === null ||
+      now.getTime() >= current.getTime() + GRACE_PERIOD_DAYS * DAY_MS;
+    const from = lapsed ? now : current;
+
+    // `setAnchorDay` ran first, so a first purchase and a center coming back
+    // from blocked already have one. A center that has been paying since before
+    // the column existed does not, and its anchor is the day its current period
+    // ends on — which is what the reset window has always assumed.
+    const paidUntil = periodEndAfter(from, anchor ?? anchorDayFrom(from));
 
     await tx.centerSubscription.update({
       where: { center_id: centerId },
@@ -461,9 +464,24 @@ export class PaymentActivationService {
     const blocked = this.policy.evaluate(subscription).status === 'BLOCKED';
     if (subscription.anchor_day !== null && !blocked) return;
 
+    // A center that has been paying since before this column existed keeps the
+    // day it has been renewing on, which is the day its current period ends.
+    // Stamping today instead would move a renewal date the school is already
+    // used to, and shorten the period it had paid for — the one thing rule 3
+    // and rule 7 agree must not happen outside a lapse.
+    //
+    // Today's date only for a first purchase, which has no period yet, and for a
+    // center coming back from blocked, where rule 7 says a new period starts on
+    // the day it pays.
+    const keepsItsDay = !blocked && subscription.paid_until !== null;
+
     await tx.centerSubscription.update({
       where: { center_id: centerId },
-      data: { anchor_day: doualaDayOfMonth() },
+      data: {
+        anchor_day: anchorDayFrom(
+          keepsItsDay ? subscription.paid_until! : new Date(),
+        ),
+      },
     });
   }
 

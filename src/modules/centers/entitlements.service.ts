@@ -13,9 +13,10 @@ type SignedCenterIdentity = Pick<CenterAccessTokenPayload, 'centerId'>;
 /**
  * How long one grant of each timed product lasts.
  *
- * Day counts rather than calendar months, for the reason `PAID_PERIOD_DAYS` is
- * one: there is no month-end arithmetic to get wrong, and 31 January plus a
- * month is a question nobody should have to answer.
+ * Day counts rather than calendar months, unlike the subscription period, which
+ * ends on an anchor day (`billing-period.ts`). A prep pass is a product that
+ * lasts sixty days, not a thing with a renewal date, so there is no anchor for
+ * it to follow and no month-end question to answer.
  */
 export const PREP_PASS_DAYS = 60;
 export const AI_ASSISTED_LEARNING_DAYS = 30;

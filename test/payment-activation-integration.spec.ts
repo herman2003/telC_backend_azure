@@ -24,6 +24,11 @@ const entitlement = new StudentEntitlementService(
   new SubscriptionPolicyService(),
 );
 
+import {
+  anchorDayFrom,
+  periodEndAfter,
+} from '../src/modules/centers/billing-period';
+
 const DAY_MS = 24 * 60 * 60 * 1000;
 /** The database clock and this process's clock differ by network latency. */
 const CLOCK_TOLERANCE_MS = 2 * 60 * 1000;
@@ -168,6 +173,25 @@ const subscriptionOf = (centerId: string) =>
     where: { center_id: centerId },
   });
 
+/**
+ * Where the period should end, worked out the way the rule reads rather than the
+ * way the code does: the anchor day, next month, at midnight in Douala.
+ *
+ * A period is no longer a fixed number of days, so a test asserting
+ * `now + 30 days` would be asserting the bug this task removed — and it would
+ * pass or fail depending on the month it ran in.
+ */
+const expectEndsOnAnchor = (
+  actual: Date | null,
+  from: Date,
+  anchorDay: number,
+) => {
+  expect(actual).not.toBeNull();
+  expect(actual!.toISOString()).toBe(
+    periodEndAfter(from, anchorDay).toISOString(),
+  );
+};
+
 const expectNear = (actual: Date | null, expectedMs: number) => {
   expect(actual).not.toBeNull();
   expect(Math.abs(actual!.getTime() - expectedMs)).toBeLessThan(
@@ -197,7 +221,8 @@ describe('activating a payment', () => {
     expectNear(row.succeeded_at, Date.now());
   });
 
-  it('turns a trial center into a paid one for thirty days', async () => {
+  it('turns a trial center into a paid one until its anchor day', async () => {
+    const now = new Date();
     const center = await makeCenter();
     const payment = await makePayment(center.id, 10, 4500);
 
@@ -205,7 +230,10 @@ describe('activating a payment', () => {
 
     const subscription = await subscriptionOf(center.id);
     expect(subscription.plan).toBe('PAID');
-    expectNear(subscription.paid_until, Date.now() + 30 * DAY_MS);
+    // A first purchase anchors on the day it paid, in Douala, and the period
+    // ends on that day next month — 28 to 31 days, not always 30.
+    expect(subscription.anchor_day).toBe(anchorDayFrom(now));
+    expectEndsOnAnchor(subscription.paid_until, now, anchorDayFrom(now));
   });
 
   it('gives the center students access the moment it activates', async () => {
@@ -286,27 +314,59 @@ describe('what activation writes into center_seats', () => {
 describe('paid_until', () => {
   it('extends from the current end while the center is still paid up', async () => {
     // Paying early must not throw away the days already bought.
-    const center = await makeCenter(new Date(Date.now() + 10 * DAY_MS));
+    const endsAt = new Date(Date.now() + 10 * DAY_MS);
+    const center = await makeCenter(endsAt);
     const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
-    expectNear(
+    // From the end of the period it had, not from today: the ten days are kept.
+    // Its anchor is the day that period ends on, because a school that has been
+    // paying since before the column existed keeps the day it renews on.
+    const anchor = anchorDayFrom(endsAt);
+    expect((await subscriptionOf(center.id)).anchor_day).toBe(anchor);
+    expectEndsOnAnchor(
       (await subscriptionOf(center.id)).paid_until,
-      Date.now() + 40 * DAY_MS,
+      endsAt,
+      anchor,
     );
   });
 
-  it('extends from now when the center had lapsed', async () => {
-    // A lapsed center must not buy thirty days that are already in the past.
+  it('starts a new period today when the center had been blocked', async () => {
+    // Twenty days late is past the seven-day grace, so the center was blocked.
+    // Rule 7: blocked days are not charged, and paying starts a new period that
+    // day — so the anchor moves to today.
+    const now = new Date();
     const center = await makeCenter(new Date(Date.now() - 20 * DAY_MS));
     const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
-    expectNear(
-      (await subscriptionOf(center.id)).paid_until,
-      Date.now() + 30 * DAY_MS,
+    const subscription = await subscriptionOf(center.id);
+    expect(subscription.anchor_day).toBe(anchorDayFrom(now));
+    expectEndsOnAnchor(subscription.paid_until, now, anchorDayFrom(now));
+  });
+
+  it('keeps the anchor and the days it served when paid inside grace', async () => {
+    // Three days late is inside grace: the students kept access, so those days
+    // were served and are charged. The period runs from the one that lapsed, so
+    // the renewal date does not drift later every time a school pays late.
+    const lapsedAt = new Date(Date.now() - 3 * DAY_MS);
+    const center = await makeCenter(lapsedAt);
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: anchorDayFrom(lapsedAt) },
+    });
+    const payment = await makePayment(center.id, 10, 4500);
+
+    await activation.activate(payment.id);
+
+    const subscription = await subscriptionOf(center.id);
+    expect(subscription.anchor_day).toBe(anchorDayFrom(lapsedAt));
+    expectEndsOnAnchor(
+      subscription.paid_until,
+      lapsedAt,
+      anchorDayFrom(lapsedAt),
     );
   });
 });
@@ -454,6 +514,7 @@ describe('exactly once', () => {
   });
 
   it('extends only once when the same payment is activated concurrently', async () => {
+    const now = new Date();
     const center = await makeCenter();
     const payment = await makePayment(center.id, 10, 4500);
 
@@ -466,24 +527,30 @@ describe('exactly once', () => {
       'ACTIVATED',
       'ALREADY_ACTIVE',
     ]);
-    // Thirty days, not sixty.
-    expectNear(
+    // One period, not two.
+    expectEndsOnAnchor(
       (await subscriptionOf(center.id)).paid_until,
-      Date.now() + 30 * DAY_MS,
+      now,
+      anchorDayFrom(now),
     );
   });
 
   it('keeps both extensions when two different payments activate at once', async () => {
     // A read-then-write of paid_until would lose one of them.
+    const now = new Date();
     const center = await makeCenter();
     const a = await makePayment(center.id, 10, 4500);
     const b = await makePayment(center.id, 10, 4500);
 
     await Promise.all([activation.activate(a.id), activation.activate(b.id)]);
 
-    expectNear(
+    // Two whole periods, each ending on the anchor: the second extends from the
+    // end of the first rather than from today.
+    const anchor = anchorDayFrom(now);
+    expectEndsOnAnchor(
       (await subscriptionOf(center.id)).paid_until,
-      Date.now() + 60 * DAY_MS,
+      periodEndAfter(now, anchor),
+      anchor,
     );
   });
 });

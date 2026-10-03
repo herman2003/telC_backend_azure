@@ -1,4 +1,5 @@
 import type { ActivationCodeStatus } from '@prisma/client';
+import { anchorDayFrom, periodEndAfter } from './billing-period';
 
 /**
  * How many times a seat may be handed to a new student (D39), worked out from
@@ -33,6 +34,14 @@ export interface SubscriptionFacts {
   trial_started_at: Date | null;
   trial_ends_at: Date | null;
   paid_until: Date | null;
+  /**
+   * The day of the month this center's periods end on.
+   *
+   * Null for a center that has been paying since before the column existed; the
+   * window then falls back to the day `paid_until` lands on, which is the same
+   * answer.
+   */
+  anchor_day: number | null;
 }
 
 export interface ResetAllowance {
@@ -110,11 +119,36 @@ function readLog(events: readonly CodeEventFact[]): {
 }
 
 /**
+ * The boundary the period ending at `endsAt` began on.
+ *
+ * `periodEndAfter` only answers forwards, so this steps back past the start it is
+ * looking for and asks which boundary comes next. Keeping one direction of
+ * month-end arithmetic is worth the hop: a backwards version would need its own
+ * clamping rule, and the two would disagree in February.
+ *
+ * THIRTY-FIVE DAYS, which is more than the longest month on purpose. It lands
+ * four to seven days before the start being looked for — past it, so the next
+ * boundary is that start — and still comfortably inside the period before,
+ * whose own start is at least twenty-eight days further back. Twenty-seven days
+ * would land *after* the start and return the end again.
+ */
+function periodStartOf(endsAt: Date, anchorDay: number): Date {
+  const beforeTheStart = new Date(endsAt.getTime() - 35 * 24 * 60 * 60 * 1000);
+
+  return periodEndAfter(beforeTheStart, anchorDay);
+}
+
+/**
  * The window the limit is counted in.
  *
- * Paid: the month ending at `paid_until`. D4's anchor day will replace this
- * once it is built; until then the paid period is the calendar month before
- * the date the center is paid until. Trial: the trial itself.
+ * Paid: the period ending at `paid_until`, which starts at the anchor day one
+ * month earlier (D4 rule 9). Subtracting a calendar month from `paid_until` gave
+ * nearly the same answer, but not at the month ends it mattered at: a center
+ * anchored on the 31st got a window starting on the 28th of February and another
+ * starting on the 3rd of March, so a reset could fall outside both and be
+ * counted twice, or inside both and be counted never.
+ *
+ * Trial: the trial itself, where the allowance does not refill.
  */
 function currentPeriod(subscription: SubscriptionFacts): {
   startsAfter: Date;
@@ -122,11 +156,13 @@ function currentPeriod(subscription: SubscriptionFacts): {
   resetsAvailableAt: Date | null;
 } | null {
   if (subscription.paid_until) {
-    const startsAfter = new Date(subscription.paid_until);
-    startsAfter.setUTCMonth(startsAfter.getUTCMonth() - 1);
+    const anchorDay =
+      subscription.anchor_day ?? anchorDayFrom(subscription.paid_until);
 
     return {
-      startsAfter,
+      // One period back: the boundary this one started at. `periodEndAfter`
+      // answers forwards, so it is asked from a day inside the previous period.
+      startsAfter: periodStartOf(subscription.paid_until, anchorDay),
       limit: PAID_RESETS_PER_PERIOD,
       resetsAvailableAt: subscription.paid_until,
     };
