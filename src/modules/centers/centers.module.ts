@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
@@ -122,7 +122,18 @@ import { CenterSupportService } from './center-support.service';
           STRIPE_CANCEL_URL: config.get<string>('STRIPE_CANCEL_URL'),
           STRIPE_ALLOW_LIVE_KEYS: config.get<string>('STRIPE_ALLOW_LIVE_KEYS'),
         };
-        return buildPaymentProviderRegistry(settings);
+        const registry = buildPaymentProviderRegistry(settings);
+        // Same idea as the database host line in main.ts: if Fapshi (the only
+        // Mobile Money path) is missing a key, say so at boot instead of at
+        // the first checkout.
+        const names = registry.list();
+        Logger.log(
+          names.length > 0
+            ? `Payment providers: ${names.join(', ')}`
+            : 'Payment providers: none configured',
+          'Bootstrap',
+        );
+        return registry;
       },
     },
     CenterStudentsService,

@@ -36,12 +36,22 @@ export type FapshiHttpPost = (params: {
   headers: Record<string, string>;
 }) => Promise<{ status: number; data: unknown }>;
 
+/** Cap so a hung Fapshi never leaves the checkout request open forever. */
+export const FAPSHI_HTTP_TIMEOUT_MS = 15_000;
+
 const defaultHttpPost: FapshiHttpPost = async ({ url, body, headers }) => {
-  const response = await axios.post(url, body, {
-    headers,
-    validateStatus: () => true,
-  });
-  return { status: response.status, data: response.data };
+  try {
+    const response = await axios.post(url, body, {
+      headers,
+      timeout: FAPSHI_HTTP_TIMEOUT_MS,
+      validateStatus: () => true,
+    });
+    return { status: response.status, data: response.data };
+  } catch {
+    // Never rethrow AxiosError: its .config.headers still holds apiuser/apikey,
+    // and APM tools (e.g. New Relic) serialize whole error objects.
+    throw new BadRequestException('PAYMENT_CHECKOUT_FAILED');
+  }
 };
 
 /**
@@ -84,15 +94,24 @@ export class FapshiPaymentProvider implements PaymentProvider {
       payload.userId = userId;
     }
 
-    const response = await this.httpPost({
-      url: `${this.baseUrl}/initiate-pay`,
-      body: payload,
-      headers: {
-        apiuser: this.config.apiUser,
-        apikey: this.config.apiKey,
-        'Content-Type': 'application/json',
-      },
-    });
+    let response: { status: number; data: unknown };
+    try {
+      response = await this.httpPost({
+        url: `${this.baseUrl}/initiate-pay`,
+        body: payload,
+        headers: {
+          apiuser: this.config.apiUser,
+          apikey: this.config.apiKey,
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (error) {
+      // Injected transports (and Axios) must not leak credentials upward.
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new BadRequestException('PAYMENT_CHECKOUT_FAILED');
+    }
 
     const checkoutUrl = fapshiExtractCheckoutLink(response.data);
     const transId = fapshiExtractTransIdFromResponse(response.data);

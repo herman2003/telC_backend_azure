@@ -376,6 +376,40 @@ describe('the Fapshi provider', () => {
         }),
       ).rejects.toThrow('PAYMENT_CHECKOUT_FAILED');
     });
+
+    it('maps a transport failure to PAYMENT_CHECKOUT_FAILED without leaking headers', async () => {
+      const leak = new Error('socket hang up') as Error & {
+        config?: { headers?: Record<string, string> };
+      };
+      leak.config = {
+        headers: { apiuser: 'user-test', apikey: 'key-test-secret' },
+      };
+      httpPost.mockRejectedValue(leak);
+
+      await expect(
+        provider.createCheckout({
+          paymentId: 'pay-1',
+          centerId: 'center-1',
+          amountXaf: 45000,
+          customerEmail: 'manager@school.test',
+        }),
+      ).rejects.toMatchObject({
+        response: { message: 'PAYMENT_CHECKOUT_FAILED' },
+      });
+
+      try {
+        await provider.createCheckout({
+          paymentId: 'pay-1',
+          centerId: 'center-1',
+          amountXaf: 45000,
+          customerEmail: 'manager@school.test',
+        });
+      } catch (error) {
+        const serialized = JSON.stringify(error);
+        expect(serialized).not.toContain('key-test-secret');
+        expect(serialized).not.toContain('apikey');
+      }
+    });
   });
 
   describe('webhooks', () => {
