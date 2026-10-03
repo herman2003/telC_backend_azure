@@ -16,7 +16,7 @@ import {
   assertCenterProfileComplete,
   isIdempotencyViolation,
 } from './payment-shared';
-import { amountWithVatXaf } from './vat';
+import { amountWithVatXaf, splitVatXaf } from './vat';
 
 // Both halves: the profile gate reads the signed manager's phone, and
 // scoping it by centre as well as id is what stops a manager id from
@@ -100,13 +100,17 @@ export class EntitlementPurchaseService {
     await assertCenterProfileComplete(this.prisma, identity);
 
     try {
+      const amounts = splitVatXaf(quote.quantity * quote.unitPriceXaf);
+
       const created = await this.prisma.payment.create({
         data: {
           center_id: identity.centerId,
           kind: order.product,
           quantity: quote.quantity,
           unit_price_xaf: quote.unitPriceXaf,
-          amount_xaf: quote.amountXaf,
+          amount_xaf: amounts.grossXaf,
+          amount_net_xaf: amounts.netXaf,
+          vat_amount_xaf: amounts.vatXaf,
           idempotency_key: idempotencyKey,
           request_hash: requestHash,
           ...(metadata ? { metadata } : {}),

@@ -24,6 +24,11 @@ const entitlement = new StudentEntitlementService(
   new SubscriptionPolicyService(),
 );
 
+import {
+  anchorDayFrom,
+  periodEndAfter,
+} from '../src/modules/centers/billing-period';
+
 const DAY_MS = 24 * 60 * 60 * 1000;
 /** The database clock and this process's clock differ by network latency. */
 const CLOCK_TOLERANCE_MS = 2 * 60 * 1000;
@@ -64,13 +69,19 @@ async function setSeats(centerId: string, quantity: number, price: number) {
  * test. Inserted directly because what is under test is what activation does
  * with the payment, not how it was priced.
  */
-async function makePayment(centerId: string, seats: number, price = 4500) {
+async function makePayment(
+  centerId: string,
+  seats: number,
+  price = 4500,
+  renewsPeriod = true,
+) {
   return prisma.payment.create({
     data: {
       center_id: centerId,
       quantity: seats,
       unit_price_xaf: price,
       amount_xaf: seats * price,
+      renews_period: renewsPeriod,
       idempotency_key: `activation-${Date.now()}-${Math.random()}`,
       request_hash: 'test',
     },
@@ -162,6 +173,25 @@ const subscriptionOf = (centerId: string) =>
     where: { center_id: centerId },
   });
 
+/**
+ * Where the period should end, worked out the way the rule reads rather than the
+ * way the code does: the anchor day, next month, at midnight in Douala.
+ *
+ * A period is no longer a fixed number of days, so a test asserting
+ * `now + 30 days` would be asserting the bug this task removed — and it would
+ * pass or fail depending on the month it ran in.
+ */
+const expectEndsOnAnchor = (
+  actual: Date | null,
+  from: Date,
+  anchorDay: number,
+) => {
+  expect(actual).not.toBeNull();
+  expect(actual!.toISOString()).toBe(
+    periodEndAfter(from, anchorDay).toISOString(),
+  );
+};
+
 const expectNear = (actual: Date | null, expectedMs: number) => {
   expect(actual).not.toBeNull();
   expect(Math.abs(actual!.getTime() - expectedMs)).toBeLessThan(
@@ -191,7 +221,8 @@ describe('activating a payment', () => {
     expectNear(row.succeeded_at, Date.now());
   });
 
-  it('turns a trial center into a paid one for thirty days', async () => {
+  it('turns a trial center into a paid one until its anchor day', async () => {
+    const now = new Date();
     const center = await makeCenter();
     const payment = await makePayment(center.id, 10, 4500);
 
@@ -199,7 +230,10 @@ describe('activating a payment', () => {
 
     const subscription = await subscriptionOf(center.id);
     expect(subscription.plan).toBe('PAID');
-    expectNear(subscription.paid_until, Date.now() + 30 * DAY_MS);
+    // A first purchase anchors on the day it paid, in Douala, and the period
+    // ends on that day next month — 28 to 31 days, not always 30.
+    expect(subscription.anchor_day).toBe(anchorDayFrom(now));
+    expectEndsOnAnchor(subscription.paid_until, now, anchorDayFrom(now));
   });
 
   it('gives the center students access the moment it activates', async () => {
@@ -280,28 +314,187 @@ describe('what activation writes into center_seats', () => {
 describe('paid_until', () => {
   it('extends from the current end while the center is still paid up', async () => {
     // Paying early must not throw away the days already bought.
-    const center = await makeCenter(new Date(Date.now() + 10 * DAY_MS));
+    const endsAt = new Date(Date.now() + 10 * DAY_MS);
+    const center = await makeCenter(endsAt);
     const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
-    expectNear(
+    // From the end of the period it had, not from today: the ten days are kept.
+    // Its anchor is the day that period ends on, because a school that has been
+    // paying since before the column existed keeps the day it renews on.
+    const anchor = anchorDayFrom(endsAt);
+    expect((await subscriptionOf(center.id)).anchor_day).toBe(anchor);
+    expectEndsOnAnchor(
       (await subscriptionOf(center.id)).paid_until,
-      Date.now() + 40 * DAY_MS,
+      endsAt,
+      anchor,
     );
   });
 
-  it('extends from now when the center had lapsed', async () => {
-    // A lapsed center must not buy thirty days that are already in the past.
+  it('starts a new period today when the center had been blocked', async () => {
+    // Twenty days late is past the seven-day grace, so the center was blocked.
+    // Rule 7: blocked days are not charged, and paying starts a new period that
+    // day — so the anchor moves to today.
+    const now = new Date();
     const center = await makeCenter(new Date(Date.now() - 20 * DAY_MS));
     const payment = await makePayment(center.id, 10, 4500);
 
     await activation.activate(payment.id);
 
-    expectNear(
-      (await subscriptionOf(center.id)).paid_until,
-      Date.now() + 30 * DAY_MS,
+    const subscription = await subscriptionOf(center.id);
+    expect(subscription.anchor_day).toBe(anchorDayFrom(now));
+    expectEndsOnAnchor(subscription.paid_until, now, anchorDayFrom(now));
+  });
+
+  it('keeps the anchor and the days it served when paid inside grace', async () => {
+    // Three days late is inside grace: the students kept access, so those days
+    // were served and are charged. The period runs from the one that lapsed, so
+    // the renewal date does not drift later every time a school pays late.
+    const lapsedAt = new Date(Date.now() - 3 * DAY_MS);
+    const center = await makeCenter(lapsedAt);
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: anchorDayFrom(lapsedAt) },
+    });
+    const payment = await makePayment(center.id, 10, 4500);
+
+    await activation.activate(payment.id);
+
+    const subscription = await subscriptionOf(center.id);
+    expect(subscription.anchor_day).toBe(anchorDayFrom(lapsedAt));
+    expectEndsOnAnchor(
+      subscription.paid_until,
+      lapsedAt,
+      anchorDayFrom(lapsedAt),
     );
+  });
+});
+
+/**
+ * D4 rule 3: adding seats never moves the renewal date.
+ *
+ * The decision is taken when the payment is created, where the clock is the
+ * right one to read, and carried on the row. Activation obeys the row rather
+ * than looking at the clock again — which is the whole point, since by the time
+ * a webhook lands the period may have ended.
+ */
+describe('a payment that only adds seats', () => {
+  it('leaves the period exactly where it was', async () => {
+    const endsAt = new Date(Date.now() + 20 * DAY_MS);
+    const center = await makeCenter(endsAt);
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 12, 4500, false);
+
+    const result = await activation.activate(payment.id);
+
+    expect((await subscriptionOf(center.id)).paid_until).toEqual(endsAt);
+    // Reported as it stands, so a caller cannot mistake it for an extension.
+    expect(result.paidUntil).toEqual(endsAt);
+    // The seats were still bought. Only the date was left alone.
+    await expect(seatsOf(center.id)).resolves.toEqual([
+      { quantity: 12, unit_price_xaf: 4500 },
+    ]);
+  });
+
+  it('leaves it alone even when the webhook lands after the period ended', async () => {
+    // The case the stored decision exists for. A school adds two seats on its
+    // last day; the provider delivers the next morning. Re-reading the clock
+    // here would see a lapsed centre, call it a renewal, and hand it a month
+    // it never paid for.
+    const endedAt = new Date(Date.now() - 2 * DAY_MS);
+    const center = await makeCenter(endedAt);
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 12, 4500, false);
+
+    await activation.activate(payment.id);
+
+    expect((await subscriptionOf(center.id)).paid_until).toEqual(endedAt);
+  });
+
+  it('leaves the anchor day alone when the webhook lands after the grace', async () => {
+    // A school adds a seat on its last day; the provider delivers ten days
+    // later, so the centre reads as BLOCKED here. The anchor day exists to say
+    // which day of the month its periods end on — a payment that bought no
+    // period must not rewrite it.
+    const center = await makeCenter(new Date(Date.now() - 10 * DAY_MS));
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: 7 },
+    });
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 12, 4500, false);
+
+    await activation.activate(payment.id);
+
+    expect((await subscriptionOf(center.id)).anchor_day).toBe(7);
+  });
+
+  it('still mints the codes the added seats paid for', async () => {
+    const center = await makeCenter(new Date(Date.now() + 20 * DAY_MS));
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 12, 4500, false);
+
+    await activation.activate(payment.id);
+
+    expect(await liveCodeCount(center.id)).toBe(12);
+  });
+});
+
+/**
+ * A renewal may shrink (D4 rule 5), and seats are the code pool (D1). Without
+ * handing the surplus back, a school renewing seventeen seats as twelve would
+ * keep seventeen working codes on twelve seats' money — paid codes carry no
+ * expiry of their own, so nothing else would ever take them away.
+ */
+describe('a renewal into a smaller pack', () => {
+  it('deactivates the codes it stopped paying for', async () => {
+    const center = await makeCenter(new Date(Date.now() - DAY_MS));
+    await setSeats(center.id, 17, 4500);
+    for (let i = 0; i < 17; i++) await giveCode(center.id);
+    const payment = await makePayment(center.id, 12, 4500);
+
+    await activation.activate(payment.id);
+
+    expect(await liveCodeCount(center.id)).toBe(12);
+  });
+
+  it('never takes a code off a student who is using it', async () => {
+    // This file does not evict. A pack that somehow shrinks below the students
+    // holding codes sheds what nobody holds and leaves the rest; the seat
+    // floors are what stop the order being accepted in the first place.
+    const center = await makeCenter(new Date(Date.now() - DAY_MS));
+    await setSeats(center.id, 17, 4500);
+    for (let i = 0; i < 14; i++) await giveCode(center.id);
+    const student = await makeStudent(center.id);
+    await giveCode(center.id, {
+      status: 'CONNECTED',
+      student_id: student.id,
+      connected_at: new Date(),
+    });
+    const payment = await makePayment(center.id, 12, 4500);
+
+    await activation.activate(payment.id);
+
+    const connected = await prisma.activationCode.count({
+      where: { center_id: center.id, status: 'CONNECTED' },
+    });
+    expect(connected).toBe(1);
+    expect(await liveCodeCount(center.id)).toBe(12);
+  });
+
+  it('records why each code was taken back', async () => {
+    const center = await makeCenter(new Date(Date.now() - DAY_MS));
+    await setSeats(center.id, 17, 4500);
+    for (let i = 0; i < 17; i++) await giveCode(center.id);
+    const payment = await makePayment(center.id, 12, 4500);
+
+    await activation.activate(payment.id);
+
+    const events = await prisma.activationCodeEvent.count({
+      where: { center_id: center.id, to_status: 'DEACTIVATED' },
+    });
+    expect(events).toBe(5);
   });
 });
 
@@ -321,6 +514,7 @@ describe('exactly once', () => {
   });
 
   it('extends only once when the same payment is activated concurrently', async () => {
+    const now = new Date();
     const center = await makeCenter();
     const payment = await makePayment(center.id, 10, 4500);
 
@@ -333,24 +527,30 @@ describe('exactly once', () => {
       'ACTIVATED',
       'ALREADY_ACTIVE',
     ]);
-    // Thirty days, not sixty.
-    expectNear(
+    // One period, not two.
+    expectEndsOnAnchor(
       (await subscriptionOf(center.id)).paid_until,
-      Date.now() + 30 * DAY_MS,
+      now,
+      anchorDayFrom(now),
     );
   });
 
   it('keeps both extensions when two different payments activate at once', async () => {
     // A read-then-write of paid_until would lose one of them.
+    const now = new Date();
     const center = await makeCenter();
     const a = await makePayment(center.id, 10, 4500);
     const b = await makePayment(center.id, 10, 4500);
 
     await Promise.all([activation.activate(a.id), activation.activate(b.id)]);
 
-    expectNear(
+    // Two whole periods, each ending on the anchor: the second extends from the
+    // end of the first rather than from today.
+    const anchor = anchorDayFrom(now);
+    expectEndsOnAnchor(
       (await subscriptionOf(center.id)).paid_until,
-      Date.now() + 60 * DAY_MS,
+      periodEndAfter(now, anchor),
+      anchor,
     );
   });
 });

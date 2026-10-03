@@ -275,6 +275,14 @@ describe('buying exam slots', () => {
       unitPriceXaf: 1_500,
       amountXaf: 8_850,
     });
+    // Net and VAT stored beside the total, as on every other paid path.
+    await expect(
+      prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+    ).resolves.toMatchObject({
+      amount_net_xaf: 7_500,
+      vat_amount_xaf: 1_350,
+      amount_xaf: 8_850,
+    });
   });
 
   it('refuses a center that has not finished its profile', async () => {

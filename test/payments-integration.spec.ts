@@ -116,6 +116,25 @@ async function holdSeats(
   });
 }
 
+/**
+ * Where the center stands in its billing period — the thing that tells a
+ * renewal apart from a mid-period addition.
+ *
+ * Both arrive as the same request: a seat count on `POST /api/payments`. D4
+ * rule 3 prices an addition on the seats added and forbids a shrink; rule 5
+ * lets a renewal resize the whole pack, down as well as up. Only the clock
+ * separates them, so a test about either has to say where the clock is.
+ */
+async function paidThrough(centerId: string, daysFromNow: number) {
+  await prisma.centerSubscription.update({
+    where: { center_id: centerId },
+    data: {
+      plan: 'PAID',
+      paid_until: new Date(Date.now() + daysFromNow * 24 * 60 * 60 * 1000),
+    },
+  });
+}
+
 /** Students occupy seats, so they set the floor a payment cannot go under. */
 async function makeStudents(centerId: string, count: number) {
   for (let i = 0; i < count; i++) {
@@ -172,6 +191,7 @@ describe('payments against real Postgres', () => {
       // seats are charged (TTC).
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_000);
+      await paidThrough(center.id, 20);
 
       const payment = await payments.create(identity(center.id), 12, 'key-1');
 
@@ -185,6 +205,7 @@ describe('payments against real Postgres', () => {
       // a full re-bill of seats already paid.
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_500);
+      await paidThrough(center.id, 20);
 
       const payment = await payments.create(identity(center.id), 12, 'key-1');
 
@@ -195,10 +216,147 @@ describe('payments against real Postgres', () => {
     it('refuses a payment that adds no seats', async () => {
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_500);
+      await paidThrough(center.id, 20);
 
       await expect(
         payments.create(identity(center.id), 10, 'key-1'),
       ).rejects.toThrow('NOTHING_TO_PAY');
+    });
+
+    /**
+     * Renewal, which is rule 5 and not rule 3.
+     *
+     * There is one seat-payment route, so renewing, growing and shrinking all
+     * arrive as a seat count on it. A refusal written for a mid-period
+     * addition therefore lands on renewals too unless the period is consulted
+     * — and a center that cannot renew is a center that lapses.
+     */
+    describe('once the period has elapsed', () => {
+      it('renews the same seat count', async () => {
+        // The commonest payment a school will ever make, and the one a rule
+        // about "adds no seats" reads as nothing to pay.
+        const center = await makeCenter();
+        await holdSeats(center.id, 10, 4_500);
+        await paidThrough(center.id, -1);
+
+        const payment = await payments.create(identity(center.id), 10, 'key-1');
+
+        expect(payment.seats).toBe(10);
+        expect(payment.amountXaf).toBe(53_100); // 10 x 4,500 HT + 18% VAT
+        // Stamped for activation, which may run after this period has ended.
+        await expect(
+          prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+        ).resolves.toMatchObject({ renews_period: true });
+      });
+
+      it('renews during the grace week', async () => {
+        // Rule 7: up to seven days late the students keep access and the
+        // anchor day does not move. Still a renewal, still the whole pack.
+        const center = await makeCenter();
+        await holdSeats(center.id, 10, 4_500);
+        await paidThrough(center.id, -3);
+
+        const payment = await payments.create(identity(center.id), 10, 'key-1');
+
+        expect(payment.amountXaf).toBe(53_100);
+      });
+
+      it('renews into fewer seats', async () => {
+        // The doc's own worked example, 1 March: seventeen seats renew as
+        // twelve. Rule 6 forbids shrinking mid-period; rule 5 allows it here,
+        // and the floors (ten, and the connected students) still apply.
+        const center = await makeCenter();
+        await holdSeats(center.id, 17, 4_500);
+        await paidThrough(center.id, -1);
+
+        const payment = await payments.create(identity(center.id), 12, 'key-1');
+
+        expect(payment.seats).toBe(12);
+        expect(payment.amountXaf).toBe(63_720); // 12 x 4,500 HT + 18% VAT
+      });
+
+      it('still refuses a renewal under the minimum', async () => {
+        // Shrinking at renewal is not shrinking without limit.
+        const center = await makeCenter();
+        await holdSeats(center.id, 17, 4_500);
+        await paidThrough(center.id, -1);
+
+        await expect(
+          payments.create(identity(center.id), 8, 'key-1'),
+        ).rejects.toThrow('SEATS_BELOW_MINIMUM');
+      });
+    });
+
+    describe('while the period is running', () => {
+      it('bills only the seats added', async () => {
+        // Rule 3. The same assertion as the delta test above, said with the
+        // period stated, so it keeps meaning that once renewal is told apart.
+        const center = await makeCenter();
+        await holdSeats(center.id, 10, 4_500);
+        await paidThrough(center.id, 20);
+
+        const payment = await payments.create(identity(center.id), 12, 'key-1');
+
+        expect(payment.amountXaf).toBe(10_620); // 2 x 4,500 HT + 18% VAT
+        // The renewal date must survive this payment, so the row says so here
+        // rather than letting activation re-read a clock that has moved on.
+        await expect(
+          prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+        ).resolves.toMatchObject({ renews_period: false });
+      });
+
+      it('refuses a shrink', async () => {
+        // Rule 6: no shrinking mid-period, no refunds. A manager who wants a
+        // smaller pack waits for the renewal.
+        const center = await makeCenter();
+        await holdSeats(center.id, 12, 4_500);
+        await paidThrough(center.id, 20);
+
+        await expect(
+          payments.create(identity(center.id), 10, 'key-1'),
+        ).rejects.toThrow('SEATS_BELOW_PAID_FLOOR');
+      });
+    });
+
+    /**
+     * The numbers an invoice is made of (D27).
+     *
+     * `amount_xaf` is what the provider is sent, and VAT has no field of its
+     * own there, so it is TTC. Recovering the other two by dividing it back out
+     * does not work once the VAT line has been rounded — so all three are
+     * stored, and they have to agree.
+     */
+    it('stores the net and the VAT beside the total they make', async () => {
+      const center = await makeCenter();
+      await holdSeats(center.id, 10, 4_500);
+      await paidThrough(center.id, 20);
+
+      const payment = await payments.create(identity(center.id), 12, 'key-1');
+
+      const row = await prisma.payment.findUniqueOrThrow({
+        where: { id: payment.id },
+      });
+      expect(row.amount_net_xaf).toBe(9_000); // 2 x 4,500
+      expect(row.vat_amount_xaf).toBe(1_620); // 18%
+      expect(row.amount_xaf).toBe(10_620);
+      expect(row.amount_net_xaf! + row.vat_amount_xaf!).toBe(row.amount_xaf);
+    });
+
+    it('lets a center with a stamped price but no period start one', async () => {
+      // A seat row priced by hand, by a seed, or by a data fix: a pool with no
+      // paid period, which activation itself cannot produce. Reading it as a
+      // mid-period addition would be a trap with no way out — an addition never
+      // starts a period, so the center could never pay for one. It is a first
+      // purchase, and the whole pack is billed.
+      const center = await makeCenter();
+      await holdSeats(center.id, 10, 4_500);
+
+      const payment = await payments.create(identity(center.id), 10, 'key-1');
+
+      expect(payment.amountXaf).toBe(53_100); // 10 x 4,500 HT + 18% VAT
+      await expect(
+        prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+      ).resolves.toMatchObject({ renews_period: true });
     });
 
     it('grants nothing', async () => {

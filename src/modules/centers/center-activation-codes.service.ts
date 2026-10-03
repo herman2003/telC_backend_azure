@@ -153,6 +153,7 @@ export class CenterActivationCodesService {
           trial_started_at: true,
           trial_ends_at: true,
           paid_until: true,
+          anchor_day: true,
         },
       }),
     ]);
@@ -161,6 +162,7 @@ export class CenterActivationCodesService {
       trial_started_at: subscription?.trial_started_at ?? null,
       trial_ends_at: subscription?.trial_ends_at ?? null,
       paid_until: subscription?.paid_until ?? null,
+      anchor_day: subscription?.anchor_day ?? null,
     };
 
     return rows.map((row) => {
@@ -427,7 +429,12 @@ export class CenterActivationCodesService {
       where: { center_id: identity.centerId },
       // The period a reset is counted in comes from these same dates, so they
       // are read once here rather than again by the caller.
-      select: { trial_started_at: true, trial_ends_at: true, paid_until: true },
+      select: {
+        trial_started_at: true,
+        trial_ends_at: true,
+        paid_until: true,
+        anchor_day: true,
+      },
     });
 
     if (
@@ -444,6 +451,7 @@ export class CenterActivationCodesService {
       trial_started_at: subscription.trial_started_at,
       trial_ends_at: subscription.trial_ends_at ?? null,
       paid_until: subscription.paid_until,
+      anchor_day: subscription.anchor_day,
     };
   }
 

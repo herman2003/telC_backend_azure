@@ -91,6 +91,14 @@ describe('what a purchase records', () => {
       amountXaf: 14_160,
       status: 'PENDING',
     });
+    // The three amounts an invoice needs, and they agree: 12,000 HT + 2,160.
+    await expect(
+      prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+    ).resolves.toMatchObject({
+      amount_net_xaf: 12_000,
+      vat_amount_xaf: 2_160,
+      amount_xaf: 14_160,
+    });
     // Nothing is granted until a verified provider event says money moved.
     await expect(
       prisma.centerEntitlementPool.findMany({
