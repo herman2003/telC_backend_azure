@@ -25,7 +25,7 @@ export interface WebhookReceipt {
 /**
  * Turns a provider's webhook into a settled payment, in a fixed order.
  *
- * 1. ROUTE by signature header (Stripe vs Notch vs fake) — both MM and card
+ * 1. ROUTE by signature header (Stripe vs Fapshi vs fake) — both MM and card
  *    share this path.
  * 2. PROVE it. The provider verifies the signature over the raw bytes.
  * 3. FIND the payment by the provider's reference.

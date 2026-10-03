@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
 import { GeminiService } from './gemini.service';
-import { AiQuotaService } from '../../../shared/services/ai-quota.service';
 import { AiUsageService } from '../../../shared/services/ai-usage.service';
 import { RateLimitService } from '../../../shared/services/rate-limit.service';
 import { PrismaService } from '../../../shared/services/prisma.service';
@@ -22,6 +21,14 @@ interface SpeakingAttemptInput {
   attemptId?: string;
   durationSeconds?: number;
   modelltestNumber?: number;
+  /**
+   * The exam sitting this belongs to, on the 1,500 tier.
+   *
+   * Set, it keeps the transcript out of the student's practice history and
+   * ties it to the attempt a manager reads. Unset, this is ordinary
+   * practice, which is everything else that calls here.
+   */
+  examAttemptId?: string;
 }
 
 interface StoredSpeakingAttempt {
@@ -36,7 +43,6 @@ export class EvaluationService {
 
   constructor(
     private readonly geminiService: GeminiService,
-    private readonly quota: AiQuotaService,
     private readonly usage: AiUsageService,
     private readonly rateLimit: RateLimitService,
     private readonly prisma: PrismaService,
@@ -83,6 +89,23 @@ export class EvaluationService {
       if (earlier) return this.fromStored(earlier);
     }
 
+    // An exam is bounded by the exam rather than by the allowance: one
+    // evaluation per Teil, which is exactly the three telc asks for. Without
+    // it, skipping the quota would leave a candidate free to call the model
+    // in a loop for as long as the block is open.
+    if (studentId && attempt.examAttemptId) {
+      const already = await this.prisma.speakingAttempt.findFirst({
+        where: {
+          exam_attempt_id: attempt.examAttemptId,
+          teil_number: teilNumber,
+        },
+        select: { attempt_id: true },
+      });
+      if (already) {
+        throw new ConflictException('EXAM_TEIL_ALREADY_EVALUATED');
+      }
+    }
+
     // Before the quota and the model: an unknown Modelltest is the caller's
     // mistake, and must not cost the student a session.
     const modelltest = studentId
@@ -101,13 +124,23 @@ export class EvaluationService {
     // StudentSubscriptionGuard makes for the same reason. Refusing here would
     // be a decision about authentication taken in the wrong place.
     if (studentId) {
-      // Before the quota, and atomic where the quota is not. The quota counts
-      // rows and then the caller acts, so a concurrent burst all reads the
-      // same count and all passes — a student allowed two could land dozens
-      // in parallel before the first row commits. This bounds the pile-up in
-      // Valkey; the quota remains the rule that decides the answer.
+      // The only limit left here, and it is about our bill rather than the
+      // student's plan: twenty an hour bounds how fast anybody can pile calls
+      // into the model.
+      //
+      // Grading no longer has an allowance of its own. What Lerniqo sells is
+      // the conversation, charged when it starts — five a month on Start, then
+      // a credit — and charging the correction that follows it as well would
+      // refuse a student their feedback on a session they had already paid
+      // for. That is the phase 21 bug wearing different names: a telc exam of
+      // three Sprechen Teile meeting an allowance of two.
+      //
+      // The open edge is a transcript that arrives with no conversation behind
+      // it, from the browser's own speech recognition. That path is bounded
+      // only by the burst limit today; retiring it, or charging it as a
+      // session, is in the backlog and needs the app to say which it still
+      // uses.
       await this.rateLimit.checkAiEvaluationLimit(studentId);
-      await this.quota.assertWithinQuota(studentId, 'SPEAKING_EVALUATION');
     }
 
     const prompt = this.buildPrompt(teilNumber, transcript);
@@ -175,19 +208,26 @@ export class EvaluationService {
                 score,
                 evaluation: evaluation as unknown as Prisma.InputJsonValue,
                 duration_seconds: attempt.durationSeconds ?? null,
+                exam_attempt_id: attempt.examAttemptId ?? null,
                 created_at: completedAt,
               },
             });
-            await recordActivity(tx, {
-              studentId,
-              skill: 'SPRECHEN',
-              teil: teilNumber,
-              score,
-              durationSeconds: attempt.durationSeconds,
-              modelltestId: attempt.modelltestId,
-              attemptId: id,
-              completedAt,
-            });
+            // Practice is recorded; an exam is not. An AI speaking session
+            // sat inside a sitting must not move the readiness score a
+            // center reads, or the dashboard would count the exam as
+            // preparation for itself.
+            if (!attempt.examAttemptId) {
+              await recordActivity(tx, {
+                studentId,
+                skill: 'SPRECHEN',
+                teil: teilNumber,
+                score,
+                durationSeconds: attempt.durationSeconds,
+                modelltestId: attempt.modelltestId,
+                attemptId: id,
+                completedAt,
+              });
+            }
           }),
       );
       return earlier;

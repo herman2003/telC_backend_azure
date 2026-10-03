@@ -266,7 +266,7 @@ describe('the AI allowance against real Postgres', () => {
     ).rejects.toMatchObject({
       response: expect.objectContaining({
         message: 'AI_QUOTA_EXCEEDED',
-          usedToday: 2,
+        usedToday: 2,
         allowedToday: 2,
       }),
     });

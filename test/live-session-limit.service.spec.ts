@@ -36,6 +36,27 @@ async function messageKeyOf(promise: Promise<unknown>): Promise<string> {
 }
 
 describe('LiveSessionLimitService', () => {
+  describe('how long a session may run', () => {
+    it('gives five minutes when nothing is configured', () => {
+      // The number Start promises, and the number the economics rest on:
+      // billing is token-based, so context is reprocessed as a conversation
+      // grows and ten minutes costs more than twice five. A default changed
+      // by accident would be silent, which is why it is asserted.
+      const previous = { ...process.env };
+      delete process.env.GEMINI_LIVE_SESSION_MAX_MINUTES;
+      const service = new LiveSessionLimitService();
+      process.env = previous;
+
+      expect(service.sessionSeconds).toBe(300);
+    });
+
+    it('still honours an explicit setting', () => {
+      expect(
+        makeService({ GEMINI_LIVE_SESSION_MAX_MINUTES: '3' }).sessionSeconds,
+      ).toBe(180);
+    });
+  });
+
   describe('per-identity daily cap', () => {
     it('allows exactly the configured number of sessions', async () => {
       const service = makeService();
@@ -73,8 +94,12 @@ describe('LiveSessionLimitService', () => {
     it('keys registered students by studentId, so one NAT does not lock out a class', async () => {
       const service = makeService({ ELENA_CONCURRENT_MAX: '10' });
 
+      // Released between the two, because one student may only hold one live
+      // session at a time. This test is about how the daily cap is keyed.
       await service.acquire(STUDENT, 's1');
+      await service.release('s1', STUDENT);
       await service.acquire(STUDENT, 's2');
+      await service.release('s2', STUDENT);
       // Same IP, different student — must still be allowed.
       await expect(
         service.acquire({ ...STUDENT, studentId: 'student-2' }, 's3'),
@@ -159,6 +184,192 @@ describe('LiveSessionLimitService', () => {
       } finally {
         jest.useRealTimers();
       }
+    });
+  });
+
+  describe('one live session per student', () => {
+    it('refuses a student who already has one open', async () => {
+      // The pool is global, so before this a student could hold two slots
+      // while somebody else was told Elena was busy with another person.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+
+      expect(await messageKeyOf(service.acquire(STUDENT, 'second'))).toBe(
+        'elenaSessionAlreadyOpen',
+      );
+    });
+
+    it('does not spend their allowance on that refusal', async () => {
+      // Being told "you already have one open" must not also cost the session
+      // they are trying to start. Two of two used, for one conversation.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '2',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+      await messageKeyOf(service.acquire(STUDENT, 'refused'));
+      await service.release('first', STUDENT);
+
+      await expect(service.acquire(STUDENT, 'second')).resolves.toBeUndefined();
+    });
+
+    it('lets them start again the moment they end the last one', async () => {
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+      await service.release('first', STUDENT);
+
+      await expect(service.acquire(STUDENT, 'second')).resolves.toBeUndefined();
+    });
+
+    it('frees a crashed app by expiry, so nobody is locked out for the day', async () => {
+      // The backend never learns that a browser-to-Google session ended. If
+      // the slot only cleared on /live-session/end, an app that died would
+      // cost the student every remaining session they had.
+      jest.useFakeTimers();
+      try {
+        const service = makeService({
+          ELENA_IP_DAILY_MAX: '99',
+          ELENA_CONCURRENT_MAX: '10',
+          GEMINI_LIVE_SESSION_MAX_MINUTES: '5',
+        });
+
+        await service.acquire(STUDENT, 'crashed');
+        jest.advanceTimersByTime(6 * 60 * 1000);
+
+        await expect(service.acquire(STUDENT, 'next')).resolves.toBeUndefined();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('refuses the second of two simultaneous starts', async () => {
+      // A double tap, or a retry racing the first request. Reading whether a
+      // slot is held and then taking it leaves a window where both callers
+      // read "free" — which is why the claim itself has to be the check.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_GLOBAL_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      const outcomes = await Promise.allSettled([
+        service.acquire(STUDENT, 'a'),
+        service.acquire(STUDENT, 'b'),
+      ]);
+
+      expect(
+        outcomes.filter((outcome) => outcome.status === 'fulfilled'),
+      ).toHaveLength(1);
+    });
+
+    it('gives the slot back when a later cap refuses the session', async () => {
+      // The live slot is claimed before the shared gates, so a student turned
+      // away by a full pool must not be left holding a place of their own —
+      // that would lock them out of Elena for five minutes over somebody
+      // else's traffic.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '1',
+      });
+
+      await service.acquire({ ...STUDENT, studentId: 'other' }, 'fills-pool');
+      expect(await messageKeyOf(service.acquire(STUDENT, 'refused'))).toBe(
+        'elenaBusyNow',
+      );
+
+      await service.release('fills-pool', {
+        ...STUDENT,
+        studentId: 'other',
+      });
+
+      await expect(service.acquire(STUDENT, 'now-ok')).resolves.toBeUndefined();
+    });
+
+    it('leaves another student alone', async () => {
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+
+      await expect(
+        service.acquire({ ...STUDENT, studentId: 'student-2' }, 'theirs'),
+      ).resolves.toBeUndefined();
+    });
+
+    it('leaves guests exactly as they were', async () => {
+      // Guests are keyed by IP, and a school or a cybercafe is one IP. A
+      // per-identity live slot would let one visitor block the building.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(GUEST, 'g1');
+
+      await expect(service.acquire(GUEST, 'g2')).resolves.toBeUndefined();
+    });
+  });
+
+  describe('what a session actually cost', () => {
+    // The Live API bills tokens, not minutes, and the backend never sees
+    // Google's usage metadata because the app connects to Google directly.
+    // What it can measure by itself is how long a conversation really ran —
+    // and every cost estimate so far has assumed the full ceiling. If real
+    // sessions are ninety seconds, the estimate is three times too high.
+    it('logs how long the conversation ran', async () => {
+      jest.useFakeTimers();
+      const logged: string[] = [];
+      try {
+        const service = makeService({ ELENA_CONCURRENT_MAX: '10' });
+        jest
+          .spyOn(service['logger'], 'log')
+          .mockImplementation((message: unknown) => {
+            logged.push(String(message));
+          });
+
+        await service.acquire(STUDENT, 's1');
+        jest.advanceTimersByTime(92_000);
+        await service.release('s1', STUDENT);
+      } finally {
+        jest.useRealTimers();
+      }
+
+      const ended = logged
+        .map((line) => JSON.parse(line) as Record<string, unknown>)
+        .find((entry) => entry.event === 'elena.session.ended');
+
+      expect(ended).toMatchObject({ sessionId: 's1', durationSeconds: 92 });
+    });
+
+    it('says so rather than guessing when it never saw the start', async () => {
+      // A restart, another instance, or a release for a session this process
+      // never minted. A zero there would quietly drag the average down.
+      const logged: string[] = [];
+      const service = makeService();
+      jest
+        .spyOn(service['logger'], 'log')
+        .mockImplementation((message: unknown) => {
+          logged.push(String(message));
+        });
+
+      await service.release('never-minted-here');
+
+      const ended = logged
+        .map((line) => JSON.parse(line) as Record<string, unknown>)
+        .find((entry) => entry.event === 'elena.session.ended');
+
+      expect(ended).toMatchObject({ durationSeconds: null });
     });
   });
 

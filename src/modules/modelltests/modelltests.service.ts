@@ -11,14 +11,20 @@ export class ModelltestsService {
 
   async getAll(): Promise<ModelltestListItemDto[]> {
     const rows = await this.prisma.modelltest.findMany({
+      // Exam material is kept out of the training catalogue, so a sitting can
+      // use a Modelltest no student has worked through. Everything that
+      // exists today is false; this is what makes the flag mean something.
+      where: { exam_only: false },
       orderBy: { number: 'asc' },
     });
     return rows.map(({ id, number, title }) => ({ id, number, title }));
   }
 
   async getByNumber(number: number): Promise<ModelltestDetailDto> {
-    const row = await this.prisma.modelltest.findUnique({
-      where: { number },
+    const row = await this.prisma.modelltest.findFirst({
+      // Same reason as getAll: a student must not reach exam material by
+      // asking for it by number.
+      where: { number, exam_only: false },
       include: {
         sprachbausteineExercises: { select: { id: true } },
         sprachbausteineTeil2Exercises: { select: { id: true } },

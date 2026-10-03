@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 /**
  * Which unique violations count as a replay.
  *
@@ -93,7 +93,7 @@ describe('recognising a replay', () => {
               const row = {
                 id: `payment-${rows.size + 1}`,
                 center_id: data.center_id,
-                total_seats: data.total_seats,
+                quantity: data.quantity,
                 amount_xaf: data.amount_xaf,
                 idempotency_key: data.idempotency_key,
                 request_hash: data.request_hash,

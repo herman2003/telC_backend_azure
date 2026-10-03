@@ -22,23 +22,31 @@ export class CreatePaymentDto {
 /**
  * Which payment method to open at checkout.
  *
- * `notchpay` — Orange Money / MTN Mobile Money (via Notch Collect).
+ * `fapshi` — Orange Money / MTN Mobile Money (via Fapshi initiate-pay).
  * `stripe` — card.
  * They are different methods; both can be configured on the server at once.
  */
 export class StartCheckoutDto {
   @ApiProperty({
-    enum: ['notchpay', 'stripe'],
-    example: 'notchpay',
+    enum: ['fapshi', 'stripe'],
+    example: 'fapshi',
     description:
-      'notchpay = Mobile Money (Orange / MTN). stripe = card. Required.',
+      'fapshi = Mobile Money (Orange / MTN). stripe = card. Required.',
   })
-  @IsIn(['notchpay', 'stripe'])
-  provider: 'notchpay' | 'stripe';
+  @IsIn(['fapshi', 'stripe'])
+  provider: 'fapshi' | 'stripe';
 }
 
 export class PaymentResponseDto {
   @ApiProperty({ format: 'uuid' }) id: string;
+
+  @ApiProperty({
+    enum: ['SEATS', 'EXAM_SLOTS'],
+    example: 'SEATS',
+    description:
+      'What the money bought. Seats and exam slots share this history and are priced differently, so an invoice list reads this to tell them apart. `seats` carries the quantity of whichever it is.',
+  })
+  kind: string;
 
   @ApiProperty({ example: 10 }) seats: number;
 
@@ -78,8 +86,8 @@ export class CheckoutSessionResponseDto {
   checkoutUrl: string;
 
   @ApiProperty({
-    enum: ['notchpay', 'stripe'],
-    example: 'notchpay',
+    enum: ['fapshi', 'stripe'],
+    example: 'fapshi',
     description: 'Payment method that opened this checkout.',
   })
   provider: string;

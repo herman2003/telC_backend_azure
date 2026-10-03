@@ -14,10 +14,9 @@ import {
 } from '../src/modules/centers/payment-providers/fake-payment-provider';
 import { DisabledPaymentProvider } from '../src/modules/centers/payment-providers/disabled-payment-provider';
 import {
-  NotchPayProvider,
-  NOTCHPAY_SIGNATURE_HEADER,
-  signNotchPayWebhook,
-} from '../src/modules/centers/payment-providers/notchpay-payment-provider';
+  FapshiPaymentProvider,
+  FAPSHI_WEBHOOK_SECRET_HEADER,
+} from '../src/modules/centers/payment-providers/fapshi-payment-provider';
 import {
   StripePaymentProvider,
   STRIPE_SIGNATURE_HEADER,
@@ -57,29 +56,31 @@ describe('choosing the payment providers', () => {
     expect(map.has('fake')).toBe(false);
   });
 
-  it('registers Notch and Stripe together when both are configured', () => {
+  it('registers Fapshi and Stripe together when both are configured', () => {
     // Different payment methods (MM vs card) — not mutually exclusive.
     const map = buildPaymentProviders({
-      NOTCHPAY_PUBLIC_KEY: 'pk_test',
-      NOTCHPAY_WEBHOOK_SECRET: 'whsec_notch',
-      NOTCHPAY_CALLBACK_URL: 'https://dashboard.example/callback',
+      FAPSHI_APIUSER: 'user-test',
+      FAPSHI_APIKEY: 'key-test',
+      FAPSHI_WEBHOOK_SECRET: 'whsec_fapshi',
+      FAPSHI_REDIRECT_URL: 'https://dashboard.example/callback',
       STRIPE_SECRET_KEY: 'sk_test_123',
       STRIPE_WEBHOOK_SECRET: 'whsec_stripe',
       STRIPE_SUCCESS_URL: 'https://dashboard.example/success',
       STRIPE_CANCEL_URL: 'https://dashboard.example/cancel',
     });
-    expect(map.get('notchpay')).toBeInstanceOf(NotchPayProvider);
+    expect(map.get('fapshi')).toBeInstanceOf(FapshiPaymentProvider);
     expect(map.get('stripe')).toBeInstanceOf(StripePaymentProvider);
     expect(map.size).toBe(2);
   });
 
-  it('registers Notch without PAYMENT_PROVIDER=notchpay (keys alone suffice)', () => {
+  it('registers Fapshi without PAYMENT_PROVIDER=fapshi (keys alone suffice)', () => {
     const map = buildPaymentProviders({
-      NOTCHPAY_PUBLIC_KEY: 'pk_test',
-      NOTCHPAY_WEBHOOK_SECRET: 'whsec_test',
-      NOTCHPAY_CALLBACK_URL: 'https://dashboard.example/callback',
+      FAPSHI_APIUSER: 'user-test',
+      FAPSHI_APIKEY: 'key-test',
+      FAPSHI_WEBHOOK_SECRET: 'whsec_test',
+      FAPSHI_REDIRECT_URL: 'https://dashboard.example/callback',
     });
-    expect(map.get('notchpay')).toBeInstanceOf(NotchPayProvider);
+    expect(map.get('fapshi')).toBeInstanceOf(FapshiPaymentProvider);
   });
 
   it('omits Stripe live keys outside production without allow flag', () => {
@@ -96,9 +97,10 @@ describe('choosing the payment providers', () => {
   it('omits a method when any required key is missing', () => {
     expect(
       buildPaymentProviders({
-        NOTCHPAY_PUBLIC_KEY: 'pk_test',
-        NOTCHPAY_WEBHOOK_SECRET: 'whsec_test',
-      }).has('notchpay'),
+        FAPSHI_APIUSER: 'user-test',
+        FAPSHI_APIKEY: 'key-test',
+        FAPSHI_WEBHOOK_SECRET: 'whsec_test',
+      }).has('fapshi'),
     ).toBe(false);
 
     expect(
@@ -267,27 +269,28 @@ describe('the fake provider', () => {
   });
 });
 
-describe('the Notch Pay provider', () => {
-  const HASH = 'notch-test-hash-key-for-unit-tests';
-  const CALLBACK = 'https://dashboard.example/payments/callback';
+describe('the Fapshi provider', () => {
+  const SECRET = 'fapshi-test-webhook-secret';
+  const REDIRECT = 'https://dashboard.example/payments/callback';
 
   const httpPost = jest.fn();
-  const provider = new NotchPayProvider(
+  const provider = new FapshiPaymentProvider(
     {
-      publicKey: 'pk_test',
-      webhookSecret: HASH,
-      callbackUrl: CALLBACK,
-      baseUrl: 'https://api.notchpay.test',
+      apiUser: 'user-test',
+      apiKey: 'key-test',
+      webhookSecret: SECRET,
+      redirectUrl: REDIRECT,
+      baseUrl: 'https://sandbox.fapshi.test',
     },
     httpPost,
   );
 
-  const signed = (payload: unknown, secret = HASH) => {
+  const signed = (payload: unknown, secret = SECRET) => {
     const raw = Buffer.from(JSON.stringify(payload));
     return {
       raw,
       headers: {
-        [NOTCHPAY_SIGNATURE_HEADER]: signNotchPayWebhook(secret, raw),
+        [FAPSHI_WEBHOOK_SECRET_HEADER]: secret,
       },
     };
   };
@@ -297,12 +300,14 @@ describe('the Notch Pay provider', () => {
   });
 
   describe('checkout', () => {
-    it('opens a Notch payment and returns the merchant reference as providerReference', async () => {
+    it('opens a Fapshi payment and returns transId as providerReference', async () => {
       httpPost.mockResolvedValue({
-        status: 201,
+        status: 200,
         data: {
-          authorization_url: 'https://pay.notchpay.test/checkout/abc',
-          transaction: { reference: 'trx.test_1' },
+          message: 'ok',
+          link: 'https://pay.fapshi.test/checkout/abc',
+          transId: 'XX123ABC',
+          dateInitiated: '2026-10-03',
         },
       });
 
@@ -311,45 +316,52 @@ describe('the Notch Pay provider', () => {
         centerId: 'center-1',
         amountXaf: 45000,
         customerEmail: 'manager@school.test',
-        customerName: 'École Test',
-        customerPhone: '+237600000000',
       });
 
       expect(session).toEqual({
-        providerReference: 'pay-1',
-        checkoutUrl: 'https://pay.notchpay.test/checkout/abc',
+        providerReference: 'XX123ABC',
+        checkoutUrl: 'https://pay.fapshi.test/checkout/abc',
       });
       expect(httpPost).toHaveBeenCalledWith(
         expect.objectContaining({
-          url: 'https://api.notchpay.test/payments',
+          url: 'https://sandbox.fapshi.test/initiate-pay',
           body: expect.objectContaining({
             amount: 45000,
-            currency: 'XAF',
-            reference: 'pay-1',
-            callback: CALLBACK,
-            customer: expect.objectContaining({
-              email: 'manager@school.test',
-            }),
+            externalId: 'pay-1',
+            redirectUrl: REDIRECT,
+            email: 'manager@school.test',
+            userId: 'center-1',
           }),
           headers: expect.objectContaining({
-            Authorization: 'pk_test',
+            apiuser: 'user-test',
+            apikey: 'key-test',
           }),
         }),
       );
     });
 
-    it('refuses checkout without a customer email', async () => {
+    it('allows checkout without a customer email', async () => {
+      httpPost.mockResolvedValue({
+        status: 200,
+        data: {
+          link: 'https://pay.fapshi.test/checkout/abc',
+          transId: 'XX123ABC',
+        },
+      });
+
       await expect(
         provider.createCheckout({
           paymentId: 'pay-1',
           centerId: 'center-1',
           amountXaf: 45000,
         }),
-      ).rejects.toThrow('PAYMENT_CUSTOMER_EMAIL_REQUIRED');
-      expect(httpPost).not.toHaveBeenCalled();
+      ).resolves.toEqual({
+        providerReference: 'XX123ABC',
+        checkoutUrl: 'https://pay.fapshi.test/checkout/abc',
+      });
     });
 
-    it('refuses when Notch returns no checkout URL', async () => {
+    it('refuses when Fapshi returns no checkout URL', async () => {
       httpPost.mockResolvedValue({
         status: 200,
         data: { message: 'missing url' },
@@ -364,55 +376,81 @@ describe('the Notch Pay provider', () => {
         }),
       ).rejects.toThrow('PAYMENT_CHECKOUT_FAILED');
     });
+
+    it('maps a transport failure to PAYMENT_CHECKOUT_FAILED without leaking headers', async () => {
+      const leak = new Error('socket hang up') as Error & {
+        config?: { headers?: Record<string, string> };
+      };
+      leak.config = {
+        headers: { apiuser: 'user-test', apikey: 'key-test-secret' },
+      };
+      httpPost.mockRejectedValue(leak);
+
+      await expect(
+        provider.createCheckout({
+          paymentId: 'pay-1',
+          centerId: 'center-1',
+          amountXaf: 45000,
+          customerEmail: 'manager@school.test',
+        }),
+      ).rejects.toMatchObject({
+        response: { message: 'PAYMENT_CHECKOUT_FAILED' },
+      });
+
+      try {
+        await provider.createCheckout({
+          paymentId: 'pay-1',
+          centerId: 'center-1',
+          amountXaf: 45000,
+          customerEmail: 'manager@school.test',
+        });
+      } catch (error) {
+        const serialized = JSON.stringify(error);
+        expect(serialized).not.toContain('key-test-secret');
+        expect(serialized).not.toContain('apikey');
+      }
+    });
   });
 
   describe('webhooks', () => {
-    it('accepts a correctly signed payment.complete', async () => {
+    it('accepts a correctly authenticated SUCCESSFUL event', async () => {
       const { raw, headers } = signed({
-        type: 'payment.complete',
-        payload: {
-          event: 'payment.complete',
-          data: { merchant_reference: 'pay-1', status: 'complete' },
-        },
+        transId: 'XX123ABC',
+        status: 'SUCCESSFUL',
+        externalId: 'pay-1',
       });
 
       await expect(provider.verifyWebhook(raw, headers)).resolves.toEqual({
-        providerReference: 'pay-1',
+        providerReference: 'XX123ABC',
         outcome: 'SUCCEEDED',
       });
     });
 
-    it('maps payment.failed and cancelled to FAILED', async () => {
-      const failed = signed({
-        type: 'payment.failed',
-        payload: { data: { merchant_reference: 'pay-1' } },
-      });
+    it('maps FAILED and EXPIRED to FAILED', async () => {
+      const failed = signed({ transId: 'XX1', status: 'FAILED' });
       await expect(
         provider.verifyWebhook(failed.raw, failed.headers),
       ).resolves.toEqual({
-        providerReference: 'pay-1',
+        providerReference: 'XX1',
         outcome: 'FAILED',
       });
 
-      const cancelled = signed({
-        type: 'payment.canceled',
-        payload: { data: { merchant_reference: 'pay-2' } },
-      });
+      const expired = signed({ transId: 'XX2', status: 'EXPIRED' });
       await expect(
-        provider.verifyWebhook(cancelled.raw, cancelled.headers),
+        provider.verifyWebhook(expired.raw, expired.headers),
       ).resolves.toEqual({
-        providerReference: 'pay-2',
+        providerReference: 'XX2',
         outcome: 'FAILED',
       });
     });
 
-    it('refuses an event with no signature', async () => {
+    it('refuses an event with no webhook secret header', async () => {
       await expect(
         provider.verifyWebhook(
           Buffer.from(
             JSON.stringify({
-              type: 'payment.complete',
-              payload: { data: { merchant_reference: 'pay-1' } },
+              transId: 'XX123ABC',
+              status: 'SUCCESSFUL',
             }),
           ),
           {},
@@ -420,13 +458,10 @@ describe('the Notch Pay provider', () => {
       ).rejects.toBeInstanceOf(UnauthorizedException);
     });
 
-    it('refuses an event signed with the wrong secret', async () => {
+    it('refuses an event with the wrong secret', async () => {
       const { raw, headers } = signed(
-        {
-          type: 'payment.complete',
-          payload: { data: { merchant_reference: 'pay-1' } },
-        },
-        'someone-elses-hash-key',
+        { transId: 'XX123ABC', status: 'SUCCESSFUL' },
+        'someone-elses-secret',
       );
 
       await expect(provider.verifyWebhook(raw, headers)).rejects.toThrow(
@@ -434,29 +469,10 @@ describe('the Notch Pay provider', () => {
       );
     });
 
-    it('refuses a body altered after signing', async () => {
-      const { headers } = signed({
-        type: 'payment.failed',
-        payload: { data: { merchant_reference: 'pay-1' } },
-      });
-      const tampered = Buffer.from(
-        JSON.stringify({
-          type: 'payment.complete',
-          payload: { data: { merchant_reference: 'pay-1' } },
-        }),
-      );
-
-      await expect(provider.verifyWebhook(tampered, headers)).rejects.toThrow(
-        'WEBHOOK_SIGNATURE_INVALID',
-      );
-    });
-
     it('refuses pending / unknown statuses', async () => {
       const { raw, headers } = signed({
-        type: 'payment.processing',
-        payload: {
-          data: { merchant_reference: 'pay-1', status: 'processing' },
-        },
+        transId: 'XX123ABC',
+        status: 'PENDING',
       });
 
       await expect(provider.verifyWebhook(raw, headers)).rejects.toBeInstanceOf(
@@ -464,10 +480,9 @@ describe('the Notch Pay provider', () => {
       );
     });
 
-    it('refuses a signed payload with no reference', async () => {
+    it('refuses a signed payload with no transId', async () => {
       const { raw, headers } = signed({
-        type: 'payment.complete',
-        payload: { data: {} },
+        status: 'SUCCESSFUL',
       });
 
       await expect(provider.verifyWebhook(raw, headers)).rejects.toBeInstanceOf(

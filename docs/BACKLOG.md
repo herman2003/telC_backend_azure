@@ -132,6 +132,30 @@ exam exists**. That window closes when Modelltest 2 is seeded.
 
 ## 4 — Infrastructure
 
+### Before the first paying center: four deploy-safety items
+Added 2026-09-24. None of these matter while `main` is a demo; all of them
+matter the day a real center pays.
+
+1. **`/health` tells the truth.** It answers `{ok: true}` without touching the
+   database, and DigitalOcean uses it as the readiness probe — so a deploy
+   with an unreachable Neon is declared healthy and given traffic. One
+   `SELECT 1`.
+2. **`enableShutdownHooks()`.** Never called, so `OnModuleDestroy` and
+   `OnApplicationShutdown` never fire on SIGTERM. `PrismaService` and
+   `ValkeyService` both implement them; both leak on every deploy. One line.
+3. **Migrations as a PRE_DEPLOY job.** `npm start` runs `migrate deploy` in the
+   new container, so a failed migration does not fail a deploy step — it stops
+   the app from starting. DigitalOcean cancels a deployment whose PRE_DEPLOY
+   job fails, which is the behaviour we want.
+4. **Expand/contract for renames.** Once (3) is not enough — the rename in
+   `20260924160000_payment_quantity` broke the old container's reads for the
+   length of a cutover. With paying centers that is an outage mid-checkout.
+   Add, backfill, dual-write, cut over, drop a release later.
+
+Doing (3) makes every future migration safer, not just the next one, so it is
+the one worth doing first.
+
+
 ### No CI — nothing enforces that `main` is green
 **verified: no `.github/workflows` directory at all**
 
@@ -174,6 +198,47 @@ Because Prisma plans these alterations by dropping and recreating the six
 than the drift itself suggests.
 
 ---
+
+### Elena: concurrency, the guest budget, and a legacy model
+
+Three things left out of block 22a deliberately, each a configuration change
+rather than logic.
+
+**`ELENA_CONCURRENT_MAX` is 2, platform-wide.** Two students in the world can
+talk to Elena at once. A class of twenty doing Sprechen together sees eighteen
+refusals, which reads as broken rather than busy. Concurrency is not the
+budget — `ELENA_GLOBAL_DAILY_MAX` is — so raising it to 10 costs nothing extra.
+
+**Guests and paying students share one daily budget.** A busy demo day can
+therefore starve a centre that paid 4 500 a head. Wants its own
+`ELENA_GUEST_DAILY_MAX`, around 20 of the 50, so the demo can never take the
+last session from somebody who bought it.
+
+**`gemini-3.1-flash-live-preview` is a legacy preview.** Google recommends
+moving to Gemini 3.8 Live. The model is already env-configurable, so the
+migration is cheap — but the price changes with it, and the whole
+33-to-66-FCFA-a-session arithmetic that justifies a 300 FCFA credit has to be
+re-run at the new rate. Do it before block 24 prices anything.
+
+### Four high npm audit findings in production dependencies
+
+`npm audit --omit=dev` reports four high-severity advisories — `deepmerge-ts`,
+`fast-uri`, `multer`, `mysql2` — and one moderate (`qs`). All transitive, none
+introduced by recent work: the count is identical on a clean tree.
+
+`mysql2` is the interesting one, since nothing here uses MySQL; it is worth
+finding out which package drags it in before deciding whether to patch or drop
+it. Do this before the first paying centre, alongside the other deploy items.
+
+### `npm run lint` reports 1116 problems, so it gates nothing
+
+950 errors and 166 warnings across `src` and `test`, unchanged whether or not
+the working tree has changes. A lint step nobody can read is a lint step nobody
+runs, and new code passing cleanly is currently invisible in the noise.
+
+Worth one pass with `--fix`, then a decision about the rules that remain: either
+they are worth obeying and the violations get fixed, or they are not and they
+come out of the config.
 
 ## 5 — Consistency and housekeeping
 

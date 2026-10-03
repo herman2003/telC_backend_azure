@@ -18,6 +18,15 @@ export interface CorrectionJobData {
   exerciseId: string;
   content: string;
   createdAt: string;
+  /**
+   * Whether to push the result to the student's socket. True everywhere but
+   * an exam.
+   *
+   * In an exam the correction is a suggestion for the trainer, not a result
+   * for the candidate: sending it would hand somebody their Schreiben mark
+   * before a human had read it and before the center released anything.
+   */
+  notify?: boolean;
 }
 
 const STUB_SCORE = 75;
@@ -160,7 +169,9 @@ export class WritingCorrectionService {
         corrections: correctionsForPayload,
       };
 
-      this.gateway.notifyCorrectionReady(studentId, payload);
+      if (data.notify !== false) {
+        this.gateway.notifyCorrectionReady(studentId, payload);
+      }
     } catch (err) {
       this.logger.error(
         `Correction failed for attempt ${attemptId}: ${(err as Error).message}`,

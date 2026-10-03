@@ -20,7 +20,7 @@ export interface StartedCheckout {
   paymentId: string;
   /** Kept server-side by the controller; returned here for callers that need it. */
   providerReference: string;
-  /** Which method was used: notchpay (Mobile Money) or stripe (card). */
+  /** Which method was used: fapshi (Mobile Money) or stripe (card). */
   provider: string;
   checkoutUrl: string;
 }
@@ -56,10 +56,7 @@ export class PaymentCheckoutService {
     paymentId: string,
     method: PaymentMethodKind | 'fake',
   ): Promise<StartedCheckout> {
-    if (
-      method !== 'fake' &&
-      !CLIENT_PAYMENT_METHODS.includes(method as PaymentMethodKind)
-    ) {
+    if (method !== 'fake' && !CLIENT_PAYMENT_METHODS.includes(method)) {
       throw new BadRequestException('PAYMENT_METHOD_INVALID');
     }
 

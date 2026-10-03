@@ -34,6 +34,23 @@ const EXEMPT: Record<string, string> = {
   // is bounded by LiveSessionLimitService, which caps guests by IP because a
   // guest studentId can be re-rolled at will.
   LiveTokenController: 'the live demo is deliberately open to guests',
+  // An exam is paid for per candidate, in advance, when the center publishes
+  // the sitting. Refusing a candidate because their school's monthly plan
+  // lapsed between the purchase and the exam would take the fee and grant
+  // nothing. The access rule here is the participant row: no subscription
+  // opens a sitting, and no lapsed one closes a sitting already bought.
+  ExamSittingController: 'an exam seat is bought per candidate, not monthly',
+  // Being told something is not learning. A student whose center lapsed
+  // should still be told their exam result is ready — especially then, since
+  // the exam was paid for per candidate and separately from the monthly plan.
+  NotificationsController: 'a notification is not a lesson',
+  // The screen that explains why nothing else works. A student whose center
+  // has lapsed must be able to read what is waiting for them — the response
+  // carries `frozen: true` and the real balances, so the app can say "your
+  // credits are held" rather than showing zeroes or an error. Refusing here
+  // would leave it with nothing to show at the one moment it matters.
+  MyEntitlementsController:
+    'reading what is frozen is how a student learns it is frozen',
 };
 
 /** The seven the plan inventoried. Named so the scan cannot pass vacuously. */

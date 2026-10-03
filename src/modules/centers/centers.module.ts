@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
@@ -10,6 +10,23 @@ import { CenterProfileService } from './center-profile.service';
 import { CenterSubscriptionController } from './center-subscription.controller';
 import { CenterSubscriptionService } from './center-subscription.service';
 import { CenterStudentsController } from './center-students.controller';
+import { ExamSessionsController } from './exam-sessions.controller';
+import { ExamModelltestsController } from './exam-modelltests.controller';
+import { EntitlementsController } from './entitlements.controller';
+import { ExamSlotsController } from './exam-slots.controller';
+import { ExamResultsController } from './exam-results.controller';
+import { ExamResultService } from './exam-result.service';
+import { ExamGradingService } from './exam-grading.service';
+import { ExamReleaseService } from './exam-release.service';
+import { ExamExportService } from './exam-export.service';
+import { NotificationsService } from '../../shared/services/notifications.service';
+import { EntitlementPurchaseService } from './entitlement-purchase.service';
+import { EntitlementsService } from './entitlements.service';
+import { ExamSlotsService } from './exam-slots.service';
+import { ExamSessionsService } from './exam-sessions.service';
+import { ExamModelltestsService } from './exam-modelltests.service';
+import { ExamParticipantsService } from './exam-participants.service';
+import { ExamSessionPolicyService } from './exam-session-policy.service';
 import { CenterStudentsService } from './center-students.service';
 import { SubscriptionPolicyService } from './subscription-policy.service';
 import { PricingService } from './pricing.service';
@@ -48,6 +65,11 @@ import { CenterSupportService } from './center-support.service';
     CenterProfileController,
     CenterSubscriptionController,
     CenterStudentsController,
+    ExamModelltestsController,
+    ExamSessionsController,
+    EntitlementsController,
+    ExamSlotsController,
+    ExamResultsController,
     CenterSupportController,
     PaymentsController,
     PaymentWebhooksController,
@@ -61,6 +83,18 @@ import { CenterSupportService } from './center-support.service';
     CenterActivationCodesService,
     CodeRedemptionService,
     CenterSupportService,
+    ExamSessionsService,
+    ExamModelltestsService,
+    EntitlementPurchaseService,
+    EntitlementsService,
+    ExamSlotsService,
+    ExamResultService,
+    ExamGradingService,
+    ExamReleaseService,
+    ExamExportService,
+    NotificationsService,
+    ExamParticipantsService,
+    ExamSessionPolicyService,
     SubscriptionPolicyService,
     PricingService,
     CenterSeatsService,
@@ -68,7 +102,7 @@ import { CenterSupportService } from './center-support.service';
     PaymentActivationService,
     PaymentCheckoutService,
     PaymentWebhookService,
-    // Notch (Mobile Money) and Stripe (card) both register when their keys
+    // Fapshi (Mobile Money) and Stripe (card) both register when their keys
     // are present — they are different methods, not alternatives. See
     // buildPaymentProviderRegistry.
     {
@@ -81,22 +115,29 @@ import { CenterSupportService } from './center-support.service';
           FAKE_PAYMENT_WEBHOOK_SECRET: config.get<string>(
             'FAKE_PAYMENT_WEBHOOK_SECRET',
           ),
-          NOTCHPAY_PUBLIC_KEY:
-            config.get<string>('NOTCHPAY_PUBLIC_KEY') ??
-            config.get<string>('NOTCHPAY_API_KEY'),
-          NOTCHPAY_PRIVATE_KEY: config.get<string>('NOTCHPAY_PRIVATE_KEY'),
-          NOTCHPAY_WEBHOOK_SECRET:
-            config.get<string>('NOTCHPAY_WEBHOOK_SECRET') ??
-            config.get<string>('NOTCHPAY_HASH_KEY'),
-          NOTCHPAY_BASE_URL: config.get<string>('NOTCHPAY_BASE_URL'),
-          NOTCHPAY_CALLBACK_URL: config.get<string>('NOTCHPAY_CALLBACK_URL'),
+          FAPSHI_APIUSER: config.get<string>('FAPSHI_APIUSER'),
+          FAPSHI_APIKEY: config.get<string>('FAPSHI_APIKEY'),
+          FAPSHI_WEBHOOK_SECRET: config.get<string>('FAPSHI_WEBHOOK_SECRET'),
+          FAPSHI_BASE_URL: config.get<string>('FAPSHI_BASE_URL'),
+          FAPSHI_REDIRECT_URL: config.get<string>('FAPSHI_REDIRECT_URL'),
           STRIPE_SECRET_KEY: config.get<string>('STRIPE_SECRET_KEY'),
           STRIPE_WEBHOOK_SECRET: config.get<string>('STRIPE_WEBHOOK_SECRET'),
           STRIPE_SUCCESS_URL: config.get<string>('STRIPE_SUCCESS_URL'),
           STRIPE_CANCEL_URL: config.get<string>('STRIPE_CANCEL_URL'),
           STRIPE_ALLOW_LIVE_KEYS: config.get<string>('STRIPE_ALLOW_LIVE_KEYS'),
         };
-        return buildPaymentProviderRegistry(settings);
+        const registry = buildPaymentProviderRegistry(settings);
+        // Same idea as the database host line in main.ts: if Fapshi (the only
+        // Mobile Money path) is missing a key, say so at boot instead of at
+        // the first checkout.
+        const names = registry.list();
+        Logger.log(
+          names.length > 0
+            ? `Payment providers: ${names.join(', ')}`
+            : 'Payment providers: none configured',
+          'Bootstrap',
+        );
+        return registry;
       },
     },
     CenterStudentsService,

@@ -238,7 +238,12 @@ export class SprachbausteineService {
     return { attemptId, score: earlier?.score ?? score, answerKey: answers };
   }
 
-  private async getAnswerKey(
+  /**
+   * Public because the exam scorer marks against this same key. Two copies of
+   * an answer key are two things that can drift, and the one that drifts is
+   * always the one nobody is looking at.
+   */
+  async getAnswerKey(
     modelltestId: string,
     teilId: '1' | '2',
   ): Promise<{
@@ -348,6 +353,11 @@ export class SprachbausteineService {
     try {
       const rows = await this.prisma.sprachbausteineAttempt.findMany({
         where: {
+          // Training only. An exam attempt lives in this same table and
+          // must not be read back as practice: it would show a candidate
+          // scores their center has not released, and count an exam as
+          // preparation for itself.
+          exam_attempt_id: null,
           student_id: studentId,
           status: 'completed',
           erasure_id: null,
@@ -379,6 +389,11 @@ export class SprachbausteineService {
 
       const rows = await this.prisma.sprachbausteineAttempt.findMany({
         where: {
+          // Training only. An exam attempt lives in this same table and
+          // must not be read back as practice: it would show a candidate
+          // scores their center has not released, and count an exam as
+          // preparation for itself.
+          exam_attempt_id: null,
           student_id: studentId,
           erasure_id: null,
           ...(teilId ? { teil_id: teilId } : {}),

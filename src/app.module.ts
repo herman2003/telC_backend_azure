@@ -14,6 +14,9 @@ import { LesenModule } from './modules/lesen/lesen.module';
 import { ModelltestsModule } from './modules/modelltests/modelltests.module';
 import { RateLimitModule } from './shared/rate-limit.module';
 import { CentersModule } from './modules/centers/centers.module';
+import { ExamsModule } from './modules/exams/exams.module';
+import { MeModule } from './modules/me/me.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LocationsModule } from './modules/locations/locations.module';
 import { PlansModule } from './modules/plans/plans.module';
 
@@ -21,12 +24,28 @@ import { PlansModule } from './modules/plans/plans.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      /**
+       * `.env.test` first, then `.env`.
+       *
+       * `.env` holds production: running the app locally used to mean writing
+       * to the live database, because it was the only file read. Anything
+       * `.env.test` does not define — the Gemini key, the JWT secrets, the
+       * port — still falls through to `.env`, so a developer keeps a working
+       * app while their writes land on the disposable branch.
+       *
+       * Safe in production because `.env.test` is gitignored and therefore
+       * cannot exist in the container: the list collapses to `.env` there,
+       * and to the real environment variables that override both.
+       */
+      envFilePath: ['.env.test', '.env'],
     }),
     PrismaModule,
     RateLimitModule,
     AuthModule,
     CentersModule,
+    ExamsModule,
+    MeModule,
+    NotificationsModule,
     SpeakingModule,
     WritingModule,
     ListeningModule,
