@@ -34,7 +34,14 @@ the renewal date wander — 1 January, then the 31st by March.
 
 ## Decision
 
-**1. Catalogue prices are HT. Amounts sent to a provider are TTC, at 18%.**
+**1. Catalogue prices are HT. Amounts sent to a provider are TTC, at 18%, and the
+VAT is declared.**
+
+Confirmed by both founders on 2026-10-03: Lerniqo charges the 18% and declares
+it. That half of the decision is not a technical one and is recorded here only so
+the code and the obligation cannot drift apart — an invoice showing a TVA line is
+a statement to a customer about tax that has been collected.
+
 
 Fapshi and Stripe take a single integer amount with no tax field, so the stored
 `amount_xaf` is gross. The net and the VAT are stored beside it, because an
@@ -92,11 +99,10 @@ already assumed. The first renewal stamps a real one.
 
 - **The minimum charge for a small pro rata payment** (B2, owner: Herman). Pro
   rata cannot ship without it: one seat added three days before the anchor comes
-  to 435 XAF, below the transaction fee.
-- **Whether Lerniqo collects and declares the VAT it now charges.** This ADR
-  records what the code does. Whether an 18% line on an invoice is correct for
-  this company, in Cameroon, today, is a question for the founders and not for a
-  commit.
+  to 435 XAF, below the transaction fee. It is the only thing still blocking
+  rule 3's amount.
+Nothing about VAT: see the decision below. The one item left is the minimum
+charge.
 
 ## Alternatives considered
 

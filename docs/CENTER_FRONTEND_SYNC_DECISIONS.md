@@ -357,9 +357,9 @@ nobody can pay yet. When payment is built, a successful payment must also:
 - **B3** AI cost per speaking session: does 4,500 XAF per Start seat stay
   profitable at 2 sessions per 24 hours?
 - ~~**B5** Are prices VAT-inclusive? Will German schools pay in EUR?~~ Answered
-  2026-10-03: prices are HT, providers are sent TTC at 18%, currency stays XAF
-  ([ADR 0003](adr/0003-prices-carry-vat-and-a-period-is-a-month.md)). Whether
-  the VAT is declared is still open, and belongs to the founders.
+  2026-10-03: prices are HT, providers are sent TTC at 18%, the VAT is declared,
+  and the currency stays XAF
+  ([ADR 0003](adr/0003-prices-carry-vat-and-a-period-is-a-month.md)).
 
 ---
 
@@ -1953,8 +1953,9 @@ All open items here need a joint decision by the backend dev and Herman.
   in **XAF** — that half of the original decision holds. See
   [ADR 0003](adr/0003-prices-carry-vat-and-a-period-is-a-month.md).
   ~~Dropped for now: prices as listed, in XAF. Decided 2026-09-18.~~
-  **Still open, and not a coding question:** whether Lerniqo collects and
-  declares that VAT — **owner: the founders**.
+  **Also decided 2026-10-03, by both founders:** Lerniqo collects the 18% **and
+  declares it**. Not a coding question, recorded so an invoice showing a TVA line
+  and the obligation behind it cannot drift apart.
 - [x] **B6** Card payments → **mobile: Stripe; web: Notch Pay and Stripe** (D35). Decided 2026-09-18.
 - [x] **B7** Referral codes → **not done; the field is removed from the payment step** (D36). Decided 2026-09-18.
 - [x] **B8** Account deletion → **a request emailed to the team, who contact the manager; nothing is deleted automatically** (D37). Decided 2026-09-18.
