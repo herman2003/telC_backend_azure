@@ -1203,3 +1203,134 @@ ALTER TABLE "exam_section_results" ADD CONSTRAINT "exam_section_results_attempt_
 -- AddForeignKey
 ALTER TABLE "notifications" ADD CONSTRAINT "notifications_student_id_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
+
+-- ---------------------------------------------------------------------------
+-- WHAT PRISMA CANNOT SEE.
+--
+-- Everything above this line was generated from schema.prisma. Two kinds of
+-- object are invisible to that generator, so both were silently absent from
+-- the first version of this baseline and had to be carried over by hand from
+-- the 73 migrations this file replaces:
+--
+--   * CHECK constraints. Prisma has no schema syntax for them, so a generated
+--     baseline drops every one. The integration suite noticed: tests asserting
+--     the database refuses a negative price or a zero seat count got a
+--     resolved promise instead of a rejection.
+--
+--   * Partial indexes. Prisma can express a unique index but not its WHERE
+--     clause, so the predicate is dropped and the index silently widens.
+--     `activation_codes_one_connected_per_student` is the load-bearing one:
+--     without its predicate it forbids a student from ever holding two codes,
+--     rather than two *connected* codes.
+--
+-- Of the 33 named CHECK constraints in the old chain, 25 are live. The other
+-- eight were not dropped by name — they died with the table or column they
+-- sat on, which is why grepping for DROP CONSTRAINT does not find them:
+--
+--   payment_lines_{seats,unit_price_xaf,amount_xaf}_positive and
+--   payment_lines_amount_matches_seats  -- table dropped, 20260923120000
+--   centers_{unit_price_xaf,min_seats}_positive  -- columns dropped, 20260915140000
+--   payments_seats_positive              -- dropped, 20260914160000
+--   payments_unit_price_xaf_positive     -- dropped with its column,
+--                                           20260914160000; the column came
+--                                           back at 20260923120000 without it
+--
+-- One constraint reads differently here than where it was written:
+-- payments_total_seats_positive was declared on "seats", which became
+-- "total_seats" and then "quantity". Postgres rewrites a CHECK expression
+-- through a column rename, so the live constraint guards "quantity" under its
+-- original name. Both are reproduced as the live database has them.
+
+-- Money and counts have floors, enforced here so no future code path can
+-- write a payment for zero seats or a negative amount.
+ALTER TABLE "payments"
+  ADD CONSTRAINT "payments_amount_xaf_positive" CHECK ("amount_xaf" > 0),
+  ADD CONSTRAINT "payments_total_seats_positive" CHECK ("quantity" > 0);
+
+-- A seat row is a real purchase, but the price may be zero, because that is
+-- how a free trial seat is held: "not negative" rather than "positive".
+ALTER TABLE "center_seats"
+  ADD CONSTRAINT "center_seats_quantity_positive" CHECK ("quantity" > 0),
+  ADD CONSTRAINT "center_seats_unit_price_xaf_not_negative" CHECK ("unit_price_xaf" >= 0);
+
+-- A slot balance below zero means a sitting was published out of nothing.
+-- The service holds this in a transaction; these are the backstop for the
+-- case the transaction is wrong.
+ALTER TABLE "centers"
+  ADD CONSTRAINT "centers_exam_slots_non_negative" CHECK ("exam_slots_remaining" >= 0),
+  ADD CONSTRAINT "centers_exam_ai_slots_non_negative" CHECK ("exam_ai_slots_remaining" >= 0);
+
+-- A window that closes before it opens is a sitting nobody can ever sit.
+ALTER TABLE "exam_sessions"
+  ADD CONSTRAINT "exam_sessions_window_ordered" CHECK ("closes_at" > "opens_at");
+
+-- A block of zero minutes is not a block.
+ALTER TABLE "exam_block_durations"
+  ADD CONSTRAINT "exam_block_durations_minutes_positive" CHECK ("minutes" > 0);
+
+-- A block that closes before it opens is a block nobody can sit.
+ALTER TABLE "exam_attempt_blocks"
+  ADD CONSTRAINT "exam_attempt_blocks_deadline_after_start" CHECK ("deadline_at" > "started_at");
+
+-- A negative play count would mean a recording was un-played.
+ALTER TABLE "exam_audio_plays"
+  ADD CONSTRAINT "exam_audio_plays_not_negative" CHECK ("plays_used" >= 0);
+
+-- Marks are never negative, and a section worth zero points cannot be marked.
+ALTER TABLE "exam_section_results"
+  ADD CONSTRAINT "exam_section_results_points_not_negative" CHECK ("points" >= 0);
+
+ALTER TABLE "exam_section_weights"
+  ADD CONSTRAINT "exam_section_weights_points_positive" CHECK ("max_points" > 0);
+
+-- A pool that can go below zero is a pool that grants what nobody bought.
+ALTER TABLE "center_entitlement_pools"
+  ADD CONSTRAINT "center_entitlement_pools_balance_non_negative" CHECK ("balance" >= 0);
+
+ALTER TABLE "code_entitlement_caps"
+  ADD CONSTRAINT "code_entitlement_caps_cap_non_negative" CHECK ("cap" >= 0),
+  ADD CONSTRAINT "code_entitlement_caps_used_non_negative" CHECK ("used" >= 0);
+
+-- A billing anchor is a day of the month, or absent.
+ALTER TABLE "center_subscriptions"
+  ADD CONSTRAINT "center_subscriptions_anchor_day_range"
+  CHECK ("anchor_day" IS NULL OR ("anchor_day" >= 1 AND "anchor_day" <= 31));
+
+-- A recording that may play zero times is a Teil nobody can answer.
+ALTER TABLE "listening_exercises"
+  ADD CONSTRAINT "listening_exercises_exam_plays_positive" CHECK ("exam_plays_allowed" >= 1),
+  ADD CONSTRAINT "listening_exercises_part_check" CHECK ("part" BETWEEN 1 AND 3),
+  ADD CONSTRAINT "listening_exercises_duration_check" CHECK ("duration_minutes" > 0);
+
+-- telc Hören answers are + or -, and nothing else.
+ALTER TABLE "listening_questions"
+  ADD CONSTRAINT "listening_questions_correct_answer_check" CHECK ("correct_answer" IN ('+', '-'));
+
+ALTER TABLE "speaking_exercises"
+  ADD CONSTRAINT "speaking_exercises_part_check" CHECK ("part" BETWEEN 1 AND 3),
+  ADD CONSTRAINT "speaking_exercises_duration_check" CHECK ("duration_minutes" > 0),
+  ADD CONSTRAINT "speaking_exercises_prep_duration_check" CHECK ("prep_duration_seconds" >= 0),
+  ADD CONSTRAINT "speaking_exercises_topic_points_check" CHECK (jsonb_typeof("topic_points") = 'array');
+
+-- Enforce valid noMatch/correctAnnouncementId combinations.
+ALTER TABLE "lesen_teil3_situations"
+  ADD CONSTRAINT "lesen_teil3_situations_no_match_check"
+  CHECK (
+    ("noMatch" = true  AND "correctAnnouncementId" IS NULL) OR
+    ("noMatch" = false AND "correctAnnouncementId" IS NOT NULL)
+  );
+
+-- A student may hold many codes over time, but only one CONNECTED at once.
+-- The predicate is the whole point: without it this forbids the second code
+-- outright.
+CREATE UNIQUE INDEX "activation_codes_one_connected_per_student"
+  ON "activation_codes" ("student_id") WHERE "status" = 'CONNECTED';
+
+-- Every training read filters on `exam_attempt_id IS NULL`, and a student's
+-- history is read far more often than an exam is sat. Partial indexes, so the
+-- exam rows cost nothing to skip.
+CREATE INDEX "lesen_attempts_training_idx" ON "lesen_attempts" ("student_id") WHERE "exam_attempt_id" IS NULL;
+CREATE INDEX "listening_attempts_training_idx" ON "listening_attempts" ("student_id") WHERE "exam_attempt_id" IS NULL;
+CREATE INDEX "sprachbausteine_attempts_training_idx" ON "sprachbausteine_attempts" ("student_id") WHERE "exam_attempt_id" IS NULL;
+CREATE INDEX "writing_attempts_training_idx" ON "writing_attempts" ("student_id") WHERE "exam_attempt_id" IS NULL;
+CREATE INDEX "speaking_attempts_training_idx" ON "speaking_attempts" ("student_id") WHERE "exam_attempt_id" IS NULL;
