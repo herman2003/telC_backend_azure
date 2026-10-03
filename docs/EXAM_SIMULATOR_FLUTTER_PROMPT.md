@@ -233,9 +233,29 @@ Both found while building this, both in **training**, not the exam:
 
 ## 8. Sprechen in the app — AI tier only
 
-Only exists when the center bought the 1,500 XAF tier. On the 1,000 tier this
-route returns `EXAM_TIER_WITHOUT_AI`, and there should be no Sprechen screen in
-the app at all.
+Only exists when the center bought the 1,500 XAF tier.
+
+**How to know which you are in** — `gradingTier`, on both student reads:
+
+```
+GET /api/exams/sessions      → each sitting carries gradingTier
+GET /api/exams/attempts/:id  → the attempt carries it too  ← use this one
+```
+
+`"AI"` means draw the Sprechen step: the candidate speaks Teil by Teil and the
+app sends each transcript. `"MANUAL"` means **draw nothing** — Sprechen happens
+in the room with an examiner and never touches the app.
+
+Decide from this field, never by calling and catching. `EXAM_TIER_WITHOUT_AI`
+is still returned on a MANUAL sitting, but as a backstop for a client that
+ignored the field, not as the way to find out.
+
+This is **not Elena.** Elena is practice — a live conversation, five a month
+on Start plus bought credits, through `POST /api/speaking/live-token`. It never
+appears inside a sitting. The exam's Sprechen is a transcript per Teil, paid
+for by the centre per candidate, and read by the examiner before they type
+their own mark. The two share no allowance: an exam spends none of the
+student's free sessions and none of their centre's credits.
 
 ```
 POST /api/exams/attempts/:attemptId/speaking

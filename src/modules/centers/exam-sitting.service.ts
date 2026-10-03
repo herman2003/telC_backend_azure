@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import type { CefrLevel, ExamBlock } from '@prisma/client';
+import type { CefrLevel, ExamBlock, ExamGradingTier } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { ExamSessionPolicyService } from './exam-session-policy.service';
 
@@ -25,6 +25,15 @@ export interface ExamBlockView {
 export interface ExamAttemptView {
   id: string;
   sessionId: string;
+  /**
+   * What the centre bought, on the screen that needs it.
+   *
+   * The Sprechen step inside a sitting only exists on the AI tier. Reported
+   * always, never omitted: absent and MANUAL mean different things to a
+   * client — one is "no AI here", the other is "this backend is too old to
+   * say".
+   */
+  gradingTier: ExamGradingTier;
   startedAt: Date;
   submittedAt: Date | null;
   /**
@@ -179,6 +188,16 @@ export class ExamSittingService {
       closesAt: Date;
       attemptId: string | null;
       submittedAt: Date | null;
+      /**
+       * Which exam this is, in the candidate's own list.
+       *
+       * On AI the sitting asks them to speak Teil by Teil and sends the
+       * transcript for the examiner to read; on MANUAL nothing about
+       * Sprechen touches the app, because it happens in the room. An app
+       * that cannot tell them apart must either offer a button that fails or
+       * never offer it, and the centres paying extra get the second.
+       */
+      gradingTier: ExamGradingTier;
     }[]
   > {
     const admitted = await this.prisma.examSessionParticipant.findMany({
@@ -190,6 +209,7 @@ export class ExamSittingService {
             id: true,
             name: true,
             level: true,
+            grading_tier: true,
             opens_at: true,
             closes_at: true,
             published_at: true,
@@ -213,6 +233,7 @@ export class ExamSittingService {
       closesAt: session.closes_at,
       attemptId: session.attempts[0]?.id ?? null,
       submittedAt: session.attempts[0]?.submitted_at ?? null,
+      gradingTier: session.grading_tier,
     }));
   }
 
@@ -502,7 +523,7 @@ export class ExamSittingService {
     session_id: string;
     started_at: Date;
     submitted_at: Date | null;
-    session: { level: CefrLevel };
+    session: { level: CefrLevel; grading_tier: ExamGradingTier };
     blocks: {
       block: ExamBlock;
       started_at: Date;
@@ -516,6 +537,7 @@ export class ExamSittingService {
     return {
       id: attempt.id,
       sessionId: attempt.session_id,
+      gradingTier: attempt.session.grading_tier,
       startedAt: attempt.started_at,
       submittedAt: attempt.submitted_at,
       serverNow,
