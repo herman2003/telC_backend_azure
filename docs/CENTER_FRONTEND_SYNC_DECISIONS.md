@@ -356,7 +356,10 @@ nobody can pay yet. When payment is built, a successful payment must also:
   real fee and minimum amount.
 - **B3** AI cost per speaking session: does 4,500 XAF per Start seat stay
   profitable at 2 sessions per 24 hours?
-- **B5** Are prices VAT-inclusive? Will German schools pay in EUR?
+- ~~**B5** Are prices VAT-inclusive? Will German schools pay in EUR?~~ Answered
+  2026-10-03: prices are HT, providers are sent TTC at 18%, currency stays XAF
+  ([ADR 0003](adr/0003-prices-carry-vat-and-a-period-is-a-month.md)). Whether
+  the VAT is declared is still open, and belongs to the founders.
 
 ---
 
@@ -1926,11 +1929,32 @@ here.
 All open items here need a joint decision by the backend dev and Herman.
 
 - [x] **D4** Subscription model → **School Pack (M3)**: one renewal date per school, at least 10 seats, pro rata for seats added mid-period, all codes end together (D4). Decided 2026-09-18.
+  **Built as of 2026-10-03:** rule 3 (an addition bills only the added seats and
+  moves neither the renewal date nor the anchor day), rules 5 and 6 (a renewal
+  may shrink and hands back the surplus codes; a shrink mid-period is refused),
+  rule 7 (grace keeps the anchor; blocked days are not charged) and rule 9 (the
+  period is a calendar month on the anchor day, in Africa/Douala).
+  **Not built:** the pro rata amount itself, which is blocked on B2, and rule 8
+  (annual). See [BILLING_PERIOD_SPEC.md](BILLING_PERIOD_SPEC.md).
 - [x] **B1** 10-seat minimum after a 1-seat trial → **kept** (D4). Decided 2026-09-18.
-- [ ] **B2** Minimum charge for small pro rata payments — **owner: Herman** (needs Notch Pay's fees and minimum amount). Calculation proposed in D4.
+- [ ] **B2** Minimum charge for small pro rata payments — **owner: Herman** (needs
+  Fapshi's fees and minimum amount; the provider changed from Notch Pay on
+  2026-10-03). Calculation proposed in D4. **This is now the only thing blocking
+  pro rata:** everything it needs is built, so one number ships rule 3's amount.
+  Worked example: one seat added three days before the anchor comes to 435 XAF,
+  which is under the transaction fee.
 - [x] **B3** 4,500 XAF per Start seat → **kept**. Decided 2026-09-18.
 - [x] **B4** AI quotas → **per rolling 24 hours, as the backend already enforces**: Start 2, Pro 5, Premium 20 (D15). The landing page's "5 total / 20 total" wording is wrong and must change. Whether the *numbers* stay is revisited with B3 (AI cost per session).
-- [x] **B5** VAT / EUR → **dropped for now**: prices as listed, in XAF. Revisit only when German schools are sold to. Decided 2026-09-18.
+- [x] **B5** VAT / EUR → **reversed on 2026-10-03: VAT is charged.** Catalogue
+  prices are **HT**; the amount sent to the provider is **TTC at 18%**, because
+  Fapshi and Stripe take one integer and have no tax field. The net and the VAT
+  are stored beside the total so an invoice can show HT / TVA / TTC (D27). This
+  applies to **seats, exam slots and every add-on**, not only seats. Prices stay
+  in **XAF** — that half of the original decision holds. See
+  [ADR 0003](adr/0003-prices-carry-vat-and-a-period-is-a-month.md).
+  ~~Dropped for now: prices as listed, in XAF. Decided 2026-09-18.~~
+  **Still open, and not a coding question:** whether Lerniqo collects and
+  declares that VAT — **owner: the founders**.
 - [x] **B6** Card payments → **mobile: Stripe; web: Notch Pay and Stripe** (D35). Decided 2026-09-18.
 - [x] **B7** Referral codes → **not done; the field is removed from the payment step** (D36). Decided 2026-09-18.
 - [x] **B8** Account deletion → **a request emailed to the team, who contact the manager; nothing is deleted automatically** (D37). Decided 2026-09-18.
