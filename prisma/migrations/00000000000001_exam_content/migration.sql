@@ -12,7 +12,7 @@
 -- every statement, so applying it to a database that already has the content
 -- changes nothing.
 --
--- 325 rows across 20 tables.
+-- 338 rows across 22 tables (325 exam exercises + 13 telc timings/weights).
 
 -- modelltests: 2 rows
 INSERT INTO "modelltests" ("id", "number", "title", "created_at", "exam_only") VALUES
@@ -814,3 +814,31 @@ INSERT INTO "writing_exercises" ("id", "content_revision", "title", "subtitle", 
   ('0af1e03c-5b50-4d5d-bed4-bf18c5721b59', 'v1', 'E-Mail / Brief', 'Formeller Brief', 'brief', 'Sie sehen folgende Anzeige:', '{"body":"In unserem neu gebauten Bürogebäude sind noch Räume frei","contact":{"name":"CenterBüros GmbH","lines":["Neuer Wall 120","50160 Köln"]},"heading":"Büroräume in Neubaukomplex zu vermieten!","features":["Gebäude mit 6 Stockwerken","zentrale Lage","helle, großzügige Büros, zwischen 15 und 25 m²","Kaffeeküche","Konferenzräume","vier Aufzüge","moderne Anschlüsse in allen Räumen (z. B. Internet/DSL-Anschlüsse)","Hausmeisterservice rund um die Uhr","moderne Sicherheitstechnik"],"callToAction":"Vereinbaren Sie einen Besichtigungstermin oder fordern Sie weitere Informationen an:"}'::jsonb, 'Sie arbeiten in einem Übersetzerbüro. Ihr Chef möchte größere Büroräume mieten. Schreiben Sie einen Brief an die CenterBüros GmbH. Bitten Sie um Informationen und schreiben Sie etwas zu den folgenden Punkten:', ARRAY['Beschreiben Sie Ihr Unternehmen.', 'Was für Räume brauchen Sie?', 'Wie viele Räume brauchen Sie?', 'Wann brauchen Sie die Räume?', 'Fragen Sie nach den Kosten.']::text[], 'Bevor Sie den Brief schreiben, überlegen Sie sich die passende Reihenfolge der Punkte, eine passende Einleitung und einen passenden Schluss. Vergessen Sie auch nicht Datum und Anrede.', '2026-05-30T12:30:12.033Z'::timestamptz, 'bee41782-747a-4b53-8059-801f3ad2bcfe'),
   ('5196c237-2ef9-4ffc-885a-dabf364873e4', 'modelltest-2-schreiben-v1', 'E-Mail / Brief', 'Formeller Brief', 'brief', 'Sie lesen folgende Anzeige:', '{"body":"Wir bieten Ihnen alles, was Sie für eine tolle Kinderparty brauchen, z. B.:","contact":{"name":"Mini-Party","lines":["Schlossweg 213, 92280 Neudorf","E-Mail: info@miniparty.eu"]},"heading":"Große Party für die Kleinen!","features":["Clown „Pedro“ mit seinen Luftballon-Tieren","Mini-Hüpfburg","Schminken und Verkleiden (Kostüme inklusive)","Spiele für Kinder zwischen 3 und 13 Jahren","Singen mit „Caruso“, dem singenden Clown","Zauberer „Merlin“"],"imageUrl":null,"subheading":"Kindergeburtstage, Sommerfeste und vieles mehr ...","callToAction":"Wir haben auch für Ihre Party das passende Programm – sprechen Sie uns an!"}'::jsonb, 'Sie arbeiten in einem Kindergarten. Die Kindergartenleiterin plant eine Feier. Schreiben Sie einen Brief an den Party-Veranstalter. Bitten Sie um Informationen und schreiben Sie etwas zu den folgenden vier Punkten:', ARRAY['beschreiben Sie die geplante Feier', 'welche Leistungen Sie wünschen', 'fragen Sie nach Kosten und Terminen', 'fragen Sie nach bisherigen Kunden (wer, Zufriedenheit, ...)']::text[], 'Bevor Sie den Brief schreiben, überlegen Sie sich die passende Reihenfolge der Punkte, eine passende Einleitung und einen passenden Schluss. Vergessen Sie auch nicht Datum und Anrede.', '2026-08-21T17:40:56.444Z'::timestamptz, '66ae8d06-0514-403f-801d-ab2cb4d440b6')
 ON CONFLICT ("id") DO NOTHING;
+
+-- telc Deutsch B1 timings and weights. These lived in the old exam_sessions /
+-- exam_results migrations as INSERTs next to the CREATE TABLEs; the baseline
+-- kept only the tables. Without them a fresh database can start a sitting but
+-- cannot time or mark it — EXAM_TIMINGS_MISSING / EXAM_WEIGHTS_MISSING.
+
+-- exam_block_durations: 3 rows
+INSERT INTO "exam_block_durations" ("id", "level", "block", "minutes", "position")
+VALUES
+  (gen_random_uuid()::text, 'B1', 'LESEN_SPRACHBAUSTEINE', 90, 1),
+  (gen_random_uuid()::text, 'B1', 'HOEREN',                30, 2),
+  (gen_random_uuid()::text, 'B1', 'SCHREIBEN',             30, 3)
+ON CONFLICT ("level", "block") DO NOTHING;
+
+-- exam_section_weights: 10 rows
+INSERT INTO "exam_section_weights" ("id", "level", "skill", "teil", "max_points", "part")
+VALUES
+  (gen_random_uuid()::text, 'B1', 'LESEN',           1, 25, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'LESEN',           2, 25, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'LESEN',           3, 25, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'SPRACHBAUSTEINE', 1, 15, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'SPRACHBAUSTEINE', 2, 15, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'HOEREN',          1, 25, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'HOEREN',          2, 25, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'HOEREN',          3, 25, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'SCHREIBEN',       1, 45, 'WRITTEN'),
+  (gen_random_uuid()::text, 'B1', 'SPRECHEN',        1, 75, 'ORAL')
+ON CONFLICT ("level", "skill", "teil") DO NOTHING;

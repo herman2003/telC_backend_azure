@@ -5,8 +5,6 @@
  *
  * Runs against the disposable branch in `.env.test`, over the direct endpoint.
  */
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { PrismaService } from '../src/shared/services/prisma.service';
 import { recordActivity } from '../src/modules/student-activity/student-activity.writer';
@@ -15,6 +13,41 @@ import { teilStats } from '../src/modules/student-activity/student-history';
 
 const prisma = new PrismaService();
 const MODELLTEST = '00000000-0000-4000-8000-000000000011';
+
+/**
+ * The one-time backfill that used to live in
+ * 20260919120000_student_activity. Kept here so the test still proves it is
+ * idempotent after that migration was folded into the baseline (tables only;
+ * history is already gone from fresh databases).
+ */
+const ACTIVITY_BACKFILL_SQL = [
+  `INSERT INTO "student_activities"
+  ("id", "student_id", "skill", "teil", "score", "max_score", "duration_seconds", "modelltest_id", "attempt_id", "created_at")
+SELECT gen_random_uuid()::text, a."student_id", 'HOEREN', a."exercise_id"::int, a."score", 100,
+       a."duration_seconds", a."modelltest_id", a."attempt_id", COALESCE(a."completed_at", a."created_at")
+FROM "listening_attempts" a
+JOIN "students" s ON s."id" = a."student_id"
+WHERE a."status" = 'completed' AND a."score" IS NOT NULL AND a."exercise_id" IN ('1', '2', '3')
+ON CONFLICT ("skill", "attempt_id") DO NOTHING`,
+  `INSERT INTO "student_activities"
+  ("id", "student_id", "skill", "teil", "score", "max_score", "duration_seconds", "modelltest_id", "attempt_id", "created_at")
+SELECT gen_random_uuid()::text, a."student_id", 'SPRACHBAUSTEINE', a."teil_id"::int, a."score", 100,
+       a."duration_seconds", a."modelltest_id"::uuid, a."attempt_id", COALESCE(a."completed_at", a."created_at")
+FROM "sprachbausteine_attempts" a
+JOIN "students" s ON s."id" = a."student_id"
+WHERE a."status" = 'completed' AND a."score" IS NOT NULL AND a."teil_id" IN ('1', '2')
+  AND (a."modelltest_id" IS NULL OR a."modelltest_id" ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
+ON CONFLICT ("skill", "attempt_id") DO NOTHING`,
+  `INSERT INTO "student_activities"
+  ("id", "student_id", "skill", "teil", "score", "max_score", "duration_seconds", "modelltest_id", "attempt_id", "created_at")
+SELECT gen_random_uuid()::text, a."student_id", 'SCHREIBEN', 1, a."score", 100,
+       a."duration_seconds", a."modelltest_id", a."attempt_id", COALESCE(a."completed_at", a."created_at")
+FROM "writing_attempts" a
+JOIN "students" s ON s."id" = a."student_id"
+WHERE a."status" = 'completed' AND a."score" IS NOT NULL
+  AND a."feedback" IS DISTINCT FROM 'Stub feedback. Echte Korrektur folgt.'
+ON CONFLICT ("skill", "attempt_id") DO NOTHING`,
+];
 
 async function wipe() {
   const students = await prisma.student.findMany({
@@ -199,22 +232,10 @@ describe('student activity against real Postgres', () => {
       ],
     });
 
-    const sql = fs.readFileSync(
-      path.join(
-        __dirname,
-        '../prisma/migrations/20260919120000_student_activity/migration.sql',
-      ),
-      'utf8',
-    );
-    const backfill = sql
-      .slice(sql.indexOf('-- Backfill'))
-      .split(';')
-      .map((statement) => statement.trim())
-      .filter((statement) => statement.includes('INSERT INTO'));
-    expect(backfill).toHaveLength(3);
+    expect(ACTIVITY_BACKFILL_SQL).toHaveLength(3);
 
     for (let run = 0; run < 2; run++) {
-      for (const statement of backfill)
+      for (const statement of ACTIVITY_BACKFILL_SQL)
         await prisma.$executeRawUnsafe(statement);
     }
 
