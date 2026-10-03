@@ -81,6 +81,9 @@ describe('recognising a replay', () => {
           centerSeat: prisma.centerSeat,
           student: prisma.student,
           payment: {
+            // Always miss in-tx so these cases still exercise create → P2002 →
+            // reconcileReplay. Early same-key hits are covered by integration.
+            findUnique: () => Promise.resolve(null),
             create: ({ data }: any) => {
               const key = `${data.center_id}:${data.idempotency_key}`;
               if (rows.has(key)) {
