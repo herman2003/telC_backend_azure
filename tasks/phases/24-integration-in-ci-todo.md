@@ -19,24 +19,36 @@ Three things, none hard, one of them real work.
       `DIRECT_URL` to `DATABASE_URL` and refuses `ep-wandering-hall`, so a local
       container URL satisfies it as written.
 - [ ] `npx prisma migrate deploy` against that container.
-- [ ] **The Modelltest seeds.** This is the work. Migrations alone are not
-      enough: `test/exam-sitting-integration.spec.ts:283` reads *"the Hören
-      exercise of Modelltest 1, as seeded"*, and `exam-results`, `exam-sessions`,
-      `exam-slots`, `seat-erasure` and `student-activity` do the same. The seeds
-      live at the repo root as `002_seed_modelltest1.sql` through
-      `007_seed_modelltest1_parent.sql`.
+- [x] ~~**The Modelltest seeds.**~~ Done on 2026-10-03: folded into
+      `20261003170000_seed_modelltest1_lesen_sprachbausteine`, and the six root
+      SQL files deleted. `migrate deploy` now builds a complete database, so
+      this job no longer needs a seed step of its own.
 
-## The question to settle first
+## The question that was settled
 
-`001_schema.sql` at the repo root is a **schema**, not a seed, and it predates
-Prisma owning the schema — it came from the Supabase migration. Applying it after
-`migrate deploy` may conflict, and applying it instead of the migrations would
-leave Prisma's `_prisma_migrations` bookkeeping empty.
+`001_schema.sql` created tables Prisma already owns, with `IF NOT EXISTS`, so it
+was a no-op against any migrated database — deleted rather than folded in.
 
-So decide: are the seed files `002`–`007` applicable on their own against a
-Prisma-migrated database? If not, the seeds need a loader that works from the
-Prisma schema — which is a small task of its own, and the right place for it is
-before this one.
+Two things turned up while folding the rest, neither of them visible from
+reading the files:
+
+1. **They could no longer be replayed at all.** `modelltest_id` became NOT NULL
+   on 2026-08-21, and the old files inserted the content with a null and filled
+   it afterwards. So the parent row now goes first and every exercise insert
+   carries its `modelltest_id`.
+2. **Two child tables generate their ids in the database**, so `ON CONFLICT`
+   never fires for them and a rerun simply inserted second copies — observed on
+   the test branch, which gained 30 duplicate `sprachbausteine_gap_options`
+   before it was caught. They are guarded with NOT EXISTS on the parent id.
+
+Verified by applying the migration twice to the already-populated test branch and
+comparing measured counts across all 16 tables: unchanged.
+
+**Still unproven:** that it seeds correctly on an *empty* database. Every
+statement parsed and ran against real Postgres, and the guards are trivially true
+when nothing is there, so the argument is strong — but the proof is this very
+task. When CI builds a database from `migrate deploy` alone and the exam suites
+pass against it, that is the evidence.
 
 ## Do not
 
