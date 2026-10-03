@@ -352,6 +352,24 @@ describe('a payment that only adds seats', () => {
     expect((await subscriptionOf(center.id)).paid_until).toEqual(endedAt);
   });
 
+  it('leaves the anchor day alone when the webhook lands after the grace', async () => {
+    // A school adds a seat on its last day; the provider delivers ten days
+    // later, so the centre reads as BLOCKED here. The anchor day exists to say
+    // which day of the month its periods end on — a payment that bought no
+    // period must not rewrite it.
+    const center = await makeCenter(new Date(Date.now() - 10 * DAY_MS));
+    await prisma.centerSubscription.update({
+      where: { center_id: center.id },
+      data: { anchor_day: 7 },
+    });
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 12, 4500, false);
+
+    await activation.activate(payment.id);
+
+    expect((await subscriptionOf(center.id)).anchor_day).toBe(7);
+  });
+
   it('still mints the codes the added seats paid for', async () => {
     const center = await makeCenter(new Date(Date.now() + 20 * DAY_MS));
     await setSeats(center.id, 10, 4500);
@@ -360,6 +378,63 @@ describe('a payment that only adds seats', () => {
     await activation.activate(payment.id);
 
     expect(await liveCodeCount(center.id)).toBe(12);
+  });
+});
+
+/**
+ * A renewal may shrink (D4 rule 5), and seats are the code pool (D1). Without
+ * handing the surplus back, a school renewing seventeen seats as twelve would
+ * keep seventeen working codes on twelve seats' money — paid codes carry no
+ * expiry of their own, so nothing else would ever take them away.
+ */
+describe('a renewal into a smaller pack', () => {
+  it('deactivates the codes it stopped paying for', async () => {
+    const center = await makeCenter(new Date(Date.now() - DAY_MS));
+    await setSeats(center.id, 17, 4500);
+    for (let i = 0; i < 17; i++) await giveCode(center.id);
+    const payment = await makePayment(center.id, 12, 4500);
+
+    await activation.activate(payment.id);
+
+    expect(await liveCodeCount(center.id)).toBe(12);
+  });
+
+  it('never takes a code off a student who is using it', async () => {
+    // This file does not evict. A pack that somehow shrinks below the students
+    // holding codes sheds what nobody holds and leaves the rest; the seat
+    // floors are what stop the order being accepted in the first place.
+    const center = await makeCenter(new Date(Date.now() - DAY_MS));
+    await setSeats(center.id, 17, 4500);
+    for (let i = 0; i < 14; i++) await giveCode(center.id);
+    const student = await makeStudent(center.id);
+    await giveCode(center.id, {
+      status: 'CONNECTED',
+      student_id: student.id,
+      connected_at: new Date(),
+    });
+    const payment = await makePayment(center.id, 12, 4500);
+
+    await activation.activate(payment.id);
+
+    const connected = await prisma.activationCode.count({
+      where: { center_id: center.id, status: 'CONNECTED' },
+    });
+    expect(connected).toBe(1);
+    expect(await liveCodeCount(center.id)).toBe(12);
+  });
+
+  it('records why each code was taken back', async () => {
+    const center = await makeCenter(new Date(Date.now() - DAY_MS));
+    await setSeats(center.id, 17, 4500);
+    for (let i = 0; i < 17; i++) await giveCode(center.id);
+    const payment = await makePayment(center.id, 12, 4500);
+
+    await activation.activate(payment.id);
+
+    const events = await prisma.activationCodeEvent.count({
+      where: { center_id: center.id, to_status: 'DEACTIVATED' },
+    });
+    expect(events).toBe(5);
   });
 });
 

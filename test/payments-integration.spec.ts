@@ -191,6 +191,7 @@ describe('payments against real Postgres', () => {
       // seats are charged (TTC).
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_000);
+      await paidThrough(center.id, 20);
 
       const payment = await payments.create(identity(center.id), 12, 'key-1');
 
@@ -204,6 +205,7 @@ describe('payments against real Postgres', () => {
       // a full re-bill of seats already paid.
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_500);
+      await paidThrough(center.id, 20);
 
       const payment = await payments.create(identity(center.id), 12, 'key-1');
 
@@ -214,6 +216,7 @@ describe('payments against real Postgres', () => {
     it('refuses a payment that adds no seats', async () => {
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_500);
+      await paidThrough(center.id, 20);
 
       await expect(
         payments.create(identity(center.id), 10, 'key-1'),
@@ -337,6 +340,23 @@ describe('payments against real Postgres', () => {
       expect(row.vat_amount_xaf).toBe(1_620); // 18%
       expect(row.amount_xaf).toBe(10_620);
       expect(row.amount_net_xaf! + row.vat_amount_xaf!).toBe(row.amount_xaf);
+    });
+
+    it('lets a center with a stamped price but no period start one', async () => {
+      // A seat row priced by hand, by a seed, or by a data fix: a pool with no
+      // paid period, which activation itself cannot produce. Reading it as a
+      // mid-period addition would be a trap with no way out — an addition never
+      // starts a period, so the center could never pay for one. It is a first
+      // purchase, and the whole pack is billed.
+      const center = await makeCenter();
+      await holdSeats(center.id, 10, 4_500);
+
+      const payment = await payments.create(identity(center.id), 10, 'key-1');
+
+      expect(payment.amountXaf).toBe(53_100); // 10 x 4,500 HT + 18% VAT
+      await expect(
+        prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+      ).resolves.toMatchObject({ renews_period: true });
     });
 
     it('grants nothing', async () => {

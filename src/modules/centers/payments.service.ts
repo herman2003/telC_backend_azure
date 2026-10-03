@@ -133,17 +133,21 @@ export class PaymentsService {
         // what it holds.
         //
         // A priced pool with no `paid_until` cannot be produced by activation,
-        // which writes both in one transaction. Should one exist, it counts as
-        // mid-period: refusing a shrink is the side that cannot give seats
-        // away.
+        // which writes both in one transaction. Should one exist — a by-hand
+        // price stamp, a seed, a data fix — it counts as a FIRST PURCHASE, not
+        // an addition. Calling it an addition looks safer, because it refuses a
+        // shrink, but it is the one answer with no way out: an addition does
+        // not start a period, `extendPaidPeriod` is the only writer of
+        // `paid_until`, and so every later order would be classified the same
+        // way. The center would be unable to pay for a period at all.
         const subscription = await tx.centerSubscription.findUnique({
           where: { center_id: identity.centerId },
           select: { paid_until: true },
         });
         const midPeriod =
           paidSeats > 0 &&
-          (subscription?.paid_until == null ||
-            Date.now() < subscription.paid_until.getTime());
+          subscription?.paid_until != null &&
+          Date.now() < subscription.paid_until.getTime();
 
         if (midPeriod && wanted < paidSeats) {
           throw new BadRequestException({
@@ -153,6 +157,15 @@ export class PaymentsService {
         }
 
         // Renewal bills the pack; an addition bills only what it adds.
+        //
+        // Deliberately NOT part of the request fingerprint, which stays
+        // `(center, seats)`. A retry whose key was first used before the period
+        // ended is answered from the original row, so the center is charged for
+        // the addition it was quoted and receives the seats — not a renewal it
+        // never asked for. It is then still free to renew, because a lapsed
+        // period makes the next order a renewal. Putting the period in the
+        // fingerprint would turn an ordinary retry that straddled midnight into
+        // IDEMPOTENCY_KEY_REUSED.
         const billableSeats = midPeriod ? wanted - paidSeats : wanted;
         if (billableSeats === 0) {
           throw new BadRequestException({ message: 'NOTHING_TO_PAY' });

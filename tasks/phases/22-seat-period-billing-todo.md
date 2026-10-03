@@ -17,7 +17,7 @@
 - [x] Write all three amounts in `payments.service.ts`
 - [x] Same in `exam-slots.service.ts`
 - [x] Same in `entitlement-purchase.service.ts`
-- [x] `vatAmountXaf` is called rather than dead
+- [x] `vatAmountXaf` kept as the single-value form of `splitVatXaf` (tests only)
 - [x] Four suites + lint
 
 ## Blocked, not in this task

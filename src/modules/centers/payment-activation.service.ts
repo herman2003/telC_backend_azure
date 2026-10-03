@@ -237,7 +237,14 @@ export class PaymentActivationService {
       // is derived from `paid_until`. Extending first would make every centre
       // look ACTIVE here, so one coming back after a lapse would keep an
       // anchor day it is no longer paying for.
-      await this.setAnchorDay(tx, payment.center_id);
+      //
+      // Only for a payment that starts a period, for the same reason it does
+      // not move the date. A centre that adds a seat and whose webhook lands
+      // more than a week later reads as BLOCKED here, and would have its
+      // renewal day rewritten by a payment that bought no period at all.
+      if (payment.renews_period) {
+        await this.setAnchorDay(tx, payment.center_id);
+      }
       // Only a payment that starts a period moves the date. A mid-period
       // addition reports where the period already stood (D4 rule 3), and the
       // row decides that — not the clock, which by now may have passed the
@@ -252,6 +259,7 @@ export class PaymentActivationService {
         payment.unit_price_xaf,
       );
       await this.retireTrialCodes(tx, payment.center_id);
+      await this.retireSurplusCodes(tx, payment.center_id, payment.quantity);
       await this.mintMissingCodes(tx, payment.center_id, payment.quantity);
 
       return {
@@ -588,6 +596,64 @@ export class PaymentActivationService {
    * fresh values. A pre-check would be, in that function's words, a race
    * dressed up as a guarantee.
    */
+  /**
+   * Hands back the codes a smaller pack stopped paying for.
+   *
+   * A renewal may shrink (D4 rule 5), and seats ARE the code pool (D1): without
+   * this, a school renewing seventeen seats as twelve would keep seventeen
+   * working codes for twelve seats' money, forever, since a paid code carries
+   * no expiry of its own.
+   *
+   * ONLY CODES NOBODY HOLDS. A connected code is a student with access, and
+   * this file does not evict students — the same stance activation already
+   * takes when a center ends up over its seats ("being over the limit already
+   * blocks new provisioning without evicting anyone"). So a pack that shrinks
+   * below the number of connected students sheds what it can and leaves the
+   * rest; the floors in `PricingService` are what keep that from happening,
+   * because an order below the student count is refused before it is priced.
+   *
+   * Newest first, so the codes a school has had longest — and most likely
+   * written down or handed out — are the ones that survive.
+   */
+  private async retireSurplusCodes(
+    tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
+    centerId: string,
+    seats: number,
+  ): Promise<void> {
+    const live = await tx.activationCode.count({
+      where: { center_id: centerId, status: { not: 'DEACTIVATED' } },
+    });
+
+    const surplus = live - seats;
+    if (surplus <= 0) return;
+
+    const spare = await tx.activationCode.findMany({
+      where: { center_id: centerId, status: 'ACTIVATED' },
+      orderBy: { created_at: 'desc' },
+      take: surplus,
+      select: { id: true, status: true },
+    });
+
+    for (const code of spare) {
+      await tx.activationCode.update({
+        where: { id: code.id },
+        data: { status: 'DEACTIVATED' },
+      });
+
+      await tx.activationCodeEvent.create({
+        data: {
+          code_id: code.id,
+          center_id: centerId,
+          // Nobody at the school acted. The smaller renewal did.
+          center_user_id: null,
+          from_status: code.status,
+          to_status: 'DEACTIVATED',
+          student_id: null,
+        },
+      });
+    }
+  }
+
   private async mintMissingCodes(
     tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
     centerId: string,
