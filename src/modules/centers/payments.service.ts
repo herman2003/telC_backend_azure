@@ -1,12 +1,11 @@
 import {
+  BadRequestException,
   ConflictException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { createHash } from 'crypto';
 import type { PaymentKind, PaymentStatus } from '@prisma/client';
-import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { PricingService } from './pricing.service';
 import { CenterSeatsService } from './center-seats.service';
@@ -15,6 +14,7 @@ import {
   isIdempotencyViolation,
   type SignedCenterIdentity,
 } from './payment-shared';
+import { splitVatXaf } from './vat';
 
 export interface PaymentView {
   id: string;
@@ -40,12 +40,6 @@ export interface PaymentPage {
   page: number;
   pageSize: number;
 }
-
-/** Prisma's unique-violation code. The insert race is decided by this. */
-const UNIQUE_VIOLATION = 'P2002';
-
-/** The column that makes a P2002 a replay rather than a bug. */
-const IDEMPOTENCY_COLUMN = 'idempotency_key';
 
 @Injectable()
 export class PaymentsService {
@@ -96,23 +90,106 @@ export class PaymentsService {
       // seats exactly once, and honours a payment even if students were added
       // in the meantime.
       const created = await this.prisma.$transaction(async (tx) => {
+        // Replay first: a key that already bought this intent must return the
+        // original row even if the seat pool has since been stamped (which
+        // would make a fresh order look like NOTHING_TO_PAY).
+        const existing = await tx.payment.findUnique({
+          where: {
+            center_id_idempotency_key: {
+              center_id: identity.centerId,
+              idempotency_key: idempotencyKey,
+            },
+          },
+        });
+        if (existing) {
+          if (existing.request_hash !== requestHash) {
+            throw new ConflictException('IDEMPOTENCY_KEY_REUSED');
+          }
+          return existing;
+        }
+
         const quote = this.pricing.quote(
           wanted,
           await this.seats.pricingContextFor(identity.centerId, tx),
         );
+
+        // `quantity` on the payment is the TARGET seat pool (activation sets
+        // it). What is CHARGED depends on where the center stands in its
+        // period, because one route carries two different purchases.
+        //
+        // A trial row (unit price 0) is not a paid pool: converting from a
+        // trial is a first purchase, and the whole pack is billed.
+        const held = await tx.centerSeat.findUnique({
+          where: { center_id: identity.centerId },
+          select: { quantity: true, unit_price_xaf: true },
+        });
+        const paidSeats =
+          held != null && held.unit_price_xaf > 0 ? held.quantity : 0;
+
+        // Mid-period the center is adding seats to a pack it has already paid
+        // for (D4 rule 3). Once the period has elapsed — including the 7-day
+        // grace of rule 7, and the blocked state after it — the same request
+        // is a renewal of the whole pack (rule 5), which may be smaller than
+        // what it holds.
+        //
+        // A priced pool with no `paid_until` cannot be produced by activation,
+        // which writes both in one transaction. Should one exist — a by-hand
+        // price stamp, a seed, a data fix — it counts as a FIRST PURCHASE, not
+        // an addition. Calling it an addition looks safer, because it refuses a
+        // shrink, but it is the one answer with no way out: an addition does
+        // not start a period, `extendPaidPeriod` is the only writer of
+        // `paid_until`, and so every later order would be classified the same
+        // way. The center would be unable to pay for a period at all.
+        const subscription = await tx.centerSubscription.findUnique({
+          where: { center_id: identity.centerId },
+          select: { paid_until: true },
+        });
+        const midPeriod =
+          paidSeats > 0 &&
+          subscription?.paid_until != null &&
+          Date.now() < subscription.paid_until.getTime();
+
+        if (midPeriod && wanted < paidSeats) {
+          throw new BadRequestException({
+            message: 'SEATS_BELOW_PAID_FLOOR',
+            requiredSeatsTotal: paidSeats,
+          });
+        }
+
+        // Renewal bills the pack; an addition bills only what it adds.
+        //
+        // Deliberately NOT part of the request fingerprint, which stays
+        // `(center, seats)`. A retry whose key was first used before the period
+        // ended is answered from the original row, so the center is charged for
+        // the addition it was quoted and receives the seats — not a renewal it
+        // never asked for. It is then still free to renew, because a lapsed
+        // period makes the next order a renewal. Putting the period in the
+        // fingerprint would turn an ordinary retry that straddled midnight into
+        // IDEMPOTENCY_KEY_REUSED.
+        const billableSeats = midPeriod ? wanted - paidSeats : wanted;
+        if (billableSeats === 0) {
+          throw new BadRequestException({ message: 'NOTHING_TO_PAY' });
+        }
+
+        const amounts = splitVatXaf(billableSeats * quote.unitPriceXaf);
 
         return tx.payment.create({
           data: {
             center_id: identity.centerId,
             quantity: quote.seats,
             unit_price_xaf: quote.unitPriceXaf,
-            amount_xaf: quote.totalXaf,
+            amount_xaf: amounts.grossXaf,
+            amount_net_xaf: amounts.netXaf,
+            vat_amount_xaf: amounts.vatXaf,
+            // Carried to activation, which must not re-read the clock: a
+            // webhook arriving after the period ended would otherwise turn an
+            // addition into a renewal (D4 rule 3).
+            renews_period: !midPeriod,
             idempotency_key: idempotencyKey,
             request_hash: requestHash,
           },
         });
       });
-
       return this.toView(created);
     } catch (error) {
       if (!isIdempotencyViolation(error)) {

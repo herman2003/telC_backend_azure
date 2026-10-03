@@ -88,8 +88,16 @@ describe('what a purchase records', () => {
       kind: 'AI_SPEAKING_CREDIT',
       quantity: 40,
       unitPriceXaf: 300,
-      amountXaf: 12_000,
+      amountXaf: 14_160,
       status: 'PENDING',
+    });
+    // The three amounts an invoice needs, and they agree: 12,000 HT + 2,160.
+    await expect(
+      prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+    ).resolves.toMatchObject({
+      amount_net_xaf: 12_000,
+      vat_amount_xaf: 2_160,
+      amount_xaf: 14_160,
     });
     // Nothing is granted until a verified provider event says money moved.
     await expect(
@@ -107,7 +115,7 @@ describe('what a purchase records', () => {
       quantity: 6,
     });
 
-    expect(payment).toMatchObject({ unitPriceXaf: 3_000, amountXaf: 18_000 });
+    expect(payment).toMatchObject({ unitPriceXaf: 3_000, amountXaf: 21_240 });
   });
 
   it('carries the chosen seats and cap to the webhook', async () => {

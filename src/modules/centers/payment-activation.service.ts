@@ -149,6 +149,7 @@ export class PaymentActivationService {
           kind: true,
           quantity: true,
           unit_price_xaf: true,
+          renews_period: true,
           metadata: true,
         },
       });
@@ -236,8 +237,21 @@ export class PaymentActivationService {
       // is derived from `paid_until`. Extending first would make every centre
       // look ACTIVE here, so one coming back after a lapse would keep an
       // anchor day it is no longer paying for.
-      await this.setAnchorDay(tx, payment.center_id);
-      const paidUntil = await this.extendPaidPeriod(tx, payment.center_id);
+      //
+      // Only for a payment that starts a period, for the same reason it does
+      // not move the date. A centre that adds a seat and whose webhook lands
+      // more than a week later reads as BLOCKED here, and would have its
+      // renewal day rewritten by a payment that bought no period at all.
+      if (payment.renews_period) {
+        await this.setAnchorDay(tx, payment.center_id);
+      }
+      // Only a payment that starts a period moves the date. A mid-period
+      // addition reports where the period already stood (D4 rule 3), and the
+      // row decides that — not the clock, which by now may have passed the
+      // end of the period the center is still inside of.
+      const paidUntil = payment.renews_period
+        ? await this.extendPaidPeriod(tx, payment.center_id)
+        : await this.currentPaidUntil(tx, payment.center_id);
       await this.setSeats(
         tx,
         payment.center_id,
@@ -245,6 +259,7 @@ export class PaymentActivationService {
         payment.unit_price_xaf,
       );
       await this.retireTrialCodes(tx, payment.center_id);
+      await this.retireSurplusCodes(tx, payment.center_id, payment.quantity);
       await this.mintMissingCodes(tx, payment.center_id, payment.quantity);
 
       return {
@@ -347,6 +362,31 @@ export class PaymentActivationService {
         update: { cap: { increment: targets.capPerCode } },
       });
     }
+  }
+
+  /**
+   * Where the period stands, for a payment that must not move it.
+   *
+   * Locked like `extendPaidPeriod` locks, so a renewal committing alongside
+   * this addition is reported as the row the center ends up with rather than
+   * the one it had a moment earlier.
+   */
+  private async currentPaidUntil(
+    tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
+    centerId: string,
+  ): Promise<Date | null> {
+    const rows = await tx.$queryRaw<{ paid_until: Date | null }[]>`
+      SELECT paid_until
+        FROM center_subscriptions
+       WHERE center_id = ${centerId}
+         FOR UPDATE
+    `;
+
+    if (rows.length === 0) {
+      throw new NotFoundException('CENTER_SUBSCRIPTION_NOT_FOUND');
+    }
+
+    return rows[0].paid_until;
   }
 
   private async extendPaidPeriod(
@@ -556,6 +596,64 @@ export class PaymentActivationService {
    * fresh values. A pre-check would be, in that function's words, a race
    * dressed up as a guarantee.
    */
+  /**
+   * Hands back the codes a smaller pack stopped paying for.
+   *
+   * A renewal may shrink (D4 rule 5), and seats ARE the code pool (D1): without
+   * this, a school renewing seventeen seats as twelve would keep seventeen
+   * working codes for twelve seats' money, forever, since a paid code carries
+   * no expiry of its own.
+   *
+   * ONLY CODES NOBODY HOLDS. A connected code is a student with access, and
+   * this file does not evict students — the same stance activation already
+   * takes when a center ends up over its seats ("being over the limit already
+   * blocks new provisioning without evicting anyone"). So a pack that shrinks
+   * below the number of connected students sheds what it can and leaves the
+   * rest; the floors in `PricingService` are what keep that from happening,
+   * because an order below the student count is refused before it is priced.
+   *
+   * Newest first, so the codes a school has had longest — and most likely
+   * written down or handed out — are the ones that survive.
+   */
+  private async retireSurplusCodes(
+    tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
+    centerId: string,
+    seats: number,
+  ): Promise<void> {
+    const live = await tx.activationCode.count({
+      where: { center_id: centerId, status: { not: 'DEACTIVATED' } },
+    });
+
+    const surplus = live - seats;
+    if (surplus <= 0) return;
+
+    const spare = await tx.activationCode.findMany({
+      where: { center_id: centerId, status: 'ACTIVATED' },
+      orderBy: { created_at: 'desc' },
+      take: surplus,
+      select: { id: true, status: true },
+    });
+
+    for (const code of spare) {
+      await tx.activationCode.update({
+        where: { id: code.id },
+        data: { status: 'DEACTIVATED' },
+      });
+
+      await tx.activationCodeEvent.create({
+        data: {
+          code_id: code.id,
+          center_id: centerId,
+          // Nobody at the school acted. The smaller renewal did.
+          center_user_id: null,
+          from_status: code.status,
+          to_status: 'DEACTIVATED',
+          student_id: null,
+        },
+      });
+    }
+  }
+
   private async mintMissingCodes(
     tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
     centerId: string,

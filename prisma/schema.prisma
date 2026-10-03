@@ -186,7 +186,7 @@ model CenterSubscription {
   /// recovered afterwards — the day a school first paid is only knowable on
   /// the day it pays — and because adding seats mid-period must never move
   /// the renewal date.
-  anchor_day       Int?
+  anchor_day Int?
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -475,6 +475,31 @@ model Payment {
   /// next year must not rewrite what a center agreed to this year, so this is
   /// a copy rather than a join back to today's prices.
   amount_xaf     Int
+  /// `amount_xaf` without the VAT, and the VAT on its own. Providers take one
+  /// integer and have no tax field, so `amount_xaf` is TTC; an invoice needs
+  /// the two lines underneath it, and dividing a rounded total back out does
+  /// not reliably return them.
+  ///
+  /// Null on a row written before VAT was recorded separately. Deliberately not
+  /// backfilled: whether such a row's total was HT or TTC cannot be known from
+  /// the row, and a guess would put a wrong number on an invoice.
+  amount_net_xaf Int?
+  vat_amount_xaf Int?
+
+  /// Whether paying this starts a new period, or only adds to one already
+  /// paid for.
+  ///
+  /// Decided when the payment is created, because only then is the clock the
+  /// right one to read. A webhook can arrive hours later, after the period has
+  /// elapsed, and a center that added two seats on its last day must not be
+  /// read as renewing the next morning (D4 rule 3: adding seats never moves
+  /// the renewal date).
+  ///
+  /// True for a first pack and a renewal, false for a mid-period addition.
+  /// Defaults true, which is what every row written before this column meant.
+  /// Only the seats path reads it; exam slots and entitlements never extend a
+  /// period.
+  renews_period Boolean @default(true)
 
   status PaymentStatus @default(PENDING)
 
