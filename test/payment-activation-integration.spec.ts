@@ -64,13 +64,19 @@ async function setSeats(centerId: string, quantity: number, price: number) {
  * test. Inserted directly because what is under test is what activation does
  * with the payment, not how it was priced.
  */
-async function makePayment(centerId: string, seats: number, price = 4500) {
+async function makePayment(
+  centerId: string,
+  seats: number,
+  price = 4500,
+  renewsPeriod = true,
+) {
   return prisma.payment.create({
     data: {
       center_id: centerId,
       quantity: seats,
       unit_price_xaf: price,
       amount_xaf: seats * price,
+      renews_period: renewsPeriod,
       idempotency_key: `activation-${Date.now()}-${Math.random()}`,
       request_hash: 'test',
     },
@@ -302,6 +308,58 @@ describe('paid_until', () => {
       (await subscriptionOf(center.id)).paid_until,
       Date.now() + 30 * DAY_MS,
     );
+  });
+});
+
+/**
+ * D4 rule 3: adding seats never moves the renewal date.
+ *
+ * The decision is taken when the payment is created, where the clock is the
+ * right one to read, and carried on the row. Activation obeys the row rather
+ * than looking at the clock again — which is the whole point, since by the time
+ * a webhook lands the period may have ended.
+ */
+describe('a payment that only adds seats', () => {
+  it('leaves the period exactly where it was', async () => {
+    const endsAt = new Date(Date.now() + 20 * DAY_MS);
+    const center = await makeCenter(endsAt);
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 12, 4500, false);
+
+    const result = await activation.activate(payment.id);
+
+    expect((await subscriptionOf(center.id)).paid_until).toEqual(endsAt);
+    // Reported as it stands, so a caller cannot mistake it for an extension.
+    expect(result.paidUntil).toEqual(endsAt);
+    // The seats were still bought. Only the date was left alone.
+    await expect(seatsOf(center.id)).resolves.toEqual([
+      { quantity: 12, unit_price_xaf: 4500 },
+    ]);
+  });
+
+  it('leaves it alone even when the webhook lands after the period ended', async () => {
+    // The case the stored decision exists for. A school adds two seats on its
+    // last day; the provider delivers the next morning. Re-reading the clock
+    // here would see a lapsed centre, call it a renewal, and hand it a month
+    // it never paid for.
+    const endedAt = new Date(Date.now() - 2 * DAY_MS);
+    const center = await makeCenter(endedAt);
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 12, 4500, false);
+
+    await activation.activate(payment.id);
+
+    expect((await subscriptionOf(center.id)).paid_until).toEqual(endedAt);
+  });
+
+  it('still mints the codes the added seats paid for', async () => {
+    const center = await makeCenter(new Date(Date.now() + 20 * DAY_MS));
+    await setSeats(center.id, 10, 4500);
+    const payment = await makePayment(center.id, 12, 4500, false);
+
+    await activation.activate(payment.id);
+
+    expect(await liveCodeCount(center.id)).toBe(12);
   });
 });
 

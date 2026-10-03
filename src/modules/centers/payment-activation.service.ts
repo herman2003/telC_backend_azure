@@ -149,6 +149,7 @@ export class PaymentActivationService {
           kind: true,
           quantity: true,
           unit_price_xaf: true,
+          renews_period: true,
           metadata: true,
         },
       });
@@ -237,7 +238,13 @@ export class PaymentActivationService {
       // look ACTIVE here, so one coming back after a lapse would keep an
       // anchor day it is no longer paying for.
       await this.setAnchorDay(tx, payment.center_id);
-      const paidUntil = await this.extendPaidPeriod(tx, payment.center_id);
+      // Only a payment that starts a period moves the date. A mid-period
+      // addition reports where the period already stood (D4 rule 3), and the
+      // row decides that — not the clock, which by now may have passed the
+      // end of the period the center is still inside of.
+      const paidUntil = payment.renews_period
+        ? await this.extendPaidPeriod(tx, payment.center_id)
+        : await this.currentPaidUntil(tx, payment.center_id);
       await this.setSeats(
         tx,
         payment.center_id,
@@ -347,6 +354,31 @@ export class PaymentActivationService {
         update: { cap: { increment: targets.capPerCode } },
       });
     }
+  }
+
+  /**
+   * Where the period stands, for a payment that must not move it.
+   *
+   * Locked like `extendPaidPeriod` locks, so a renewal committing alongside
+   * this addition is reported as the row the center ends up with rather than
+   * the one it had a moment earlier.
+   */
+  private async currentPaidUntil(
+    tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
+    centerId: string,
+  ): Promise<Date | null> {
+    const rows = await tx.$queryRaw<{ paid_until: Date | null }[]>`
+      SELECT paid_until
+        FROM center_subscriptions
+       WHERE center_id = ${centerId}
+         FOR UPDATE
+    `;
+
+    if (rows.length === 0) {
+      throw new NotFoundException('CENTER_SUBSCRIPTION_NOT_FOUND');
+    }
+
+    return rows[0].paid_until;
   }
 
   private async extendPaidPeriod(

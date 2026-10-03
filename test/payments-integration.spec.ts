@@ -240,6 +240,10 @@ describe('payments against real Postgres', () => {
 
         expect(payment.seats).toBe(10);
         expect(payment.amountXaf).toBe(53_100); // 10 x 4,500 HT + 18% VAT
+        // Stamped for activation, which may run after this period has ended.
+        await expect(
+          prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+        ).resolves.toMatchObject({ renews_period: true });
       });
 
       it('renews during the grace week', async () => {
@@ -291,6 +295,11 @@ describe('payments against real Postgres', () => {
         const payment = await payments.create(identity(center.id), 12, 'key-1');
 
         expect(payment.amountXaf).toBe(10_620); // 2 x 4,500 HT + 18% VAT
+        // The renewal date must survive this payment, so the row says so here
+        // rather than letting activation re-read a clock that has moved on.
+        await expect(
+          prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
+        ).resolves.toMatchObject({ renews_period: false });
       });
 
       it('refuses a shrink', async () => {

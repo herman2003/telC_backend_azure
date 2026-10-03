@@ -164,6 +164,10 @@ export class PaymentsService {
             quantity: quote.seats,
             unit_price_xaf: quote.unitPriceXaf,
             amount_xaf: amountWithVatXaf(billableSeats * quote.unitPriceXaf),
+            // Carried to activation, which must not re-read the clock: a
+            // webhook arriving after the period ended would otherwise turn an
+            // addition into a renewal (D4 rule 3).
+            renews_period: !midPeriod,
             idempotency_key: idempotencyKey,
             request_hash: requestHash,
           },
