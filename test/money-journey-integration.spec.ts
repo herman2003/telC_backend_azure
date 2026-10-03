@@ -171,7 +171,8 @@ describe('a school, from its first 4,500 to a spent credit', () => {
         capPerCode: 10,
       },
     );
-    expect(order.amountXaf).toBe(12_000);
+    // 40 x 300 HT, plus the 18% VAT every provider amount now carries.
+    expect(order.amountXaf).toBe(14_160);
 
     // Still nothing granted: the manager has only said what they want.
     await expect(
