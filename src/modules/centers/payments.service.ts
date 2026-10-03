@@ -14,7 +14,7 @@ import {
   isIdempotencyViolation,
   type SignedCenterIdentity,
 } from './payment-shared';
-import { amountWithVatXaf } from './vat';
+import { splitVatXaf } from './vat';
 
 export interface PaymentView {
   id: string;
@@ -158,12 +158,16 @@ export class PaymentsService {
           throw new BadRequestException({ message: 'NOTHING_TO_PAY' });
         }
 
+        const amounts = splitVatXaf(billableSeats * quote.unitPriceXaf);
+
         return tx.payment.create({
           data: {
             center_id: identity.centerId,
             quantity: quote.seats,
             unit_price_xaf: quote.unitPriceXaf,
-            amount_xaf: amountWithVatXaf(billableSeats * quote.unitPriceXaf),
+            amount_xaf: amounts.grossXaf,
+            amount_net_xaf: amounts.netXaf,
+            vat_amount_xaf: amounts.vatXaf,
             // Carried to activation, which must not re-read the clock: a
             // webhook arriving after the period ended would otherwise turn an
             // addition into a renewal (D4 rule 3).

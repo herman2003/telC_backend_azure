@@ -11,7 +11,7 @@ import {
   isIdempotencyViolation,
   type SignedCenterIdentity,
 } from './payment-shared';
-import { amountWithVatXaf } from './vat';
+import { amountWithVatXaf, splitVatXaf } from './vat';
 
 /** One candidate, one sitting, marked by people. */
 export const EXAM_SLOT_PRICE_XAF = 1_000;
@@ -144,13 +144,17 @@ export class ExamSlotsService {
     await assertCenterProfileComplete(this.prisma, identity);
 
     try {
+      const amounts = splitVatXaf(quote.quantity * quote.unitPriceXaf);
+
       const created = await this.prisma.payment.create({
         data: {
           center_id: identity.centerId,
           kind: PAYMENT_KIND[tier],
           quantity: quote.quantity,
           unit_price_xaf: quote.unitPriceXaf,
-          amount_xaf: quote.totalXaf,
+          amount_xaf: amounts.grossXaf,
+          amount_net_xaf: amounts.netXaf,
+          vat_amount_xaf: amounts.vatXaf,
           idempotency_key: idempotencyKey,
           request_hash: requestHash,
           // Left to the column default. Written here only to say plainly

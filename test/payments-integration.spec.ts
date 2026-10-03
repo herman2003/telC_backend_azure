@@ -315,6 +315,30 @@ describe('payments against real Postgres', () => {
       });
     });
 
+    /**
+     * The numbers an invoice is made of (D27).
+     *
+     * `amount_xaf` is what the provider is sent, and VAT has no field of its
+     * own there, so it is TTC. Recovering the other two by dividing it back out
+     * does not work once the VAT line has been rounded — so all three are
+     * stored, and they have to agree.
+     */
+    it('stores the net and the VAT beside the total they make', async () => {
+      const center = await makeCenter();
+      await holdSeats(center.id, 10, 4_500);
+      await paidThrough(center.id, 20);
+
+      const payment = await payments.create(identity(center.id), 12, 'key-1');
+
+      const row = await prisma.payment.findUniqueOrThrow({
+        where: { id: payment.id },
+      });
+      expect(row.amount_net_xaf).toBe(9_000); // 2 x 4,500
+      expect(row.vat_amount_xaf).toBe(1_620); // 18%
+      expect(row.amount_xaf).toBe(10_620);
+      expect(row.amount_net_xaf! + row.vat_amount_xaf!).toBe(row.amount_xaf);
+    });
+
     it('grants nothing', async () => {
       // The whole point of the phase boundary. A pending payment must leave
       // the subscription exactly as it found it; only Phase 7 may move it.
