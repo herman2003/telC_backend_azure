@@ -204,7 +204,20 @@ export class EntitlementPurchaseService {
 
     const unique = [...new Set(codeIds)];
     const mine = await this.prisma.activationCode.count({
-      where: { id: { in: unique }, center_id: identity.centerId },
+      where: {
+        id: { in: unique },
+        center_id: identity.centerId,
+        // A deactivated seat is refused here, and that is not pedantry. The
+        // webhook skips deactivated codes when it applies the caps, so a
+        // purchase naming one would take the money, credit the pool and drop
+        // the cap without a word — the school pays and the student it paid
+        // for cannot spend a session.
+        //
+        // It is reachable through the ordinary flow: paying for seats retires
+        // the trial code and issues a new one, so any screen loaded before
+        // the payment is holding a dead id.
+        status: { not: 'DEACTIVATED' },
+      },
     });
     if (mine !== unique.length) {
       throw new NotFoundException('CODE_NOT_IN_CENTER');
