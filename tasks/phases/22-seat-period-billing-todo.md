@@ -14,10 +14,10 @@
 
 ## B2 — net and VAT recorded, not just applied
 - [ ] Failing test: `amount_net_xaf + vat_amount_xaf = amount_xaf` on a seat order
-- [ ] Write all three amounts in `payments.service.ts`
-- [ ] Same in `exam-slots.service.ts`
-- [ ] Same in `entitlement-purchase.service.ts`
-- [ ] `vatAmountXaf` is called rather than dead
+- [x] Write all three amounts in `payments.service.ts`
+- [x] Same in `exam-slots.service.ts`
+- [x] Same in `entitlement-purchase.service.ts`
+- [x] `vatAmountXaf` is called rather than dead
 - [x] Four suites + lint
 
 ## Blocked, not in this task
