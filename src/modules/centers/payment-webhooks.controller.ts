@@ -24,9 +24,8 @@ import {
  * refuse every genuine delivery. `payment-webhooks.controller.spec` pins the
  * absence.
  *
- * Provider-neutral path: swapping the fake provider for Notch Pay changes
- * nothing downstream. If Notch Pay's dashboard needs a different path, add a
- * route that calls the same service.
+ * Provider-neutral path: swapping providers changes nothing downstream.
+ * Fapshi and Stripe share this URL; routing is by signature header.
  */
 @ApiTags('Payment Webhooks')
 @Controller('api/webhooks/payments')

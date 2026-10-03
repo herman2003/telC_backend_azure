@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
@@ -98,7 +98,7 @@ import { CenterSupportService } from './center-support.service';
     PaymentActivationService,
     PaymentCheckoutService,
     PaymentWebhookService,
-    // Notch (Mobile Money) and Stripe (card) both register when their keys
+    // Fapshi (Mobile Money) and Stripe (card) both register when their keys
     // are present — they are different methods, not alternatives. See
     // buildPaymentProviderRegistry.
     {
@@ -111,22 +111,29 @@ import { CenterSupportService } from './center-support.service';
           FAKE_PAYMENT_WEBHOOK_SECRET: config.get<string>(
             'FAKE_PAYMENT_WEBHOOK_SECRET',
           ),
-          NOTCHPAY_PUBLIC_KEY:
-            config.get<string>('NOTCHPAY_PUBLIC_KEY') ??
-            config.get<string>('NOTCHPAY_API_KEY'),
-          NOTCHPAY_PRIVATE_KEY: config.get<string>('NOTCHPAY_PRIVATE_KEY'),
-          NOTCHPAY_WEBHOOK_SECRET:
-            config.get<string>('NOTCHPAY_WEBHOOK_SECRET') ??
-            config.get<string>('NOTCHPAY_HASH_KEY'),
-          NOTCHPAY_BASE_URL: config.get<string>('NOTCHPAY_BASE_URL'),
-          NOTCHPAY_CALLBACK_URL: config.get<string>('NOTCHPAY_CALLBACK_URL'),
+          FAPSHI_APIUSER: config.get<string>('FAPSHI_APIUSER'),
+          FAPSHI_APIKEY: config.get<string>('FAPSHI_APIKEY'),
+          FAPSHI_WEBHOOK_SECRET: config.get<string>('FAPSHI_WEBHOOK_SECRET'),
+          FAPSHI_BASE_URL: config.get<string>('FAPSHI_BASE_URL'),
+          FAPSHI_REDIRECT_URL: config.get<string>('FAPSHI_REDIRECT_URL'),
           STRIPE_SECRET_KEY: config.get<string>('STRIPE_SECRET_KEY'),
           STRIPE_WEBHOOK_SECRET: config.get<string>('STRIPE_WEBHOOK_SECRET'),
           STRIPE_SUCCESS_URL: config.get<string>('STRIPE_SUCCESS_URL'),
           STRIPE_CANCEL_URL: config.get<string>('STRIPE_CANCEL_URL'),
           STRIPE_ALLOW_LIVE_KEYS: config.get<string>('STRIPE_ALLOW_LIVE_KEYS'),
         };
-        return buildPaymentProviderRegistry(settings);
+        const registry = buildPaymentProviderRegistry(settings);
+        // Same idea as the database host line in main.ts: if Fapshi (the only
+        // Mobile Money path) is missing a key, say so at boot instead of at
+        // the first checkout.
+        const names = registry.list();
+        Logger.log(
+          names.length > 0
+            ? `Payment providers: ${names.join(', ')}`
+            : 'Payment providers: none configured',
+          'Bootstrap',
+        );
+        return registry;
       },
     },
     CenterStudentsService,

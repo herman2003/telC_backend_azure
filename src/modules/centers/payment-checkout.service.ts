@@ -20,7 +20,7 @@ export interface StartedCheckout {
   paymentId: string;
   /** Kept server-side by the controller; returned here for callers that need it. */
   providerReference: string;
-  /** Which method was used: notchpay (Mobile Money) or stripe (card). */
+  /** Which method was used: fapshi (Mobile Money) or stripe (card). */
   provider: string;
   checkoutUrl: string;
 }
