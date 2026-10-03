@@ -116,6 +116,25 @@ async function holdSeats(
   });
 }
 
+/**
+ * Where the center stands in its billing period — the thing that tells a
+ * renewal apart from a mid-period addition.
+ *
+ * Both arrive as the same request: a seat count on `POST /api/payments`. D4
+ * rule 3 prices an addition on the seats added and forbids a shrink; rule 5
+ * lets a renewal resize the whole pack, down as well as up. Only the clock
+ * separates them, so a test about either has to say where the clock is.
+ */
+async function paidThrough(centerId: string, daysFromNow: number) {
+  await prisma.centerSubscription.update({
+    where: { center_id: centerId },
+    data: {
+      plan: 'PAID',
+      paid_until: new Date(Date.now() + daysFromNow * 24 * 60 * 60 * 1000),
+    },
+  });
+}
+
 /** Students occupy seats, so they set the floor a payment cannot go under. */
 async function makeStudents(centerId: string, count: number) {
   for (let i = 0; i < count; i++) {
@@ -199,6 +218,92 @@ describe('payments against real Postgres', () => {
       await expect(
         payments.create(identity(center.id), 10, 'key-1'),
       ).rejects.toThrow('NOTHING_TO_PAY');
+    });
+
+    /**
+     * Renewal, which is rule 5 and not rule 3.
+     *
+     * There is one seat-payment route, so renewing, growing and shrinking all
+     * arrive as a seat count on it. A refusal written for a mid-period
+     * addition therefore lands on renewals too unless the period is consulted
+     * — and a center that cannot renew is a center that lapses.
+     */
+    describe('once the period has elapsed', () => {
+      it('renews the same seat count', async () => {
+        // The commonest payment a school will ever make, and the one a rule
+        // about "adds no seats" reads as nothing to pay.
+        const center = await makeCenter();
+        await holdSeats(center.id, 10, 4_500);
+        await paidThrough(center.id, -1);
+
+        const payment = await payments.create(identity(center.id), 10, 'key-1');
+
+        expect(payment.seats).toBe(10);
+        expect(payment.amountXaf).toBe(53_100); // 10 x 4,500 HT + 18% VAT
+      });
+
+      it('renews during the grace week', async () => {
+        // Rule 7: up to seven days late the students keep access and the
+        // anchor day does not move. Still a renewal, still the whole pack.
+        const center = await makeCenter();
+        await holdSeats(center.id, 10, 4_500);
+        await paidThrough(center.id, -3);
+
+        const payment = await payments.create(identity(center.id), 10, 'key-1');
+
+        expect(payment.amountXaf).toBe(53_100);
+      });
+
+      it('renews into fewer seats', async () => {
+        // The doc's own worked example, 1 March: seventeen seats renew as
+        // twelve. Rule 6 forbids shrinking mid-period; rule 5 allows it here,
+        // and the floors (ten, and the connected students) still apply.
+        const center = await makeCenter();
+        await holdSeats(center.id, 17, 4_500);
+        await paidThrough(center.id, -1);
+
+        const payment = await payments.create(identity(center.id), 12, 'key-1');
+
+        expect(payment.seats).toBe(12);
+        expect(payment.amountXaf).toBe(63_720); // 12 x 4,500 HT + 18% VAT
+      });
+
+      it('still refuses a renewal under the minimum', async () => {
+        // Shrinking at renewal is not shrinking without limit.
+        const center = await makeCenter();
+        await holdSeats(center.id, 17, 4_500);
+        await paidThrough(center.id, -1);
+
+        await expect(
+          payments.create(identity(center.id), 8, 'key-1'),
+        ).rejects.toThrow('SEATS_BELOW_MINIMUM');
+      });
+    });
+
+    describe('while the period is running', () => {
+      it('bills only the seats added', async () => {
+        // Rule 3. The same assertion as the delta test above, said with the
+        // period stated, so it keeps meaning that once renewal is told apart.
+        const center = await makeCenter();
+        await holdSeats(center.id, 10, 4_500);
+        await paidThrough(center.id, 20);
+
+        const payment = await payments.create(identity(center.id), 12, 'key-1');
+
+        expect(payment.amountXaf).toBe(10_620); // 2 x 4,500 HT + 18% VAT
+      });
+
+      it('refuses a shrink', async () => {
+        // Rule 6: no shrinking mid-period, no refunds. A manager who wants a
+        // smaller pack waits for the renewal.
+        const center = await makeCenter();
+        await holdSeats(center.id, 12, 4_500);
+        await paidThrough(center.id, 20);
+
+        await expect(
+          payments.create(identity(center.id), 10, 'key-1'),
+        ).rejects.toThrow('SEATS_BELOW_PAID_FLOOR');
+      });
     });
 
     it('grants nothing', async () => {

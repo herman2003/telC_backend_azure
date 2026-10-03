@@ -41,12 +41,6 @@ export interface PaymentPage {
   pageSize: number;
 }
 
-/** Prisma's unique-violation code. The insert race is decided by this. */
-const UNIQUE_VIOLATION = 'P2002';
-
-/** The column that makes a P2002 a replay rather than a bug. */
-const IDEMPOTENCY_COLUMN = 'idempotency_key';
-
 @Injectable()
 export class PaymentsService {
   constructor(
@@ -120,9 +114,11 @@ export class PaymentsService {
         );
 
         // `quantity` on the payment is the TARGET seat pool (activation sets
-        // it). The amount charged is only seats added above an already-paid
-        // pool — same rule as the dashboard upsell UI. A trial row (unit
-        // price 0) is not a paid pool.
+        // it). What is CHARGED depends on where the center stands in its
+        // period, because one route carries two different purchases.
+        //
+        // A trial row (unit price 0) is not a paid pool: converting from a
+        // trial is a first purchase, and the whole pack is billed.
         const held = await tx.centerSeat.findUnique({
           where: { center_id: identity.centerId },
           select: { quantity: true, unit_price_xaf: true },
@@ -130,14 +126,34 @@ export class PaymentsService {
         const paidSeats =
           held != null && held.unit_price_xaf > 0 ? held.quantity : 0;
 
-        if (wanted < paidSeats) {
+        // Mid-period the center is adding seats to a pack it has already paid
+        // for (D4 rule 3). Once the period has elapsed — including the 7-day
+        // grace of rule 7, and the blocked state after it — the same request
+        // is a renewal of the whole pack (rule 5), which may be smaller than
+        // what it holds.
+        //
+        // A priced pool with no `paid_until` cannot be produced by activation,
+        // which writes both in one transaction. Should one exist, it counts as
+        // mid-period: refusing a shrink is the side that cannot give seats
+        // away.
+        const subscription = await tx.centerSubscription.findUnique({
+          where: { center_id: identity.centerId },
+          select: { paid_until: true },
+        });
+        const midPeriod =
+          paidSeats > 0 &&
+          (subscription?.paid_until == null ||
+            Date.now() < subscription.paid_until.getTime());
+
+        if (midPeriod && wanted < paidSeats) {
           throw new BadRequestException({
             message: 'SEATS_BELOW_PAID_FLOOR',
             requiredSeatsTotal: paidSeats,
           });
         }
 
-        const billableSeats = wanted - paidSeats;
+        // Renewal bills the pack; an addition bills only what it adds.
+        const billableSeats = midPeriod ? wanted - paidSeats : wanted;
         if (billableSeats === 0) {
           throw new BadRequestException({ message: 'NOTHING_TO_PAY' });
         }

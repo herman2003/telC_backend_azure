@@ -79,6 +79,7 @@ describe('recognising a replay', () => {
         run({
           center: prisma.center,
           centerSeat: prisma.centerSeat,
+          centerSubscription: prisma.centerSubscription,
           student: prisma.student,
           payment: {
             // Always miss in-tx so these cases still exercise create → P2002 →
@@ -133,6 +134,10 @@ describe('recognising a replay', () => {
         }),
       },
       centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
+      // No seat row and no period: a first purchase, which is what every case
+      // in this file is. The period only decides renewal from addition, and
+      // neither is what is being tested here.
+      centerSubscription: { findUnique: jest.fn().mockResolvedValue(null) },
       student: { groupBy: jest.fn().mockResolvedValue([]) },
       payment: { findUnique: jest.fn() },
     };
