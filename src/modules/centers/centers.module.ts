@@ -98,7 +98,7 @@ import { CenterSupportService } from './center-support.service';
     PaymentActivationService,
     PaymentCheckoutService,
     PaymentWebhookService,
-    // Notch (Mobile Money) and Stripe (card) both register when their keys
+    // Fapshi (Mobile Money) and Stripe (card) both register when their keys
     // are present — they are different methods, not alternatives. See
     // buildPaymentProviderRegistry.
     {
@@ -111,15 +111,11 @@ import { CenterSupportService } from './center-support.service';
           FAKE_PAYMENT_WEBHOOK_SECRET: config.get<string>(
             'FAKE_PAYMENT_WEBHOOK_SECRET',
           ),
-          NOTCHPAY_PUBLIC_KEY:
-            config.get<string>('NOTCHPAY_PUBLIC_KEY') ??
-            config.get<string>('NOTCHPAY_API_KEY'),
-          NOTCHPAY_PRIVATE_KEY: config.get<string>('NOTCHPAY_PRIVATE_KEY'),
-          NOTCHPAY_WEBHOOK_SECRET:
-            config.get<string>('NOTCHPAY_WEBHOOK_SECRET') ??
-            config.get<string>('NOTCHPAY_HASH_KEY'),
-          NOTCHPAY_BASE_URL: config.get<string>('NOTCHPAY_BASE_URL'),
-          NOTCHPAY_CALLBACK_URL: config.get<string>('NOTCHPAY_CALLBACK_URL'),
+          FAPSHI_APIUSER: config.get<string>('FAPSHI_APIUSER'),
+          FAPSHI_APIKEY: config.get<string>('FAPSHI_APIKEY'),
+          FAPSHI_WEBHOOK_SECRET: config.get<string>('FAPSHI_WEBHOOK_SECRET'),
+          FAPSHI_BASE_URL: config.get<string>('FAPSHI_BASE_URL'),
+          FAPSHI_REDIRECT_URL: config.get<string>('FAPSHI_REDIRECT_URL'),
           STRIPE_SECRET_KEY: config.get<string>('STRIPE_SECRET_KEY'),
           STRIPE_WEBHOOK_SECRET: config.get<string>('STRIPE_WEBHOOK_SECRET'),
           STRIPE_SUCCESS_URL: config.get<string>('STRIPE_SUCCESS_URL'),

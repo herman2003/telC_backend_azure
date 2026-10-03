@@ -113,7 +113,7 @@ export class PaymentsController {
   @ApiOperation({
     summary: 'Get the URL where the center pays for a pending payment',
     description:
-      'Opens a checkout with the chosen payment method (notchpay = Mobile Money, stripe = card) the first time, and returns the same URL on every later call. Both methods can be configured at once — the body picks which one. Only a PENDING payment can be checked out. Reachable by a blocked center: paying is the way back.',
+      'Opens a checkout with the chosen payment method (fapshi = Mobile Money, stripe = card) the first time, and returns the same URL on every later call. Both methods can be configured at once — the body picks which one. Only a PENDING payment can be checked out. Reachable by a blocked center: paying is the way back.',
   })
   @ApiOkResponse({ type: CheckoutSessionResponseDto })
   @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })

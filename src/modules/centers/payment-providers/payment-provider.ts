@@ -1,6 +1,6 @@
 import { DisabledPaymentProvider } from './disabled-payment-provider';
 import { FakePaymentProvider } from './fake-payment-provider';
-import { NotchPayProvider } from './notchpay-payment-provider';
+import { FapshiPaymentProvider } from './fapshi-payment-provider';
 import { PaymentProviderRegistry } from './payment-provider-registry';
 import { StripePaymentProvider } from './stripe-payment-provider';
 
@@ -26,7 +26,7 @@ export interface CheckoutRequest {
   centerId: string;
   /** Computed by the server when the payment was created. Never a client value. */
   amountXaf: number;
-  /** Required by Notch Pay; filled by PaymentCheckoutService from the manager. */
+  /** Optional; forwarded to Fapshi / Stripe when present. */
   customerEmail?: string;
   customerName?: string;
   customerPhone?: string;
@@ -58,12 +58,11 @@ export type WebhookHeaders = Record<string, string | string[] | undefined>;
  *
  * Deliberately two methods. A provider starts a checkout and proves a webhook
  * genuine; it never grants access. Turning a verified event into seats and
- * paid time is `PaymentActivationService`'s job alone, so a provider cannot
- * get grandfathering or exactly-once wrong — it never touches those tables.
+ * paid time is `PaymentActivationService`'s job alone.
  *
  * Implementations: `FakePaymentProvider`, `DisabledPaymentProvider`,
- * `NotchPayProvider` (Mobile Money), `StripePaymentProvider` (card).
- * Notch and Stripe coexist in {@link PaymentProviderRegistry}.
+ * `FapshiPaymentProvider` (Mobile Money), `StripePaymentProvider` (card).
+ * Fapshi and Stripe coexist in {@link PaymentProviderRegistry}.
  */
 export interface PaymentProvider {
   readonly name: string;
@@ -83,21 +82,21 @@ export interface PaymentProvider {
 export interface PaymentProviderSettings {
   /**
    * Enables the fake provider when set to `fake` (non-production only).
-   * Does NOT choose between Notch and Stripe — those activate from their keys.
+   * Does NOT choose between Fapshi and Stripe — those activate from their keys.
    */
   PAYMENT_PROVIDER?: string;
   NODE_ENV?: string;
   FAKE_PAYMENT_WEBHOOK_SECRET?: string;
-  /** Notch Pay public key (Authorization header). */
-  NOTCHPAY_PUBLIC_KEY?: string;
-  /** Optional private key (X-Grant). */
-  NOTCHPAY_PRIVATE_KEY?: string;
-  /** Webhook HMAC hash key. */
-  NOTCHPAY_WEBHOOK_SECRET?: string;
-  /** Optional API base; defaults to https://api.notchpay.co */
-  NOTCHPAY_BASE_URL?: string;
-  /** Redirect URL after the payer finishes on Notch's page. */
-  NOTCHPAY_CALLBACK_URL?: string;
+  /** Fapshi API user (header `apiuser`). */
+  FAPSHI_APIUSER?: string;
+  /** Fapshi API key (header `apikey`). */
+  FAPSHI_APIKEY?: string;
+  /** Fapshi webhook secret (compared to header `x-wh-secret`). */
+  FAPSHI_WEBHOOK_SECRET?: string;
+  /** Optional API base; defaults to https://sandbox.fapshi.com */
+  FAPSHI_BASE_URL?: string;
+  /** Redirect URL after the payer finishes on Fapshi's page. */
+  FAPSHI_REDIRECT_URL?: string;
   /** Stripe secret key (sk_test_… / sk_live_…). */
   STRIPE_SECRET_KEY?: string;
   /** Stripe webhook signing secret (whsec_…). */
@@ -127,7 +126,7 @@ function assertStripeSecretKeySafe(
 }
 
 /**
- * Builds every configured provider. Notch (Mobile Money) and Stripe (card)
+ * Builds every configured provider. Fapshi (Mobile Money) and Stripe (card)
  * are independent: both register when their keys are present. The fake only
  * when explicitly asked, outside production.
  */
@@ -145,22 +144,24 @@ export function buildPaymentProviders(
     map.set('fake', new FakePaymentProvider(fakeSecret));
   }
 
-  const publicKey = settings.NOTCHPAY_PUBLIC_KEY?.trim() ?? '';
-  const notchWebhook = settings.NOTCHPAY_WEBHOOK_SECRET?.trim() ?? '';
-  const callbackUrl = settings.NOTCHPAY_CALLBACK_URL?.trim() ?? '';
+  const apiUser = settings.FAPSHI_APIUSER?.trim() ?? '';
+  const apiKey = settings.FAPSHI_APIKEY?.trim() ?? '';
+  const fapshiWebhook = settings.FAPSHI_WEBHOOK_SECRET?.trim() ?? '';
+  const redirectUrl = settings.FAPSHI_REDIRECT_URL?.trim() ?? '';
   if (
-    publicKey.length > 0 &&
-    notchWebhook.length > 0 &&
-    callbackUrl.length > 0
+    apiUser.length > 0 &&
+    apiKey.length > 0 &&
+    fapshiWebhook.length > 0 &&
+    redirectUrl.length > 0
   ) {
     map.set(
-      'notchpay',
-      new NotchPayProvider({
-        publicKey,
-        privateKey: settings.NOTCHPAY_PRIVATE_KEY?.trim() || undefined,
-        webhookSecret: notchWebhook,
-        baseUrl: settings.NOTCHPAY_BASE_URL?.trim() || undefined,
-        callbackUrl,
+      'fapshi',
+      new FapshiPaymentProvider({
+        apiUser,
+        apiKey,
+        webhookSecret: fapshiWebhook,
+        baseUrl: settings.FAPSHI_BASE_URL?.trim() || undefined,
+        redirectUrl,
       }),
     );
   }
