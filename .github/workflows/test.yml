@@ -104,8 +104,63 @@ jobs:
             echo "::notice::Down to $COUNT. Lower BASELINE in this workflow to $COUNT."
           fi
 
+      # Not `npm run lint`: that script carries `--fix`, so in CI it would repair
+      # the code, exit clean, and throw the repair away with the runner. The gate
+      # has to read the code as it was pushed.
+      #
+      # A ratchet rather than a wall, for the same reason the type-check above is
+      # one: the repo stands at 949 errors across src and test, most of them
+      # `no-unsafe-*` on Prisma results and test fixtures. A gate that demanded
+      # zero today would be red on every push, and a gate that is always red is a
+      # gate everybody learns to scroll past.
+      #
+      # What this does catch is the thing that actually happened: a merge reached
+      # dev carrying two unused constants that failed lint locally, and nothing
+      # was watching. Adding two errors moves the count above the baseline and
+      # fails, whatever the baseline is.
+      #
+      # Lower BASELINE whenever the real count drops. It must never be raised: the
+      # only way this number goes up is by someone deciding it should.
+      - name: Lint (no new errors)
+        run: |
+          BASELINE=949
+          npx eslint "{src,apps,libs,test}/**/*.ts" -f json > eslint.json || true
+          COUNT=$(node -e "const r=require('./eslint.json');let e=0;for(const f of r)e+=f.errorCount;console.log(e)")
+          echo "eslint reported $COUNT error(s); baseline is $BASELINE"
+          if [ "$COUNT" -gt "$BASELINE" ]; then
+            echo "::error::$COUNT lint errors, above the baseline of $BASELINE."
+            npx eslint "{src,apps,libs,test}/**/*.ts" || true
+            exit 1
+          fi
+          if [ "$COUNT" -lt "$BASELINE" ]; then
+            echo "::notice::Down to $COUNT. Lower BASELINE in this workflow to $COUNT."
+          fi
+
       - name: Unit tests
         run: npx jest --ci
 
       - name: End-to-end tests
         run: npx jest --ci --config ./test/jest-e2e.json
+
+      # THE INTEGRATION SUITE IS NOT RUN HERE, AND THAT IS THE REMAINING HOLE.
+      #
+      # It is 26 suites and 335 tests against real Postgres, and it is where the
+      # payment, period and activation rules are actually pinned — a merge reached
+      # dev with it red, which is what prompted adding the lint step above.
+      #
+      # Running it here needs three things, none of them hard but none of them
+      # free:
+      #
+      #   1. a `postgres` service container, so runs cannot collide the way they
+      #      would sharing one Neon branch (the suite deletes shared center and
+      #      student rows and already runs maxWorkers: 1 for that reason);
+      #   2. `prisma migrate deploy` against it;
+      #   3. the Modelltest seeds — 002_seed_modelltest1.sql and the files after
+      #      it. Migrations alone are not enough: exam-sitting-integration.spec.ts
+      #      reads "the Hören exercise of Modelltest 1, as seeded", and several
+      #      other suites do the same.
+      #
+      # Step 3 is the work. It is deliberately not guessed at here, because a job
+      # that lands red makes CI noise for everybody and teaches people to ignore
+      # it, which is worse than a gate that honestly says what it does not cover.
+      # Tracked in tasks/phases/24-integration-in-ci-todo.md.
