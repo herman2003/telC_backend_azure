@@ -428,3 +428,43 @@ describe('a caller with no account', () => {
     expect(decision).toMatchObject({ allowed: false, reason: 'NO_ACCOUNT' });
   });
 });
+
+describe('an exam is paid for separately, and spends nothing of the student', () => {
+  // The centre pays per candidate for a sitting — 1,000, or 1,500 with the
+  // machine's opinion beside the examiner's. None of that may come out of
+  // what Start gives the student for practice, nor out of the credits their
+  // centre bought for Elena.
+  //
+  // The two are kept apart by the operation they record: the monthly
+  // allowance counts SPEAKING_LIVE_SESSION, and an exam transcript records
+  // SPEAKING_EVALUATION. Easy to collapse by accident in a later refactor,
+  // so it is asserted rather than assumed.
+
+  it('leaves the free monthly sessions untouched', async () => {
+    const { student } = await makeSeat();
+
+    // What an exam Sprechen Teil writes, three of them.
+    for (let teil = 1; teil <= 3; teil++) {
+      await prisma.aiUsage.create({
+        data: { student_id: student.id, operation: 'SPEAKING_EVALUATION' },
+      });
+    }
+
+    const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
+
+    expect(decision.freeRemaining).toBe(FREE_LIVE_SESSIONS_PER_MONTH);
+  });
+
+  it('leaves the centre pool and the seat cap untouched', async () => {
+    const { center, student, code } = await makeSeat();
+    await fillPool(center.id, 40);
+    await setCap(code.id, 10);
+
+    await prisma.aiUsage.create({
+      data: { student_id: student.id, operation: 'SPEAKING_EVALUATION' },
+    });
+
+    await expect(poolOf(center.id)).resolves.toBe(40);
+    await expect(capOf(code.id)).resolves.toMatchObject({ used: 0 });
+  });
+});

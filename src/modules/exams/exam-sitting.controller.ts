@@ -66,7 +66,7 @@ export class ExamSittingController {
   @ApiOperation({
     summary: 'The exam sittings I am admitted to',
     description:
-      'Only sittings a center admitted this student to. Each carries its status, so the app can say "opens on 5 October" rather than showing a button that fails.',
+      'Only sittings a center admitted this student to. Each carries its status, so the app can say "opens on 5 October" rather than showing a button that fails — and its `gradingTier`: on AI the sitting will ask the candidate to speak Teil by Teil and send the transcript, on MANUAL nothing about Sprechen touches the app because it happens in the room.',
   })
   @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })
   mySessions(@CurrentStudent() student: AccessTokenPayload) {
@@ -110,7 +110,7 @@ export class ExamSittingController {
   @ApiOperation({
     summary: 'Where I am in the exam',
     description:
-      'Every block with its state and the time left, plus the server clock. This is what a reload calls: nothing is lost and nothing is given back.',
+      'Every block with its state and the time left, plus the server clock. This is what a reload calls: nothing is lost and nothing is given back. It also carries `gradingTier`, which is what decides whether to draw the Sprechen step at all: only an AI sitting has one, and POST attempts/{id}/speaking refuses on a MANUAL one with EXAM_TIER_WITHOUT_AI.',
   })
   @ApiNotFoundResponse({ description: 'EXAM_ATTEMPT_NOT_FOUND' })
   getAttempt(

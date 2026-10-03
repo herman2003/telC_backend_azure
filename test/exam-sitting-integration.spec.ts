@@ -40,13 +40,14 @@ async function wipe() {
 }
 
 /** A published sitting that is open now, with one candidate admitted. */
-async function makeOpenSitting() {
+async function makeOpenSitting(tier: 'MANUAL' | 'AI' = 'MANUAL') {
   const center = await prisma.center.create({
     data: {
       name: `Sitting Test ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
       exam_slots_remaining: 10,
+      exam_ai_slots_remaining: 10,
       subscription: { create: { plan: 'TRIAL' } },
     },
   });
@@ -68,7 +69,7 @@ async function makeOpenSitting() {
     accessWindowHours: 24,
   });
   await participants.setParticipants(identity, draft.id, [student.id]);
-  await participants.publish(identity, draft.id);
+  await participants.publish(identity, draft.id, tier);
 
   // Published two minutes ahead so publish accepts it, then moved back so it
   // is open now. Publishing into the past is refused on purpose.
@@ -363,5 +364,57 @@ describe('playing a recording', () => {
     await expect(audio.play(student.id, attempt.id, audioId)).rejects.toThrow(
       'BLOCK_NOT_STARTED',
     );
+  });
+});
+
+describe('which exam a candidate is sitting', () => {
+  // A sitting on the AI tier asks the candidate to speak, Teil by Teil, and
+  // sends the transcript so the examiner can read it beside the mark they
+  // are about to give. A MANUAL sitting asks for nothing: Sprechen happens
+  // in the room and never touches the app.
+  //
+  // The app has to know which before it draws the screen. Until this, the
+  // only way to find out was to send a transcript and be refused — so the
+  // choice was between offering a button that fails and never offering it at
+  // all, and the centres paying 1,500 a head got the second.
+
+  it('tells the candidate which tier their sitting is', async () => {
+    const { student, sessionId } = await makeOpenSitting('AI');
+
+    const mine = await sitting.mySessions(student.id);
+
+    expect(mine.find((row) => row.sessionId === sessionId)).toMatchObject({
+      gradingTier: 'AI',
+    });
+  });
+
+  it('says MANUAL when nobody bought the machine', async () => {
+    const { student, sessionId } = await makeOpenSitting();
+
+    const mine = await sitting.mySessions(student.id);
+
+    expect(mine.find((row) => row.sessionId === sessionId)).toMatchObject({
+      gradingTier: 'MANUAL',
+    });
+  });
+
+  it('carries the tier on the attempt, which is the screen that needs it', async () => {
+    const { student, sessionId } = await makeOpenSitting('AI');
+    const attempt = await sitting.start(student.id, sessionId);
+
+    const view = await sitting.getAttempt(student.id, attempt.id);
+
+    expect(view).toMatchObject({ gradingTier: 'AI' });
+  });
+
+  it('carries MANUAL on the attempt too, rather than leaving it absent', async () => {
+    // Absent and MANUAL are different things to a client: one is "no AI",
+    // the other is "this backend is too old to say".
+    const { student, sessionId } = await makeOpenSitting();
+    const attempt = await sitting.start(student.id, sessionId);
+
+    const view = await sitting.getAttempt(student.id, attempt.id);
+
+    expect(view.gradingTier).toBe('MANUAL');
   });
 });
