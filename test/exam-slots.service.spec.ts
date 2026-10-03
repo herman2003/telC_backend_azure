@@ -60,12 +60,12 @@ describe('ExamSlotsService', () => {
         quantity: 1,
         tier: 'MANUAL',
         unitPriceXaf: 1_000,
-        totalXaf: 1_000,
+        totalXaf: 1_180,
       });
     });
 
     it('multiplies rather than negotiating', () => {
-      expect(service.quote(37, 'MANUAL').totalXaf).toBe(37_000);
+      expect(service.quote(37, 'MANUAL').totalXaf).toBe(43_660);
     });
 
     it.each([
@@ -92,7 +92,7 @@ describe('ExamSlotsService', () => {
       expect(EXAM_SLOT_PRICE_XAF_AI).toBe(1_500);
       expect(service.quote(10, 'AI')).toMatchObject({
         unitPriceXaf: 1_500,
-        totalXaf: 15_000,
+        totalXaf: 17_700,
       });
     });
 
@@ -106,7 +106,7 @@ describe('ExamSlotsService', () => {
           data: expect.objectContaining({
             kind: 'EXAM_SLOTS_AI',
             unit_price_xaf: 1_500,
-            amount_xaf: 7_500,
+            amount_xaf: 8_850, // 5 × 1500 HT + 18% VAT
           }),
         }),
       );
@@ -145,14 +145,14 @@ describe('ExamSlotsService', () => {
             kind: 'EXAM_SLOTS',
             quantity: 5,
             unit_price_xaf: 1_000,
-            amount_xaf: 5_000,
+            amount_xaf: 5_900,
           }),
         }),
       );
       expect(payment).toMatchObject({
         kind: 'EXAM_SLOTS',
         quantity: 5,
-        amountXaf: 5_000,
+        amountXaf: 5_900,
         status: 'PENDING',
       });
     });
@@ -206,7 +206,7 @@ describe('ExamSlotsService', () => {
         kind: 'EXAM_SLOTS',
         quantity: 5,
         unit_price_xaf: 1_000,
-        amount_xaf: 5_000,
+        amount_xaf: 5_900,
         status: 'PENDING',
         created_at: new Date(),
         request_hash: service.fingerprintFor('center-1', 5, 'MANUAL'),

@@ -11,6 +11,7 @@ import {
   isIdempotencyViolation,
   type SignedCenterIdentity,
 } from './payment-shared';
+import { amountWithVatXaf } from './vat';
 
 /** One candidate, one sitting, marked by people. */
 export const EXAM_SLOT_PRICE_XAF = 1_000;
@@ -113,11 +114,13 @@ export class ExamSlotsService {
       });
     }
 
+    // unitPrice HT; totalXaf TTC (providers have no VAT parameter).
+    const unitPriceXaf = PRICE[tier];
     return {
       quantity,
       tier,
-      unitPriceXaf: PRICE[tier],
-      totalXaf: quantity * PRICE[tier],
+      unitPriceXaf,
+      totalXaf: amountWithVatXaf(quantity * unitPriceXaf),
     };
   }
 

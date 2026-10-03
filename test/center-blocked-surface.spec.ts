@@ -180,7 +180,7 @@ describe('what a blocked center can and cannot do', () => {
       );
 
       await expect(subscriptions.quote(identity, 10)).resolves.toMatchObject({
-        totalXaf: 45000,
+        totalXaf: 53100, // 10 × 4500 HT + 18% VAT
       });
     });
 

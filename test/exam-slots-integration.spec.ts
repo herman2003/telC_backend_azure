@@ -273,7 +273,7 @@ describe('buying exam slots', () => {
     expect(payment).toMatchObject({
       kind: 'EXAM_SLOTS_AI',
       unitPriceXaf: 1_500,
-      amountXaf: 7_500,
+      amountXaf: 8_850,
     });
   });
 

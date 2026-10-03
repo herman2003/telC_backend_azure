@@ -147,7 +147,7 @@ describe('the whole flow', () => {
     );
 
     const { payment, session } = await payAndCheckout(identity, 'flow-1');
-    expect(payment.amountXaf).toBe(45000);
+    expect(payment.amountXaf).toBe(53100);
 
     const { rawBody, headers } = delivery({
       reference: session.providerReference,

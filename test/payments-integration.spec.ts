@@ -145,7 +145,7 @@ describe('payments against real Postgres', () => {
       expect(payment).toMatchObject({
         seats: 10,
         unitPriceXaf: 4_500,
-        amountXaf: 45_000,
+        amountXaf: 53_100,
         status: 'PENDING',
       });
     });
@@ -163,19 +163,42 @@ describe('payments against real Postgres', () => {
       });
       expect(row.unit_price_xaf).toBe(4_500);
       expect(row.quantity).toBe(10);
-      expect(row.amount_xaf).toBe(45_000);
+      expect(row.amount_xaf).toBe(53_100);
     });
 
-    it('keeps the price a center already agreed to', async () => {
+    it('keeps the price a center already agreed to when adding seats', async () => {
       // Grandfathering, end to end. The list price is 4,500 today and will
-      // rise; this center bought at 4,000 and keeps it.
+      // rise; this center bought at 4,000 and keeps it. Only the two added
+      // seats are charged (TTC).
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_000);
 
-      const payment = await payments.create(identity(center.id), 10, 'key-1');
+      const payment = await payments.create(identity(center.id), 12, 'key-1');
 
+      expect(payment.seats).toBe(12);
       expect(payment.unitPriceXaf).toBe(4_000);
-      expect(payment.amountXaf).toBe(40_000);
+      expect(payment.amountXaf).toBe(9_440); // 2 × 4_000 HT + 18% VAT
+    });
+
+    it('charges only seats added above an already-paid pool', async () => {
+      // Dashboard shows the delta; Fapshi must receive the same amount — not
+      // a full re-bill of seats already paid.
+      const center = await makeCenter();
+      await holdSeats(center.id, 10, 4_500);
+
+      const payment = await payments.create(identity(center.id), 12, 'key-1');
+
+      expect(payment.seats).toBe(12);
+      expect(payment.amountXaf).toBe(10_620); // 2 × 4_500 HT + 18% VAT
+    });
+
+    it('refuses a payment that adds no seats', async () => {
+      const center = await makeCenter();
+      await holdSeats(center.id, 10, 4_500);
+
+      await expect(
+        payments.create(identity(center.id), 10, 'key-1'),
+      ).rejects.toThrow('NOTHING_TO_PAY');
     });
 
     it('grants nothing', async () => {
@@ -220,7 +243,7 @@ describe('payments against real Postgres', () => {
       expect(after.updated_at).toEqual(before.updated_at);
     });
 
-    it('records an amount that is the seats times the price', async () => {
+    it('records an amount that is the billable seats times the price with VAT', async () => {
       // Nothing else checks that the stored total and its parts agree.
       const center = await makeCenter();
 
@@ -230,7 +253,9 @@ describe('payments against real Postgres', () => {
         where: { id: payment.id },
       });
 
-      expect(row.amount_xaf).toBe(row.quantity * row.unit_price_xaf);
+      expect(row.amount_xaf).toBe(
+        Math.round((row.quantity * row.unit_price_xaf * 118) / 100),
+      );
     });
 
     /**
@@ -246,7 +271,7 @@ describe('payments against real Postgres', () => {
       const payment = await payments.create(identity(center.id), 10, 'key-1');
 
       expect(payment.unitPriceXaf).toBe(4_500);
-      expect(payment.amountXaf).toBe(45_000);
+      expect(payment.amountXaf).toBe(53_100);
     });
 
     it('refuses an order the minimum rejects', async () => {
@@ -406,7 +431,7 @@ describe('payments against real Postgres', () => {
         where: { center_id: center.id },
       });
       expect(rows).toHaveLength(1);
-      expect(rows[0].amount_xaf).toBe(45_000);
+      expect(rows[0].amount_xaf).toBe(53_100);
     });
 
     it('returns the original record rather than a second one', async () => {
@@ -506,7 +531,7 @@ describe('payments against real Postgres', () => {
       expect(history.payments[0]).toMatchObject({
         seats: 11,
         unitPriceXaf: 4_500,
-        amountXaf: 49_500,
+        amountXaf: 58_410,
       });
     });
 

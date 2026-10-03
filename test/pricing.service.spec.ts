@@ -7,6 +7,7 @@ import {
   START_PRICE_XAF,
   type CenterPricingContext,
 } from '../src/modules/centers/pricing.service';
+import { amountWithVatXaf } from '../src/modules/centers/vat';
 
 /**
  * What a center owes, and the rules it cannot talk its way around.
@@ -35,7 +36,8 @@ describe('PricingService', () => {
       expect(pricing.quote(10, context())).toEqual({
         seats: 10,
         unitPriceXaf: START_PRICE_XAF,
-        totalXaf: 10 * START_PRICE_XAF,
+        // HT 45_000 → TTC with 18% VAT (provider amount).
+        totalXaf: amountWithVatXaf(10 * START_PRICE_XAF),
       });
     });
 
@@ -47,7 +49,7 @@ describe('PricingService', () => {
 
       expect(grandfathered).toMatchObject({
         unitPriceXaf: 4_000,
-        totalXaf: 48_000,
+        totalXaf: amountWithVatXaf(48_000),
       });
     });
 

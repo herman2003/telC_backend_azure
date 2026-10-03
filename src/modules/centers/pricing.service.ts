@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { amountWithVatXaf } from './vat';
 
 /**
  * What a seat costs.
@@ -108,13 +109,14 @@ export class PricingService {
     }
 
     const unitPriceXaf = this.priceFor(context);
+    // unitPrice stays HT (catalogue / grandfathered stamp). totalXaf is TTC:
+    // providers only accept one integer amount, with no VAT field.
+    const netXaf = seats * unitPriceXaf;
 
     return {
       seats,
       unitPriceXaf,
-      // Two integers multiplied, so the result is exact. XAF has no minor
-      // units; there is nothing here to round and nothing to lose.
-      totalXaf: seats * unitPriceXaf,
+      totalXaf: amountWithVatXaf(netXaf),
     };
   }
 
@@ -179,7 +181,8 @@ export class PricingService {
 
     // Last, because it is the only rule that needs a price. An order that
     // fails a floor is refused on the floor, which is the more useful answer.
-    if (seats * this.priceFor(context) > MAX_AMOUNT_XAF) {
+    // Ceiling is on the TTC amount that would be stored / sent to the provider.
+    if (amountWithVatXaf(seats * this.priceFor(context)) > MAX_AMOUNT_XAF) {
       return { code: 'AMOUNT_ABOVE_MAXIMUM', maximumAmountXaf: MAX_AMOUNT_XAF };
     }
 

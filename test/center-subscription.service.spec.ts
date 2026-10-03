@@ -6,6 +6,7 @@ import {
   PricingService,
   START_PRICE_XAF,
 } from '../src/modules/centers/pricing.service';
+import { amountWithVatXaf } from '../src/modules/centers/vat';
 import { CenterSeatsService } from '../src/modules/centers/center-seats.service';
 
 /**
@@ -161,7 +162,8 @@ describe('CenterSubscriptionService', () => {
       await expect(service.quote(identity, 10)).resolves.toEqual({
         seats: 10,
         unitPriceXaf: START_PRICE_XAF,
-        totalXaf: 10 * START_PRICE_XAF,
+        // HT 45_000 → TTC with 18% VAT
+        totalXaf: 53_100,
       });
     });
 
@@ -170,7 +172,7 @@ describe('CenterSubscriptionService', () => {
 
       await expect(service.quote(identity, 10)).resolves.toMatchObject({
         unitPriceXaf: 4_000,
-        totalXaf: 40_000,
+        totalXaf: 47_200, // 40_000 HT + 18% VAT
       });
     });
 
