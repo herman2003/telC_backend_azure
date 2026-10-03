@@ -142,25 +142,71 @@ jobs:
       - name: End-to-end tests
         run: npx jest --ci --config ./test/jest-e2e.json
 
-      # THE INTEGRATION SUITE IS NOT RUN HERE, AND THAT IS THE REMAINING HOLE.
-      #
-      # It is 26 suites and 335 tests against real Postgres, and it is where the
-      # payment, period and activation rules are actually pinned — a merge reached
-      # dev with it red, which is what prompted adding the lint step above.
-      #
-      # Running it here needs three things, none of them hard but none of them
-      # free:
-      #
-      #   1. a `postgres` service container, so runs cannot collide the way they
-      #      would sharing one Neon branch (the suite deletes shared center and
-      #      student rows and already runs maxWorkers: 1 for that reason);
-      #   2. `prisma migrate deploy` against it;
-      #   3. the Modelltest seeds — 002_seed_modelltest1.sql and the files after
-      #      it. Migrations alone are not enough: exam-sitting-integration.spec.ts
-      #      reads "the Hören exercise of Modelltest 1, as seeded", and several
-      #      other suites do the same.
-      #
-      # Step 3 is the work. It is deliberately not guessed at here, because a job
-      # that lands red makes CI noise for everybody and teaches people to ignore
-      # it, which is worse than a gate that honestly says what it does not cover.
-      # Tracked in tasks/phases/24-integration-in-ci-todo.md.
+  # The suite that pins the payment, period, renewal and activation rules: 26
+  # suites and 335 tests against real Postgres. It did not run here until now,
+  # which is how a merge reached dev with it red.
+  #
+  # Its own job, with its own database, rather than steps on the one above. The
+  # suite deletes shared center and student rows — that is why it already sets
+  # maxWorkers: 1 — so two runs sharing one database would pull each other's
+  # fixtures out from under them. A service container is per-run and free; the
+  # Neon branch in .env.test is neither.
+  integration:
+    name: Integration tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: ci
+        ports:
+          - 5432:5432
+        # Without this the steps start before Postgres accepts connections, and
+        # the failure looks like a migration bug rather than a race.
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      # test/jest-integration-setup.ts requires DIRECT_URL, promotes it to
+      # DATABASE_URL, and refuses to run against the live host. prisma.config.ts
+      # reads the same variable for migrations. One value serves all three.
+      DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      # The setup file supplies the JWT and HMAC secrets itself, padded to the
+      # length AppModule demands. These are the ones nothing else provides.
+      RESEND_API_KEY: ci-dummy-resend-key
+      GOOGLE_CLIENT_ID: ci-dummy-google-client-id
+      EMAIL_FROM: ci@example.invalid
+      FRONTEND_URL: http://localhost:3000
+      GEMINI_API_KEY: ci-dummy-gemini-key
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      # The whole database, from nothing, by migration alone. This is also the
+      # standing proof that the chain is complete: Modelltest 1's Lesen and
+      # Sprachbausteine were missing from it until 2026-10-03, and nobody
+      # noticed because every database that mattered had been seeded by hand.
+      # If that ever happens again, the exam suites below fail here.
+      - name: Apply migrations
+        run: npx prisma migrate deploy
+
+      - name: Integration tests
+        run: npx jest --ci --config ./test/jest-integration.json

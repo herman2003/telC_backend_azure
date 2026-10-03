@@ -1,6 +1,6 @@
-# The integration suite is not in CI, and that is the gate that matters
+# The integration suite in CI — done 2026-10-03
 
-## Why this is the remaining hole
+## Why it mattered
 
 PR #16 reached `dev` with the integration suite red and lint red. Lint now has a
 ratchet in `.github/workflows/test.yml`. Integration does not run at all, and it
@@ -12,13 +12,13 @@ only by somebody remembering to run them.
 
 Three things, none hard, one of them real work.
 
-- [ ] A `postgres` service container in the workflow. Not a shared Neon branch:
+- [x] A `postgres` service container in the workflow. Not a shared Neon branch:
       the suite deletes shared center and student rows, which is why it already
       runs `maxWorkers: 1`, and two concurrent CI runs on one database would
       remove each other's fixtures. `test/jest-integration-setup.ts` promotes
       `DIRECT_URL` to `DATABASE_URL` and refuses `ep-wandering-hall`, so a local
       container URL satisfies it as written.
-- [ ] `npx prisma migrate deploy` against that container.
+- [x] `npx prisma migrate deploy` against that container.
 - [x] ~~**The Modelltest seeds.**~~ Done on 2026-10-03: folded into
       `20261003170000_seed_modelltest1_lesen_sprachbausteine`, and the six root
       SQL files deleted. `migrate deploy` now builds a complete database, so
@@ -58,3 +58,10 @@ pass against it, that is the evidence.
 - Do not point CI at the `.env.test` Neon branch to get this done quickly.
   Concurrent runs would make the suite flaky, and a flaky gate is re-run rather
   than read.
+
+## Done
+
+Added as its own job in `.github/workflows/test.yml`, with a `postgres:16`
+service and `prisma migrate deploy`. It builds the database from nothing on
+every run, so it is also the standing proof that the migration chain is
+complete — the thing that was not true until the seeds were folded in.
