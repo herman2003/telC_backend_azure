@@ -87,22 +87,28 @@ export class ExamModelltestsService {
       throw new NotFoundException('MODELLTEST_NOT_FOUND');
     }
 
-    const [lesen, sprachbausteine, hoerenTeile, schreiben, sprechen, audioRows] =
-      await Promise.all([
-        this.lesen.getExercise(modelltest.number),
-        this.sprachbausteine.getExercise(modelltest.number),
-        Promise.all(
-          [1, 2, 3].map((part) =>
-            this.listening.getExamTeil(modelltest.number, part),
-          ),
+    const [
+      lesen,
+      sprachbausteine,
+      hoerenTeile,
+      schreiben,
+      sprechen,
+      audioRows,
+    ] = await Promise.all([
+      this.lesen.getExercise(modelltest.number),
+      this.sprachbausteine.getExercise(modelltest.number),
+      Promise.all(
+        [1, 2, 3].map((part) =>
+          this.listening.getExamTeil(modelltest.number, part),
         ),
-        this.writing.getExerciseByModelltest(modelltest.number),
-        this.speaking.getTeils(modelltest.number),
-        this.prisma.listeningExercise.findMany({
-          where: { modelltest_id: modelltest.id },
-          select: { id: true, audio_url: true },
-        }),
-      ]);
+      ),
+      this.writing.getExerciseByModelltest(modelltest.number),
+      this.speaking.getTeils(modelltest.number),
+      this.prisma.listeningExercise.findMany({
+        where: { modelltest_id: modelltest.id },
+        select: { id: true, audio_url: true },
+      }),
+    ]);
 
     const audioById = new Map(
       audioRows.map((row) => [row.id, row.audio_url] as const),

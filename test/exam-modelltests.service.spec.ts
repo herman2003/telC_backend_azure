@@ -49,7 +49,7 @@ describe('ExamModelltestsService', () => {
     });
     listeningGetExamTeil = jest
       .fn()
-      .mockImplementation(async (_n: number, part: number) => ({
+      .mockImplementation((_n: number, part: number) => ({
         audioId: `audio-${part}`,
         playsAllowed: 1,
         imagePath: `/img/${part}.png`,
@@ -61,9 +61,9 @@ describe('ExamModelltestsService', () => {
       title: 'Schreiben',
       prompt: 'Write something',
     });
-    speakingGetTeils = jest.fn().mockResolvedValue([
-      { part: 1, title: 'Teil 1', topicTitle: 'Thema' },
-    ]);
+    speakingGetTeils = jest
+      .fn()
+      .mockResolvedValue([{ part: 1, title: 'Teil 1', topicTitle: 'Thema' }]);
 
     const prisma = {
       center: {
@@ -218,13 +218,7 @@ describe('ExamModelltestsService', () => {
         title: 'Modelltest 2',
       });
       expect(Object.keys(content.sections).sort()).toEqual(
-        [
-          'HOEREN',
-          'LESEN',
-          'SCHREIBEN',
-          'SPRECHEN',
-          'SPRACHBAUSTEINE',
-        ].sort(),
+        ['HOEREN', 'LESEN', 'SCHREIBEN', 'SPRECHEN', 'SPRACHBAUSTEINE'].sort(),
       );
       expect(content.sections.HOEREN).toEqual([
         expect.objectContaining({
