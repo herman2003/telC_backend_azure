@@ -155,9 +155,9 @@ export class EntitlementsController {
   @Put('codes/:codeId/entitlements/:product')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Let one seat draw on the pool, or give it a period',
+    summary: 'Assign credits to a seat, or give it a period',
     description:
-      'For AI_SPEAKING_CREDIT this sets the cap and spends nothing — the pool is spent when a session runs, and the number replaces whatever was there because a manager typing 12 means twelve. For PREP_PASS and AI_ASSISTED_LEARNING it takes one from the pool and grants the period, counted from now.',
+      'For AI_SPEAKING_CREDIT this sets assigned remaining on the seat and moves the delta from/to the unallocated school pool (typing 12 means twelve). For PREP_PASS and AI_ASSISTED_LEARNING it takes one from the pool and grants the period, counted from now.',
   })
   @ApiParam({ name: 'product', enum: EntitlementProduct })
   @ApiBadRequestResponse({
@@ -187,9 +187,9 @@ export class EntitlementsController {
   @Delete('codes/:codeId/entitlements/:product')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Stop a seat drawing on the pool',
+    summary: 'Return unused AI Speaking credits to the school pool',
     description:
-      'Sets the cap to zero. Never a refund and never a period cut short: a student keeps the sixty days their center bought them, and their already-spent sessions stay spent. What this stops is the next one.',
+      'For AI_SPEAKING_CREDIT, unused assigned credits go back to unallocated stock and the seat is cleared. Never a card refund and never a period cut short: a student keeps the sixty days their center bought them, and already-spent sessions stay spent.',
   })
   @ApiParam({ name: 'product', enum: EntitlementProduct })
   @ApiNotFoundResponse({

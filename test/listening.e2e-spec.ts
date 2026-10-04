@@ -4,6 +4,7 @@ import request from 'supertest';
 import { App } from 'supertest/types';
 import { ListeningController } from '../src/modules/listening/listening.controller';
 import { ListeningService } from '../src/modules/listening/listening.service';
+import { TrainingAudioService } from '../src/modules/listening/training-audio.service';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
 import { createGlobalValidationPipe } from '../src/shared/pipes/global-validation.pipe';
@@ -18,7 +19,8 @@ describe('Listening API scoring and answer security (e2e)', () => {
     content_revision: 'listening-v1',
     audio_url: 'https://example.test/audio.mp3',
     bundled_audio_asset: null,
-    image_url: null,
+    image_url: 'https://example.test/image.png',
+    exam_plays_allowed: 1,
     questions: [
       {
         question_number: 41,
@@ -53,6 +55,10 @@ describe('Listening API scoring and answer security (e2e)', () => {
       controllers: [ListeningController],
       providers: [
         ListeningService,
+        {
+          provide: TrainingAudioService,
+          useValue: { play: jest.fn() },
+        },
         { provide: PrismaService, useValue: prisma },
       ],
     })
@@ -78,16 +84,26 @@ describe('Listening API scoring and answer security (e2e)', () => {
 
   afterEach(async () => app.close());
 
-  it('does not expose correct answers when fetching an exercise', async () => {
+  it('does not expose correct answers or durable audio URLs when fetching an exercise', async () => {
     const response = await request(app.getHttpServer())
       .get('/api/listening/exercise?teil=1&modelltest=1')
       .expect(200);
 
-    expect(response.body.questions).toEqual([
-      { id: 'q41', prompt: 'Statement 41' },
-      { id: 'q42', prompt: 'Statement 42' },
-    ]);
+    expect(response.body).toMatchObject({
+      audioId: 'exercise-1',
+      playsAllowed: 1,
+      contentRevision: 'listening-v1',
+      imagePath: 'https://example.test/image.png',
+      questions: [
+        { id: 'q41', prompt: 'Statement 41' },
+        { id: 'q42', prompt: 'Statement 42' },
+      ],
+    });
     expect(JSON.stringify(response.body)).not.toContain('correct_answer');
+    expect(JSON.stringify(response.body)).not.toContain('audio_url');
+    expect(JSON.stringify(response.body)).not.toContain(
+      'https://example.test/audio.mp3',
+    );
   });
 
   it('computes the score in the real service and persists it', async () => {

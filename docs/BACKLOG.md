@@ -282,8 +282,8 @@ absolute paths from a previous folder location
 never match. Cosmetic.
 
 ### Azure references in historical docs
-Base-URL examples in `HOREN_API_FRONTEND.md`, `SCHREIBEN_API_FRONTEND.md`,
-`SPRECHEN_ROOM_ICE_SERVERS_API.md`, `listening_horen_rest.md`, `PLAN.md`,
+Base-URL examples in `SCHREIBEN_API_FRONTEND.md`,
+`SPRECHEN_ROOM_ICE_SERVERS_API.md`, `PLAN.md`,
 `ideas/auth-system-overhaul.md`. The operational ones are done;
 `SPRECHEN_ROOM_REFERENCE.md`'s remaining mentions are deliberate
 Azure-vs-App-Platform comparisons.

@@ -74,9 +74,10 @@ const DEFAULT_PAGE_SIZE = 20;
 /**
  * What a center holds, and who may draw on it.
  *
- * Three shapes, and each is here for a reason set out in ADR 0002: a pool is
- * what was bought, a cap is permission to spend from it, and an entitlement is
- * a period that has already left the pool.
+ * ADR 0003 (AI Speaking): the pool is **unallocated** stock; a seat's `cap` is
+ * **assigned remaining**. Assign moves stock onto the seat; spend burns the
+ * seat balance; remove returns unused to the pool. Prep Pass / AI Assisted
+ * Learning still leave the pool as a period grant (ADR 0002).
  *
  * Caps and periods hang off the activation code rather than the student. A
  * code exists before anybody holds it, so a center can buy ahead; and a seat
@@ -207,14 +208,14 @@ export class EntitlementsService {
   }
 
   /**
-   * Sets how much of the pool one seat may draw.
+   * Sets how many credits this seat holds (assigned remaining).
    *
-   * Replaces rather than adds, the opposite of what activation does. Buying
-   * more credit is more allowance; a manager typing 12 into a box means
-   * twelve. Zero is legal and is how somebody is stopped.
+   * Absolute: a manager typing 12 means twelve on the seat. The delta is
+   * taken from or returned to the unallocated pool in the same transaction,
+   * so assign cannot oversubscribe stock. Zero returns everything unused.
    *
-   * It spends nothing: a cap is permission, and the pool is spent when a
-   * session actually runs.
+   * The seat row is locked (`FOR UPDATE`) before the delta is computed, so a
+   * concurrent spend or second assign cannot invent or lose credits.
    */
   async setCap(
     identity: SignedCenterIdentity,
@@ -230,11 +231,70 @@ export class EntitlementsService {
 
     const code = await this.requireOwnCode(identity, codeId);
 
-    const row = await this.prisma.codeEntitlementCap.upsert({
-      where: { code_id_product: { code_id: codeId, product } },
-      create: { code_id: codeId, product, cap },
-      update: { cap },
-      select: { cap: true, used: true },
+    const row = await this.prisma.$transaction(async (tx) => {
+      // Ensure a row exists so FOR UPDATE has something to lock.
+      await tx.$executeRaw`
+        INSERT INTO code_entitlement_caps
+          (code_id, product, cap, used, created_at, updated_at)
+        VALUES (
+          ${codeId},
+          ${product}::"EntitlementProduct",
+          0,
+          0,
+          now(),
+          now()
+        )
+        ON CONFLICT (code_id, product) DO NOTHING
+      `;
+
+      const locked = await tx.$queryRaw<{ cap: number; used: number }[]>`
+        SELECT cap, used
+          FROM code_entitlement_caps
+         WHERE code_id = ${codeId}
+           AND product = ${product}::"EntitlementProduct"
+         FOR UPDATE
+      `;
+      const previous = locked[0]?.cap ?? 0;
+      const used = locked[0]?.used ?? 0;
+      const delta = cap - previous;
+
+      if (delta > 0) {
+        const moved = await tx.centerEntitlementPool.updateMany({
+          where: {
+            center_id: identity.centerId,
+            product,
+            balance: { gte: delta },
+          },
+          data: { balance: { decrement: delta } },
+        });
+        if (moved.count !== 1) {
+          throw new BadRequestException('NOT_ENOUGH_ENTITLEMENTS');
+        }
+      } else if (delta < 0) {
+        await tx.centerEntitlementPool.upsert({
+          where: {
+            center_id_product: {
+              center_id: identity.centerId,
+              product,
+            },
+          },
+          create: {
+            center_id: identity.centerId,
+            product,
+            balance: -delta,
+          },
+          update: { balance: { increment: -delta } },
+        });
+      }
+
+      if (delta !== 0) {
+        await tx.codeEntitlementCap.update({
+          where: { code_id_product: { code_id: codeId, product } },
+          data: { cap },
+        });
+      }
+
+      return { cap, used };
     });
 
     return {
@@ -309,10 +369,13 @@ export class EntitlementsService {
   }
 
   /**
-   * Stops a seat drawing on the pool.
+   * Returns unused assigned credits to the school pool and clears the seat.
    *
-   * Never a refund and never a period cut short. A student keeps the sixty
-   * days their center bought them; what this stops is the next one.
+   * Never a card refund and never a period cut short. Already-spent sessions
+   * stay spent (`used` is left alone).
+   *
+   * Locks the seat row before returning stock, so a concurrent spend cannot
+   * burn a credit that is also put back into the pool.
    */
   async revoke(
     identity: SignedCenterIdentity,
@@ -327,12 +390,41 @@ export class EntitlementsService {
       return { revoked: false };
     }
 
-    const stopped = await this.prisma.codeEntitlementCap.updateMany({
-      where: { code_id: codeId, product },
-      data: { cap: 0 },
-    });
+    return this.prisma.$transaction(async (tx) => {
+      const locked = await tx.$queryRaw<{ cap: number }[]>`
+        SELECT cap
+          FROM code_entitlement_caps
+         WHERE code_id = ${codeId}
+           AND product = ${product}::"EntitlementProduct"
+         FOR UPDATE
+      `;
+      const remaining = locked[0]?.cap ?? 0;
+      if (remaining === 0) {
+        return { revoked: false };
+      }
 
-    return { revoked: stopped.count === 1 };
+      await tx.centerEntitlementPool.upsert({
+        where: {
+          center_id_product: {
+            center_id: identity.centerId,
+            product,
+          },
+        },
+        create: {
+          center_id: identity.centerId,
+          product,
+          balance: remaining,
+        },
+        update: { balance: { increment: remaining } },
+      });
+
+      await tx.codeEntitlementCap.update({
+        where: { code_id_product: { code_id: codeId, product } },
+        data: { cap: 0 },
+      });
+
+      return { revoked: true };
+    });
   }
 
   /**

@@ -197,15 +197,16 @@ describe('a school, from its first 4,500 to a spent credit', () => {
       });
     }
 
-    // Five sessions run and the school has paid for nothing yet.
+    // Five free sessions run; unallocated stock is untouched (40 bought,
+    // 10 already assigned to this seat → 30 left in the school pool).
     await expect(
       prisma.centerEntitlementPool.findFirstOrThrow({
         where: { center_id: school.id },
         select: { balance: true },
       }),
-    ).resolves.toEqual({ balance: 40 });
+    ).resolves.toEqual({ balance: 30 });
 
-    // ---- 6. The sixth session spends a credit.
+    // ---- 6. The sixth session spends an assigned credit (not the pool).
     const sixth = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
     expect(sixth).toMatchObject({ allowed: true, freeRemaining: 0 });
 
@@ -216,14 +217,14 @@ describe('a school, from its first 4,500 to a spent credit', () => {
         where: { center_id: school.id },
         select: { balance: true },
       }),
-    ).resolves.toEqual({ balance: 39 });
+    ).resolves.toEqual({ balance: 30 });
 
     await expect(
       prisma.codeEntitlementCap.findFirstOrThrow({
         where: { code_id: onPaid.id },
         select: { cap: true, used: true },
       }),
-    ).resolves.toEqual({ cap: 10, used: 1 });
+    ).resolves.toEqual({ cap: 9, used: 1 });
   });
 
   it('refuses credits bought for a seat that no longer exists', async () => {
@@ -307,12 +308,18 @@ describe('a school, from its first 4,500 to a spent credit', () => {
       'FROZEN',
     );
 
-    // Nothing taken. The balance is waiting for them.
+    // Nothing taken. Unallocated stock and the seat assignment wait.
     await expect(
       prisma.centerEntitlementPool.findFirstOrThrow({
         where: { center_id: school.id },
         select: { balance: true },
       }),
-    ).resolves.toEqual({ balance: 40 });
+    ).resolves.toEqual({ balance: 30 });
+    await expect(
+      prisma.codeEntitlementCap.findFirstOrThrow({
+        where: { code_id: seat.id },
+        select: { cap: true, used: true },
+      }),
+    ).resolves.toEqual({ cap: 10, used: 0 });
   });
 });

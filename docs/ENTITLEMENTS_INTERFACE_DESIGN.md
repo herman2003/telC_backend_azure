@@ -21,23 +21,23 @@ Read §1 and §2. The rest is detail.
 ## 1. The shape, in one picture
 
 ```
-  a POOL is counted              a CAP is permission        an ASSIGNMENT is timed
+  UNALLOCATED pool               ASSIGNED remaining         an ASSIGNMENT is timed
   ───────────────────            ───────────────────        ──────────────────────
   center_entitlement_pools       code_entitlement_caps      code_entitlements
   (center_id, product)           (code_id, product)         (code_id, product)
-   balance: 40                    cap: 10, used: 6           expires_at: 2026-12-04
+   balance: 30                    cap: 4, used: 6            expires_at: 2026-12-04
 ```
 
 | product | how it is held | why |
 |---|---|---|
-| **AI Speaking credits** | pool + cap | the pot is the money, the cap is who may draw on it |
+| **AI Speaking credits** | unallocated + assigned | buy stock, assign to seats, remove returns unused (ADR 0003) |
 | **Prep Pass** | pool → assignment | bought in bulk, handed out as 60 days on one seat |
 | **AI Assisted Learning** | pool → assignment | same, a month at a time |
 | **Start's 5 free sessions** | **nothing stored** | derived, see §5 |
 
 ---
 
-## 2. The pool and the cap, worked through
+## 2. AI Speaking: assign from stock (ADR 0003)
 
 **Centre Douala.** 10 students, 10 codes, Start paid. AI Speaking for four of them.
 
@@ -52,59 +52,37 @@ Credits:   40                          →  12 000 FCFA
 ### What the webhook writes
 
 ```
-POOL                         CAPS
-ai_speaking_credits: 40      Marie's code 10   Paul's 10   Awa's 10   Jean's 10
+UNALLOCATED                  ASSIGNED (cap = remaining)
+ai_speaking: 0               Marie 10   Paul 10   Awa 10   Jean 10
                              every other code: 0
 ```
 
-**The pool is the money. The cap is the permission.** A session takes one from
-each.
+Stock moves onto seats at assign time. A session burns one from the seat only;
+unallocated is unchanged by spend. Remove returns unused assigned credits to
+unallocated. Full spec: [AI_SPEAKING_CREDITS_ASSIGN_SPEC.md](./AI_SPEAKING_CREDITS_ASSIGN_SPEC.md).
 
 ### Week 1
 
-| | Marie | Paul | Awa | Jean | pool |
+| | Marie rem/used | Paul | Awa | Jean | unallocated |
 |---|---|---|---|---|---|
-| start | 0/10 | 0/10 | 0/10 | 0/10 | 40 |
-| Marie × 6 | **6/10** | 0/10 | 0/10 | 0/10 | **34** |
-| Paul × 2 | 6/10 | **2/10** | 0/10 | 0/10 | **32** |
+| start | 10 / 0 | 10/0 | 10/0 | 10/0 | 0 |
+| Marie × 6 | **4 / 6** | 10/0 | 10/0 | 10/0 | 0 |
+| Paul × 2 | 4/6 | **8 / 2** | 10/0 | 10/0 | 0 |
 
-### Week 2 — the case that decides the design
-
-Marie has used her 10 and needs 2 more before Friday.
-
-**If credits were wallets** — 40 split into four purses:
+### Week 2 — give Marie two more
 
 ```
-Marie: 0 left → REFUSED
-Paul 8 unused, Awa 10, Jean 9 → 27 credits exist and cannot reach her
-The centre buys more while holding 27 it cannot use. It will call us.
+Unallocated must have stock (buy more, or revoke unused from someone else).
+PUT Marie { cap: 6 } → moves 2 from unallocated onto Marie.
+Marie runs 2 → assigned 4, used 8. Unallocated unchanged by spend.
 ```
 
-**With pool + cap:**
+### Remove
 
 ```
-The manager changes Marie's cap from 10 to 12. One number.
-Pool 22 → Marie runs 2 → pool 20. Nothing bought, nothing stranded.
+DELETE Marie → unallocated += remaining; Marie assigned = 0.
+Already-spent sessions stay spent. No card refund.
 ```
-
-### End of month
-
-```
-POOL: 20        CAPS: Marie 12/12, Paul 3/10, Awa 0/10, Jean 5/10
-```
-
-The 20 stay. Next month the manager points the caps at five different
-candidates without buying anything, because the credits were never locked to a
-person.
-
-### Why a cap, not a wallet
-
-| | wallet | cap |
-|---|---|---|
-| what it is | money moved onto a person | a ceiling on a shared pot |
-| a student needs 2 more | buy again, or move money | change one number |
-| unused credit | stranded on whoever did not use it | already back in the pot |
-| **cap 0** | — | **this is "authorised"**: nobody spends by default |
 
 ---
 
@@ -260,14 +238,14 @@ DELETE /api/centers/me/codes/{codeId}/entitlements/{product}
 GET    /api/centers/me/entitlements/{product}/codes?page=1&pageSize=20&search=
 ```
 
-- for **credits**, `PUT` sets the cap. It spends nothing — the pool is spent
-  when a session runs.
+- for **credits**, `PUT` sets assigned remaining and moves the delta from/to
+  the unallocated pool (`NOT_ENOUGH_ENTITLEMENTS` if stock is short).
 - for **Prep Pass** and **AI Assisted Learning**, `PUT` takes one from the pool
   and grants the period, in one transaction. Refused with
   `NOT_ENOUGH_ENTITLEMENTS` on an empty pool.
-- `DELETE` sets a cap to 0, or stops a renewal. It **never refunds and never
-  cuts short a period already paid for** — a student keeps the 60 days bought
-  for them.
+- `DELETE` returns unused AI Speaking credits to unallocated stock, or is a
+  no-op for periods. It **never refunds to card and never cuts short a period
+  already paid for** — a student keeps the 60 days bought for them.
 
 ### The student reads what they hold
 
@@ -280,9 +258,8 @@ GET /api/me/entitlements
                   creditsAvailable: 8 } }
 ```
 
-`creditsAvailable` is **the smaller of** what is left in the pool and what is
-left of this seat's cap — the number the student can actually use, not two
-numbers for the app to reason about.
+`creditsAvailable` is **assigned remaining** on this seat (ADR 0003) — not
+unallocated school stock.
 
 No student-facing purchase endpoint exists, and none should.
 

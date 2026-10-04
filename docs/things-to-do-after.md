@@ -6,14 +6,17 @@ Open follow-ups that are decided but not yet implemented.
 
 ## Align Hören training and exam payload structure
 
-**Status:** todo  
-**Area:** `src/modules/listening` (entraînement) vs exam block content / audio play
+**Status:** backend implemented on `feat/horen-training-exam-align` (ops: R2 MP3 upload + Flutter still open)  
+**Spec:** `docs/HOREN_TRAINING_EXAM_ALIGN_SPEC.md`  
+**Plan:** `docs/HOREN_TRAINING_EXAM_ALIGN_PLAN.md`  
+**Area:** `src/modules/listening` (entraînement) vs exam block content / audio play  
+**Branch:** `feat/horen-training-exam-align`
 
 ### Goal
 
 Training mode and exam mode must expose the **same structure** for a Hören Teil
-(same field names and meaning), so the Flutter client can share one model and
-one playback flow instead of two shapes.
+and the **same play → token → API proxy** flow. Audio files stay in Cloudflare
+R2; students never get a durable R2 URL in the exercise JSON.
 
 ### Why
 
@@ -22,35 +25,26 @@ Today the paths diverge:
 | Concern | Exam mode | Training (`GET /api/listening/exercise`) |
 |--------|-----------|------------------------------------------|
 | Play limit | `playsAllowed` from `exam_plays_allowed` | not returned |
-| Audio access | `audioId` + `POST .../audio/{id}/play` → `playsRemaining` | direct `audio_url` / `bundled_audio_asset` |
+| Audio access | `audioId` + `POST .../audio/{id}/play` → stream URL | direct `audio_url` / `bundled_audio_asset` |
 | Enforcement | server (`exam_audio_plays`) | none |
 
 Exam is the reference shape. Training must catch up.
 
 ### Work required
 
-1. Change the **entraînement Hören** exercise endpoint so its response matches
-   the exam Teil structure (at least `audioId`, `playsAllowed`, questions /
-   image / revision fields as exam serves them — no bare replayable URL that
-   bypasses the count).
-2. Wire training playback to a counted play path (or an equivalent that keeps
-   the same contract), so `playsAllowed` / remaining plays mean the same in
-   both modes.
-3. Update frontend docs (`docs/listening_horen_rest.md`,
-   `docs/HOREN_API_FRONTEND.md`) once the contract is unified.
-4. Add / adjust tests so training and exam payloads stay in lockstep.
-
-### Notes
-
-- Source of truth for the allowance stays `listening_exercises.exam_plays_allowed`.
-- Hiding a play button on the client is not enough; the server must own the count
-  in both modes if the structures are truly the same.
+1. Ops: upload MP3s to R2 (`lerniqo`) and set `listening_exercises.audio_url`.
+2. Change training GET exercise to exam Teil shape (`audioId`, `playsAllowed`,
+   `contentRevision`, …) — no bare audio URL.
+3. Add training counted play + stream proxy (`training_audio_plays`).
+4. Tests so training and exam contracts stay aligned; Flutter follow-up.
 
 ---
 
 ## Harden center session timeouts (idle + absolute)
 
-**Status:** todo  
+**Status:** backend shipped on `feat/center-session-timeouts` (front `sprach` clear-storage still open)  
+**Spec:** `docs/CENTER_SESSION_TIMEOUTS_SPEC.md`  
+**Plan:** `docs/CENTER_SESSION_TIMEOUTS_PLAN.md`  
 **Area:** `src/modules/auth/token.service.ts`, `src/modules/centers/center-auth.service.ts`,
 `CenterDeviceSession` / guards; Azure env; front `sprach` center auth storage / refresh
 

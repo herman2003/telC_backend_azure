@@ -675,9 +675,10 @@ describe('an add-on payment', () => {
     await expect(poolOf(center.id, 'PREP_PASS')).resolves.toBe(6);
   });
 
-  it('applies the caps the manager chose at purchase', async () => {
+  it('assigns purchased credits onto the seats the manager chose', async () => {
     // The choice was made hours earlier and nothing may be granted before
-    // money moves, so it travelled on the payment.
+    // money moves, so it travelled on the payment. Stock moves into seats;
+    // unallocated ends at zero when the whole purchase is assigned.
     const center = await makeCenter();
     const first = await makeCode(center.id);
     const second = await makeCode(center.id);
@@ -690,6 +691,7 @@ describe('an add-on payment', () => {
 
     await activation.activate(payment.id);
 
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(0);
     const caps = await prisma.codeEntitlementCap.findMany({
       where: { code_id: { in: [first.id, second.id] } },
       select: { cap: true, used: true },
@@ -698,9 +700,9 @@ describe('an add-on payment', () => {
     expect(caps.every((row) => row.cap === 10 && row.used === 0)).toBe(true);
   });
 
-  it('raises a cap that already exists rather than replacing it', async () => {
-    // A second purchase for the same seat is more allowance, not a reset —
-    // and a reset would silently undo a cap a manager had raised by hand.
+  it('raises an assignment that already exists rather than replacing it', async () => {
+    // A second purchase for the same seat is more stock, not a reset —
+    // and a reset would silently undo an assignment a manager had raised.
     const center = await makeCenter();
     const code = await makeCode(center.id);
     await prisma.codeEntitlementCap.create({
@@ -728,9 +730,10 @@ describe('an add-on payment', () => {
     });
     expect(cap.cap).toBe(20);
     expect(cap.used).toBe(6);
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(0);
   });
 
-  it('still credits the pool when a chosen code has since been deactivated', async () => {
+  it('keeps unassigned units in the pool when a chosen code was deactivated', async () => {
     // The money moved. A grant that cannot be fully applied must not fail the
     // activation and leave the centre paying for nothing.
     const center = await makeCenter();
@@ -750,7 +753,8 @@ describe('an add-on payment', () => {
       ).id,
     );
 
-    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(20);
+    // 20 purchased, 10 assigned to the live seat, 10 stay unallocated.
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(10);
     const caps = await prisma.codeEntitlementCap.findMany({
       where: { code_id: { in: [live.id, gone.id] } },
     });
@@ -793,7 +797,8 @@ describe('an add-on payment', () => {
     const second = await activation.activate(payment.id);
 
     expect(second.outcome).toBe('ALREADY_ACTIVE');
-    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(40);
+    // 40 purchased, 10 assigned, 30 unallocated — and the replay adds nothing.
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(30);
     const cap = await prisma.codeEntitlementCap.findUniqueOrThrow({
       where: {
         code_id_product: { code_id: code.id, product: 'AI_SPEAKING_CREDIT' },

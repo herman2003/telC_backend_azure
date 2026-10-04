@@ -5,9 +5,8 @@ import { SubscriptionPolicyService } from '../src/modules/centers/subscription-p
 /**
  * What a centre holds, and who may draw on it.
  *
- * The rules, with a mocked Prisma. What a mock cannot prove — that the pool
- * and the cap move together, and that two spends of the last credit cannot
- * both win — is in `entitlements-integration.spec.ts` against real Postgres.
+ * The rules, with a mocked Prisma. What a mock cannot prove — that assign and
+ * spend move stock atomically under FOR UPDATE — is in the integration specs.
  */
 describe('EntitlementsService', () => {
   const identity = { centerId: 'center-1', centerUserId: 'user-1' } as never;
@@ -20,11 +19,14 @@ describe('EntitlementsService', () => {
       centerEntitlementPool: {
         findMany: jest.fn().mockResolvedValue([]),
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
+        upsert: jest.fn().mockResolvedValue({}),
       },
       codeEntitlementCap: {
         findMany: jest.fn().mockResolvedValue([]),
+        findUnique: jest.fn().mockResolvedValue(null),
         groupBy: jest.fn().mockResolvedValue([]),
-        upsert: jest.fn().mockResolvedValue({}),
+        upsert: jest.fn().mockResolvedValue({ cap: 12, used: 0 }),
+        update: jest.fn().mockResolvedValue({}),
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
         count: jest.fn().mockResolvedValue(0),
       },
@@ -33,12 +35,13 @@ describe('EntitlementsService', () => {
         groupBy: jest.fn().mockResolvedValue([]),
         count: jest.fn().mockResolvedValue(0),
       },
-      $queryRaw: jest
-        .fn()
-        .mockResolvedValue([{ expires_at: new Date('2026-12-04') }]),
+      $executeRaw: jest.fn().mockResolvedValue(1),
+      $queryRaw: jest.fn().mockResolvedValue([{ cap: 0, used: 0 }]),
       activationCode: {
         findFirst: jest.fn().mockResolvedValue({
           id: 'code-1',
+          code: 'LQ-TEST',
+          linked_name: null,
           center_id: 'center-1',
           status: 'CONNECTED',
         }),
@@ -58,49 +61,67 @@ describe('EntitlementsService', () => {
     service = new EntitlementsService(prisma, new SubscriptionPolicyService());
   });
 
-  describe('setting a cap', () => {
-    it('writes the cap against the code', async () => {
-      await service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 12);
+  describe('assigning credits', () => {
+    it('locks the seat, then moves stock from the unallocated pool', async () => {
+      const view = await service.setCap(
+        identity,
+        'code-1',
+        'AI_SPEAKING_CREDIT',
+        12,
+      );
 
-      expect(prisma.codeEntitlementCap.upsert).toHaveBeenCalledWith(
+      expect(prisma.$executeRaw).toHaveBeenCalled();
+      expect(prisma.$queryRaw).toHaveBeenCalled();
+      expect(prisma.centerEntitlementPool.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: {
-            code_id_product: {
-              code_id: 'code-1',
-              product: 'AI_SPEAKING_CREDIT',
-            },
-          },
-          create: expect.objectContaining({ cap: 12 }),
-          update: { cap: 12 },
+          where: expect.objectContaining({
+            center_id: 'center-1',
+            product: 'AI_SPEAKING_CREDIT',
+            balance: { gte: 12 },
+          }),
+          data: { balance: { decrement: 12 } },
         }),
+      );
+      expect(prisma.codeEntitlementCap.update).toHaveBeenCalledWith(
+        expect.objectContaining({ data: { cap: 12 } }),
+      );
+      expect(view).toMatchObject({ cap: 12, used: 0 });
+    });
+
+    it('returns unused credits when the absolute assignment is lowered', async () => {
+      prisma.$queryRaw.mockResolvedValue([{ cap: 12, used: 2 }]);
+
+      await service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 5);
+
+      expect(prisma.centerEntitlementPool.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({ balance: 7 }),
+          update: { balance: { increment: 7 } },
+        }),
+      );
+      expect(prisma.codeEntitlementCap.update).toHaveBeenCalledWith(
+        expect.objectContaining({ data: { cap: 5 } }),
       );
     });
 
-    it('replaces rather than adds, because a manager is stating a number', async () => {
-      // The opposite of activation, which increments: buying more credit is
-      // more allowance, but typing 12 into a box means twelve.
-      await service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 12);
+    it('refuses when the unallocated pool cannot cover the increase', async () => {
+      prisma.centerEntitlementPool.updateMany.mockResolvedValue({ count: 0 });
 
-      const call = prisma.codeEntitlementCap.upsert.mock.calls[0][0];
-      expect(call.update).toEqual({ cap: 12 });
+      await expect(
+        service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 12),
+      ).rejects.toThrow('NOT_ENOUGH_ENTITLEMENTS');
     });
 
-    it('allows zero, which is how somebody is stopped', async () => {
+    it('allows zero, which returns unused to the pool', async () => {
+      prisma.$queryRaw.mockResolvedValue([{ cap: 8, used: 2 }]);
+
       await expect(
         service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 0),
-      ).resolves.toBeDefined();
-    });
-
-    it('spends nothing from the pool', async () => {
-      // A cap is permission, not money. The pool is spent when a session runs.
-      await service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 12);
-
-      expect(prisma.centerEntitlementPool.updateMany).not.toHaveBeenCalled();
+      ).resolves.toMatchObject({ cap: 0, used: 2 });
+      expect(prisma.centerEntitlementPool.upsert).toHaveBeenCalled();
     });
 
     it('refuses a code belonging to another centre', async () => {
-      // Scoped inside the query, so a 404 rather than a 403: a 403 would
-      // confirm that somebody else's code exists.
       prisma.activationCode.findFirst.mockResolvedValue(null);
 
       await expect(
@@ -109,16 +130,41 @@ describe('EntitlementsService', () => {
     });
 
     it('refuses a cap on a product that is a period, not a balance', async () => {
-      // A Prep Pass is sixty days, not an allowance of sixty. Capping one is
-      // a client bug and silently doing nothing would hide it.
       await expect(
         service.setCap(identity, 'code-1', 'PREP_PASS', 12),
       ).rejects.toThrow('PRODUCT_HAS_NO_CAP');
     });
   });
 
+  describe('revoke', () => {
+    it('locks the seat, then returns remaining assigned credits to the pool', async () => {
+      prisma.$queryRaw.mockResolvedValue([{ cap: 4 }]);
+
+      const result = await service.revoke(
+        identity,
+        'code-1',
+        'AI_SPEAKING_CREDIT',
+      );
+
+      expect(result).toEqual({ revoked: true });
+      expect(prisma.centerEntitlementPool.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({ balance: 4 }),
+          update: { balance: { increment: 4 } },
+        }),
+      );
+      expect(prisma.codeEntitlementCap.update).toHaveBeenCalledWith(
+        expect.objectContaining({ data: { cap: 0 } }),
+      );
+    });
+  });
+
   describe('granting a period', () => {
     it('takes one from the pool and grants sixty days', async () => {
+      prisma.$queryRaw.mockResolvedValue([
+        { expires_at: new Date('2026-12-04') },
+      ]);
+
       await service.grantPeriod(identity, 'code-1', 'PREP_PASS');
 
       expect(prisma.centerEntitlementPool.updateMany).toHaveBeenCalledWith(
@@ -143,9 +189,6 @@ describe('EntitlementsService', () => {
     });
 
     it('spends from the pool before writing the period', async () => {
-      // Order matters: the conditional decrement is the gate. Writing the
-      // period first would grant a pass the centre had not paid for whenever
-      // the pool turned out to be empty.
       const order: string[] = [];
       prisma.centerEntitlementPool.updateMany.mockImplementation(() => {
         order.push('pool');
@@ -162,14 +205,12 @@ describe('EntitlementsService', () => {
     });
 
     it('writes the expiry in one statement, in the database', async () => {
-      // Sixty days from now for a new pass, and from the existing expiry for
-      // a live one — computed in Postgres rather than read and written back.
-      // Two grants issued together would otherwise each measure from the same
-      // starting point and lose sixty days somebody paid for.
+      prisma.$queryRaw.mockResolvedValue([
+        { expires_at: new Date('2026-12-04') },
+      ]);
+
       await service.grantPeriod(identity, 'code-1', 'PREP_PASS');
 
-      // The interval is named in the statement, so a change to the product's
-      // length cannot silently fail to reach the database.
       const [fragment, ...values] = prisma.$queryRaw.mock.calls[0];
       expect(String(fragment.join('?'))).toContain('code_entitlements');
       expect(values).toContain(60);
@@ -196,9 +237,6 @@ describe('EntitlementsService', () => {
     });
 
     it('marks the pools frozen when Start has lapsed', async () => {
-      // Not deleted, not hidden. The dashboard says "60 crédits en attente,
-      // réglez votre abonnement" — which is the centre's own money arguing
-      // for them to come back.
       prisma.centerSubscription.findUnique.mockResolvedValue({
         plan: 'PAID',
         paid_until: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),

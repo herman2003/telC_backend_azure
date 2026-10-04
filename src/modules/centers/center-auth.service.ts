@@ -25,6 +25,10 @@ import { EmailService } from '../auth/email.service';
 import { locationLabelOf } from '../locations/location-resolver';
 import { TokenService } from '../auth/token.service';
 import {
+  assertCenterSessionWithinTtl,
+  loadCenterSessionTtlPolicy,
+} from './center-session-policy';
+import {
   CenterAuthResponseDto,
   CenterLogoutResponseDto,
   CenterMessageResponseDto,
@@ -118,6 +122,7 @@ interface SignedCenterChangePasswordIdentity {
 @Injectable()
 export class CenterAuthService {
   private readonly logger = new Logger(CenterAuthService.name);
+  private readonly sessionTtl = loadCenterSessionTtlPolicy();
 
   constructor(
     private readonly prisma: PrismaService,
@@ -260,6 +265,26 @@ export class CenterAuthService {
       payload,
       input.refreshToken,
     );
+
+    try {
+      assertCenterSessionWithinTtl(ownedSession, new Date(), this.sessionTtl);
+    } catch (error) {
+      if (
+        error instanceof UnauthorizedException &&
+        error.message === 'CENTER_SESSION_EXPIRED'
+      ) {
+        await this.prisma.centerDeviceSession.updateMany({
+          where: {
+            id: payload.sessionId,
+            center_user_id: payload.centerUserId,
+            revoked_at: null,
+          },
+          data: { revoked_at: new Date() },
+        });
+        await this.revokeCachedSession(payload.sessionId);
+      }
+      throw error;
+    }
 
     const tokens = this.tokenService.generateCenterTokenPair({
       centerUserId: payload.centerUserId,

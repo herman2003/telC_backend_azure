@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 import {
   ExecutionContext,
   ServiceUnavailableException,
@@ -35,10 +35,17 @@ describe('CenterAuthGuard', () => {
     };
     valkeyService = {
       isSessionRevoked: jest.fn().mockResolvedValue(false),
+      revokeSession: jest.fn().mockResolvedValue(undefined),
     };
     prisma = {
       centerDeviceSession: {
-        findFirst: jest.fn().mockResolvedValue({ id: 'center-session-1' }),
+        findFirst: jest.fn().mockResolvedValue({
+          id: 'center-session-1',
+          created_at: new Date(),
+          last_used_at: new Date(),
+          revoked_at: null,
+        }),
+        updateMany: jest.fn().mockResolvedValue({ count: 1 }),
       },
       get deviceSession(): never {
         throw new Error('Student DeviceSession must never be accessed');
@@ -87,9 +94,7 @@ describe('CenterAuthGuard', () => {
     expect(prisma.centerDeviceSession.findFirst).not.toHaveBeenCalled();
   });
 
-  it('falls back to the database when the cache cannot answer', async () => {
-    valkeyService.isSessionRevoked.mockResolvedValue(null);
-
+  it('loads session timestamps from the database even when the cache says active', async () => {
     await expect(
       guard.canActivate(contextFor({ authorization: 'Bearer center-token' })),
     ).resolves.toBe(true);
@@ -100,8 +105,54 @@ describe('CenterAuthGuard', () => {
         device_id: 'browser-1',
         revoked_at: null,
       },
-      select: { id: true },
+      select: {
+        id: true,
+        created_at: true,
+        last_used_at: true,
+        revoked_at: true,
+      },
     });
+    expect(prisma.centerDeviceSession.updateMany).toHaveBeenCalledWith({
+      where: {
+        id: 'center-session-1',
+        center_user_id: 'owner-1',
+        revoked_at: null,
+      },
+      data: { last_used_at: expect.any(Date) },
+    });
+  });
+
+  it('falls back to the database when the cache cannot answer', async () => {
+    valkeyService.isSessionRevoked.mockResolvedValue(null);
+
+    await expect(
+      guard.canActivate(contextFor({ authorization: 'Bearer center-token' })),
+    ).resolves.toBe(true);
+    expect(prisma.centerDeviceSession.findFirst).toHaveBeenCalled();
+  });
+
+  it('rejects and revokes when the idle TTL has elapsed', async () => {
+    prisma.centerDeviceSession.findFirst.mockResolvedValue({
+      id: 'center-session-1',
+      created_at: new Date(Date.now() - 60 * 60_000),
+      last_used_at: new Date(Date.now() - 45 * 60_000),
+      revoked_at: null,
+    });
+
+    await expect(
+      guard.canActivate(contextFor({ authorization: 'Bearer center-token' })),
+    ).rejects.toThrow('CENTER_SESSION_EXPIRED');
+    expect(prisma.centerDeviceSession.updateMany).toHaveBeenCalledWith({
+      where: {
+        id: 'center-session-1',
+        center_user_id: 'owner-1',
+        revoked_at: null,
+      },
+      data: { revoked_at: expect.any(Date) },
+    });
+    expect(valkeyService.revokeSession).toHaveBeenCalledWith(
+      'center-session-1',
+    );
   });
 
   it('rejects when the cache is silent and no active session remains', async () => {
