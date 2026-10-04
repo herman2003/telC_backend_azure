@@ -22,8 +22,9 @@ const MAX_CODES = 500;
 /**
  * Deliberately generous, and deliberately bounded.
  *
- * A cap is a ceiling a manager types, so there is no natural maximum — but an
- * unbounded integer in a request body is how a fat finger becomes a bill.
+ * Assigned remaining is what a manager types, so there is no natural maximum
+ * — but an unbounded integer in a request body is how a fat finger becomes a
+ * bill.
  */
 const MAX_CAP = 10_000;
 
@@ -33,7 +34,7 @@ export class SetCapDto {
     minimum: 0,
     maximum: MAX_CAP,
     description:
-      'How much of the pool this seat may draw, in total. Not per month — nothing resets it. Zero is legal and is how a student is stopped; their already-spent sessions stay spent.',
+      'How many AI Speaking credits this seat holds (assigned remaining). Absolute: typing 12 moves the delta from/to the unallocated school pool. Zero returns unused credits to the pool; already-spent sessions stay spent.',
   })
   @Type(() => Number)
   @IsInt()
@@ -56,7 +57,7 @@ export class PurchaseEntitlementsDto {
     minimum: 1,
     maximum: MAX_ENTITLEMENTS_PER_ORDER,
     description:
-      'How many. Credits go into the pool and are drawn against a cap; passes and months are taken from the pool one at a time as they are handed out.',
+      'How many. Credits go into the unallocated school pool (then optionally onto seats via codeIds); passes and months are taken from the pool one at a time as they are handed out.',
   })
   @Type(() => Number)
   @IsInt()
@@ -67,7 +68,7 @@ export class PurchaseEntitlementsDto {
   @ApiPropertyOptional({
     type: [String],
     description:
-      'The seats this is being bought for, as activation code ids. Optional: a center may top the pool up now and decide who draws on it later. Applied by the webhook, never at this request \u2014 nothing is granted before money moves.',
+      'The seats this is being bought for, as activation code ids. Optional: a center may top the unallocated pool now and assign later. Applied by the webhook, never at this request \u2014 nothing is granted before money moves.',
   })
   @IsOptional()
   @IsArray()
@@ -80,7 +81,7 @@ export class PurchaseEntitlementsDto {
     example: 10,
     minimum: 1,
     description:
-      'How much of the pool each chosen seat may draw. Required alongside codeIds; without it the pool is credited and no cap is set.',
+      'How many credits to assign to each chosen seat from this purchase. Required alongside codeIds; without it the pool is credited and nothing is assigned yet.',
   })
   @IsOptional()
   @Type(() => Number)
@@ -108,7 +109,12 @@ export class EntitlementPaymentDto {
 
 export class PoolDto {
   @ApiProperty({ enum: EntitlementProduct }) product: EntitlementProduct;
-  @ApiProperty({ example: 140 }) balance: number;
+  @ApiProperty({
+    example: 140,
+    description:
+      'Unallocated stock for AI Speaking (not yet assigned to a seat). For period products, units waiting to be granted.',
+  })
+  balance: number;
 
   @ApiProperty({
     description:
@@ -129,8 +135,16 @@ export class CapDto {
   holder: string | null;
 
   @ApiProperty({ enum: EntitlementProduct }) product: EntitlementProduct;
-  @ApiProperty({ example: 12 }) cap: number;
-  @ApiProperty({ example: 6 }) used: number;
+  @ApiProperty({
+    example: 12,
+    description: 'Assigned remaining credits on this seat.',
+  })
+  cap: number;
+  @ApiProperty({
+    example: 6,
+    description: 'Lifetime credits spent from this seat (reporting).',
+  })
+  used: number;
 }
 
 export class AssignedDto {
@@ -144,7 +158,7 @@ export class CappedSummaryDto {
 
   @ApiProperty({
     example: 14,
-    description: 'How many seats may draw on this pool.',
+    description: 'How many seats currently hold assigned AI Speaking credits.',
   })
   seats: number;
 }

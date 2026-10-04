@@ -38,7 +38,7 @@ export class MyEntitlementsController {
   @ApiOperation({
     summary: 'What I hold',
     description:
-      'Everything the app needs to decide what to show: the two timed add-ons, how many free Elena sessions are left this month and when they come back, and how many credits this student can actually spend. `creditsAvailable` is already the smaller of the center pool and this seat’s remaining cap — one number, so no client has to work out the same minimum. `frozen` means the center stopped paying: nothing is lost and nothing is spendable.',
+      'Everything the app needs to decide what to show: the two timed add-ons, how many free Elena sessions are left this month and when they come back, and how many credits this student can actually spend. `creditsAvailable` is assigned remaining on this seat (not unallocated school stock). `frozen` means the center stopped paying: nothing is lost and nothing is spendable.',
   })
   @ApiOkResponse({ type: MyEntitlementsDto })
   @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })

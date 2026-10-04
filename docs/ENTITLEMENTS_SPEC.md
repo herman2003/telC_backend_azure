@@ -179,7 +179,7 @@ interface EntitlementDecision {
         | 'NOT_HELD' | 'NO_CODE';
   /** Free allowance left, for products that have one. */
   freeRemaining: number;
-  /** min(pool, cap − used). What this student can actually use. */
+  /** Assigned remaining on this seat (ADR 0003). */
   creditsAvailable: number;
   resetsAt: Date | null;
 }
@@ -315,8 +315,8 @@ and refuse `ep-wandering-hall` before any migrate.
 - [ ] A Prep Pass assigned in November expires 60 days later, not 60 days after
       the September purchase.
 - [ ] The same webhook delivered twice grants once.
-- [ ] `GET /api/me/entitlements` returns `creditsAvailable` as
-      `min(pool, cap − used)` — one number, not two.
+- [ ] `GET /api/me/entitlements` returns `creditsAvailable` as assigned
+      remaining on the seat (ADR 0003).
 
 ## 13. Open questions
 

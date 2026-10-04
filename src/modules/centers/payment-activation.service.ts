@@ -300,17 +300,19 @@ export class PaymentActivationService {
    * the local UTC offset.
    */
   /**
-   * Credits the pool, then applies the caps the manager chose at purchase.
+   * Credits the unallocated pool, then assigns to seats the manager chose.
    *
-   * The order matters. **The pool is credited whatever happens to the caps**:
-   * the money has moved, and an activation that failed because one seat had
-   * been deactivated in the meantime would leave the centre paying for
-   * nothing. A cap that cannot be applied is dropped, silently and on purpose.
+   * The order matters. **The pool is credited whatever happens to the
+   * assignments**: the money has moved, and an activation that failed because
+   * one seat had been deactivated would leave the centre paying for nothing.
+   * A seat that cannot be assigned is skipped; those units stay unallocated.
    *
-   * `metadata` reached us from the purchase request hours earlier and is
-   * treated as untrusted on the way out: only codes that still exist, still
-   * belong to this centre and are not deactivated get one. Without that check
-   * a centre could cap a rival's seat by sending its id.
+   * For AI Speaking (ADR 0003), each successful assign moves `capPerCode` from
+   * the pool onto the seat. Prep Pass / AI Assisted Learning only use the
+   * pool (period grants happen later); metadata caps are ignored for them.
+   *
+   * `metadata` is treated as untrusted: only codes that still exist, still
+   * belong to this centre and are not deactivated get an assignment.
    */
   private async grantEntitlement(
     tx: Prisma.TransactionClient,
@@ -326,6 +328,8 @@ export class PaymentActivationService {
       update: { balance: { increment: quantity } },
     });
 
+    if (product !== 'AI_SPEAKING_CREDIT') return;
+
     const targets = readCapTargets(metadata);
     if (!targets) return;
 
@@ -339,12 +343,24 @@ export class PaymentActivationService {
     });
 
     for (const code of usable) {
+      const moved = await tx.centerEntitlementPool.updateMany({
+        where: {
+          center_id: centerId,
+          product,
+          balance: { gte: targets.capPerCode },
+        },
+        data: { balance: { decrement: targets.capPerCode } },
+      });
+      if (moved.count !== 1) {
+        // Remaining units stay unallocated. Do not fail the activation.
+        break;
+      }
+
       await tx.codeEntitlementCap.upsert({
         where: { code_id_product: { code_id: code.id, product } },
         create: { code_id: code.id, product, cap: targets.capPerCode },
         // Raised, not replaced: a second purchase for one seat is more
-        // allowance, and replacing would silently undo a cap a manager had
-        // raised by hand.
+        // assigned stock, and replacing would silently undo a hand raise.
         update: { cap: { increment: targets.capPerCode } },
       });
     }

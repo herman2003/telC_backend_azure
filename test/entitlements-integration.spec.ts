@@ -61,7 +61,10 @@ async function fillPool(
   });
 }
 
-const poolOf = async (centerId: string, product: 'PREP_PASS') =>
+const poolOf = async (
+  centerId: string,
+  product: 'PREP_PASS' | 'AI_SPEAKING_CREDIT',
+) =>
   (
     await prisma.centerEntitlementPool.findUniqueOrThrow({
       where: { center_id_product: { center_id: centerId, product } },
@@ -212,7 +215,8 @@ describe('what the centre sees', () => {
 
     expect(view.pools).toEqual(
       expect.arrayContaining([
-        { product: 'AI_SPEAKING_CREDIT', balance: 140, frozen: false },
+        // 140 unallocated − 12 assigned = 128 left in the school stock.
+        { product: 'AI_SPEAKING_CREDIT', balance: 128, frozen: false },
         { product: 'PREP_PASS', balance: 5, frozen: false },
       ]),
     );
@@ -262,14 +266,16 @@ describe('what the centre sees', () => {
 });
 
 describe('stopping a seat', () => {
-  it('sets the cap to zero and leaves what was spent alone', async () => {
+  it('returns unused assigned credits to the pool and leaves spent alone', async () => {
     const center = await makeCenter();
     const code = await makeCode(center.id);
+    await fillPool(center.id, 'AI_SPEAKING_CREDIT', 20);
+    // `cap` is assigned remaining; `used` is lifetime spent.
     await prisma.codeEntitlementCap.create({
       data: {
         code_id: code.id,
         product: 'AI_SPEAKING_CREDIT',
-        cap: 10,
+        cap: 4,
         used: 6,
       },
     });
@@ -286,6 +292,7 @@ describe('stopping a seat', () => {
       },
     });
     expect(cap).toMatchObject({ cap: 0, used: 6 });
+    await expect(poolOf(center.id, 'AI_SPEAKING_CREDIT')).resolves.toBe(24);
   });
 
   it('does not cut short a period the centre already paid for', async () => {

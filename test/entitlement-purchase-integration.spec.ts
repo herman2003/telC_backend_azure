@@ -317,7 +317,7 @@ describe('the idempotency key', () => {
 });
 
 describe('buying, end to end', () => {
-  it('turns a purchase into a pool and four caps, and not before', async () => {
+  it('turns a purchase into four assignments, and not before', async () => {
     // The success criterion the whole block was designed around. Both halves
     // are tested on their own with payments built by hand; this is the one
     // that proves the metadata a manager chose actually survives the round
@@ -344,6 +344,7 @@ describe('buying, end to end', () => {
 
     await activation.activate(payment.id);
 
+    // 40 purchased and fully assigned → unallocated 0, four seats × 10.
     await expect(
       prisma.centerEntitlementPool.findUniqueOrThrow({
         where: {
@@ -354,7 +355,7 @@ describe('buying, end to end', () => {
         },
         select: { balance: true },
       }),
-    ).resolves.toEqual({ balance: 40 });
+    ).resolves.toEqual({ balance: 0 });
 
     const caps = await prisma.codeEntitlementCap.findMany({
       where: { code_id: { in: seats.map((seat) => seat.id) } },
