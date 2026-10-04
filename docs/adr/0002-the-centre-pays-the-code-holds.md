@@ -1,6 +1,6 @@
 # ADR 0002 — The centre pays, the code holds
 
-**Status:** accepted
+**Status:** accepted (AI Speaking spend/assign semantics superseded by [ADR 0003](./0003-ai-speaking-assign-from-stock.md))
 **Date:** 2026-09-25
 **Design:** [ENTITLEMENTS_INTERFACE_DESIGN.md](../ENTITLEMENTS_INTERFACE_DESIGN.md)
 **Offer:** [OFFRES_LERNIQO.md](../OFFRES_LERNIQO.md)

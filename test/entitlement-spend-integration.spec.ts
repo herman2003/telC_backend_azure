@@ -1,10 +1,9 @@
 /**
  * The interface every paid add-on goes through, against real Postgres.
  *
- * Two claims a mock cannot make: that the pool and the cap move together or
- * not at all, and that two sessions started at the same instant cannot both
- * take the last credit. Everything else here is about the order of the rules,
- * which is cheap to check and expensive to get wrong.
+ * ADR 0003: assign moves stock onto the seat; spend burns assigned remaining;
+ * the unallocated pool is untouched at spend time. Concurrency is on the seat
+ * balance, not on a shared draw from the pool.
  */
 import { PrismaService } from '../src/shared/services/prisma.service';
 import {
@@ -61,15 +60,21 @@ async function makeSeat(
   return { center, student, code };
 }
 
-async function fillPool(centerId: string, balance: number) {
+async function fillUnallocated(centerId: string, balance: number) {
   await prisma.centerEntitlementPool.create({
     data: { center_id: centerId, product: 'AI_SPEAKING_CREDIT', balance },
   });
 }
 
-async function setCap(codeId: string, cap: number, used = 0) {
+/** Assigned remaining on the seat (`cap`); `used` is lifetime spent. */
+async function assignSeat(codeId: string, assigned: number, used = 0) {
   await prisma.codeEntitlementCap.create({
-    data: { code_id: codeId, product: 'AI_SPEAKING_CREDIT', cap, used },
+    data: {
+      code_id: codeId,
+      product: 'AI_SPEAKING_CREDIT',
+      cap: assigned,
+      used,
+    },
   });
 }
 
@@ -112,8 +117,6 @@ afterAll(async () => {
 
 describe('the free allowance comes first', () => {
   it('lets a student with none of it spent through, without a cap', async () => {
-    // Start includes five a month. A student who has never had a credit
-    // assigned still gets those five.
     const { student } = await makeSeat();
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
@@ -125,15 +128,18 @@ describe('the free allowance comes first', () => {
     });
   });
 
-  it('spends nothing from the centre while free sessions remain', async () => {
+  it('spends nothing from the seat while free sessions remain', async () => {
     const { center, student, code } = await makeSeat();
-    await fillPool(center.id, 40);
-    await setCap(code.id, 10);
+    await fillUnallocated(center.id, 30);
+    await assignSeat(code.id, 10);
 
     await spend.spend(student.id, 'AI_SPEAKING_CREDIT');
 
-    await expect(poolOf(center.id)).resolves.toBe(40);
-    await expect(capOf(code.id)).resolves.toMatchObject({ used: 0 });
+    await expect(poolOf(center.id)).resolves.toBe(30);
+    await expect(capOf(code.id)).resolves.toMatchObject({
+      cap: 10,
+      used: 0,
+    });
   });
 
   it('counts down as sessions are run', async () => {
@@ -146,8 +152,6 @@ describe('the free allowance comes first', () => {
   });
 
   it('ignores sessions run in an earlier month', async () => {
-    // The window is the calendar month, so last month's five must not count
-    // against this month's.
     const { student } = await makeSeat();
     await usedSessions(student.id, 5);
     await prisma.aiUsage.updateMany({
@@ -162,61 +166,60 @@ describe('the free allowance comes first', () => {
 });
 
 describe('once the free allowance is gone', () => {
-  it('draws on the centre pool, against the cap', async () => {
+  it('burns assigned remaining and leaves unallocated alone', async () => {
     const { center, student, code } = await makeSeat();
     await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(center.id, 40);
-    await setCap(code.id, 10);
+    await fillUnallocated(center.id, 30);
+    await assignSeat(code.id, 10);
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
     await spend.spend(student.id, 'AI_SPEAKING_CREDIT');
 
     expect(decision).toMatchObject({ allowed: true, freeRemaining: 0 });
-    await expect(poolOf(center.id)).resolves.toBe(39);
-    await expect(capOf(code.id)).resolves.toMatchObject({ used: 1 });
+    await expect(poolOf(center.id)).resolves.toBe(30);
+    await expect(capOf(code.id)).resolves.toMatchObject({
+      cap: 9,
+      used: 1,
+    });
   });
 
-  it('reports the smaller of the pool and what is left of the cap', async () => {
-    // One number, not two. Two would leave every client working out the same
-    // minimum and one of them getting it wrong.
+  it('reports assigned remaining, not unallocated stock', async () => {
     const { center, student, code } = await makeSeat();
     await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(center.id, 3);
-    await setCap(code.id, 10, 2);
+    await fillUnallocated(center.id, 3);
+    await assignSeat(code.id, 8);
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
 
-    expect(decision.creditsAvailable).toBe(3);
+    expect(decision.creditsAvailable).toBe(8);
   });
 
-  it('says NO_CAP when the centre has credits and this seat has none', async () => {
-    // Different from being out of credits, and the app offers something
-    // different: ask your centre, rather than your centre should buy more.
+  it('says NO_CAP when the centre has unallocated credits and this seat has none', async () => {
     const { center, student } = await makeSeat();
     await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(center.id, 40);
+    await fillUnallocated(center.id, 40);
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
 
     expect(decision).toMatchObject({ allowed: false, reason: 'NO_CAP' });
   });
 
-  it('says CAP_REACHED when this seat has spent its allowance', async () => {
+  it('says CAP_REACHED when this seat has spent its assignment', async () => {
     const { center, student, code } = await makeSeat();
     await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(center.id, 40);
-    await setCap(code.id, 10, 10);
+    await fillUnallocated(center.id, 40);
+    await assignSeat(code.id, 0, 10);
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
 
     expect(decision).toMatchObject({ allowed: false, reason: 'CAP_REACHED' });
   });
 
-  it('says POOL_EMPTY when the centre has run out', async () => {
+  it('says POOL_EMPTY when nothing is assigned and the school has no stock', async () => {
     const { center, student, code } = await makeSeat();
     await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(center.id, 0);
-    await setCap(code.id, 10);
+    await fillUnallocated(center.id, 0);
+    await assignSeat(code.id, 0);
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
 
@@ -229,8 +232,8 @@ describe('the freeze', () => {
     const { center, student, code } = await makeSeat(
       new Date(Date.now() - 60 * DAY_MS),
     );
-    await fillPool(center.id, 60);
-    await setCap(code.id, 10);
+    await fillUnallocated(center.id, 50);
+    await assignSeat(code.id, 10);
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
 
@@ -238,27 +241,24 @@ describe('the freeze', () => {
   });
 
   it('takes nothing away', async () => {
-    // The credits were paid for. They wait.
     const { center, student, code } = await makeSeat(
       new Date(Date.now() - 60 * DAY_MS),
     );
-    await fillPool(center.id, 60);
-    await setCap(code.id, 10, 4);
+    await fillUnallocated(center.id, 50);
+    await assignSeat(code.id, 6, 4);
 
     await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
 
-    await expect(poolOf(center.id)).resolves.toBe(60);
-    await expect(capOf(code.id)).resolves.toMatchObject({ cap: 10, used: 4 });
+    await expect(poolOf(center.id)).resolves.toBe(50);
+    await expect(capOf(code.id)).resolves.toMatchObject({ cap: 6, used: 4 });
   });
 
   it('is not the same answer as being out of credits', async () => {
-    // FROZEN and POOL_EMPTY need different sentences: one is the centre's
-    // problem to fix, the other is a purchase.
     const { center, student, code } = await makeSeat(
       new Date(Date.now() - 60 * DAY_MS),
     );
-    await fillPool(center.id, 0);
-    await setCap(code.id, 0);
+    await fillUnallocated(center.id, 0);
+    await assignSeat(code.id, 0);
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
 
@@ -267,32 +267,15 @@ describe('the freeze', () => {
 });
 
 describe('spending under load', () => {
-  it('lets exactly one of two simultaneous spends take the last credit', async () => {
+  it('lets exactly one of two simultaneous spends take the last assigned credit', async () => {
     const first = await makeSeat();
-    const second = await prisma.student.create({
-      data: {
-        email: `spend-test-b-${Date.now()}-${Math.random()}@example.com`,
-        center_id: first.center.id,
-      },
-    });
-    const secondCode = await prisma.activationCode.create({
-      data: {
-        center_id: first.center.id,
-        code: `LQ-SPD-${Math.random().toString(36).slice(2, 10).toUpperCase()}`,
-        status: 'CONNECTED',
-        student_id: second.id,
-        connected_at: new Date(),
-      },
-    });
     await usedSessions(first.student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await usedSessions(second.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(first.center.id, 1);
-    await setCap(first.code.id, 10);
-    await setCap(secondCode.id, 10);
+    await fillUnallocated(first.center.id, 0);
+    await assignSeat(first.code.id, 1);
 
     const outcomes = await Promise.allSettled([
       spend.spend(first.student.id, 'AI_SPEAKING_CREDIT'),
-      spend.spend(second.id, 'AI_SPEAKING_CREDIT'),
+      spend.spend(first.student.id, 'AI_SPEAKING_CREDIT'),
     ]);
 
     expect(
@@ -304,16 +287,18 @@ describe('spending under load', () => {
     expect((rejected.reason as Error).message).toContain(
       'NO_CREDITS_REMAINING',
     );
+    await expect(capOf(first.code.id)).resolves.toMatchObject({
+      cap: 0,
+      used: 1,
+    });
     await expect(poolOf(first.center.id)).resolves.toBe(0);
   });
 
-  it('gives the credit back when the cap refuses it', async () => {
-    // The pool and the cap move together or not at all. A seat that may not
-    // spend must not cost the centre a credit on its way to being refused.
+  it('does not touch unallocated stock when the seat has nothing left', async () => {
     const { center, student, code } = await makeSeat();
     await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(center.id, 40);
-    await setCap(code.id, 10, 10);
+    await fillUnallocated(center.id, 40);
+    await assignSeat(code.id, 0, 10);
 
     await expect(spend.spend(student.id, 'AI_SPEAKING_CREDIT')).rejects.toThrow(
       'NO_CREDITS_REMAINING',
@@ -326,8 +311,8 @@ describe('spending under load', () => {
 describe('what the student reads', () => {
   it('answers all three products and the freeze in one call', async () => {
     const { center, student, code } = await makeSeat();
-    await fillPool(center.id, 40);
-    await setCap(code.id, 10);
+    await fillUnallocated(center.id, 30);
+    await assignSeat(code.id, 10);
     await usedSessions(student.id, 2);
     await prisma.codeEntitlement.create({
       data: {
@@ -348,13 +333,11 @@ describe('what the student reads', () => {
   });
 
   it('shows what is waiting rather than zeroes when the centre has lapsed', async () => {
-    // The screen that explains why nothing works. Reporting nothing would
-    // leave the app unable to tell "you have none" from "yours are frozen".
     const { center, student, code } = await makeSeat(
       new Date(Date.now() - 60 * DAY_MS),
     );
-    await fillPool(center.id, 60);
-    await setCap(code.id, 10);
+    await fillUnallocated(center.id, 50);
+    await assignSeat(code.id, 10);
 
     const mine = await spend.forStudent(student.id);
 
@@ -362,13 +345,11 @@ describe('what the student reads', () => {
     expect(mine.prepPass.active).toBe(false);
   });
 
-  it('caps what it reports at what the seat may actually draw', async () => {
-    // The pool holds forty, this seat may take four more. Four is the number
-    // the student can use, and the only one worth showing them.
+  it('reports only what is assigned to the seat', async () => {
     const { center, student, code } = await makeSeat();
     await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(center.id, 40);
-    await setCap(code.id, 10, 6);
+    await fillUnallocated(center.id, 40);
+    await assignSeat(code.id, 4, 6);
 
     const mine = await spend.forStudent(student.id);
 
@@ -381,32 +362,26 @@ describe('what the student reads', () => {
 
 describe('spending is guarded on its own, not only by mayUse', () => {
   it('refuses to spend credits a frozen centre still holds', async () => {
-    // mayUse checks the freeze, and every caller is supposed to ask it first.
-    // That is not enough: a centre can lapse between the two calls, and a
-    // caller written later may simply not ask. Either way the harm is the
-    // same — money the centre paid for, spent while they are being told they
-    // may not spend it.
     const { center, student, code } = await makeSeat(
       new Date(Date.now() - 60 * DAY_MS),
     );
     await usedSessions(student.id, FREE_LIVE_SESSIONS_PER_MONTH);
-    await fillPool(center.id, 60);
-    await setCap(code.id, 10);
+    await fillUnallocated(center.id, 50);
+    await assignSeat(code.id, 10);
 
     await expect(spend.spend(student.id, 'AI_SPEAKING_CREDIT')).rejects.toThrow(
       'FROZEN',
     );
 
-    await expect(poolOf(center.id)).resolves.toBe(60);
+    await expect(poolOf(center.id)).resolves.toBe(50);
     await expect(capOf(code.id)).resolves.toMatchObject({ used: 0 });
   });
 
   it('does not let a frozen centre lose a free session either', async () => {
-    // The free five are Start's, and Start is what has lapsed.
     const { center, student } = await makeSeat(
       new Date(Date.now() - 60 * DAY_MS),
     );
-    await fillPool(center.id, 60);
+    await fillUnallocated(center.id, 60);
 
     await expect(spend.spend(student.id, 'AI_SPEAKING_CREDIT')).rejects.toThrow(
       'FROZEN',
@@ -416,10 +391,6 @@ describe('spending is guarded on its own, not only by mayUse', () => {
 
 describe('a caller with no account', () => {
   it('is told there is no account, not that a centre has lapsed', async () => {
-    // A guest token names a uuid with no students row. Answering FROZEN would
-    // have the app say "your centre must settle its subscription" to somebody
-    // who has no centre — advice they cannot act on, about a relationship
-    // they do not have.
     const decision = await spend.mayUse(
       '00000000-0000-4000-8000-000000000000',
       'AI_SPEAKING_CREDIT',
@@ -430,20 +401,9 @@ describe('a caller with no account', () => {
 });
 
 describe('an exam is paid for separately, and spends nothing of the student', () => {
-  // The centre pays per candidate for a sitting — 1,000, or 1,500 with the
-  // machine's opinion beside the examiner's. None of that may come out of
-  // what Start gives the student for practice, nor out of the credits their
-  // centre bought for Elena.
-  //
-  // The two are kept apart by the operation they record: the monthly
-  // allowance counts SPEAKING_LIVE_SESSION, and an exam transcript records
-  // SPEAKING_EVALUATION. Easy to collapse by accident in a later refactor,
-  // so it is asserted rather than assumed.
-
   it('leaves the free monthly sessions untouched', async () => {
     const { student } = await makeSeat();
 
-    // What an exam Sprechen Teil writes, three of them.
     for (let teil = 1; teil <= 3; teil++) {
       await prisma.aiUsage.create({
         data: { student_id: student.id, operation: 'SPEAKING_EVALUATION' },
@@ -455,10 +415,10 @@ describe('an exam is paid for separately, and spends nothing of the student', ()
     expect(decision.freeRemaining).toBe(FREE_LIVE_SESSIONS_PER_MONTH);
   });
 
-  it('leaves the centre pool and the seat cap untouched', async () => {
+  it('leaves the unallocated pool and the seat assignment untouched', async () => {
     const { center, student, code } = await makeSeat();
-    await fillPool(center.id, 40);
-    await setCap(code.id, 10);
+    await fillUnallocated(center.id, 40);
+    await assignSeat(code.id, 10);
 
     await prisma.aiUsage.create({
       data: { student_id: student.id, operation: 'SPEAKING_EVALUATION' },
