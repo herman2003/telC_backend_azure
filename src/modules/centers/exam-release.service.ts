@@ -215,17 +215,15 @@ export class ExamReleaseService {
     // candidate already wrote the letter; shipping it back on the release
     // snapshot is noise, and AI suggestions beside a trainer's mark are an
     // argument, not a result.
-    const {
-      suggestions: _suggestions,
-      schreibenSubmission: _schreibenSubmission,
-      ...released
-    } = result;
+    const released: Record<string, unknown> = { ...result };
+    delete released.suggestions;
+    delete released.schreibenSubmission;
 
     await tx.examAttempt.update({
       where: { id: result.attemptId },
       data: {
         released_at: releasedAt,
-        released_result: released as unknown as Prisma.InputJsonValue,
+        released_result: released as Prisma.InputJsonValue,
       },
     });
   }

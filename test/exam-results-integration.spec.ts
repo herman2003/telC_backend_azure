@@ -282,11 +282,9 @@ describe('Schreiben text for the center marker', () => {
 
     const result = await results.forAttempt(attempt.id, identity.centerId);
 
-    expect(result.schreibenSubmission).toEqual({
-      text: letter,
-      submittedAt: expect.any(Date),
-      characterCount: letter.length,
-    });
+    expect(result.schreibenSubmission?.text).toBe(letter);
+    expect(result.schreibenSubmission?.characterCount).toBe(letter.length);
+    expect(result.schreibenSubmission?.submittedAt).toBeInstanceOf(Date);
     // Suggestions stay a separate channel (AI tier); text is never hidden in them.
     expect(result.suggestions).toEqual([]);
   });
