@@ -13,6 +13,10 @@ const CENTER_ERROR_MESSAGES: Record<string, string> = {
     'Unable to start a session. Please try again.',
   CENTER_SESSION_RETRY_EXHAUSTED:
     'Authentication is temporarily unavailable. Please try again.',
+  CENTER_SESSION_EXPIRED:
+    'This session has expired. Please log in again.',
+  CENTER_SESSION_REVOKED:
+    'This session is no longer valid. Please log in again.',
   VERIFICATION_TOKEN_EXPIRED:
     'That verification link has expired. Register again to receive a new one.',
   VERIFICATION_TOKEN_INVALID:

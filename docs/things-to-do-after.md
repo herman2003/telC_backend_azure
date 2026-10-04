@@ -50,7 +50,9 @@ Exam is the reference shape. Training must catch up.
 
 ## Harden center session timeouts (idle + absolute)
 
-**Status:** todo  
+**Status:** backend shipped on `feat/center-session-timeouts` (front `sprach` clear-storage still open)  
+**Spec:** `docs/CENTER_SESSION_TIMEOUTS_SPEC.md`  
+**Plan:** `docs/CENTER_SESSION_TIMEOUTS_PLAN.md`  
 **Area:** `src/modules/auth/token.service.ts`, `src/modules/centers/center-auth.service.ts`,
 `CenterDeviceSession` / guards; Azure env; front `sprach` center auth storage / refresh
 
