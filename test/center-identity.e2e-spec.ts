@@ -156,7 +156,16 @@ function buildPrisma(db: FakeDb) {
     },
     centerDeviceSession: {
       create: ({ data }: any) => {
-        const row = { revoked_at: null, device_name: null, ...data };
+        // Mirror Prisma @default(now()) for created_at / last_used_at — the
+        // guard's idle/absolute clocks call .getTime() on both.
+        const now = new Date();
+        const row = {
+          revoked_at: null,
+          device_name: null,
+          created_at: now,
+          last_used_at: now,
+          ...data,
+        };
         db.sessions.set(row.id, row);
         return Promise.resolve(row);
       },
