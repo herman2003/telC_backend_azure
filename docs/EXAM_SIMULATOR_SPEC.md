@@ -169,7 +169,7 @@ anything; the other two render what it says.
 
 | | Dashboard (Next.js) | Flutter app (web + mobile) | Backend |
 |---|---|---|---|
-| Sessions | the five-step wizard, the session list, the detail page | — | owns them |
+| Sessions | the five-step wizard, the session list, the detail page; Modelltest picker via `GET /api/centers/me/exam-modelltests` and content preview via `GET /api/centers/me/exam-modelltests/:number` (full paper, no answer keys) | — | owns them |
 | Participants | the picker, from the center's own students | — | the access rule |
 | Timing | shows the window it chose | counts down a deadline it was given | sets and enforces it |
 | Grading | types Schreiben and Sprechen scores | — | scores the rest, decides pass |

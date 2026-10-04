@@ -178,9 +178,19 @@ Returns one candidate in full:
   oral:    { points, maxPoints, percent, passed },   // out of 75
   outcome: "PASSED" | "FAILED" | "INCOMPLETE",
   awaiting: Skill[],          // what still needs a person
-  suggestions: [ ... ]        // AI tier only; see below
+  suggestions: [ ... ],       // AI tier only; see below
+  schreibenSubmission: {      // MANUAL and AI — the letter to mark
+    text: string | null,
+    submittedAt: Date | null,
+    characterCount: number,
+  } | null                    // null only if no SCHREIBEN block yet
 }
 ```
+
+Show `schreibenSubmission.text` on the marking screen (scrollable) and offer a
+client-side download as
+`{sessionDate}_{lastName}_{firstName}_{studentIdShort}_schreiben.txt`. Full
+text always — do not truncate. Never put the letter inside `suggestions`.
 
 ```
 PUT /api/centers/me/exam-attempts/:attemptId/marks
@@ -269,12 +279,15 @@ Returns **rows, not a file**:
            writtenPoints, writtenMaxPoints, writtenPercent,
            oralPoints, oralMaxPoints, oralPercent,
            awaiting, releasedAt,
-           sections: [{ skill, teil, points, maxPoints, percent }] }],
+           sections: [{ skill, teil, points, maxPoints, percent }],
+           schreibenText: string | null }],
   summary: { ... } }
 ```
 
-You generate the CSV and the PDF client-side. That was agreed with both
-clients: the server ships numbers, the client formats them.
+`schreibenText` is the full letter (or null). Escape it properly in CSV; do not
+truncate on the server. You generate the CSV and the PDF client-side. That was
+agreed with both clients: the server ships numbers (and the letter string), the
+client formats them.
 
 **Never compute a percentage or a total in the browser.** Every number you need
 is in the payload. A percentage computed twice is a percentage that eventually

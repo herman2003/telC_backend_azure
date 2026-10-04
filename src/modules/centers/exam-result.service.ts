@@ -81,6 +81,19 @@ export interface ExamSuggestion {
   transcript: string | null;
 }
 
+/**
+ * The candidate's Schreiben letter, for the person who marks it.
+ *
+ * Present on both MANUAL (1,000 XAF) and AI (1,500 XAF) sittings. Never a
+ * mark and never part of the student release snapshot — the trainer reads it
+ * beside an empty points field.
+ */
+export interface ExamSchreibenSubmission {
+  text: string | null;
+  submittedAt: Date | null;
+  characterCount: number;
+}
+
 export interface ExamResultView {
   attemptId: string;
   studentId: string;
@@ -94,6 +107,11 @@ export interface ExamResultView {
   awaiting: Skill[];
   /** Empty unless the center bought the AI tier. */
   suggestions: ExamSuggestion[];
+  /**
+   * Null only when the attempt has no SCHREIBEN block yet. Otherwise always
+   * present, with `text: null` until the candidate has submitted content.
+   */
+  schreibenSubmission: ExamSchreibenSubmission | null;
 }
 
 /**
@@ -141,10 +159,12 @@ export class ExamResultService {
 
     const weights = await this.weightsFor(attempt.session.level);
     const marks = (await this.marksForMany([attemptId])).get(attemptId);
+    const submissions = await this.schreibenSubmissionsFor([attemptId]);
 
     return {
       ...this.assemble(attempt, weights, marks ?? new Map()),
       suggestions: await this.suggestionsFor(attemptId, weights),
+      schreibenSubmission: submissions.get(attemptId) ?? null,
     };
   }
 
@@ -241,7 +261,7 @@ export class ExamResultService {
       part: string;
     }[],
     marks: Map<string, MarkedValue>,
-  ): Omit<ExamResultView, 'suggestions'> {
+  ): Omit<ExamResultView, 'suggestions' | 'schreibenSubmission'> {
     const sections = this.sectionsOf(weights, marks);
     const written = this.half(weights, sections, 'WRITTEN');
     const oral = this.half(weights, sections, 'ORAL');
@@ -348,10 +368,76 @@ export class ExamResultService {
 
     // No suggestions here: a table of forty candidates has no room for
     // forty transcripts, and the manager opens one candidate to read one.
+    // Schreiben text is batched for export / release paths that need it;
+    // the session results table never surfaces these views.
+    const submissions = await this.schreibenSubmissionsFor(
+      attempts.map((a) => a.id),
+    );
+
     return attempts.map((attempt) => ({
       ...this.assemble(attempt, weights, marks.get(attempt.id) ?? new Map()),
       suggestions: [],
+      schreibenSubmission: submissions.get(attempt.id) ?? null,
     }));
+  }
+
+  /**
+   * Letter text the trainer must read before typing a Schreiben mark.
+   *
+   * Prefer `writing_attempts.content` (what scoring stored on submit). Fall
+   * back to the timed block's `answers.text` when the writing row is missing
+   * — the block is what the candidate actually submitted against the clock.
+   */
+  private async schreibenSubmissionsFor(
+    attemptIds: string[],
+  ): Promise<Map<string, ExamSchreibenSubmission | null>> {
+    const byAttempt = new Map<string, ExamSchreibenSubmission | null>();
+    for (const id of attemptIds) byAttempt.set(id, null);
+    if (attemptIds.length === 0) return byAttempt;
+
+    const [writing, blocks] = await Promise.all([
+      this.prisma.writingAttempt.findMany({
+        where: { exam_attempt_id: { in: attemptIds } },
+        select: { exam_attempt_id: true, content: true },
+      }),
+      this.prisma.examAttemptBlock.findMany({
+        where: {
+          attempt_id: { in: attemptIds },
+          block: 'SCHREIBEN',
+        },
+        select: {
+          attempt_id: true,
+          submitted_at: true,
+          answers: true,
+        },
+      }),
+    ]);
+
+    const contentByAttempt = new Map<string, string>();
+    for (const row of writing) {
+      if (!row.exam_attempt_id) continue;
+      if (typeof row.content === 'string' && row.content.length > 0) {
+        contentByAttempt.set(row.exam_attempt_id, row.content);
+      }
+    }
+
+    for (const block of blocks) {
+      const fromWriting = contentByAttempt.get(block.attempt_id);
+      const answers = (block.answers ?? {}) as Record<string, unknown>;
+      const fromBlock =
+        typeof answers.text === 'string' && answers.text.length > 0
+          ? answers.text
+          : null;
+      const text = fromWriting ?? fromBlock;
+
+      byAttempt.set(block.attempt_id, {
+        text,
+        submittedAt: block.submitted_at,
+        characterCount: text?.length ?? 0,
+      });
+    }
+
+    return byAttempt;
   }
 
   /**
