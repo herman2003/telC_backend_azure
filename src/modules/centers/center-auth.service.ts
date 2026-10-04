@@ -267,11 +267,7 @@ export class CenterAuthService {
     );
 
     try {
-      assertCenterSessionWithinTtl(
-        ownedSession,
-        new Date(),
-        this.sessionTtl,
-      );
+      assertCenterSessionWithinTtl(ownedSession, new Date(), this.sessionTtl);
     } catch (error) {
       if (
         error instanceof UnauthorizedException &&

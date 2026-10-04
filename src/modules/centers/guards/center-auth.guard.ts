@@ -125,7 +125,10 @@ export class CenterAuthGuard implements CanActivate {
         error instanceof UnauthorizedException &&
         error.message === 'CENTER_SESSION_EXPIRED'
       ) {
-        await this.revokeExpiredSession(payload.sessionId, payload.centerUserId);
+        await this.revokeExpiredSession(
+          payload.sessionId,
+          payload.centerUserId,
+        );
       }
       throw error;
     }

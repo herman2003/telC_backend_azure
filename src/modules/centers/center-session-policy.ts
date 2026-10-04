@@ -49,7 +49,8 @@ export function parseDurationMs(raw: string, envName: string): number {
 export function loadCenterSessionTtlPolicy(
   env: NodeJS.ProcessEnv = process.env,
 ): CenterSessionTtlPolicy {
-  const idleRaw = env.CENTER_SESSION_IDLE_TTL ?? CENTER_SESSION_IDLE_TTL_DEFAULT;
+  const idleRaw =
+    env.CENTER_SESSION_IDLE_TTL ?? CENTER_SESSION_IDLE_TTL_DEFAULT;
   const absoluteRaw =
     env.CENTER_SESSION_ABSOLUTE_TTL ?? CENTER_SESSION_ABSOLUTE_TTL_DEFAULT;
 
