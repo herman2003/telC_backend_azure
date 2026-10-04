@@ -4,6 +4,8 @@ import {
   Post,
   Body,
   Query,
+  Param,
+  ParseUUIDPipe,
   UseGuards,
   UnauthorizedException,
   HttpCode,
@@ -19,18 +21,22 @@ import {
   ApiNotFoundResponse,
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
+  ApiBadRequestResponse,
   ApiQuery,
+  ApiParam,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
 import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
 import { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { ListeningService } from './listening.service';
+import { TrainingAudioService } from './training-audio.service';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 import { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import { ListeningExerciseDto } from './dto/listening-exercise.dto';
 import { SubmitListeningDto } from './dto/submit-listening.dto';
 import { SubmitListeningResponseDto } from './dto/submit-listening-response.dto';
+import type { GrantedPlay } from '../centers/exam-audio.service';
 
 @ApiTags('Listening (Hören)')
 @ApiBearerAuth()
@@ -38,7 +44,10 @@ import { SubmitListeningResponseDto } from './dto/submit-listening-response.dto'
 @UseGuards(JwtAuthGuard, StudentSubscriptionGuard)
 @Controller('api/listening')
 export class ListeningController {
-  constructor(private readonly listeningService: ListeningService) {}
+  constructor(
+    private readonly listeningService: ListeningService,
+    private readonly trainingAudio: TrainingAudioService,
+  ) {}
 
   @Get('teils')
   @ApiOperation({
@@ -120,8 +129,8 @@ export class ListeningController {
   @ApiOperation({
     summary: 'Fetch a Hören exercise',
     description:
-      'Returns the audio URL, image, content_revision, and the list of richtig(+)/falsch(−) ' +
-      'statements for the given Teil. No options array — the student marks each statement as "+" or "−".',
+      'Returns the same Teil shape as exam: audioId, playsAllowed, contentRevision, imagePath, ' +
+      'and richtig(+)/falsch(−) statements. Play audio via POST .../audio/{audioId}/play — no durable URL.',
   })
   @ApiQuery({
     name: 'type',
@@ -163,6 +172,41 @@ export class ListeningController {
       selectedTeil,
       this.parseModelltest(modelltest),
     );
+  }
+
+  @Post('audio/:audioId/play')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Spend one training play and get a stream URL',
+    description:
+      'Counts against exam_plays_allowed for this student + recording. ' +
+      'Returns a short-lived /api/listening/audio?token=… URL for the player.',
+  })
+  @ApiParam({ name: 'audioId', format: 'uuid' })
+  @ApiOkResponse({
+    description: 'Play granted',
+    schema: {
+      type: 'object',
+      properties: {
+        audioId: { type: 'string', format: 'uuid' },
+        url: { type: 'string', example: '/api/listening/audio?token=…' },
+        playsRemaining: { type: 'number', example: 0 },
+        expiresAt: { type: 'string', format: 'date-time' },
+      },
+    },
+  })
+  @ApiBadRequestResponse({
+    description: 'NO_PLAYS_LEFT | AUDIO_UNAVAILABLE | AUDIO_DURATION_MISSING',
+  })
+  @ApiNotFoundResponse({ description: 'AUDIO_NOT_FOUND' })
+  async playAudio(
+    @CurrentStudent() student: AccessTokenPayload | null,
+    @Param('audioId', ParseUUIDPipe) audioId: string,
+  ): Promise<GrantedPlay> {
+    if (!student?.studentId) {
+      throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
+    }
+    return this.trainingAudio.play(student.studentId, audioId);
   }
 
   @Post('submit')

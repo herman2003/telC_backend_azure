@@ -112,56 +112,36 @@ export class ListeningService {
     }
   }
 
+  /**
+   * Training Teil payload — same shape as exam (`getExamTeil`).
+   *
+   * No durable audio URL: a URL in the payload is a recording the student can
+   * replay without anyone counting it. Bytes come from
+   * `POST /api/listening/audio/{id}/play` after a play is spent.
+   */
   async getExercise(
     type: string,
     modelltestNumber = 1,
   ): Promise<ListeningExerciseDto> {
     const part = this.parsePart(type);
-    const exercise = await this.prisma.listeningExercise.findFirst({
-      where: { modelltest: { number: modelltestNumber }, part },
-      select: {
-        content_revision: true,
-        audio_url: true,
-        bundled_audio_asset: true,
-        image_url: true,
-        questions: {
-          orderBy: { sort_order: 'asc' },
-          select: { question_number: true, prompt: true },
-        },
-      },
-    });
-    if (!exercise) this.throwExerciseNotFound();
-    return {
-      content_revision: exercise.content_revision,
-      issued_at: new Date().toISOString(),
-      audio_url: exercise.audio_url,
-      bundled_audio_asset: exercise.bundled_audio_asset,
-      imagePath: exercise.image_url,
-      questions: exercise.questions.map((question) => ({
-        id: `q${question.question_number}`,
-        prompt: question.prompt,
-      })),
-    };
+    return this.loadTeilPayload(modelltestNumber, part);
   }
 
   /**
    * One Teil as an exam serves it: the questions, the picture, and the id to
    * ask for a play — never an address.
-   *
-   * A URL in the payload is a recording a candidate can replay without anyone
-   * counting it, so the exam gets the id and nothing else; the bytes come
-   * from `POST .../audio/{id}/play`, which spends a play first.
    */
   async getExamTeil(
     modelltestNumber: number,
     part: number,
-  ): Promise<{
-    audioId: string;
-    playsAllowed: number;
-    imagePath: string;
-    contentRevision: string;
-    questions: { id: string; prompt: string }[];
-  }> {
+  ): Promise<ListeningExerciseDto> {
+    return this.loadTeilPayload(modelltestNumber, part);
+  }
+
+  private async loadTeilPayload(
+    modelltestNumber: number,
+    part: number,
+  ): Promise<ListeningExerciseDto> {
     const exercise = await this.prisma.listeningExercise.findFirst({
       where: { modelltest: { number: modelltestNumber }, part },
       select: {

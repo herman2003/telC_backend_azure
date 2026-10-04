@@ -11,16 +11,10 @@ import type { Response } from 'express';
 import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { ExamAudioService } from '../centers/exam-audio.service';
+import { proxyAudioFromUrl, type AudioFetcher } from '../listening/audio-proxy';
 
 /** Injected so a test can hand in a fake. Node's global fetch otherwise. */
 export const FETCH = Symbol('FETCH');
-
-type Fetcher = (url: string) => Promise<{
-  ok: boolean;
-  status?: number;
-  headers: { get(name: string): string | null | undefined };
-  arrayBuffer(): Promise<ArrayBuffer>;
-}>;
 
 /**
  * Serves one play of one Hören recording.
@@ -39,14 +33,14 @@ type Fetcher = (url: string) => Promise<{
 @ApiTags('Exams')
 @Controller('api/exams')
 export class ExamAudioController {
-  private readonly fetcher: Fetcher;
+  private readonly fetcher: AudioFetcher;
 
   constructor(
     private readonly audio: ExamAudioService,
     private readonly prisma: PrismaService,
-    @Optional() @Inject(FETCH) fetcher?: Fetcher,
+    @Optional() @Inject(FETCH) fetcher?: AudioFetcher,
   ) {
-    this.fetcher = fetcher ?? (globalThis.fetch as unknown as Fetcher);
+    this.fetcher = fetcher ?? (globalThis.fetch as unknown as AudioFetcher);
   }
 
   @Get('audio')
@@ -74,18 +68,6 @@ export class ExamAudioController {
       throw new BadRequestException('AUDIO_UNAVAILABLE');
     }
 
-    const upstream = await this.fetcher(exercise.audio_url);
-    if (!upstream.ok) throw new BadRequestException('AUDIO_UNAVAILABLE');
-
-    const body = Buffer.from(await upstream.arrayBuffer());
-
-    response.setHeader(
-      'Content-Type',
-      upstream.headers.get('content-type') ?? 'audio/mpeg',
-    );
-    response.setHeader('Content-Length', String(body.byteLength));
-    // A cached exam recording is a second play nobody counted.
-    response.setHeader('Cache-Control', 'no-store, private');
-    response.send(body);
+    await proxyAudioFromUrl(this.fetcher, exercise.audio_url, response);
   }
 }

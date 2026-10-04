@@ -27,9 +27,10 @@ const exercise = {
   instruction: 'Instruction',
   content_revision: 'modelltest-1-teil-1-v1',
   duration_minutes: 10,
-  audio_url: '',
+  audio_url: 'https://r2.example/audio.mp3',
   bundled_audio_asset: '',
   image_url: 'https://r2.example/1.png',
+  exam_plays_allowed: 1,
   transcript: null,
   questions,
 };
@@ -72,7 +73,7 @@ describe('ListeningService', () => {
     );
     for (const part of [1, 2, 3]) {
       const result = await service.getExercise(String(part), 1);
-      expect(result.content_revision).toBe(`revision-${part}`);
+      expect(result.contentRevision).toBe(`revision-${part}`);
     }
   });
 
@@ -83,22 +84,30 @@ describe('ListeningService', () => {
         content_revision: `modelltest-${where.modelltest.number}`,
       }),
     );
-    expect((await service.getExercise('1', 1)).content_revision).toBe(
+    expect((await service.getExercise('1', 1)).contentRevision).toBe(
       'modelltest-1',
     );
-    expect((await service.getExercise('1', 2)).content_revision).toBe(
+    expect((await service.getExercise('1', 2)).contentRevision).toBe(
       'modelltest-2',
     );
   });
 
-  it('returns an answer-safe exercise projection', async () => {
+  it('returns the exam-shaped Teil payload without a durable audio URL', async () => {
     prisma.listeningExercise.findFirst.mockResolvedValue(exercise);
     const result = await service.getExercise('1', 1);
-    expect(result.questions).toEqual([
-      { id: 'q41', prompt: 'Statement 41' },
-      { id: 'q42', prompt: 'Statement 42' },
-    ]);
+    expect(result).toEqual({
+      audioId: 'exercise-1',
+      playsAllowed: 1,
+      contentRevision: 'modelltest-1-teil-1-v1',
+      imagePath: 'https://r2.example/1.png',
+      questions: [
+        { id: 'q41', prompt: 'Statement 41' },
+        { id: 'q42', prompt: 'Statement 42' },
+      ],
+    });
     expect(JSON.stringify(result)).not.toContain('correct_answer');
+    expect(JSON.stringify(result)).not.toContain('audio_url');
+    expect(JSON.stringify(result)).not.toContain('bundled_audio');
     expect((result as any).answerKey).toBeUndefined();
   });
 
