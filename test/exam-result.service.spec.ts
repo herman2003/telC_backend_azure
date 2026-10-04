@@ -91,8 +91,121 @@ describe('ExamResultService', () => {
       listeningAttempt: { findMany: jest.fn().mockResolvedValue([]) },
       writingAttempt: { findMany: jest.fn().mockResolvedValue([]) },
       speakingAttempt: { findMany: jest.fn().mockResolvedValue([]) },
+      examAttemptBlock: { findMany: jest.fn().mockResolvedValue([]) },
     };
     service = new ExamResultService(prisma);
+  });
+
+  describe('Schreiben text for the center marker', () => {
+    const submittedAt = new Date('2026-10-04T10:00:00.000Z');
+
+    it('returns the letter from the writing attempt', async () => {
+      load(100);
+      const letter = 'Sehr geehrte Damen und Herren, ich bewerbe mich.';
+      prisma.writingAttempt.findMany.mockResolvedValue([
+        {
+          exam_attempt_id: ATTEMPT,
+          content: letter,
+          score: null,
+          feedback: null,
+          corrections: null,
+        },
+      ]);
+      prisma.examAttemptBlock.findMany.mockResolvedValue([
+        {
+          attempt_id: ATTEMPT,
+          block: 'SCHREIBEN',
+          submitted_at: submittedAt,
+          answers: { text: letter },
+        },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.schreibenSubmission).toEqual({
+        text: letter,
+        submittedAt,
+        characterCount: letter.length,
+      });
+    });
+
+    it('falls back to block answers when writing attempt has no content', async () => {
+      load(100);
+      const letter = 'Letter only on the timed block.';
+      prisma.examAttemptBlock.findMany.mockResolvedValue([
+        {
+          attempt_id: ATTEMPT,
+          block: 'SCHREIBEN',
+          submitted_at: submittedAt,
+          answers: { text: letter },
+        },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.schreibenSubmission).toEqual({
+        text: letter,
+        submittedAt,
+        characterCount: letter.length,
+      });
+    });
+
+    it('returns null text when nothing was submitted', async () => {
+      load(100);
+      prisma.examAttemptBlock.findMany.mockResolvedValue([
+        {
+          attempt_id: ATTEMPT,
+          block: 'SCHREIBEN',
+          submitted_at: null,
+          answers: {},
+        },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.schreibenSubmission).toEqual({
+        text: null,
+        submittedAt: null,
+        characterCount: 0,
+      });
+    });
+
+    it('returns null submission when there is no Schreiben block yet', async () => {
+      load(100);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.schreibenSubmission).toBeNull();
+    });
+
+    it('keeps AI suggestions separate from the letter text', async () => {
+      load(100);
+      const letter = 'Text the trainer must read.';
+      prisma.writingAttempt.findMany.mockResolvedValue([
+        {
+          exam_attempt_id: ATTEMPT,
+          content: letter,
+          score: 80,
+          feedback: 'Gut.',
+          corrections: null,
+        },
+      ]);
+      prisma.examAttemptBlock.findMany.mockResolvedValue([
+        {
+          attempt_id: ATTEMPT,
+          block: 'SCHREIBEN',
+          submitted_at: submittedAt,
+          answers: { text: letter },
+        },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.schreibenSubmission?.text).toBe(letter);
+      expect(result.suggestions).toEqual([
+        expect.objectContaining({ skill: 'SCHREIBEN', source: 'AI' }),
+      ]);
+    });
   });
 
   describe('turning percentages into telc points', () => {

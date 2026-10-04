@@ -208,8 +208,15 @@ export class ExamReleaseService {
     releasedAt: Date,
     tx: Prisma.TransactionClient,
   ): Promise<void> {
-    const released: Omit<ExamResultView, 'suggestions'> = { ...result };
-    delete (released as Partial<ExamResultView>).suggestions;
+    // Suggestions and the Schreiben letter are for the person marking. The
+    // candidate already wrote the letter; shipping it back on the release
+    // snapshot is noise, and AI suggestions beside a trainer's mark are an
+    // argument, not a result.
+    const {
+      suggestions: _suggestions,
+      schreibenSubmission: _schreibenSubmission,
+      ...released
+    } = result;
 
     await tx.examAttempt.update({
       where: { id: result.attemptId },

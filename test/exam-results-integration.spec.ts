@@ -263,6 +263,97 @@ describe('from marks to a verdict', () => {
   });
 });
 
+describe('Schreiben text for the center marker', () => {
+  it('returns the stored letter on attempt result', async () => {
+    const { attempt, identity, student, session } =
+      await makeMarkedAttempt(100);
+    const letter =
+      'Sehr geehrte Damen und Herren,\n\nich bewerbe mich um einen Praktikumsplatz.';
+
+    await prisma.writingAttempt.create({
+      data: {
+        student_id: student.id,
+        exercise_id: `exam-${session.modelltest_id ?? 'mt'}`,
+        content: letter,
+        status: 'pending',
+        exam_attempt_id: attempt.id,
+      },
+    });
+
+    const result = await results.forAttempt(attempt.id, identity.centerId);
+
+    expect(result.schreibenSubmission).toEqual({
+      text: letter,
+      submittedAt: expect.any(Date),
+      characterCount: letter.length,
+    });
+    // Suggestions stay a separate channel (AI tier); text is never hidden in them.
+    expect(result.suggestions).toEqual([]);
+  });
+
+  it('falls back to the block answers when no writing attempt row exists', async () => {
+    const { attempt, identity } = await makeMarkedAttempt(100);
+    const letter = 'Fallback letter from the timed block.';
+
+    await prisma.examAttemptBlock.update({
+      where: {
+        attempt_id_block: { attempt_id: attempt.id, block: 'SCHREIBEN' },
+      },
+      data: { answers: { text: letter } },
+    });
+
+    const result = await results.forAttempt(attempt.id, identity.centerId);
+
+    expect(result.schreibenSubmission).toMatchObject({
+      text: letter,
+      characterCount: letter.length,
+    });
+  });
+
+  it('returns null text when Schreiben was not submitted with content', async () => {
+    const { attempt, identity } = await makeMarkedAttempt(100);
+
+    const result = await results.forAttempt(attempt.id, identity.centerId);
+
+    expect(result.schreibenSubmission).toMatchObject({
+      text: null,
+      characterCount: 0,
+    });
+  });
+
+  it('does not put the letter on the student released snapshot', async () => {
+    const { attempt, identity, student, session } =
+      await makeMarkedAttempt(100);
+    const letter = 'This letter is for the trainer, not the release snapshot.';
+
+    await prisma.writingAttempt.create({
+      data: {
+        student_id: student.id,
+        exercise_id: 'exam-schreiben',
+        content: letter,
+        status: 'pending',
+        exam_attempt_id: attempt.id,
+      },
+    });
+    await grading.recordMark(identity, attempt.id, {
+      skill: 'SCHREIBEN',
+      teil: 1,
+      points: 40,
+    });
+    await grading.recordMark(identity, attempt.id, {
+      skill: 'SPRECHEN',
+      teil: 1,
+      points: 60,
+    });
+
+    await release.releaseSession(identity, session.id);
+
+    const forStudent = await release.forStudent(student.id, attempt.id);
+    expect(forStudent).not.toHaveProperty('schreibenSubmission');
+    expect(JSON.stringify(forStudent)).not.toContain(letter);
+  });
+});
+
 describe('releasing', () => {
   const complete = async () => {
     const made = await makeMarkedAttempt(100);

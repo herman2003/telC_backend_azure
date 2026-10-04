@@ -30,6 +30,7 @@ import { ExamGradingService } from './exam-grading.service';
 import { ExamReleaseService } from './exam-release.service';
 import { ExamExportService } from './exam-export.service';
 import {
+  ExamAttemptResultDto,
   ExamCandidateRowDto,
   RecordExamMarkDto,
   ReleaseResultsDto,
@@ -77,8 +78,9 @@ export class ExamResultsController {
   @ApiOperation({
     summary: 'One candidate, Teil by Teil',
     description:
-      "Every Teil with its points out of telc's maximum, who marked it, the two halves, and the verdict. Percentages are shown; nothing is decided on them.",
+      "Every Teil with its points out of telc's maximum, who marked it, the two halves, and the verdict. Percentages are shown; nothing is decided on them. Includes `schreibenSubmission` — the candidate's letter for MANUAL and AI sittings — so the trainer can read and download it before typing points. AI suggestions stay on `suggestions` and are never a substitute for the text.",
   })
+  @ApiOkResponse({ type: ExamAttemptResultDto })
   @ApiNotFoundResponse({ type: CenterErrorResponseDto })
   attemptResult(
     @CurrentCenterUser() user: CenterAccessTokenPayload,

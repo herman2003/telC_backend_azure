@@ -28,6 +28,8 @@ export interface ExportedRow {
   awaiting: Skill[];
   releasedAt: Date | null;
   sections: ExportedSection[];
+  /** Full Schreiben letter for download/CSV; null if not submitted. */
+  schreibenText: string | null;
 }
 
 export interface ExportedSitting {
@@ -100,6 +102,12 @@ export class ExamExportService {
     const sectionsByAttempt = new Map(
       details.map((detail) => [detail.attemptId, detail.sections]),
     );
+    const schreibenByAttempt = new Map(
+      details.map((detail) => [
+        detail.attemptId,
+        detail.schreibenSubmission?.text ?? null,
+      ]),
+    );
 
     return {
       sitting: {
@@ -146,6 +154,9 @@ export class ExamExportService {
                 percent: section.percent,
               }))
             : [],
+          schreibenText: row.attemptId
+            ? (schreibenByAttempt.get(row.attemptId) ?? null)
+            : null,
         } satisfies ExportedRow;
       }),
       summary: table.summary,
