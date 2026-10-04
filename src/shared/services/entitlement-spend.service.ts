@@ -216,6 +216,10 @@ export class EntitlementSpendService {
 
     // Out of free sessions and out of assigned credits. Which reason decides
     // what the app offers next, so they are kept apart.
+    //
+    // `cap === 0 && used > 0` covers both "spent the assignment" and "manager
+    // revoked leftover" — same seat shape, so the app hears CAP_REACHED and
+    // can prompt for a new assignment when the school still has stock.
     const cap = await this.prisma.codeEntitlementCap.findUnique({
       where: { code_id_product: { code_id: seat.id, product } },
       select: { cap: true, used: true },
@@ -225,10 +229,7 @@ export class EntitlementSpendService {
     if (cap && cap.cap === 0 && cap.used > 0) {
       return refused('CAP_REACHED', { resetsAt });
     }
-    if (!cap || cap.cap === 0) {
-      return refused(unallocated > 0 ? 'NO_CAP' : 'POOL_EMPTY', { resetsAt });
-    }
-    return refused('POOL_EMPTY', { resetsAt });
+    return refused(unallocated > 0 ? 'NO_CAP' : 'POOL_EMPTY', { resetsAt });
   }
 
   /**

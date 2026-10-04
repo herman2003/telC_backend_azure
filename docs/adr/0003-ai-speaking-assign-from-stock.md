@@ -41,3 +41,9 @@ For `AI_SPEAKING_CREDIT` only:
   `cap` to that remaining; reduce pool by Σ(remaining) where possible (audit
   if oversubscribed).
 - Free Elena sessions unchanged (still first).
+
+## Deploy
+
+**Migrate then release.** Apply
+`20261004120000_ai_speaking_assign_from_stock` before the new binary. New
+spend decrements `cap` as remaining; old rows still store a ceiling.

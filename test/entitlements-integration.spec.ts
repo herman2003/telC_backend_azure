@@ -4,16 +4,24 @@
  * The rules are unit-tested with a mock. These are the three claims a mock
  * cannot make: that the last pass cannot be assigned twice, that a period is
  * extended rather than restarted, and that a lapsed pass begins again from
- * today rather than from the date it ran out.
+ * today rather than from the date it ran out. Assign/revoke concurrency is
+ * here too — FOR UPDATE only proves itself against a real database.
  */
 import { PrismaService } from '../src/shared/services/prisma.service';
 import { EntitlementsService } from '../src/modules/centers/entitlements.service';
 import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
+import {
+  EntitlementSpendService,
+  FREE_LIVE_SESSIONS_PER_MONTH,
+} from '../src/shared/services/entitlement-spend.service';
+import { StudentEntitlementService } from '../src/shared/services/student-entitlement.service';
 
 const prisma = new PrismaService();
-const entitlements = new EntitlementsService(
+const policy = new SubscriptionPolicyService();
+const entitlements = new EntitlementsService(prisma, policy);
+const spend = new EntitlementSpendService(
   prisma,
-  new SubscriptionPolicyService(),
+  new StudentEntitlementService(prisma, policy),
 );
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -315,6 +323,96 @@ describe('stopping a seat', () => {
     expect(
       Math.abs(still.expires_at.getTime() - granted.expiresAt.getTime()),
     ).toBeLessThan(CLOCK_TOLERANCE_MS);
+  });
+});
+
+describe('assign / revoke under load', () => {
+  it('lets concurrent absolute assigns settle without inventing stock', async () => {
+    // Both managers type a new number at once. FOR UPDATE serialises them so
+    // the pool moves by the net of the final seat balance, not twice.
+    const center = await makeCenter();
+    const code = await makeCode(center.id);
+    await fillPool(center.id, 'AI_SPEAKING_CREDIT', 20);
+    await entitlements.setCap(
+      identity(center.id),
+      code.id,
+      'AI_SPEAKING_CREDIT',
+      10,
+    );
+
+    await Promise.all([
+      entitlements.setCap(
+        identity(center.id),
+        code.id,
+        'AI_SPEAKING_CREDIT',
+        15,
+      ),
+      entitlements.setCap(
+        identity(center.id),
+        code.id,
+        'AI_SPEAKING_CREDIT',
+        12,
+      ),
+    ]);
+
+    const cap = await prisma.codeEntitlementCap.findUniqueOrThrow({
+      where: {
+        code_id_product: { code_id: code.id, product: 'AI_SPEAKING_CREDIT' },
+      },
+    });
+    const unallocated = await poolOf(center.id, 'AI_SPEAKING_CREDIT');
+    expect(cap.cap + unallocated).toBe(20);
+    expect([12, 15]).toContain(cap.cap);
+  });
+
+  it('does not return a credit that a concurrent spend already burned', async () => {
+    const center = await makeCenter();
+    const student = await prisma.student.create({
+      data: {
+        email: `ent-race-${Date.now()}-${Math.random()}@example.com`,
+        center_id: center.id,
+      },
+    });
+    const code = await prisma.activationCode.create({
+      data: {
+        center_id: center.id,
+        code: `LQ-RACE-${Math.random().toString(36).slice(2, 10).toUpperCase()}`,
+        status: 'CONNECTED',
+        student_id: student.id,
+        connected_at: new Date(),
+      },
+    });
+    await fillPool(center.id, 'AI_SPEAKING_CREDIT', 0);
+    await prisma.codeEntitlementCap.create({
+      data: {
+        code_id: code.id,
+        product: 'AI_SPEAKING_CREDIT',
+        cap: 1,
+        used: 0,
+      },
+    });
+    for (let i = 0; i < FREE_LIVE_SESSIONS_PER_MONTH; i++) {
+      await prisma.aiUsage.create({
+        data: { student_id: student.id, operation: 'SPEAKING_LIVE_SESSION' },
+      });
+    }
+
+    await Promise.allSettled([
+      spend.spend(student.id, 'AI_SPEAKING_CREDIT'),
+      entitlements.revoke(identity(center.id), code.id, 'AI_SPEAKING_CREDIT'),
+    ]);
+
+    const cap = await prisma.codeEntitlementCap.findUniqueOrThrow({
+      where: {
+        code_id_product: { code_id: code.id, product: 'AI_SPEAKING_CREDIT' },
+      },
+    });
+    const unallocated = await poolOf(center.id, 'AI_SPEAKING_CREDIT');
+    // One credit existed. Either spent (used=1, pool=0) or returned (used=0,
+    // pool=1) — never both (used=1 and pool=1). Spend may reject if revoke
+    // won the lock first; that is fine.
+    expect(cap.cap).toBe(0);
+    expect(cap.used + unallocated).toBe(1);
   });
 });
 

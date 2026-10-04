@@ -6,7 +6,7 @@ import { SubscriptionPolicyService } from '../src/modules/centers/subscription-p
  * What a centre holds, and who may draw on it.
  *
  * The rules, with a mocked Prisma. What a mock cannot prove — that assign and
- * spend move stock atomically — is in the integration specs against Postgres.
+ * spend move stock atomically under FOR UPDATE — is in the integration specs.
  */
 describe('EntitlementsService', () => {
   const identity = { centerId: 'center-1', centerUserId: 'user-1' } as never;
@@ -35,9 +35,8 @@ describe('EntitlementsService', () => {
         groupBy: jest.fn().mockResolvedValue([]),
         count: jest.fn().mockResolvedValue(0),
       },
-      $queryRaw: jest
-        .fn()
-        .mockResolvedValue([{ expires_at: new Date('2026-12-04') }]),
+      $executeRaw: jest.fn().mockResolvedValue(1),
+      $queryRaw: jest.fn().mockResolvedValue([{ cap: 0, used: 0 }]),
       activationCode: {
         findFirst: jest.fn().mockResolvedValue({
           id: 'code-1',
@@ -63,9 +62,16 @@ describe('EntitlementsService', () => {
   });
 
   describe('assigning credits', () => {
-    it('moves stock from the unallocated pool onto the seat', async () => {
-      await service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 12);
+    it('locks the seat, then moves stock from the unallocated pool', async () => {
+      const view = await service.setCap(
+        identity,
+        'code-1',
+        'AI_SPEAKING_CREDIT',
+        12,
+      );
 
+      expect(prisma.$executeRaw).toHaveBeenCalled();
+      expect(prisma.$queryRaw).toHaveBeenCalled();
       expect(prisma.centerEntitlementPool.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.objectContaining({
@@ -76,19 +82,14 @@ describe('EntitlementsService', () => {
           data: { balance: { decrement: 12 } },
         }),
       );
-      expect(prisma.codeEntitlementCap.upsert).toHaveBeenCalledWith(
-        expect.objectContaining({
-          create: expect.objectContaining({ cap: 12 }),
-          update: { cap: 12 },
-        }),
+      expect(prisma.codeEntitlementCap.update).toHaveBeenCalledWith(
+        expect.objectContaining({ data: { cap: 12 } }),
       );
+      expect(view).toMatchObject({ cap: 12, used: 0 });
     });
 
     it('returns unused credits when the absolute assignment is lowered', async () => {
-      prisma.codeEntitlementCap.findUnique.mockResolvedValue({
-        cap: 12,
-        used: 2,
-      });
+      prisma.$queryRaw.mockResolvedValue([{ cap: 12, used: 2 }]);
 
       await service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 5);
 
@@ -97,6 +98,9 @@ describe('EntitlementsService', () => {
           create: expect.objectContaining({ balance: 7 }),
           update: { balance: { increment: 7 } },
         }),
+      );
+      expect(prisma.codeEntitlementCap.update).toHaveBeenCalledWith(
+        expect.objectContaining({ data: { cap: 5 } }),
       );
     });
 
@@ -109,15 +113,11 @@ describe('EntitlementsService', () => {
     });
 
     it('allows zero, which returns unused to the pool', async () => {
-      prisma.codeEntitlementCap.findUnique.mockResolvedValue({
-        cap: 8,
-        used: 2,
-      });
-      prisma.codeEntitlementCap.upsert.mockResolvedValue({ cap: 0, used: 2 });
+      prisma.$queryRaw.mockResolvedValue([{ cap: 8, used: 2 }]);
 
       await expect(
         service.setCap(identity, 'code-1', 'AI_SPEAKING_CREDIT', 0),
-      ).resolves.toBeDefined();
+      ).resolves.toMatchObject({ cap: 0, used: 2 });
       expect(prisma.centerEntitlementPool.upsert).toHaveBeenCalled();
     });
 
@@ -137,8 +137,8 @@ describe('EntitlementsService', () => {
   });
 
   describe('revoke', () => {
-    it('returns remaining assigned credits to the pool', async () => {
-      prisma.codeEntitlementCap.findUnique.mockResolvedValue({ cap: 4 });
+    it('locks the seat, then returns remaining assigned credits to the pool', async () => {
+      prisma.$queryRaw.mockResolvedValue([{ cap: 4 }]);
 
       const result = await service.revoke(
         identity,
@@ -161,6 +161,10 @@ describe('EntitlementsService', () => {
 
   describe('granting a period', () => {
     it('takes one from the pool and grants sixty days', async () => {
+      prisma.$queryRaw.mockResolvedValue([
+        { expires_at: new Date('2026-12-04') },
+      ]);
+
       await service.grantPeriod(identity, 'code-1', 'PREP_PASS');
 
       expect(prisma.centerEntitlementPool.updateMany).toHaveBeenCalledWith(
@@ -201,6 +205,10 @@ describe('EntitlementsService', () => {
     });
 
     it('writes the expiry in one statement, in the database', async () => {
+      prisma.$queryRaw.mockResolvedValue([
+        { expires_at: new Date('2026-12-04') },
+      ]);
+
       await service.grantPeriod(identity, 'code-1', 'PREP_PASS');
 
       const [fragment, ...values] = prisma.$queryRaw.mock.calls[0];

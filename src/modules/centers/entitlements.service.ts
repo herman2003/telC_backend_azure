@@ -213,6 +213,9 @@ export class EntitlementsService {
    * Absolute: a manager typing 12 means twelve on the seat. The delta is
    * taken from or returned to the unallocated pool in the same transaction,
    * so assign cannot oversubscribe stock. Zero returns everything unused.
+   *
+   * The seat row is locked (`FOR UPDATE`) before the delta is computed, so a
+   * concurrent spend or second assign cannot invent or lose credits.
    */
   async setCap(
     identity: SignedCenterIdentity,
@@ -229,11 +232,30 @@ export class EntitlementsService {
     const code = await this.requireOwnCode(identity, codeId);
 
     const row = await this.prisma.$transaction(async (tx) => {
-      const current = await tx.codeEntitlementCap.findUnique({
-        where: { code_id_product: { code_id: codeId, product } },
-        select: { cap: true, used: true },
-      });
-      const previous = current?.cap ?? 0;
+      // Ensure a row exists so FOR UPDATE has something to lock.
+      await tx.$executeRaw`
+        INSERT INTO code_entitlement_caps
+          (code_id, product, cap, used, created_at, updated_at)
+        VALUES (
+          ${codeId},
+          ${product}::"EntitlementProduct",
+          0,
+          0,
+          now(),
+          now()
+        )
+        ON CONFLICT (code_id, product) DO NOTHING
+      `;
+
+      const locked = await tx.$queryRaw<{ cap: number; used: number }[]>`
+        SELECT cap, used
+          FROM code_entitlement_caps
+         WHERE code_id = ${codeId}
+           AND product = ${product}::"EntitlementProduct"
+         FOR UPDATE
+      `;
+      const previous = locked[0]?.cap ?? 0;
+      const used = locked[0]?.used ?? 0;
       const delta = cap - previous;
 
       if (delta > 0) {
@@ -265,12 +287,14 @@ export class EntitlementsService {
         });
       }
 
-      return tx.codeEntitlementCap.upsert({
-        where: { code_id_product: { code_id: codeId, product } },
-        create: { code_id: codeId, product, cap },
-        update: { cap },
-        select: { cap: true, used: true },
-      });
+      if (delta !== 0) {
+        await tx.codeEntitlementCap.update({
+          where: { code_id_product: { code_id: codeId, product } },
+          data: { cap },
+        });
+      }
+
+      return { cap, used };
     });
 
     return {
@@ -349,6 +373,9 @@ export class EntitlementsService {
    *
    * Never a card refund and never a period cut short. Already-spent sessions
    * stay spent (`used` is left alone).
+   *
+   * Locks the seat row before returning stock, so a concurrent spend cannot
+   * burn a credit that is also put back into the pool.
    */
   async revoke(
     identity: SignedCenterIdentity,
@@ -364,11 +391,15 @@ export class EntitlementsService {
     }
 
     return this.prisma.$transaction(async (tx) => {
-      const row = await tx.codeEntitlementCap.findUnique({
-        where: { code_id_product: { code_id: codeId, product } },
-        select: { cap: true },
-      });
-      if (!row || row.cap === 0) {
+      const locked = await tx.$queryRaw<{ cap: number }[]>`
+        SELECT cap
+          FROM code_entitlement_caps
+         WHERE code_id = ${codeId}
+           AND product = ${product}::"EntitlementProduct"
+         FOR UPDATE
+      `;
+      const remaining = locked[0]?.cap ?? 0;
+      if (remaining === 0) {
         return { revoked: false };
       }
 
@@ -382,9 +413,9 @@ export class EntitlementsService {
         create: {
           center_id: identity.centerId,
           product,
-          balance: row.cap,
+          balance: remaining,
         },
-        update: { balance: { increment: row.cap } },
+        update: { balance: { increment: remaining } },
       });
 
       await tx.codeEntitlementCap.update({
