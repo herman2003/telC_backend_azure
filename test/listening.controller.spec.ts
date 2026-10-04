@@ -4,6 +4,7 @@ import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
 import { ListeningController } from '../src/modules/listening/listening.controller';
 import { ListeningService } from '../src/modules/listening/listening.service';
+import { TrainingAudioService } from '../src/modules/listening/training-audio.service';
 
 const MOCK_STUDENT = { studentId: 'student-abc', deviceId: 'dev-1' };
 
@@ -14,6 +15,10 @@ const mockListeningService = {
   submit: jest.fn(),
 };
 
+const mockTrainingAudio = {
+  play: jest.fn(),
+};
+
 describe('ListeningController', () => {
   let controller: ListeningController;
 
@@ -22,6 +27,7 @@ describe('ListeningController', () => {
       controllers: [ListeningController],
       providers: [
         { provide: ListeningService, useValue: mockListeningService },
+        { provide: TrainingAudioService, useValue: mockTrainingAudio },
       ],
     })
       .overrideGuard(JwtAuthGuard)
@@ -105,13 +111,42 @@ describe('ListeningController', () => {
   // ---------------------------------------------------------------------------
   describe('getExercise', () => {
     it('delegates to service.getExercise with type param and returns result', async () => {
-      const payload = { content_revision: 'v1', questions: [], issued_at: '' };
+      const payload = {
+        audioId: 'a',
+        playsAllowed: 1,
+        contentRevision: 'v1',
+        imagePath: '',
+        questions: [],
+      };
       mockListeningService.getExercise.mockResolvedValue(payload);
 
       const result = await controller.getExercise('1');
 
       expect(mockListeningService.getExercise).toHaveBeenCalledWith('1', 1);
       expect(result).toBe(payload);
+    });
+  });
+
+  describe('playAudio', () => {
+    it('delegates to TrainingAudioService.play', async () => {
+      const granted = {
+        audioId: '11111111-1111-4111-8111-111111111111',
+        url: '/api/listening/audio?token=x',
+        playsRemaining: 0,
+        expiresAt: new Date(),
+      };
+      mockTrainingAudio.play.mockResolvedValue(granted);
+
+      const result = await controller.playAudio(
+        MOCK_STUDENT as any,
+        '11111111-1111-4111-8111-111111111111',
+      );
+
+      expect(mockTrainingAudio.play).toHaveBeenCalledWith(
+        'student-abc',
+        '11111111-1111-4111-8111-111111111111',
+      );
+      expect(result).toBe(granted);
     });
   });
 

@@ -7,7 +7,7 @@
 Vérifié en production et sur un build local le 28/08/2026.
 
 > ⚠️ L'ancienne adresse `telc-speaking-api-*.azurewebsites.net`, encore citée dans
-> `HOREN_API_FRONTEND.md` et `SCHREIBEN_API_FRONTEND.md`, **ne répond plus**.
+> `SCHREIBEN_API_FRONTEND.md`, **ne répond plus**.
 > Utiliser `api.lerniqo.tech`.
 
 ---

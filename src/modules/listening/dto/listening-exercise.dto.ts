@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ListeningQuestionDto {
   @ApiProperty({ example: 'q41' })
@@ -10,31 +10,33 @@ export class ListeningQuestionDto {
   prompt: string;
 }
 
+/**
+ * One Hören Teil as training serves it — same fields as exam `getExamTeil`.
+ *
+ * No durable audio URL: the client spends a play via
+ * `POST /api/listening/audio/:audioId/play`, then streams through the API.
+ */
 export class ListeningExerciseDto {
   @ApiProperty({
-    description: 'Content version string — send back unchanged in submit',
-    example: 'modelltest-1-teil-1-v1',
+    description:
+      'Listening exercise id — pass to POST .../audio/{audioId}/play',
+    example: '06cbc490-dc63-4ea1-b491-c1a569d88489',
   })
-  content_revision: string;
-
-  @ApiProperty({
-    description: 'ISO 8601 timestamp of when this response was generated',
-    example: '2026-06-04T09:00:00.000Z',
-  })
-  issued_at: string;
+  audioId: string;
 
   @ApiProperty({
     description:
-      'HTTPS URL of the audio file. Empty string means use bundled asset.',
-    example: '',
+      'How many times this recording may be played (from exam_plays_allowed)',
+    example: 1,
   })
-  audio_url: string;
+  playsAllowed: number;
 
-  @ApiPropertyOptional({
-    description: 'Path relative to Flutter assets/ folder',
-    example: '',
+  @ApiProperty({
+    description:
+      'Content version string — send back unchanged in submit as content_revision',
+    example: 'modelltest-1-teil-1-v1',
   })
-  bundled_audio_asset?: string;
+  contentRevision: string;
 
   @ApiProperty({
     description: 'Image URL for this Teil (Cloudflare R2)',

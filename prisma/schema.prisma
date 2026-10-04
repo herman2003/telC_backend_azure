@@ -70,6 +70,7 @@ model Student {
   exam_attempts   ExamAttempt[]
   notifications   Notification[]
   activities      StudentActivity[]
+  training_audio_plays TrainingAudioPlay[]
 
   @@index([center_id])
   @@index([email])
@@ -1025,13 +1026,33 @@ model ListeningExercise {
   exam_plays_allowed Int      @default(1)
   created_at         DateTime @default(now()) @db.Timestamptz(6)
 
-  modelltest Modelltest          @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
-  questions  ListeningQuestion[]
-  attempts   ListeningAttempt[]
+  modelltest    Modelltest          @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
+  questions     ListeningQuestion[]
+  attempts      ListeningAttempt[]
+  trainingPlays TrainingAudioPlay[]
 
   @@unique([modelltest_id, part])
   @@index([modelltest_id])
   @@map("listening_exercises")
+}
+
+/// How many times a student has played one Hören recording in training.
+///
+/// Separate from `exam_audio_plays`: exam counts are per sitting attempt;
+/// training counts are per student and recording, using the same allowance
+/// column (`exam_plays_allowed`) so the two modes mean the same thing.
+model TrainingAudioPlay {
+  id         String @id @default(uuid())
+  student_id String
+  audio_id   String @db.Uuid
+
+  plays_used Int @default(0)
+
+  student Student           @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  audio   ListeningExercise @relation(fields: [audio_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, audio_id])
+  @@map("training_audio_plays")
 }
 
 model ListeningQuestion {
