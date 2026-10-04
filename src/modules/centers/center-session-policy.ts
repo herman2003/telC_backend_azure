@@ -10,9 +10,9 @@ export interface CenterSessionTtlPolicy {
 }
 
 export interface CenterSessionTimestamps {
-  created_at: Date;
-  last_used_at: Date;
-  revoked_at: Date | null;
+  created_at: Date | string | number;
+  last_used_at: Date | string | number;
+  revoked_at: Date | string | number | null;
 }
 
 /**
@@ -60,6 +60,14 @@ export function loadCenterSessionTtlPolicy(
   };
 }
 
+function asDate(value: Date | string | number, field: string): Date {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    throw new Error(`Center session ${field} is missing or invalid`);
+  }
+  return date;
+}
+
 /**
  * Admin clocks for a center device session.
  *
@@ -75,11 +83,14 @@ export function assertCenterSessionWithinTtl(
     throw new UnauthorizedException('CENTER_SESSION_REVOKED');
   }
 
-  if (now.getTime() - session.created_at.getTime() > policy.absoluteMs) {
+  const createdAt = asDate(session.created_at, 'created_at');
+  const lastUsedAt = asDate(session.last_used_at, 'last_used_at');
+
+  if (now.getTime() - createdAt.getTime() > policy.absoluteMs) {
     throw new UnauthorizedException('CENTER_SESSION_EXPIRED');
   }
 
-  if (now.getTime() - session.last_used_at.getTime() > policy.idleMs) {
+  if (now.getTime() - lastUsedAt.getTime() > policy.idleMs) {
     throw new UnauthorizedException('CENTER_SESSION_EXPIRED');
   }
 }
