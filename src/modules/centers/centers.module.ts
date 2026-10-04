@@ -53,11 +53,24 @@ import { CodeRedemptionService } from './code-redemption.service';
 import { ProgressModule } from '../progress/progress.module';
 import { CenterSupportController } from './center-support.controller';
 import { CenterSupportService } from './center-support.service';
+import { WritingModule } from '../writing/writing.module';
+import { SpeakingModule } from '../speaking/speaking.module';
+import { LesenService } from '../lesen/lesen.service';
+import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
+import { ListeningService } from '../listening/listening.service';
 
 @Module({
   // SubscriptionAccessModule imports nothing, so this cannot close a cycle
-  // back through AuthModule.
-  imports: [AuthModule, SubscriptionAccessModule, ProgressModule],
+  // back through AuthModule. Writing + Speaking (and the three content
+  // services below) power manager Modelltest preview the same way ExamsModule
+  // builds a candidate's paper.
+  imports: [
+    AuthModule,
+    SubscriptionAccessModule,
+    ProgressModule,
+    WritingModule,
+    SpeakingModule,
+  ],
   controllers: [
     CenterAuthController,
     CenterActivationCodesController,
@@ -85,6 +98,9 @@ import { CenterSupportService } from './center-support.service';
     CenterSupportService,
     ExamSessionsService,
     ExamModelltestsService,
+    LesenService,
+    SprachbausteineService,
+    ListeningService,
     EntitlementPurchaseService,
     EntitlementsService,
     ExamSlotsService,
