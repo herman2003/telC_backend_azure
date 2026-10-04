@@ -117,3 +117,34 @@ Industry pattern for admin dashboards (OWASP / Okta Admin–style):
   alone (short refresh) already fixes “still in tomorrow” — both together match
   admin best practice.
 - A front-only idle timer is not enough; session validity must be enforced server-side.
+
+---
+
+## Front: show and download exam Schreiben on center marking UI
+
+**Status:** todo  
+**Area:** `sprach` center exam marking / results (backend already ships the text)
+
+### Goal
+
+On the marking screen, show `schreibenSubmission.text` from
+`GET /api/centers/me/exam-attempts/:attemptId/result` and offer a download
+(`.txt`). Export rows already include `schreibenText` for CSV.
+
+### Why
+
+Backend contract is live (see `docs/EXAM_SCHREIBEN_CENTER_VISIBILITY_SPEC.md`).
+Without the UI, 1,000 XAF managers still cannot read the letter they must mark.
+
+### Work required
+
+1. Render the letter beside the points form (MANUAL and AI).
+2. Download filename:
+   `{sessionDate}_{lastName}_{firstName}_{studentIdShort}_schreiben.txt`.
+3. Keep AI `suggestions` as a separate panel; never prefill marks.
+4. Use `schreibenText` from export for bulk CSV if needed.
+
+### Notes
+
+- Full text always; do not truncate.
+- Student released result does not include the letter payload.

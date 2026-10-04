@@ -91,3 +91,36 @@ export class ExamCandidateRowDto {
   awaiting: string[];
   @ApiProperty({ nullable: true }) releasedAt: Date | null;
 }
+
+export class ExamSchreibenSubmissionDto {
+  @ApiProperty({
+    nullable: true,
+    description:
+      'Full letter text for the trainer to read and download. Null until the candidate submitted content.',
+  })
+  text: string | null;
+
+  @ApiProperty({ nullable: true })
+  submittedAt: Date | null;
+
+  @ApiProperty({
+    example: 420,
+    description: 'text.length when text is present, otherwise 0.',
+  })
+  characterCount: number;
+}
+
+export class ExamAttemptResultDto {
+  @ApiProperty() attemptId: string;
+  @ApiProperty() studentId: string;
+  @ApiProperty({ nullable: true }) submittedAt: Date | null;
+  @ApiProperty({ nullable: true }) releasedAt: Date | null;
+
+  @ApiProperty({
+    type: ExamSchreibenSubmissionDto,
+    nullable: true,
+    description:
+      'Null only when the attempt has no SCHREIBEN block yet. Present on MANUAL and AI sittings. Never included on the student release snapshot.',
+  })
+  schreibenSubmission: ExamSchreibenSubmissionDto | null;
+}

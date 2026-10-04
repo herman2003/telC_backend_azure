@@ -30,7 +30,10 @@ export interface ReleaseOptions {
   allowIncomplete?: boolean;
 }
 
-export type ReleasedResult = Omit<ExamResultView, 'releasedAt'> & {
+export type ReleasedResult = Omit<
+  ExamResultView,
+  'releasedAt' | 'suggestions' | 'schreibenSubmission'
+> & {
   releasedAt: Date;
 };
 
@@ -208,14 +211,19 @@ export class ExamReleaseService {
     releasedAt: Date,
     tx: Prisma.TransactionClient,
   ): Promise<void> {
-    const released: Omit<ExamResultView, 'suggestions'> = { ...result };
-    delete (released as Partial<ExamResultView>).suggestions;
+    // Suggestions and the Schreiben letter are for the person marking. The
+    // candidate already wrote the letter; shipping it back on the release
+    // snapshot is noise, and AI suggestions beside a trainer's mark are an
+    // argument, not a result.
+    const released: Record<string, unknown> = { ...result };
+    delete released.suggestions;
+    delete released.schreibenSubmission;
 
     await tx.examAttempt.update({
       where: { id: result.attemptId },
       data: {
         released_at: releasedAt,
-        released_result: released as unknown as Prisma.InputJsonValue,
+        released_result: released as Prisma.InputJsonValue,
       },
     });
   }

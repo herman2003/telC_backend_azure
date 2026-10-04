@@ -72,10 +72,42 @@ describe('ExamExportService', () => {
               percent: 67,
             },
           ],
+          schreibenSubmission: {
+            text: 'Sehr geehrte Damen und Herren,',
+            submittedAt: new Date('2026-10-04T10:00:00.000Z'),
+            characterCount: 30,
+          },
         },
       ]),
     };
     service = new ExamExportService(prisma, results);
+  });
+
+  it('includes the Schreiben letter so the dashboard can download it', async () => {
+    const exported = await service.forSession(CENTER, 'session-1');
+
+    expect(exported.rows[0].schreibenText).toBe(
+      'Sehr geehrte Damen und Herren,',
+    );
+  });
+
+  it('leaves schreibenText null when the candidate never submitted a letter', async () => {
+    results.forAttempts.mockResolvedValue([
+      {
+        attemptId: 'attempt-1',
+        studentId: 'student-1',
+        sections: [],
+        schreibenSubmission: {
+          text: null,
+          submittedAt: null,
+          characterCount: 0,
+        },
+      },
+    ]);
+
+    const exported = await service.forSession(CENTER, 'session-1');
+
+    expect(exported.rows[0].schreibenText).toBeNull();
   });
 
   describe('what it returns', () => {

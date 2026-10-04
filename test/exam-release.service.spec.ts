@@ -83,6 +83,32 @@ describe('ExamReleaseService', () => {
       );
     });
 
+    it('strips Schreiben text and AI suggestions from the student snapshot', async () => {
+      results.forAttempts.mockImplementation((ids: string[]) =>
+        Promise.resolve(
+          ids.map((id) =>
+            resultOf({
+              attemptId: id,
+              suggestions: [{ skill: 'SCHREIBEN', source: 'AI', points: 32 }],
+              schreibenSubmission: {
+                text: 'Letter for the trainer only.',
+                submittedAt: new Date(),
+                characterCount: 28,
+              },
+            }),
+          ),
+        ),
+      );
+
+      await service.releaseSession(identity, 'session-1');
+
+      const stored = prisma.examAttempt.update.mock.calls[0][0].data
+        .released_result as Record<string, unknown>;
+      expect(stored).not.toHaveProperty('suggestions');
+      expect(stored).not.toHaveProperty('schreibenSubmission');
+      expect(JSON.stringify(stored)).not.toContain('Letter for the trainer');
+    });
+
     it('releases every candidate in the sitting', async () => {
       const released = await service.releaseSession(identity, 'session-1');
 
