@@ -30,7 +30,10 @@ export interface ReleaseOptions {
   allowIncomplete?: boolean;
 }
 
-export type ReleasedResult = Omit<ExamResultView, 'releasedAt'> & {
+export type ReleasedResult = Omit<
+  ExamResultView,
+  'releasedAt' | 'suggestions' | 'schreibenSubmission'
+> & {
   releasedAt: Date;
 };
 
