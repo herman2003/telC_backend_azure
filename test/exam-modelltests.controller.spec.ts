@@ -25,6 +25,7 @@ describe('ExamModelltestsController', () => {
   it('lists Modelltests for the signed center', async () => {
     const catalogue = {
       list: jest.fn().mockResolvedValue([{ number: 1, title: 'Modelltest 1' }]),
+      getContent: jest.fn(),
     };
     const controller = new ExamModelltestsController(
       catalogue as unknown as ExamModelltestsService,
@@ -34,5 +35,29 @@ describe('ExamModelltestsController', () => {
       { number: 1, title: 'Modelltest 1' },
     ]);
     expect(catalogue.list).toHaveBeenCalledWith(user);
+  });
+
+  it('returns content for a selected Modelltest number', async () => {
+    const content = {
+      number: 2,
+      title: 'Modelltest 2',
+      sections: {
+        LESEN: {},
+        SPRACHBAUSTEINE: {},
+        HOEREN: [],
+        SCHREIBEN: {},
+        SPRECHEN: [],
+      },
+    };
+    const catalogue = {
+      list: jest.fn(),
+      getContent: jest.fn().mockResolvedValue(content),
+    };
+    const controller = new ExamModelltestsController(
+      catalogue as unknown as ExamModelltestsService,
+    );
+
+    await expect(controller.getContent(user, 2)).resolves.toEqual(content);
+    expect(catalogue.getContent).toHaveBeenCalledWith(user, 2);
   });
 });
