@@ -1,0 +1,19 @@
+meta {
+  name: 01 List codes
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/activation-codes?status=all
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+docs {
+  Newest first. status: activated | connected | suspended | deactivated | all.
+}

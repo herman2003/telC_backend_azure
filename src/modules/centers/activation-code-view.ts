@@ -15,7 +15,7 @@ import { PLAN_ID, type PlanId } from '../../shared/plan-id';
 export interface ActivationCodeView {
   id: string;
   code: string;
-  status: 'activated' | 'connected' | 'deactivated';
+  status: 'activated' | 'connected' | 'suspended' | 'deactivated';
   planId: PlanId;
   linkedName: string | null;
   linkedEmail: string | null;
@@ -28,6 +28,7 @@ const STATUS_VIEW: Record<ActivationCodeStatus, ActivationCodeView['status']> =
   {
     ACTIVATED: 'activated',
     CONNECTED: 'connected',
+    SUSPENDED: 'suspended',
     DEACTIVATED: 'deactivated',
   };
 

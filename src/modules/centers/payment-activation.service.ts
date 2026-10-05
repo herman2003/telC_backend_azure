@@ -609,8 +609,10 @@ export class PaymentActivationService {
    * and a code is how a student keeps their access.
    *
    * DEACTIVATED ONES DO NOT COUNT. That status is terminal — nothing brings a
-   * code back — so counting them would quietly cost a school a seat it keeps
-   * paying for every time a manager takes one back.
+   * code back via activate — so counting them would quietly cost a school a
+   * seat it keeps paying for every time a manager takes one back for good.
+   * SUSPENDED codes DO count: they are a paid pause of the same student and
+   * must not trigger a free remint.
    *
    * TWO SEPARATE GUARDS, against two separate mistakes. A replayed webhook
    * never reaches here at all: the compare-and-swap on the payment row sends

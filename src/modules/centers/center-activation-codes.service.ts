@@ -19,7 +19,7 @@ import {
 import { isAccountFinalized } from './center-account-state';
 import { generateActivationCode } from './activation-code-format';
 import { resetAllowance, type SubscriptionFacts } from './code-reset-allowance';
-import { hideSeatData } from '../student-activity/seat-erasure';
+import { eraseSeatDataNow } from '../student-activity/seat-erasure';
 import { isUniqueViolationOn } from '../../shared/prisma-errors';
 
 /**
@@ -36,6 +36,7 @@ type SignedCenterIdentity = Pick<
 export type CodeStatusFilter =
   | 'activated'
   | 'connected'
+  | 'suspended'
   | 'deactivated'
   | 'all';
 
@@ -69,6 +70,7 @@ const STATUS_FILTER: Record<
 > = {
   activated: ActivationCodeStatus.ACTIVATED,
   connected: ActivationCodeStatus.CONNECTED,
+  suspended: ActivationCodeStatus.SUSPENDED,
   deactivated: ActivationCodeStatus.DEACTIVATED,
 };
 
@@ -83,15 +85,28 @@ interface Transition {
   to: ActivationCodeStatus;
   /** What else the row loses when it makes this move. */
   alsoWrite: Prisma.ActivationCodeUpdateManyMutationInput;
+  /**
+   * When true, a code already in `to` is returned unchanged (double-click).
+   * Reactivate leaves this false: `CONNECTED` is also the normal live state.
+   */
+  allowIdempotent: boolean;
 }
 
+/** Pause a connected student: same code and data, seat still held. */
 const DEACTIVATE: Transition = {
-  from: [ActivationCodeStatus.ACTIVATED, ActivationCodeStatus.CONNECTED],
-  to: ActivationCodeStatus.DEACTIVATED,
-  // The student's name and email stay on the code: a manager looking at a
-  // deactivated seat needs to see whose it was. The link is broken on the
-  // student's side instead, which is what actually ends their access.
+  from: [ActivationCodeStatus.CONNECTED],
+  to: ActivationCodeStatus.SUSPENDED,
+  // student_id and linked_* stay: reactivate restores the same person.
   alsoWrite: {},
+  allowIdempotent: true,
+};
+
+/** Resume a paused student on the same code value. */
+const REACTIVATE: Transition = {
+  from: [ActivationCodeStatus.SUSPENDED],
+  to: ActivationCodeStatus.CONNECTED,
+  alsoWrite: {},
+  allowIdempotent: false,
 };
 
 /**
@@ -215,6 +230,20 @@ export class CenterActivationCodesService {
     return this.move(identity, codeId, DEACTIVATE);
   }
 
+  async reactivate(
+    identity: SignedCenterIdentity,
+    codeId: string,
+  ): Promise<ActivationCodeView> {
+    const current = await this.loadOwnedCode(identity, codeId);
+    if (
+      current.status === ActivationCodeStatus.SUSPENDED &&
+      !current.student_id
+    ) {
+      throw new ConflictException('CODE_HAS_NO_STUDENT');
+    }
+    return this.move(identity, codeId, REACTIVATE);
+  }
+
   /**
    * Moves one code, exactly once, and records it.
    *
@@ -233,7 +262,10 @@ export class CenterActivationCodesService {
     const current = await this.loadOwnedCode(identity, codeId);
 
     if (current.status === transition.to) {
-      return toActivationCodeView(current);
+      if (transition.allowIdempotent) {
+        return toActivationCodeView(current);
+      }
+      throw new ConflictException('INVALID_CODE_TRANSITION');
     }
 
     if (!transition.from.includes(current.status)) {
@@ -256,16 +288,26 @@ export class CenterActivationCodesService {
         return;
       }
 
-      // Access ends on the student's side, and only for THIS center's hold on
-      // them: a student who has since joined another school keeps that one.
-      //
+      // Access ends on the student's side for pause and for terminal take-back.
+      // Reactivate restores membership below.
       if (
-        transition.to === ActivationCodeStatus.DEACTIVATED &&
+        (transition.to === ActivationCodeStatus.SUSPENDED ||
+          transition.to === ActivationCodeStatus.DEACTIVATED) &&
         current.student_id
       ) {
         await tx.student.updateMany({
           where: { id: current.student_id, center_id: identity.centerId },
           data: { center_id: null },
+        });
+      }
+
+      if (
+        transition.to === ActivationCodeStatus.CONNECTED &&
+        current.student_id
+      ) {
+        await tx.student.updateMany({
+          where: { id: current.student_id, center_id: null },
+          data: { center_id: identity.centerId },
         });
       }
 
@@ -292,8 +334,8 @@ export class CenterActivationCodesService {
    * row — same seat, plan and expiry, so codes still equal paid seats — and
    * the old value simply stops existing.
    *
-   * The erase of the previous student's learning data that D39 also asks for
-   * is not here yet: it needs the activity data of phase 11.
+   * The erase of the previous student's learning data runs in the same
+   * transaction as the reset (immediate wipe).
    */
   async reset(
     identity: SignedCenterIdentity,
@@ -371,10 +413,10 @@ export class CenterActivationCodesService {
         throw new ConflictException('CODE_CHANGED');
       }
 
-      // Access ends at once, and only this center's hold on the student is
-      // released.
+      // Access ends at once for connected or suspended holders.
       if (
-        current.status === ActivationCodeStatus.CONNECTED &&
+        (current.status === ActivationCodeStatus.CONNECTED ||
+          current.status === ActivationCodeStatus.SUSPENDED) &&
         current.student_id
       ) {
         await tx.student.updateMany({
@@ -394,10 +436,9 @@ export class CenterActivationCodesService {
           previous_code: current.code,
         },
       });
-      // Resetting a seat means losing what was done on it (D39): hidden now,
-      // erased in 7 days.
+      // Resetting a seat means losing what was done on it: deleted now.
       if (seatWindow) {
-        await hideSeatData(
+        await eraseSeatDataNow(
           tx,
           {
             studentId: seatWindow.studentId,
@@ -405,6 +446,7 @@ export class CenterActivationCodesService {
             codeId,
             centerUserId: identity.centerUserId,
             since: seatWindow.since,
+            // Open-ended while they still held/paused the seat (see hideSeatData).
             until: seatWindow.until,
           },
           now,
@@ -491,14 +533,18 @@ export function seatWindowOf(
 ): { studentId: string; since: Date; until: Date | null } | null {
   if (!code.student_id || !code.connected_at) return null;
   const since = code.connected_at;
-  if (code.status === ActivationCodeStatus.CONNECTED) {
-    // Still on the seat: open-ended, not "until now" (see hideSeatData).
+  if (
+    code.status === ActivationCodeStatus.CONNECTED ||
+    code.status === ActivationCodeStatus.SUSPENDED
+  ) {
+    // Still on the seat (or paused on it): open-ended until reset closes it.
     return { studentId: code.student_id, since, until: null };
   }
   const left = history
     .filter(
       (event) =>
-        event.to_status === ActivationCodeStatus.DEACTIVATED &&
+        (event.to_status === ActivationCodeStatus.DEACTIVATED ||
+          event.to_status === ActivationCodeStatus.SUSPENDED) &&
         event.student_id === code.student_id &&
         event.created_at >= since,
     )
