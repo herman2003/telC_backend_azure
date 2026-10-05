@@ -31,6 +31,7 @@ describe('CenterActivationCodesController contract', () => {
       list: jest.fn().mockResolvedValue([]),
       seats: jest.fn().mockResolvedValue({}),
       deactivate: jest.fn().mockResolvedValue({ id: codeId }),
+      reactivate: jest.fn().mockResolvedValue({ id: codeId }),
       reset: jest.fn().mockResolvedValue({ id: codeId }),
     };
 
@@ -137,6 +138,24 @@ describe('CenterActivationCodesController contract', () => {
       .expect(200);
 
     expect(codes.deactivate).toHaveBeenCalledWith(signedIdentity, codeId);
+  });
+
+  it('reactivates a suspended code for the signed center', async () => {
+    await request(app.getHttpServer())
+      .post(`/api/centers/me/activation-codes/${codeId}/reactivate`)
+      .expect(200);
+
+    expect(codes.reactivate).toHaveBeenCalledWith(signedIdentity, codeId);
+  });
+
+  it('stops a blocked center from reactivating a code', async () => {
+    blocked = true;
+
+    await request(app.getHttpServer())
+      .post(`/api/centers/me/activation-codes/${codeId}/reactivate`)
+      .expect(403);
+
+    expect(codes.reactivate).not.toHaveBeenCalled();
   });
 
   it('refuses an id that is not a code id before touching the database', async () => {
