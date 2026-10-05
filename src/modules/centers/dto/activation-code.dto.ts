@@ -7,11 +7,11 @@ import { IsIn, IsOptional } from 'class-validator';
  */
 export class ListActivationCodesQueryDto {
   @ApiPropertyOptional({
-    enum: ['activated', 'connected', 'deactivated', 'all'],
+    enum: ['activated', 'connected', 'suspended', 'deactivated', 'all'],
   })
   @IsOptional()
-  @IsIn(['activated', 'connected', 'deactivated', 'all'])
-  status?: 'activated' | 'connected' | 'deactivated' | 'all';
+  @IsIn(['activated', 'connected', 'suspended', 'deactivated', 'all'])
+  status?: 'activated' | 'connected' | 'suspended' | 'deactivated' | 'all';
 
   @ApiPropertyOptional({ enum: ['start', 'all'] })
   @IsOptional()
@@ -44,12 +44,12 @@ export class ActivationCodeDto {
   code: string;
 
   @ApiProperty({
-    enum: ['activated', 'connected', 'deactivated'],
+    enum: ['activated', 'connected', 'suspended', 'deactivated'],
     example: 'activated',
     description:
-      '`activated` waits for a student, `connected` has one, `deactivated` was taken back. Expiry is not a status — compare `expiresAt`.',
+      '`activated` waits for a student, `connected` has one, `suspended` is paused (same student, data kept), `deactivated` was taken back. Expiry is not a status — compare `expiresAt`.',
   })
-  status: 'activated' | 'connected' | 'deactivated';
+  status: 'activated' | 'connected' | 'suspended' | 'deactivated';
 
   @ApiProperty({ enum: ['start'], example: 'start' })
   planId: 'start';
