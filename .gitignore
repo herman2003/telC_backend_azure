@@ -38,6 +38,9 @@ yarn-error.log*
 # Claude Code local settings (machine-specific, not for sharing)
 .claude/settings.local.json
 
+# Cursor / Superpowers local agent notes (not for sharing)
+.superpowers/
+
 /generated/prisma
 docs/api-contract.md
 # .github holds agent config that stays local, but workflows must be tracked
