@@ -446,11 +446,8 @@ export class CenterActivationCodesService {
             codeId,
             centerUserId: identity.centerUserId,
             since: seatWindow.since,
-            until:
-              current.status === ActivationCodeStatus.CONNECTED ||
-              current.status === ActivationCodeStatus.SUSPENDED
-                ? now
-                : seatWindow.until,
+            // Open-ended while they still held/paused the seat (see hideSeatData).
+            until: seatWindow.until,
           },
           now,
         );

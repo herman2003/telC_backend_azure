@@ -376,7 +376,7 @@ describe('CenterActivationCodesService', () => {
           codeId: 'code-1',
           centerUserId: 'owner-1',
           since: new Date('2027-01-02T00:00:00.000Z'),
-          until: expect.any(Date),
+          until: null,
         },
         expect.any(Date),
       );

@@ -39,7 +39,6 @@ export async function eraseSeatDataNow(
   input: SeatErasureInput,
   now = new Date(),
 ): Promise<string> {
-  const until = input.until ?? now;
   const erasure = await tx.dataErasure.create({
     data: {
       student_id: input.studentId,
@@ -47,18 +46,21 @@ export async function eraseSeatDataNow(
       code_id: input.codeId,
       center_user_id: input.centerUserId,
       since: input.since,
-      until,
+      until: input.until ?? now,
       erase_after: now,
       erased_at: now,
     },
   });
 
+  // Null `until` is open-ended (same as hideSeatData): a student still on the
+  // seat has done everything since `since` on it, including rows whose clock
+  // runs a moment ahead of the app.
   const window = {
     student_id: input.studentId,
     erasure_id: null as string | null,
     created_at: {
       gte: input.since,
-      lte: until,
+      ...(input.until ? { lte: input.until } : {}),
     },
   };
 
