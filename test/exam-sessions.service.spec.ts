@@ -74,14 +74,16 @@ describe('ExamSessionsService', () => {
     it('computes the closing time rather than accepting one', async () => {
       // A client that could send closes_at could send a sitting that never
       // closes. The window is a choice between three; the date is arithmetic.
+      // Relative to now so the OPENS_AT_IN_PAST guard cannot flake on CI day.
+      const opensAt = new Date(Date.now() + 48 * HOUR);
       const created = await service.create(identity, {
         name: 'Examen',
         modelltestNumber: 2,
-        opensAt: new Date('2026-10-05T09:00:00.000Z'),
+        opensAt,
         accessWindowHours: 48,
       });
 
-      expect(created.closesAt).toEqual(new Date('2026-10-07T09:00:00.000Z'));
+      expect(created.closesAt).toEqual(new Date(opensAt.getTime() + 48 * HOUR));
     });
 
     it('starts as a draft, published by a separate decision', async () => {
