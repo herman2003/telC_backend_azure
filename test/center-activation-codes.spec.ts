@@ -8,7 +8,10 @@ import {
   CenterActivationCodesService,
   seatWindowOf,
 } from '../src/modules/centers/center-activation-codes.service';
-import { hideSeatData, eraseSeatDataNow } from '../src/modules/student-activity/seat-erasure';
+import {
+  hideSeatData,
+  eraseSeatDataNow,
+} from '../src/modules/student-activity/seat-erasure';
 
 // The wipe itself is proven on Postgres (seat-erasure-integration.spec.ts);
 // here, only that a reset asks for it, for the right student and window.
@@ -173,13 +176,15 @@ describe('CenterActivationCodesService', () => {
     it('refuses deactivate from activated with INVALID_CODE_TRANSITION', async () => {
       prisma.activationCode.findFirst.mockResolvedValue(codeRow());
 
-      await expect(service.deactivate(identity, 'code-1')).rejects.toBeInstanceOf(
-        ConflictException,
-      );
+      await expect(
+        service.deactivate(identity, 'code-1'),
+      ).rejects.toBeInstanceOf(ConflictException);
       try {
         await service.deactivate(identity, 'code-1');
       } catch (e) {
-        expect((e as ConflictException).message).toBe('INVALID_CODE_TRANSITION');
+        expect((e as ConflictException).message).toBe(
+          'INVALID_CODE_TRANSITION',
+        );
       }
     });
 
@@ -302,9 +307,9 @@ describe('CenterActivationCodesService', () => {
         codeRow({ status: 'CONNECTED', student_id: 'student-1' }),
       );
 
-      await expect(service.reactivate(identity, 'code-1')).rejects.toBeInstanceOf(
-        ConflictException,
-      );
+      await expect(
+        service.reactivate(identity, 'code-1'),
+      ).rejects.toBeInstanceOf(ConflictException);
     });
 
     it('refuses reactivate when suspended row has no student', async () => {
@@ -312,7 +317,9 @@ describe('CenterActivationCodesService', () => {
         codeRow({ status: 'SUSPENDED', student_id: null }),
       );
 
-      await expect(service.reactivate(identity, 'code-1')).rejects.toMatchObject({
+      await expect(
+        service.reactivate(identity, 'code-1'),
+      ).rejects.toMatchObject({
         message: 'CODE_HAS_NO_STUDENT',
       });
     });
@@ -497,7 +504,6 @@ describe('CenterActivationCodesService', () => {
 
 describe('seatWindowOf', () => {
   const since = new Date('2027-01-02T00:00:00Z');
-  const now = new Date('2027-02-01T00:00:00Z');
   const left = new Date('2027-01-20T00:00:00Z');
   const event = (
     to_status: any,
