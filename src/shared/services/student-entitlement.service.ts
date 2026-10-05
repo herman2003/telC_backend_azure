@@ -56,6 +56,7 @@ export interface StudentEntitlement {
 export type AccessRefusal =
   | 'NO_CODE'
   | 'CODE_DEACTIVATED'
+  | 'CODE_SUSPENDED'
   | 'CODE_EXPIRED'
   | 'CENTER_UNPAID';
 
@@ -222,6 +223,10 @@ export class StudentEntitlementService {
    * is asked for a code.
    */
   private refusalFromLastCode(row: EntitlementRow): AccessRefusal {
+    if (row.last_code_status === 'SUSPENDED') {
+      return 'CODE_SUSPENDED';
+    }
+
     if (row.last_code_status === 'DEACTIVATED') {
       return 'CODE_DEACTIVATED';
     }

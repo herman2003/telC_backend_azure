@@ -168,6 +168,16 @@ describe('CodeRedemptionService.redeem', () => {
       );
     });
 
+    it('a code the center paused', async () => {
+      prisma.activationCode.findUnique.mockResolvedValue(
+        codeRow({ status: 'SUSPENDED', student_id: 'student-1' }),
+      );
+
+      await expect(service.redeem(student, 'LQ-7K2P-94QX', ip)).rejects.toThrow(
+        new ConflictException('CODE_SUSPENDED'),
+      );
+    });
+
     it('a code past its date', async () => {
       prisma.activationCode.findUnique.mockResolvedValue(
         codeRow({ expires_at: new Date(Date.now() - DAY_MS) }),

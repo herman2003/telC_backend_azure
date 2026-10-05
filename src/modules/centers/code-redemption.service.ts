@@ -95,6 +95,10 @@ export class CodeRedemptionService {
       throw new ConflictException('CODE_ALREADY_USED');
     }
 
+    if (code.status === ActivationCodeStatus.SUSPENDED) {
+      throw new ConflictException('CODE_SUSPENDED');
+    }
+
     if (code.status === ActivationCodeStatus.DEACTIVATED) {
       throw new ConflictException('CODE_DEACTIVATED');
     }

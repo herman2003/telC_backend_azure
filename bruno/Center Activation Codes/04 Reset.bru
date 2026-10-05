@@ -1,0 +1,19 @@
+meta {
+  name: 04 Reset
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/activation-codes/{{codeId}}/reset
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+docs {
+  New code value, status activated. Previous seat learning data deleted immediately.
+}

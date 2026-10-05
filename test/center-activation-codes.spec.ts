@@ -8,12 +8,16 @@ import {
   CenterActivationCodesService,
   seatWindowOf,
 } from '../src/modules/centers/center-activation-codes.service';
-import { hideSeatData } from '../src/modules/student-activity/seat-erasure';
+import {
+  hideSeatData,
+  eraseSeatDataNow,
+} from '../src/modules/student-activity/seat-erasure';
 
-// The hiding itself is proven on Postgres (seat-erasure-integration.spec.ts);
+// The wipe itself is proven on Postgres (seat-erasure-integration.spec.ts);
 // here, only that a reset asks for it, for the right student and window.
 jest.mock('../src/modules/student-activity/seat-erasure', () => ({
   hideSeatData: jest.fn().mockResolvedValue('erasure-1'),
+  eraseSeatDataNow: jest.fn().mockResolvedValue('erasure-1'),
 }));
 
 /**
@@ -169,29 +173,22 @@ describe('CenterActivationCodesService', () => {
   });
 
   describe('deactivating', () => {
-    it('takes a waiting code back', async () => {
-      // Before the write, then the re-read after it: the response is what the
-      // database now holds, not what the service hoped it wrote.
-      prisma.activationCode.findFirst
-        .mockResolvedValueOnce(codeRow())
-        .mockResolvedValueOnce(codeRow({ status: 'DEACTIVATED' }));
+    it('refuses deactivate from activated with INVALID_CODE_TRANSITION', async () => {
+      prisma.activationCode.findFirst.mockResolvedValue(codeRow());
 
-      const code = await service.deactivate(identity, 'code-1');
-
-      expect(prisma.activationCode.updateMany).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: {
-            id: 'code-1',
-            center_id: 'center-1',
-            status: { in: ['ACTIVATED', 'CONNECTED'] },
-          },
-          data: { status: 'DEACTIVATED' },
-        }),
-      );
-      expect(code.status).toBe('deactivated');
+      await expect(
+        service.deactivate(identity, 'code-1'),
+      ).rejects.toBeInstanceOf(ConflictException);
+      try {
+        await service.deactivate(identity, 'code-1');
+      } catch (e) {
+        expect((e as ConflictException).message).toBe(
+          'INVALID_CODE_TRANSITION',
+        );
+      }
     });
 
-    it('cuts a connected student off, and keeps their name so the center knows who', async () => {
+    it('pauses a connected student as suspended and keeps their identity on the code', async () => {
       prisma.activationCode.findFirst
         .mockResolvedValueOnce(
           codeRow({
@@ -203,7 +200,7 @@ describe('CenterActivationCodesService', () => {
         )
         .mockResolvedValueOnce(
           codeRow({
-            status: 'DEACTIVATED',
+            status: 'SUSPENDED',
             student_id: 'student-1',
             linked_name: 'Amina Nguema',
             linked_email: 'amina@example.com',
@@ -212,21 +209,25 @@ describe('CenterActivationCodesService', () => {
 
       const code = await service.deactivate(identity, 'code-1');
 
-      // Only this center's hold on the student is released: a student who has
-      // since joined another school must not lose that school.
-      //
-      // And the tier stays. A leftover tier is how the system tells a student a
-      // school released from a genuine independent one — and independent
-      // students are admitted to the exam module. Clearing it would turn
-      // "deactivated" into "upgraded".
+      expect(prisma.activationCode.updateMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            id: 'code-1',
+            center_id: 'center-1',
+            status: { in: ['CONNECTED'] },
+          },
+          data: { status: 'SUSPENDED' },
+        }),
+      );
       expect(prisma.student.updateMany).toHaveBeenCalledWith({
         where: { id: 'student-1', center_id: 'center-1' },
         data: { center_id: null },
       });
+      expect(code.status).toBe('suspended');
       expect(code.linkedName).toBe('Amina Nguema');
     });
 
-    it('records who did it, and to whom', async () => {
+    it('records who paused whom', async () => {
       prisma.activationCode.findFirst.mockResolvedValue(
         codeRow({ status: 'CONNECTED', student_id: 'student-1' }),
       );
@@ -239,22 +240,88 @@ describe('CenterActivationCodesService', () => {
           center_id: 'center-1',
           center_user_id: 'owner-1',
           from_status: 'CONNECTED',
-          to_status: 'DEACTIVATED',
+          to_status: 'SUSPENDED',
           student_id: 'student-1',
         },
       });
     });
 
-    it('answers an already-deactivated code with the code, not an error', async () => {
+    it('answers an already-suspended code with the code, not an error', async () => {
       prisma.activationCode.findFirst.mockResolvedValue(
-        codeRow({ status: 'DEACTIVATED' }),
+        codeRow({ status: 'SUSPENDED', student_id: 'student-1' }),
       );
 
       const code = await service.deactivate(identity, 'code-1');
 
-      expect(code.status).toBe('deactivated');
+      expect(code.status).toBe('suspended');
       expect(prisma.activationCode.updateMany).not.toHaveBeenCalled();
       expect(prisma.activationCodeEvent.create).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('reactivating', () => {
+    it('restores a suspended code to connected and puts the student back', async () => {
+      prisma.activationCode.findFirst
+        .mockResolvedValueOnce(
+          codeRow({
+            status: 'SUSPENDED',
+            student_id: 'student-1',
+            linked_name: 'Amina Nguema',
+            code: 'LQ-7K2P-94QX',
+          }),
+        )
+        .mockResolvedValueOnce(
+          codeRow({
+            status: 'SUSPENDED',
+            student_id: 'student-1',
+            linked_name: 'Amina Nguema',
+            code: 'LQ-7K2P-94QX',
+          }),
+        )
+        .mockResolvedValueOnce(
+          codeRow({
+            status: 'CONNECTED',
+            student_id: 'student-1',
+            linked_name: 'Amina Nguema',
+            code: 'LQ-7K2P-94QX',
+          }),
+        );
+
+      const code = await service.reactivate(identity, 'code-1');
+
+      expect(prisma.activationCode.updateMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: { status: 'CONNECTED' },
+        }),
+      );
+      expect(prisma.student.updateMany).toHaveBeenCalledWith({
+        where: { id: 'student-1', center_id: null },
+        data: { center_id: 'center-1' },
+      });
+      expect(code.status).toBe('connected');
+      expect(code.code).toBe('LQ-7K2P-94QX');
+    });
+
+    it('refuses reactivate when not suspended', async () => {
+      prisma.activationCode.findFirst.mockResolvedValue(
+        codeRow({ status: 'CONNECTED', student_id: 'student-1' }),
+      );
+
+      await expect(
+        service.reactivate(identity, 'code-1'),
+      ).rejects.toBeInstanceOf(ConflictException);
+    });
+
+    it('refuses reactivate when suspended row has no student', async () => {
+      prisma.activationCode.findFirst.mockResolvedValue(
+        codeRow({ status: 'SUSPENDED', student_id: null }),
+      );
+
+      await expect(
+        service.reactivate(identity, 'code-1'),
+      ).rejects.toMatchObject({
+        message: 'CODE_HAS_NO_STUDENT',
+      });
     });
   });
 
@@ -305,10 +372,10 @@ describe('CenterActivationCodesService', () => {
       expect(code.status).toBe('activated');
     });
 
-    it("hides the student's work on the seat, from connecting until now (D39)", async () => {
+    it('deletes the student work on the seat immediately', async () => {
       await service.reset(identity, 'code-1');
 
-      expect(hideSeatData).toHaveBeenCalledWith(
+      expect(eraseSeatDataNow).toHaveBeenCalledWith(
         expect.anything(),
         {
           studentId: 'student-1',
@@ -320,6 +387,7 @@ describe('CenterActivationCodesService', () => {
         },
         expect.any(Date),
       );
+      expect(hideSeatData).not.toHaveBeenCalled();
     });
 
     it('cuts the connected student off, keeping their tier', async () => {
@@ -436,7 +504,6 @@ describe('CenterActivationCodesService', () => {
 
 describe('seatWindowOf', () => {
   const since = new Date('2027-01-02T00:00:00Z');
-  const now = new Date('2027-02-01T00:00:00Z');
   const left = new Date('2027-01-20T00:00:00Z');
   const event = (
     to_status: any,
