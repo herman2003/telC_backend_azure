@@ -8,12 +8,13 @@ import {
   CenterActivationCodesService,
   seatWindowOf,
 } from '../src/modules/centers/center-activation-codes.service';
-import { hideSeatData } from '../src/modules/student-activity/seat-erasure';
+import { hideSeatData, eraseSeatDataNow } from '../src/modules/student-activity/seat-erasure';
 
-// The hiding itself is proven on Postgres (seat-erasure-integration.spec.ts);
+// The wipe itself is proven on Postgres (seat-erasure-integration.spec.ts);
 // here, only that a reset asks for it, for the right student and window.
 jest.mock('../src/modules/student-activity/seat-erasure', () => ({
   hideSeatData: jest.fn().mockResolvedValue('erasure-1'),
+  eraseSeatDataNow: jest.fn().mockResolvedValue('erasure-1'),
 }));
 
 /**
@@ -364,10 +365,10 @@ describe('CenterActivationCodesService', () => {
       expect(code.status).toBe('activated');
     });
 
-    it("hides the student's work on the seat, from connecting until now (D39)", async () => {
+    it('deletes the student work on the seat immediately', async () => {
       await service.reset(identity, 'code-1');
 
-      expect(hideSeatData).toHaveBeenCalledWith(
+      expect(eraseSeatDataNow).toHaveBeenCalledWith(
         expect.anything(),
         {
           studentId: 'student-1',
@@ -375,10 +376,11 @@ describe('CenterActivationCodesService', () => {
           codeId: 'code-1',
           centerUserId: 'owner-1',
           since: new Date('2027-01-02T00:00:00.000Z'),
-          until: null,
+          until: expect.any(Date),
         },
         expect.any(Date),
       );
+      expect(hideSeatData).not.toHaveBeenCalled();
     });
 
     it('cuts the connected student off, keeping their tier', async () => {

@@ -197,6 +197,20 @@ describe('StudentEntitlementService', () => {
       });
     });
 
+    it('refuses a student a school paused, and says so', async () => {
+      givenRow({
+        center_id: null,
+        grandfathered_access: false,
+        last_code_status: 'SUSPENDED',
+        last_code_expires_at: null,
+      });
+
+      await expect(service.forStudent('student-1')).resolves.toMatchObject({
+        studentsMayLearn: false,
+        accessRefusal: 'CODE_SUSPENDED',
+      });
+    });
+
     it('refuses a student whose code has run out, and says so', async () => {
       givenRow({
         center_id: null,

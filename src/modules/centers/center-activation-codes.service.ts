@@ -19,7 +19,7 @@ import {
 import { isAccountFinalized } from './center-account-state';
 import { generateActivationCode } from './activation-code-format';
 import { resetAllowance, type SubscriptionFacts } from './code-reset-allowance';
-import { hideSeatData } from '../student-activity/seat-erasure';
+import { eraseSeatDataNow } from '../student-activity/seat-erasure';
 import { isUniqueViolationOn } from '../../shared/prisma-errors';
 
 /**
@@ -334,8 +334,8 @@ export class CenterActivationCodesService {
    * row — same seat, plan and expiry, so codes still equal paid seats — and
    * the old value simply stops existing.
    *
-   * The erase of the previous student's learning data that D39 also asks for
-   * is not here yet: it needs the activity data of phase 11.
+   * The erase of the previous student's learning data runs in the same
+   * transaction as the reset (immediate wipe).
    */
   async reset(
     identity: SignedCenterIdentity,
@@ -413,10 +413,10 @@ export class CenterActivationCodesService {
         throw new ConflictException('CODE_CHANGED');
       }
 
-      // Access ends at once, and only this center's hold on the student is
-      // released.
+      // Access ends at once for connected or suspended holders.
       if (
-        current.status === ActivationCodeStatus.CONNECTED &&
+        (current.status === ActivationCodeStatus.CONNECTED ||
+          current.status === ActivationCodeStatus.SUSPENDED) &&
         current.student_id
       ) {
         await tx.student.updateMany({
@@ -436,10 +436,9 @@ export class CenterActivationCodesService {
           previous_code: current.code,
         },
       });
-      // Resetting a seat means losing what was done on it (D39): hidden now,
-      // erased in 7 days.
+      // Resetting a seat means losing what was done on it: deleted now.
       if (seatWindow) {
-        await hideSeatData(
+        await eraseSeatDataNow(
           tx,
           {
             studentId: seatWindow.studentId,
@@ -447,7 +446,11 @@ export class CenterActivationCodesService {
             codeId,
             centerUserId: identity.centerUserId,
             since: seatWindow.since,
-            until: seatWindow.until,
+            until:
+              current.status === ActivationCodeStatus.CONNECTED ||
+              current.status === ActivationCodeStatus.SUSPENDED
+                ? now
+                : seatWindow.until,
           },
           now,
         );
@@ -533,14 +536,18 @@ export function seatWindowOf(
 ): { studentId: string; since: Date; until: Date | null } | null {
   if (!code.student_id || !code.connected_at) return null;
   const since = code.connected_at;
-  if (code.status === ActivationCodeStatus.CONNECTED) {
-    // Still on the seat: open-ended, not "until now" (see hideSeatData).
+  if (
+    code.status === ActivationCodeStatus.CONNECTED ||
+    code.status === ActivationCodeStatus.SUSPENDED
+  ) {
+    // Still on the seat (or paused on it): open-ended until reset closes it.
     return { studentId: code.student_id, since, until: null };
   }
   const left = history
     .filter(
       (event) =>
-        event.to_status === ActivationCodeStatus.DEACTIVATED &&
+        (event.to_status === ActivationCodeStatus.DEACTIVATED ||
+          event.to_status === ActivationCodeStatus.SUSPENDED) &&
         event.student_id === code.student_id &&
         event.created_at >= since,
     )
