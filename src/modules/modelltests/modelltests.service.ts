@@ -3,7 +3,9 @@ import { PrismaService } from '../../shared/services/prisma.service';
 import type {
   ModelltestDetailDto,
   ModelltestListItemDto,
+  ModelltestOfTheWeekDto,
 } from './dto/modelltest.dto';
+import { getSevenDayPeriod } from './seven-day-period';
 
 @Injectable()
 export class ModelltestsService {
@@ -18,6 +20,34 @@ export class ModelltestsService {
       orderBy: { number: 'asc' },
     });
     return rows.map(({ id, number, title }) => ({ id, number, title }));
+  }
+
+  /**
+   * Training Modelltest for the current 7-day UTC window. Start-only surface;
+   * does not expose Prep Pass exercise IDs.
+   */
+  async getOfTheWeek(now: Date = new Date()): Promise<ModelltestOfTheWeekDto> {
+    const rows = await this.prisma.modelltest.findMany({
+      where: { exam_only: false },
+      orderBy: { number: 'asc' },
+      select: { id: true, number: true, title: true },
+    });
+
+    if (rows.length === 0) {
+      throw new NotFoundException('No training Modelltest available');
+    }
+
+    const { periodIndex, periodStart, periodEnd } = getSevenDayPeriod(now);
+    // Adding a new training MT changes N and therefore the index — expected.
+    const row = rows[periodIndex % rows.length];
+
+    return {
+      id: row.id,
+      number: row.number,
+      title: row.title,
+      periodStart: periodStart.toISOString(),
+      periodEnd: periodEnd.toISOString(),
+    };
   }
 
   async getByNumber(number: number): Promise<ModelltestDetailDto> {

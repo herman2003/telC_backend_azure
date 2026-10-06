@@ -1,5 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import { ModelltestsService } from './modelltests.service';
+import { MODELLTEST_PERIOD_EPOCH_MS } from './seven-day-period';
+
+const MS_PER_DAY = 86_400_000;
 
 const mockPrisma = {
   modelltest: {
@@ -8,6 +11,15 @@ const mockPrisma = {
     findFirst: jest.fn(),
   },
 };
+
+const TRAINING_ROWS = [
+  { id: 'mt1-uuid', number: 1, title: 'Modelltest 1' },
+  { id: 'mt2-uuid', number: 2, title: 'Modelltest 2' },
+];
+
+function daysAfterEpoch(days: number): Date {
+  return new Date(MODELLTEST_PERIOD_EPOCH_MS + days * MS_PER_DAY);
+}
 
 const MT1_ROW = {
   id: 'mt1-uuid',
@@ -118,6 +130,60 @@ describe('ModelltestsService', () => {
       mockPrisma.modelltest.findFirst.mockResolvedValue(null);
 
       await expect(service.getByNumber(99)).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('getOfTheWeek', () => {
+    it('returns the same MT on day 0 and day 6 of a period', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue(TRAINING_ROWS);
+
+      const day0 = await service.getOfTheWeek(daysAfterEpoch(0));
+      const day6 = await service.getOfTheWeek(daysAfterEpoch(6));
+
+      expect(day0.number).toBe(1);
+      expect(day6.number).toBe(1);
+      expect(day0.periodStart).toBe(day6.periodStart);
+      expect(day0.periodEnd).toBe(day6.periodEnd);
+    });
+
+    it('rotates to the next MT on day 7', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue(TRAINING_ROWS);
+
+      const day0 = await service.getOfTheWeek(daysAfterEpoch(0));
+      const day7 = await service.getOfTheWeek(daysAfterEpoch(7));
+
+      expect(day0.number).toBe(1);
+      expect(day7.number).toBe(2);
+    });
+
+    it('keeps a single MT across periods', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue([TRAINING_ROWS[0]]);
+
+      const a = await service.getOfTheWeek(daysAfterEpoch(0));
+      const b = await service.getOfTheWeek(daysAfterEpoch(14));
+
+      expect(a.number).toBe(1);
+      expect(b.number).toBe(1);
+    });
+
+    it('throws NotFoundException when no training Modelltest exists', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue([]);
+
+      await expect(
+        service.getOfTheWeek(daysAfterEpoch(0)),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('queries only training rows with a light select', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue(TRAINING_ROWS);
+
+      await service.getOfTheWeek(daysAfterEpoch(0));
+
+      expect(mockPrisma.modelltest.findMany).toHaveBeenCalledWith({
+        where: { exam_only: false },
+        orderBy: { number: 'asc' },
+        select: { id: true, number: true, title: true },
+      });
     });
   });
 });
