@@ -113,7 +113,7 @@ async function makeAddOnPayment(
   quantity: number,
   metadata?: { codeIds: string[]; capPerCode: number },
 ) {
-  const price = kind === 'PREP_PASS' ? 3000 : 300;
+  const price = kind === 'PREP_PASS' ? 1000 : 300;
   return prisma.payment.create({
     data: {
       center_id: centerId,

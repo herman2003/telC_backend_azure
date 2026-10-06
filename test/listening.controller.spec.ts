@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 import { ListeningController } from '../src/modules/listening/listening.controller';
 import { ListeningService } from '../src/modules/listening/listening.service';
 import { TrainingAudioService } from '../src/modules/listening/training-audio.service';
@@ -33,8 +34,10 @@ describe('ListeningController', () => {
       .overrideGuard(JwtAuthGuard)
       .useValue({ canActivate: () => true })
       // This spec is about the controller delegating to its service. Whether a
-      // subscription is live is StudentSubscriptionGuard's own spec to prove.
+      // subscription / Prep Pass is live is those guards' own specs to prove.
       .overrideGuard(StudentSubscriptionGuard)
+      .useValue({ canActivate: () => true })
+      .overrideGuard(PrepPassGuard)
       .useValue({ canActivate: () => true })
       .compile();
 

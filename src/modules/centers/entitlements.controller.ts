@@ -189,7 +189,7 @@ export class EntitlementsController {
   @ApiOperation({
     summary: 'Return unused AI Speaking credits to the school pool',
     description:
-      'For AI_SPEAKING_CREDIT, unused assigned credits go back to unallocated stock and the seat is cleared. Never a card refund and never a period cut short: a student keeps the sixty days their center bought them, and already-spent sessions stay spent.',
+      'For AI_SPEAKING_CREDIT, unused assigned credits go back to unallocated stock and the seat is cleared. Never a card refund. Prep Pass revoke returns unused time to the pool; already-spent sessions stay spent.',
   })
   @ApiParam({ name: 'product', enum: EntitlementProduct })
   @ApiNotFoundResponse({

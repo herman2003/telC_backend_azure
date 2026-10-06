@@ -26,7 +26,7 @@ import { CenterTrialService } from '../src/modules/centers/center-trial.service'
 import { CodeRedemptionService } from '../src/modules/centers/code-redemption.service';
 import { PaymentActivationService } from '../src/modules/centers/payment-activation.service';
 import { EntitlementPurchaseService } from '../src/modules/centers/entitlement-purchase.service';
-import { EntitlementSpendService } from '../src/shared/services/entitlement-spend.service';
+import { EntitlementSpendService, FREE_LIVE_SESSIONS_PER_MONTH } from '../src/shared/services/entitlement-spend.service';
 import { StudentEntitlementService } from '../src/shared/services/student-entitlement.service';
 import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
 
@@ -185,19 +185,23 @@ describe('a school, from its first 4,500 to a spent credit', () => {
     const fresh = await spend.forStudent(student.id);
     expect(fresh).toMatchObject({
       frozen: false,
-      aiSpeaking: { freeRemaining: 5, creditsAvailable: 10 },
+      aiSpeaking: { freeRemaining: FREE_LIVE_SESSIONS_PER_MONTH, creditsAvailable: 10 },
     });
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < FREE_LIVE_SESSIONS_PER_MONTH; i++) {
       const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
       expect(decision.allowed).toBe(true);
       await spend.spend(student.id, 'AI_SPEAKING_CREDIT');
       await prisma.aiUsage.create({
-        data: { student_id: student.id, operation: 'SPEAKING_LIVE_SESSION' },
+        data: {
+          student_id: student.id,
+          operation: 'SPEAKING_LIVE_SESSION',
+          counts_toward_free: true,
+        },
       });
     }
 
-    // Five free sessions run; unallocated stock is untouched (40 bought,
+    // Free sessions run; unallocated stock is untouched (40 bought,
     // 10 already assigned to this seat → 30 left in the school pool).
     await expect(
       prisma.centerEntitlementPool.findFirstOrThrow({
@@ -206,7 +210,7 @@ describe('a school, from its first 4,500 to a spent credit', () => {
       }),
     ).resolves.toEqual({ balance: 30 });
 
-    // ---- 6. The sixth session spends an assigned credit (not the pool).
+    // ---- 6. The next session spends an assigned credit (not the pool).
     const sixth = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
     expect(sixth).toMatchObject({ allowed: true, freeRemaining: 0 });
 

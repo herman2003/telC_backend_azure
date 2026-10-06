@@ -814,3 +814,20 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     ],
   },
 ];
+
+export function findSpeakingTopicById(id: string): SpeakingTopic | undefined {
+  return SPEAKING_TOPICS.find((topic) => topic.id === id);
+}
+
+/** Public catalogue for Mit Elena (id + display fields only). */
+export function listElenaTopics(): Array<{
+  id: string;
+  level: SpeakingLevel;
+  teil: 2;
+  title: string;
+  positionA: string;
+  positionB: string;
+  followUpQuestions: string[];
+}> {
+  return SPEAKING_TOPICS.map((topic) => ({ ...topic }));
+}

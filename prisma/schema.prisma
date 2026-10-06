@@ -1133,6 +1133,10 @@ model AiUsage {
   id         String      @id @default(uuid())
   student_id String
   operation  AiOperation
+  /// Which Teil a live session practised (1–3). Null for evaluations / legacy rows.
+  teil_number Int?
+  /// False when the session spent a bought credit, so it must not eat Start's free allowance.
+  counts_toward_free Boolean @default(true)
   created_at DateTime    @default(now())
 
   student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
@@ -1141,6 +1145,7 @@ model AiUsage {
   /// timestamp. Column order matters — student first because it is the
   /// equality, created_at second because it is the range.
   @@index([student_id, operation, created_at])
+  @@index([student_id, operation, teil_number, created_at])
   @@map("ai_usage")
 }
 

@@ -14,6 +14,7 @@ import { ApiBody, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 const DEFAULT_MODELLTEST = 1;
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../../shared/guards/prep-pass.guard';
 import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
 import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { LesenService } from './lesen.service';
@@ -23,7 +24,7 @@ import { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 
 @ApiTags('Reading')
-@UseGuards(JwtAuthGuard, StudentSubscriptionGuard)
+@UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/reading')
 export class LesenController {
   constructor(private readonly lesenService: LesenService) {}

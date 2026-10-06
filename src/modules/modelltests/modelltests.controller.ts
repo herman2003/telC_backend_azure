@@ -1,6 +1,7 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../../shared/guards/prep-pass.guard';
 import { ModelltestsService } from './modelltests.service';
 import type {
   ModelltestDetailDto,
@@ -8,14 +9,10 @@ import type {
 } from './dto/modelltest.dto';
 
 /**
- * The Modelltest content, open to every student whose school is paying.
- *
- * It used to be the line between Start and Pro. With Start the only plan
- * (2026-09-23) there is no tier to compare, so the subscription guard is the
- * whole rule here, exactly as for per-skill practice. What the new pricing
- * sells instead — Prep Pass, Exam Day — gets its own check when it is built.
+ * Prep Pass training catalogue. Start subscription is still required (seat),
+ * and an active Prep Pass unlocks the series.
  */
-@UseGuards(JwtAuthGuard, StudentSubscriptionGuard)
+@UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/modelltests')
 export class ModelltestsController {
   constructor(private readonly service: ModelltestsService) {}

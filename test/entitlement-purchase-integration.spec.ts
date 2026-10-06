@@ -107,7 +107,7 @@ describe('what a purchase records', () => {
     ).resolves.toEqual([]);
   });
 
-  it('prices a Prep Pass at 3000', async () => {
+  it('prices a Prep Pass at 1000', async () => {
     const center = await makeCenter();
 
     const payment = await purchases.purchase(center.identity, key(), {
@@ -115,7 +115,7 @@ describe('what a purchase records', () => {
       quantity: 6,
     });
 
-    expect(payment).toMatchObject({ unitPriceXaf: 3_000, amountXaf: 21_240 });
+    expect(payment).toMatchObject({ unitPriceXaf: 1_000, amountXaf: 7_080 });
   });
 
   it('carries the chosen seats and cap to the webhook', async () => {

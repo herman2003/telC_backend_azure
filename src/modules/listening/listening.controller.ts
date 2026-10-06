@@ -27,6 +27,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../../shared/guards/prep-pass.guard';
 import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
 import { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { ListeningService } from './listening.service';
@@ -41,7 +42,7 @@ import type { GrantedPlay } from '../centers/exam-audio.service';
 @ApiTags('Listening (Hören)')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })
-@UseGuards(JwtAuthGuard, StudentSubscriptionGuard)
+@UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/listening')
 export class ListeningController {
   constructor(

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import {
   ConflictException,
@@ -5,7 +6,9 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { WritingService } from '../src/modules/writing/writing.service';
+import { WritingDailyQuotaService } from '../src/modules/writing/writing-daily-quota.service';
 import { PrismaService } from '../src/shared/services/prisma.service';
+import type { WritingExerciseStimulus } from '../src/modules/writing/dto';
 
 const FAKE_EXERCISE = {
   id: 'uuid-exercise-1',
@@ -68,11 +71,16 @@ describe('WritingService', () => {
     add: jest.fn().mockResolvedValue(undefined),
   };
 
+  const mockDailyQuota = {
+    assertMaySubmit: jest.fn().mockResolvedValue(undefined),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WritingService,
         { provide: PrismaService, useValue: mockPrismaService },
+        { provide: WritingDailyQuotaService, useValue: mockDailyQuota },
         { provide: 'WRITING_CORRECTION_QUEUE', useValue: mockQueue },
       ],
     }).compile();
@@ -98,7 +106,9 @@ describe('WritingService', () => {
       expect(result.title).toBe('E-Mail / Brief');
       expect(result.bulletPoints).toHaveLength(5);
       expect(result.stimulus).toBeDefined();
-      expect((result.stimulus as any).heading).toContain('Büroräume');
+      expect((result.stimulus as WritingExerciseStimulus).heading).toContain(
+        'Büroräume',
+      );
     });
 
     it('throws NotFoundException when exercise not in DB', async () => {
@@ -157,8 +167,10 @@ describe('WritingService', () => {
 
       expect(mockPrismaService.writingAttempt.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: expect.objectContaining({ exercise_id: 'uuid-exercise-1' }),
-        }),
+          where: expect.objectContaining({
+            exercise_id: 'uuid-exercise-1',
+          }) as Record<string, unknown>,
+        }) as Record<string, unknown>,
       );
     });
 
@@ -188,6 +200,7 @@ describe('WritingService', () => {
 
       expect(result.attemptId).toBeDefined();
       expect(result.status).toBe('pending');
+      expect(mockDailyQuota.assertMaySubmit).toHaveBeenCalledWith('student-1');
       expect(mockPrismaService.writingAttempt.create).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
@@ -204,6 +217,25 @@ describe('WritingService', () => {
           exerciseId: 'uuid-exercise-1',
         }),
       );
+    });
+
+    it('skips the Start daily quota for guests (IP rate-limit only)', async () => {
+      mockPrismaService.writingExercise.findUnique.mockResolvedValue({
+        id: 'uuid-exercise-1',
+        modelltest_id: 'uuid-modelltest-1',
+      });
+      mockPrismaService.writingAttempt.create.mockResolvedValue({});
+
+      await service.submit(
+        'guest-1',
+        {
+          exerciseId: 'uuid-exercise-1',
+          content: 'Hallo, dies ist ein Gastversuch.',
+        },
+        { isGuest: true },
+      );
+
+      expect(mockDailyQuota.assertMaySubmit).not.toHaveBeenCalled();
     });
 
     it('throws NotFoundException when exerciseId not in DB', async () => {
