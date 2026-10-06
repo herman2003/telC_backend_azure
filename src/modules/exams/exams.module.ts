@@ -20,7 +20,6 @@ import { ExamSessionPolicyService } from '../centers/exam-session-policy.service
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../listening/listening.service';
-import { WritingService } from '../writing/writing.service';
 
 /**
  * The candidate's half of the exam simulator.
@@ -58,7 +57,8 @@ import { WritingService } from '../writing/writing.service';
     LesenService,
     SprachbausteineService,
     ListeningService,
-    WritingService,
+    // WritingService comes from WritingModule (exported) — do not re-provide
+    // it here or Nest builds a second instance missing WritingDailyQuotaService.
   ],
 })
 export class ExamsModule {}
