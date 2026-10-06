@@ -54,10 +54,14 @@ L’offre principale.
 
 Entraînement structuré sur les **3 Teile** du **Modelltest de la semaine**.
 
+Le MT courant est résolu par `GET /api/modelltests/of-the-week` (rotation
+automatique tous les **7 jours** UTC, Start only — pas Prep Pass). L’app charge
+ensuite les sujets via `GET /api/speaking/teils?modelltest=<number>`.
+
 | Règle | Détail |
 |--------|--------|
 | Contenu | Teil 1, Teil 2, Teil 3 |
-| Thèmes | Modelltest de la semaine |
+| Thèmes | Modelltest de la semaine (`of-the-week`) |
 | Avec l’IA | **1 session / Teil / jour** (max **3 / jour**) |
 | Durée | **5 minutes** par session |
 | Plafond | **12 sessions IA / mois** |

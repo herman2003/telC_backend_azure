@@ -62,10 +62,11 @@ const PREP_PASS_LIBRARY_CONTROLLERS = [
   'SprachbausteineController',
 ];
 
-/** The seven the plan inventoried. Named so the scan cannot pass vacuously. */
+/** Learning surfaces the sweep must keep seeing (Start and/or Prep Pass). */
 const EXPECTED_LEARNING_CONTROLLERS = [
   'LesenController',
   'ListeningController',
+  'ModelltestOfTheWeekController',
   'ModelltestsController',
   'SpeakingController',
   'SpeakingCatalogController',
@@ -213,6 +214,8 @@ describe('subscription enforcement across learning controllers', () => {
       'WritingController',
       'SpeakingController',
       'SpeakingCatalogController',
+      // Current 7-day MT for Start Sprechen themes — not the Prep Pass catalogue.
+      'ModelltestOfTheWeekController',
     ]) {
       const { guards } = controllers.find((c) => c.name === name)!;
       expect(guards).not.toContain(PrepPassGuard);
@@ -373,6 +376,7 @@ describe('the exam module gates on Prep Pass after Start', () => {
       'WritingController',
       'SpeakingController',
       'SpeakingCatalogController',
+      'ModelltestOfTheWeekController',
     ]) {
       const controller = controllers.find((c) => c.name === name)!;
       const perRoute = [...controller.routeGuards.values()].flat();
