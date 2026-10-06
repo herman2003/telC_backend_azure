@@ -9,7 +9,7 @@ export class PurchaseExamSlotsDto {
     enum: ['MANUAL', 'AI'],
     default: 'MANUAL',
     description:
-      "MANUAL is 1,000 XAF a candidate and marked by people. AI (1,500) is built but not for sale at launch — requesting it returns EXAM_AI_TIER_NOT_AVAILABLE.",
+      'MANUAL is 1,000 XAF a candidate and marked by people. AI (1,500) is built but not for sale at launch — requesting it returns EXAM_AI_TIER_NOT_AVAILABLE.',
   })
   @IsOptional()
   @IsIn(['MANUAL', 'AI'])

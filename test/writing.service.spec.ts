@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import {
   ConflictException,
@@ -7,6 +8,7 @@ import {
 import { WritingService } from '../src/modules/writing/writing.service';
 import { WritingDailyQuotaService } from '../src/modules/writing/writing-daily-quota.service';
 import { PrismaService } from '../src/shared/services/prisma.service';
+import type { WritingExerciseStimulus } from '../src/modules/writing/dto';
 
 const FAKE_EXERCISE = {
   id: 'uuid-exercise-1',
@@ -104,7 +106,9 @@ describe('WritingService', () => {
       expect(result.title).toBe('E-Mail / Brief');
       expect(result.bulletPoints).toHaveLength(5);
       expect(result.stimulus).toBeDefined();
-      expect((result.stimulus as any).heading).toContain('Büroräume');
+      expect((result.stimulus as WritingExerciseStimulus).heading).toContain(
+        'Büroräume',
+      );
     });
 
     it('throws NotFoundException when exercise not in DB', async () => {
@@ -163,8 +167,10 @@ describe('WritingService', () => {
 
       expect(mockPrismaService.writingAttempt.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: expect.objectContaining({ exercise_id: 'uuid-exercise-1' }),
-        }),
+          where: expect.objectContaining({
+            exercise_id: 'uuid-exercise-1',
+          }) as Record<string, unknown>,
+        }) as Record<string, unknown>,
       );
     });
 

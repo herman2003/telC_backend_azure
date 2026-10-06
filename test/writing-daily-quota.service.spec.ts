@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { HttpException, HttpStatus } from '@nestjs/common';
 import {
   FREE_WRITING_CORRECTIONS_PER_DAY,
@@ -17,15 +18,19 @@ describe('WritingDailyQuotaService', () => {
     prisma.writingAttempt.count.mockResolvedValue(1);
 
     await expect(service.assertMaySubmit('student-1')).resolves.toBeUndefined();
-    expect(prisma.writingAttempt.count).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: expect.objectContaining({
-          student_id: 'student-1',
-          exam_attempt_id: null,
-          status: { in: ['pending', 'completed'] },
-        }),
-      }),
-    );
+
+    const countArg = prisma.writingAttempt.count.mock.calls[0]?.[0] as {
+      where: {
+        student_id: string;
+        exam_attempt_id: null;
+        status: { in: string[] };
+      };
+    };
+    expect(countArg.where.student_id).toBe('student-1');
+    expect(countArg.where.exam_attempt_id).toBeNull();
+    expect(countArg.where.status).toEqual({
+      in: ['pending', 'completed'],
+    });
   });
 
   it('refuses the third training submit the same UTC day', async () => {

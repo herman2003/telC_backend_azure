@@ -414,9 +414,14 @@ describe('one free session per Teil per UTC day', () => {
     await assignSeat(code.id, 5);
 
     for (const teil of [1, 2, 3]) {
-      const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT', new Date(), {
-        teilNumber: teil,
-      });
+      const decision = await spend.mayUse(
+        student.id,
+        'AI_SPEAKING_CREDIT',
+        new Date(),
+        {
+          teilNumber: teil,
+        },
+      );
       expect(decision).toMatchObject({ allowed: true });
       await expect(
         spend.spend(student.id, 'AI_SPEAKING_CREDIT', new Date(), {
@@ -450,9 +455,14 @@ describe('one free session per Teil per UTC day', () => {
       },
     });
 
-    const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT', new Date(), {
-      teilNumber: 2,
-    });
+    const decision = await spend.mayUse(
+      student.id,
+      'AI_SPEAKING_CREDIT',
+      new Date(),
+      {
+        teilNumber: 2,
+      },
+    );
     expect(decision).toMatchObject({
       allowed: true,
       freeRemaining: FREE_LIVE_SESSIONS_PER_MONTH - 1,

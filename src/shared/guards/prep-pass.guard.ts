@@ -35,10 +35,7 @@ export class PrepPassGuard implements CanActivate {
     }
 
     try {
-      const decision = await this.entitlements.mayUse(
-        studentId,
-        'PREP_PASS',
-      );
+      const decision = await this.entitlements.mayUse(studentId, 'PREP_PASS');
       if (decision.allowed) return true;
 
       throw new ForbiddenException({

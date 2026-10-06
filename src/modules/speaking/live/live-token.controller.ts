@@ -240,7 +240,9 @@ export class LiveTokenController {
     await this.limitService.release(dto.sessionId, this.callerOf(ip, req));
   }
 
-  private async resolveSession(dto: CreateLiveTokenDto): Promise<ResolvedSession> {
+  private async resolveSession(
+    dto: CreateLiveTokenDto,
+  ): Promise<ResolvedSession> {
     const hasTeil = dto.teilNumber != null;
     const hasTopic = dto.topicId != null && dto.topicId.trim() !== '';
 

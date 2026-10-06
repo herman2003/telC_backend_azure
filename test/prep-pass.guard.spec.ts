@@ -5,10 +5,7 @@ describe('PrepPassGuard', () => {
   const entitlements = { mayUse: jest.fn() };
   const guard = new PrepPassGuard(entitlements as never);
 
-  const contextOf = (student?: {
-    studentId?: string;
-    isGuest?: boolean;
-  }) =>
+  const contextOf = (student?: { studentId?: string; isGuest?: boolean }) =>
     ({
       switchToHttp: () => ({
         getRequest: () => ({ student }),
@@ -40,12 +37,13 @@ describe('PrepPassGuard', () => {
   });
 
   it('refuses guests', async () => {
-    await expect(
-      guard.canActivate(
-        contextOf({ studentId: 'guest', isGuest: true }),
-      ),
-    ).rejects.toMatchObject({
-      response: expect.objectContaining({ messageKey: 'prepPassRequired' }),
+    const error = await guard
+      .canActivate(contextOf({ studentId: 'guest', isGuest: true }))
+      .catch((err: unknown) => err);
+
+    expect(error).toBeInstanceOf(ForbiddenException);
+    expect((error as ForbiddenException).getResponse()).toMatchObject({
+      messageKey: 'prepPassRequired',
     });
     expect(entitlements.mayUse).not.toHaveBeenCalled();
   });

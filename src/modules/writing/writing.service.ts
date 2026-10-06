@@ -361,8 +361,8 @@ export class WritingService {
     return raw.map((c) => {
       const item = c as Record<string, unknown>;
       return {
-        original: String(item.original ?? ''),
-        corrected: String(item.corrected ?? ''),
+        original: typeof item.original === 'string' ? item.original : '',
+        corrected: typeof item.corrected === 'string' ? item.corrected : '',
         explanation:
           typeof item.explanation === 'string' ? item.explanation : undefined,
         errorType:

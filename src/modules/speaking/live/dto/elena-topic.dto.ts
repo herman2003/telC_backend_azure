@@ -7,7 +7,10 @@ export class ElenaTopicDto {
   @ApiProperty({ example: 'B1' })
   level: string;
 
-  @ApiProperty({ example: 2, description: 'Prompt persona Teil used for this topic.' })
+  @ApiProperty({
+    example: 2,
+    description: 'Prompt persona Teil used for this topic.',
+  })
   teil: number;
 
   @ApiProperty({ example: 'Reisen mit einer Gruppe' })

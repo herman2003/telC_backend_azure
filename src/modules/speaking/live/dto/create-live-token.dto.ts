@@ -31,7 +31,8 @@ export class CreateLiveTokenDto {
 
   @ApiPropertyOptional({
     example: 1,
-    description: 'Modelltest for the exam path. Defaults to 1. Ignored for topicId.',
+    description:
+      'Modelltest for the exam path. Defaults to 1. Ignored for topicId.',
   })
   @IsOptional()
   @IsInt()

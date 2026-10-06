@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 import { AccessTokenPayload } from '../src/shared/interfaces/token-payload.interface';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
@@ -324,11 +325,9 @@ describe('LiveTokenController', () => {
     it('lists curated topics', () => {
       const topics = controller.listElenaTopics();
       expect(topics.length).toBeGreaterThan(10);
-      expect(topics[0]).toMatchObject({
-        id: expect.any(String),
-        title: expect.any(String),
-        teil: 2,
-      });
+      expect(topics[0]?.id.length).toBeGreaterThan(0);
+      expect(topics[0]?.title.length).toBeGreaterThan(0);
+      expect(topics[0]?.teil).toBe(2);
     });
 
     it('mints from a catalogue topicId without touching Modelltest content', async () => {

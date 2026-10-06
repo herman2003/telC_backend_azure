@@ -209,7 +209,11 @@ describe('subscription enforcement across learning controllers', () => {
   );
 
   it('does not put Prep Pass on Start AI surfaces', () => {
-    for (const name of ['WritingController', 'SpeakingController', 'SpeakingCatalogController']) {
+    for (const name of [
+      'WritingController',
+      'SpeakingController',
+      'SpeakingCatalogController',
+    ]) {
       const { guards } = controllers.find((c) => c.name === name)!;
       expect(guards).not.toContain(PrepPassGuard);
     }
