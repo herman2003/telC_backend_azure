@@ -80,7 +80,7 @@ describe('LiveTokenController', () => {
     });
     mockLimitService.acquire.mockResolvedValue(undefined);
     mockEntitlements.mayUse.mockResolvedValue(freeSessionsLeft);
-    mockEntitlements.spend.mockResolvedValue(undefined);
+    mockEntitlements.spend.mockResolvedValue('FREE');
     mockUsage.recordDelivered.mockResolvedValue(undefined);
 
     const module: TestingModule = await Test.createTestingModule({
@@ -182,6 +182,8 @@ describe('LiveTokenController', () => {
       expect(mockEntitlements.mayUse).toHaveBeenCalledWith(
         'student-1',
         'AI_SPEAKING_CREDIT',
+        expect.any(Date),
+        { teilNumber: 1, allowFree: true },
       );
     });
 
@@ -249,7 +251,7 @@ describe('LiveTokenController', () => {
       const order: string[] = [];
       mockEntitlements.spend.mockImplementation(() => {
         order.push('spend');
-        return Promise.resolve(undefined);
+        return Promise.resolve('FREE');
       });
       mockUsage.recordDelivered.mockImplementation(() => {
         order.push('record');
@@ -315,6 +317,69 @@ describe('LiveTokenController', () => {
 
       const reservedUnder = mockLimitService.acquire.mock.calls[0][1] as string;
       expect(minted.sessionId).toBe(reservedUnder);
+    });
+  });
+
+  describe('Mit Elena catalogue topics', () => {
+    it('lists curated topics', () => {
+      const topics = controller.listElenaTopics();
+      expect(topics.length).toBeGreaterThan(10);
+      expect(topics[0]).toMatchObject({
+        id: expect.any(String),
+        title: expect.any(String),
+        teil: 2,
+      });
+    });
+
+    it('mints from a catalogue topicId without touching Modelltest content', async () => {
+      mockEntitlements.spend.mockResolvedValue('CREDIT');
+
+      const result = await controller.createLiveToken('1.2.3.4', studentReq, {
+        topicId: 'b1-t2-001',
+      });
+
+      expect(mockSpeakingService.getTeils).not.toHaveBeenCalled();
+      expect(mockPromptService.build).toHaveBeenCalledWith(
+        2,
+        expect.objectContaining({ title: 'Reisen mit einer Gruppe' }),
+      );
+      expect(mockEntitlements.mayUse).toHaveBeenCalledWith(
+        'student-1',
+        'AI_SPEAKING_CREDIT',
+        expect.any(Date),
+        { teilNumber: 2, allowFree: false },
+      );
+      expect(mockUsage.recordDelivered).toHaveBeenCalledWith(
+        'student-1',
+        'SPEAKING_LIVE_SESSION',
+        { teilNumber: 2, countsTowardFree: false },
+      );
+      expect(result.teilNumber).toBe(2);
+      expect(result.topic?.title).toBe('Reisen mit einer Gruppe');
+    });
+
+    it('refuses an unknown topicId', async () => {
+      await expect(
+        controller.createLiveToken('1.2.3.4', studentReq, {
+          topicId: 'does-not-exist',
+        }),
+      ).rejects.toThrow(NotFoundException);
+      expect(mockGeminiService.mintLiveToken).not.toHaveBeenCalled();
+    });
+
+    it('refuses when both teilNumber and topicId are sent', async () => {
+      await expect(
+        controller.createLiveToken('1.2.3.4', guestReq, {
+          teilNumber: 2,
+          topicId: 'b1-t2-001',
+        }),
+      ).rejects.toThrow('LIVE_TOKEN_CHOOSE_TEIL_OR_TOPIC');
+    });
+
+    it('refuses when neither mode is sent', async () => {
+      await expect(
+        controller.createLiveToken('1.2.3.4', guestReq, {}),
+      ).rejects.toThrow('LIVE_TOKEN_CHOOSE_TEIL_OR_TOPIC');
     });
   });
 

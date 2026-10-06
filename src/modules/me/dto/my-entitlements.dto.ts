@@ -12,7 +12,7 @@ export class AiSpeakingEntitlementDto {
   @ApiProperty({
     example: 3,
     description:
-      'Free Elena sessions left this calendar month. Start includes five, and they are always spent before any credit.',
+      'Free Elena exam-Teil sessions left this calendar month. Start includes twelve (at most one free session per Teil per day), and they are always spent before any credit.',
   })
   freeRemaining: number;
 

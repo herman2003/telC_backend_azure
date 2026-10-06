@@ -101,8 +101,8 @@ describe('assigning a period', () => {
 
     await expect(poolOf(center.id, 'PREP_PASS')).resolves.toBe(5);
     const days = (granted.expiresAt.getTime() - Date.now()) / DAY_MS;
-    expect(days).toBeGreaterThan(59.9);
-    expect(days).toBeLessThan(60.1);
+    expect(days).toBeGreaterThan(29.9);
+    expect(days).toBeLessThan(30.1);
   });
 
   it('extends a live pass instead of restarting it', async () => {
@@ -125,13 +125,13 @@ describe('assigning a period', () => {
 
     const added =
       (second.expiresAt.getTime() - first.expiresAt.getTime()) / DAY_MS;
-    expect(added).toBeGreaterThan(59.9);
-    expect(added).toBeLessThan(60.1);
+    expect(added).toBeGreaterThan(29.9);
+    expect(added).toBeLessThan(30.1);
   });
 
   it('restarts from today when the last pass already ran out', async () => {
     // GREATEST(expires_at, now()). Extending from a date in the past would
-    // sell a centre sixty days that had already elapsed.
+    // sell a centre thirty days that had already elapsed.
     const center = await makeCenter();
     const code = await makeCode(center.id);
     await fillPool(center.id, 'PREP_PASS', 6);
@@ -150,8 +150,8 @@ describe('assigning a period', () => {
     );
 
     const days = (granted.expiresAt.getTime() - Date.now()) / DAY_MS;
-    expect(days).toBeGreaterThan(59.9);
-    expect(days).toBeLessThan(60.1);
+    expect(days).toBeGreaterThan(29.9);
+    expect(days).toBeLessThan(30.1);
   });
 
   it('lets exactly one of two simultaneous assignments take the last pass', async () => {

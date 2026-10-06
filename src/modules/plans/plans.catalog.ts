@@ -27,11 +27,11 @@ import { PLAN_ID, type PlanId } from '../../shared/plan-id';
 /**
  * A calendar month, which is what Start promises.
  *
- * It was `per_24h` until 2026-09-25, when the allowance became five sessions a
- * month rather than two a rolling day. A client matching the old string will
- * not recognise this one — deliberately, because silently rendering "per day"
- * over a monthly number is worse than failing to render at all. Both frontends
- * were told in the same change request as the five-minute session cap.
+ * It was `per_24h` until 2026-09-25, when the allowance became monthly free
+ * sessions. Launch offer: twelve per month, one free session per Teil per day.
+ * A client matching the old string will not recognise this one — deliberately,
+ * because silently rendering "per day" over a monthly number is worse than
+ * failing to render at all.
  */
 const AI_WINDOW = 'per_month' as const;
 

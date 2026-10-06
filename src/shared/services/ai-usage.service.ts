@@ -38,9 +38,20 @@ export class AiUsageService {
    * `created_at` is left to the database. A caller able to supply it could
    * date a row into the past and refill its own allowance.
    */
-  async record(studentId: string, operation: AiOperation): Promise<void> {
+  async record(
+    studentId: string,
+    operation: AiOperation,
+    opts?: { teilNumber?: number; countsTowardFree?: boolean },
+  ): Promise<void> {
     await this.prisma.aiUsage.create({
-      data: { student_id: studentId, operation },
+      data: {
+        student_id: studentId,
+        operation,
+        ...(opts?.teilNumber != null ? { teil_number: opts.teilNumber } : {}),
+        ...(opts?.countsTowardFree != null
+          ? { counts_toward_free: opts.countsTowardFree }
+          : {}),
+      },
     });
   }
 
@@ -60,9 +71,10 @@ export class AiUsageService {
   async recordDelivered(
     studentId: string,
     operation: AiOperation,
+    opts?: { teilNumber?: number; countsTowardFree?: boolean },
   ): Promise<void> {
     try {
-      await this.record(studentId, operation);
+      await this.record(studentId, operation, opts);
     } catch (error) {
       this.logger.error(
         `Failed to record ${operation} for student ${studentId}; the quota will undercount by one`,

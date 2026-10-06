@@ -1,11 +1,14 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  Get,
   HttpException,
   HttpCode,
   HttpStatus,
   Ip,
   Logger,
+  NotFoundException,
   Post,
   Request,
   UseGuards,
@@ -14,6 +17,7 @@ import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiTags,
   ApiTooManyRequestsResponse,
@@ -24,6 +28,11 @@ import { JwtAuthGuard } from '../../../shared/guards/jwt-auth.guard';
 import { AccessTokenPayload } from '../../../shared/interfaces/token-payload.interface';
 import { SpeakingService } from '../services/speaking.service';
 import { GeminiService } from '../services/gemini.service';
+import {
+  findSpeakingTopicById,
+  listElenaTopics,
+  type SpeakingTopic,
+} from '../room/speaking-topics.data';
 import {
   ExaminerPromptService,
   ExaminerTopic,
@@ -36,8 +45,10 @@ import { AiUsageService } from '../../../shared/services/ai-usage.service';
 import {
   EntitlementSpendService,
   type EntitlementDecision,
+  type EntitlementSpendOptions,
 } from '../../../shared/services/entitlement-spend.service';
 import { CreateLiveTokenDto } from './dto/create-live-token.dto';
+import { ElenaTopicDto } from './dto/elena-topic.dto';
 import { EndLiveSessionDto } from './dto/end-live-session.dto';
 import { LiveTokenResponseDto } from './dto/live-token-response.dto';
 
@@ -79,6 +90,13 @@ const ELENA_REFUSALS: Record<string, { key: string; message: string }> = {
   },
 };
 
+type ResolvedSession = {
+  teilNumber: number;
+  topic: ExaminerTopic | null;
+  spendOpts: EntitlementSpendOptions;
+  catalogueTopicId?: string;
+};
+
 /**
  * Issues the credential for a live spoken session with Elena.
  *
@@ -105,15 +123,26 @@ export class LiveTokenController {
     private readonly usage: AiUsageService,
   ) {}
 
+  @Get('elena-topics')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Catalogue topics for Mit Elena (credits)',
+    description:
+      'Themen curated by Lerniqo. Pass one id as topicId to POST /api/speaking/live-token.',
+  })
+  @ApiOkResponse({ type: [ElenaTopicDto] })
+  listElenaTopics(): ElenaTopicDto[] {
+    return listElenaTopics();
+  }
+
   @Post('live-token')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
     summary: 'Mint an ephemeral token for a live session with Elena',
     description:
-      'Returns a single-use Gemini token locked to the live model, audio-only ' +
-      'output and the Teil system instruction. The browser connects directly ' +
-      'to Google with it; no audio passes through this backend. Available to ' +
-      'guest accounts, capped per IP per day.',
+      'Exam path: teilNumber (+ modelltest). Mit Elena path: topicId from ' +
+      'GET /elena-topics (credits only). Browser connects directly to Google; ' +
+      'no audio through this backend. Guests capped per IP.',
   })
   @ApiCreatedResponse({ type: LiveTokenResponseDto })
   @ApiTooManyRequestsResponse({
@@ -129,21 +158,20 @@ export class LiveTokenController {
     @Request() req: { student?: AccessTokenPayload },
     @Body() dto: CreateLiveTokenDto,
   ): Promise<LiveTokenResponseDto> {
+    const session = await this.resolveSession(dto);
     const sessionId = randomUUID();
     const caller = this.callerOf(ip, req);
 
-    // What Start sells, before what we can afford. A registered student gets
-    // five conversations a month and then draws on the credits their centre
-    // bought; a guest has no allowance and is metered by IP inside the limit
-    // service instead.
     const decision = caller.isGuest
       ? null
-      : await this.requireAllowance(caller);
+      : await this.requireAllowance(caller, session.spendOpts);
 
     await this.limitService.acquire(caller, sessionId);
 
-    const topic = await this.loadTopic(dto.teilNumber, dto.modelltest ?? 1);
-    const instruction = this.promptService.build(dto.teilNumber, topic);
+    const instruction = this.promptService.build(
+      session.teilNumber,
+      session.topic,
+    );
     const sessionSeconds = this.limitService.sessionSeconds;
 
     const { token, model } = await this.geminiService.mintLiveToken(
@@ -151,19 +179,20 @@ export class LiveTokenController {
       sessionSeconds,
     );
 
-    // After the token exists, never before. A failure on our side must not
-    // cost a student a session they never had — the same rule the AI quota
-    // follows for the same reason. `spend` is a no-op while free sessions
-    // remain, so the row below is what the allowance is counted from either
-    // way.
     if (decision && req.student?.studentId) {
-      await this.entitlements.spend(
+      const source = await this.entitlements.spend(
         req.student.studentId,
         'AI_SPEAKING_CREDIT',
+        new Date(),
+        session.spendOpts,
       );
       await this.usage.recordDelivered(
         req.student.studentId,
         'SPEAKING_LIVE_SESSION',
+        {
+          teilNumber: session.teilNumber,
+          countsTowardFree: source === 'FREE',
+        },
       );
     }
 
@@ -171,9 +200,10 @@ export class LiveTokenController {
       JSON.stringify({
         event: 'elena.token.minted',
         sessionId,
-        teil: dto.teilNumber,
+        teil: session.teilNumber,
         model,
-        hasTopic: topic !== null,
+        hasTopic: session.topic !== null,
+        catalogueTopicId: session.catalogueTopicId ?? null,
       }),
     );
 
@@ -182,8 +212,8 @@ export class LiveTokenController {
       token,
       model,
       expiresInSeconds: sessionSeconds,
-      teilNumber: dto.teilNumber,
-      ...(topic ? { topic } : {}),
+      teilNumber: session.teilNumber,
+      ...(session.topic ? { topic: session.topic } : {}),
     };
   }
 
@@ -207,27 +237,56 @@ export class LiveTokenController {
     @Request() req: { student?: AccessTokenPayload },
     @Body() dto: EndLiveSessionDto,
   ): Promise<void> {
-    // Who is ending it, not only which session. A student holds a live slot of
-    // their own beside the shared one, and freeing the pool while leaving that
-    // taken would lock them out of the session they just made room for.
     await this.limitService.release(dto.sessionId, this.callerOf(ip, req));
   }
 
-  /**
-   * Refuses a student who has neither a free session left nor a credit to
-   * spend, saying which of the two it is.
-   *
-   * Four different situations, four messages. "Your centre stopped paying" and
-   * "your centre has not given you any" and "you have used everything you were
-   * given" are not the same sentence, and only some of them are something the
-   * student can act on.
-   */
+  private async resolveSession(dto: CreateLiveTokenDto): Promise<ResolvedSession> {
+    const hasTeil = dto.teilNumber != null;
+    const hasTopic = dto.topicId != null && dto.topicId.trim() !== '';
+
+    if (hasTeil === hasTopic) {
+      throw new BadRequestException('LIVE_TOKEN_CHOOSE_TEIL_OR_TOPIC');
+    }
+
+    if (hasTopic) {
+      const catalogue = findSpeakingTopicById(dto.topicId!.trim());
+      if (!catalogue) {
+        throw new NotFoundException('ELENA_TOPIC_NOT_FOUND');
+      }
+      return {
+        teilNumber: catalogue.teil,
+        topic: this.catalogueAsExaminerTopic(catalogue),
+        catalogueTopicId: catalogue.id,
+        spendOpts: { teilNumber: catalogue.teil, allowFree: false },
+      };
+    }
+
+    const teilNumber = dto.teilNumber!;
+    const topic = await this.loadTopic(teilNumber, dto.modelltest ?? 1);
+    return {
+      teilNumber,
+      topic,
+      spendOpts: { teilNumber, allowFree: true },
+    };
+  }
+
+  private catalogueAsExaminerTopic(topic: SpeakingTopic): ExaminerTopic {
+    return {
+      title: topic.title,
+      description: `${topic.positionA} ${topic.positionB}`.trim(),
+      points: topic.followUpQuestions,
+    };
+  }
+
   private async requireAllowance(
     caller: LiveSessionCaller,
+    spendOpts: EntitlementSpendOptions,
   ): Promise<EntitlementDecision> {
     const decision = await this.entitlements.mayUse(
       caller.studentId!,
       'AI_SPEAKING_CREDIT',
+      new Date(),
+      spendOpts,
     );
     if (decision.allowed) return decision;
 

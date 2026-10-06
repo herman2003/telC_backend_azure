@@ -1,26 +1,51 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsOptional, Max, Min } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 /**
- * The client asks for a Teil and nothing else.
+ * Start an Elena live session in one of two modes:
  *
- * It deliberately cannot send prompt text, topic text or a model name: the
- * system instruction is assembled server-side and sealed into the ephemeral
- * token, so no client-supplied string ever reaches Elena's instructions.
+ * - **Exam (Start Sprechen Modul):** `teilNumber` (+ optional modelltest)
+ * - **Mit Elena (credits):** `topicId` from the Lerniqo catalogue
+ *
+ * Exactly one mode per request. The client never sends prompt text.
  */
 export class CreateLiveTokenDto {
-  @ApiProperty({ example: 2, enum: [1, 2, 3] })
+  @ApiPropertyOptional({
+    example: 2,
+    enum: [1, 2, 3],
+    description: 'Exam path: which Teil. Omit when using topicId.',
+  })
+  @IsOptional()
   @IsInt()
   @Min(1)
   @Max(3)
-  teilNumber: number;
+  teilNumber?: number;
 
   @ApiPropertyOptional({
     example: 1,
-    description: 'Modelltest to take the topic from. Defaults to 1.',
+    description: 'Modelltest for the exam path. Defaults to 1. Ignored for topicId.',
   })
   @IsOptional()
   @IsInt()
   @Min(1)
   modelltest?: number;
+
+  @ApiPropertyOptional({
+    example: 'b1-t2-001',
+    description:
+      'Mit Elena path: catalogue topic id from GET /api/speaking/elena-topics. Credits only.',
+  })
+  @IsOptional()
+  @IsString()
+  @MinLength(3)
+  @MaxLength(64)
+  topicId?: string;
 }

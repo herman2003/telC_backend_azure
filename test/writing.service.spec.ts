@@ -5,6 +5,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { WritingService } from '../src/modules/writing/writing.service';
+import { WritingDailyQuotaService } from '../src/modules/writing/writing-daily-quota.service';
 import { PrismaService } from '../src/shared/services/prisma.service';
 
 const FAKE_EXERCISE = {
@@ -68,11 +69,16 @@ describe('WritingService', () => {
     add: jest.fn().mockResolvedValue(undefined),
   };
 
+  const mockDailyQuota = {
+    assertMaySubmit: jest.fn().mockResolvedValue(undefined),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WritingService,
         { provide: PrismaService, useValue: mockPrismaService },
+        { provide: WritingDailyQuotaService, useValue: mockDailyQuota },
         { provide: 'WRITING_CORRECTION_QUEUE', useValue: mockQueue },
       ],
     }).compile();
@@ -188,6 +194,7 @@ describe('WritingService', () => {
 
       expect(result.attemptId).toBeDefined();
       expect(result.status).toBe('pending');
+      expect(mockDailyQuota.assertMaySubmit).toHaveBeenCalledWith('student-1');
       expect(mockPrismaService.writingAttempt.create).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
@@ -204,6 +211,25 @@ describe('WritingService', () => {
           exerciseId: 'uuid-exercise-1',
         }),
       );
+    });
+
+    it('skips the Start daily quota for guests (IP rate-limit only)', async () => {
+      mockPrismaService.writingExercise.findUnique.mockResolvedValue({
+        id: 'uuid-exercise-1',
+        modelltest_id: 'uuid-modelltest-1',
+      });
+      mockPrismaService.writingAttempt.create.mockResolvedValue({});
+
+      await service.submit(
+        'guest-1',
+        {
+          exerciseId: 'uuid-exercise-1',
+          content: 'Hallo, dies ist ein Gastversuch.',
+        },
+        { isGuest: true },
+      );
+
+      expect(mockDailyQuota.assertMaySubmit).not.toHaveBeenCalled();
     });
 
     it('throws NotFoundException when exerciseId not in DB', async () => {

@@ -160,7 +160,7 @@ describe('EntitlementsService', () => {
   });
 
   describe('granting a period', () => {
-    it('takes one from the pool and grants sixty days', async () => {
+    it('takes one from the pool and grants thirty days', async () => {
       prisma.$queryRaw.mockResolvedValue([
         { expires_at: new Date('2026-12-04') },
       ]);
@@ -213,7 +213,7 @@ describe('EntitlementsService', () => {
 
       const [fragment, ...values] = prisma.$queryRaw.mock.calls[0];
       expect(String(fragment.join('?'))).toContain('code_entitlements');
-      expect(values).toContain(60);
+      expect(values).toContain(30);
     });
 
     it('refuses a period on a product that is a balance', async () => {

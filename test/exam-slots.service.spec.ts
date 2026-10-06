@@ -88,28 +88,21 @@ describe('ExamSlotsService', () => {
   });
 
   describe('the AI tier', () => {
-    it('costs five hundred more a candidate', async () => {
+    it('still prices the AI product at 1,500 (kept for after launch)', () => {
       expect(EXAM_SLOT_PRICE_XAF_AI).toBe(1_500);
-      expect(service.quote(10, 'AI')).toMatchObject({
-        unitPriceXaf: 1_500,
-        totalXaf: 17_700,
-      });
     });
 
-    it('buys into its own pool, not the same one', async () => {
-      // A center holding ten cheap slots must not be able to run ten AI
-      // exams. The two are different products at different prices.
-      await service.purchase(identity, 5, 'key-1', 'AI');
-
-      expect(prisma.payment.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: expect.objectContaining({
-            kind: 'EXAM_SLOTS_AI',
-            unit_price_xaf: 1_500,
-            amount_xaf: 8_850, // 5 × 1500 HT + 18% VAT
-          }),
-        }),
+    it('refuses to quote AI slots while they are not for sale', () => {
+      expect(() => service.quote(10, 'AI')).toThrow(
+        'EXAM_AI_TIER_NOT_AVAILABLE',
       );
+    });
+
+    it('refuses to sell AI slots at launch', async () => {
+      await expect(
+        service.purchase(identity, 5, 'key-1', 'AI'),
+      ).rejects.toThrow('EXAM_AI_TIER_NOT_AVAILABLE');
+      expect(prisma.payment.create).not.toHaveBeenCalled();
     });
 
     it('reports both balances, because a center may hold both', async () => {

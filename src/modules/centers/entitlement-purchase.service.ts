@@ -29,7 +29,7 @@ type SignedCenterIdentity = Pick<
 /** What each add-on costs, per unit, in XAF. The offer sheet in one place. */
 export const ENTITLEMENT_PRICE_XAF: Record<EntitlementProduct, number> = {
   AI_SPEAKING_CREDIT: 300,
-  PREP_PASS: 3_000,
+  PREP_PASS: 1_000,
   AI_ASSISTED_LEARNING: 2_000,
 };
 

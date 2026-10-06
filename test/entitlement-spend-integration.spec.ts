@@ -78,11 +78,15 @@ async function assignSeat(codeId: string, assigned: number, used = 0) {
   });
 }
 
-/** Sessions already run this month. */
+/** Free sessions already run this month (count toward Start's monthly budget). */
 async function usedSessions(studentId: string, count: number) {
   for (let i = 0; i < count; i++) {
     await prisma.aiUsage.create({
-      data: { student_id: studentId, operation: 'SPEAKING_LIVE_SESSION' },
+      data: {
+        student_id: studentId,
+        operation: 'SPEAKING_LIVE_SESSION',
+        counts_toward_free: true,
+      },
     });
   }
 }
@@ -148,7 +152,7 @@ describe('the free allowance comes first', () => {
 
     const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
 
-    expect(decision.freeRemaining).toBe(2);
+    expect(decision.freeRemaining).toBe(FREE_LIVE_SESSIONS_PER_MONTH - 3);
   });
 
   it('ignores sessions run in an earlier month', async () => {
@@ -327,7 +331,10 @@ describe('what the student reads', () => {
     expect(mine).toMatchObject({
       prepPass: { active: true },
       aiAssisted: { active: false, expiresAt: null },
-      aiSpeaking: { freeRemaining: 3, creditsAvailable: 10 },
+      aiSpeaking: {
+        freeRemaining: FREE_LIVE_SESSIONS_PER_MONTH - 2,
+        creditsAvailable: 10,
+      },
       frozen: false,
     });
   });
@@ -397,6 +404,97 @@ describe('a caller with no account', () => {
     );
 
     expect(decision).toMatchObject({ allowed: false, reason: 'NO_ACCOUNT' });
+  });
+});
+
+describe('one free session per Teil per UTC day', () => {
+  it('lets three different Teile through for free the same day', async () => {
+    const { center, student, code } = await makeSeat();
+    await fillUnallocated(center.id, 10);
+    await assignSeat(code.id, 5);
+
+    for (const teil of [1, 2, 3]) {
+      const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT', new Date(), {
+        teilNumber: teil,
+      });
+      expect(decision).toMatchObject({ allowed: true });
+      await expect(
+        spend.spend(student.id, 'AI_SPEAKING_CREDIT', new Date(), {
+          teilNumber: teil,
+        }),
+      ).resolves.toBe('FREE');
+      await prisma.aiUsage.create({
+        data: {
+          student_id: student.id,
+          operation: 'SPEAKING_LIVE_SESSION',
+          teil_number: teil,
+          counts_toward_free: true,
+        },
+      });
+    }
+
+    await expect(capOf(code.id)).resolves.toMatchObject({ cap: 5, used: 0 });
+  });
+
+  it('spends a credit on a second free attempt of the same Teil the same day', async () => {
+    const { center, student, code } = await makeSeat();
+    await fillUnallocated(center.id, 10);
+    await assignSeat(code.id, 5);
+
+    await prisma.aiUsage.create({
+      data: {
+        student_id: student.id,
+        operation: 'SPEAKING_LIVE_SESSION',
+        teil_number: 2,
+        counts_toward_free: true,
+      },
+    });
+
+    const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT', new Date(), {
+      teilNumber: 2,
+    });
+    expect(decision).toMatchObject({
+      allowed: true,
+      freeRemaining: FREE_LIVE_SESSIONS_PER_MONTH - 1,
+      creditsAvailable: 5,
+    });
+
+    await expect(
+      spend.spend(student.id, 'AI_SPEAKING_CREDIT', new Date(), {
+        teilNumber: 2,
+      }),
+    ).resolves.toBe('CREDIT');
+    await expect(capOf(code.id)).resolves.toMatchObject({ cap: 4, used: 1 });
+  });
+
+  it('does not let a credit session eat the free monthly budget', async () => {
+    const { student } = await makeSeat();
+
+    await prisma.aiUsage.create({
+      data: {
+        student_id: student.id,
+        operation: 'SPEAKING_LIVE_SESSION',
+        teil_number: 1,
+        counts_toward_free: false,
+      },
+    });
+
+    const decision = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
+    expect(decision.freeRemaining).toBe(FREE_LIVE_SESSIONS_PER_MONTH);
+  });
+
+  it('skips free allowance when allowFree is false (Mit Elena)', async () => {
+    const { center, student, code } = await makeSeat();
+    await fillUnallocated(center.id, 10);
+    await assignSeat(code.id, 3);
+
+    await expect(
+      spend.spend(student.id, 'AI_SPEAKING_CREDIT', new Date(), {
+        teilNumber: 2,
+        allowFree: false,
+      }),
+    ).resolves.toBe('CREDIT');
+    await expect(capOf(code.id)).resolves.toMatchObject({ cap: 2, used: 1 });
   });
 });
 

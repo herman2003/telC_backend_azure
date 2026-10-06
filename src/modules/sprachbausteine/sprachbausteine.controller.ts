@@ -11,6 +11,7 @@ import {
 import { ApiBody, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../../shared/guards/prep-pass.guard';
 import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
 import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { SprachbausteineService } from './sprachbausteine.service';
@@ -25,7 +26,7 @@ import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 /** Served when the caller omits ?modelltest= — keeps existing clients working. */
 const DEFAULT_MODELLTEST = 1;
 
-@UseGuards(JwtAuthGuard, StudentSubscriptionGuard)
+@UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @ApiTags('Sprachbausteine')
 @Controller('api/sprachbausteine')
 export class SprachbausteineController {

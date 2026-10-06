@@ -239,11 +239,24 @@ describe('buying exam slots', () => {
   });
 
   it('credits the AI pool, and only the AI pool', async () => {
-    // Without its own branch an EXAM_SLOTS_AI payment falls through to the
-    // seats path: it would extend the subscription and overwrite the seat
-    // row, and the center would get no exam slots at all.
-    const { center, identity } = await makeCenter();
-    const payment = await slots.purchase(identity, 5, 'key-ai', 'AI');
+    // AI slots are not for sale at launch, but a PENDING EXAM_SLOTS_AI payment
+    // (from before the gate, or when the product reopens) must still activate
+    // into the AI pool — never into seats.
+    const { center } = await makeCenter();
+    const payment = await prisma.payment.create({
+      data: {
+        center_id: center.id,
+        kind: 'EXAM_SLOTS_AI',
+        quantity: 5,
+        unit_price_xaf: 1_500,
+        amount_net_xaf: 7_500,
+        vat_amount_xaf: 1_350,
+        amount_xaf: 8_850,
+        status: 'PENDING',
+        idempotency_key: `key-ai-${Date.now()}`,
+        request_hash: `hash-ai-${Date.now()}`,
+      },
+    });
 
     await activation.activate(payment.id);
 
@@ -265,24 +278,12 @@ describe('buying exam slots', () => {
     });
   });
 
-  it('charges 1,500 a candidate for it', async () => {
+  it('refuses to sell AI slots at launch', async () => {
     const { identity } = await makeCenter();
 
-    const payment = await slots.purchase(identity, 5, 'key-ai', 'AI');
-
-    expect(payment).toMatchObject({
-      kind: 'EXAM_SLOTS_AI',
-      unitPriceXaf: 1_500,
-      amountXaf: 8_850,
-    });
-    // Net and VAT stored beside the total, as on every other paid path.
     await expect(
-      prisma.payment.findUniqueOrThrow({ where: { id: payment.id } }),
-    ).resolves.toMatchObject({
-      amount_net_xaf: 7_500,
-      vat_amount_xaf: 1_350,
-      amount_xaf: 8_850,
-    });
+      slots.purchase(identity, 5, 'key-ai', 'AI'),
+    ).rejects.toThrow('EXAM_AI_TIER_NOT_AVAILABLE');
   });
 
   it('refuses a center that has not finished its profile', async () => {

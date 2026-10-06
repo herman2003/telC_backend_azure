@@ -7,6 +7,7 @@ import { readdirSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 
 /**
  * Controllers that authenticate a student but must NOT require a live
@@ -52,6 +53,14 @@ const EXEMPT: Record<string, string> = {
   MyEntitlementsController:
     'reading what is frozen is how a student learns it is frozen',
 };
+
+/** Prep Pass training library — Start seat + active Prep Pass. */
+const PREP_PASS_LIBRARY_CONTROLLERS = [
+  'LesenController',
+  'ListeningController',
+  'ModelltestsController',
+  'SprachbausteineController',
+];
 
 /** The seven the plan inventoried. Named so the scan cannot pass vacuously. */
 const EXPECTED_LEARNING_CONTROLLERS = [
@@ -187,6 +196,25 @@ describe('subscription enforcement across learning controllers', () => {
     },
   );
 
+  it.each(PREP_PASS_LIBRARY_CONTROLLERS)(
+    '%s requires an active Prep Pass after Start',
+    (name) => {
+      const { guards } = controllers.find((c) => c.name === name)!;
+
+      expect(guards).toContain(PrepPassGuard);
+      expect(guards.indexOf(StudentSubscriptionGuard)).toBeLessThan(
+        guards.indexOf(PrepPassGuard),
+      );
+    },
+  );
+
+  it('does not put Prep Pass on Start AI surfaces', () => {
+    for (const name of ['WritingController', 'SpeakingController', 'SpeakingCatalogController']) {
+      const { guards } = controllers.find((c) => c.name === name)!;
+      expect(guards).not.toContain(PrepPassGuard);
+    }
+  });
+
   /**
    * The point of the whole file. A learning controller added next month with
    * only JwtAuthGuard fails here rather than shipping unenforced — whether it
@@ -317,18 +345,13 @@ describe('subscription enforcement across learning controllers', () => {
   });
 });
 /**
- * The exam module is open to every student whose school is paying.
- *
- * It used to be the line between Start and Pro. With Start the only plan
- * (2026-09-23) nothing compares tiers, so the subscription guard is the whole
- * rule — the same one per-skill practice runs on. What the new pricing sells
- * instead (Prep Pass, Exam Day) gets its own check when it is built, and this
- * is where that check will be pinned.
+ * Exam modelltests used to be Start-only. Launch pricing puts the training
+ * library behind Prep Pass — identity → Start → Prep Pass, in that order.
  */
-describe('the exam module gates on nothing but the subscription', () => {
+describe('the exam module gates on Prep Pass after Start', () => {
   const controllers = discoverControllers();
 
-  it('guards ModelltestsController with identity and subscription only', () => {
+  it('guards ModelltestsController with identity, Start, then Prep Pass', () => {
     const controller = controllers.find(
       (c) => c.name === 'ModelltestsController',
     );
@@ -337,19 +360,23 @@ describe('the exam module gates on nothing but the subscription', () => {
     expect(controller!.guards).toEqual([
       JwtAuthGuard,
       StudentSubscriptionGuard,
+      PrepPassGuard,
     ]);
   });
 
-  it('leaves every learning controller the same two guards', () => {
-    // A third guard appearing on one of these is how a gate would spread
-    // without anyone noticing.
-    for (const name of EXPECTED_LEARNING_CONTROLLERS) {
+  it('leaves Start AI surfaces without Prep Pass', () => {
+    for (const name of [
+      'WritingController',
+      'SpeakingController',
+      'SpeakingCatalogController',
+    ]) {
       const controller = controllers.find((c) => c.name === name)!;
       const perRoute = [...controller.routeGuards.values()].flat();
 
       expect([...controller.guards, ...perRoute]).toEqual(
         expect.arrayContaining([JwtAuthGuard, StudentSubscriptionGuard]),
       );
+      expect([...controller.guards, ...perRoute]).not.toContain(PrepPassGuard);
     }
   });
 });
