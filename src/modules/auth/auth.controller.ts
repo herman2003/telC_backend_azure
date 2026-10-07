@@ -265,9 +265,10 @@ export class AuthController {
     description:
       'Issues a short-lived (2h) guest JWT with no credentials and no DB row. ' +
       'The token carries isGuest=true: it can access Writing, Reading, ' +
-      'Sprachbausteine and Listening, but Speaking returns 403 (messageKey ' +
-      'guestNotAllowed) and Writing submissions are capped at 3 per IP per hour. ' +
-      'Rate-limited to 10 guest sessions per IP per hour.',
+      'Sprachbausteine, Listening and the Modelltest catalogue, but Speaking ' +
+      'returns 403 (messageKey guestNotAllowed) and Writing submissions are ' +
+      'capped at 3 per IP per hour. Rate-limited to 10 guest sessions per IP ' +
+      'per hour.',
   })
   @ApiCreatedResponse({ type: GuestSessionResponseDto })
   @ApiTooManyRequestsResponse({

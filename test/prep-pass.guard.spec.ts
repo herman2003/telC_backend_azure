@@ -36,15 +36,17 @@ describe('PrepPassGuard', () => {
     ).rejects.toBeInstanceOf(ForbiddenException);
   });
 
-  it('refuses guests', async () => {
-    const error = await guard
-      .canActivate(contextOf({ studentId: 'guest', isGuest: true }))
-      .catch((err: unknown) => err);
+  it('allows guests without checking Prep Pass (demo contract)', async () => {
+    await expect(
+      guard.canActivate(contextOf({ studentId: 'guest', isGuest: true })),
+    ).resolves.toBe(true);
+    expect(entitlements.mayUse).not.toHaveBeenCalled();
+  });
 
-    expect(error).toBeInstanceOf(ForbiddenException);
-    expect((error as ForbiddenException).getResponse()).toMatchObject({
-      messageKey: 'prepPassRequired',
-    });
+  it('refuses a token with no studentId', async () => {
+    await expect(guard.canActivate(contextOf(undefined))).rejects.toBeInstanceOf(
+      ForbiddenException,
+    );
     expect(entitlements.mayUse).not.toHaveBeenCalled();
   });
 });
