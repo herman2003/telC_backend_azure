@@ -101,6 +101,17 @@ describe('TrainingAudioService', () => {
         'AUDIO_DURATION_MISSING',
       );
     });
+
+    it('grants a guest a stream link without writing training_audio_plays', async () => {
+      const guestId = 'guest-uuid-without-students-row';
+
+      const granted = await service.play(guestId, AUDIO, { isGuest: true });
+
+      expect(granted.url).toContain('/api/listening/audio?token=');
+      expect(granted.playsRemaining).toBeGreaterThanOrEqual(0);
+      expect(prisma.trainingAudioPlay.create).not.toHaveBeenCalled();
+      expect(prisma.trainingAudioPlay.updateMany).not.toHaveBeenCalled();
+    });
   });
 
   describe('tokens', () => {

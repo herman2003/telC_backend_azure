@@ -148,8 +148,29 @@ describe('ListeningController', () => {
       expect(mockTrainingAudio.play).toHaveBeenCalledWith(
         'student-abc',
         '11111111-1111-4111-8111-111111111111',
+        { isGuest: false },
       );
       expect(result).toBe(granted);
+    });
+
+    it('passes isGuest through for demo tokens', async () => {
+      mockTrainingAudio.play.mockResolvedValue({
+        audioId: '11111111-1111-4111-8111-111111111111',
+        url: '/api/listening/audio?token=x',
+        playsRemaining: 0,
+        expiresAt: new Date(),
+      });
+
+      await controller.playAudio(
+        { studentId: 'guest-1', deviceId: 'guest', isGuest: true } as never,
+        '11111111-1111-4111-8111-111111111111',
+      );
+
+      expect(mockTrainingAudio.play).toHaveBeenCalledWith(
+        'guest-1',
+        '11111111-1111-4111-8111-111111111111',
+        { isGuest: true },
+      );
     });
   });
 

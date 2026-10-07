@@ -181,7 +181,8 @@ export class ListeningController {
     summary: 'Spend one training play and get a stream URL',
     description:
       'Counts against exam_plays_allowed for this student + recording. ' +
-      'Returns a short-lived /api/listening/audio?token=… URL for the player.',
+      'Guest JWTs skip the DB counter (no students row / FK) but still receive ' +
+      'a short-lived /api/listening/audio?token=… URL for the player.',
   })
   @ApiParam({ name: 'audioId', format: 'uuid' })
   @ApiOkResponse({
@@ -207,7 +208,9 @@ export class ListeningController {
     if (!student?.studentId) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
-    return this.trainingAudio.play(student.studentId, audioId);
+    return this.trainingAudio.play(student.studentId, audioId, {
+      isGuest: student.isGuest === true,
+    });
   }
 
   @Post('submit')
