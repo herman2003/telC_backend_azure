@@ -41,7 +41,11 @@ export class TrainingAudioService {
     @Inject(EXAM_AUDIO_SECRET) private readonly secret: string,
   ) {}
 
-  async play(studentId: string, audioId: string): Promise<GrantedPlay> {
+  async play(
+    studentId: string,
+    audioId: string,
+    opts: { isGuest?: boolean } = {},
+  ): Promise<GrantedPlay> {
     const audio = await this.prisma.listeningExercise.findUnique({
       where: { id: audioId },
       select: {
@@ -60,6 +64,27 @@ export class TrainingAudioService {
     }
 
     const allowed = audio.exam_plays_allowed;
+    const expiresAt = new Date(
+      Date.now() + audio.duration_minutes * LINK_LIFETIME_FACTOR * 60 * 1000,
+    );
+
+    // Guests have no `students` row, so training_audio_plays FK cannot land.
+    // Demo still gets a short-lived stream URL; no durable play counter.
+    if (opts.isGuest === true) {
+      const playNumber = 1;
+      const token = this.signFor({
+        studentId,
+        audioId,
+        playNumber,
+        expiresAt,
+      });
+      return {
+        audioId,
+        url: `/api/listening/audio?token=${token}`,
+        playsRemaining: Math.max(0, allowed - playNumber),
+        expiresAt,
+      };
+    }
 
     try {
       await this.prisma.trainingAudioPlay.create({
@@ -87,9 +112,6 @@ export class TrainingAudioService {
     });
     const playNumber = row.plays_used;
 
-    const expiresAt = new Date(
-      Date.now() + audio.duration_minutes * LINK_LIFETIME_FACTOR * 60 * 1000,
-    );
     const token = this.signFor({
       studentId,
       audioId,
