@@ -17,6 +17,7 @@ import type {
 import type { SubmitWritingDto } from './dto';
 import { submitOnce } from '../student-activity/submit-once';
 import { historyFields } from '../student-activity/student-history';
+import { WritingDailyQuotaService } from './writing-daily-quota.service';
 
 export interface WritingCorrectionQueue {
   add(data: {
@@ -34,6 +35,7 @@ export class WritingService {
 
   constructor(
     private readonly prisma: PrismaService,
+    private readonly dailyQuota: WritingDailyQuotaService,
     @Optional()
     @Inject('WRITING_CORRECTION_QUEUE')
     private readonly correctionQueue?: WritingCorrectionQueue,
@@ -152,10 +154,12 @@ export class WritingService {
 
   /**
    * POST /api/writing/submit — validate exercise exists in DB, create attempt, enqueue correction.
+   * Guests skip the Start daily quota (IP rate-limit only, enforced in the controller).
    */
   async submit(
     studentId: string,
     dto: SubmitWritingDto,
+    opts: { isGuest?: boolean } = {},
   ): Promise<SubmitWritingResponseDto> {
     const { exerciseId, content } = dto;
 
@@ -197,6 +201,27 @@ export class WritingService {
     }
 
     const createdAt = new Date().toISOString();
+
+    if (dto.attemptId) {
+      const existing = await this.prisma.writingAttempt.findUnique({
+        where: { attempt_id: dto.attemptId },
+        select: { student_id: true, status: true },
+      });
+      if (existing && existing.student_id === studentId) {
+        return {
+          attemptId: dto.attemptId,
+          status: existing.status,
+          message: 'Submission already received.',
+        };
+      }
+    }
+
+    // Start: two training AI corrections per UTC day. Exam attempts are
+    // counted apart (they set exam_attempt_id). Guests stay on IP rate-limit
+    // only — no Start daily quota (tranche 5).
+    if (opts.isGuest !== true) {
+      await this.dailyQuota.assertMaySubmit(studentId);
+    }
 
     let stored: {
       attemptId: string;
@@ -336,8 +361,8 @@ export class WritingService {
     return raw.map((c) => {
       const item = c as Record<string, unknown>;
       return {
-        original: String(item.original ?? ''),
-        corrected: String(item.corrected ?? ''),
+        original: typeof item.original === 'string' ? item.original : '',
+        corrected: typeof item.corrected === 'string' ? item.corrected : '',
         explanation:
           typeof item.explanation === 'string' ? item.explanation : undefined,
         errorType:

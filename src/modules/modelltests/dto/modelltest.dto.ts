@@ -18,3 +18,11 @@ export interface ModelltestExercisesDto {
 export interface ModelltestDetailDto extends ModelltestListItemDto {
   exercises: ModelltestExercisesDto;
 }
+
+/** Start-only: current 7-day training Modelltest (not Prep Pass catalogue). */
+export interface ModelltestOfTheWeekDto extends ModelltestListItemDto {
+  /** Inclusive start of the current 7×24h UTC window (ISO-8601). */
+  periodStart: string;
+  /** Inclusive end of the current 7×24h UTC window (ISO-8601). */
+  periodEnd: string;
+}

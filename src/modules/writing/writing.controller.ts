@@ -136,8 +136,8 @@ export class WritingController {
   @ApiNotFoundResponse({ description: 'Exercise UUID not found' })
   @ApiTooManyRequestsResponse({
     description:
-      'Rate limit exceeded. Guests are capped at 3 submissions per IP per hour; ' +
-      'registered students have a higher per-account limit.',
+      'Rate limit exceeded, or the student has used both Start Schreiben ' +
+      'AI corrections for today (messageKey writingDailyLimit).',
   })
   async submit(
     @CurrentStudent() student: AccessTokenPayload | null,
@@ -153,6 +153,8 @@ export class WritingController {
     } else {
       await this.rateLimitService.checkWritingSubmitLimit(studentId);
     }
-    return this.writingService.submit(studentId, dto);
+    return this.writingService.submit(studentId, dto, {
+      isGuest: student.isGuest === true,
+    });
   }
 }

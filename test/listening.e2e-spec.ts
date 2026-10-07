@@ -7,6 +7,7 @@ import { ListeningService } from '../src/modules/listening/listening.service';
 import { TrainingAudioService } from '../src/modules/listening/training-audio.service';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 import { createGlobalValidationPipe } from '../src/shared/pipes/global-validation.pipe';
 import { PrismaService } from '../src/shared/services/prisma.service';
 
@@ -71,9 +72,11 @@ describe('Listening API scoring and answer security (e2e)', () => {
           return true;
         },
       })
-      // Entitlement is StudentSubscriptionGuard's own spec to prove; this file
-      // is about the route behaving correctly for a student who may learn.
+      // Entitlement / Prep Pass are their own specs; this file is about the
+      // route behaving correctly for a student who may learn.
       .overrideGuard(StudentSubscriptionGuard)
+      .useValue({ canActivate: () => true })
+      .overrideGuard(PrepPassGuard)
       .useValue({ canActivate: () => true })
       .compile();
 

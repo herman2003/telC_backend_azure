@@ -25,6 +25,15 @@ export const EXAM_SLOT_PRICE_XAF = 1_000;
  */
 export const EXAM_SLOT_PRICE_XAF_AI = 1_500;
 
+/**
+ * Launch gate. The AI exam product stays in the codebase (price, pools,
+ * publish, activation) but is not sold until the offer sheet says so.
+ *
+ * Flip to `true` when Exam Day IA returns to the commercial offer — no other
+ * rewrite required for purchase to work again.
+ */
+export const EXAM_AI_SLOTS_FOR_SALE = false;
+
 /** Which product a purchase is for. */
 export type ExamSlotTier = 'MANUAL' | 'AI';
 
@@ -104,6 +113,9 @@ export class ExamSlotsService {
   }
 
   quote(quantity: number, tier: ExamSlotTier): ExamSlotQuote {
+    if (tier === 'AI' && !EXAM_AI_SLOTS_FOR_SALE) {
+      throw new BadRequestException('EXAM_AI_TIER_NOT_AVAILABLE');
+    }
     if (!Number.isInteger(quantity) || quantity < 1) {
       throw new BadRequestException('EXAM_SLOTS_INVALID');
     }

@@ -15,10 +15,10 @@ type SignedCenterIdentity = Pick<CenterAccessTokenPayload, 'centerId'>;
  *
  * Day counts rather than calendar months, unlike the subscription period, which
  * ends on an anchor day (`billing-period.ts`). A prep pass is a product that
- * lasts sixty days, not a thing with a renewal date, so there is no anchor for
+ * lasts thirty days, not a thing with a renewal date, so there is no anchor for
  * it to follow and no month-end question to answer.
  */
-export const PREP_PASS_DAYS = 60;
+export const PREP_PASS_DAYS = 30;
 export const AI_ASSISTED_LEARNING_DAYS = 30;
 
 const PERIOD_DAYS: Partial<Record<EntitlementProduct, number>> = {
@@ -224,7 +224,7 @@ export class EntitlementsService {
     cap: number,
   ): Promise<CapView> {
     if (!CAPPED_PRODUCTS.has(product)) {
-      // A Prep Pass is sixty days, not an allowance of sixty. Silently doing
+      // A Prep Pass is thirty days, not an allowance of thirty. Silently doing
       // nothing would hide the caller's mistake.
       throw new BadRequestException('PRODUCT_HAS_NO_CAP');
     }

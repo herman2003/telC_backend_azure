@@ -4,12 +4,11 @@ import { PrismaService } from './prisma.service';
 import { StudentEntitlementService } from './student-entitlement.service';
 
 /**
- * What Start includes, per student per calendar month.
- *
- * Five conversations with Elena, which is what the offer promises. Past that a
- * student spends a credit their center bought.
+ * What Start includes for exam-style Elena (Sprechen Modul), per student per
+ * calendar month: twelve free live sessions. Past that, or when this Teil was
+ * already practised for free today, a student spends a credit.
  */
-export const FREE_LIVE_SESSIONS_PER_MONTH = 5;
+export const FREE_LIVE_SESSIONS_PER_MONTH = 12;
 
 /**
  * Where the free allowance starts counting.
@@ -38,6 +37,26 @@ export function quotaWindowStart(now = new Date()): Date {
 export function quotaWindowEnd(now = new Date()): Date {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
 }
+
+/** Start of the UTC calendar day — the "1 per Teil per day" window. */
+export function utcDayStart(now = new Date()): Date {
+  return new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  );
+}
+
+export type EntitlementSpendOptions = {
+  /** Teil being practised (1–3). Required for the per-Teil daily free gate. */
+  teilNumber?: number;
+  /**
+   * When false, Start's free allowance is skipped (Mit Elena catalogue path —
+   * credits only). Defaults to true.
+   */
+  allowFree?: boolean;
+};
+
+/** What a counted spend drew on. */
+export type EntitlementSpendSource = 'FREE' | 'CREDIT';
 
 export type EntitlementRefusal =
   /** The center's Start subscription has lapsed. Nothing is lost. */
@@ -155,6 +174,7 @@ export class EntitlementSpendService {
     studentId: string,
     product: EntitlementProduct,
     now = new Date(),
+    opts?: EntitlementSpendOptions,
   ): Promise<EntitlementDecision> {
     const { studentsMayLearn, studentExists } =
       await this.access.forStudent(studentId);
@@ -190,8 +210,15 @@ export class EntitlementSpendService {
 
     const freeRemaining = await this.freeRemaining(studentId, product, now);
     const resetsAt = quotaWindowEnd(now);
+    const freeForThisRequest = await this.canUseFree(
+      studentId,
+      product,
+      now,
+      opts?.teilNumber,
+      opts?.allowFree ?? true,
+    );
 
-    if (freeRemaining > 0) {
+    if (freeForThisRequest) {
       return {
         allowed: true,
         reason: null,
@@ -207,7 +234,7 @@ export class EntitlementSpendService {
       return {
         allowed: true,
         reason: null,
-        freeRemaining: 0,
+        freeRemaining,
         creditsAvailable: credits,
         resetsAt,
         expiresAt: null,
@@ -227,9 +254,12 @@ export class EntitlementSpendService {
     const unallocated = await this.poolBalance(seat.center_id, product);
 
     if (cap && cap.cap === 0 && cap.used > 0) {
-      return refused('CAP_REACHED', { resetsAt });
+      return refused('CAP_REACHED', { resetsAt, freeRemaining });
     }
-    return refused(unallocated > 0 ? 'NO_CAP' : 'POOL_EMPTY', { resetsAt });
+    return refused(unallocated > 0 ? 'NO_CAP' : 'POOL_EMPTY', {
+      resetsAt,
+      freeRemaining,
+    });
   }
 
   /**
@@ -250,8 +280,9 @@ export class EntitlementSpendService {
     studentId: string,
     product: EntitlementProduct,
     now = new Date(),
-  ): Promise<void> {
-    if (!COUNTED.has(product)) return;
+    opts?: EntitlementSpendOptions,
+  ): Promise<EntitlementSpendSource | null> {
+    if (!COUNTED.has(product)) return null;
 
     // Checked here as well as in `mayUse`, and not only for tidiness. A centre
     // can lapse between the two calls, and a caller written later may not ask
@@ -266,8 +297,18 @@ export class EntitlementSpendService {
     if (!seat) throw new ForbiddenException('NO_CODE');
 
     // Free first. Nothing is taken from the center while the student still
-    // has their own allowance.
-    if ((await this.freeRemaining(studentId, product, now)) > 0) return;
+    // has a free session for this request (month + per-Teil day).
+    if (
+      await this.canUseFree(
+        studentId,
+        product,
+        now,
+        opts?.teilNumber,
+        opts?.allowFree ?? true,
+      )
+    ) {
+      return 'FREE';
+    }
 
     const spent = await this.prisma.$executeRaw`
       UPDATE code_entitlement_caps
@@ -281,6 +322,7 @@ export class EntitlementSpendService {
     if (spent !== 1) {
       throw new ForbiddenException('NO_CREDITS_REMAINING');
     }
+    return 'CREDIT';
   }
 
   /**
@@ -324,7 +366,7 @@ export class EntitlementSpendService {
     };
   }
 
-  /** How many of the month's free sessions are left. */
+  /** How many of the month's free sessions are left (monthly budget only). */
   private async freeRemaining(
     studentId: string,
     product: EntitlementProduct,
@@ -337,11 +379,43 @@ export class EntitlementSpendService {
       where: {
         student_id: studentId,
         operation: 'SPEAKING_LIVE_SESSION',
+        counts_toward_free: true,
         created_at: { gte: quotaWindowStart(now) },
       },
     });
 
     return Math.max(0, allowance - used);
+  }
+
+  /**
+   * Whether this request may draw on Start's free allowance.
+   *
+   * Monthly budget first, then (when a Teil is known) the one-per-Teil-per-day
+   * rule. Without a Teil, only the month applies — that is the overview path.
+   */
+  private async canUseFree(
+    studentId: string,
+    product: EntitlementProduct,
+    now: Date,
+    teilNumber?: number,
+    allowFree = true,
+  ): Promise<boolean> {
+    if (!allowFree) return false;
+    if ((await this.freeRemaining(studentId, product, now)) <= 0) {
+      return false;
+    }
+    if (teilNumber == null) return true;
+
+    const usedToday = await this.prisma.aiUsage.count({
+      where: {
+        student_id: studentId,
+        operation: 'SPEAKING_LIVE_SESSION',
+        counts_toward_free: true,
+        teil_number: teilNumber,
+        created_at: { gte: utcDayStart(now) },
+      },
+    });
+    return usedToday === 0;
   }
 
   private async creditsAvailable(

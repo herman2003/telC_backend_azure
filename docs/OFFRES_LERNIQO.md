@@ -1,112 +1,161 @@
-# Offres Lerniqo pour les centres de langue
+# Offres Lerniqo — Launch
 
-**Source commerciale.** Ce document est la référence : quand le code et ce
-document divergent, c'est le code qui a tort jusqu'à décision contraire du
-fondateur et de Herman.
+**Source commerciale.** Ce document est la référence pour le launch : quand le
+code et ce document divergent, c'est le code qui a tort jusqu'à décision
+contraire du fondateur et de Herman.
 
-Lerniqo fonctionne avec une offre principale, **Start**, puis des add-ons qui
-s'ajoutent selon les besoins du centre et des étudiants.
+Lerniqo = une offre principale (**Start**) + des add-ons en complément.
 
 > **Start = apprendre**
 > **Prep Pass = s'entraîner**
 > **Exam Day = se tester**
-> **AI Assisted Learning = être accompagné par l'IA**
-> **AI Speaking = pratiquer davantage l'oral avec l'IA**
+> **Mit Elena = pratiquer davantage l'oral avec l'IA**
 
-Tous les add-ons viennent **en complément de Start**.
+---
+
+## Au launch
+
+| Offre | Prix | Statut |
+|-------|------|--------|
+| **Lerniqo Start** | 4 500 FCFA / élève / mois | Launch |
+| **Mit Elena sprechen** | 300 FCFA / crédit | Launch |
+| **Prep Pass** | 1 000 FCFA / élève / 30 jours | Launch |
+| **Exam Day** (manuel) | 1 000 FCFA / candidat / examen | Launch |
+
+---
+
+## Après le launch (pas vendu pour l’instant)
+
+| Offre | Note |
+|-------|------|
+| **Exam Day IA** (1 500 FCFA) | Code déjà livré — **gardé, pas vendu** |
+| **AI Assisted Learning** | Entitlement prévu — **pas construit / pas vendu** |
 
 ---
 
 ## 1. Lerniqo Start — 4 500 FCFA / élève / mois
 
-L'offre principale et la base de l'écosystème.
+L’offre principale.
 
-**Inclus :** accès à la plateforme, cours et contenus principaux, suivi de
-progression, tableau de bord étudiant, accès ordinateur et mobile, et
-**Sprechen IA Light**.
-
-**Sprechen IA Light**, par élève :
-
-- **5 sessions IA par mois**
-- **5 minutes maximum** par session
-- fermeture automatique après **30 secondes sans parole au démarrage**
-- fermeture automatique en cas d'inactivité prolongée
-- **une seule session active à la fois**
-
----
-
-## 2. Lerniqo Prep Pass — 3 000 FCFA / élève / 60 jours
-
-Paiement unique. Pour l'étudiant qui veut intensifier sa préparation au telc.
-
-Bibliothèque d'exercices indépendants : Hören, Lesen, Sprachbausteine,
-Schreiben, Sprechen. Plus de 20 exercices, accès illimité pendant 60 jours,
-exercices refaisables, suivi de progression.
-
-Ce n'est **pas** un examen blanc complet. C'est de l'entraînement.
-
----
-
-## 3. Lerniqo Exam Day — 1 000 FCFA / candidat / examen
-
-Paiement à l'usage. De véritables examens blancs telc organisés dans Lerniqo.
-
-**Le centre choisit :** le niveau, le Modelltest, les participants, la date,
-l'heure, la fenêtre d'accès — puis publie la session aux étudiants.
-
-**Lerniqo gère :** le chronométrage aux standards de l'examen, l'accès des
-étudiants, les résultats, les notifications, la centralisation des scores.
-
-**Correction automatique :** Lesen, Hören, Sprachbausteine.
-**Évaluation par le formateur ou le centre :** Schreiben, Sprechen.
-
-**Résultats :** consultation, comparaison entre étudiants, export PDF, export
-CSV, publication aux étudiants.
-
-> La question à laquelle le centre doit pouvoir répondre :
-> **quels étudiants sont réellement prêts pour l'examen ?**
-
----
-
-## 4. Lerniqo AI Assisted Learning — 2 000 FCFA / élève / mois
-
-Une IA qui accompagne l'apprentissage, dans Hören, Lesen, Schreiben et
-Sprechen. Différent de AI Speaking : l'objectif n'est pas de faire parler
-l'étudiant, mais de l'aider à comprendre.
-
-Elle peut expliquer une réponse, guider quand l'étudiant bloque, donner un
-feedback ciblé, aider à comprendre les erreurs, accompagner la progression,
-rendre l'étudiant plus autonome, compléter le travail du formateur.
-
-Exemple — l'étudiant se trompe en Lesen. Au lieu de « Mauvaise réponse », l'IA
-explique pourquoi la réponse est incorrecte, quel passage du texte donne
-l'indice, et comment reconnaître ce type de question la prochaine fois.
-
----
-
-## 5. Lerniqo AI Speaking — 300 FCFA / crédit
-
-**1 crédit = 1 session IA de 5 minutes.** Complément du Sprechen IA Light déjà
-inclus dans Start, pour la pratique orale intensive.
-
-Conversations réalistes avec l'IA, prononciation, fluidité, confiance à l'oral,
-situations proches du telc, interaction spontanée, feedback instantané.
-
-Exemple : le centre achète 100 crédits, soit 100 sessions de 5 minutes,
-utilisables par les étudiants autorisés.
-
----
-
-## Écarts connus entre ce document et le code
-
-Au 2026-09-25 :
+### Inclus
 
 | | |
-|---|---|
-| Sprechen IA Light | le code donne **2 sessions par 24 h glissantes**, pas 5 par mois. Aucun plafond de 5 minutes, aucune fermeture sur silence, aucune limite d'une session à la fois → **bloc 22** |
-| Prep Pass | n'existe pas → **bloc 25** |
-| AI Assisted Learning | n'existe pas → **bloc 26** |
-| AI Speaking | n'existe pas ; pas de notion de crédit → **bloc 24** |
-| Exam Day | construit. Mais un **palier IA à 1 500 FCFA / candidat** a été livré (phase 21) et ne figure pas dans cette offre → **bloc 27**, décision à prendre |
+|--|--|
+| **Accès Lerniqo** | Plateforme (ordinateur et mobile) |
+| **Suivi personnalisé** | Progression et readiness de l’élève |
+| **Live Room** | Discussions orales avec d’autres personnes — **illimité** |
+| **Schreiben** | **2 corrections IA / jour**, chaque mois Start |
+| **Sprechen Modul** | Oral d’examen avec l’IA (détail ci-dessous) |
 
-Le plan de construction est dans `docs/BUILD_BLOCKS_22_27.md`.
+> Les **séries Modelltest** d’entraînement (Hören, Lesen, Sprachbausteine) sont
+> dans **Prep Pass**, pas dans Start.
+
+### Sprechen Modul (inclus Start)
+
+Entraînement structuré sur les **3 Teile** du **Modelltest de la semaine**.
+
+Le MT courant est résolu par `GET /api/modelltests/of-the-week` (rotation
+automatique tous les **7 jours** UTC, Start only — pas Prep Pass). L’app charge
+ensuite les sujets via `GET /api/speaking/teils?modelltest=<number>`.
+
+| Règle | Détail |
+|--------|--------|
+| Contenu | Teil 1, Teil 2, Teil 3 |
+| Thèmes | Modelltest de la semaine (`of-the-week`) |
+| Avec l’IA | **1 session / Teil / jour** (max **3 / jour**) |
+| Durée | **5 minutes** par session |
+| Plafond | **12 sessions IA / mois** |
+| Objectif | Se préparer à l’oral d’examen |
+
+Règles session IA :
+
+- fermeture après **30 s** sans parole au démarrage
+- fermeture en cas d’inactivité prolongée
+- **une seule session active à la fois**
+
+Le Live Room (parler avec un autre élève) est **illimité** et ne consomme pas
+ce quota.
+
+> Start prépare l’**oral d’examen**.  
+> Pour parler librement avec l’IA → **Mit Elena**.
+
+---
+
+## 2. Mit Elena sprechen — 300 FCFA / crédit
+
+Add-on. Pratique orale **libre** avec Elena.
+
+| | |
+|--|--|
+| **1 crédit** | **1 session** |
+| **Durée** | **5 minutes** |
+| **Prix** | **300 FCFA** |
+| **Thèmes** | Catalogue **Lerniqo** (pas le Modelltest de la semaine) |
+| **Achat** | Le centre achète un stock, puis **assigne** aux élèves |
+| **Crédits non utilisés** | Retournent au stock du centre si retirés du siège |
+| **Crédits consommés** | Jamais remboursés |
+
+Ce n’est **pas** un Teil d’examen. C’est de la conversation pour la fluidité et
+la confiance à l’oral.
+
+Exemple : 100 crédits = 100 sessions de 5 minutes = 30 000 FCFA.
+
+---
+
+## 3. Prep Pass — 1 000 FCFA / élève / 30 jours
+
+Add-on. Paiement unique. Pour **s’entraîner** sur des séries Modelltest telc.
+
+| Module | Accès |
+|--------|--------|
+| **Hören, Lesen, Sprachbausteine** | Exercices complets + **suivi des résultats** |
+| **Sprechen** | **Sujets** des Teile seulement — **pas** de discussion IA |
+| **Schreiben** | **Sujets** seulement — **pas** de correction IA |
+
+- Accès pendant **30 jours** à partir de l’assignation
+- Exercices refaisables
+- Ce n’est **pas** un examen blanc complet (→ Exam Day)
+- **Sans IA** : l’IA orale / correction reste Start et Mit Elena
+
+---
+
+## 4. Exam Day — 1 000 FCFA / candidat / examen
+
+Add-on. Paiement à l’usage. Vrai **examen blanc telc** organisé par le centre.
+
+**Le centre choisit :** niveau, Modelltest, participants, date, heure, fenêtre
+d’accès — puis publie la session.
+
+**Lerniqo gère :** chronométrage type examen, accès élèves, notifications,
+centralisation des scores.
+
+**Correction :**
+
+| | |
+|--|--|
+| **Automatique** | Lesen, Hören, Sprachbausteine |
+| **Formateur / centre** | Schreiben, Sprechen |
+
+**Dashboard centre :** consultation des résultats, comparaison entre élèves,
+publication aux étudiants, export **PDF** et **CSV**.
+
+Règle de réussite (simulation telc) : **60 % écrit** et **60 % oral**.
+
+> La question du centre : **quels élèves sont réellement prêts pour l’examen ?**
+
+Le palier **Exam Day IA (1 500 FCFA)** existe en code mais **n’est pas vendu
+au launch**.
+
+---
+
+## Comment ça se complète
+
+```
+Start              Prep Pass           Exam Day            Mit Elena
+─────────────      ─────────────       ─────────────       ─────────────
+Apprendre          S'entraîner         Se tester           Oral IA libre
+Quota Teile exam   Sujets / séries     Examen blanc        Thèmes Lerniqo
+Live Room illimité Sans IA             Dashboard centre    Crédits
+```
+
+Tous les add-ons viennent **en complément de Start**.
