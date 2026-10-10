@@ -55,6 +55,13 @@ export class EmailService {
     return configured.trim().replace(/\/+$/, '');
   }
 
+  /** Same inbox as NouveauCentre / center support — no demo-specific env. */
+  private getSupportEmail(): string {
+    return (
+      this.config.get<string>('SUPPORT_EMAIL')?.trim() || TEAM_EMAIL_FALLBACK
+    );
+  }
+
   /**
    * Both audiences verify on the same website page. The `type` parameter is
    * what tells that page which endpoint to call, so a center token is never
@@ -291,8 +298,7 @@ export class EmailService {
     centerName: string;
     locale?: string;
   }): Promise<void> {
-    const team =
-      this.config.get<string>('SUPPORT_EMAIL')?.trim() || TEAM_EMAIL_FALLBACK;
+    const team = this.getSupportEmail();
 
     const when = new Date().toLocaleString('de-DE', {
       dateStyle: 'long',
@@ -357,9 +363,9 @@ export class EmailService {
         : input.locale === 'en'
           ? 'there'
           : '');
-    const meet =
-      this.config.get<string>('DEMO_MEET_URL')?.trim() ||
-      `${this.getVitrineUrl()}/demo`;
+    // CTA reuses the same team inbox as the rest of the backend (SUPPORT_EMAIL).
+    const support = this.getSupportEmail();
+    const contactUrl = `mailto:${encodeURIComponent(support)}`;
     const dur =
       input.locale === 'fr'
         ? '30 minutes en visio'
@@ -373,12 +379,12 @@ export class EmailService {
             preheader: 'Récapitulatif de votre demande de démo.',
             heading: `Votre démo est réservée, ${first}.`,
             intro:
-              'Merci pour votre intérêt. Voici le récapitulatif de votre demande.',
+              'Merci pour votre intérêt. Voici le récapitulatif de votre demande. Notre équipe vous confirmera le lien de visio par e-mail.',
             slotL: 'Votre créneau',
-            join: 'Rejoindre la visio',
+            join: 'Nous écrire',
             recap: 'Les informations que vous nous avez transmises :',
             change:
-              'Besoin de changer l’horaire ? Répondez simplement à cet e-mail ou écrivez-nous sur WhatsApp.',
+              'Besoin de changer l’horaire ? Répondez simplement à cet e-mail.',
             labels: {
               name: 'Nom',
               email: 'E-mail',
@@ -394,12 +400,11 @@ export class EmailService {
               preheader: 'Summary of your demo request.',
               heading: `Your demo is booked, ${first}.`,
               intro:
-                'Thanks for your interest. Here is a summary of your request.',
+                'Thanks for your interest. Here is a summary of your request. Our team will send you the video-call link by email.',
               slotL: 'Your time slot',
-              join: 'Join the call',
+              join: 'Contact us',
               recap: 'The details you sent us:',
-              change:
-                'Need another time? Just reply to this email or message us on WhatsApp.',
+              change: 'Need another time? Just reply to this email.',
               labels: {
                 name: 'Name',
                 email: 'Email',
@@ -416,12 +421,12 @@ export class EmailService {
                 ? `Ihre Demo ist gebucht, ${first}.`
                 : 'Ihre Demo ist gebucht.',
               intro:
-                'Danke für Ihr Interesse. Hier ist die Zusammenfassung Ihrer Anfrage.',
+                'Danke für Ihr Interesse. Hier ist die Zusammenfassung Ihrer Anfrage. Unser Team sendet Ihnen den Video-Link per E-Mail.',
               slotL: 'Ihr Termin',
-              join: 'Zum Video-Call',
+              join: 'Schreiben Sie uns',
               recap: 'Ihre Angaben:',
               change:
-                'Anderer Termin? Antworten Sie einfach auf diese E-Mail oder schreiben Sie uns auf WhatsApp.',
+                'Anderer Termin? Antworten Sie einfach auf diese E-Mail.',
               labels: {
                 name: 'Name',
                 email: 'E-Mail',
@@ -453,7 +458,7 @@ export class EmailService {
         copy.recap,
       ],
       rows,
-      action: { label: copy.join, url: meet },
+      action: { label: copy.join, url: contactUrl },
       notice: copy.change,
       footer:
         'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
@@ -466,7 +471,7 @@ export class EmailService {
         '',
         ...rows.map((r) => `${r.label}: ${r.value}`),
         '',
-        `${copy.join}: ${meet}`,
+        `${copy.join}: ${support}`,
         copy.change,
       ].join('\n'),
     });
@@ -483,10 +488,7 @@ export class EmailService {
     locale: 'fr' | 'en' | 'de';
     slotLabel: string;
   }): Promise<void> {
-    const team =
-      this.config.get<string>('SUPPORT_EMAIL')?.trim() ||
-      this.config.get<string>('DEMO_EMAIL_TEAM')?.trim() ||
-      TEAM_EMAIL_FALLBACK;
+    const team = this.getSupportEmail();
     const localeLabel =
       input.locale === 'fr'
         ? 'Français'
