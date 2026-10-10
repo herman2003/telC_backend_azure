@@ -8,13 +8,14 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
+import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
 import { PrepTipsService } from './prep-tips.service';
 import { PrepTipDto, PrepTipSummaryDto } from './dto/prep-tip.dto';
 
 @ApiTags('Prep tips')
 @ApiBearerAuth()
 @Controller('api/prep-tips')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, StudentSubscriptionGuard)
 export class PrepTipsController {
   constructor(private readonly tips: PrepTipsService) {}
 
