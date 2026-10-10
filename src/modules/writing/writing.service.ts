@@ -132,6 +132,7 @@ export class WritingService {
           diff: true,
           corrections: true,
           points_addressed: true,
+          telc_rating: true,
         },
       });
 
@@ -333,6 +334,7 @@ export class WritingService {
     diff?: unknown;
     corrections?: unknown;
     points_addressed?: number | null;
+    telc_rating?: unknown;
   }): ExerciseAttemptDto {
     const toIso = (d: Date | string | null | undefined) =>
       d ? (d instanceof Date ? d.toISOString() : d) : '';
@@ -350,7 +352,30 @@ export class WritingService {
         ? (row.diff as ExerciseAttemptDto['diff'])
         : undefined,
       pointsAddressed: row.points_addressed ?? undefined,
+      telcRating: this.mapTelcRatingForDto(row.telc_rating),
       corrections: this.mapCorrectionsForDto(row.corrections),
+    };
+  }
+
+  private mapTelcRatingForDto(raw: unknown): ExerciseAttemptDto['telcRating'] {
+    if (!raw || typeof raw !== 'object') return undefined;
+    const o = raw as Record<string, unknown>;
+    const letters = ['A', 'B', 'C', 'D'] as const;
+    const ok = (v: unknown): v is (typeof letters)[number] =>
+      typeof v === 'string' && (letters as readonly string[]).includes(v);
+    if (
+      !ok(o.taskFulfilment) ||
+      !ok(o.communicativeDesign) ||
+      !ok(o.formalAccuracy) ||
+      typeof o.points !== 'number'
+    ) {
+      return undefined;
+    }
+    return {
+      taskFulfilment: o.taskFulfilment,
+      communicativeDesign: o.communicativeDesign,
+      formalAccuracy: o.formalAccuracy,
+      points: o.points,
     };
   }
 

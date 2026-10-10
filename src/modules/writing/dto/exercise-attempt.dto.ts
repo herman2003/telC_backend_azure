@@ -71,6 +71,23 @@ export class ExerciseAttemptDto {
   pointsAddressed?: number;
 
   @ApiPropertyOptional({
+    description:
+      'telc Deutsch B1 Schriftlicher Ausdruck: A–D on I/II/III and points /45',
+    example: {
+      taskFulfilment: 'B',
+      communicativeDesign: 'A',
+      formalAccuracy: 'C',
+      points: 27,
+    },
+  })
+  telcRating?: {
+    taskFulfilment: 'A' | 'B' | 'C' | 'D';
+    communicativeDesign: 'A' | 'B' | 'C' | 'D';
+    formalAccuracy: 'A' | 'B' | 'C' | 'D';
+    points: number;
+  };
+
+  @ApiPropertyOptional({
     description: 'List of inline corrections (max 10)',
     type: [InlineCorrectionDto],
   })
