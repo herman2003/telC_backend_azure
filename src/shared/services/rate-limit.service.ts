@@ -300,6 +300,43 @@ export class RateLimitService {
   }
 
   /**
+   * Caps resend-verification on the vitrine (email + IP).
+   * Reuses register budgets under a separate namespace so a resend loop cannot
+   * starve real registrations, and vice versa.
+   */
+  checkCenterResendVerificationLimit(
+    ipKey: string,
+    emailKey: string,
+  ): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:centers:resend-verification:email:${emailKey.trim().toLowerCase()}`,
+        max: this.registerEmailMaxAttempts,
+        ttlSeconds: this.registerEmailWindowSeconds,
+      },
+      {
+        key: `ratelimit:centers:resend-verification:ip:${ipKey}`,
+        max: this.registerIpMaxAttempts,
+        ttlSeconds: this.registerIpWindowSeconds,
+      },
+    ]);
+  }
+
+  /**
+   * Public activation-code lookup on the vitrine (no student session).
+   * IP-only: codes are guessable shapes, so this must not be free.
+   */
+  checkPublicCodeValidateLimit(ip: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:codes:validate-public:ip:${ip}`,
+        max: 30,
+        ttlSeconds: 15 * 60,
+      },
+    ]);
+  }
+
+  /**
    * Caps guessing at activation codes, which are stored readable and so can
    * only be protected by how fast anyone may try them.
    *

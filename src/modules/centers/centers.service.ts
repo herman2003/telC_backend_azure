@@ -82,6 +82,33 @@ export class CentersService {
     return this.createCenterAndOwner(input, email);
   }
 
+  /**
+   * Public resend for the vitrine « Vérifiez votre boîte » screen.
+   *
+   * Same generic reply whether the address is unknown, already verified, or
+   * still waiting — so the endpoint cannot be used to enumerate accounts.
+   * Cooldown and delivery reuse the register path for unverified owners.
+   */
+  async resendVerificationEmail(
+    emailRaw: string,
+  ): Promise<{ message: 'verification email sent' }> {
+    const email = emailRaw.trim().toLowerCase();
+    const existing = await this.prisma.centerUser.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        email_verified: true,
+        email_verification_expires: true,
+      },
+    });
+
+    if (!existing || existing.email_verified) {
+      return REGISTRATION_RESPONSE;
+    }
+
+    return this.handleExistingUnverifiedUser(existing, email);
+  }
+
   private async handleExistingUnverifiedUser(
     existing: ExistingCenterUser,
     email: string,

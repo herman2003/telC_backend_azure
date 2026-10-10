@@ -46,6 +46,70 @@ export class CodeRedemptionService {
     private readonly policy: SubscriptionPolicyService,
   ) {}
 
+  /**
+   * Vitrine `/activer`: confirm a code is still claimable and return the
+   * school name. Does not bind a student — redeem remains authenticated.
+   */
+  async validatePublic(typed: string): Promise<{ centerName: string }> {
+    const value = normalizeActivationCode(typed);
+
+    if (!value) {
+      throw new BadRequestException('CODE_INVALID');
+    }
+
+    const code = await this.prisma.activationCode.findUnique({
+      where: { code: value },
+      include: {
+        center: {
+          select: {
+            name: true,
+            subscription: {
+              select: {
+                plan: true,
+                trial_started_at: true,
+                trial_ends_at: true,
+                paid_until: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!code) {
+      throw new BadRequestException('CODE_INVALID');
+    }
+
+    if (code.status === ActivationCodeStatus.CONNECTED) {
+      throw new ConflictException('CODE_ALREADY_USED');
+    }
+
+    if (code.status === ActivationCodeStatus.SUSPENDED) {
+      throw new ConflictException('CODE_SUSPENDED');
+    }
+
+    if (code.status === ActivationCodeStatus.DEACTIVATED) {
+      throw new ConflictException('CODE_DEACTIVATED');
+    }
+
+    if (code.expires_at !== null && code.expires_at <= new Date()) {
+      throw new BadRequestException('CODE_EXPIRED');
+    }
+
+    if (
+      !code.center.subscription ||
+      !this.policy.evaluate(code.center.subscription).studentsMayLearn
+    ) {
+      throw new ForbiddenException('CENTER_NOT_ACTIVE');
+    }
+
+    if (code.status !== ActivationCodeStatus.ACTIVATED) {
+      throw new BadRequestException('CODE_INVALID');
+    }
+
+    return { centerName: code.center.name };
+  }
+
   async redeem(
     student: { studentId: string },
     typed: string,

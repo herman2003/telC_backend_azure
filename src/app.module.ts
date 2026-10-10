@@ -19,6 +19,7 @@ import { MeModule } from './modules/me/me.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LocationsModule } from './modules/locations/locations.module';
 import { PlansModule } from './modules/plans/plans.module';
+import { VitrineModule } from './modules/vitrine/vitrine.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { PlansModule } from './modules/plans/plans.module';
     LesenModule,
     LocationsModule,
     PlansModule,
+    VitrineModule,
   ],
   controllers: [AppController],
   providers: [AppService],
