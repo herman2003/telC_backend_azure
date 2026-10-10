@@ -17,12 +17,12 @@ import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscript
  *    student's session and hands them nothing.
  */
 describe('speaking evaluation and the AI quota', () => {
-  /** The shape `parseResponse` actually accepts, snake_case and all. */
+  /** The shape `parseResponse` accepts: M10 letters (points computed in code). */
   const A_RESULT = {
-    grammar_score: 4,
-    vocabulary_score: 4,
-    coherence_score: 4,
-    overall_score: 4,
+    expression: 'A',
+    taskFulfilment: 'A',
+    formalAccuracy: 'A',
+    pronunciation: 'A',
     evaluation_text: 'Gut gemacht.',
     corrections: [],
   };
@@ -186,14 +186,20 @@ describe('speaking evaluation and the AI quota', () => {
         student_id: 'student-1',
         teil_number: 2,
         modelltest_id: 'mt-1',
-        score: 4,
+        // AAAA on Teil 2 → 30/30 → overall 100
+        score: 100,
         duration_seconds: 120,
+      });
+      expect(stored.evaluation.telcRating).toMatchObject({
+        points: 30,
+        maxPoints: 30,
+        teilNumber: 2,
       });
       expect(prisma.studentActivity.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           skill: 'SPRECHEN',
           teil: 2,
-          score: 4,
+          score: 100,
           attempt_id: stored.attempt_id,
         }),
       });
@@ -232,15 +238,16 @@ describe('speaking evaluation and the AI quota', () => {
       expect(gemini.generateTextResponse).not.toHaveBeenCalled();
     });
 
-    it('stores a fractional score as whole points instead of losing it', async () => {
+    it('derives score from M10 letters and ignores a model numeric overall', async () => {
       gemini.generateTextResponse.mockResolvedValue(
-        JSON.stringify({ ...A_RESULT, overall_score: 76.5 }),
+        JSON.stringify({ ...A_RESULT, overall_score: 12 }),
       );
 
       await evaluate();
 
+      // Teil 1 AAAA → 15/15 → 100, not the model's 12
       expect(prisma.speakingAttempt.create.mock.calls[0][0].data.score).toBe(
-        77,
+        100,
       );
       expect(prisma.studentActivity.create).toHaveBeenCalled();
     });
@@ -260,7 +267,8 @@ describe('speaking evaluation and the AI quota', () => {
       prisma.$transaction.mockRejectedValue(new Error('db down'));
 
       await expect(evaluate()).resolves.toMatchObject({
-        scores: expect.objectContaining({ overall: 4 }),
+        scores: expect.objectContaining({ overall: 100 }),
+        telcRating: expect.objectContaining({ points: 15, maxPoints: 15 }),
       });
     });
   });

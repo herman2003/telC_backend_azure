@@ -56,6 +56,36 @@ export class CorrectionDto {
   error_type: 'grammar' | 'vocabulary';
 }
 
+export class TelcSprechenRatingDto {
+  @ApiProperty({ enum: ['A', 'B', 'C', 'D'], example: 'B' })
+  @IsString()
+  expression: 'A' | 'B' | 'C' | 'D';
+
+  @ApiProperty({ enum: ['A', 'B', 'C', 'D'], example: 'A' })
+  @IsString()
+  taskFulfilment: 'A' | 'B' | 'C' | 'D';
+
+  @ApiProperty({ enum: ['A', 'B', 'C', 'D'], example: 'C' })
+  @IsString()
+  formalAccuracy: 'A' | 'B' | 'C' | 'D';
+
+  @ApiProperty({ enum: ['A', 'B', 'C', 'D'], example: 'B' })
+  @IsString()
+  pronunciation: 'A' | 'B' | 'C' | 'D';
+
+  @ApiProperty({ example: 24, description: 'M10 points for this Teil' })
+  @IsNumber()
+  points: number;
+
+  @ApiProperty({ example: 30, description: '15 for Teil 1, 30 for Teil 2/3' })
+  @IsNumber()
+  maxPoints: number;
+
+  @ApiProperty({ example: 2, enum: [1, 2, 3] })
+  @IsNumber()
+  teilNumber: 1 | 2 | 3;
+}
+
 export class SpeakingEvaluationResponseDto {
   @ApiProperty({
     example:
@@ -68,6 +98,16 @@ export class SpeakingEvaluationResponseDto {
   @ValidateNested()
   @Type(() => ScoresDto)
   scores: ScoresDto;
+
+  @ApiProperty({
+    type: TelcSprechenRatingDto,
+    required: false,
+    description:
+      'telc M10 A–D grades + points (T1 /15, T2–T3 /30). Preferred display. Absent on legacy stored evaluations.',
+  })
+  @ValidateNested()
+  @Type(() => TelcSprechenRatingDto)
+  telcRating?: TelcSprechenRatingDto;
 
   @ApiProperty({ type: [CorrectionDto] })
   @IsArray()
