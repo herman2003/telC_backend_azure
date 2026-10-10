@@ -337,6 +337,28 @@ export class RateLimitService {
   }
 
   /**
+   * Public demo booking on the vitrine — IP + email, so a burst cannot flood
+   * the team inbox or burn the Resend quota.
+   */
+  checkVitrineDemoRequestLimit(
+    ipKey: string,
+    emailKey: string,
+  ): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:vitrine:demo:email:${emailKey.trim().toLowerCase()}`,
+        max: 5,
+        ttlSeconds: 60 * 60,
+      },
+      {
+        key: `ratelimit:vitrine:demo:ip:${ipKey}`,
+        max: 15,
+        ttlSeconds: 60 * 60,
+      },
+    ]);
+  }
+
+  /**
    * Caps guessing at activation codes, which are stored readable and so can
    * only be protected by how fast anyone may try them.
    *

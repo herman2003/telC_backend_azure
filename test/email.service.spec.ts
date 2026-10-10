@@ -320,6 +320,33 @@ describe('EmailService', () => {
             seatsUsedLabel: '1 von 1',
           }),
       ],
+      [
+        'demo client',
+        (s) =>
+          s.sendDemoConfirmationToClient({
+            fullName: 'Amina Ngo',
+            email: 'a@b.co',
+            whatsapp: '+237 6',
+            centerName: 'School',
+            studentBand: '20–50',
+            locale: 'de',
+            slotLabel: 'Dienstag',
+            slotStart: new Date('2026-10-13T07:00:00.000Z'),
+          }),
+      ],
+      [
+        'demo team',
+        (s) =>
+          s.sendDemoRequestToTeam({
+            fullName: 'Amina Ngo',
+            email: 'a@b.co',
+            whatsapp: '+237 6',
+            centerName: 'School',
+            studentBand: '20–50',
+            locale: 'de',
+            slotLabel: 'Dienstag',
+          }),
+      ],
       ['student welcome', (s) => s.sendStudentWelcomeEmail('a@b.co', 'Awa')],
     ];
 

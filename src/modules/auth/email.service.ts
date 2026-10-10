@@ -338,6 +338,206 @@ export class EmailService {
     });
   }
 
+  /** Maquette `Email-DemoClient` — confirmation to the school that booked. */
+  async sendDemoConfirmationToClient(input: {
+    fullName: string;
+    email: string;
+    whatsapp: string;
+    centerName: string;
+    studentBand: string;
+    message?: string;
+    locale: 'fr' | 'en' | 'de';
+    slotLabel: string;
+    slotStart: Date;
+  }): Promise<void> {
+    const first =
+      input.fullName.trim().split(/\s+/)[0] ||
+      (input.locale === 'fr'
+        ? 'bonjour'
+        : input.locale === 'en'
+          ? 'there'
+          : '');
+    const meet =
+      this.config.get<string>('DEMO_MEET_URL')?.trim() ||
+      `${this.getVitrineUrl()}/demo`;
+    const dur =
+      input.locale === 'fr'
+        ? '30 minutes en visio'
+        : input.locale === 'en'
+          ? '30 minutes on video'
+          : '30 Minuten per Video';
+    const copy =
+      input.locale === 'fr'
+        ? {
+            subject: 'Votre démo Lerniqo est réservée',
+            preheader: 'Récapitulatif de votre demande de démo.',
+            heading: `Votre démo est réservée, ${first}.`,
+            intro:
+              'Merci pour votre intérêt. Voici le récapitulatif de votre demande.',
+            slotL: 'Votre créneau',
+            join: 'Rejoindre la visio',
+            recap: 'Les informations que vous nous avez transmises :',
+            change:
+              'Besoin de changer l’horaire ? Répondez simplement à cet e-mail ou écrivez-nous sur WhatsApp.',
+            labels: {
+              name: 'Nom',
+              email: 'E-mail',
+              wa: 'WhatsApp',
+              center: 'Centre',
+              size: 'Nombre d’élèves',
+              msg: 'Message',
+            },
+          }
+        : input.locale === 'en'
+          ? {
+              subject: 'Your Lerniqo demo is booked',
+              preheader: 'Summary of your demo request.',
+              heading: `Your demo is booked, ${first}.`,
+              intro:
+                'Thanks for your interest. Here is a summary of your request.',
+              slotL: 'Your time slot',
+              join: 'Join the call',
+              recap: 'The details you sent us:',
+              change:
+                'Need another time? Just reply to this email or message us on WhatsApp.',
+              labels: {
+                name: 'Name',
+                email: 'Email',
+                wa: 'WhatsApp',
+                center: 'Centre',
+                size: 'Students',
+                msg: 'Message',
+              },
+            }
+          : {
+              subject: 'Ihre Lerniqo-Demo ist gebucht',
+              preheader: 'Zusammenfassung Ihrer Demo-Anfrage.',
+              heading: first
+                ? `Ihre Demo ist gebucht, ${first}.`
+                : 'Ihre Demo ist gebucht.',
+              intro:
+                'Danke für Ihr Interesse. Hier ist die Zusammenfassung Ihrer Anfrage.',
+              slotL: 'Ihr Termin',
+              join: 'Zum Video-Call',
+              recap: 'Ihre Angaben:',
+              change:
+                'Anderer Termin? Antworten Sie einfach auf diese E-Mail oder schreiben Sie uns auf WhatsApp.',
+              labels: {
+                name: 'Name',
+                email: 'E-Mail',
+                wa: 'WhatsApp',
+                center: 'Zentrum',
+                size: 'Lernende',
+                msg: 'Nachricht',
+              },
+            };
+
+    const rows = [
+      { label: copy.labels.name, value: input.fullName },
+      { label: copy.labels.email, value: input.email },
+      { label: copy.labels.wa, value: input.whatsapp },
+      { label: copy.labels.center, value: input.centerName },
+      { label: copy.labels.size, value: input.studentBand },
+    ];
+    if (input.message) {
+      rows.push({ label: copy.labels.msg, value: input.message });
+    }
+
+    await this.send(input.email, {
+      subject: copy.subject,
+      preheader: copy.preheader,
+      heading: copy.heading,
+      paragraphs: [
+        copy.intro,
+        `<strong>${escapeHtml(copy.slotL)}</strong><br>${escapeHtml(input.slotLabel)}<br>${escapeHtml(dur)}`,
+        copy.recap,
+      ],
+      rows,
+      action: { label: copy.join, url: meet },
+      notice: copy.change,
+      footer:
+        'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
+      text: [
+        copy.heading,
+        '',
+        copy.intro,
+        `${copy.slotL}: ${input.slotLabel}`,
+        dur,
+        '',
+        ...rows.map((r) => `${r.label}: ${r.value}`),
+        '',
+        `${copy.join}: ${meet}`,
+        copy.change,
+      ].join('\n'),
+    });
+  }
+
+  /** Maquette `Email-DemoEquipe` — alert the Lerniqo team. */
+  async sendDemoRequestToTeam(input: {
+    fullName: string;
+    email: string;
+    whatsapp: string;
+    centerName: string;
+    studentBand: string;
+    message?: string;
+    locale: 'fr' | 'en' | 'de';
+    slotLabel: string;
+  }): Promise<void> {
+    const team =
+      this.config.get<string>('SUPPORT_EMAIL')?.trim() ||
+      this.config.get<string>('DEMO_EMAIL_TEAM')?.trim() ||
+      TEAM_EMAIL_FALLBACK;
+    const localeLabel =
+      input.locale === 'fr'
+        ? 'Français'
+        : input.locale === 'en'
+          ? 'English'
+          : 'Deutsch';
+    const waDigits = input.whatsapp.replace(/\D/g, '');
+    const waUrl = waDigits
+      ? `https://wa.me/${waDigits}`
+      : 'https://wa.me/4915734177259';
+    const mailto = `mailto:${encodeURIComponent(input.email)}`;
+
+    await this.send(team, {
+      subject: `Neue Demo-Anfrage — ${input.centerName} (${input.studentBand})`,
+      preheader: 'Eine Demo-Anfrage wurde auf lerniqo.tech gesendet.',
+      heading: 'Neue Demo-Anfrage',
+      paragraphs: [
+        'Eine Anfrage wurde soeben über lerniqo.tech gesendet. Angaben:',
+      ],
+      rows: [
+        { label: 'Name', value: input.fullName },
+        { label: 'E-Mail', value: input.email },
+        { label: 'WhatsApp', value: input.whatsapp },
+        { label: 'Center', value: input.centerName },
+        { label: 'Lernende', value: input.studentBand },
+        { label: 'Termin', value: input.slotLabel },
+        { label: 'Nachricht', value: input.message?.trim() || '—' },
+        { label: 'Sprache der Seite', value: localeLabel },
+      ],
+      action: { label: 'Per WhatsApp antworten', url: waUrl },
+      notice: `<a href="${escapeHtml(mailto)}" style="color:#0061A4;font-weight:700;">Per E-Mail antworten</a><br><br>Der Client hat eine Bestätigung mit diesem Termin erhalten. Denken Sie daran, den Video-Link zu schicken.`,
+      footer:
+        'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
+      text: [
+        'Neue Demo-Anfrage',
+        '',
+        `Name: ${input.fullName}`,
+        `E-Mail: ${input.email}`,
+        `WhatsApp: ${input.whatsapp}`,
+        `Center: ${input.centerName}`,
+        `Lernende: ${input.studentBand}`,
+        `Termin: ${input.slotLabel}`,
+        `Nachricht: ${input.message?.trim() || '—'}`,
+        `Sprache: ${localeLabel}`,
+        '',
+        `WhatsApp: ${waUrl}`,
+        `E-Mail: ${mailto}`,
+      ].join('\n'),
+    });
+  }
+
   /** Maquette `Email-CodeActive` — notify the center when a seat is redeemed. */
   async sendCodeActivatedToCenter(input: {
     to: string;
