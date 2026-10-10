@@ -18,23 +18,35 @@ export const TEILS_PER_SKILL: Record<Skill, number> = {
 };
 
 /**
- * PROVISIONAL weights, agreed with Herman on 2026-09-19 until the official
- * telc B1+ Beruf points grid is entered. Change them here and nowhere else.
- *
- * The written skills weigh equally; written/oral is 75/25, the telc Deutsch
- * B1 split (225 / 75 points).
+ * Official telc Deutsch B1 / Zertifikat Deutsch point caps (Übungstest grid).
+ * Change them here and nowhere else.
  */
-export const WRITTEN_SKILL_WEIGHTS: Partial<Record<Skill, number>> = {
-  LESEN: 1,
-  SPRACHBAUSTEINE: 1,
-  HOEREN: 1,
-  SCHREIBEN: 1,
+export const SKILL_MAX_POINTS: Record<Skill, number> = {
+  LESEN: 75,
+  SPRACHBAUSTEINE: 30,
+  HOEREN: 75,
+  SCHREIBEN: 45,
+  SPRECHEN: 75,
 };
-export const WRITTEN_WEIGHT = 75;
-export const ORAL_WEIGHT = 25;
 
-/** telc passes a candidate with at least 60 % in each part. */
+export const WRITTEN_SKILLS: Skill[] = [
+  'LESEN',
+  'SPRACHBAUSTEINE',
+  'HOEREN',
+  'SCHREIBEN',
+];
+
+export const WRITTEN_MAX = 225;
+export const ORAL_MAX = 75;
+export const TOTAL_MAX = 300;
+
+/** 60 % of each half: 135 / 225 written, 45 / 75 oral. */
+export const PASS_WRITTEN_POINTS = 135;
+export const PASS_ORAL_POINTS = 45;
+
+/** Kept for callers/docs: 60 % of a half. Prefer the point thresholds above. */
 export const PASS_MARK = 60;
+
 /** Under this many attempts in total, readiness is not a number yet. */
 export const MIN_ATTEMPTS_FOR_READINESS = 5;
 /** How many recent attempts make a Teil score. */
@@ -95,19 +107,33 @@ export function roundScores(scores: SkillScores): SkillScores {
   return result;
 }
 
+/** Exact telc points for one skill from its percent score (null → 0). */
+export function skillPoints(skills: SkillScores, skill: Skill): number {
+  const percent = skills[skill] ?? 0;
+  return (percent / 100) * SKILL_MAX_POINTS[skill];
+}
+
 export interface Readiness {
   /** 0–100, or null under MIN_ATTEMPTS_FOR_READINESS attempts. */
   score: number | null;
+  /** 0–100 of the written half (225 pts). */
   written: number | null;
+  /** 0–100 of the oral half (75 pts). */
   oral: number | null;
-  /** Both parts at the pass mark. False while there is not enough data. */
+  /** Both halves at the pass mark. False while there is not enough data. */
   ready: boolean;
+  /** Estimated points out of 300 (null under min attempts). */
+  pointsTotal: number | null;
+  /** Estimated written points out of 225. */
+  pointsWritten: number | null;
+  /** Estimated oral points out of 75. */
+  pointsOral: number | null;
 }
 
 /**
- * Readiness mirrors telc scoring: a written and an oral part, each needing
- * the pass mark. Skills never practised count 0 here (option C): a student
- * who skips speaking is not ready, and the number says so.
+ * Readiness mirrors telc Deutsch B1 scoring: written (225) and oral (75),
+ * each needing 60 % (135 / 45). Skills never practised count 0 here
+ * (option C): a student who skips speaking is not ready.
  *
  * Takes the exact skill scores from `skillScores`, never the rounded ones:
  * rounding first would let 59.67 pass.
@@ -117,25 +143,38 @@ export function readiness(
   totalAttempts: number,
 ): Readiness {
   if (totalAttempts < MIN_ATTEMPTS_FOR_READINESS) {
-    return { score: null, written: null, oral: null, ready: false };
+    return {
+      score: null,
+      written: null,
+      oral: null,
+      ready: false,
+      pointsTotal: null,
+      pointsWritten: null,
+      pointsOral: null,
+    };
   }
-  let weighted = 0;
-  let weights = 0;
-  for (const [skill, weight] of Object.entries(WRITTEN_SKILL_WEIGHTS)) {
-    weighted += (skills[skill as Skill] ?? 0) * weight;
-    weights += weight;
+
+  let pointsWritten = 0;
+  for (const skill of WRITTEN_SKILLS) {
+    pointsWritten += skillPoints(skills, skill);
   }
-  const written = weighted / weights;
-  const oral = skills.SPRECHEN ?? 0;
-  const score =
-    (written * WRITTEN_WEIGHT + oral * ORAL_WEIGHT) /
-    (WRITTEN_WEIGHT + ORAL_WEIGHT);
+  const pointsOral = skillPoints(skills, 'SPRECHEN');
+  const pointsTotal = pointsWritten + pointsOral;
+
+  const written = (pointsWritten / WRITTEN_MAX) * 100;
+  const oral = (pointsOral / ORAL_MAX) * 100;
+  const score = (pointsTotal / TOTAL_MAX) * 100;
+
   return {
     score: Math.round(score),
     written: Math.round(written),
     oral: Math.round(oral),
-    // Compared before rounding: 59.75 is not a pass.
-    ready: written >= PASS_MARK && oral >= PASS_MARK,
+    // Compared on exact points: 134.9 is not a pass.
+    ready:
+      pointsWritten >= PASS_WRITTEN_POINTS && pointsOral >= PASS_ORAL_POINTS,
+    pointsTotal: Math.round(pointsTotal),
+    pointsWritten: Math.round(pointsWritten),
+    pointsOral: Math.round(pointsOral),
   };
 }
 

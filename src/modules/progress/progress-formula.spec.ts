@@ -1,8 +1,12 @@
 import {
   alerts,
+  PASS_ORAL_POINTS,
+  PASS_WRITTEN_POINTS,
   readiness,
   roundScores,
+  skillPoints,
   skillScores,
+  SKILL_MAX_POINTS,
   type SkillScores,
   type TeilScore,
 } from './progress-formula';
@@ -19,9 +23,18 @@ const scores = (over: Partial<SkillScores>): SkillScores => ({
   ...over,
 });
 
+const emptyReadiness = {
+  score: null,
+  written: null,
+  oral: null,
+  ready: false,
+  pointsTotal: null,
+  pointsWritten: null,
+  pointsOral: null,
+};
+
 describe('skillScores', () => {
   it('averages the Teils, counting a Teil never attempted as 0', () => {
-    // Hören has 3 Teils; only two were attempted.
     const teils: TeilScore[] = [
       { skill: 'HOEREN', teil: 1, score: 90 },
       { skill: 'HOEREN', teil: 2, score: 60 },
@@ -47,6 +60,22 @@ describe('skillScores', () => {
   });
 });
 
+describe('skillPoints', () => {
+  it('maps percent scores onto the official telc B1 caps', () => {
+    expect(SKILL_MAX_POINTS.LESEN).toBe(75);
+    expect(SKILL_MAX_POINTS.SPRACHBAUSTEINE).toBe(30);
+    expect(SKILL_MAX_POINTS.HOEREN).toBe(75);
+    expect(SKILL_MAX_POINTS.SCHREIBEN).toBe(45);
+    expect(SKILL_MAX_POINTS.SPRECHEN).toBe(75);
+
+    expect(skillPoints(scores({ LESEN: 100 }), 'LESEN')).toBe(75);
+    expect(skillPoints(scores({ SPRACHBAUSTEINE: 100 }), 'SPRACHBAUSTEINE')).toBe(
+      30,
+    );
+    expect(skillPoints(scores({}), 'HOEREN')).toBe(0);
+  });
+});
+
 describe('readiness', () => {
   const allAt = (value: number) =>
     scores({
@@ -58,15 +87,10 @@ describe('readiness', () => {
     });
 
   it('is null under 5 attempts: not enough exercises yet', () => {
-    expect(readiness(allAt(90), 4)).toEqual({
-      score: null,
-      written: null,
-      oral: null,
-      ready: false,
-    });
+    expect(readiness(allAt(90), 4)).toEqual(emptyReadiness);
   });
 
-  it('weighs written 75 and oral 25, the written skills equally', () => {
+  it('weighs skills by official telc Deutsch B1 points, not equally', () => {
     const result = readiness(
       scores({
         HOEREN: 80,
@@ -78,8 +102,30 @@ describe('readiness', () => {
       12,
     );
 
-    // written = (80 + 60 + 70 + 90) / 4 = 75; 0.75 × 75 + 0.25 × 40 = 66.25
-    expect(result).toEqual({ score: 66, written: 75, oral: 40, ready: false });
+    // 60 + 45 + 21 + 40.5 = 166.5 written; oral 30; total 196.5
+    expect(result).toEqual({
+      score: 66,
+      written: 74,
+      oral: 40,
+      ready: false,
+      pointsTotal: 197,
+      pointsWritten: 167,
+      pointsOral: 30,
+    });
+  });
+
+  it('does not treat strong Sprachbausteine like strong Lesen/Hören', () => {
+    const onlySb = readiness(
+      scores({ SPRACHBAUSTEINE: 100, SPRECHEN: 100 }),
+      10,
+    );
+    const onlyLesen = readiness(scores({ LESEN: 100, SPRECHEN: 100 }), 10);
+
+    expect(onlySb.pointsWritten).toBe(30);
+    expect(onlyLesen.pointsWritten).toBe(75);
+    expect(onlySb.ready).toBe(false);
+    expect(onlyLesen.ready).toBe(false);
+    expect(onlySb.written!).toBeLessThan(onlyLesen.written!);
   });
 
   it('counts a skill never practised as 0, so skipping speaking is not ready', () => {
@@ -87,12 +133,13 @@ describe('readiness', () => {
     expect(readiness({ ...allAt(90), SPRECHEN: null }, 20)).toMatchObject({
       score: 68,
       oral: 0,
+      pointsOral: 0,
       ready: false,
     });
   });
 
   it('decides the pass on exact skill scores, not rounded ones', () => {
-    // Sprechen Teils 60, 60, 59 = 59.67: shown as 60, but not a pass.
+    // Sprechen Teils 60, 60, 59 = 59.67%: 44.75 pts < 45.
     const exact = skillScores([
       { skill: 'SPRECHEN', teil: 1, score: 60 },
       { skill: 'SPRECHEN', teil: 2, score: 60 },
@@ -103,17 +150,32 @@ describe('readiness', () => {
     expect(roundScores(exact).SPRECHEN).toBe(60);
     expect(readiness(all, 20).ready).toBe(false);
     expect(readiness(all, 20).oral).toBe(60);
+    expect(PASS_ORAL_POINTS).toBe(45);
   });
 
-  it('needs the pass mark in both parts, compared before rounding', () => {
-    expect(readiness(allAt(60), 10).ready).toBe(true);
-    // written = 59.75, which rounds to 60 but is not a pass.
+  it('needs 135 written and 45 oral points, compared before rounding', () => {
+    expect(PASS_WRITTEN_POINTS).toBe(135);
+    expect(readiness(allAt(60), 10)).toMatchObject({
+      ready: true,
+      pointsWritten: 135,
+      pointsOral: 45,
+      pointsTotal: 180,
+    });
+    // Lesen 59% → written 134.25 < 135.
     expect(readiness({ ...allAt(60), LESEN: 59 }, 10).ready).toBe(false);
   });
 });
 
 describe('alerts', () => {
-  const enough = { score: 70, written: 70, oral: 70, ready: true };
+  const enough = {
+    score: 70,
+    written: 70,
+    oral: 70,
+    ready: true,
+    pointsTotal: 210,
+    pointsWritten: 158,
+    pointsOral: 53,
+  };
 
   it('flags a student with no activity for 7 days, or never', () => {
     expect(alerts(scores({}), enough, daysAgo(8), NOW)).toContainEqual({
@@ -125,8 +187,16 @@ describe('alerts', () => {
   });
 
   it('flags readiness under 40, and not a readiness still unknown', () => {
-    const low = { score: 39, written: 40, oral: 30, ready: false };
-    const unknown = { score: null, written: null, oral: null, ready: false };
+    const low = {
+      score: 39,
+      written: 40,
+      oral: 30,
+      ready: false,
+      pointsTotal: 117,
+      pointsWritten: 90,
+      pointsOral: 23,
+    };
+    const unknown = emptyReadiness;
 
     expect(alerts(scores({}), low, daysAgo(1), NOW)).toEqual([
       { type: 'low_progress', readiness: 39 },
