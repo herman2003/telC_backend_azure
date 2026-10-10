@@ -38,6 +38,7 @@ import { ListeningExerciseDto } from './dto/listening-exercise.dto';
 import { SubmitListeningDto } from './dto/submit-listening.dto';
 import { SubmitListeningResponseDto } from './dto/submit-listening-response.dto';
 import type { GrantedPlay } from '../centers/exam-audio.service';
+import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
 
 @ApiTags('Listening (Hören)')
 @ApiBearerAuth()
@@ -94,10 +95,9 @@ export class ListeningController {
     @Query('modelltest') modelltest?: string,
   ): Promise<ExerciseTypeDto[]> {
     if (!student?.studentId) return [];
-    return this.listeningService.getTeils(
-      student.studentId,
-      this.parseModelltest(modelltest),
-    );
+    const mt = this.parseModelltest(modelltest);
+    assertGuestMayAccessModelltest(student.isGuest, mt);
+    return this.listeningService.getTeils(student.studentId, mt);
   }
 
   @Get('sessions')
@@ -158,6 +158,7 @@ export class ListeningController {
     description: 'Requested Teil or Modelltest exercise was not found',
   })
   async getExercise(
+    @CurrentStudent() student: AccessTokenPayload | null,
     @Query('type') type?: string,
     @Query('teil') teil?: string,
     @Query('modelltest') modelltest?: string,
@@ -169,10 +170,9 @@ export class ListeningController {
     }
     const selectedTeil = teil ?? type;
     if (!selectedTeil) throw new BadRequestException('teil is required');
-    return this.listeningService.getExercise(
-      selectedTeil,
-      this.parseModelltest(modelltest),
-    );
+    const mt = this.parseModelltest(modelltest);
+    assertGuestMayAccessModelltest(student?.isGuest, mt);
+    return this.listeningService.getExercise(selectedTeil, mt);
   }
 
   @Post('audio/:audioId/play')
@@ -237,6 +237,7 @@ export class ListeningController {
     if (!student?.studentId) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
+    assertGuestMayAccessModelltest(student.isGuest, dto.modelltestNumber ?? 1);
     return this.listeningService.submit(student.studentId, dto);
   }
 

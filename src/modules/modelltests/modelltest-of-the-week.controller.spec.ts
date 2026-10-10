@@ -37,9 +37,33 @@ describe('ModelltestOfTheWeekController', () => {
     };
     mockService.getOfTheWeek.mockResolvedValue(payload);
 
-    const result = await controller.getOfTheWeek();
+    const result = await controller.getOfTheWeek({
+      studentId: 's1',
+      isGuest: false,
+    } as never);
 
-    expect(mockService.getOfTheWeek).toHaveBeenCalledTimes(1);
+    expect(mockService.getOfTheWeek).toHaveBeenCalledWith(expect.any(Date), {
+      isGuest: false,
+    });
     expect(result).toBe(payload);
+  });
+
+  it('passes isGuest for demo tokens', async () => {
+    mockService.getOfTheWeek.mockResolvedValue({
+      id: 'mt1',
+      number: 1,
+      title: 'Modelltest 1',
+      periodStart: '2026-01-01T00:00:00.000Z',
+      periodEnd: '2026-01-07T23:59:59.999Z',
+    });
+
+    await controller.getOfTheWeek({
+      studentId: 'guest',
+      isGuest: true,
+    } as never);
+
+    expect(mockService.getOfTheWeek).toHaveBeenCalledWith(expect.any(Date), {
+      isGuest: true,
+    });
   });
 });
