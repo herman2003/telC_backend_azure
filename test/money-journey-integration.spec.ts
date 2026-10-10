@@ -34,9 +34,13 @@ const prisma = new PrismaService();
 const policy = new SubscriptionPolicyService();
 const trials = new CenterTrialService(prisma);
 const emailStub = {
-  sendCodeActivatedToCenter: async () => undefined,
-} as any;
-const redemption = new CodeRedemptionService(prisma, policy, emailStub);
+  sendCodeActivatedToCenter: () => Promise.resolve(),
+};
+const redemption = new CodeRedemptionService(
+  prisma,
+  policy,
+  emailStub as never,
+);
 const activation = new PaymentActivationService(prisma, policy);
 const purchases = new EntitlementPurchaseService(prisma);
 const spend = new EntitlementSpendService(

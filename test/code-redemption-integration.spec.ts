@@ -21,12 +21,12 @@ const daysFromNow = (days: number) => new Date(Date.now() + days * DAY_MS);
 
 const prisma = new PrismaService();
 const emailStub = {
-  sendCodeActivatedToCenter: async () => undefined,
-} as any;
+  sendCodeActivatedToCenter: () => Promise.resolve(),
+};
 const redemption = new CodeRedemptionService(
   prisma,
   new SubscriptionPolicyService(),
-  emailStub,
+  emailStub as never,
 );
 
 async function wipe() {
