@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 
 export type DownloadPlatformId =
   | 'web'
@@ -17,67 +16,54 @@ export type DownloadEntry = {
   minVersion: string | null;
 };
 
+/** Public R2 CDN for student-app installers (bucket `lerniqo` / `app_platform/`). */
+const R2_APP_PLATFORM =
+  'https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/app_platform';
+
 /**
  * Catalogue of student-app download links for the marketing site.
- *
- * Values come from env so CI / CDN URLs can be published without a deploy of
- * the Nest binary shape — empty/missing → null (UI shows “soon”).
+ * URLs are baked into the service (R2 `app_platform/`); no env required.
  */
 @Injectable()
 export class VitrineDownloadsService {
-  constructor(private readonly config: ConfigService) {}
-
   list(): DownloadEntry[] {
-    const webDefault = 'https://app.lerniqo.tech';
-
     return [
       {
         id: 'web',
-        url: this.optionalUrl('DOWNLOAD_URL_WEB') ?? webDefault,
-        version: this.optional('DOWNLOAD_VERSION_WEB'),
+        url: 'https://app.lerniqo.tech',
+        version: null,
         sizeLabel: null,
         minVersion: null,
       },
       {
         id: 'windows',
-        url: this.optionalUrl('DOWNLOAD_URL_WINDOWS'),
-        version: this.optional('DOWNLOAD_VERSION_WINDOWS'),
-        sizeLabel: this.optional('DOWNLOAD_SIZE_WINDOWS'),
-        minVersion: this.optional('DOWNLOAD_MIN_WINDOWS'),
+        url: `${R2_APP_PLATFORM}/Lerniqo-Setup-Windows-x64.exe`,
+        version: '1.0.0',
+        sizeLabel: '57 Mo',
+        minVersion: 'Windows 10',
       },
       {
         id: 'macos',
-        url: this.optionalUrl('DOWNLOAD_URL_MACOS'),
-        version: this.optional('DOWNLOAD_VERSION_MACOS'),
-        sizeLabel: this.optional('DOWNLOAD_SIZE_MACOS'),
-        minVersion: this.optional('DOWNLOAD_MIN_MACOS'),
+        url: `${R2_APP_PLATFORM}/Lerniqo.app.zip`,
+        version: '1.0.0',
+        sizeLabel: '76 Mo',
+        minVersion: null,
       },
       {
         id: 'linux',
-        url: this.optionalUrl('DOWNLOAD_URL_LINUX'),
-        version: this.optional('DOWNLOAD_VERSION_LINUX'),
-        sizeLabel: this.optional('DOWNLOAD_SIZE_LINUX'),
-        minVersion: this.optional('DOWNLOAD_MIN_LINUX'),
+        url: `${R2_APP_PLATFORM}/Lerniqo-1.0.0-x86_64.AppImage`,
+        version: '1.0.0',
+        sizeLabel: '64 Mo',
+        minVersion: null,
       },
       {
         id: 'android',
-        url: this.optionalUrl('DOWNLOAD_URL_ANDROID'),
-        version: this.optional('DOWNLOAD_VERSION_ANDROID'),
-        sizeLabel: this.optional('DOWNLOAD_SIZE_ANDROID'),
-        minVersion: this.optional('DOWNLOAD_MIN_ANDROID'),
+        url: `${R2_APP_PLATFORM}/app-release.apk`,
+        version: '1.0.0',
+        sizeLabel: '139 Mo',
+        // Flutter app minSdk 24 → Android 7.0
+        minVersion: '7.0',
       },
     ];
-  }
-
-  private optional(key: string): string | null {
-    const value = this.config.get<string>(key)?.trim();
-    return value && value.length > 0 ? value : null;
-  }
-
-  private optionalUrl(key: string): string | null {
-    const value = this.optional(key);
-    if (!value) return null;
-    if (!/^https:\/\//i.test(value)) return null;
-    return value;
   }
 }

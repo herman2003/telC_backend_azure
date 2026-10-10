@@ -20,7 +20,7 @@ Erreurs métier : `CODE_INVALID`, `CODE_ALREADY_USED`, `CODE_EXPIRED`, `CODE_DEA
 
 Réponse : `{ "platforms": [ { id, url, version, sizeLabel, minVersion }, … ] }`  
 IDs : `web` | `windows` | `macos` | `linux` | `android`.  
-`url: null` = pas encore publié. Config via `DOWNLOAD_URL_*` / `DOWNLOAD_VERSION_*` / etc. (voir `.env.example`).
+URLs installers en dur dans `VitrineDownloadsService` (R2 `app_platform/`). Pas de `DOWNLOAD_URL_*` env.
 
 ## 4. E-mails transactionnels centre (gabarits maquettes)
 
