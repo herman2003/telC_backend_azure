@@ -5,12 +5,20 @@ import {
   WritingGateway,
   CorrectionReadyPayload,
   DiffOp,
+  TelcRatingPayload,
 } from './writing.gateway';
 import { WritingService } from './writing.service';
 import { MODEL_SERVICE_TOKEN } from './services/model-service.interface';
 import type { ModelService } from './services/model-service.interface';
 import type { WritingExerciseDto } from './dto';
 import { recordActivity } from '../student-activity/student-activity.writer';
+import {
+  buildTelcSchreibenRating,
+  isTelcLetter,
+  scoreFromTelcPoints,
+  type TelcSchreibenCriteria,
+  type TelcSchreibenRating,
+} from './writing-telc-rating';
 
 export interface CorrectionJobData {
   attemptId: string;
@@ -38,10 +46,12 @@ const MODEL_TIMEOUT_MS = 28000;
 const ALLOWED_ERROR_TYPES = ['grammar', 'vocabulary', 'spelling', 'style'];
 
 export interface ParsedWritingCorrection {
-  score: number;
+  /** Ignored when telc criteria present; kept for legacy stub paths. */
+  score?: number;
   feedback: string;
   correctedText: string;
   pointsAddressed?: number;
+  criteria: TelcSchreibenCriteria;
   corrections: Array<{
     original: string;
     corrected: string;
@@ -87,9 +97,18 @@ export class WritingCorrectionService {
       );
     }
 
-    // The model may answer 78.5; the column holds whole points, and a
-    // fraction would fail the update and lose the whole correction.
-    const score = Math.round(parsed?.score ?? STUB_SCORE);
+    const requiredLeitpunkte = exercise?.bulletPoints?.length ?? 0;
+    let telcRating: TelcSchreibenRating | null = null;
+    let score = STUB_SCORE;
+    if (parsed) {
+      telcRating = buildTelcSchreibenRating(
+        parsed.criteria,
+        parsed.pointsAddressed,
+        requiredLeitpunkte,
+      );
+      score = scoreFromTelcPoints(telcRating.points);
+    }
+
     const feedback = parsed?.feedback ?? STUB_FEEDBACK;
     const correctedText = parsed?.correctedText ?? STUB_CORRECTED_TEXT;
     const pointsAddressed = parsed?.pointsAddressed;
@@ -107,6 +126,14 @@ export class WritingCorrectionService {
         explanation: c.explanation,
         errorType: c.error_type,
       }));
+    const telcPayload: TelcRatingPayload | undefined = telcRating
+      ? {
+          taskFulfilment: telcRating.taskFulfilment,
+          communicativeDesign: telcRating.communicativeDesign,
+          formalAccuracy: telcRating.formalAccuracy,
+          points: telcRating.points,
+        }
+      : undefined;
 
     try {
       await this.prisma.$transaction(async (tx) => {
@@ -119,6 +146,7 @@ export class WritingCorrectionService {
             corrected_text: correctedText,
             diff,
             points_addressed: pointsAddressed ?? null,
+            telc_rating: telcPayload ?? null,
             duration_seconds: durationSeconds,
             completed_at: new Date(completedAt),
             ...(correctionsForDb.length > 0
@@ -165,6 +193,7 @@ export class WritingCorrectionService {
         correctedText,
         diff,
         pointsAddressed,
+        telcRating: telcPayload,
         durationSeconds,
         corrections: correctionsForPayload,
       };
@@ -190,28 +219,34 @@ export class WritingCorrectionService {
     const pointsCount = exercise?.bulletPoints?.length ?? 0;
     const pointsAddressedSchema =
       pointsCount > 0
-        ? `\n- "points_addressed" (integer 0-${pointsCount}): how many of the ${pointsCount} required bullet points the student addressed in their text`
+        ? `\n- "points_addressed" (integer 0-${pointsCount}): how many of the ${pointsCount} required Leitpunkte (bullet points) the student addressed`
         : '';
     const pointsAddressedExample =
       pointsCount > 0 ? `\n  "points_addressed": 3,` : '';
 
-    return `You are an expert German B1 writing corrector for telc Schreiben tasks.
-Evaluate the following student text against the exercise brief. Provide a single JSON object (no markdown, no extra text) with:
-- "score" (number 0-100): overall writing quality at B1 level
-- "feedback" (string): short feedback in German, suitable for B1 learners. If the student missed any required bullet points, mention which ones.
-- "corrected_text" (string): the student's full text rewritten with all corrections applied. Keep tone and structure; fix grammar, spelling, vocabulary, and style.
-- "corrections" (array, max 10 items): most important errors. Each item: "original", "corrected", "explanation" (in German), "error_type" (one of: grammar, vocabulary, spelling, style)${pointsAddressedSchema}
+    return `You are an expert rater for telc Deutsch B1 Schriftlicher Ausdruck (Zertifikat Deutsch).
+Evaluate the student email/letter against the exercise brief using official criteria. Provide a single JSON object (no markdown, no extra text) with:
+- "taskFulfilment" (A|B|C|D): I Aufgabenbewältigung — did they cover the Leitpunkte appropriately? A=all required points, B=most, C=some, D=one/none or off-task
+- "communicativeDesign" (A|B|C|D): II Kommunikative Gestaltung — Betreff, Anrede, Einleitung, Schluss, coherence, register
+- "formalAccuracy" (A|B|C|D): III Formale Richtigkeit — grammar, spelling, morphology
+- "feedback" (string): short feedback in German for a B1 learner; mention missed Leitpunkte if any
+- "corrected_text" (string): full student text rewritten with corrections; keep tone/structure
+- "corrections" (array, max 10): each "original", "corrected", "explanation" (German), "error_type" (grammar|vocabulary|spelling|style)${pointsAddressedSchema}
+
+Do NOT invent a numeric exam score — letters only. Do NOT output markdown.
+
+Letter guide (telc-style): A = voll angemessen, B = im Großen und Ganzen angemessen, C = kaum noch akzeptabel, D = nicht ausreichend.
 ${exerciseBlock}
 **STUDENT TEXT:**
 ${content}
 
-**SCORING (B1):** 90-100 excellent, 75-89 good, 60-74 satisfactory, 50-59 needs improvement, 0-49 insufficient. ${pointsCount > 0 ? `If the student missed required bullet points, lower the score proportionally.` : ''}
-
 **OUTPUT (JSON only):**
 {
-  "score": 78,
-  "feedback": "Ihre E-Mail hat eine klare Struktur. Achten Sie auf die Konjugation der Verben.",${pointsAddressedExample}
-  "corrected_text": "Sehr geehrte Frau Müller,\\nich schreibe Ihnen bezüglich Ihres Angebots vom 12. Mai...",
+  "taskFulfilment": "B",
+  "communicativeDesign": "A",
+  "formalAccuracy": "C",${pointsAddressedExample}
+  "feedback": "Sie haben die meisten Punkte behandelt. Achten Sie auf Anrede und Schluss.",
+  "corrected_text": "Sehr geehrte Frau Müller,\\nich schreibe Ihnen bezüglich...",
   "corrections": [
     {
       "original": "Ich habe geschrieben",
@@ -242,7 +277,7 @@ ${content}
     }
     parts.push(`\n${exercise.taskInstructions}`);
     if (exercise.bulletPoints?.length) {
-      parts.push('Required points the student MUST address:');
+      parts.push('Required Leitpunkte the student MUST address:');
       exercise.bulletPoints.forEach((bp, i) => parts.push(`${i + 1}. ${bp}`));
     }
     if (exercise.closingReminder) parts.push(`\n${exercise.closingReminder}`);
@@ -269,7 +304,7 @@ ${content}
     }
   }
 
-  private parseWritingResponse(response: string): ParsedWritingCorrection {
+  parseWritingResponse(response: string): ParsedWritingCorrection {
     const jsonMatch = response.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       throw new Error('NO_JSON_FOUND_IN_RESPONSE');
@@ -277,9 +312,17 @@ ${content}
 
     const parsed = JSON.parse(jsonMatch[0]);
 
-    const score = parsed.score;
-    if (typeof score !== 'number' || score < 0 || score > 100) {
-      throw new Error(`Invalid score: ${score}`);
+    const taskFulfilment = parsed.taskFulfilment ?? parsed.task_fulfilment;
+    const communicativeDesign =
+      parsed.communicativeDesign ?? parsed.communicative_design;
+    const formalAccuracy = parsed.formalAccuracy ?? parsed.formal_accuracy;
+
+    if (
+      !isTelcLetter(taskFulfilment) ||
+      !isTelcLetter(communicativeDesign) ||
+      !isTelcLetter(formalAccuracy)
+    ) {
+      throw new Error('Invalid or missing telc letter grades');
     }
 
     const feedback = typeof parsed.feedback === 'string' ? parsed.feedback : '';
@@ -288,7 +331,7 @@ ${content}
       typeof parsed.corrected_text === 'string' ? parsed.corrected_text : '';
     if (!correctedText) {
       this.logger.warn(
-        'AI response missing corrected_text — keeping score/feedback/corrections, no rewrite available',
+        'AI response missing corrected_text — keeping telc grades/feedback/corrections, no rewrite available',
       );
     }
 
@@ -329,6 +372,16 @@ ${content}
         };
       });
 
-    return { score, feedback, correctedText, pointsAddressed, corrections };
+    return {
+      feedback,
+      correctedText,
+      pointsAddressed,
+      criteria: {
+        taskFulfilment,
+        communicativeDesign,
+        formalAccuracy,
+      },
+      corrections,
+    };
   }
 }
