@@ -19,18 +19,51 @@ export class ReadinessDto {
     nullable: true,
     example: 62,
     description:
-      'Estimated exam readiness, 0–100: the written part (4 skills) and the oral part (Sprechen), weighted by the exam. Null under 5 attempts: show "not enough exercises yet". An estimate, never a promise of passing.',
+      'Estimated exam readiness, 0–100 of 300 telc Deutsch B1 points (written 225 + oral 75). Null under 5 attempts: show "not enough exercises yet". An estimate, never a promise of passing.',
   })
   score: number | null;
 
-  @ApiPropertyOptional({ nullable: true, example: 68 }) written: number | null;
-  @ApiPropertyOptional({ nullable: true, example: 45 }) oral: number | null;
+  @ApiPropertyOptional({
+    nullable: true,
+    example: 68,
+    description: 'Written half as percent of 225 points.',
+  })
+  written: number | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: 45,
+    description: 'Oral half as percent of 75 points.',
+  })
+  oral: number | null;
 
   @ApiProperty({
     example: false,
-    description: 'Written and oral each at 60 or more, as telc requires.',
+    description:
+      'True when written ≥ 135 points and oral ≥ 45 points (60 % of each half), as telc Deutsch B1 requires.',
   })
   ready: boolean;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: 186,
+    description: 'Estimated points out of 300 (telc Deutsch B1).',
+  })
+  pointsTotal: number | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: 153,
+    description: 'Estimated written points out of 225 (Lesen 75 + Sprachbausteine 30 + Hören 75 + Schreiben 45).',
+  })
+  pointsWritten: number | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: 33,
+    description: 'Estimated oral points out of 75 (Sprechen).',
+  })
+  pointsOral: number | null;
 }
 
 export class ProgressAlertDto {
@@ -80,7 +113,7 @@ export class MyProgressDto extends StudentProgressDto {
     nullable: true,
     enum: ['A1', 'A2', 'B1', 'B2'],
     description:
-      'Current level, set by the student or their center. The target is always telc B1+ Beruf.',
+      'Current level, set by the student or their center. Readiness targets telc Deutsch B1 (Zertifikat Deutsch).',
   })
   level: 'A1' | 'A2' | 'B1' | 'B2' | null;
 

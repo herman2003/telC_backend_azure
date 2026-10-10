@@ -27,7 +27,11 @@ import { RateLimitService } from '../../shared/services/rate-limit.service';
 import { CenterExceptionFilter } from './center-exception.filter';
 import { CodeRedemptionService } from './code-redemption.service';
 import { CenterErrorResponseDto } from './dto/center-error-response.dto';
-import { RedeemCodeDto, RedemptionResultDto } from './dto/code-redemption.dto';
+import {
+  RedeemCodeDto,
+  RedemptionResultDto,
+  ValidateActivationCodeResultDto,
+} from './dto/code-redemption.dto';
 
 /**
  * Lives with the centers module although its path is under `/api/auth`: a
@@ -36,7 +40,6 @@ import { RedeemCodeDto, RedemptionResultDto } from './dto/code-redemption.dto';
  * the student's view of it, next to login.
  */
 @ApiTags('Student Access')
-@ApiBearerAuth()
 @Controller('api/auth')
 @UseFilters(CenterExceptionFilter)
 export class CodeRedemptionController {
@@ -45,8 +48,30 @@ export class CodeRedemptionController {
     private readonly rateLimitService: RateLimitService,
   ) {}
 
+  @Post('validate-activation-code')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Validate an activation code on the public vitrine',
+    description:
+      'Checks that a code is still claimable and returns the school name. Does not consume the code — the student redeems after signing in to the app. Rate limited per IP.',
+  })
+  @ApiOkResponse({ type: ValidateActivationCodeResultDto })
+  @ApiBadRequestResponse({ type: CenterErrorResponseDto })
+  @ApiConflictResponse({ type: CenterErrorResponseDto })
+  @ApiForbiddenResponse({ type: CenterErrorResponseDto })
+  @ApiTooManyRequestsResponse({ type: CenterErrorResponseDto })
+  async validatePublic(
+    @Body() dto: RedeemCodeDto,
+    @Ip() ip: string,
+  ): Promise<ValidateActivationCodeResultDto> {
+    await this.rateLimitService.checkPublicCodeValidateLimit(ip || 'unknown');
+    const result = await this.redemption.validatePublic(dto.code);
+    return { ok: true, centerName: result.centerName };
+  }
+
   @Post('redeem-code')
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
   // A real account, not a guest: a seat is given to someone the center can
   // see by name, and a guest session has none.
   @UseGuards(JwtAuthGuard, GuestBlockGuard)

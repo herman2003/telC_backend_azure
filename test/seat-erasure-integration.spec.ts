@@ -23,9 +23,13 @@ const daysFromNow = (days: number) => new Date(Date.now() + days * DAY_MS);
 const MODELLTEST = '00000000-0000-4000-8000-000000000033';
 
 const prisma = new PrismaService();
+const emailStub = {
+  sendCodeActivatedToCenter: () => Promise.resolve(),
+};
 const redemption = new CodeRedemptionService(
   prisma,
   new SubscriptionPolicyService(),
+  emailStub as never,
 );
 const codes = new CenterActivationCodesService(prisma);
 const progress = new ProgressService(prisma);

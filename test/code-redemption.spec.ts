@@ -42,6 +42,10 @@ describe('CodeRedemptionService.redeem', () => {
   let prisma: any;
   let service: CodeRedemptionService;
 
+  const email = {
+    sendCodeActivatedToCenter: jest.fn().mockResolvedValue(undefined),
+  };
+
   beforeEach(() => {
     prisma = {
       activationCode: {
@@ -49,8 +53,15 @@ describe('CodeRedemptionService.redeem', () => {
         // The student's connected codes, read inside the transaction.
         findMany: jest.fn().mockResolvedValue([]),
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
+        count: jest.fn().mockResolvedValue(1),
       },
       activationCodeEvent: { create: jest.fn().mockResolvedValue({}) },
+      centerUser: {
+        findMany: jest.fn().mockResolvedValue([]),
+      },
+      centerSeat: {
+        aggregate: jest.fn().mockResolvedValue({ _sum: { quantity: 1 } }),
+      },
       student: {
         findUnique: jest.fn().mockResolvedValue({
           id: 'student-1',
@@ -64,9 +75,11 @@ describe('CodeRedemptionService.redeem', () => {
       },
       $transaction: jest.fn(async (work: any) => work(prisma)),
     };
+    email.sendCodeActivatedToCenter.mockClear();
     service = new CodeRedemptionService(
       prisma,
       new SubscriptionPolicyService(),
+      email as any,
     );
   });
 

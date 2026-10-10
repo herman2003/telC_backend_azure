@@ -68,6 +68,7 @@ const EXPECTED_LEARNING_CONTROLLERS = [
   'ListeningController',
   'ModelltestOfTheWeekController',
   'ModelltestsController',
+  'PrepTipsController',
   'SpeakingController',
   'SpeakingCatalogController',
   'SprachbausteineController',

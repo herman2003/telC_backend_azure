@@ -14,6 +14,14 @@ export type DiffOp = {
   text: string;
 };
 
+/** telc Deutsch B1 Schriftlicher Ausdruck grades + /45 points. */
+export type TelcRatingPayload = {
+  taskFulfilment: 'A' | 'B' | 'C' | 'D';
+  communicativeDesign: 'A' | 'B' | 'C' | 'D';
+  formalAccuracy: 'A' | 'B' | 'C' | 'D';
+  points: number;
+};
+
 /** Payload for correction_ready event (spec §7.2). */
 export interface CorrectionReadyPayload {
   attemptId: string;
@@ -25,6 +33,7 @@ export interface CorrectionReadyPayload {
   correctedText?: string;
   diff?: DiffOp[];
   pointsAddressed?: number;
+  telcRating?: TelcRatingPayload;
   durationSeconds?: number;
   corrections?: Array<{
     original: string;

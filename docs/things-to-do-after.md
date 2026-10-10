@@ -4,141 +4,46 @@ Open follow-ups that are decided but not yet implemented.
 
 ---
 
-## Align Hören training and exam payload structure
+## Coach date d’examen → tâche du jour
 
-**Status:** backend implemented on `feat/horen-training-exam-align` (ops: R2 MP3 upload + Flutter still open)  
-**Spec:** `docs/HOREN_TRAINING_EXAM_ALIGN_SPEC.md`  
-**Plan:** `docs/HOREN_TRAINING_EXAM_ALIGN_PLAN.md`  
-**Area:** `src/modules/listening` (entraînement) vs exam block content / audio play  
-**Branch:** `feat/horen-training-exam-align`
+**Status:** todo (après launch)  
+**Priority:** P1  
+**Area:** progress / student home + center dashboard
 
 ### Goal
 
-Training mode and exam mode must expose the **same structure** for a Hören Teil
-and the **same play → token → API proxy** flow. Audio files stay in Cloudflare
-R2; students never get a durable R2 URL in the exercise JSON.
+L’élève saisit une date d’examen ; Lerniqo propose **une tâche par jour** pondérée vers la skill faible (&lt; 45 %, réutilise `WEAK_SKILL_BELOW`). Countdown jusqu’à l’examen. Le centre voit qui est prêt / qui a une date.
 
 ### Why
 
-Today the paths diverge:
-
-| Concern | Exam mode | Training (`GET /api/listening/exercise`) |
-|--------|-----------|------------------------------------------|
-| Play limit | `playsAllowed` from `exam_plays_allowed` | not returned |
-| Audio access | `audioId` + `POST .../audio/{id}/play` → stream URL | direct `audio_url` / `bundled_audio_asset` |
-| Enforcement | server (`exam_audio_plays`) | none |
-
-Exam is the reference shape. Training must catch up.
+Différenciateur centres / rétention (inspir. Prepilingo, Papagei). Readiness + alertes `weak_skill` existent déjà ; il manque plan journalier et countdown.
 
 ### Work required
 
-1. Ops: upload MP3s to R2 (`lerniqo`) and set `listening_exercises.audio_url`.
-2. Change training GET exercise to exam Teil shape (`audioId`, `playsAllowed`,
-   `contentRevision`, …) — no bare audio URL.
-3. Add training counted play + stream proxy (`training_audio_plays`).
-4. Tests so training and exam contracts stay aligned; Flutter follow-up.
+1. Persister `examDate` côté élève (et exposition centre).
+2. Générer 1 tâche/jour orientée skill faible.
+3. UI élève : countdown + tâche du jour.
+4. UI centre : dates + readiness liées.
 
 ---
 
-## Harden center session timeouts (idle + absolute)
+## Revue d’erreurs + spaced repetition
 
-**Status:** backend shipped on `feat/center-session-timeouts` (front `sprach` clear-storage still open)  
-**Spec:** `docs/CENTER_SESSION_TIMEOUTS_SPEC.md`  
-**Plan:** `docs/CENTER_SESSION_TIMEOUTS_PLAN.md`  
-**Area:** `src/modules/auth/token.service.ts`, `src/modules/centers/center-auth.service.ts`,
-`CenterDeviceSession` / guards; Azure env; front `sprach` center auth storage / refresh
+**Status:** todo (après launch)  
+**Priority:** P2  
+**Area:** Prep Pass — Lesen / Hören / Sprachbausteine (items discrets)
 
 ### Goal
 
-Center managers should be treated like **admin** sessions, not like student /
-consumer sessions. A manager who left yesterday must **not** still be logged in
-today without re-authenticating. Students keep the current longer refresh
-policy.
+Après un submit, stocker les **erreurs** (item + explication) et les ramener dans une file de révision (ex. 1 / 3 / 7 jours) jusqu’à maîtrise.
 
 ### Why
 
-Today centers and students share the same TTLs:
-
-| Token | Role | Current |
-|-------|------|---------|
-| Access | `Authorization: Bearer` | **15m** (`JWT_ACCESS_TOKEN_EXPIRY`) |
-| Refresh | `POST /api/center-auth/refresh` | **7d** (`JWT_REFRESH_TOKEN_EXPIRY`) |
-
-There is **no** idle timeout and **no** absolute session max. `last_used_at` is
-only used for LRU eviction at 3 sessions, not for inactivity logout.
-
-Real chain in prod:
-
-1. Login → access + refresh stored in front **localStorage**.
-2. Browser / machine closed → tokens remain.
-3. Next day → access expired → front auto-calls refresh → new pair with a
-   **full 7d** refresh again (sliding session).
-4. Result: stay logged in indefinitely if the user returns within 7 days.
-   Continuous activity is not required.
-
-Changing the shared Azure `JWT_REFRESH_TOKEN_EXPIRY` alone is **not** the fix —
-it would also shorten student sessions.
-
-Industry pattern for admin dashboards (OWASP / Okta Admin–style):
-
-| Clock | Meaning | Typical |
-|-------|---------|---------|
-| Idle | no activity → logout | **15–30 min** |
-| Absolute | max time since login | **4–12 h** |
+Augmente la valeur Prep Pass sans nouveau contenu Modelltest. Items Richtig/Falsch, Zuordnung, MC du format telc se prêtent bien à la revisit (inspir. Papagei / PassDeutsch).
 
 ### Work required
 
-1. **Do not** only lower the shared `JWT_REFRESH_TOKEN_EXPIRY` in Azure.
-2. Add **center-only** env (e.g. `JWT_CENTER_REFRESH_TOKEN_EXPIRY`, and if needed
-   idle / absolute vars) so students stay on **15m / 7d**.
-3. Implement backend policy for centers (recommended defaults):
-   - **Idle: 30 minutes** — revoke if `now - last_used_at` exceeds idle TTL
-     (refresh and/or protected routes); update `last_used_at` on real activity.
-   - **Absolute: 8–12 hours** — force re-login even if the refresh JWT is still
-     valid (check against session `created_at`).
-4. Keep access at **15m**; enforce revoke / expiry on refresh + `CenterAuthGuard`
-   (backend is source of truth).
-5. Front (`sprach`): clear center localStorage on `401` /
-   `CENTER_SESSION_REVOKED` / invalid refresh; do not rely on a client-only idle
-   timer.
-6. Document the new env vars (`.env.example`) and deploy them in Azure after
-   the code ships.
-
-### Notes
-
-- Recommended product call: **centers = 30m idle + 12h absolute; students unchanged**.
-- Idle alone without absolute still allows a long day of continuous use; absolute
-  alone (short refresh) already fixes “still in tomorrow” — both together match
-  admin best practice.
-- A front-only idle timer is not enough; session validity must be enforced server-side.
-
----
-
-## Front: show and download exam Schreiben on center marking UI
-
-**Status:** todo  
-**Area:** `sprach` center exam marking / results (backend already ships the text)
-
-### Goal
-
-On the marking screen, show `schreibenSubmission.text` from
-`GET /api/centers/me/exam-attempts/:attemptId/result` and offer a download
-(`.txt`). Export rows already include `schreibenText` for CSV.
-
-### Why
-
-Backend contract is live (see `docs/EXAM_SCHREIBEN_CENTER_VISIBILITY_SPEC.md`).
-Without the UI, 1,000 XAF managers still cannot read the letter they must mark.
-
-### Work required
-
-1. Render the letter beside the points form (MANUAL and AI).
-2. Download filename:
-   `{sessionDate}_{lastName}_{firstName}_{studentIdShort}_schreiben.txt`.
-3. Keep AI `suggestions` as a separate panel; never prefill marks.
-4. Use `schreibenText` from export for bulk CSV if needed.
-
-### Notes
-
-- Full text always; do not truncate.
-- Student released result does not include the letter payload.
+1. Modèle « error bank » lié aux attempts.
+2. API : erreurs à revoir + marquer comme révisé / réussi.
+3. UI après submit + écran « À revoir ».
+4. Scheduling espacé (1 / 3 / 7 jours).
