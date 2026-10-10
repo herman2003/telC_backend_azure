@@ -319,6 +319,10 @@ export class WritingService {
       taskInstructions: row.task_instructions,
       bulletPoints: row.bullet_points,
       closingReminder: row.closing_reminder ?? undefined,
+      // telc-style Vorbereitung scaffolding (session-local on the client).
+      prepDurationSeconds: 120,
+      writingDurationMinutes: 30,
+      registerChecklist: ['Betreff', 'Anrede', 'Einleitung', 'Schluss'],
     };
   }
 
