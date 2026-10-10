@@ -84,3 +84,7 @@ bruno/environments/*.local.bru
 
 # Written by the lint ratchet in .github/workflows/test.yml.
 eslint.json
+
+# Local Modelltest extraction artifacts
+content/*.raw.json
+

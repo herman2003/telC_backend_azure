@@ -22,6 +22,7 @@ import { LesenExerciseResponseDto, LesenSubmitResponseDto } from './dto';
 import { LesenSubmitRequestDto } from './dto/lesen-submit-request.dto';
 import { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
+import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
 
 @ApiTags('Reading')
 @UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
@@ -46,9 +47,11 @@ export class LesenController {
     // 1 and the caller gets Modelltest 1 instead of an error. Parsing the raw
     // string here keeps malformed input a 400. Same approach as
     // writing.controller.ts:69.
+    @CurrentStudent() student: AccessTokenPayload | null,
     @Query('modelltest') modelltest?: string,
   ): Promise<LesenExerciseResponseDto> {
     if (modelltest === undefined || modelltest === '') {
+      assertGuestMayAccessModelltest(student?.isGuest, DEFAULT_MODELLTEST);
       return this.lesenService.getExercise(DEFAULT_MODELLTEST);
     }
 
@@ -61,7 +64,9 @@ export class LesenController {
       });
     }
 
-    return this.lesenService.getExercise(Number(modelltest));
+    const number = Number(modelltest);
+    assertGuestMayAccessModelltest(student?.isGuest, number);
+    return this.lesenService.getExercise(number);
   }
 
   @Get('sessions')
@@ -99,6 +104,10 @@ export class LesenController {
     if (!student?.studentId) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
+    assertGuestMayAccessModelltest(
+      student.isGuest,
+      dto.modelltestNumber ?? DEFAULT_MODELLTEST,
+    );
     return this.lesenService.submit(student, dto);
   }
 }

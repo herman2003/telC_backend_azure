@@ -20,6 +20,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { LocationsModule } from './modules/locations/locations.module';
 import { PlansModule } from './modules/plans/plans.module';
 import { VitrineModule } from './modules/vitrine/vitrine.module';
+import { PrepTipsModule } from './modules/prep-tips/prep-tips.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { VitrineModule } from './modules/vitrine/vitrine.module';
     LocationsModule,
     PlansModule,
     VitrineModule,
+    PrepTipsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
