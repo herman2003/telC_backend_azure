@@ -145,9 +145,9 @@ describe('ModelltestsService', () => {
     });
 
     it('blocks guests from Modelltest 3 detail', async () => {
-      await expect(
-        service.getByNumber(3, { isGuest: true }),
-      ).rejects.toThrow(ForbiddenException);
+      await expect(service.getByNumber(3, { isGuest: true })).rejects.toThrow(
+        ForbiddenException,
+      );
       expect(mockPrisma.modelltest.findFirst).not.toHaveBeenCalled();
     });
   });
@@ -209,9 +209,9 @@ describe('ModelltestsService', () => {
     it('throws NotFoundException when no training Modelltest exists', async () => {
       mockPrisma.modelltest.findMany.mockResolvedValue([]);
 
-      await expect(
-        service.getOfTheWeek(daysAfterEpoch(0)),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.getOfTheWeek(daysAfterEpoch(0))).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('queries only training rows with a light select', async () => {

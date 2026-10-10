@@ -15,7 +15,9 @@ import {
 export class ModelltestsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAll(opts: { isGuest?: boolean } = {}): Promise<ModelltestListItemDto[]> {
+  async getAll(
+    opts: { isGuest?: boolean } = {},
+  ): Promise<ModelltestListItemDto[]> {
     const rows = await this.prisma.modelltest.findMany({
       // Exam material is kept out of the training catalogue, so a sitting can
       // use a Modelltest no student has worked through. Everything that

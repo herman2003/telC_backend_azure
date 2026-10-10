@@ -237,10 +237,7 @@ export class ListeningController {
     if (!student?.studentId) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
-    assertGuestMayAccessModelltest(
-      student.isGuest,
-      dto.modelltestNumber ?? 1,
-    );
+    assertGuestMayAccessModelltest(student.isGuest, dto.modelltestNumber ?? 1);
     return this.listeningService.submit(student.studentId, dto);
   }
 

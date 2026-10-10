@@ -42,10 +42,9 @@ describe('ModelltestOfTheWeekController', () => {
       isGuest: false,
     } as never);
 
-    expect(mockService.getOfTheWeek).toHaveBeenCalledWith(
-      expect.any(Date),
-      { isGuest: false },
-    );
+    expect(mockService.getOfTheWeek).toHaveBeenCalledWith(expect.any(Date), {
+      isGuest: false,
+    });
     expect(result).toBe(payload);
   });
 
@@ -63,9 +62,8 @@ describe('ModelltestOfTheWeekController', () => {
       isGuest: true,
     } as never);
 
-    expect(mockService.getOfTheWeek).toHaveBeenCalledWith(
-      expect.any(Date),
-      { isGuest: true },
-    );
+    expect(mockService.getOfTheWeek).toHaveBeenCalledWith(expect.any(Date), {
+      isGuest: true,
+    });
   });
 });
