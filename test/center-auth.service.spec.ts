@@ -112,6 +112,7 @@ describe('CenterAuthService', () => {
     };
     emailService = {
       sendCenterPasswordResetEmail: jest.fn().mockResolvedValue(undefined),
+      sendCenterPasswordChangedEmail: jest.fn().mockResolvedValue(undefined),
     };
     valkeyService = {
       revokeSession: jest.fn().mockResolvedValue(true),

@@ -157,7 +157,7 @@ export class CentersService {
         where: { id: existing.id },
         select: { center: { select: { name: true } } },
       })
-      .then((row) => row?.center.name);
+      .then((row) => row?.center?.name);
 
     try {
       await this.emailService.sendExistingCenterVerificationEmail(

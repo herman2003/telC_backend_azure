@@ -51,6 +51,7 @@ describe('CentersService registration', () => {
       sendExistingCenterVerificationEmail: jest
         .fn()
         .mockResolvedValue(undefined),
+      sendNewCenterRegisteredToTeam: jest.fn().mockResolvedValue(undefined),
     };
     service = new CentersService(prisma, tokenCrypto, emailService);
   });
@@ -86,6 +87,17 @@ describe('CentersService registration', () => {
       await bcrypt.compare(registration.password, ownerData.password_hash),
     ).toBe(true);
     expect(bcrypt.getRounds(ownerData.password_hash)).toBe(12);
+    expect(emailService.sendCenterVerificationEmail).toHaveBeenCalledWith(
+      'manager@example.com',
+      'raw-verification-token',
+      'Goethe Language Center',
+    );
+    expect(emailService.sendNewCenterRegisteredToTeam).toHaveBeenCalledWith({
+      managerFirstName: 'Alain',
+      managerLastName: 'Ngeukeu',
+      email: 'manager@example.com',
+      centerName: 'Goethe Language Center',
+    });
   });
 
   it('sends the verification email only after the transaction commits', async () => {
@@ -165,7 +177,11 @@ describe('CentersService registration', () => {
     expect(update.data).not.toHaveProperty('first_name');
     expect(
       emailService.sendExistingCenterVerificationEmail,
-    ).toHaveBeenCalledWith('manager@example.com', 'raw-verification-token');
+    ).toHaveBeenCalledWith(
+      'manager@example.com',
+      'raw-verification-token',
+      undefined,
+    );
   });
 
   it('sends no email when another request wins the token-rotation race', async () => {
