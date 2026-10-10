@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { Prisma } from '@prisma/client';
 import { WritingCorrectionService } from '../src/modules/writing/writing-correction.service';
 import { PrismaService } from '../src/shared/services/prisma.service';
 import { WritingGateway } from '../src/modules/writing/writing.gateway';
@@ -194,7 +195,7 @@ describe('WritingCorrectionService', () => {
             feedback: 'Stub feedback. Echte Korrektur folgt.',
             corrected_text: '',
             diff: [],
-            telc_rating: null,
+            telc_rating: Prisma.DbNull,
             duration_seconds: expect.any(Number),
             completed_at: expect.any(Date),
           }),
@@ -346,7 +347,7 @@ describe('WritingCorrectionService', () => {
             feedback: 'Stub feedback. Echte Korrektur folgt.',
             corrected_text: '',
             diff: [],
-            telc_rating: null,
+            telc_rating: Prisma.DbNull,
           }),
         }),
       );

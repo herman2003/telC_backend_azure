@@ -1,4 +1,5 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { diffWords } from 'diff';
 import { PrismaService } from '../../shared/services/prisma.service';
 import {
@@ -146,7 +147,7 @@ export class WritingCorrectionService {
             corrected_text: correctedText,
             diff,
             points_addressed: pointsAddressed ?? null,
-            telc_rating: telcPayload ?? null,
+            telc_rating: telcPayload ?? Prisma.DbNull,
             duration_seconds: durationSeconds,
             completed_at: new Date(completedAt),
             ...(correctionsForDb.length > 0
