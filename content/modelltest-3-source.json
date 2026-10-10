@@ -1,0 +1,1128 @@
+{
+  "modelltest": {
+    "number": 3,
+    "title": "Modelltest 3"
+  },
+  "sections": {
+    "lesenTeil1": {
+      "contentRevision": "modelltest-3-lesen-teil1-v1",
+      "label": "Leseverstehen Teil 1",
+      "instruction": "Lesen Sie die Überschriften a–j und die Texte 1–5. Finden Sie für jeden Text die passende Überschrift. Sie können jede Überschrift nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 1–5 auf dem Antwortbogen.",
+      "titles": [
+        {
+          "key": "a",
+          "content": "Immer mehr deutsche Familien reisen mit der Bahn",
+          "sortOrder": 0
+        },
+        {
+          "key": "b",
+          "content": "Buchtipp: Hilfe bei Schlafproblemen",
+          "sortOrder": 1
+        },
+        {
+          "key": "c",
+          "content": "Der Computer: Liebstes Hobby von Deutschlands Frauen",
+          "sortOrder": 2
+        },
+        {
+          "key": "d",
+          "content": "Neu bei der Bahn: Spezielle Informationen und Angebote für Radfahrer",
+          "sortOrder": 3
+        },
+        {
+          "key": "e",
+          "content": "Neu am Markt: Billige Schlaftabletten",
+          "sortOrder": 4
+        },
+        {
+          "key": "f",
+          "content": "Familien reisen billiger",
+          "sortOrder": 5
+        },
+        {
+          "key": "g",
+          "content": "Urlaub mit dem Fahrrad in Deutschland immer beliebter",
+          "sortOrder": 6
+        },
+        {
+          "key": "h",
+          "content": "Kultur im Urlaub: Interessen je nach Alter unterschiedlich",
+          "sortOrder": 7
+        },
+        {
+          "key": "i",
+          "content": "Umfrage: Wer verwendet den Computer am häufigsten?",
+          "sortOrder": 8
+        },
+        {
+          "key": "j",
+          "content": "Deutschland: Immer mehr Touristen reisen in den Westen",
+          "sortOrder": 9
+        }
+      ],
+      "texts": [
+        {
+          "textNumber": 1,
+          "von": null,
+          "an": null,
+          "body": "Wer ist der typische Computerfan? Das B.A.T. Freizeitforschungsinstitut Hamburg ermittelte einige Eigenschaften: Er ist männlich, jung und hat einen höheren Schulabschluss. Bei der Beschäftigung am heimischen Computer stehen Textverarbeitung und Spiele ganz oben, es folgen private Buchhaltung, Grafikprogramme und Tabellenkalkulation.",
+          "sortOrder": 0,
+          "correctTitleKey": "i"
+        },
+        {
+          "textNumber": 2,
+          "von": null,
+          "an": null,
+          "body": "„Bahn&Bike“ heißt ein 222-seitiger Prospekt, den die Deutsche Bahn AG in Zusammenarbeit mit der Deutschen Zentrale für Tourismus herausgebracht hat und der wichtige Informationen für jene bereitstellt, die ihren Radurlaub mit Bahnfahren verbinden wollen. Das Motto lautet: Hin mit der Bahn – das Rad vor Ort mieten. Der Prospekt enthält Angaben zur Streckenlänge und Wegbeschaffenheit, Adressen von Verleihstationen, verweist auf Sehenswürdigkeiten sowie Unterkünfte und wird durch Karten ergänzt. Die Broschüre kostet 5 Euro und ist im Buchhandel beziehungsweise an Fahrkartenschaltern zu beziehen.",
+          "sortOrder": 1,
+          "correctTitleKey": "d"
+        },
+        {
+          "textNumber": 3,
+          "von": null,
+          "an": null,
+          "body": "Ausführliche Informationen zum Thema „Schlafstörungen“ finden Sie im gleichnamigen Patientenratgeber von Dr. med. Fritz Hohagen. Sie erfahren, was den Schlaf stört und was Sie dagegen unternehmen können. Für 9,95 Euro erhalten Sie das Buch in Apotheken oder direkt beim Wort&Bild Verlag, 82065 Baierbrunn.",
+          "sortOrder": 2,
+          "correctTitleKey": "b"
+        },
+        {
+          "textNumber": 4,
+          "von": null,
+          "an": null,
+          "body": "Jetzt wird für Familien Reisen mit der Bahn zwischen Österreich und Deutschland noch ein gutes Stück günstiger. Denn ab 6. Oktober gibt es den Familien-Super-Sparpreis. Ein echter Traumpreis für die ganze Familie – vom Baby bis zum Großpapa – da kann man wirklich sparen. Der Familien-Super-Sparpreis gilt für Familien, bestehend aus ein oder zwei Erwachsenen (Eltern, auch Großeltern) und deren Kindern/Enkelkindern bis zum vollendeten 17. Lebensjahr, wobei mindestens ein Kind/Enkelkind an der Reise teilnehmen muss.",
+          "sortOrder": 3,
+          "correctTitleKey": "f"
+        },
+        {
+          "textNumber": 5,
+          "von": null,
+          "an": null,
+          "body": "Touristen zwischen 14 und 29 Jahren sowie zwischen 40 und 49 Jahren haben ein besonders großes Interesse an der Kultur des jeweiligen Reiselandes, während die Gruppe der 30- bis 39-jährigen im Urlaub „eine Kulturpause einlegt“. Dies geht aus der neuesten Analyse der Forschungsgemeinschaft Urlaub und Reisen e. V. hervor. Urlauber aus Ostdeutschland, so die Studie, zeigen wiederum mehr Kulturinteresse als Reisende aus dem Westen. Grundsätzlich gelte: Je höher das Einkommen und die Schulbildung sind, umso mehr besteht im Urlaub der Wunsch, Land und Leute kennenzulernen.",
+          "sortOrder": 4,
+          "correctTitleKey": "h"
+        }
+      ]
+    },
+    "lesenTeil2": {
+      "contentRevision": "modelltest-3-lesen-teil2-v1",
+      "label": "Leseverstehen Teil 2",
+      "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
+      "cautionNote": "",
+      "topSender": "",
+      "topReceiver": "",
+      "topBody": "Büro-Werkstatt: Chance für behinderte Menschen\n\nComputerarbeit im Auftrag privater Firmen – jeder Dritte findet nach einem fünfmonatigen Kurs einen Job. Interessierte Unternehmen werden noch gesucht.\n\nMargit, die junge Frau im Rollstuhl, erledigt die Lohnverrechnung für einen Verlag. Reinhard, seit der Geburt gehbehindert, tippt für die Direktion von Hewlett Packard Protokolle und Preislisten. Martin, seine Unterarme sind verkürzt, layoutet die Speisekarte eines Wiener Restaurants.\nDrei junge körperbehinderte Menschen am Computer – alle drei können auf eine abgeschlossene kaufmännische Ausbildung verweisen. Dennoch hat man sie auf dem Arbeitsamt als „schwer vermittelbar“ eingestuft – was de facto nicht vermittelbar bedeutet. Zurzeit arbeiten Margit, Reinhard und Martin – gemeinsam mit sieben anderen behinderten Menschen – in der „Büro-Werkstatt“ in Wien-Stadlau. Hier werden körperbehinderte Schulabgänger auf das Berufsleben vorbereitet. In einem fünfmonatigen Kurs lernen sie, das in der Schule Gelernte in die Praxis umzusetzen. Ihre Dienste werden von Privatfirmen (darunter auch die OMV und zwei Banken) zugekauft.\nGleichzeitig wird ihnen bei der Jobsuche geholfen. „Leicht ist das nicht“, sagt Betreuer Günther Hos. „Es gibt so viele Arbeitslose, die nicht behindert sind. Wer nimmt schon einen Mitarbeiter mit Handicap?“ Zwar wären die Firmen gesetzlich verpflichtet, pro 25 Beschäftigte einen Behinderten einzustellen. Die meisten Firmen nützen jedoch die Möglichkeit, sich „freizukaufen“ (die sogenannte „Ausgleichstaxe“ beträgt rund 150 Euro monatlich).\nTrotz der Rahmenbedingungen kann Hos mit einer durchaus positiven Bilanz aufwarten: „Immerhin haben wir seit der Vereinsgründung vor drei Jahren ein Drittel unserer Leute untergebracht.“ Auch ein Dienst an der Allgemeinheit, denn jede Vermittlung bedeutet: ein Arbeitsloser weniger, ein Steuerzahler mehr.\nGegründet wurde die Büro-Werkstatt von einer Lehrerin: Heide Hanisch, die in einer Wiener berufsbildenden Schule Geografie und Geschichte unterrichtet, wollte nicht länger hinnehmen, dass ihre behinderten Schüler erst ausgebildet werden, um dann als Arbeitnehmer nicht gebraucht zu werden.\n\nNähere Informationen, auch für interessierte Firmen: „Büro-Werkstatt“ in Wien-Stadlau, Telefon: 0222/283 85 75.",
+      "quotedThread": "",
+      "questions": [
+        {
+          "questionNumber": 6,
+          "prompt": "In einem fünfmonatigen Kurs können die Teilnehmer",
+          "sortOrder": 0,
+          "options": [
+            {
+              "key": "a",
+              "content": "eine berufliche Ausbildung abschließen.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "lernen, was sie in der Schule verpasst haben.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "praktische Erfahrungen mit der Büroarbeit sammeln.",
+              "isCorrect": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 7,
+          "prompt": "Die Büro-Werkstatt versucht außerdem,",
+          "sortOrder": 1,
+          "options": [
+            {
+              "key": "a",
+              "content": "auch jenen Arbeitslosen zu helfen, die nicht behindert sind.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Behinderte auf die Abschlussprüfungen vorzubereiten.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "für die behinderten Menschen eine Arbeit zu finden.",
+              "isCorrect": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 8,
+          "prompt": "Laut Gesetz müssen österreichische Firmen pro 25 Beschäftigte",
+          "sortOrder": 2,
+          "options": [
+            {
+              "key": "a",
+              "content": "eine besondere Steuer zahlen.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "einen Behinderten einstellen oder eine monatliche Gebühr bezahlen.",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "für jeden Behinderten monatlich 150 Euro bezahlen.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 9,
+          "prompt": "Seit der Vereinsgründung",
+          "sortOrder": 3,
+          "options": [
+            {
+              "key": "a",
+              "content": "konnte für ein Drittel der behinderten Kursteilnehmer eine Arbeit gefunden werden.",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "konnte Günther Hos für den Verein schon viel Geld sparen.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "zahlen Arbeitslose um ein Drittel weniger Steuern.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 10,
+          "prompt": "Die Lehrerin, die die Büro-Werkstatt gegründet hat,",
+          "sortOrder": 4,
+          "options": [
+            {
+              "key": "a",
+              "content": "wollte etwas tun, damit Behinderte einen Arbeitsplatz erhalten.",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "wollte nicht länger Geografie und Geschichte unterrichten.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "wird nach der Ausbildung der Behinderten nicht mehr gebraucht.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    "lesenTeil3": {
+      "contentRevision": "modelltest-3-lesen-teil3-v1",
+      "label": "Leseverstehen Teil 3",
+      "instruction": "Lesen Sie die Situationen 11–20 und die Anzeigen a–l. Finden Sie für jede Situation die passende Anzeige. Sie können jede Anzeige nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 11–20 auf dem Antwortbogen. Wenn Sie zu einer Situation keine Anzeige finden, markieren Sie ein x.",
+      "announcements": [
+        {
+          "key": "a",
+          "title": "Thai-China-Vietnam – Asiatisches Spezialitäten-Restaurant – Bong - Hong",
+          "content": "81379 Boschetsrieder Straße 140\nTel./Fax 089/785 56 52\ntäglich von 11.30 – 14.30 Uhr\nund 17.30 – 23.00 Uhr\nKein Ruhetag\nAlle Gerichte auch zum Mitnehmen\nund Heimservice",
+          "sortOrder": 0
+        },
+        {
+          "key": "b",
+          "title": "Ristorante OLINDO",
+          "content": "Italienisches Restaurant\n• hausgemachte Nudeln\n• Fischspezialitäten\n• Mittagsmenues ab 7.50 Euro\nBei schönem Wetter Gartenbetrieb\nFallmerayerstr. 16\nMünchen-Schwabing",
+          "sortOrder": 1
+        },
+        {
+          "key": "c",
+          "title": "Wir wünschen unseren Kunden und allen, die es noch werden wollen, schöne Ferien und gute Erholung.",
+          "content": "... sind Sie für den Urlaub auch gut versichert?\nFragen Sie:\nHelmut Schwabe\nHerzogstraße 88 · Vers.-Büro\nTel.: 089-303097, Fax 059-3073802\nVERMITTLUNG FÜR DIE UNTERNEHMEN DER\nVERSICHERUNGSKAMMER BAYERN",
+          "sortOrder": 2
+        },
+        {
+          "key": "d",
+          "title": "SEATOP Reisen",
+          "content": "Der Flug- und Hotelspezialist\nWELTWEIT REISEN\nMietwagen\nHotelvermittlung – Rundreisen –\nSommertermine nach USA noch\nPlätze frei\nTel. 53 91 84 · Fax 53 67 78",
+          "sortOrder": 3
+        },
+        {
+          "key": "e",
+          "title": "COUNCIL TRAVEL",
+          "content": "Adalbertstr. 32, 80799 München 40\nTel: 089/39 50 22  Fax: 39 70 04\nFür Studenten/Jugendliche\nNew York/Boston ....................329,–\nLos Angeles ............................429,–\nMiami/Chicago ......................349,–\nMexico ....................................499,–\nHongkong ...............................529,–\nAmsterdam ...............................99,–\nLondon......................................99,–\nEdinburgh ...............................129,–\nBarcelona..................................99,–\nStockholm ...............................159,–\nHelsinki ...................................199,–\nParis..........................................99,–\nMadrid .....................................129,–\nTel Aviv....................................299,–\nAlle Preise zzgl. Sicherheitsgebühr u. Steuern\nSPRACHREISEN & ABENTEUERREISEN\nA travel division of the Council on International Educational Exchange (EIEE)\nSpezialpreise auch für JEDERMANN!",
+          "sortOrder": 4
+        },
+        {
+          "key": "f",
+          "title": "Kreittmayr",
+          "content": "Kneipe mit Biergarten\nBillard und Kegelbahnen\nJeden Fr. oder Sa. live\nBundesliga-Topspiele\nKreittmayrstr. 15\nTel. 523 17 34\nMo. – Fr. 11.00 – 1.00\nSa. + So. 17.00 – 1.00",
+          "sortOrder": 5
+        },
+        {
+          "key": "g",
+          "title": "Internationaler Stammtisch",
+          "content": "Deutsche und ausländische Jugendliche in München\nist das Thema, das der Internationale Stammtisch am Montag,\nden 4. September, um 19.30 Uhr im Ratskeller\n„Moriskengewölbe“ (Marienplatz) diskutieren wird.",
+          "sortOrder": 6
+        },
+        {
+          "key": "h",
+          "title": "Nachprüfung",
+          "content": "Lehrerin bereitet intensiv vor\nin: Latein, Englisch,\nFranzösisch, Deutsch\nTel.: 308 51 17",
+          "sortOrder": 7
+        },
+        {
+          "key": "i",
+          "title": "Unterricht",
+          "content": "Nachhilfe in Mathe-Physik mit viel Geduld u.\nErfahrung von Gymnasiallehrer, Tel. 260 95 57\n\nMathe/Physik/Chemie, Nachhilfe f. alle Kl.,\nGymn., Realschule, FOS, Abi-Vorbereitung,\nSchulwechsel, Hausbes. f. ganz MÜ. ohne\nZuschlag Tel. 089/834 04 40 o. 36 14 55 1\n\n***Erf. Dipl.-Math. gibt*** MATHE (alles für Abi\nu. Studium) PHYSIK (für ABI), Tel. 271 29 32",
+          "sortOrder": 8
+        },
+        {
+          "key": "j",
+          "title": "City-Reisebüro",
+          "content": "Klenzestr. 7 · 80469 München\nCampmobile\nUSA/CANADA\nz.B. San Francisco/\nLos Angeles\nab € 35,– pro Tag\nFrüh buchen lohnt!\nTelefon 089 290 45 65",
+          "sortOrder": 9
+        },
+        {
+          "key": "k",
+          "title": "Kurse",
+          "content": "Für Erwachsene und Kinder mit (Sprach-)Schwierigkeiten\nGisela Geiger\nLeopoldstraße 83 · 80802 München · Telefon 39 99 95",
+          "sortOrder": 10
+        },
+        {
+          "key": "l",
+          "title": "SPRACHBÖRSE",
+          "content": "Deutsch als Fremdsprache · Fremdsprachen · Kindersprachkurse\n• Prüfungskurse\n• Geschäftsdeutsch\n• muttersprachl. Lehrkräfte\n• Minigruppen und Einzelunterricht\n• schon für Kinder ab 4 Jahren\nSprachbörse: Nähe Rotkreuzplatz · Tel. 16 14 79 · Schulstraße 31",
+          "sortOrder": 11
+        }
+      ],
+      "situations": [
+        {
+          "situationNumber": 11,
+          "content": "Sie möchten mit Freunden in einem Restaurant essen. Da das Wetter schön ist, möchten Sie gerne draußen sitzen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "b",
+          "sortOrder": 0
+        },
+        {
+          "situationNumber": 12,
+          "content": "Sie möchten heute nicht selbst kochen, sondern lieber ein warmes Essen kaufen und mit nach Hause nehmen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "a",
+          "sortOrder": 1
+        },
+        {
+          "situationNumber": 13,
+          "content": "In den Sommerferien möchten Sie gerne in die USA fliegen. Sie brauchen dort auch eine Unterkunft.",
+          "noMatch": false,
+          "correctAnnouncementKey": "d",
+          "sortOrder": 2
+        },
+        {
+          "situationNumber": 14,
+          "content": "Reisebüros bieten billigere Flüge an, wenn man in letzter Minute bucht. Sie suchen so einen Flug.",
+          "noMatch": true,
+          "correctAnnouncementKey": null,
+          "sortOrder": 3
+        },
+        {
+          "situationNumber": 15,
+          "content": "Ihre Tochter, die studiert, möchte in die USA fliegen. Sie suchen einen billigen Flug für sie.",
+          "noMatch": false,
+          "correctAnnouncementKey": "e",
+          "sortOrder": 4
+        },
+        {
+          "situationNumber": 16,
+          "content": "Ihr Sohn ist schlecht in Mathematik und braucht deshalb noch Unterricht außerhalb der Schule.",
+          "noMatch": false,
+          "correctAnnouncementKey": "i",
+          "sortOrder": 5
+        },
+        {
+          "situationNumber": 17,
+          "content": "Das Kind Ihrer Freunde hat Probleme beim Sprechen und braucht deshalb Hilfe.",
+          "noMatch": false,
+          "correctAnnouncementKey": "k",
+          "sortOrder": 6
+        },
+        {
+          "situationNumber": 18,
+          "content": "Sie haben einen jungen Franzosen zu Besuch. Sie möchten, dass er in einen Deutschkurs geht.",
+          "noMatch": false,
+          "correctAnnouncementKey": "l",
+          "sortOrder": 7
+        },
+        {
+          "situationNumber": 19,
+          "content": "Sie möchten, dass Ihr Sohn in einen Jugendclub geht.",
+          "noMatch": true,
+          "correctAnnouncementKey": null,
+          "sortOrder": 8
+        },
+        {
+          "situationNumber": 20,
+          "content": "Sie interessieren sich für die Probleme ausländischer Jugendlicher in Deutschland.",
+          "noMatch": false,
+          "correctAnnouncementKey": "g",
+          "sortOrder": 9
+        }
+      ]
+    },
+    "sprachbausteineTeil1": {
+      "teilNumber": 1,
+      "contentRevision": "modelltest-3-sprachbausteine-teil1-v1",
+      "label": "Sprachbausteine Teil 1",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 21–30. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 21–30 auf dem Antwortbogen.",
+      "body": "Liebe Karin,\n\nnach meinem Praktikum in Frankreich bin ich jetzt wieder zu Hause. Wie du ja weißt, wollte ich eigentlich nach Paris, _____ das hat dann leider nicht geklappt. Doch dann habe ich eine Stelle als Praktikant bei _____ Firma in Straßburg gefunden.\n\nDort _____ ich drei Monate geblieben. Die Arbeit war sehr _____ – ich musste schon um 8.00 Uhr im Büro sein –, hat mir aber _____ sehr gut gefallen.\nIch habe _____ dieser Zeit in verschiedenen Abteilungen gearbeitet und so nicht nur etwas über die Herstellung von Fernsehgeräten _____, sondern auch über den Verkauf.\nUnd die Kollegen, mit _____ ich am meisten zu tun hatte, waren wirklich sehr nett.\n\nNach dem Praktikum habe ich noch zwei Wochen Urlaub bei _____ Freunden gemacht. Darüber erzähle ich _____ bald mehr – für heute muss ich Schluss machen.\n\nLiebe Grüße\nFritz",
+      "gaps": [
+        {
+          "gapKey": "21",
+          "gapNumber": 21,
+          "sortOrder": 0,
+          "options": [
+            {
+              "key": "a",
+              "content": "aber",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "denn",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "sondern",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "22",
+          "gapNumber": 22,
+          "sortOrder": 1,
+          "options": [
+            {
+              "key": "a",
+              "content": "eine",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "einen",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "einer",
+              "isCorrect": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "23",
+          "gapNumber": 23,
+          "sortOrder": 2,
+          "options": [
+            {
+              "key": "a",
+              "content": "bin",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "habe",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "wurde",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "24",
+          "gapNumber": 24,
+          "sortOrder": 3,
+          "options": [
+            {
+              "key": "a",
+              "content": "anstrengend",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "anstrengende",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "anstrengendes",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "25",
+          "gapNumber": 25,
+          "sortOrder": 4,
+          "options": [
+            {
+              "key": "a",
+              "content": "trotzdem",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "wegen",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "weshalb",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "26",
+          "gapNumber": 26,
+          "sortOrder": 5,
+          "options": [
+            {
+              "key": "a",
+              "content": "bis",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "in",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "nach",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "27",
+          "gapNumber": 27,
+          "sortOrder": 6,
+          "options": [
+            {
+              "key": "a",
+              "content": "gelernt",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "lernen",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "lernte",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "28",
+          "gapNumber": 28,
+          "sortOrder": 7,
+          "options": [
+            {
+              "key": "a",
+              "content": "dem",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "denen",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "die",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "29",
+          "gapNumber": 29,
+          "sortOrder": 8,
+          "options": [
+            {
+              "key": "a",
+              "content": "meine",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "meinen",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "meiner",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "30",
+          "gapNumber": 30,
+          "sortOrder": 9,
+          "options": [
+            {
+              "key": "a",
+              "content": "dir",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Ihnen",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "uns",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    "sprachbausteineTeil2": {
+      "contentRevision": "modelltest-3-sprachbausteine-teil2-v1",
+      "label": "Sprachbausteine Teil 2",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 31–40. Benutzen Sie die Wörter a–o. Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31–40 auf dem Antwortbogen.",
+      "body": "Hotel-Pension Janosch\nruhige Lage, Wanderwege, Bademöglichkeiten,\nTennis, Freizeitprogramm für Kinder,\nFamilienappartements: 1 Woche pro Person\nnur € 99,– inkl. Frühstück, spezielle Kinderermäßigung.\nAnfragen an: Herbert Janosch, Griesweg 3, A-5020 Innsbruck\n\nSehr geehrter Herr Janosch,\n\nich habe Ihre Anzeige gelesen und interessiere mich sehr _____ Ihr Angebot. Ich möchte mit meiner Familie vom 10.–24. August in Österreich Urlaub machen und hätte deshalb _____ noch nähere Informationen.\nMeine Frau und mich interessiert ganz _____ das Freizeitprogramm für Kinder, _____ wir zwei Kinder (3 und 8 Jahre) haben. Gibt es Schwimm- und Tenniskurse für Kinder und _____ ja, was kosten sie? In Ihrer Anzeige steht auch, dass Sie für die Unterkunft günstige Angebote für Kinder haben. Wie viel _____ wir pro Woche für unsere Kinder bezahlen?\nUnd _____ noch eine letzte Frage: Wir haben einen kleinen Hund, von dem sich meine Kinder nicht trennen können und den wir _____ auch mitnehmen müssten. Wäre das möglich?\n\nBitte schreiben Sie uns so bald wie möglich, _____ wir uns bald entscheiden können.\nAußerdem wären wir Ihnen sehr _____, wenn Sie uns einige Prospekte oder Bilder Ihrer Pension sowie der Umgebung zusenden würden.\n\nMit freundlichen Grüßen\nIhr Anton Müller",
+      "words": [
+        {
+          "letter": "a",
+          "content": "BESONDERS",
+          "sortOrder": 0
+        },
+        {
+          "letter": "b",
+          "content": "DA",
+          "sortOrder": 1
+        },
+        {
+          "letter": "c",
+          "content": "DAFÜR",
+          "sortOrder": 2
+        },
+        {
+          "letter": "d",
+          "content": "DAMALS",
+          "sortOrder": 3
+        },
+        {
+          "letter": "e",
+          "content": "DAMIT",
+          "sortOrder": 4
+        },
+        {
+          "letter": "f",
+          "content": "DANKBAR",
+          "sortOrder": 5
+        },
+        {
+          "letter": "g",
+          "content": "DESHALB",
+          "sortOrder": 6
+        },
+        {
+          "letter": "h",
+          "content": "FÜR",
+          "sortOrder": 7
+        },
+        {
+          "letter": "i",
+          "content": "GERNE",
+          "sortOrder": 8
+        },
+        {
+          "letter": "j",
+          "content": "KÖNNTEN",
+          "sortOrder": 9
+        },
+        {
+          "letter": "k",
+          "content": "MIT",
+          "sortOrder": 10
+        },
+        {
+          "letter": "l",
+          "content": "MÜSSTEN",
+          "sortOrder": 11
+        },
+        {
+          "letter": "m",
+          "content": "SCHLIESSLICH",
+          "sortOrder": 12
+        },
+        {
+          "letter": "n",
+          "content": "WANN",
+          "sortOrder": 13
+        },
+        {
+          "letter": "o",
+          "content": "WENN",
+          "sortOrder": 14
+        }
+      ],
+      "gaps": [
+        {
+          "gapKey": "31",
+          "gapNumber": 31,
+          "correctWordKey": "h",
+          "sortOrder": 0
+        },
+        {
+          "gapKey": "32",
+          "gapNumber": 32,
+          "correctWordKey": "i",
+          "sortOrder": 1
+        },
+        {
+          "gapKey": "33",
+          "gapNumber": 33,
+          "correctWordKey": "a",
+          "sortOrder": 2
+        },
+        {
+          "gapKey": "34",
+          "gapNumber": 34,
+          "correctWordKey": "b",
+          "sortOrder": 3
+        },
+        {
+          "gapKey": "35",
+          "gapNumber": 35,
+          "correctWordKey": "o",
+          "sortOrder": 4
+        },
+        {
+          "gapKey": "36",
+          "gapNumber": 36,
+          "correctWordKey": "l",
+          "sortOrder": 5
+        },
+        {
+          "gapKey": "37",
+          "gapNumber": 37,
+          "correctWordKey": "m",
+          "sortOrder": 6
+        },
+        {
+          "gapKey": "38",
+          "gapNumber": 38,
+          "correctWordKey": "g",
+          "sortOrder": 7
+        },
+        {
+          "gapKey": "39",
+          "gapNumber": 39,
+          "correctWordKey": "e",
+          "sortOrder": 8
+        },
+        {
+          "gapKey": "40",
+          "gapNumber": 40,
+          "correctWordKey": "f",
+          "sortOrder": 9
+        }
+      ]
+    },
+    "hoeren": {
+      "teil1": {
+        "part": 1,
+        "title": "Teil 1",
+        "subtitle": "Hörverstehen, Teil 1",
+        "instruction": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41-45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41-45. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 41-45. Sie haben dazu 30 Sekunden Zeit.",
+        "contentRevision": "modelltest-3-hoeren-teil1-v1",
+        "transcript": "Wir beschäftigen uns heute mit der Frage „Gleichberechtigung im Haushalt“ und konfrontierten über 50 verheiratete Paare mit der Frage: „Wie teilen Sie sich die Arbeit im Haushalt?“ Hören Sie dazu einige Stellungnahmen:\n\n41\nNa, eigentlich mach alles ich, ich bin zu Haus, daher koch ich, ich wasch ab, ich bügle, ich versorge das Kind, na ja mein Mann macht vielleicht den Abwasch und den Garten – für den ist er zuständig und einkaufen gehn wir beide.\n\n42\nWo ich im Haushalt helfe, ach Gott kochen kochen tu immer ich, das macht mir großen Spaß. Dafür wäscht meine Frau eben ab ähm ... Wäsche waschen mach ich nicht so gerne das macht sie, dafür geh ich immer gerne einkaufen und Garten, Blumengießen, dass ich ein bisschen aus dem Haus rauskomme.\n\n43\nTja, bei uns ist das so, mein Mann ist voll berufstätig, ich bin zu Hause mit unseren zwei kleinen Kindern, 3 und 5 Jahre alt, tja, und dann schaut’s so aus, dass ich koche, abwasche, ähm, aufräumen, das muss auch ich machen, vor allem die Kinderzimmer schauen ja wirklich immer schrecklich aus. Wäschewaschen mach auch ich, ebenso das Bügeln. Das Einkaufen übernimmt er, putzen tu ich und im Sommer betreut er den Garten und gießt die Blumen, denn Gartenarbeit ist etwas, das kann ich nicht, das mag ich nicht.\n\n44\nPuh, wissen Sie, bei uns ist das eigentlich ganz unterschiedlich, das hängt von der Situation ab. Meistens koche ich und gehe auch einkaufen, während meine Partnerin sich eher mit Aufräumen und Abwaschen beschäftigt. Äh, die Wäsche, die teilen wir uns und, äh, Garten haben wir keinen, daher fällt das weg.\n\n45\nAlso mein Mann, der ist ziemlich faul, der macht überhaupt nur, was ihm Spaß macht. Einkaufen geht er ja – aber er hält sich nicht an die Liste, die ich ihm aufschreibe, er kauft immer irgendwas, meistens zu teure Sachen. Ab und zu kocht er, aber das Abwaschen überlässt er mir, na, aufräumen tut er sowieso nicht, die Wäsche schmeißt er einfach ins Eck, das ist meine Sache, von Putzen kann keine Rede sein, also und um den Garten kümmert sich bei uns eigentlich überhaupt keiner – der verwildert.",
+        "questions": [
+          {
+            "questionNumber": 41,
+            "prompt": "Die Sprecherin muss im Haushalt fast alles alleine machen.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 42,
+            "prompt": "Der Sprecher wäscht das Geschirr und die Wäsche.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 43,
+            "prompt": "Die Sprecherin ist berufstätig und hat keine Zeit für die Hausarbeit.",
+            "correctAnswer": "-",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 44,
+            "prompt": "Der Sprecher teilt sich mit seiner Partnerin die Arbeit je nach Situation auf.",
+            "correctAnswer": "+",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 45,
+            "prompt": "Die Sprecherin ist froh, dass ihr Mann so viele Hausarbeiten übernimmt.",
+            "correctAnswer": "-",
+            "sortOrder": 4
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-3-hoeren-teil1.mp3",
+        "imageUrl": "",
+        "durationMinutes": 10
+      },
+      "teil2": {
+        "part": 2,
+        "title": "Teil 2",
+        "subtitle": "Hörverstehen, Teil 2",
+        "instruction": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46-55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46-55. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 46-55. Sie haben dazu eine Minute Zeit.",
+        "contentRevision": "modelltest-3-hoeren-teil2-v1",
+        "transcript": "J.: = Journalist\nS.: = Frau Seiffert\n\nJ.: Der Turn- und Sportverein Neustadt wird in diesem Jahr 100 Jahre alt und feiert diesen Geburtstag mit einem großen Programm. Ich begrüße dazu heute hier im Studio eine Vertreterin des Turn- und Sportvereins Neustadt, Frau Seiffert. Guten Tag!\nS.: Guten Tag!\nJ.: Frau Seiffert, welche Aufgaben haben Sie denn im Verein?\nS.: Ja, also ich führe bei allen Sitzungen Protokoll. Ich schreibe also alles auf, worüber diskutiert wird und was beschlossen wird. Schriftführerin heißt das.\nJ.: Aha. Vielleicht liegen Ihnen als Schriftführerin da sogar noch Papiere aus den ersten Vereinsjahren vor... ?\nS.: Ja, so ist es. Unsere Kollegen früher waren nämlich äußerst sorgfältig. So konnten wir in unserer Festzeitung zum 100. Geburtstag das Programm von der ersten Hauptversammlung des Vereins veröffentlichen. Das macht sich sehr nett.\nJ.: Unglaublich, dass trotz der zwei Kriege in diesem Jahrhundert solche Papiere und Unterlagen noch vorhanden sind. Also, ich nehme mal an, als Ihr Verein vor 100 Jahren gegründet wurde, war Sport doch sicher nur eine Sache für Männer?\nS.: Ja, klar. Am Anfang war Sport reine Männersache. Es hat 16 Jahre gedauert, bis bei uns die ersten Frauen dazukamen. Das war ein echter Fortschritt für die Zeit damals, Anfang des 20. Jahrhunderts.\nJ.: Ja, das kann man sich gut vorstellen. Wie viele Frauen haben Sie denn heute im Verein im Vergleich zu Männern?\nS.: Ja, also heute sind es ziemlich viele. Über 50 Prozent der Mitglieder sind Frauen, d. h. mehr als 1000 der insgesamt 2000 Mitglieder.\nJ.: Ihr Verein hat ja hier in Neustadt eine schöne Anlage mit Sportplätzen im Freien und einer großen Halle. Wer finanziert denn das eigentlich alles?\nS.: Ja, also 50 Prozent des Geldes, das wir brauchen, bekommen wir durch unsere Mitglieder, in Form von Mitgliedsbeiträgen, den Rest bekommen wir von der Stadt und vom Deutschen Sportbund dazu.\nJ.: Wenn man sich Ihr Angebot ansieht, dann staunt man. Da gibt es alles, was zur Zeit gefragt ist: von Aerobic über sportliches Gehen bis hin zu Mutter-Kind-Gymnastik.\nS.: Ja, das stimmt. Im Grunde genommen bieten wir fast jede Sportart an, außer Schwimmen. Es gibt im Nachbarort ein großes Schwimmbad mit einem Extra-Schwimmverein. Also, da wäre es Unsinn, wenn wir eine eigene Abteilung für Schwimmen aufmachen würden.\nJ.: Woher kommen denn Ihre Trainer und die Lehrer für alle diese vielen Sportarten?\nS.: Ja, also die meisten kommen aus dem Verein selber. Wir bilden ja viele Leute aus, die später Sport studieren oder Leistungssport machen. Diese Leute bitten wir oft, im eigenen Verein zu unterrichten.\nJ.: Ja, klar – so bleiben Ihnen die Talente praktisch erhalten. Frau Seiffert, ich bedanke mich für Ihren Besuch hier in unserem Studio und wünsche Ihrem Verein auch für die nächsten 100 Jahre alles Gute.\nS.: Danke.",
+        "questions": [
+          {
+            "questionNumber": 46,
+            "prompt": "Der Sportverein plant eine große Feier.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 47,
+            "prompt": "Der Journalist unterhält sich mit einer Vertreterin des Sportvereins.",
+            "correctAnswer": "+",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 48,
+            "prompt": "Viele Papiere aus den Anfängen des Vereins sind im Krieg verloren gegangen.",
+            "correctAnswer": "-",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 49,
+            "prompt": "Der Verein veröffentlicht jedes Jahr eine Festzeitung.",
+            "correctAnswer": "-",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 50,
+            "prompt": "Der Verein hatte von Anfang an auch Frauen als Mitglieder.",
+            "correctAnswer": "-",
+            "sortOrder": 4
+          },
+          {
+            "questionNumber": 51,
+            "prompt": "Heute gibt es im Verein mehr Frauen als Männer.",
+            "correctAnswer": "+",
+            "sortOrder": 5
+          },
+          {
+            "questionNumber": 52,
+            "prompt": "Im Verein kann man Sport im Freien und in der Halle treiben.",
+            "correctAnswer": "+",
+            "sortOrder": 6
+          },
+          {
+            "questionNumber": 53,
+            "prompt": "Die Mitglieder müssen die Kosten für ihren Verein alleine tragen.",
+            "correctAnswer": "-",
+            "sortOrder": 7
+          },
+          {
+            "questionNumber": 54,
+            "prompt": "Der Sportverein bietet auch Schwimmkurse an.",
+            "correctAnswer": "-",
+            "sortOrder": 8
+          },
+          {
+            "questionNumber": 55,
+            "prompt": "Einige Leute, die im Verein ausgebildet wurden, arbeiten dort heute als Lehrer.",
+            "correctAnswer": "+",
+            "sortOrder": 9
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-3-hoeren-teil2.mp3",
+        "imageUrl": "",
+        "durationMinutes": 10
+      },
+      "teil3": {
+        "part": 3,
+        "title": "Teil 3",
+        "subtitle": "Hörverstehen, Teil 3",
+        "instruction": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56-60 richtig oder falsch sind. Markieren Sie Ihre Lösungen für die Aufgaben 56-60 auf dem Antwortbogen. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch.",
+        "contentRevision": "modelltest-3-hoeren-teil3-v1",
+        "transcript": "56\nAlso, wenn Sie aus dem Bahnhof rauskommen, sind Sie in der Schillerstraße. Gehen Sie dann nach rechts und immer geradeaus, bis Sie zu einer Kreuzung kommen. Das ist die Königstraße. Überqueren Sie die Königstraße, bleiben Sie aber in der Schillerstraße. Wir sind dann ein Stückchen weiter, gegenüber vom Kino Gloria.\n\n57\nGuten Tag, meine Damen und Herren. Wir bringen Ihnen jetzt einen Ausschnitt aus dem Programm der Zürcher Filmtheater.\n\nFilmcasino: „Frühstück bei Tiffany“, 18 Uhr 30 und 20 Uhr 30.\nCity Kino 1: „Sommer“, 18 Uhr 45 und 21 Uhr\nCity Kino 2: „Starke Jungs“, 18 Uhr 15 und 19 Uhr 45\n\nDas Kino Gloria-Palast ist zur Zeit ...\n\n58\nUnd nun der Wetterbericht des Wetteramtes München für Montag, den 28. Oktober. Südbayern: Anfangs noch vereinzelt Regen, später zunehmend sonnig mit Höchsttemperaturen bis 18 Grad. Nachts geringer Bodenfrost. Nordbayern: Wechselhaft mit Schauern, dabei mild und sehr windig. Temperaturen nachts bis -2 Grad.\n\n59\nGuten Tag. Wir begrüßen alle neu hinzugestiegenen Fahrgäste im ICE Riemenschneider auf der Fahrt von Hamburg nach Nürnberg. Unser Zugrestaurant finden Sie zwischen der 1. und 2. Wagenklasse, wo Sie das Speisewagen-Team ab 11.30 Uhr gern zum Mittagessen erwartet. Verehrte Fahrgäste, auch eine Minibar befindet sich im Zug. Sollten Sie Appetit haben auf einen kleinen Imbiss oder auf kalte und warme Getränke, diese Dinge können Sie im Abteil kaufen. Die Minibar kommt durch die zweite Wagenklasse. Weitere Auskünfte und Informationen erhalten Sie beim ICE-Team dieses Zuges. Wir wünschen Ihnen eine angenehme Reise.\n\n60\nDas ist Spitze. Sommerschlussverkauf. Jetzt bei uns mit Superangeboten. Ja, bei uns gibt’s zum Beispiel damenhafte Röcke für nur 39 Euro und modische Pullover in lässiger Weite. Wählen Sie aus verschiedenen Farben und Formen – das Stück nur 19 Euro. Und das gibt’s ganz aktuell – für Sie, meine Herren: Oberhemden in großer Auswahl, pflegeleicht, für nur 5 Euro. Oder die modischen City-Hosen für Herren, vollwaschbar und echt günstig, nur 10 Euro. Greifen Sie zu, solange der Vorrat reicht.",
+        "questions": [
+          {
+            "questionNumber": 56,
+            "prompt": "Das Büro ist in der Schillerstraße.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 57,
+            "prompt": "Der Film „Sommer“ läuft im Filmcasino.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 58,
+            "prompt": "Im Süden Bayerns wird es am Nachmittag schön und nicht sehr warm.",
+            "correctAnswer": "+",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 59,
+            "prompt": "Im Zugrestaurant können Sie auch Zeitungen kaufen.",
+            "correctAnswer": "-",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 60,
+            "prompt": "Damenröcke kosten heute 39 Euro.",
+            "correctAnswer": "+",
+            "sortOrder": 4
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-3-hoeren-teil3.mp3",
+        "imageUrl": "",
+        "durationMinutes": 10
+      }
+    },
+    "schreiben": {
+      "contentRevision": "modelltest-3-schreiben-v1",
+      "title": "Schriftlicher Ausdruck",
+      "subtitle": "Sie haben von einer Freundin folgende E-Mail erhalten:",
+      "taskType": "brief",
+      "intro": "Sie haben von einer Freundin folgende E-Mail erhalten:",
+      "stimulus": {
+        "heading": "Liebe/r                      ,",
+        "subheading": null,
+        "body": "danke für deine nette Einladung! Ich komme dich sehr gerne besuchen, um dein Land kennenzulernen - wie du weißt, war ich ja noch nie da. Wann wäre die beste Zeit, dich zu besuchen? Ich weiß noch nicht einmal, ob es bei euch im Sommer sehr heiß wird – allzu große Hitze mag ich nämlich nicht so sehr. Und gibt es sonst noch irgendwelche Dinge, die ich wissen sollte, bevor ich diese Reise mache?\n\nBitte schreib mir möglichst bald, damit ich mich gut auf die Reise vorbereiten kann.",
+        "features": [],
+        "contact": {
+          "name": "Marianne",
+          "lines": [
+            "Herzliche Grüße"
+          ]
+        },
+        "callToAction": null,
+        "imageUrl": null
+      },
+      "taskInstructions": "Antworten Sie auf die E-Mail. Schreiben Sie etwas zu allen vier Punkten:",
+      "bulletPoints": [
+        "welche Ausflüge Sie mit Marianne machen wollen",
+        "was die beste Jahreszeit für die Reise ist",
+        "welche Kleidung sie mitnehmen soll",
+        "wie sie sich am besten auf die Reise vorbereiten kann"
+      ],
+      "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss."
+    },
+    "sprechen": {
+      "teil1": {
+        "part": 1,
+        "title": "Teil 1 Einander kennenlernen",
+        "subtitle": "Teilnehmer/in A und B",
+        "topicTitle": "Einander kennenlernen",
+        "topicDescription": "Unterhalten Sie sich mit Ihrer Partnerin bzw. Ihrem Partner über folgende Themen:",
+        "topicPoints": [
+          "Name",
+          "Woher sie oder er kommt",
+          "Wie sie oder er wohnt (Wohnung, Haus, Garten …)",
+          "Familie",
+          "Wo sie oder er Deutsch gelernt hat",
+          "Was sie oder er macht (Schule, Studium, Beruf …)",
+          "Sprachen (welche? wie lange? warum?)"
+        ],
+        "additionalExaminerTopics": [
+          "wie er oder sie das Wochenende verbringt",
+          "welche Hobbys er oder sie hat"
+        ],
+        "instructions": "Die Prüfenden können außerdem noch weitere Fragen stellen."
+      },
+      "teil2": {
+        "part": 2,
+        "title": "Teil 2 Über ein Thema sprechen",
+        "subtitle": "Teilnehmer/in A / Teilnehmer/in B",
+        "topicTitle": "Gruppenreisen",
+        "commonInstructions": "Sie haben in einer Zeitschrift etwas zum Thema „Gruppenreisen“ gelesen. Berichten Sie Ihrer Gesprächspartnerin/Ihrem Gesprächspartner darüber. Ihre Gesprächspartnerin/Ihr Gesprächspartner hat eine andere Meinung dazu gelesen und berichtet Ihnen auch darüber. Unterhalten Sie sich dann mit Ihrer Gesprächspartnerin/Ihrem Gesprächspartner über das Thema. Sagen Sie Ihre Meinung und erzählen Sie von eigenen Erfahrungen.",
+        "participants": {
+          "A": {
+            "label": "Teilnehmer/in A",
+            "person": "Sabine Klostermann, 33 Jahre, Bürokauffrau",
+            "text": "„Ich verreise gern in einer Gruppe. Allein reisen macht mir keinen Spaß. Bei Gruppenreisen kann man neue Leute kennen lernen und hat immer Gesellschaft. Außerdem ist ein Reiseführer dabei, der einem die Sehenswürdigkeiten zeigt.“"
+          },
+          "B": {
+            "label": "Teilnehmer/in B",
+            "person": "Jens Mühle, 39 Jahre, Physiker",
+            "text": "„Wenn man mit einer Gruppe unterwegs ist, gibt es meist ein festes Programm. Daher reise ich immer allein. Manchmal möchte ich ausschlafen, manchmal etwas besichtigen. Ganz nach Lust und Laune. In einer Gruppe wäre das nicht möglich.“"
+          }
+        }
+      },
+      "teil3": {
+        "part": 3,
+        "title": "Teil 3 Gemeinsam etwas planen",
+        "subtitle": "Teilnehmer/in A und B",
+        "topicTitle": "Party",
+        "topicDescription": "Sie haben zwei Wochen Urlaub gemacht und in dieser Zeit einige nette Deutsche kennen gelernt. Vor dem Ende des Urlaubs und bevor Ihre Bekannten alle wieder nach Hause fahren, möchten Sie eine Abschiedsparty feiern. Sie haben die Aufgabe, zusammen mit Ihrem Gesprächspartner/Ihrer Gesprächspartnerin diese Party zu planen. Überlegen Sie sich, was alles zu tun ist und wer welche Aufgaben übernimmt. Sie haben sich schon diese Liste gemacht.",
+        "topicPoints": [
+          "Wann?",
+          "Wo?",
+          "Essen",
+          "Getränke",
+          "Wer bezahlt wofür?",
+          "..."
+        ],
+        "instructions": "Entscheiden Sie zuerst, was Sie machen möchten und warum. Tragen Sie Ihrem Partner Ihre Ideen vor und begründen Sie sie. Reagieren Sie auf die Ideen Ihres Partners bzw. Ihrer Partnerin und die Begründungen. Einigen Sie sich auf einen gemeinsamen Programmvorschlag."
+      }
+    }
+  },
+  "answerKey": {
+    "lesenTeil1": {
+      "1": "i",
+      "2": "d",
+      "3": "b",
+      "4": "f",
+      "5": "h"
+    },
+    "lesenTeil2": {
+      "6": "c",
+      "7": "c",
+      "8": "b",
+      "9": "a",
+      "10": "a"
+    },
+    "lesenTeil3": {
+      "11": "b",
+      "12": "a",
+      "13": "d",
+      "14": "X",
+      "15": "e",
+      "16": "i",
+      "17": "k",
+      "18": "l",
+      "19": "X",
+      "20": "g"
+    },
+    "sprachbausteineTeil1": {
+      "21": "a",
+      "22": "c",
+      "23": "a",
+      "24": "a",
+      "25": "a",
+      "26": "b",
+      "27": "a",
+      "28": "b",
+      "29": "b",
+      "30": "a"
+    },
+    "sprachbausteineTeil2": {
+      "31": "h",
+      "32": "i",
+      "33": "a",
+      "34": "b",
+      "35": "o",
+      "36": "l",
+      "37": "m",
+      "38": "g",
+      "39": "e",
+      "40": "f"
+    },
+    "hoerenTeil1": {
+      "41": "+",
+      "42": "-",
+      "43": "-",
+      "44": "+",
+      "45": "-"
+    },
+    "hoerenTeil2": {
+      "46": "+",
+      "47": "+",
+      "48": "-",
+      "49": "-",
+      "50": "-",
+      "51": "+",
+      "52": "+",
+      "53": "-",
+      "54": "-",
+      "55": "+"
+    },
+    "hoerenTeil3": {
+      "56": "+",
+      "57": "-",
+      "58": "+",
+      "59": "-",
+      "60": "+"
+    }
+  },
+  "extractionWarnings": [
+    "Origin booklet title kept for reference: ÜBUNGSTEST 1 ZERTIFIKAT DEUTSCH"
+  ]
+}
