@@ -16,6 +16,13 @@ import {
   CorrectionDto,
   ScoresDto,
 } from '../dto/evaluation-response.dto';
+import {
+  buildTelcSprechenRating,
+  criterionPercent,
+  isTelcLetter,
+  scoreFromM10Points,
+  type TelcSprechenCriteria,
+} from '../speaking-telc-rating';
 
 interface SpeakingAttemptInput {
   attemptId?: string;
@@ -145,7 +152,7 @@ export class EvaluationService {
 
     const prompt = this.buildPrompt(teilNumber, transcript);
     const raw = await this.callWithTimeout(prompt);
-    const evaluation = this.parseResponse(raw);
+    const evaluation = this.parseResponse(raw, teilNumber);
 
     if (studentId) {
       // `recordDelivered`, not `record`: the student already has their result,
@@ -256,8 +263,9 @@ export class EvaluationService {
 
   private buildPrompt(teilNumber: number, transcript: string): string {
     const context = this.getTeilContext(teilNumber);
+    const maxPts = teilNumber === 1 ? 15 : 30;
 
-    return `You are an expert German language examiner evaluating a telc B1 speaking exam (Teil ${teilNumber}).
+    return `You are an expert rater for telc Deutsch B1 Mündlicher Ausdruck (Bewertungsbogen M10), Teil ${teilNumber}.
 
 **TEIL ${teilNumber} CONTEXT:**
 ${context}
@@ -266,34 +274,30 @@ ${context}
 ${transcript}
 
 **EVALUATION TASK:**
-Analyze the student's performance and provide scores for:
-1. Grammar (0-100): Grammatical accuracy and sentence structure
-2. Vocabulary (0-100): Range and appropriateness of vocabulary
-3. Coherence (0-100): Logical flow, topic relevance, and clarity of expression
-4. Overall (0-100): Weighted average reflecting B1 proficiency
+Assign letter grades A|B|C|D for the four official M10 criteria (do NOT invent numeric exam scores — letters only):
+1. "expression" — Ausdrucksfähigkeit: vocabulary, role-appropriate expression, speech intention
+2. "taskFulfilment" — Aufgabenbewältigung: participation, discourse/compensation strategies, fluency
+3. "formalAccuracy" — Formale Richtigkeit: syntax and morphology
+4. "pronunciation" — Aussprache und Intonation: estimate only from the transcript (no audio). If evidence is weak, prefer B unless the text clearly suggests severe unintelligibility.
+
+Letter guide: A = voll angemessen, B = im Großen und Ganzen angemessen, C = kaum noch akzeptabel, D = nicht ausreichend.
+Backend will convert letters to M10 points (Teil ${teilNumber} max ${maxPts}).
 
 Also provide:
-- evaluation_text: A warm, natural German paragraph (3-5 sentences) starting with "Hallo!" that a teacher would SPEAK ALOUD to the student. Mention the overall score, highlight one strength, and mention one specific correction. Write it as flowing speech — NO markdown, NO bullet points, NO headers.
+- evaluation_text: A warm, natural German paragraph (3-5 sentences) starting with "Hallo!" that a teacher would SPEAK ALOUD. Mention the four letters briefly, highlight one strength, and one specific correction. NO markdown, NO bullet points, NO headers.
 - corrections: Up to 10 most important errors. error_type must be "grammar" or "vocabulary" only.
-- strengths: One or two sentences in German about what the student did well.
-- areas_for_improvement: One or two sentences in German about what to focus on.
-
-**SCORING CRITERIA (B1 Level):**
-- 90-100: Excellent — exceeds B1
-- 75-89: Good — solid B1
-- 60-74: Satisfactory — meets B1 minimum
-- 50-59: Needs improvement
-- 0-49: Insufficient
+- strengths: One or two sentences in German.
+- areas_for_improvement: One or two sentences in German.
 
 **OUTPUT FORMAT (valid JSON only, no markdown code blocks):**
 {
-  "grammar_score": 75,
-  "vocabulary_score": 72,
-  "coherence_score": 80,
-  "overall_score": 76,
-  "evaluation_text": "Hallo! Hier sind die Ergebnisse deiner Sprechübung für Teil ${teilNumber}. Insgesamt hast du 76 von 100 Punkten erreicht. Dein Wortschatz ist sehr gut und du drückst dich klar aus. Achte noch auf die Verbkonjugation — du hast zum Beispiel gesagt: ich gehen ins Kino — richtig wäre: ich gehe ins Kino. Weiter so, du machst gute Fortschritte!",
-  "strengths": "Der Student verwendet einen abwechslungsreichen Wortschatz und drückt sich klar aus.",
-  "areas_for_improvement": "Die Verbkonjugation und der Satzbau sollten noch verbessert werden.",
+  "expression": "B",
+  "taskFulfilment": "A",
+  "formalAccuracy": "C",
+  "pronunciation": "B",
+  "evaluation_text": "Hallo! Hier sind die Ergebnisse deiner Sprechübung für Teil ${teilNumber}. Bei Ausdruck und Aufgabe liegst du gut, achte noch auf die Grammatik. Du hast zum Beispiel gesagt: ich gehen — richtig wäre: ich gehe. Weiter so!",
+  "strengths": "Du beteiligst dich klar und bleibst beim Thema.",
+  "areas_for_improvement": "Achte noch auf die Verbkonjugation.",
   "corrections": [
     {
       "original": "Ich gehen oft ins Kino",
@@ -307,9 +311,9 @@ Also provide:
 
   private getTeilContext(teilNumber: number): string {
     const contexts: Record<number, string> = {
-      1: 'Personal introduction and background. The student should talk about themselves, hobbies, work, and daily life.',
-      2: 'Opinion and experience on a given topic. The student should express opinions, give examples, and elaborate.',
-      3: 'Debate and argumentation. The student should take a position, defend it with arguments, and show reasoning.',
+      1: 'Teil 1 — Einander kennenlernen: personal introduction and background (self, hobbies, work, daily life).',
+      2: 'Teil 2 — Über ein Thema sprechen: opinion and experience on a topic; give examples and elaborate.',
+      3: 'Teil 3 — Gemeinsam etwas planen: plan an activity together (appointments, options, agree on next steps). This is NOT a debate.',
     };
     return contexts[teilNumber] ?? contexts[1];
   }
@@ -319,8 +323,9 @@ Also provide:
 
     const evaluationPromise = this.geminiService
       .generateTextResponse(prompt)
-      .catch((err) => {
-        this.logger.error(`Gemini call failed: ${err.message}`);
+      .catch((err: unknown) => {
+        const message = err instanceof Error ? err.message : String(err);
+        this.logger.error(`Gemini call failed: ${message}`);
         throw new Error('GEMINI_EVALUATION_FAILED');
       });
 
@@ -344,35 +349,45 @@ Also provide:
     }
   }
 
-  private parseResponse(response: string): SpeakingEvaluationResponseDto {
+  parseResponse(
+    response: string,
+    teilNumber: number,
+  ): SpeakingEvaluationResponseDto {
     try {
       const jsonMatch = response.match(/\{[\s\S]*\}/);
       if (!jsonMatch) throw new Error('NO_JSON_IN_RESPONSE');
 
-      const p = JSON.parse(jsonMatch[0]);
+      const p = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
 
-      const validateScore = (v: unknown, field: string) => {
-        if (typeof v !== 'number' || v < 0 || v > 100)
-          throw new Error(`Invalid score for ${field}: ${v}`);
+      const criteria: TelcSprechenCriteria = {
+        expression: this.readLetter(p, 'expression'),
+        taskFulfilment: this.readLetter(p, 'taskFulfilment', 'task_fulfilment'),
+        formalAccuracy: this.readLetter(p, 'formalAccuracy', 'formal_accuracy'),
+        pronunciation: this.readLetter(p, 'pronunciation'),
       };
 
-      validateScore(p.grammar_score, 'grammar');
-      validateScore(p.vocabulary_score, 'vocabulary');
-      validateScore(p.coherence_score, 'coherence');
-      validateScore(p.overall_score, 'overall');
+      const telcRating = buildTelcSprechenRating(criteria, teilNumber);
+      const overall = scoreFromM10Points(
+        telcRating.points,
+        telcRating.maxPoints,
+      );
 
       if (typeof p.evaluation_text !== 'string' || !p.evaluation_text.trim())
         throw new Error('Missing evaluation_text');
 
-      const corrections: CorrectionDto[] = (
-        Array.isArray(p.corrections) ? p.corrections : []
-      )
+      const rawCorrections = Array.isArray(p.corrections) ? p.corrections : [];
+      const corrections: CorrectionDto[] = rawCorrections
         .slice(0, 10)
         .filter(
-          (c: Record<string, unknown>) =>
-            c.original && c.corrected && c.explanation && c.error_type,
+          (c): c is Record<string, unknown> =>
+            !!c &&
+            typeof c === 'object' &&
+            !!(c as Record<string, unknown>).original &&
+            !!(c as Record<string, unknown>).corrected &&
+            !!(c as Record<string, unknown>).explanation &&
+            !!(c as Record<string, unknown>).error_type,
         )
-        .map((c: Record<string, unknown>) => ({
+        .map((c) => ({
           original: String(c.original),
           corrected: String(c.corrected),
           explanation: String(c.explanation),
@@ -380,18 +395,42 @@ Also provide:
         }));
 
       const scores: ScoresDto = {
-        grammar: p.grammar_score,
-        vocabulary: p.vocabulary_score,
-        coherence: p.coherence_score,
-        overall: p.overall_score,
+        grammar: criterionPercent(
+          criteria.formalAccuracy,
+          teilNumber,
+          'formalAccuracy',
+        ),
+        vocabulary: criterionPercent(
+          criteria.expression,
+          teilNumber,
+          'expression',
+        ),
+        coherence: criterionPercent(
+          criteria.taskFulfilment,
+          teilNumber,
+          'taskFulfilment',
+        ),
+        overall,
       };
 
       return {
         evaluationText: p.evaluation_text,
         scores,
+        telcRating: {
+          expression: telcRating.expression,
+          taskFulfilment: telcRating.taskFulfilment,
+          formalAccuracy: telcRating.formalAccuracy,
+          pronunciation: telcRating.pronunciation,
+          points: telcRating.points,
+          maxPoints: telcRating.maxPoints,
+          teilNumber: telcRating.teilNumber,
+        },
         corrections,
-        strengths: p.strengths ?? '',
-        areas_for_improvement: p.areas_for_improvement ?? '',
+        strengths: typeof p.strengths === 'string' ? p.strengths : '',
+        areas_for_improvement:
+          typeof p.areas_for_improvement === 'string'
+            ? p.areas_for_improvement
+            : '',
       };
     } catch (error) {
       this.logger.error(
@@ -400,5 +439,17 @@ Also provide:
       this.logger.debug(`Raw response: ${response}`);
       throw new Error('EVALUATION_PARSE_FAILED');
     }
+  }
+
+  private readLetter(
+    parsed: Record<string, unknown>,
+    camel: string,
+    snake?: string,
+  ): TelcSprechenCriteria[keyof TelcSprechenCriteria] {
+    const value = parsed[camel] ?? (snake ? parsed[snake] : undefined);
+    if (!isTelcLetter(value)) {
+      throw new Error(`Invalid or missing telc letter for ${camel}`);
+    }
+    return value;
   }
 }
