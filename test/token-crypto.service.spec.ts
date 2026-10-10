@@ -82,10 +82,13 @@ describe('TokenCryptoService', () => {
 
     it('returns different values across calls', () => {
       const codes = new Set<string>();
-      for (let i = 0; i < 20; i++) {
+      // Draw until 20 uniques (birthday collisions on 20/1M are rare but
+      // have tripped CI). Cap attempts so a broken constant generator fails.
+      let attempts = 0;
+      while (codes.size < 20 && attempts < 100) {
         codes.add(service.generateNumericCode(6));
+        attempts += 1;
       }
-      // 20 codes from a 1M space — collisions effectively impossible
       expect(codes.size).toBe(20);
     });
 
