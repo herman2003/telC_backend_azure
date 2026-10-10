@@ -10,6 +10,7 @@ import {
   EXAM_AUDIO_SECRET,
   type GrantedPlay,
 } from '../centers/exam-audio.service';
+import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
 
 /** Claims on a training stream link (no exam attempt). */
 export interface TrainingAudioTokenClaims {
@@ -53,6 +54,7 @@ export class TrainingAudioService {
         audio_url: true,
         duration_minutes: true,
         exam_plays_allowed: true,
+        modelltest: { select: { number: true } },
       },
     });
     if (!audio) throw new NotFoundException('AUDIO_NOT_FOUND');
@@ -62,6 +64,8 @@ export class TrainingAudioService {
     if (!audio.duration_minutes || audio.duration_minutes < 1) {
       throw new BadRequestException('AUDIO_DURATION_MISSING');
     }
+
+    assertGuestMayAccessModelltest(opts.isGuest, audio.modelltest.number);
 
     const allowed = audio.exam_plays_allowed;
     const expiresAt = new Date(

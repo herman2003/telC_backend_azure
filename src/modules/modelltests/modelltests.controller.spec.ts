@@ -27,9 +27,12 @@ describe('ModelltestsController', () => {
     const list = [{ id: 'mt1', number: 1, title: 'Modelltest 1' }];
     mockService.getAll.mockResolvedValue(list);
 
-    const result = await controller.getAll();
+    const result = await controller.getAll({
+      studentId: 's1',
+      isGuest: false,
+    } as never);
 
-    expect(mockService.getAll).toHaveBeenCalledTimes(1);
+    expect(mockService.getAll).toHaveBeenCalledWith({ isGuest: false });
     expect(result).toBe(list);
   });
 
@@ -48,9 +51,12 @@ describe('ModelltestsController', () => {
     };
     mockService.getByNumber.mockResolvedValue(detail);
 
-    const result = await controller.getByNumber('1');
+    const result = await controller.getByNumber(
+      { studentId: 's1', isGuest: false } as never,
+      '1',
+    );
 
-    expect(mockService.getByNumber).toHaveBeenCalledWith(1);
+    expect(mockService.getByNumber).toHaveBeenCalledWith(1, { isGuest: false });
     expect(result).toBe(detail);
   });
 });

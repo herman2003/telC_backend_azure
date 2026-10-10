@@ -6,12 +6,16 @@ import type {
   ModelltestOfTheWeekDto,
 } from './dto/modelltest.dto';
 import { getSevenDayPeriod } from './seven-day-period';
+import {
+  assertGuestMayAccessModelltest,
+  guestMayAccessModelltest,
+} from '../../shared/guest-modelltest-access';
 
 @Injectable()
 export class ModelltestsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAll(): Promise<ModelltestListItemDto[]> {
+  async getAll(opts: { isGuest?: boolean } = {}): Promise<ModelltestListItemDto[]> {
     const rows = await this.prisma.modelltest.findMany({
       // Exam material is kept out of the training catalogue, so a sitting can
       // use a Modelltest no student has worked through. Everything that
@@ -19,27 +23,38 @@ export class ModelltestsService {
       where: { exam_only: false },
       orderBy: { number: 'asc' },
     });
-    return rows.map(({ id, number, title }) => ({ id, number, title }));
+    const visible =
+      opts.isGuest === true
+        ? rows.filter((row) => guestMayAccessModelltest(row.number))
+        : rows;
+    return visible.map(({ id, number, title }) => ({ id, number, title }));
   }
 
   /**
    * Training Modelltest for the current 7-day UTC window. Start-only surface;
    * does not expose Prep Pass exercise IDs.
    */
-  async getOfTheWeek(now: Date = new Date()): Promise<ModelltestOfTheWeekDto> {
+  async getOfTheWeek(
+    now: Date = new Date(),
+    opts: { isGuest?: boolean } = {},
+  ): Promise<ModelltestOfTheWeekDto> {
     const rows = await this.prisma.modelltest.findMany({
       where: { exam_only: false },
       orderBy: { number: 'asc' },
       select: { id: true, number: true, title: true },
     });
+    const pool =
+      opts.isGuest === true
+        ? rows.filter((row) => guestMayAccessModelltest(row.number))
+        : rows;
 
-    if (rows.length === 0) {
+    if (pool.length === 0) {
       throw new NotFoundException('No training Modelltest available');
     }
 
     const { periodIndex, periodStart, periodEnd } = getSevenDayPeriod(now);
     // Adding a new training MT changes N and therefore the index — expected.
-    const row = rows[periodIndex % rows.length];
+    const row = pool[periodIndex % pool.length];
 
     return {
       id: row.id,
@@ -50,7 +65,12 @@ export class ModelltestsService {
     };
   }
 
-  async getByNumber(number: number): Promise<ModelltestDetailDto> {
+  async getByNumber(
+    number: number,
+    opts: { isGuest?: boolean } = {},
+  ): Promise<ModelltestDetailDto> {
+    assertGuestMayAccessModelltest(opts.isGuest, number);
+
     const row = await this.prisma.modelltest.findFirst({
       // Same reason as getAll: a student must not reach exam material by
       // asking for it by number.

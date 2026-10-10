@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { ModelltestsService } from './modelltests.service';
 import { MODELLTEST_PERIOD_EPOCH_MS } from './seven-day-period';
 
@@ -89,6 +89,18 @@ describe('ModelltestsService', () => {
 
       expect(result).toEqual([]);
     });
+
+    it('hides Modelltest 3+ from guests', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue([
+        { id: 'mt1', number: 1, title: 'Modelltest 1', created_at: new Date() },
+        { id: 'mt2', number: 2, title: 'Modelltest 2', created_at: new Date() },
+        { id: 'mt3', number: 3, title: 'Modelltest 3', created_at: new Date() },
+      ]);
+
+      const result = await service.getAll({ isGuest: true });
+
+      expect(result.map((r) => r.number)).toEqual([1, 2]);
+    });
   });
 
   describe('getByNumber', () => {
@@ -131,6 +143,13 @@ describe('ModelltestsService', () => {
 
       await expect(service.getByNumber(99)).rejects.toThrow(NotFoundException);
     });
+
+    it('blocks guests from Modelltest 3 detail', async () => {
+      await expect(
+        service.getByNumber(3, { isGuest: true }),
+      ).rejects.toThrow(ForbiddenException);
+      expect(mockPrisma.modelltest.findFirst).not.toHaveBeenCalled();
+    });
   });
 
   describe('getOfTheWeek', () => {
@@ -154,6 +173,27 @@ describe('ModelltestsService', () => {
 
       expect(day0.number).toBe(1);
       expect(day7.number).toBe(2);
+    });
+
+    it('rotates guests only among allowlisted Modelltests', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue([
+        ...TRAINING_ROWS,
+        { id: 'mt3-uuid', number: 3, title: 'Modelltest 3' },
+      ]);
+
+      const day0 = await service.getOfTheWeek(daysAfterEpoch(0), {
+        isGuest: true,
+      });
+      const day7 = await service.getOfTheWeek(daysAfterEpoch(7), {
+        isGuest: true,
+      });
+      const day14 = await service.getOfTheWeek(daysAfterEpoch(14), {
+        isGuest: true,
+      });
+
+      expect(day0.number).toBe(1);
+      expect(day7.number).toBe(2);
+      expect(day14.number).toBe(1);
     });
 
     it('keeps a single MT across periods', async () => {

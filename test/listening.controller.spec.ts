@@ -123,7 +123,7 @@ describe('ListeningController', () => {
       };
       mockListeningService.getExercise.mockResolvedValue(payload);
 
-      const result = await controller.getExercise('1');
+      const result = await controller.getExercise(MOCK_STUDENT as any, '1');
 
       expect(mockListeningService.getExercise).toHaveBeenCalledWith('1', 1);
       expect(result).toBe(payload);

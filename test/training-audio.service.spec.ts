@@ -16,6 +16,7 @@ describe('TrainingAudioService', () => {
           audio_url: 'https://cdn.example/teil1.mp3',
           duration_minutes: 6,
           exam_plays_allowed: 1,
+          modelltest: { number: 1 },
         }),
       },
       trainingAudioPlay: {
@@ -82,6 +83,7 @@ describe('TrainingAudioService', () => {
         audio_url: '',
         duration_minutes: 6,
         exam_plays_allowed: 1,
+        modelltest: { number: 1 },
       });
 
       await expect(service.play(STUDENT, AUDIO)).rejects.toThrow(
@@ -95,6 +97,7 @@ describe('TrainingAudioService', () => {
         audio_url: 'https://cdn.example/teil1.mp3',
         duration_minutes: 0,
         exam_plays_allowed: 1,
+        modelltest: { number: 1 },
       });
 
       await expect(service.play(STUDENT, AUDIO)).rejects.toThrow(
@@ -111,6 +114,20 @@ describe('TrainingAudioService', () => {
       expect(granted.playsRemaining).toBeGreaterThanOrEqual(0);
       expect(prisma.trainingAudioPlay.create).not.toHaveBeenCalled();
       expect(prisma.trainingAudioPlay.updateMany).not.toHaveBeenCalled();
+    });
+
+    it('refuses a guest play for Modelltest 3 audio', async () => {
+      prisma.listeningExercise.findUnique.mockResolvedValue({
+        id: AUDIO,
+        audio_url: 'https://cdn.example/teil1.mp3',
+        duration_minutes: 6,
+        exam_plays_allowed: 1,
+        modelltest: { number: 3 },
+      });
+
+      await expect(
+        service.play('guest-uuid', AUDIO, { isGuest: true }),
+      ).rejects.toThrow('ACCOUNT_REQUIRED');
     });
   });
 

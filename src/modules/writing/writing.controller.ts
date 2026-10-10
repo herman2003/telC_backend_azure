@@ -34,6 +34,7 @@ import { RateLimitService } from '../../shared/services/rate-limit.service';
 import { ExerciseAttemptDto, WritingExerciseDto } from './dto';
 import { SubmitWritingDto } from './dto/submit-writing.dto';
 import { SubmitWritingResponseDto } from './dto/submit-writing-response.dto';
+import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
 
 @ApiTags('Writing')
 @ApiBearerAuth()
@@ -67,6 +68,7 @@ export class WritingController {
     description: 'modelltest query param is missing or not a number',
   })
   async getExerciseByModelltest(
+    @CurrentStudent() student: AccessTokenPayload | null,
     @Query('modelltest') modelltest: string,
   ): Promise<WritingExerciseDto> {
     const number = parseInt(modelltest, 10);
@@ -78,6 +80,7 @@ export class WritingController {
         messageKey: 'writingMissingModelltest',
       });
     }
+    assertGuestMayAccessModelltest(student?.isGuest, number);
     return this.writingService.getExerciseByModelltest(number);
   }
 

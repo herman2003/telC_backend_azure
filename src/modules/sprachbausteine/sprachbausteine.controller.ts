@@ -22,6 +22,7 @@ import {
 import { SubmitSprachbausteineDto } from './dto/submit-sprachbausteine.dto';
 import type { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
+import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
 
 /** Served when the caller omits ?modelltest= — keeps existing clients working. */
 const DEFAULT_MODELLTEST = 1;
@@ -49,9 +50,11 @@ export class SprachbausteineController {
     // caller silently receives Modelltest 1 instead of an error. Parsing the
     // raw string here keeps malformed input a 400. Same approach as
     // lesen.controller.ts and writing.controller.ts:69.
+    @CurrentStudent() student: AccessTokenPayload | null,
     @Query('modelltest') modelltest?: string,
   ): Promise<SprachbausteineExerciseResponseDto> {
     if (modelltest === undefined || modelltest === '') {
+      assertGuestMayAccessModelltest(student?.isGuest, DEFAULT_MODELLTEST);
       return this.sprachbausteineService.getExercise(DEFAULT_MODELLTEST);
     }
 
@@ -64,7 +67,9 @@ export class SprachbausteineController {
       });
     }
 
-    return this.sprachbausteineService.getExercise(Number(modelltest));
+    const number = Number(modelltest);
+    assertGuestMayAccessModelltest(student?.isGuest, number);
+    return this.sprachbausteineService.getExercise(number);
   }
 
   @Get('sessions')
@@ -101,6 +106,7 @@ export class SprachbausteineController {
     if (!student?.studentId) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
+    assertGuestMayAccessModelltest(student.isGuest, dto.modelltestNumber);
     return this.sprachbausteineService.submit(student.studentId, dto);
   }
 }
