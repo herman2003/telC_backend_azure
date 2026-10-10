@@ -100,6 +100,10 @@ describe('progress against real Postgres', () => {
       written: 80,
       oral: 80,
       ready: true,
+      // Official B1: 0.8 × (75+30+75+45) written + 0.8 × 75 oral.
+      pointsTotal: 240,
+      pointsWritten: 180,
+      pointsOral: 60,
     });
     expect(all.get(a.id)!.alerts).toEqual([]);
     expect(all.get(b.id)!.skills.lesen).toBe(7); // (20 + 0 + 0) / 3
@@ -154,8 +158,8 @@ describe('progress against real Postgres', () => {
     });
     expect(summary.skillAverages.lesen).toBe(10); // (30 + 0 + 0) / 3
     expect(summary.skillAverages.hoeren).toBeNull();
-    // Only the active student has a readiness: written 10 / 4 = 2.5, oral 0,
-    // 0.75 × 2.5 = 1.875 → 2. The one who never practised does not pull it.
-    expect(summary.averageReadiness).toBe(2);
+    // Only the active student has a readiness: Lesen 10% → 7.5 / 300 pts,
+    // score 2.5 → 3. The one who never practised does not pull it.
+    expect(summary.averageReadiness).toBe(3);
   });
 });
