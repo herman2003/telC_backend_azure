@@ -82,4 +82,25 @@ export class WritingExerciseDto {
     example: 'Vergessen Sie nicht Datum und Anrede.',
   })
   closingReminder?: string;
+
+  @ApiProperty({
+    description:
+      'Suggested Vorbereitung (prep) duration before the editor unlocks',
+    example: 120,
+  })
+  prepDurationSeconds: number;
+
+  @ApiProperty({
+    description: 'Suggested writing timer after Vorbereitung (telc ~30 min)',
+    example: 30,
+  })
+  writingDurationMinutes: number;
+
+  @ApiProperty({
+    description:
+      'Register checklist for Vorbereitung (soft — does not block Weiter)',
+    type: [String],
+    example: ['Betreff', 'Anrede', 'Einleitung', 'Schluss'],
+  })
+  registerChecklist: string[];
 }

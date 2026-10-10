@@ -109,6 +109,14 @@ describe('WritingService', () => {
       expect((result.stimulus as WritingExerciseStimulus).heading).toContain(
         'Büroräume',
       );
+      expect(result.prepDurationSeconds).toBe(120);
+      expect(result.writingDurationMinutes).toBe(30);
+      expect(result.registerChecklist).toEqual([
+        'Betreff',
+        'Anrede',
+        'Einleitung',
+        'Schluss',
+      ]);
     });
 
     it('throws NotFoundException when exercise not in DB', async () => {
