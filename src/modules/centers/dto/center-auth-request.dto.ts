@@ -66,6 +66,17 @@ export class CenterForgotPasswordDto {
   email: string;
 }
 
+/** Body for POST /api/center-auth/resend-verification — email only. */
+export class CenterResendVerificationDto {
+  @ApiProperty({ format: 'email', maxLength: 254 })
+  @NormalizeEmail()
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(254)
+  @IsEmail()
+  email: string;
+}
+
 export class CenterResetPasswordDto {
   @ApiProperty({ format: 'email', maxLength: 254 })
   @NormalizeEmail()

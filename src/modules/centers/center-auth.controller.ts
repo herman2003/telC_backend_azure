@@ -35,6 +35,7 @@ import {
   CenterForgotPasswordDto,
   CenterLoginDto,
   CenterRefreshTokenDto,
+  CenterResendVerificationDto,
   CenterResetPasswordDto,
   VerifyCenterEmailDto,
   VerifyCenterEmailPublicDto,
@@ -155,6 +156,28 @@ export class CenterAuthController {
    * signed token, so login remains the brute-force boundary; adding throttling
    * here is a separate policy decision.
    */
+  @Post('resend-verification')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Resend the center email-verification link',
+    description:
+      'Always returns the same response, whether or not an unverified account exists. Honours the same cooldown as register-for-existing.',
+  })
+  @ApiOkResponse({ type: CenterMessageResponseDto })
+  @ApiBadRequestResponse({ type: CenterErrorResponseDto })
+  @ApiTooManyRequestsResponse({ type: CenterErrorResponseDto })
+  @ApiBadGatewayResponse({ type: CenterErrorResponseDto })
+  async resendVerification(
+    @Ip() ip: string,
+    @Body() dto: CenterResendVerificationDto,
+  ): Promise<CenterMessageResponseDto> {
+    await this.rateLimitService.checkCenterResendVerificationLimit(
+      ip || 'unknown',
+      dto.email,
+    );
+    return this.centersService.resendVerificationEmail(dto.email);
+  }
+
   @Post('forgot-password')
   @ApiOperation({
     summary: 'Request a center password-reset code',

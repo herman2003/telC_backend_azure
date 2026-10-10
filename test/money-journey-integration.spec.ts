@@ -33,7 +33,14 @@ import { SubscriptionPolicyService } from '../src/modules/centers/subscription-p
 const prisma = new PrismaService();
 const policy = new SubscriptionPolicyService();
 const trials = new CenterTrialService(prisma);
-const redemption = new CodeRedemptionService(prisma, policy);
+const emailStub = {
+  sendCodeActivatedToCenter: () => Promise.resolve(),
+};
+const redemption = new CodeRedemptionService(
+  prisma,
+  policy,
+  emailStub as never,
+);
 const activation = new PaymentActivationService(prisma, policy);
 const purchases = new EntitlementPurchaseService(prisma);
 const spend = new EntitlementSpendService(

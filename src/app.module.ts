@@ -19,6 +19,7 @@ import { MeModule } from './modules/me/me.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LocationsModule } from './modules/locations/locations.module';
 import { PlansModule } from './modules/plans/plans.module';
+import { VitrineModule } from './modules/vitrine/vitrine.module';
 import { PrepTipsModule } from './modules/prep-tips/prep-tips.module';
 
 @Module({
@@ -57,6 +58,7 @@ import { PrepTipsModule } from './modules/prep-tips/prep-tips.module';
     LesenModule,
     LocationsModule,
     PlansModule,
+    VitrineModule,
     PrepTipsModule,
   ],
   controllers: [AppController],
