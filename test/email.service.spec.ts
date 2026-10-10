@@ -66,17 +66,22 @@ describe('EmailService', () => {
       VITRINE_URL: 'https://www.lerniqo.example',
     };
 
-    it('sends center verification to the center-specific route', async () => {
+    it('sends center verification to the center-specific route (Email-Confirmation)', async () => {
       const service = new EmailService(makeConfig(baseConfig));
       const send = (service as any).resend.emails.send as jest.Mock;
 
       await service.sendCenterVerificationEmail(
         'manager@example.com',
         'center-token',
+        'Sprachschule Douala',
       );
 
       const arg = send.mock.calls[0][0];
       expect(arg.to).toBe('manager@example.com');
+      expect(arg.subject).toBe('Bestätigen Sie Ihre E-Mail-Adresse');
+      expect(arg.html).toContain('Willkommen bei Lerniqo!');
+      expect(arg.html).toContain('Sprachschule Douala');
+      expect(arg.html).toContain('14-Tage-Test');
       // Both audiences verify on the same website page; `type=center` is what
       // tells it to call the center endpoint rather than the student one.
       // The HTML href is escaped, so the plain-text part carries the raw URL.
@@ -105,7 +110,7 @@ describe('EmailService', () => {
       expect(arg.html).toMatch(/Passwort vergessen/i);
     });
 
-    it('sends the center password-reset code without a reset link', async () => {
+    it('sends the center password-reset code without a reset link (Email-CodeMotDePasse)', async () => {
       const service = new EmailService(makeConfig(baseConfig));
       const send = (service as any).resend.emails.send as jest.Mock;
 
@@ -116,9 +121,72 @@ describe('EmailService', () => {
 
       const arg = send.mock.calls[0][0];
       expect(arg.to).toBe('manager@example.com');
+      expect(arg.subject).toBe('Ihr Lerniqo-Code: 907314');
       expect(arg.html).toContain('907314');
+      expect(arg.html).toContain('Ihr Code zum Zurücksetzen');
       expect(arg.text).toContain('907314');
       expect(arg.html).not.toMatch(/reset-password\?token=/);
+    });
+
+    it('sends password-changed notice with secure CTA (Email-MotDePasseModifie)', async () => {
+      const service = new EmailService(makeConfig(baseConfig));
+      const send = (service as any).resend.emails.send as jest.Mock;
+
+      await service.sendCenterPasswordChangedEmail('manager@example.com', {
+        deviceName: 'Chrome · macOS',
+        at: new Date('2026-10-10T12:40:00.000Z'),
+      });
+
+      const arg = send.mock.calls[0][0];
+      expect(arg.subject).toBe('Ihr Passwort wurde geändert');
+      expect(arg.html).toContain('Passwort geändert');
+      expect(arg.html).toContain('Chrome · macOS');
+      expect(arg.html).toContain('Konto sichern');
+      expect(arg.text).toContain(
+        'https://www.lerniqo.example/center/forgot-password',
+      );
+    });
+
+    it('alerts the team when a new center registers (Email-NouveauCentre)', async () => {
+      const service = new EmailService(
+        makeConfig({ ...baseConfig, SUPPORT_EMAIL: 'team@lerniqo.tech' }),
+      );
+      const send = (service as any).resend.emails.send as jest.Mock;
+
+      await service.sendNewCenterRegisteredToTeam({
+        managerFirstName: 'Amina',
+        managerLastName: 'Ngo',
+        email: 'direction@ecole.cm',
+        centerName: 'Sprachschule Douala',
+        locale: 'Deutsch',
+      });
+
+      const arg = send.mock.calls[0][0];
+      expect(arg.to).toBe('team@lerniqo.tech');
+      expect(arg.subject).toContain('Sprachschule Douala');
+      expect(arg.html).toContain('Amina Ngo');
+      expect(arg.html).toContain('direction@ecole.cm');
+      expect(arg.html).toContain('Willkommen wünschen');
+    });
+
+    it('notifies the center when a code is activated (Email-CodeActive)', async () => {
+      const service = new EmailService(makeConfig(baseConfig));
+      const send = (service as any).resend.emails.send as jest.Mock;
+
+      await service.sendCodeActivatedToCenter({
+        to: 'manager@example.com',
+        codeMasked: '••••-9XLM',
+        studentName: 'Kevin Mbarga',
+        planLabel: 'Start',
+        seatsUsedLabel: '8 von 10',
+      });
+
+      const arg = send.mock.calls[0][0];
+      expect(arg.subject).toBe('Ein Code wurde aktiviert');
+      expect(arg.html).toContain('Kevin Mbarga');
+      expect(arg.html).toContain('••••-9XLM');
+      expect(arg.html).toContain('8 von 10');
+      expect(arg.html).toContain('Dashboard öffnen');
     });
   });
 
@@ -151,7 +219,7 @@ describe('EmailService', () => {
         'Dein Lerniqo-Code zum Zurücksetzen des Passworts',
       );
       expect(arg.html).toContain('cid:lerniqo-logo');
-      expect(arg.html).toContain('www.lerniqo.tech');
+      expect(arg.html).toContain('lerniqo.tech');
       expect(arg.text).toContain('Dein Bestätigungscode: 042713');
       expect(arg.attachments).toEqual([
         expect.objectContaining({
@@ -227,11 +295,38 @@ describe('EmailService', () => {
         'center password reset',
         (s) => s.sendCenterPasswordResetEmail('a@b.co', '123456'),
       ],
+      [
+        'center password changed',
+        (s) => s.sendCenterPasswordChangedEmail('a@b.co'),
+      ],
+      [
+        'new center to team',
+        (s) =>
+          s.sendNewCenterRegisteredToTeam({
+            managerFirstName: 'A',
+            managerLastName: 'B',
+            email: 'a@b.co',
+            centerName: 'School',
+          }),
+      ],
+      [
+        'code activated',
+        (s) =>
+          s.sendCodeActivatedToCenter({
+            to: 'a@b.co',
+            codeMasked: '••••-ABCD',
+            studentName: 'Stu',
+            planLabel: 'Start',
+            seatsUsedLabel: '1 von 1',
+          }),
+      ],
       ['student welcome', (s) => s.sendStudentWelcomeEmail('a@b.co', 'Awa')],
     ];
 
     it.each(cases)('%s is branded and complete', async (_name, sendIt) => {
-      const service = new EmailService(makeConfig(config));
+      const service = new EmailService(
+        makeConfig({ ...config, SUPPORT_EMAIL: 'team@lerniqo.tech' }),
+      );
       const send = (service as any).resend.emails.send as jest.Mock;
 
       await sendIt(service);
@@ -240,7 +335,7 @@ describe('EmailService', () => {
       // The shell
       expect(arg.html).toContain('<!doctype html>');
       expect(arg.html).toContain('cid:lerniqo-logo');
-      expect(arg.html).toContain('www.lerniqo.tech');
+      expect(arg.html).toContain('lerniqo.tech');
 
       // The logo actually travels with the message, so it renders even when
       // the client blocks remote images.
@@ -258,7 +353,9 @@ describe('EmailService', () => {
     it.each(cases)(
       '%s never leaks an unsubstituted placeholder',
       async (_n, sendIt) => {
-        const service = new EmailService(makeConfig(config));
+        const service = new EmailService(
+          makeConfig({ ...config, SUPPORT_EMAIL: 'team@lerniqo.tech' }),
+        );
         const send = (service as any).resend.emails.send as jest.Mock;
 
         await sendIt(service);

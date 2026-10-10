@@ -152,10 +152,18 @@ export class CentersService {
       return REGISTRATION_RESPONSE;
     }
 
+    const centerName = await this.prisma.centerUser
+      .findUnique({
+        where: { id: existing.id },
+        select: { center: { select: { name: true } } },
+      })
+      .then((row) => row?.center.name);
+
     try {
       await this.emailService.sendExistingCenterVerificationEmail(
         email,
         rawToken,
+        centerName,
       );
     } catch {
       await this.clearFailedVerificationToken(existing.id, tokenHash);
@@ -228,10 +236,31 @@ export class CentersService {
       // Delivery stays outside the transaction so provider latency or failure
       // cannot hold database locks or roll back the created identity.
       try {
-        await this.emailService.sendCenterVerificationEmail(email, rawToken);
+        await this.emailService.sendCenterVerificationEmail(
+          email,
+          rawToken,
+          input.centerName,
+        );
       } catch {
         await this.clearFailedVerificationToken(centerUserId, tokenHash);
         throw new BadGatewayException('EMAIL_DELIVERY_FAILED');
+      }
+
+      // Team alert is best-effort: a failure must not undo registration or
+      // leave the manager without their verification link.
+      try {
+        await this.emailService.sendNewCenterRegisteredToTeam({
+          managerFirstName: input.managerFirstName,
+          managerLastName: input.managerLastName,
+          email,
+          centerName: input.centerName,
+        });
+      } catch (error) {
+        this.logger.warn(
+          `New-center team email failed for ${email}: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        );
       }
     } catch (error) {
       if (this.isUniqueConstraintError(error)) {

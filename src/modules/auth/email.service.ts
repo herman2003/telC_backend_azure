@@ -9,6 +9,9 @@ import {
   type EmailContent,
 } from './email.template';
 
+/** Same fallback as `DEFAULT_SUPPORT_EMAIL` in center-support (avoid cycle). */
+const TEAM_EMAIL_FALLBACK = 'ngeukeualain@gmail.com';
+
 @Injectable()
 export class EmailService {
   private readonly resend: Resend;
@@ -131,31 +134,43 @@ export class EmailService {
     });
   }
 
+  /**
+   * Maquette `Email-Confirmation` — sent on center register / resend.
+   * `centerName` is interpolated into the body when known.
+   */
   async sendCenterVerificationEmail(
     to: string,
     rawToken: string,
+    centerName?: string,
   ): Promise<void> {
     const link = this.verificationLink(rawToken, true);
+    const school = centerName?.trim();
+    const body = school
+      ? `Das Konto der ${school} ist fast bereit. Bestätigen Sie Ihre Adresse, um es zu aktivieren und Ihren 14-Tage-Test zu starten.`
+      : 'Ihr Zentrumskonto ist fast bereit. Bestätigen Sie Ihre Adresse, um es zu aktivieren und Ihren 14-Tage-Test zu starten.';
 
     await this.send(to, {
-      subject: 'Bestätigen Sie Ihr Lerniqo-Sprachschulkonto',
-      preheader: 'Nur noch ein Schritt bis zu Ihrem Sprachschulkonto.',
-      heading: 'Sprachschulkonto bestätigen',
+      subject: 'Bestätigen Sie Ihre E-Mail-Adresse',
+      preheader: 'Willkommen bei Lerniqo — nur noch ein Klick.',
+      heading: 'Willkommen bei Lerniqo!',
       paragraphs: [
-        'Willkommen bei Lerniqo für Sprachschulen.',
-        'Bestätigen Sie Ihre E-Mail-Adresse, um die Einrichtung Ihres Sprachschulkontos abzuschließen:',
+        escapeHtml(body),
+        'Dieser Link ist 24 Stunden gültig.',
+        'Sie haben sich nicht registriert? Ignorieren Sie diese E-Mail einfach.',
       ],
       action: { label: 'E-Mail bestätigen', url: link },
-      notice:
-        'Wenn Sie dieses Konto nicht angefordert haben, können Sie diese E-Mail ignorieren.',
+      footer:
+        'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
       text: [
-        'Sprachschulkonto bestätigen',
+        'Willkommen bei Lerniqo!',
         '',
-        'Willkommen bei Lerniqo für Sprachschulen.',
-        'Bestätigen Sie Ihre E-Mail-Adresse, um die Einrichtung abzuschließen:',
+        body,
+        '',
+        'E-Mail bestätigen:',
         link,
         '',
-        'Wenn Sie dieses Konto nicht angefordert haben, können Sie diese E-Mail ignorieren.',
+        'Dieser Link ist 24 Stunden gültig.',
+        'Sie haben sich nicht registriert? Ignorieren Sie diese E-Mail einfach.',
       ].join('\n'),
     });
   }
@@ -163,25 +178,31 @@ export class EmailService {
   async sendExistingCenterVerificationEmail(
     to: string,
     rawToken: string,
+    centerName?: string,
   ): Promise<void> {
     const link = this.verificationLink(rawToken, true);
+    const school = centerName?.trim();
 
     await this.send(to, {
-      subject: 'Schließen Sie die Einrichtung Ihres Sprachschulkontos ab',
+      subject: 'Bestätigen Sie Ihre E-Mail-Adresse',
       preheader:
         'Für diese Adresse besteht bereits ein unbestätigtes Sprachschulkonto.',
-      heading: 'Konto noch nicht bestätigt',
+      heading: 'Willkommen bei Lerniqo!',
       paragraphs: [
-        'Für diese E-Mail-Adresse besteht bereits ein unbestätigtes Sprachschulkonto.',
-        'Bestätigen Sie es mit diesem neuen Link:',
+        school
+          ? `Für diese Adresse besteht bereits ein unbestätigtes Konto (${escapeHtml(school)}). Bestätigen Sie es mit diesem neuen Link:`
+          : 'Für diese Adresse besteht bereits ein unbestätigtes Sprachschulkonto. Bestätigen Sie es mit diesem neuen Link:',
+        'Dieser Link ist 24 Stunden gültig.',
       ],
       action: { label: 'E-Mail bestätigen', url: link },
       notice:
-        'Ihr Passwort und Ihre Sprachschuldaten wurden nicht geändert. Wenn Sie das Passwort nicht mehr kennen, bestätigen Sie zuerst Ihre E-Mail-Adresse und nutzen Sie dann die Funktion &bdquo;Passwort vergessen&ldquo;. Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren.',
+        'Ihr Passwort und Ihre Sprachschuldaten wurden nicht geändert. Wenn Sie das Passwort nicht mehr kennen, bestätigen Sie zuerst Ihre E-Mail-Adresse und nutzen Sie dann &bdquo;Passwort vergessen&ldquo;.',
+      footer:
+        'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
       text: [
-        'Konto noch nicht bestätigt',
+        'Willkommen bei Lerniqo!',
         '',
-        'Für diese E-Mail-Adresse besteht bereits ein unbestätigtes Sprachschulkonto.',
+        'Für diese Adresse besteht bereits ein unbestätigtes Sprachschulkonto.',
         'Bestätigen Sie es mit diesem neuen Link:',
         link,
         '',
@@ -190,30 +211,174 @@ export class EmailService {
     });
   }
 
+  /** Maquette `Email-CodeMotDePasse` — 6-digit code (TTL matches backend: 10 min). */
   async sendCenterPasswordResetEmail(
     to: string,
     rawCode: string,
   ): Promise<void> {
     await this.send(to, {
-      subject: 'Ihr Lerniqo-Code zum Zurücksetzen des Passworts',
-      preheader:
-        'Mit diesem Code setzen Sie das Passwort Ihres Sprachschulkontos zurück.',
-      heading: 'Passwort zurücksetzen',
+      subject: `Ihr Lerniqo-Code: ${rawCode}`,
+      preheader: 'Ihr Code zum Zurücksetzen des Passworts.',
+      heading: 'Ihr Code zum Zurücksetzen',
       paragraphs: [
-        'Wir haben eine Anfrage erhalten, das Passwort Ihres Lerniqo-Sprachschulkontos zurückzusetzen.',
+        'Geben Sie diesen Code auf der Seite „Passwort vergessen“ ein, um ein neues Passwort zu wählen.',
+        'Er läuft in 10 Minuten ab.',
+        'Nichts angefordert? Ignorieren Sie diese E-Mail: Ihr Passwort bleibt unverändert.',
       ],
-      code: { label: 'Ihr Bestätigungscode:', value: rawCode },
-      notice:
-        '<strong>Sicherheitshinweis:</strong> Der Code ist 10 Minuten gültig. Beim Zurücksetzen werden alle angemeldeten Geräte abgemeldet. Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren &mdash; Ihr Passwort bleibt unverändert.',
+      code: { label: 'Ihr Code', value: rawCode },
+      footer:
+        'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
       text: [
-        'Passwort zurücksetzen',
+        'Ihr Code zum Zurücksetzen',
         '',
-        'Wir haben eine Anfrage erhalten, das Passwort Ihres Lerniqo-Sprachschulkontos zurückzusetzen.',
+        'Geben Sie diesen Code auf der Seite „Passwort vergessen“ ein.',
         '',
-        `Ihr Bestätigungscode: ${rawCode}`,
+        `Ihr Code: ${rawCode}`,
         '',
-        'Der Code ist 10 Minuten gültig. Beim Zurücksetzen werden alle angemeldeten Geräte abgemeldet.',
-        'Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren.',
+        'Er läuft in 10 Minuten ab.',
+        'Nichts angefordert? Ignorieren Sie diese E-Mail.',
+      ].join('\n'),
+    });
+  }
+
+  /** Maquette `Email-MotDePasseModifie` — after reset or change-password. */
+  async sendCenterPasswordChangedEmail(
+    to: string,
+    details?: { deviceName?: string; at?: Date },
+  ): Promise<void> {
+    const when = (details?.at ?? new Date()).toLocaleString('de-DE', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+      timeZone: 'Europe/Berlin',
+    });
+    const device = details?.deviceName?.trim() || 'Unbekanntes Gerät';
+    const secureUrl = `${this.getVitrineUrl()}/center/forgot-password`;
+
+    await this.send(to, {
+      subject: 'Ihr Passwort wurde geändert',
+      preheader: 'Das Passwort Ihres Zentrumskontos wurde geändert.',
+      heading: 'Passwort geändert',
+      paragraphs: [
+        'Das Passwort des Zentrumskontos wurde geändert. Andere Geräte wurden abgemeldet.',
+      ],
+      rows: [
+        { label: 'Datum', value: when },
+        { label: 'Gerät', value: device },
+      ],
+      notice:
+        '<strong>Das waren nicht Sie?</strong> Sichern Sie Ihr Konto sofort.',
+      action: { label: 'Konto sichern', url: secureUrl },
+      footer:
+        'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
+      text: [
+        'Passwort geändert',
+        '',
+        'Das Passwort des Zentrumskontos wurde geändert. Andere Geräte wurden abgemeldet.',
+        `Datum: ${when}`,
+        `Gerät: ${device}`,
+        '',
+        'Das waren nicht Sie? Sichern Sie Ihr Konto:',
+        secureUrl,
+      ].join('\n'),
+    });
+  }
+
+  /** Maquette `Email-NouveauCentre` — internal alert to the Lerniqo team. */
+  async sendNewCenterRegisteredToTeam(input: {
+    managerFirstName: string;
+    managerLastName: string;
+    email: string;
+    centerName: string;
+    locale?: string;
+  }): Promise<void> {
+    const team =
+      this.config.get<string>('SUPPORT_EMAIL')?.trim() || TEAM_EMAIL_FALLBACK;
+
+    const when = new Date().toLocaleString('de-DE', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+      timeZone: 'Europe/Berlin',
+    });
+    const trialEnds = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+    const trialEndsLabel = trialEnds.toLocaleDateString('de-DE', {
+      dateStyle: 'long',
+      timeZone: 'Europe/Berlin',
+    });
+    const fullName =
+      `${input.managerFirstName.trim()} ${input.managerLastName.trim()}`.trim();
+    const dashUrl = `${this.getVitrineUrl()}/center/login`;
+
+    await this.send(team, {
+      subject: `Neuer Center registriert — ${input.centerName.trim()}`,
+      preheader: 'Ein neuer Center hat ein Konto erstellt.',
+      heading: 'Ein neuer Center hat sein Konto erstellt',
+      paragraphs: [
+        'Der 14-Tage-Test ist gestartet. Angaben bei der Registrierung:',
+      ],
+      rows: [
+        { label: 'Name', value: fullName },
+        { label: 'E-Mail', value: input.email.trim().toLowerCase() },
+        { label: 'Center', value: input.centerName.trim() },
+        { label: 'Sprache', value: input.locale?.trim() || '—' },
+        { label: 'Datum', value: when },
+        { label: 'Ende des Tests', value: trialEndsLabel },
+      ],
+      action: { label: 'Willkommen wünschen', url: dashUrl },
+      footer:
+        'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
+      text: [
+        'Ein neuer Center hat sein Konto erstellt',
+        '',
+        `Name: ${fullName}`,
+        `E-Mail: ${input.email}`,
+        `Center: ${input.centerName}`,
+        `Datum: ${when}`,
+        `Ende des Tests: ${trialEndsLabel}`,
+      ].join('\n'),
+    });
+  }
+
+  /** Maquette `Email-CodeActive` — notify the center when a seat is redeemed. */
+  async sendCodeActivatedToCenter(input: {
+    to: string;
+    codeMasked: string;
+    studentName: string;
+    planLabel: string;
+    seatsUsedLabel: string;
+    at?: Date;
+  }): Promise<void> {
+    const when = (input.at ?? new Date()).toLocaleString('de-DE', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+      timeZone: 'Europe/Berlin',
+    });
+    const dashUrl = `${this.getVitrineUrl()}/center/dashboard`;
+
+    await this.send(input.to, {
+      subject: 'Ein Code wurde aktiviert',
+      preheader: 'Ein Code Ihres Zentrums wurde gerade verwendet.',
+      heading: 'Neue:r Lernende:r aktiviert',
+      paragraphs: ['Ein Code Ihres Zentrums wurde gerade verwendet.'],
+      rows: [
+        { label: 'Code', value: input.codeMasked },
+        { label: 'Lernende:r', value: input.studentName },
+        { label: 'Tarif', value: input.planLabel },
+        { label: 'Datum', value: when },
+        { label: 'Belegte Plätze', value: input.seatsUsedLabel },
+      ],
+      action: { label: 'Dashboard öffnen', url: dashUrl },
+      footer:
+        'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.',
+      text: [
+        'Neue:r Lernende:r aktiviert',
+        '',
+        'Ein Code Ihres Zentrums wurde gerade verwendet.',
+        `Code: ${input.codeMasked}`,
+        `Lernende:r: ${input.studentName}`,
+        `Tarif: ${input.planLabel}`,
+        `Datum: ${when}`,
+        `Belegte Plätze: ${input.seatsUsedLabel}`,
+        dashUrl,
       ].join('\n'),
     });
   }

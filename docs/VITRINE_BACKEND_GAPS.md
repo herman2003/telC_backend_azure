@@ -22,8 +22,19 @@ Réponse : `{ "platforms": [ { id, url, version, sizeLabel, minVersion }, … ] 
 IDs : `web` | `windows` | `macos` | `linux` | `android`.  
 `url: null` = pas encore publié. Config via `DOWNLOAD_URL_*` / `DOWNLOAD_VERSION_*` / etc. (voir `.env.example`).
 
+## 4. E-mails transactionnels centre (gabarits maquettes)
+
+Shell HTML aligné vitrine (`#0061A4`, CTA pill, footer lerniqo.tech). Envois :
+
+| Maquette | Déclencheur |
+|---|---|
+| Email-Confirmation | `register` / `resend-verification` |
+| Email-CodeMotDePasse | `forgot-password` (TTL réel : 10 min) |
+| Email-MotDePasseModifie | après `reset-password` / `change-password` |
+| Email-NouveauCentre | après register réussi → `SUPPORT_EMAIL` |
+| Email-CodeActive | après `redeem-code` → owners du centre |
+
 ## Hors scope de cette branche
 
 - Inscription centre en 2 temps strict (compte sans `centerName`) — voir demande existante côté sprach.
-- Refonte HTML des e-mails (Confirmation, CodeActive, …) — gabarits maquettes à porter séparément.
 - Réservation démo Google/Resend — route handlers Next.js dans `sprach`, pas Nest.

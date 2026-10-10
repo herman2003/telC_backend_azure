@@ -3,12 +3,14 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { ActivationCodeStatus, Prisma, type CenterPlan } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { PLAN_ID, type PlanId } from '../../shared/plan-id';
 import { isUniqueViolationOn } from '../../shared/prisma-errors';
+import { EmailService } from '../auth/email.service';
 import { normalizeActivationCode } from './activation-code-format';
 import { SubscriptionPolicyService } from './subscription-policy.service';
 
@@ -39,11 +41,14 @@ interface CenterFacts {
  */
 @Injectable()
 export class CodeRedemptionService {
+  private readonly logger = new Logger(CodeRedemptionService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     // The same policy the rest of the system reads. A second opinion on
     // "is this center active" is how one path grants what the other refuses.
     private readonly policy: SubscriptionPolicyService,
+    private readonly email: EmailService,
   ) {}
 
   /**
@@ -286,7 +291,72 @@ export class CodeRedemptionService {
       throw error;
     }
 
+    await this.notifyCenterCodeActivated({
+      centerId: code.center_id,
+      codeValue: code.code,
+      studentId: student.studentId,
+    });
+
     return this.toResult(code.center, code.expires_at);
+  }
+
+  /**
+   * Maquette `Email-CodeActive` — best-effort; redemption already succeeded.
+   */
+  private async notifyCenterCodeActivated(input: {
+    centerId: string;
+    codeValue: string;
+    studentId: string;
+  }): Promise<void> {
+    try {
+      const [owners, student, used, seats] = await Promise.all([
+        this.prisma.centerUser.findMany({
+          where: { center_id: input.centerId, role: 'OWNER' },
+          select: { email: true },
+        }),
+        this.prisma.student.findUnique({
+          where: { id: input.studentId },
+          select: { first_name: true, last_name: true, email: true },
+        }),
+        this.prisma.activationCode.count({
+          where: {
+            center_id: input.centerId,
+            status: ActivationCodeStatus.CONNECTED,
+          },
+        }),
+        this.prisma.centerSeat.aggregate({
+          where: { center_id: input.centerId },
+          _sum: { quantity: true },
+        }),
+      ]);
+
+      if (owners.length === 0) return;
+
+      const studentName =
+        [student?.first_name, student?.last_name].filter(Boolean).join(' ') ||
+        student?.email ||
+        '—';
+      const total = seats._sum.quantity ?? 0;
+      const codeMasked = `••••-${input.codeValue.slice(-4)}`;
+
+      await Promise.all(
+        owners.map((owner) =>
+          this.email.sendCodeActivatedToCenter({
+            to: owner.email,
+            codeMasked,
+            studentName,
+            planLabel: 'Start',
+            seatsUsedLabel: `${used} von ${total}`,
+          }),
+        ),
+      );
+    } catch (error) {
+      this.logger.warn(
+        `Code-activated email failed for center ${input.centerId}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
   }
 
   /**

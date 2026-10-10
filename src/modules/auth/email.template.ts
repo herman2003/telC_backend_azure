@@ -2,36 +2,31 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 
 /**
- * The Lerniqo transactional email shell.
+ * Lerniqo transactional email shell — aligned with vitrine maquettes
+ * (`docs/maquettes/source/Email-*.dc.html`): navy #0061A4, pill CTA, light footer.
  *
- * Extracted from the password-reset email, which was the only branded message
- * of the six. Table-based layout with inline styles because that is what mail
- * clients render reliably — Outlook in particular ignores most of a stylesheet
- * and much of flexbox. The logo travels as a CID attachment rather than a
- * hosted image so it survives the remote-image blocking most clients apply by
- * default.
+ * Table + inline styles for Outlook; logo as CID attachment.
  */
 
-const NAVY = '#06285a';
-const INK = '#172033';
-const PAGE_BG = '#f3f6fa';
+const NAVY = '#0061A4';
+const INK = '#1A1C1E';
+const MUTED = '#43474E';
+const FOOT = '#5C6169';
+const PAGE_BG = '#EEF1F6';
+const CARD_BORDER = '#DFE2EB';
 
 export interface EmailContent {
-  /** Subject line, also used as the document title. */
   subject: string;
-  /** Hidden preview line shown in the inbox list before the body. */
   preheader: string;
   heading: string;
-  /** Paragraphs of body copy, rendered above any callout. */
   paragraphs: string[];
-  /** A prominent monospace code, for the reset-code emails. */
+  /** Key/value rows (MotDePasseModifie, NouveauCentre, CodeActive). */
+  rows?: { label: string; value: string }[];
   code?: { label: string; value: string };
-  /** A primary call-to-action button. */
   action?: { label: string; url: string };
-  /** Amber security note at the foot of the body. */
   notice?: string;
-  /** Plain-text alternative. Required: a text/plain part improves both
-   *  deliverability and accessibility, and some clients show nothing without it. */
+  /** Override default footer line (maquette `foot`). */
+  footer?: string;
   text: string;
 }
 
@@ -51,50 +46,69 @@ export const escapeHtml = (value: string): string =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
+const DEFAULT_FOOTER =
+  'Sie erhalten diese E-Mail aufgrund einer Aktion auf lerniqo.tech.';
+
 export function renderLerniqoEmail(content: EmailContent): string {
   const paragraphs = content.paragraphs
     .map(
       (p) =>
-        `<p style="margin:0 0 18px;font-size:16px;line-height:1.65;">${p}</p>`,
+        `<p style="margin:0 0 18px;font-size:15px;line-height:1.65;color:${MUTED};">${p}</p>`,
     )
     .join('\n');
 
+  const rowsBlock =
+    content.rows && content.rows.length > 0
+      ? `
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;margin:0 0 18px;border:1px solid ${CARD_BORDER};border-radius:12px;overflow:hidden;">
+                  ${content.rows
+                    .map(
+                      (row, index) => `
+                  <tr>
+                    <td style="padding:12px 16px;font-size:14px;line-height:1.5;color:${FOOT};border-top:${index === 0 ? '0' : `1px solid ${CARD_BORDER}`};width:40%;">${escapeHtml(row.label)}</td>
+                    <td style="padding:12px 16px;font-size:14px;line-height:1.5;color:${INK};font-weight:700;border-top:${index === 0 ? '0' : `1px solid ${CARD_BORDER}`};">${escapeHtml(row.value)}</td>
+                  </tr>`,
+                    )
+                    .join('')}
+                </table>`
+      : '';
+
   const codeBlock = content.code
     ? `
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#f7f9fc;border:1px solid #cbd9eb;border-radius:14px;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#F7F9FC;border:1px solid ${CARD_BORDER};border-radius:14px;margin:0 0 18px;">
                   <tr>
                     <td align="center" style="padding:24px 16px;">
-                      <p style="margin:0 0 12px;color:${INK};font-size:15px;line-height:1.4;font-weight:700;">${content.code.label}</p>
-                      <p style="margin:0;color:${NAVY};font-family:'Courier New',Courier,monospace;font-size:38px;line-height:1.2;font-weight:800;letter-spacing:8px;">${content.code.value}</p>
+                      <p style="margin:0 0 12px;color:${INK};font-size:15px;line-height:1.4;font-weight:700;">${escapeHtml(content.code.label)}</p>
+                      <p style="margin:0;color:${NAVY};font-family:'Courier New',Courier,monospace;font-size:38px;line-height:1.2;font-weight:800;letter-spacing:8px;">${escapeHtml(content.code.value)}</p>
                     </td>
                   </tr>
                 </table>`
     : '';
 
-  // The URL is also rendered as text: some clients strip or rewrite buttons,
-  // and a visible link means the recipient can always copy it by hand.
   const actionBlock = content.action
     ? `
-                <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:8px auto 20px;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:4px 0 20px;">
                   <tr>
-                    <td align="center" bgcolor="${NAVY}" style="border-radius:10px;">
-                      <a href="${escapeHtml(content.action.url)}" style="display:inline-block;padding:14px 32px;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:10px;">${content.action.label}</a>
+                    <td align="center" bgcolor="${NAVY}" style="border-radius:999px;">
+                      <a href="${escapeHtml(content.action.url)}" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;border-radius:999px;">${escapeHtml(content.action.label)}</a>
                     </td>
                   </tr>
                 </table>
-                <p style="margin:0 0 18px;font-size:13px;line-height:1.6;color:#667085;word-break:break-all;">
+                <p style="margin:0 0 18px;font-size:13px;line-height:1.6;color:${FOOT};word-break:break-all;">
                   ${escapeHtml(content.action.url)}
                 </p>`
     : '';
 
   const noticeBlock = content.notice
     ? `
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#fff8e8;border:1px solid #f2b441;border-radius:10px;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#FBEBDD;border:1px solid #E0A266;border-radius:10px;">
                   <tr>
-                    <td style="padding:16px;color:#694f00;font-size:14px;line-height:1.6;">${content.notice}</td>
+                    <td style="padding:16px;color:#6B3A0C;font-size:14px;line-height:1.6;">${content.notice}</td>
                   </tr>
                 </table>`
     : '';
+
+  const footerLine = content.footer ?? DEFAULT_FOOTER;
 
   return `<!doctype html>
 <html lang="de">
@@ -110,28 +124,35 @@ export function renderLerniqoEmail(content: EmailContent): string {
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:${PAGE_BG};">
       <tr>
         <td align="center" style="padding:32px 16px;">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:560px;background-color:#ffffff;border:1px solid #dfe7f1;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(15,35,65,0.08);">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:600px;background-color:#ffffff;border:1px solid ${CARD_BORDER};border-radius:16px;overflow:hidden;">
             <tr>
-              <td align="center" style="padding:28px 36px;background-color:${NAVY};">
-                <img src="cid:lerniqo-logo" width="150" alt="Lerniqo" style="display:block;width:150px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;">
+              <td style="padding:22px 32px;border-bottom:1px solid ${PAGE_BG};">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                  <tr>
+                    <td style="vertical-align:middle;padding-right:10px;">
+                      <img src="cid:lerniqo-logo" width="30" height="30" alt="Lerniqo" style="display:block;width:30px;height:30px;border:0;outline:none;">
+                    </td>
+                    <td style="vertical-align:middle;font-size:19px;font-weight:800;color:${NAVY};">Lerniqo</td>
+                  </tr>
+                </table>
               </td>
             </tr>
 
             <tr>
-              <td style="padding:38px 36px 34px;">
-                <h1 style="margin:0 0 24px;color:${NAVY};font-size:26px;line-height:1.25;font-weight:800;text-align:center;">${escapeHtml(content.heading)}</h1>
+              <td style="padding:32px;">
+                <h1 style="margin:0 0 18px;color:${INK};font-size:26px;line-height:1.2;font-weight:800;letter-spacing:-0.01em;">${escapeHtml(content.heading)}</h1>
 ${paragraphs}
-${actionBlock}
+${rowsBlock}
 ${codeBlock}
 ${noticeBlock}
+${actionBlock}
               </td>
             </tr>
 
             <tr>
-              <td align="center" style="padding:24px 36px;background-color:#f9fbfd;border-top:1px solid #dfe7f1;color:#667085;font-size:13px;line-height:1.6;">
-                <strong style="color:${INK};font-size:16px;">Lerniqo</strong><br>
-                Deine KI-gestützte Prüfungsvorbereitung für die telC-Sprachprüfung.<br>
-                <span style="color:#086bd8;">www.lerniqo.tech</span>
+              <td style="padding:22px 32px;background-color:#F7F9FC;border-top:1px solid ${PAGE_BG};color:${FOOT};font-size:12px;line-height:1.6;">
+                ${escapeHtml(footerLine)}<br>
+                KOM GROUPE · Matoua, Kamerun · <a href="mailto:contact@lerniqo.tech" style="color:${NAVY};">contact@lerniqo.tech</a> · WhatsApp +49 157 34177259
               </td>
             </tr>
           </table>

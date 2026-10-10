@@ -20,9 +20,13 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const daysFromNow = (days: number) => new Date(Date.now() + days * DAY_MS);
 
 const prisma = new PrismaService();
+const emailStub = {
+  sendCodeActivatedToCenter: async () => undefined,
+} as any;
 const redemption = new CodeRedemptionService(
   prisma,
   new SubscriptionPolicyService(),
+  emailStub,
 );
 
 async function wipe() {

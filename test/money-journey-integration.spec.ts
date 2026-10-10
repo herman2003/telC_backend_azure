@@ -33,7 +33,10 @@ import { SubscriptionPolicyService } from '../src/modules/centers/subscription-p
 const prisma = new PrismaService();
 const policy = new SubscriptionPolicyService();
 const trials = new CenterTrialService(prisma);
-const redemption = new CodeRedemptionService(prisma, policy);
+const emailStub = {
+  sendCodeActivatedToCenter: async () => undefined,
+} as any;
+const redemption = new CodeRedemptionService(prisma, policy, emailStub);
 const activation = new PaymentActivationService(prisma, policy);
 const purchases = new EntitlementPurchaseService(prisma);
 const spend = new EntitlementSpendService(
