@@ -33,6 +33,28 @@ describe('ExaminerPromptService', () => {
       expect(service.build(3)).toContain('Teil 3');
     });
 
+    it('frames Teil 3 as Gemeinsam etwas planen, not a debate', () => {
+      const prompt = service.build(3);
+
+      expect(prompt).toMatch(/Gemeinsam etwas planen/i);
+      expect(prompt).toMatch(/plan/i);
+      expect(prompt).toMatch(/Gesprächspartnerin/i);
+      expect(prompt).not.toMatch(/Argument & Discussion/i);
+      expect(prompt).not.toContain('Debatable Topics');
+      expect(prompt).not.toContain('Counter-Argument Introduction');
+    });
+
+    it('labels Teil 3 topic bullets as a planning checklist', () => {
+      const prompt = service.build(3, {
+        title: 'Party',
+        description: 'Plant gemeinsam eine Abschiedsparty.',
+        points: ['Wann?', 'Wo?', 'Essen'],
+      });
+
+      expect(prompt).toContain('Party');
+      expect(prompt).toMatch(/Planung|planen|Stichpunkte/i);
+    });
+
     it('appends the live-speech rules to every Teil', () => {
       // Without these the June-era prompts monologue, because they were written
       // for one submitted block of text rather than a conversation.
