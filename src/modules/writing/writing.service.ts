@@ -357,9 +357,7 @@ export class WritingService {
     };
   }
 
-  private mapTelcRatingForDto(
-    raw: unknown,
-  ): ExerciseAttemptDto['telcRating'] {
+  private mapTelcRatingForDto(raw: unknown): ExerciseAttemptDto['telcRating'] {
     if (!raw || typeof raw !== 'object') return undefined;
     const o = raw as Record<string, unknown>;
     const letters = ['A', 'B', 'C', 'D'] as const;

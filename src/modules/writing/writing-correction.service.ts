@@ -311,7 +311,7 @@ ${content}
       throw new Error('NO_JSON_FOUND_IN_RESPONSE');
     }
 
-    const parsed = JSON.parse(jsonMatch[0]);
+    const parsed = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
 
     const taskFulfilment = parsed.taskFulfilment ?? parsed.task_fulfilment;
     const communicativeDesign =
@@ -349,9 +349,14 @@ ${content}
       throw new Error('Corrections must be an array');
     }
 
-    const corrections = parsed.corrections
+    const rawCorrections = parsed.corrections as unknown[];
+    const corrections = rawCorrections
       .slice(0, 10)
-      .map((c: Record<string, unknown>, index: number) => {
+      .map((item, index: number) => {
+        if (!item || typeof item !== 'object') {
+          throw new Error(`Invalid correction at index ${index}`);
+        }
+        const c = item as Record<string, unknown>;
         if (
           typeof c.original !== 'string' ||
           typeof c.corrected !== 'string' ||

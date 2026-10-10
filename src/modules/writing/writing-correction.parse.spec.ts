@@ -1,5 +1,8 @@
 import { WritingCorrectionService } from './writing-correction.service';
-import { buildTelcSchreibenRating, scoreFromTelcPoints } from './writing-telc-rating';
+import {
+  buildTelcSchreibenRating,
+  scoreFromTelcPoints,
+} from './writing-telc-rating';
 
 describe('WritingCorrectionService.parseWritingResponse', () => {
   const service = Object.create(
