@@ -25,6 +25,7 @@ import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
 
 @ApiTags('Reading')
+/** PrepPassGuard: weekly MT for Start, full pool with Prep Pass. */
 @UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/reading')
 export class LesenController {

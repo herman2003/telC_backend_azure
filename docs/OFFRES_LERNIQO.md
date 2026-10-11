@@ -45,18 +45,26 @@ L’offre principale.
 | **Suivi personnalisé** | Progression et readiness de l’élève |
 | **Live Room** | Discussions orales avec d’autres personnes — **illimité** |
 | **Schreiben** | **2 corrections IA / jour**, chaque mois Start |
+| **Modelltest de la semaine** | Sprechen + Hören + Lesen + Sprachbausteine sur le MT courant |
 | **Sprechen Modul** | Oral d’examen avec l’IA (détail ci-dessous) |
 
-> Les **séries Modelltest** d’entraînement (Hören, Lesen, Sprachbausteine) sont
-> dans **Prep Pass**, pas dans Start.
+> Le **pool** des séries Modelltest d’entraînement (tous les MT) est dans
+> **Prep Pass**. Start débloque uniquement le **Modelltest de la semaine**.
+
+### Modelltest de la semaine (inclus Start)
+
+Le MT courant est résolu par `GET /api/modelltests/of-the-week` (rotation
+automatique tous les **7 jours** UTC). Avec Start, l’élève peut s’entraîner sur
+ce MT en **Sprechen, Hören, Lesen et Sprachbausteine** (passer
+`?modelltest=<number>` sur les endpoints skill). Les autres MT du catalogue
+restent derrière Prep Pass. Schreiben IA reste sur les quotas Start (pas un
+changement Prep Pass).
 
 ### Sprechen Modul (inclus Start)
 
 Entraînement structuré sur les **3 Teile** du **Modelltest de la semaine**.
 
-Le MT courant est résolu par `GET /api/modelltests/of-the-week` (rotation
-automatique tous les **7 jours** UTC, Start only — pas Prep Pass). L’app charge
-ensuite les sujets via `GET /api/speaking/teils?modelltest=<number>`.
+L’app charge les sujets via `GET /api/speaking/teils?modelltest=<number>`.
 
 | Règle | Détail |
 |--------|--------|
@@ -76,8 +84,8 @@ Règles session IA :
 Le Live Room (parler avec un autre élève) est **illimité** et ne consomme pas
 ce quota.
 
-> Start prépare l’**oral d’examen**.  
-> Pour parler librement avec l’IA → **Mit Elena**.
+> Start = MT de la semaine (écrit + oral).  
+> Prep Pass = pool complet. Mit Elena = oral libre avec l’IA.
 
 ---
 
@@ -104,11 +112,13 @@ Exemple : 100 crédits = 100 sessions de 5 minutes = 30 000 FCFA.
 
 ## 3. Prep Pass — 1 000 FCFA / élève / 30 jours
 
-Add-on. Paiement unique. Pour **s’entraîner** sur des séries Modelltest telc.
+Add-on. Paiement unique. Pour **s’entraîner sur le pool** des séries Modelltest
+telc (pas seulement le MT de la semaine).
 
 | Module | Accès |
 |--------|--------|
-| **Hören, Lesen, Sprachbausteine** | Exercices complets + **suivi des résultats** |
+| **Hören, Lesen, Sprachbausteine** | **Tous** les MT d’entraînement + **suivi des résultats** |
+| **Catalogue** | `GET /api/modelltests` liste le pool complet |
 | **Sprechen** | **Sujets** des Teile seulement — **pas** de discussion IA |
 | **Schreiben** | **Sujets** seulement — **pas** de correction IA |
 
@@ -153,9 +163,9 @@ au launch**.
 ```
 Start              Prep Pass           Exam Day            Mit Elena
 ─────────────      ─────────────       ─────────────       ─────────────
-Apprendre          S'entraîner         Se tester           Oral IA libre
-Quota Teile exam   Sujets / séries     Examen blanc        Thèmes Lerniqo
-Live Room illimité Sans IA             Dashboard centre    Crédits
+Apprendre          Pool MT complet     Se tester           Oral IA libre
+MT de la semaine   Hören/Lesen/SB      Examen blanc        Thèmes Lerniqo
+Live Room + IA     Sans IA             Dashboard centre    Crédits
 ```
 
 Tous les add-ons viennent **en complément de Start**.

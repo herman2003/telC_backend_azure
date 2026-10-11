@@ -27,6 +27,7 @@ import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-ac
 /** Served when the caller omits ?modelltest= — keeps existing clients working. */
 const DEFAULT_MODELLTEST = 1;
 
+/** PrepPassGuard: weekly MT for Start, full pool with Prep Pass. */
 @UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @ApiTags('Sprachbausteine')
 @Controller('api/sprachbausteine')

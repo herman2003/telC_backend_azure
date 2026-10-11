@@ -43,6 +43,7 @@ import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-ac
 @ApiTags('Listening (Hören)')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })
+/** PrepPassGuard: weekly MT for Start, full pool with Prep Pass. */
 @UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/listening')
 export class ListeningController {
