@@ -312,13 +312,22 @@ export class LesenService {
    */
   async getTeils(
     studentId: string,
-    _modelltestNumber = 1,
+    modelltestNumber = 1,
   ): Promise<ExerciseTypeDto[]> {
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: modelltestNumber },
+      select: { id: true },
+    });
+    if (!modelltest) {
+      throw new NotFoundException(`Modelltest ${modelltestNumber} not found`);
+    }
+
     const stats = await teilStats(
       this.prisma,
       studentId,
       'LESEN',
       TEIL_IDS.map(Number),
+      modelltest.id,
     );
     return TEIL_IDS.map((id) => ({
       ...stats[Number(id)],

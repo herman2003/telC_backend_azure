@@ -278,6 +278,7 @@ describe('LesenService answer security', () => {
 
 describe('LesenService history (D29)', () => {
   const prisma: any = {
+    modelltest: { findUnique: jest.fn().mockResolvedValue({ id: 'mt-1' }) },
     lesenAttempt: { findMany: jest.fn() },
     $queryRaw: jest.fn().mockResolvedValue([
       {
@@ -326,8 +327,12 @@ describe('LesenService history (D29)', () => {
   });
 
   it('lists the three Teils with the numbers of the ones done', async () => {
-    const teils = await service.getTeils('student-1');
+    const teils = await service.getTeils('student-1', 1);
 
+    expect(prisma.modelltest.findUnique).toHaveBeenCalledWith({
+      where: { number: 1 },
+      select: { id: true },
+    });
     expect(teils.map((teil) => teil.progress)).toEqual([0, 0, 100]);
     expect(teils[2]).toMatchObject({ id: '3', attempts: 1, bestScore: 67 });
   });
