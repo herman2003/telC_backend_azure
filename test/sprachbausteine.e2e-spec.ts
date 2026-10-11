@@ -8,6 +8,7 @@ import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
 import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 import { createGlobalValidationPipe } from '../src/shared/pipes/global-validation.pipe';
+import { TrainingModelltestAccessService } from '../src/shared/services/training-modelltest-access.service';
 
 const exerciseResponse = {
   contentRevision: 'modelltest-1-v1',
@@ -32,6 +33,10 @@ describe('SprachbausteineController (e2e)', () => {
       controllers: [SprachbausteineController],
       providers: [
         { provide: SprachbausteineService, useValue: sprachbausteineService },
+        {
+          provide: TrainingModelltestAccessService,
+          useValue: { assertMayAccess: jest.fn().mockResolvedValue(undefined) },
+        },
       ],
     })
       .overrideGuard(JwtAuthGuard)
@@ -60,7 +65,7 @@ describe('SprachbausteineController (e2e)', () => {
   });
 
   afterEach(async () => {
-    await app.close();
+    if (app) await app.close();
   });
 
   it('defaults to Modelltest 1 when the param is omitted', async () => {
