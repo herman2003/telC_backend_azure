@@ -6,6 +6,7 @@ import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 import { ListeningController } from '../src/modules/listening/listening.controller';
 import { ListeningService } from '../src/modules/listening/listening.service';
 import { TrainingAudioService } from '../src/modules/listening/training-audio.service';
+import { TrainingModelltestAccessService } from '../src/shared/services/training-modelltest-access.service';
 
 const MOCK_STUDENT = { studentId: 'student-abc', deviceId: 'dev-1' };
 
@@ -20,6 +21,10 @@ const mockTrainingAudio = {
   play: jest.fn(),
 };
 
+const mockTrainingAccess = {
+  assertMayAccess: jest.fn().mockResolvedValue(undefined),
+};
+
 describe('ListeningController', () => {
   let controller: ListeningController;
 
@@ -29,6 +34,10 @@ describe('ListeningController', () => {
       providers: [
         { provide: ListeningService, useValue: mockListeningService },
         { provide: TrainingAudioService, useValue: mockTrainingAudio },
+        {
+          provide: TrainingModelltestAccessService,
+          useValue: mockTrainingAccess,
+        },
       ],
     })
       .overrideGuard(JwtAuthGuard)

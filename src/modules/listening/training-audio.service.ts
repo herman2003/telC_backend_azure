@@ -11,6 +11,7 @@ import {
   type GrantedPlay,
 } from '../centers/exam-audio.service';
 import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
+import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
 
 /** Claims on a training stream link (no exam attempt). */
 export interface TrainingAudioTokenClaims {
@@ -40,6 +41,7 @@ export class TrainingAudioService {
   constructor(
     private readonly prisma: PrismaService,
     @Inject(EXAM_AUDIO_SECRET) private readonly secret: string,
+    private readonly trainingAccess: TrainingModelltestAccessService,
   ) {}
 
   async play(
@@ -66,6 +68,12 @@ export class TrainingAudioService {
     }
 
     assertGuestMayAccessModelltest(opts.isGuest, audio.modelltest.number);
+    if (opts.isGuest !== true) {
+      await this.trainingAccess.assertMayAccess(
+        studentId,
+        audio.modelltest.number,
+      );
+    }
 
     const allowed = audio.exam_plays_allowed;
     const expiresAt = new Date(

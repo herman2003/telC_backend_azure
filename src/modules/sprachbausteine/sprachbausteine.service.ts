@@ -327,14 +327,26 @@ export class SprachbausteineService {
     }
   }
 
-  async getTeils(studentId: string): Promise<ExerciseTypeDto[]> {
+  async getTeils(
+    studentId: string,
+    modelltestNumber = 1,
+  ): Promise<ExerciseTypeDto[]> {
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: modelltestNumber },
+      select: { id: true },
+    });
+    if (!modelltest) {
+      throw new NotFoundException(`Modelltest ${modelltestNumber} not found`);
+    }
+
     const [progress, stats] = await Promise.all([
-      this.getProgressByTeil(studentId),
+      this.getProgressByTeil(studentId, modelltest.id),
       teilStats(
         this.prisma,
         studentId,
         'SPRACHBAUSTEINE',
         TEIL_IDS.map(Number),
+        modelltest.id,
       ),
     ]);
     return TEIL_IDS.map((id) => ({
@@ -346,6 +358,7 @@ export class SprachbausteineService {
 
   private async getProgressByTeil(
     studentId: string,
+    modelltestId: string,
   ): Promise<Record<string, number>> {
     const result: Record<string, number> = {};
     for (const id of TEIL_IDS) result[id] = 0;
@@ -359,6 +372,7 @@ export class SprachbausteineService {
           // preparation for itself.
           exam_attempt_id: null,
           student_id: studentId,
+          modelltest_id: modelltestId,
           status: 'completed',
           erasure_id: null,
         },

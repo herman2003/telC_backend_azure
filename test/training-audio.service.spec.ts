@@ -7,8 +7,13 @@ describe('TrainingAudioService', () => {
 
   let prisma: any;
   let service: TrainingAudioService;
+  const trainingAccess = {
+    assertMayAccess: jest.fn().mockResolvedValue(undefined),
+  };
 
   beforeEach(() => {
+    jest.clearAllMocks();
+    trainingAccess.assertMayAccess.mockResolvedValue(undefined);
     prisma = {
       listeningExercise: {
         findUnique: jest.fn().mockResolvedValue({
@@ -28,6 +33,7 @@ describe('TrainingAudioService', () => {
     service = new TrainingAudioService(
       prisma,
       'a-secret-at-least-32-chars-long!!',
+      trainingAccess as never,
     );
   });
 
@@ -37,6 +43,12 @@ describe('TrainingAudioService', () => {
 
       expect(granted.playsRemaining).toBe(0);
       expect(granted.url).toContain('/api/listening/audio?token=');
+      expect(trainingAccess.assertMayAccess).toHaveBeenCalledWith(STUDENT, 1);
+    });
+
+    it('skips paid training assert for guests', async () => {
+      await service.play(STUDENT, AUDIO, { isGuest: true });
+      expect(trainingAccess.assertMayAccess).not.toHaveBeenCalled();
     });
 
     it('refuses once the allowance is gone', async () => {

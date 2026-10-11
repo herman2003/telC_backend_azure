@@ -11,9 +11,9 @@ import type {
 } from './dto/modelltest.dto';
 
 /**
- * Prep Pass training catalogue. Start subscription is still required (seat),
- * and an active Prep Pass unlocks the series. Guests only see Modelltests
- * allowlisted for the demo (not MT3+).
+ * Training catalogue. Start sees the weekly Modelltest; Prep Pass unlocks
+ * the full training pool. Guests only see Modelltests allowlisted for the
+ * demo (not MT3+).
  */
 @UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/modelltests')
@@ -24,7 +24,11 @@ export class ModelltestsController {
   getAll(
     @CurrentStudent() student: AccessTokenPayload | null,
   ): Promise<ModelltestListItemDto[]> {
-    return this.service.getAll({ isGuest: student?.isGuest === true });
+    const isGuest = student?.isGuest === true;
+    return this.service.getAll({
+      isGuest,
+      studentId: isGuest ? undefined : student?.studentId,
+    });
   }
 
   @Get(':number')
@@ -32,8 +36,10 @@ export class ModelltestsController {
     @CurrentStudent() student: AccessTokenPayload | null,
     @Param('number') number: string,
   ): Promise<ModelltestDetailDto> {
+    const isGuest = student?.isGuest === true;
     return this.service.getByNumber(+number, {
-      isGuest: student?.isGuest === true,
+      isGuest,
+      studentId: isGuest ? undefined : student?.studentId,
     });
   }
 }

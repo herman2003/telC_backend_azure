@@ -5,31 +5,33 @@ import {
   Injectable,
   ServiceUnavailableException,
 } from '@nestjs/common';
-import { EntitlementSpendService } from '../services/entitlement-spend.service';
+import { TrainingModelltestAccessService } from '../services/training-modelltest-access.service';
 
 interface PrepPassRequest {
   student?: { studentId?: string; isGuest?: boolean };
+  query?: Record<string, unknown>;
+  body?: Record<string, unknown>;
+  params?: Record<string, unknown>;
 }
 
 /**
- * Training library gate for Prep Pass (Hören / Lesen / Sprachbausteine /
- * Modelltest catalogue).
+ * Training library gate: Prep Pass unlocks the full pool; Start alone may
+ * reach the current weekly Modelltest (Hören / Lesen / Sprachbausteine /
+ * catalogue). Guests pass through — the demo JWT contract already promises
+ * Reading / Listening / Sprachbausteine without a seat.
  *
- * Runs after JwtAuthGuard. Guests pass through — the demo JWT contract
- * (`POST /api/auth/guest`) already promises Reading / Listening /
- * Sprachbausteine without a seat. Paying students need an active Prep Pass;
- * without one they get `prepPassRequired` so the app can upsell.
+ * When the request does not name a Modelltest (list/sessions), Start may
+ * proceed; handlers that default content to MT 1 must still pass that number
+ * (or call the access service) so non-weekly defaults stay blocked.
  */
 @Injectable()
 export class PrepPassGuard implements CanActivate {
-  constructor(private readonly entitlements: EntitlementSpendService) {}
+  constructor(private readonly access: TrainingModelltestAccessService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<PrepPassRequest>();
     const studentId = request.student?.studentId;
 
-    // Demo / waitlist: no students row, no Prep Pass to check. Handlers still
-    // apply guest-specific caps (e.g. writing rate limits, empty history).
     if (request.student?.isGuest === true) {
       return true;
     }
@@ -42,17 +44,37 @@ export class PrepPassGuard implements CanActivate {
     }
 
     try {
-      const decision = await this.entitlements.mayUse(studentId, 'PREP_PASS');
-      if (decision.allowed) return true;
+      if (await this.access.isPrepPassActive(studentId)) {
+        return true;
+      }
 
-      throw new ForbiddenException({
-        message: 'PREP_PASS_REQUIRED',
-        messageKey: 'prepPassRequired',
-        reason: decision.reason,
-      });
+      const modelltestNumber = extractModelltestNumber(request);
+      if (modelltestNumber === null) {
+        return true;
+      }
+
+      await this.access.assertMayAccess(studentId, modelltestNumber);
+      return true;
     } catch (error) {
       if (error instanceof ForbiddenException) throw error;
       throw new ServiceUnavailableException('PREP_PASS_CHECK_UNAVAILABLE');
     }
   }
+}
+
+function extractModelltestNumber(request: PrepPassRequest): number | null {
+  const raw =
+    request.query?.modelltest ??
+    request.body?.modelltestNumber ??
+    request.params?.number;
+
+  if (raw === undefined || raw === null || raw === '') {
+    return null;
+  }
+
+  const n = typeof raw === 'number' ? raw : Number(String(raw));
+  if (!Number.isInteger(n) || n < 1) {
+    return null;
+  }
+  return n;
 }

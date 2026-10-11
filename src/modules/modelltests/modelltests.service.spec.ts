@@ -36,12 +36,21 @@ const MT1_ROW = {
   speakingExercises: [{ id: 'sp1-uuid' }],
 };
 
+const mockAccess = {
+  isPrepPassActive: jest.fn(),
+  assertMayAccess: jest.fn(),
+  weeklyModelltestNumber: jest.fn(),
+};
+
 describe('ModelltestsService', () => {
   let service: ModelltestsService;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new ModelltestsService(mockPrisma as any);
+    mockAccess.isPrepPassActive.mockResolvedValue(true);
+    mockAccess.assertMayAccess.mockResolvedValue(undefined);
+    mockAccess.weeklyModelltestNumber.mockResolvedValue(1);
+    service = new ModelltestsService(mockPrisma as any, mockAccess as any);
   });
 
   describe('getAll', () => {
@@ -101,6 +110,27 @@ describe('ModelltestsService', () => {
 
       expect(result.map((r) => r.number)).toEqual([1, 2]);
     });
+
+    it('returns the full pool when the student holds Prep Pass', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue(TRAINING_ROWS);
+      mockAccess.isPrepPassActive.mockResolvedValue(true);
+
+      const result = await service.getAll({ studentId: 's1' });
+
+      expect(result.map((r) => r.number)).toEqual([1, 2]);
+    });
+
+    it('returns only the weekly Modelltest for Start without Prep Pass', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue(TRAINING_ROWS);
+      mockAccess.isPrepPassActive.mockResolvedValue(false);
+      mockAccess.weeklyModelltestNumber.mockResolvedValue(2);
+
+      const result = await service.getAll({ studentId: 's1' });
+
+      expect(result).toEqual([
+        { id: 'mt2-uuid', number: 2, title: 'Modelltest 2' },
+      ]);
+    });
   });
 
   describe('getByNumber', () => {
@@ -148,6 +178,22 @@ describe('ModelltestsService', () => {
       await expect(service.getByNumber(3, { isGuest: true })).rejects.toThrow(
         ForbiddenException,
       );
+      expect(mockPrisma.modelltest.findFirst).not.toHaveBeenCalled();
+    });
+
+    it('refuses Start-only detail for a non-weekly Modelltest', async () => {
+      mockAccess.assertMayAccess.mockRejectedValue(
+        new ForbiddenException({
+          message: 'PREP_PASS_REQUIRED',
+          messageKey: 'prepPassRequired',
+          reason: 'NOT_HELD',
+        }),
+      );
+
+      await expect(
+        service.getByNumber(2, { studentId: 's1' }),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+      expect(mockAccess.assertMayAccess).toHaveBeenCalledWith('s1', 2);
       expect(mockPrisma.modelltest.findFirst).not.toHaveBeenCalled();
     });
   });

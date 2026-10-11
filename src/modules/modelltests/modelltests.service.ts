@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
+import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
 import type {
   ModelltestDetailDto,
   ModelltestListItemDto,
@@ -13,10 +14,13 @@ import {
 
 @Injectable()
 export class ModelltestsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly trainingAccess: TrainingModelltestAccessService,
+  ) {}
 
   async getAll(
-    opts: { isGuest?: boolean } = {},
+    opts: { isGuest?: boolean; studentId?: string } = {},
   ): Promise<ModelltestListItemDto[]> {
     const rows = await this.prisma.modelltest.findMany({
       // Exam material is kept out of the training catalogue, so a sitting can
@@ -25,10 +29,20 @@ export class ModelltestsService {
       where: { exam_only: false },
       orderBy: { number: 'asc' },
     });
-    const visible =
-      opts.isGuest === true
-        ? rows.filter((row) => guestMayAccessModelltest(row.number))
-        : rows;
+
+    let visible = rows;
+    if (opts.isGuest === true) {
+      visible = rows.filter((row) => guestMayAccessModelltest(row.number));
+    } else if (opts.studentId) {
+      const prepPass = await this.trainingAccess.isPrepPassActive(
+        opts.studentId,
+      );
+      if (!prepPass) {
+        const weekly = await this.trainingAccess.weeklyModelltestNumber();
+        visible = rows.filter((row) => row.number === weekly);
+      }
+    }
+
     return visible.map(({ id, number, title }) => ({ id, number, title }));
   }
 
@@ -69,9 +83,13 @@ export class ModelltestsService {
 
   async getByNumber(
     number: number,
-    opts: { isGuest?: boolean } = {},
+    opts: { isGuest?: boolean; studentId?: string } = {},
   ): Promise<ModelltestDetailDto> {
     assertGuestMayAccessModelltest(opts.isGuest, number);
+
+    if (opts.studentId && opts.isGuest !== true) {
+      await this.trainingAccess.assertMayAccess(opts.studentId, number);
+    }
 
     const row = await this.prisma.modelltest.findFirst({
       // Same reason as getAll: a student must not reach exam material by

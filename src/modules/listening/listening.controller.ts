@@ -39,16 +39,19 @@ import { SubmitListeningDto } from './dto/submit-listening.dto';
 import { SubmitListeningResponseDto } from './dto/submit-listening-response.dto';
 import type { GrantedPlay } from '../centers/exam-audio.service';
 import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
+import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
 
 @ApiTags('Listening (Hören)')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })
+/** PrepPassGuard: weekly MT for Start, full pool with Prep Pass. */
 @UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/listening')
 export class ListeningController {
   constructor(
     private readonly listeningService: ListeningService,
     private readonly trainingAudio: TrainingAudioService,
+    private readonly trainingAccess: TrainingModelltestAccessService,
   ) {}
 
   @Get('teils')
@@ -97,6 +100,7 @@ export class ListeningController {
     if (!student?.studentId) return [];
     const mt = this.parseModelltest(modelltest);
     assertGuestMayAccessModelltest(student.isGuest, mt);
+    await this.assertPaidTrainingAccess(student, mt);
     return this.listeningService.getTeils(student.studentId, mt);
   }
 
@@ -172,6 +176,7 @@ export class ListeningController {
     if (!selectedTeil) throw new BadRequestException('teil is required');
     const mt = this.parseModelltest(modelltest);
     assertGuestMayAccessModelltest(student?.isGuest, mt);
+    await this.assertPaidTrainingAccess(student, mt);
     return this.listeningService.getExercise(selectedTeil, mt);
   }
 
@@ -237,7 +242,9 @@ export class ListeningController {
     if (!student?.studentId) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
-    assertGuestMayAccessModelltest(student.isGuest, dto.modelltestNumber ?? 1);
+    const mt = dto.modelltestNumber ?? 1;
+    assertGuestMayAccessModelltest(student.isGuest, mt);
+    await this.assertPaidTrainingAccess(student, mt);
     return this.listeningService.submit(student.studentId, dto);
   }
 
@@ -249,5 +256,16 @@ export class ListeningController {
       );
     }
     return Number(value);
+  }
+
+  private async assertPaidTrainingAccess(
+    student: AccessTokenPayload | null | undefined,
+    modelltestNumber: number,
+  ): Promise<void> {
+    if (!student?.studentId || student.isGuest === true) return;
+    await this.trainingAccess.assertMayAccess(
+      student.studentId,
+      modelltestNumber,
+    );
   }
 }
