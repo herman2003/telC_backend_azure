@@ -310,7 +310,10 @@ export class LesenService {
    * the shape every module's `/teils` has (D29). `progress` is 100 once a
    * Teil has been completed, as in the other modules.
    */
-  async getTeils(studentId: string): Promise<ExerciseTypeDto[]> {
+  async getTeils(
+    studentId: string,
+    _modelltestNumber = 1,
+  ): Promise<ExerciseTypeDto[]> {
     const stats = await teilStats(
       this.prisma,
       studentId,

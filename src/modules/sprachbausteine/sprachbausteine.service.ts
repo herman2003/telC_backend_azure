@@ -327,7 +327,10 @@ export class SprachbausteineService {
     }
   }
 
-  async getTeils(studentId: string): Promise<ExerciseTypeDto[]> {
+  async getTeils(
+    studentId: string,
+    _modelltestNumber = 1,
+  ): Promise<ExerciseTypeDto[]> {
     const [progress, stats] = await Promise.all([
       this.getProgressByTeil(studentId),
       teilStats(

@@ -87,11 +87,22 @@ export class LesenController {
   }
 
   @Get('teils')
+  @ApiQuery({
+    name: 'modelltest',
+    required: false,
+    schema: { type: 'integer', default: 1 },
+    example: 1,
+    description:
+      'Which Modelltest progress to show. Defaults to 1. Start may only use the weekly MT without Prep Pass.',
+  })
   getTeils(
     @CurrentStudent() student: AccessTokenPayload | null,
+    @Query('modelltest') modelltest?: string,
   ): Promise<ExerciseTypeDto[]> {
     if (!student?.studentId) return Promise.resolve([]);
-    return this.lesenService.getTeils(student.studentId);
+    const number = this.parseModelltest(modelltest);
+    assertGuestMayAccessModelltest(student.isGuest, number);
+    return this.lesenService.getTeils(student.studentId, number);
   }
 
   @Post('submit')
@@ -109,5 +120,18 @@ export class LesenController {
       dto.modelltestNumber ?? DEFAULT_MODELLTEST,
     );
     return this.lesenService.submit(student, dto);
+  }
+
+  private parseModelltest(value?: string): number {
+    if (value === undefined || value === '') return DEFAULT_MODELLTEST;
+    if (!/^\d+$/.test(value) || Number(value) < 1) {
+      throw new BadRequestException({
+        statusCode: 400,
+        error: 'Bad Request',
+        message: 'modelltest query param must be a positive integer',
+        messageKey: 'readingInvalidModelltest',
+      });
+    }
+    return Number(value);
   }
 }
