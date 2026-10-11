@@ -32,7 +32,10 @@ describe('ModelltestsController', () => {
       isGuest: false,
     } as never);
 
-    expect(mockService.getAll).toHaveBeenCalledWith({ isGuest: false });
+    expect(mockService.getAll).toHaveBeenCalledWith({
+      isGuest: false,
+      studentId: 's1',
+    });
     expect(result).toBe(list);
   });
 
@@ -56,7 +59,10 @@ describe('ModelltestsController', () => {
       '1',
     );
 
-    expect(mockService.getByNumber).toHaveBeenCalledWith(1, { isGuest: false });
+    expect(mockService.getByNumber).toHaveBeenCalledWith(1, {
+      isGuest: false,
+      studentId: 's1',
+    });
     expect(result).toBe(detail);
   });
 });
