@@ -10,6 +10,7 @@ import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 import { AuthExceptionFilter } from '../src/shared/filters/auth-exception.filter';
 import { AccessTokenPayload } from '../src/shared/interfaces/token-payload.interface';
 import { createGlobalValidationPipe } from '../src/shared/pipes/global-validation.pipe';
+import { TrainingModelltestAccessService } from '../src/shared/services/training-modelltest-access.service';
 
 const defaultPayload: AccessTokenPayload = {
   type: 'access',
@@ -52,7 +53,13 @@ describe('LesenController (e2e)', () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [LesenController],
-      providers: [{ provide: LesenService, useValue: lesenService }],
+      providers: [
+        { provide: LesenService, useValue: lesenService },
+        {
+          provide: TrainingModelltestAccessService,
+          useValue: { assertMayAccess: jest.fn().mockResolvedValue(undefined) },
+        },
+      ],
     })
       .overrideGuard(JwtAuthGuard)
       .useValue(guardThatRequiresAuth)
@@ -75,7 +82,7 @@ describe('LesenController (e2e)', () => {
   });
 
   afterEach(async () => {
-    await app.close();
+    if (app) await app.close();
   });
 
   it('GET /api/reading/exercise returns 200 with auth', async () => {

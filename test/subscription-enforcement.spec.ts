@@ -353,13 +353,14 @@ describe('subscription enforcement across learning controllers', () => {
   });
 });
 /**
- * Exam modelltests used to be Start-only. Launch pricing puts the training
- * library behind Prep Pass — identity → Start → Prep Pass, in that order.
+ * Training library (catalogue + Hören / Lesen / Sprachbausteine) still mounts
+ * PrepPassGuard after Start. The guard itself allows the weekly MT for Start
+ * and the full pool only with Prep Pass — identity → Start → training gate.
  */
-describe('the exam module gates on Prep Pass after Start', () => {
+describe('the training library mounts PrepPassGuard after Start', () => {
   const controllers = discoverControllers();
 
-  it('guards ModelltestsController with identity, Start, then Prep Pass', () => {
+  it('guards ModelltestsController with identity, Start, then PrepPassGuard', () => {
     const controller = controllers.find(
       (c) => c.name === 'ModelltestsController',
     );
@@ -372,7 +373,7 @@ describe('the exam module gates on Prep Pass after Start', () => {
     ]);
   });
 
-  it('leaves Start AI surfaces without Prep Pass', () => {
+  it('leaves Start AI surfaces without PrepPassGuard', () => {
     for (const name of [
       'WritingController',
       'SpeakingController',

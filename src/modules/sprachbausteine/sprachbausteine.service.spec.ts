@@ -257,15 +257,23 @@ describe('SprachbausteineService answer security', () => {
     prisma.sprachbausteineAttempt.findMany.mockResolvedValue([
       { teil_id: '2' },
     ]);
-    await expect(service.getTeils('student-1')).resolves.toEqual([
+    await expect(service.getTeils('student-1', 1)).resolves.toEqual([
       expect.objectContaining({ id: '1', progress: 0 }),
       expect.objectContaining({ id: '2', progress: 100 }),
     ]);
+    expect(prisma.sprachbausteineAttempt.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          student_id: 'student-1',
+          modelltest_id: 'mt-1',
+        }),
+      }),
+    );
 
     prisma.sprachbausteineAttempt.findMany.mockRejectedValue(
       new Error('offline'),
     );
-    const fallback = await service.getTeils('student-1');
+    const fallback = await service.getTeils('student-1', 1);
     expect(fallback.map((teil) => teil.progress)).toEqual([0, 0]);
   });
 });

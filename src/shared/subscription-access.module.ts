@@ -6,6 +6,7 @@ import { PrepPassGuard } from './guards/prep-pass.guard';
 import { AiUsageService } from './services/ai-usage.service';
 import { AiQuotaService } from './services/ai-quota.service';
 import { EntitlementSpendService } from './services/entitlement-spend.service';
+import { TrainingModelltestAccessService } from './services/training-modelltest-access.service';
 
 /**
  * Carries subscription enforcement to the modules that need it: the learning
@@ -28,6 +29,7 @@ import { EntitlementSpendService } from './services/entitlement-spend.service';
     AiUsageService,
     AiQuotaService,
     EntitlementSpendService,
+    TrainingModelltestAccessService,
     PrepPassGuard,
   ],
   exports: [
@@ -36,6 +38,7 @@ import { EntitlementSpendService } from './services/entitlement-spend.service';
     AiUsageService,
     AiQuotaService,
     EntitlementSpendService,
+    TrainingModelltestAccessService,
     PrepPassGuard,
   ],
 })

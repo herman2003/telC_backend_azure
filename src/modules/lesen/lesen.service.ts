@@ -310,12 +310,24 @@ export class LesenService {
    * the shape every module's `/teils` has (D29). `progress` is 100 once a
    * Teil has been completed, as in the other modules.
    */
-  async getTeils(studentId: string): Promise<ExerciseTypeDto[]> {
+  async getTeils(
+    studentId: string,
+    modelltestNumber = 1,
+  ): Promise<ExerciseTypeDto[]> {
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: modelltestNumber },
+      select: { id: true },
+    });
+    if (!modelltest) {
+      throw new NotFoundException(`Modelltest ${modelltestNumber} not found`);
+    }
+
     const stats = await teilStats(
       this.prisma,
       studentId,
       'LESEN',
       TEIL_IDS.map(Number),
+      modelltest.id,
     );
     return TEIL_IDS.map((id) => ({
       ...stats[Number(id)],
