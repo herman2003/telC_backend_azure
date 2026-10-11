@@ -14,6 +14,7 @@ import { StudentSubscriptionGuard } from '../../shared/guards/student-subscripti
 import { PrepPassGuard } from '../../shared/guards/prep-pass.guard';
 import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
 import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
+import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
 import { SprachbausteineService } from './sprachbausteine.service';
 import {
   SprachbausteineExerciseResponseDto,
@@ -34,6 +35,7 @@ const DEFAULT_MODELLTEST = 1;
 export class SprachbausteineController {
   constructor(
     private readonly sprachbausteineService: SprachbausteineService,
+    private readonly trainingAccess: TrainingModelltestAccessService,
   ) {}
 
   @Get('exercise')
@@ -44,7 +46,7 @@ export class SprachbausteineController {
     example: 1,
   })
   @ApiOkResponse({ type: SprachbausteineExerciseResponseDto })
-  getExercise(
+  async getExercise(
     // Declared as string on purpose. The global ValidationPipe in main.ts runs
     // with transform: true, so a `number` param has 'abc' coerced to NaN before
     // any parameter pipe sees it — DefaultValuePipe then substitutes 1 and the
@@ -54,22 +56,9 @@ export class SprachbausteineController {
     @CurrentStudent() student: AccessTokenPayload | null,
     @Query('modelltest') modelltest?: string,
   ): Promise<SprachbausteineExerciseResponseDto> {
-    if (modelltest === undefined || modelltest === '') {
-      assertGuestMayAccessModelltest(student?.isGuest, DEFAULT_MODELLTEST);
-      return this.sprachbausteineService.getExercise(DEFAULT_MODELLTEST);
-    }
-
-    if (!/^\d+$/.test(modelltest)) {
-      throw new BadRequestException({
-        statusCode: 400,
-        error: 'Bad Request',
-        message: 'modelltest query param must be a positive integer',
-        messageKey: 'sprachbausteineInvalidModelltest',
-      });
-    }
-
-    const number = Number(modelltest);
+    const number = this.parseModelltest(modelltest);
     assertGuestMayAccessModelltest(student?.isGuest, number);
+    await this.assertPaidTrainingAccess(student, number);
     return this.sprachbausteineService.getExercise(number);
   }
 
@@ -105,13 +94,14 @@ export class SprachbausteineController {
     if (!student?.studentId) return [];
     const number = this.parseModelltest(modelltest);
     assertGuestMayAccessModelltest(student.isGuest, number);
+    await this.assertPaidTrainingAccess(student, number);
     return this.sprachbausteineService.getTeils(student.studentId, number);
   }
 
   @Post('submit')
   @ApiBody({ type: SubmitSprachbausteineDto })
   @ApiOkResponse({ type: SubmitSprachbausteineResponseDto })
-  submit(
+  async submit(
     @CurrentStudent() student: AccessTokenPayload | null,
     @Body() dto: SubmitSprachbausteineDto,
   ): Promise<SubmitSprachbausteineResponseDto> {
@@ -119,6 +109,7 @@ export class SprachbausteineController {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
     assertGuestMayAccessModelltest(student.isGuest, dto.modelltestNumber);
+    await this.assertPaidTrainingAccess(student, dto.modelltestNumber);
     return this.sprachbausteineService.submit(student.studentId, dto);
   }
 
@@ -133,5 +124,16 @@ export class SprachbausteineController {
       });
     }
     return Number(value);
+  }
+
+  private async assertPaidTrainingAccess(
+    student: AccessTokenPayload | null | undefined,
+    modelltestNumber: number,
+  ): Promise<void> {
+    if (!student?.studentId || student.isGuest === true) return;
+    await this.trainingAccess.assertMayAccess(
+      student.studentId,
+      modelltestNumber,
+    );
   }
 }

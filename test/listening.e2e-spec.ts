@@ -10,6 +10,7 @@ import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscript
 import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 import { createGlobalValidationPipe } from '../src/shared/pipes/global-validation.pipe';
 import { PrismaService } from '../src/shared/services/prisma.service';
+import { TrainingModelltestAccessService } from '../src/shared/services/training-modelltest-access.service';
 
 describe('Listening API scoring and answer security (e2e)', () => {
   let app: INestApplication<App>;
@@ -59,6 +60,10 @@ describe('Listening API scoring and answer security (e2e)', () => {
         {
           provide: TrainingAudioService,
           useValue: { play: jest.fn() },
+        },
+        {
+          provide: TrainingModelltestAccessService,
+          useValue: { assertMayAccess: jest.fn().mockResolvedValue(undefined) },
         },
         { provide: PrismaService, useValue: prisma },
       ],

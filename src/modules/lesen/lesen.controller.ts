@@ -9,14 +9,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
-
-/** Served when the caller omits ?modelltest= — keeps existing clients working. */
-const DEFAULT_MODELLTEST = 1;
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
 import { PrepPassGuard } from '../../shared/guards/prep-pass.guard';
 import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
 import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
+import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
 import { LesenService } from './lesen.service';
 import { LesenExerciseResponseDto, LesenSubmitResponseDto } from './dto';
 import { LesenSubmitRequestDto } from './dto/lesen-submit-request.dto';
@@ -24,12 +22,18 @@ import { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
 
+/** Served when the caller omits ?modelltest= — keeps existing clients working. */
+const DEFAULT_MODELLTEST = 1;
+
 @ApiTags('Reading')
 /** PrepPassGuard: weekly MT for Start, full pool with Prep Pass. */
 @UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/reading')
 export class LesenController {
-  constructor(private readonly lesenService: LesenService) {}
+  constructor(
+    private readonly lesenService: LesenService,
+    private readonly trainingAccess: TrainingModelltestAccessService,
+  ) {}
 
   @Get('exercise')
   @ApiQuery({
@@ -41,7 +45,7 @@ export class LesenController {
       'Which Modelltest to serve. Defaults to 1 when omitted. All three Teils come from the same Modelltest.',
   })
   @ApiOkResponse({ type: LesenExerciseResponseDto })
-  getExercise(
+  async getExercise(
     // Declared as string on purpose. The global ValidationPipe in main.ts runs
     // with transform: true, so a `number` param would have 'abc' coerced to NaN
     // before any param pipe sees it — DefaultValuePipe then silently substitutes
@@ -51,22 +55,9 @@ export class LesenController {
     @CurrentStudent() student: AccessTokenPayload | null,
     @Query('modelltest') modelltest?: string,
   ): Promise<LesenExerciseResponseDto> {
-    if (modelltest === undefined || modelltest === '') {
-      assertGuestMayAccessModelltest(student?.isGuest, DEFAULT_MODELLTEST);
-      return this.lesenService.getExercise(DEFAULT_MODELLTEST);
-    }
-
-    if (!/^\d+$/.test(modelltest)) {
-      throw new BadRequestException({
-        statusCode: 400,
-        error: 'Bad Request',
-        message: 'modelltest query param must be a positive integer',
-        messageKey: 'readingInvalidModelltest',
-      });
-    }
-
-    const number = Number(modelltest);
+    const number = this.parseModelltest(modelltest);
     assertGuestMayAccessModelltest(student?.isGuest, number);
+    await this.assertPaidTrainingAccess(student, number);
     return this.lesenService.getExercise(number);
   }
 
@@ -96,30 +87,30 @@ export class LesenController {
     description:
       'Which Modelltest progress to show. Defaults to 1. Start may only use the weekly MT without Prep Pass.',
   })
-  getTeils(
+  async getTeils(
     @CurrentStudent() student: AccessTokenPayload | null,
     @Query('modelltest') modelltest?: string,
   ): Promise<ExerciseTypeDto[]> {
-    if (!student?.studentId) return Promise.resolve([]);
+    if (!student?.studentId) return [];
     const number = this.parseModelltest(modelltest);
     assertGuestMayAccessModelltest(student.isGuest, number);
+    await this.assertPaidTrainingAccess(student, number);
     return this.lesenService.getTeils(student.studentId, number);
   }
 
   @Post('submit')
   @ApiBody({ type: LesenSubmitRequestDto })
   @ApiOkResponse({ type: LesenSubmitResponseDto })
-  submit(
+  async submit(
     @CurrentStudent() student: AccessTokenPayload | null,
     @Body() dto: LesenSubmitRequestDto,
   ): Promise<LesenSubmitResponseDto> {
     if (!student?.studentId) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
-    assertGuestMayAccessModelltest(
-      student.isGuest,
-      dto.modelltestNumber ?? DEFAULT_MODELLTEST,
-    );
+    const number = dto.modelltestNumber ?? DEFAULT_MODELLTEST;
+    assertGuestMayAccessModelltest(student.isGuest, number);
+    await this.assertPaidTrainingAccess(student, number);
     return this.lesenService.submit(student, dto);
   }
 
@@ -134,5 +125,16 @@ export class LesenController {
       });
     }
     return Number(value);
+  }
+
+  private async assertPaidTrainingAccess(
+    student: AccessTokenPayload | null | undefined,
+    modelltestNumber: number,
+  ): Promise<void> {
+    if (!student?.studentId || student.isGuest === true) return;
+    await this.trainingAccess.assertMayAccess(
+      student.studentId,
+      modelltestNumber,
+    );
   }
 }

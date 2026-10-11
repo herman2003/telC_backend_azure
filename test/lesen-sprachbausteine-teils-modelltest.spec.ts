@@ -3,14 +3,19 @@ import { LesenController } from '../src/modules/lesen/lesen.controller';
 import { SprachbausteineController } from '../src/modules/sprachbausteine/sprachbausteine.controller';
 
 describe('Lesen / Sprachbausteine GET teils modelltest query', () => {
+  const access = { assertMayAccess: jest.fn().mockResolvedValue(undefined) };
   const lesenService = { getTeils: jest.fn().mockResolvedValue([]) };
   const sprachService = { getTeils: jest.fn().mockResolvedValue([]) };
-  const lesen = new LesenController(lesenService as never);
-  const sprach = new SprachbausteineController(sprachService as never);
+  const lesen = new LesenController(lesenService as never, access as never);
+  const sprach = new SprachbausteineController(
+    sprachService as never,
+    access as never,
+  );
   const student = { studentId: 's1', isGuest: false } as never;
 
   beforeEach(() => {
     jest.clearAllMocks();
+    access.assertMayAccess.mockResolvedValue(undefined);
   });
 
   it('Lesen passes modelltest to the service and defaults to 1', async () => {
@@ -30,10 +35,9 @@ describe('Lesen / Sprachbausteine GET teils modelltest query', () => {
   });
 
   it('rejects a non-integer modelltest query', async () => {
-    expect(() => {
-      void lesen.getTeils(student, 'abc');
-    }).toThrow(BadRequestException);
-
+    await expect(lesen.getTeils(student, 'abc')).rejects.toBeInstanceOf(
+      BadRequestException,
+    );
     await expect(sprach.getTeils(student, 'abc')).rejects.toBeInstanceOf(
       BadRequestException,
     );
