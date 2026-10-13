@@ -26,7 +26,9 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "db:migrate-from-supabase": "node scripts/migrate-supabase-to-neon.mjs",
-    "start:testdb": "powershell -ExecutionPolicy Bypass -File ./scripts/start-dev-testdb.ps1"
+    "start:testdb": "powershell -ExecutionPolicy Bypass -File ./scripts/start-dev-testdb.ps1",
+    "grammar:import": "ts-node -r dotenv/config scripts/import-grammar-from-rep12.ts",
+    "grammar:generate-exercises": "ts-node -r dotenv/config scripts/generate-grammar-exercises.ts"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",
