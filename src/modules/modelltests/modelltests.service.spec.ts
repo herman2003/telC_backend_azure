@@ -42,6 +42,15 @@ const mockAccess = {
   weeklyModelltestNumber: jest.fn(),
 };
 
+const mockLesen = { getExercise: jest.fn() };
+const mockSprachbausteine = { getExercise: jest.fn() };
+const mockListening = {
+  getExamTeil: jest.fn(),
+  getAnswerKey: jest.fn(),
+};
+const mockWriting = { getExerciseByModelltest: jest.fn() };
+const mockSpeaking = { getTeils: jest.fn() };
+
 describe('ModelltestsService', () => {
   let service: ModelltestsService;
 
@@ -50,7 +59,15 @@ describe('ModelltestsService', () => {
     mockAccess.isPrepPassActive.mockResolvedValue(true);
     mockAccess.assertMayAccess.mockResolvedValue(undefined);
     mockAccess.weeklyModelltestNumber.mockResolvedValue(1);
-    service = new ModelltestsService(mockPrisma as any, mockAccess as any);
+    service = new ModelltestsService(
+      mockPrisma as never,
+      mockAccess as never,
+      mockLesen as never,
+      mockSprachbausteine as never,
+      mockListening as never,
+      mockWriting as never,
+      mockSpeaking as never,
+    );
   });
 
   describe('getAll', () => {
@@ -270,6 +287,84 @@ describe('ModelltestsService', () => {
         orderBy: { number: 'asc' },
         select: { id: true, number: true, title: true },
       });
+    });
+  });
+
+  describe('getOfTheWeekContent', () => {
+    beforeEach(() => {
+      mockPrisma.modelltest.findMany.mockResolvedValue(TRAINING_ROWS);
+      mockLesen.getExercise.mockResolvedValue({
+        teil1: { texts: [{ correctTitleId: 'title-a' }] },
+      });
+      mockSprachbausteine.getExercise.mockResolvedValue({
+        teil1: { gaps: [{ correctOptionId: 'opt-1' }] },
+      });
+      mockListening.getExamTeil.mockImplementation(
+        async (_n: number, part: number) => ({
+          audioId: `audio-${part}`,
+          playsAllowed: 1,
+          questions: [{ id: `q${part}`, prompt: '…' }],
+        }),
+      );
+      mockListening.getAnswerKey.mockImplementation(
+        async (_n: number, part: number) => ({ [`q${part}`]: 'a' }),
+      );
+      mockWriting.getExerciseByModelltest.mockResolvedValue({
+        id: 'w1',
+        stimulus: '…',
+      });
+      mockSpeaking.getTeils.mockResolvedValue([{ part: 1, title: 'Teil 1' }]);
+    });
+
+    it('refuses guests (keys must not ship on demo tokens)', async () => {
+      await expect(
+        service.getOfTheWeekContent(daysAfterEpoch(0), { isGuest: true }),
+      ).rejects.toMatchObject({
+        response: expect.objectContaining({ message: 'GUESTS_NOT_ALLOWED' }),
+      });
+      expect(mockLesen.getExercise).not.toHaveBeenCalled();
+    });
+
+    it('throws NotFoundException when no training Modelltest exists', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue([]);
+
+      await expect(
+        service.getOfTheWeekContent(daysAfterEpoch(0)),
+      ).rejects.toThrow(NotFoundException);
+      expect(mockLesen.getExercise).not.toHaveBeenCalled();
+      expect(mockListening.getExamTeil).not.toHaveBeenCalled();
+    });
+
+    it('assembles all five sections for the weekly Modelltest with Hören keys', async () => {
+      const result = await service.getOfTheWeekContent(daysAfterEpoch(0));
+
+      expect(result.number).toBe(1);
+      expect(result.sections.LESEN).toEqual({
+        teil1: { texts: [{ correctTitleId: 'title-a' }] },
+      });
+      expect(result.sections.SPRACHBAUSTEINE).toEqual({
+        teil1: { gaps: [{ correctOptionId: 'opt-1' }] },
+      });
+      expect(result.sections.HOEREN).toHaveLength(3);
+      expect(result.sections.HOEREN[0]).toEqual(
+        expect.objectContaining({
+          audioId: 'audio-1',
+          answerKey: { q1: 'a' },
+        }),
+      );
+      expect(JSON.stringify(result.sections.HOEREN)).not.toContain('audioUrl');
+      expect(result.sections.SCHREIBEN).toEqual({ id: 'w1', stimulus: '…' });
+      expect(result.sections.SPRECHEN).toEqual([
+        { part: 1, title: 'Teil 1' },
+      ]);
+      expect(mockLesen.getExercise).toHaveBeenCalledWith(1);
+      expect(mockSprachbausteine.getExercise).toHaveBeenCalledWith(1);
+      expect(mockWriting.getExerciseByModelltest).toHaveBeenCalledWith(1);
+      expect(mockSpeaking.getTeils).toHaveBeenCalledWith(1);
+      for (const part of [1, 2, 3]) {
+        expect(mockListening.getExamTeil).toHaveBeenCalledWith(1, part);
+        expect(mockListening.getAnswerKey).toHaveBeenCalledWith(1, part);
+      }
     });
   });
 });

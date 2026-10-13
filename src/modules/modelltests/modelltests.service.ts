@@ -1,9 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
+import { LesenService } from '../lesen/lesen.service';
+import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
+import { ListeningService } from '../listening/listening.service';
+import { WritingService } from '../writing/writing.service';
+import { SpeakingService } from '../speaking/services/speaking.service';
 import type {
   ModelltestDetailDto,
   ModelltestListItemDto,
+  ModelltestOfTheWeekContentDto,
   ModelltestOfTheWeekDto,
 } from './dto/modelltest.dto';
 import { getSevenDayPeriod } from './seven-day-period';
@@ -17,6 +27,11 @@ export class ModelltestsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly trainingAccess: TrainingModelltestAccessService,
+    private readonly lesen: LesenService,
+    private readonly sprachbausteine: SprachbausteineService,
+    private readonly listening: ListeningService,
+    private readonly writing: WritingService,
+    private readonly speaking: SpeakingService,
   ) {}
 
   async getAll(
@@ -78,6 +93,53 @@ export class ModelltestsService {
       title: row.title,
       periodStart: periodStart.toISOString(),
       periodEnd: periodEnd.toISOString(),
+    };
+  }
+
+  /**
+   * Full weekly training content for Start (all skills, keys kept).
+   *
+   * Guests are refused: shipping answer keys on a demo token would make the
+   * public catalogue trivial to scrape. Hören keeps the training audio
+   * contract (no durable URL); `answerKey` is merged from `getAnswerKey`.
+   */
+  async getOfTheWeekContent(
+    now: Date = new Date(),
+    opts: { isGuest?: boolean } = {},
+  ): Promise<ModelltestOfTheWeekContentDto> {
+    if (opts.isGuest === true) {
+      throw new ForbiddenException('GUESTS_NOT_ALLOWED');
+    }
+
+    const weekly = await this.getOfTheWeek(now, { isGuest: false });
+    const n = weekly.number;
+
+    const [lesen, sprachbausteine, hoerenTeile, schreiben, sprechen] =
+      await Promise.all([
+        this.lesen.getExercise(n),
+        this.sprachbausteine.getExercise(n),
+        Promise.all(
+          [1, 2, 3].map(async (part) => {
+            const [teil, answerKey] = await Promise.all([
+              this.listening.getExamTeil(n, part),
+              this.listening.getAnswerKey(n, part),
+            ]);
+            return { ...teil, answerKey };
+          }),
+        ),
+        this.writing.getExerciseByModelltest(n),
+        this.speaking.getTeils(n),
+      ]);
+
+    return {
+      ...weekly,
+      sections: {
+        LESEN: lesen,
+        SPRACHBAUSTEINE: sprachbausteine,
+        HOEREN: hoerenTeile,
+        SCHREIBEN: schreiben,
+        SPRECHEN: sprechen,
+      },
     };
   }
 
