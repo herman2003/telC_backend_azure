@@ -26,3 +26,18 @@ export interface ModelltestOfTheWeekDto extends ModelltestListItemDto {
   /** Inclusive end of the current 7×24h UTC window (ISO-8601). */
   periodEnd: string;
 }
+
+/**
+ * Full weekly training payload for Start — same builders as per-skill GETs,
+ * with answer keys kept (ADR 0001). Hören Teile carry `answerKey`; durable
+ * audio URLs stay off this payload (training play flow).
+ */
+export interface ModelltestOfTheWeekContentDto extends ModelltestOfTheWeekDto {
+  sections: {
+    LESEN: unknown;
+    SPRACHBAUSTEINE: unknown;
+    HOEREN: unknown[];
+    SCHREIBEN: unknown;
+    SPRECHEN: unknown[];
+  };
+}
