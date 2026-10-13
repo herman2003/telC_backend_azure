@@ -51,12 +51,17 @@ describe('TrainingAudioService', () => {
       expect(trainingAccess.assertMayAccess).not.toHaveBeenCalled();
     });
 
-    it('refuses once the allowance is gone', async () => {
+    it('re-issues a stream link once the allowance is spent', async () => {
       prisma.trainingAudioPlay.updateMany.mockResolvedValue({ count: 0 });
+      prisma.trainingAudioPlay.findUniqueOrThrow.mockResolvedValue({
+        plays_used: 1,
+      });
 
-      await expect(service.play(STUDENT, AUDIO)).rejects.toThrow(
-        'NO_PLAYS_LEFT',
-      );
+      const granted = await service.play(STUDENT, AUDIO);
+
+      expect(granted.playsRemaining).toBe(0);
+      expect(granted.url).toContain('/api/listening/audio?token=');
+      expect(prisma.trainingAudioPlay.updateMany).toHaveBeenCalled();
     });
 
     it('makes the counter row before claiming', async () => {
