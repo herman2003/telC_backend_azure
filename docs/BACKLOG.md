@@ -136,10 +136,10 @@ exam exists**. That window closes when Modelltest 2 is seeded.
 Added 2026-09-24. None of these matter while `main` is a demo; all of them
 matter the day a real center pays.
 
-1. **`/health` tells the truth.** It answers `{ok: true}` without touching the
-   database, and DigitalOcean uses it as the readiness probe — so a deploy
-   with an unreachable Neon is declared healthy and given traffic. One
-   `SELECT 1`.
+1. **`/health` tells the truth.** ~~It answered `{ok: true}` without touching
+   the database.~~ **Done (2026-10-13):** `GET /health` runs `SELECT 1` and
+   returns 503 `DATABASE_UNAVAILABLE` when Neon is down. Still configure
+   uptime/New Relic alerts so a human is notified (ops, not code).
 2. **`enableShutdownHooks()`.** Never called, so `OnModuleDestroy` and
    `OnApplicationShutdown` never fire on SIGTERM. `PrismaService` and
    `ValkeyService` both implement them; both leak on every deploy. One line.
