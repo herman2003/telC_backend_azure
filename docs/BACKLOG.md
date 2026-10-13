@@ -148,6 +148,9 @@ matter the day a real center pays.
    new container, so a failed migration does not fail a deploy step — it stops
    the app from starting. DigitalOcean cancels a deployment whose PRE_DEPLOY
    job fails, which is the behaviour we want.
+   **Postponed (2026-10-13):** PR #69 landed on `dev` then was reverted — DO
+   Job estimate looked expensive; keep migrate-on-boot until a cheap Job /
+   VPS release step is ready. Do not re-merge without wiring PRE_DEPLOY first.
 4. **Expand/contract for renames.** Once (3) is not enough — the rename in
    `20260924160000_payment_quantity` broke the old container's reads for the
    length of a cutover. With paying centers that is an outage mid-checkout.
