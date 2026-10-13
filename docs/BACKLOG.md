@@ -144,11 +144,13 @@ matter the day a real center pays.
    SIGTERM.~~ **Done (2026-10-13):** `configureLifecycle(app)` in
    `bootstrap-config` (called from `main.ts` before `listen`) so Prisma/Valkey
    close on deploy stop.
-3. **Migrations as a PRE_DEPLOY job.** ~~`npm start` ran `migrate deploy`.~~
-   **Done in repo (2026-10-13):** `start` / `start:prod` only boot Nest;
-   `npm run db:migrate:deploy` is for PRE_DEPLOY. **Ops still required:** wire
-   that script as a DigitalOcean Pre-Deploy Job and set `DIRECT_URL` — see
-   `docs/DEPLOY_MIGRATE_PRE_DEPLOY.md`.
+3. **Migrations as a PRE_DEPLOY job.** `npm start` runs `migrate deploy` in the
+   new container, so a failed migration does not fail a deploy step — it stops
+   the app from starting. DigitalOcean cancels a deployment whose PRE_DEPLOY
+   job fails, which is the behaviour we want.
+   **Postponed (2026-10-13):** PR #69 landed on `dev` then was reverted — DO
+   Job estimate looked expensive; keep migrate-on-boot until a cheap Job /
+   VPS release step is ready. Do not re-merge without wiring PRE_DEPLOY first.
 4. **Expand/contract for renames.** Once (3) is not enough — the rename in
    `20260924160000_payment_quantity` broke the old container's reads for the
    length of a cutover. With paying centers that is an outage mid-checkout.
@@ -180,10 +182,12 @@ silently — host and guest land on different processes and the guest gets
 for Valkey is the natural target if scale-out is ever needed.
 
 ### `prisma migrate deploy` runs from the app start command
-~~`package.json` start scripts — verified.~~ **Repo fixed (2026-10-13).** Finish
-in the DO console (`docs/DEPLOY_MIGRATE_PRE_DEPLOY.md`) before treating prod as
-done — until PRE_DEPLOY is wired, a push that expects migrate-on-boot will leave
-schema unchanged.
+`package.json:11` — **verified**
+
+Every instance races to migrate on boot (Prisma's advisory lock makes this mostly
+safe, but an idle recycle should not be a migration event). Worse, a failed
+migration short-circuits the `&&` and the app never boots — an outage rather than
+a degraded state. Move to a release/pre-deploy step.
 
 ### Schema drift between the live database and `schema.prisma`
 **re-verified against production today — larger than first recorded**

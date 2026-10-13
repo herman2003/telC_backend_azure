@@ -15,14 +15,9 @@ import { defineConfig } from 'prisma/config';
  *
  * The falsy fallback is deliberate: an empty DIRECT_URL should behave like a
  * missing one rather than produce a connection string of nothing.
- *
- * `DIRECT_DATABASE_URL` is accepted as a temporary alias — `.env.example`
- * used that name while the CLI reads `DIRECT_URL`. Prefer `DIRECT_URL`.
  */
 const migrationUrl =
-  process.env['DIRECT_URL'] ||
-  process.env['DIRECT_DATABASE_URL'] ||
-  process.env['DATABASE_URL'];
+  process.env['DIRECT_URL'] || process.env['DATABASE_URL'];
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
