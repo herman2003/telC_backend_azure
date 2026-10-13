@@ -140,13 +140,17 @@ matter the day a real center pays.
    the database.~~ **Done (2026-10-13):** `GET /health` runs `SELECT 1` and
    returns 503 `DATABASE_UNAVAILABLE` when Neon is down. Still configure
    uptime/New Relic alerts so a human is notified (ops, not code).
-2. **`enableShutdownHooks()`.** Never called, so `OnModuleDestroy` and
-   `OnApplicationShutdown` never fire on SIGTERM. `PrismaService` and
-   `ValkeyService` both implement them; both leak on every deploy. One line.
+2. **`enableShutdownHooks()`.** ~~Never called, so destroy hooks skipped on
+   SIGTERM.~~ **Done (2026-10-13):** `configureLifecycle(app)` in
+   `bootstrap-config` (called from `main.ts` before `listen`) so Prisma/Valkey
+   close on deploy stop.
 3. **Migrations as a PRE_DEPLOY job.** `npm start` runs `migrate deploy` in the
    new container, so a failed migration does not fail a deploy step — it stops
    the app from starting. DigitalOcean cancels a deployment whose PRE_DEPLOY
    job fails, which is the behaviour we want.
+   **Postponed (2026-10-13):** PR #69 landed on `dev` then was reverted — DO
+   Job estimate looked expensive; keep migrate-on-boot until a cheap Job /
+   VPS release step is ready. Do not re-merge without wiring PRE_DEPLOY first.
 4. **Expand/contract for renames.** Once (3) is not enough — the rename in
    `20260924160000_payment_quantity` broke the old container's reads for the
    length of a cutover. With paying centers that is an outage mid-checkout.
