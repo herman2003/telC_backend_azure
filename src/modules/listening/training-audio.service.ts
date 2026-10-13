@@ -32,13 +32,12 @@ const LINK_LIFETIME_FACTOR = 2;
 /**
  * Playing a Hören recording in training.
  *
- * Same shape as exam play: server counts, returns a short-lived stream URL,
- * never a durable R2 address. Counter is per student + audio.
+ * Returns a short-lived signed stream URL (never a durable R2 address).
+ * Counter is per student + audio for `playsRemaining` / UI.
  *
- * `exam_plays_allowed` unlocks that many *listens* (first grants). After the
- * allowance is spent, further `/play` calls **re-issue** a fresh signed URL
- * without incrementing — so the app can download again when a prior link
- * expired, without treating each download as a new listen.
+ * `exam_plays_allowed` increments only while under the cap. Further `/play`
+ * calls always re-issue a fresh URL (no `NO_PLAYS_LEFT`): access is gated by
+ * auth + token TTL (`AUDIO_TOKEN_EXPIRED` when the link is past `expiresAt`).
  */
 @Injectable()
 export class TrainingAudioService {
@@ -107,10 +106,11 @@ export class TrainingAudioService {
         data: { student_id: studentId, audio_id: audioId, plays_used: 0 },
       });
     } catch {
-      // Another request created the row first; the claim below still decides.
+      // Another request created the row first; updateMany below is the arbiter.
     }
 
-    const spent = await this.prisma.trainingAudioPlay.updateMany({
+    // Increment only while under the cap; otherwise leave plays_used as-is.
+    await this.prisma.trainingAudioPlay.updateMany({
       where: {
         student_id: studentId,
         audio_id: audioId,
@@ -125,26 +125,21 @@ export class TrainingAudioService {
       },
       select: { plays_used: true },
     });
-    const playNumber = row.plays_used;
+    const playNumber = Math.max(1, row.plays_used);
 
-    // Allowance already spent: refresh the stream URL only (no extra increment).
-    // The client stores the file; this path covers expired links after logout /
-    // cache clear without locking the student behind NO_PLAYS_LEFT forever.
-    if (spent.count !== 1 && playNumber < 1) {
-      throw new BadRequestException('NO_PLAYS_LEFT');
-    }
-
+    // Always mint a fresh signed URL. Expiry is enforced on stream verify
+    // (AUDIO_TOKEN_EXPIRED), not by refusing /play.
     const token = this.signFor({
       studentId,
       audioId,
-      playNumber: Math.max(1, playNumber),
+      playNumber,
       expiresAt,
     });
 
     return {
       audioId,
       url: `/api/listening/audio?token=${token}`,
-      playsRemaining: Math.max(0, allowed - playNumber),
+      playsRemaining: Math.max(0, allowed - row.plays_used),
       expiresAt,
     };
   }
