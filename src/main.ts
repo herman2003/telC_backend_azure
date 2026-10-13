@@ -4,7 +4,11 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { APP_CREATE_OPTIONS, configureSecurity } from './bootstrap-config';
+import {
+  APP_CREATE_OPTIONS,
+  configureLifecycle,
+  configureSecurity,
+} from './bootstrap-config';
 
 async function bootstrap() {
   // APP_CREATE_OPTIONS keeps each request's raw bytes, which payment webhook
@@ -18,6 +22,8 @@ async function bootstrap() {
   // `void bootstrap()` below is why importing this file to check them cannot
   // work.
   configureSecurity(app);
+  // Before listen: so a SIGTERM during/after boot still closes Prisma/Valkey.
+  configureLifecycle(app);
   app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/static' });
 
   const swaggerConfig = new DocumentBuilder()

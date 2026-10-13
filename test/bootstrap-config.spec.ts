@@ -2,7 +2,11 @@
 import { ValidationPipe } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { APP_CREATE_OPTIONS, configureSecurity } from '../src/bootstrap-config';
+import {
+  APP_CREATE_OPTIONS,
+  configureLifecycle,
+  configureSecurity,
+} from '../src/bootstrap-config';
 import { AuthExceptionFilter } from '../src/shared/filters/auth-exception.filter';
 
 /**
@@ -26,6 +30,7 @@ describe('the application security configuration', () => {
     useGlobalFilters: jest.fn(),
     enableCors: jest.fn(),
     useStaticAssets: jest.fn(),
+    enableShutdownHooks: jest.fn(),
   });
 
   let app: ReturnType<typeof buildApp>;
@@ -127,6 +132,31 @@ describe('the application security configuration', () => {
       };
       expect(origin).not.toContain('*');
       expect(origin.every((o) => o.startsWith('http://localhost'))).toBe(true);
+    });
+  });
+
+  /**
+   * Without this, SIGTERM on deploy skips OnModuleDestroy / OnApplicationShutdown,
+   * so Prisma's pg pool and Valkey stay open while the replacement container
+   * starts — two deployments' worth of Neon connections at once.
+   */
+  describe('shutdown hooks', () => {
+    it('registers Nest lifecycle listeners for SIGTERM', () => {
+      configureLifecycle(app as never);
+
+      expect(app.enableShutdownHooks).toHaveBeenCalledTimes(1);
+    });
+
+    it('is what main.ts actually installs before listen', () => {
+      const main = readFileSync(
+        join(__dirname, '..', 'src', 'main.ts'),
+        'utf8',
+      );
+
+      expect(main).toMatch(/configureLifecycle\(app\)/);
+      expect(main.indexOf('configureLifecycle(app)')).toBeLessThan(
+        main.indexOf('app.listen'),
+      );
     });
   });
 
