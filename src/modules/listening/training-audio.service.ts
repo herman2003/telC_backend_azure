@@ -32,9 +32,13 @@ const LINK_LIFETIME_FACTOR = 2;
 /**
  * Playing a Hören recording in training.
  *
- * Same contract as exam play: server counts, returns a short-lived stream URL,
- * never a durable R2 address. Counter is per student + audio, not per exam
- * attempt.
+ * Same shape as exam play: server counts, returns a short-lived stream URL,
+ * never a durable R2 address. Counter is per student + audio.
+ *
+ * `exam_plays_allowed` unlocks that many *listens* (first grants). After the
+ * allowance is spent, further `/play` calls **re-issue** a fresh signed URL
+ * without incrementing — so the app can download again when a prior link
+ * expired, without treating each download as a new listen.
  */
 @Injectable()
 export class TrainingAudioService {
@@ -114,7 +118,6 @@ export class TrainingAudioService {
       },
       data: { plays_used: { increment: 1 } },
     });
-    if (spent.count !== 1) throw new BadRequestException('NO_PLAYS_LEFT');
 
     const row = await this.prisma.trainingAudioPlay.findUniqueOrThrow({
       where: {
@@ -124,10 +127,17 @@ export class TrainingAudioService {
     });
     const playNumber = row.plays_used;
 
+    // Allowance already spent: refresh the stream URL only (no extra increment).
+    // The client stores the file; this path covers expired links after logout /
+    // cache clear without locking the student behind NO_PLAYS_LEFT forever.
+    if (spent.count !== 1 && playNumber < 1) {
+      throw new BadRequestException('NO_PLAYS_LEFT');
+    }
+
     const token = this.signFor({
       studentId,
       audioId,
-      playNumber,
+      playNumber: Math.max(1, playNumber),
       expiresAt,
     });
 
