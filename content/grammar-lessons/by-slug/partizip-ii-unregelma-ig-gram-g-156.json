@@ -1,0 +1,39 @@
+{
+  "slug": "partizip-ii-unregelma-ig-gram-g-156",
+  "titleFr": "Participe II — verbes irréguliers",
+  "titleEn": "Past participle — irregular verbs",
+  "titleDe": "Partizip II — unregelmäßig",
+  "ruleFr": "## Participe II des verbes irréguliers\n\n### Formule\n**ge-** + (radical souvent **modifié**) + **-en**\n\n| Infinitif | Participe II |\n|---|---|\n| gehen | **gegangen** |\n| schreiben | **geschrieben** |\n| fahren | **gefahren** |\n| lesen | **gelesen** |\n| sprechen | **gesprochen** |\n\n### À retenir\nLa voyelle du radical **change souvent** — ces formes s’apprennent par cœur (comme *gone*, *written* en anglais).\n\n### Dans le Perfekt\n*Ich bin **gegangen**.* (avec *sein*)  \n*Ich habe **geschrieben**.* (avec *haben*)\n\n### Mini-entraînement\nReliez infinitif ↔ participe pour 10 verbes irréguliers.",
+  "ruleEn": "## Past participle of irregular verbs\n\n### Formula\n**ge-** + (often **changed** stem) + **-en**\n\n| Infinitive | Past participle |\n|---|---|\n| gehen | **gegangen** |\n| schreiben | **geschrieben** |\n| fahren | **gefahren** |\n| lesen | **gelesen** |\n| sprechen | **gesprochen** |\n\n### Remember\nThe stem vowel **often changes** — learn these by heart (like *gone*, *written* in English).\n\n### In the perfect\n*Ich bin **gegangen**.* (with *sein*)  \n*Ich habe **geschrieben**.* (with *haben*)\n\n### Mini practice\nMatch infinitive ↔ participle for 10 irregular verbs.",
+  "ruleDe": "## Partizip II der unregelmäßigen Verben\n\n### Formel\n**ge-** + (oft **veränderter**) Stamm + **-en**\n\n| Infinitiv | Partizip II |\n|---|---|\n| gehen | **gegangen** |\n| schreiben | **geschrieben** |\n| fahren | **gefahren** |\n| lesen | **gelesen** |\n| sprechen | **gesprochen** |\n\n### Merken\nDer Stammvokal ändert sich oft — auswendig lernen!\n\n### Im Perfekt\n*Ich bin **gegangen**.* / *Ich habe **geschrieben**.*\n\n### Mini-Übung\nOrdnen Sie Infinitiv ↔ Partizip für 10 unregelmäßige Verben.",
+  "notesFr": "La voyelle change souvent : ces formes s’apprennent par cœur.",
+  "notesEn": "The stem vowel often changes: these forms must be memorized.",
+  "notesDe": "Stammvokal ändert sich oft! Diese Formen muss man auswendig lernen.",
+  "examples": [
+    {
+      "de": "Ich bin zu Fuß gegangen.",
+      "fr": "Je suis allé(e) à pied. (*gegangen*.)",
+      "en": "I went on foot. (*gegangen*.)"
+    },
+    {
+      "de": "Sie hat einen Brief geschrieben.",
+      "fr": "Elle a écrit une lettre. (*geschrieben*.)",
+      "en": "She wrote a letter. (*geschrieben*.)"
+    },
+    {
+      "de": "Wir sind nach Köln gefahren.",
+      "fr": "Nous sommes allés à Cologne. (*gefahren*.)",
+      "en": "We drove to Cologne. (*gefahren*.)"
+    },
+    {
+      "de": "Hast du die Zeitung gelesen?",
+      "fr": "As-tu lu le journal ? (*gelesen*.)",
+      "en": "Did you read the newspaper? (*gelesen*.)"
+    },
+    {
+      "de": "Er hat Deutsch gesprochen.",
+      "fr": "Il a parlé allemand. (*gesprochen*.)",
+      "en": "He spoke German. (*gesprochen*.)"
+    }
+  ]
+}

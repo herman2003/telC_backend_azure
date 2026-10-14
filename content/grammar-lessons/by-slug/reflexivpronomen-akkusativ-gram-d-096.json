@@ -1,0 +1,39 @@
+{
+  "slug": "reflexivpronomen-akkusativ-gram-d-096",
+  "titleFr": "Les réfléchis à l’accusatif",
+  "titleEn": "Reflexive pronouns in the accusative",
+  "titleDe": "Reflexivpronomen — Akkusativ",
+  "ruleFr": "## Les réfléchis à l’accusatif\n\nQuand le verbe réfléchi n’a **pas d’autre complément d’objet**, le réfléchi est à l’**accusatif**.\n\n### Formes (accusatif)\n| ich | du | er/sie/es | wir | ihr | sie/Sie |\n|---|---|---|---|---|---|\n| **mich** | **dich** | **sich** | **uns** | **euch** | **sich** |\n\n### Règle d’or\nÀ la **3e personne** (singulier **et** pluriel) et pour le *Sie* de politesse : toujours **sich**.\n\n### Verbes typiques (Akk.)\n*sich waschen, sich duschen, sich anziehen, sich ausruhen, sich beeilen, sich hinsetzen, sich freuen*\n\n### Pattern\n**Subjekt + Verb + Reflexiv (Akk.) + …**\n→ *Ich dusche **mich**.* / *Die Kinder waschen **sich**.*\n\n### Mini-entraînement\nConjuguez *sich anziehen* aux 6 personnes.",
+  "ruleEn": "## Reflexive pronouns in the accusative\n\nWhen a reflexive verb has **no other object**, the reflexive is **accusative**.\n\n### Forms (accusative)\n| ich | du | er/sie/es | wir | ihr | sie/Sie |\n|---|---|---|---|---|---|\n| **mich** | **dich** | **sich** | **uns** | **euch** | **sich** |\n\n### Golden rule\nFor **3rd person** (singular **and** plural) and formal *Sie*: always **sich**.\n\n### Typical verbs (Acc.)\n*sich waschen, sich duschen, sich anziehen, sich ausruhen, sich beeilen, sich hinsetzen, sich freuen*\n\n### Pattern\n**Subject + verb + reflexive (Acc.) + …**\n→ *Ich dusche **mich**.* / *Die Kinder waschen **sich**.*\n\n### Mini practice\nConjugate *sich anziehen* in all six persons.",
+  "ruleDe": "## Reflexivpronomen im Akkusativ\n\nHat das reflexive Verb **kein weiteres Objekt**, steht das Reflexivpronomen im **Akkusativ**.\n\n### Formen (Akkusativ)\n| ich | du | er/sie/es | wir | ihr | sie/Sie |\n|---|---|---|---|---|---|\n| **mich** | **dich** | **sich** | **uns** | **euch** | **sich** |\n\n### Merksatz\n3. Person Singular **und** Plural sowie Höflichkeits-*Sie*: immer **sich**.\n\n### Typische Verben (Akk.)\n*sich waschen, sich duschen, sich anziehen, sich ausruhen, sich beeilen, sich hinsetzen, sich freuen*\n\n### Muster\n**Subjekt + Verb + Reflexiv (Akk.) + …**\n→ *Ich dusche **mich**.* / *Die Kinder waschen **sich**.*\n\n### Mini-Übung\nKonjugieren Sie *sich anziehen* in allen sechs Personen.",
+  "notesFr": "3e personne (singulier ET pluriel) : toujours « sich » !",
+  "notesEn": "3rd person (singular AND plural): always “sich”!",
+  "notesDe": "3. Person (Singular UND Plural): immer „sich“!",
+  "examples": [
+    {
+      "de": "Ich wasche mich mit kaltem Wasser.",
+      "fr": "Je me lave à l’eau froide. (« mich » = accusatif.)",
+      "en": "I wash myself with cold water. (“mich” = accusative.)"
+    },
+    {
+      "de": "Du ziehst dich schnell an.",
+      "fr": "Tu t’habilles vite. (« dich » = accusatif.)",
+      "en": "You get dressed quickly. (“dich” = accusative.)"
+    },
+    {
+      "de": "Er beeilt sich zum Bahnhof.",
+      "fr": "Il se dépêche vers la gare. (« sich » = 3e personne.)",
+      "en": "He hurries to the station. (“sich” = 3rd person.)"
+    },
+    {
+      "de": "Wir ruhen uns nach der Arbeit aus.",
+      "fr": "Nous nous reposons après le travail. (« uns ».)",
+      "en": "We rest after work. (“uns”.)"
+    },
+    {
+      "de": "Die Gäste setzen sich hin.",
+      "fr": "Les invités s’assoient. (« sich » aussi au pluriel !)",
+      "en": "The guests sit down. (“sich” for plural too!)"
+    }
+  ]
+}

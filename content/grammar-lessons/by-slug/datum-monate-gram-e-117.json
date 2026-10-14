@@ -1,0 +1,39 @@
+{
+  "slug": "datum-monate-gram-e-117",
+  "titleFr": "Les mois",
+  "titleEn": "The months",
+  "titleDe": "Datum — Monate",
+  "ruleFr": "## Les mois de l’année\n\nTous les mois sont **masculins** : *der Januar, der Februar…*\n\n### « En » + mois → *im*\n***im*** = *in dem* → *im Januar, im Februar, im März…*\n\n### Liste\nJanuar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember\n\n### Combinaison avec le jour\n*am dritten **März*** / *im **März***\n\n### Mini-entraînement\nDites en allemand : en janvier, en août, le 5 juin.",
+  "ruleEn": "## The months\n\nAll months are **masculine**: *der Januar, der Februar…*\n\n### “In” + month → *im*\n***im*** = *in dem* → *im Januar, im März…*\n\n### List\nJanuar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember\n\n### Mini practice\nSay: in January, in August, on June 5.",
+  "ruleDe": "## Die Monate\n\nAlle Monate sind Maskulinum. *im* = *in dem*: *im Januar* usw.\n\n### Mini-Übung\nim Januar / im August / am fünften Juni.",
+  "notesFr": "in + dem = im. Tous les mois : der Januar, der Februar, etc.",
+  "notesEn": "in + dem = im. All months: der Januar, der Februar, etc.",
+  "notesDe": "in + dem = im. Alle Monate: der Januar, der Februar usw.",
+  "examples": [
+    {
+      "de": "Im Januar ist es oft kalt.",
+      "fr": "En janvier il fait souvent froid.",
+      "en": "In January it is often cold."
+    },
+    {
+      "de": "Wir fliegen im August nach Spanien.",
+      "fr": "Nous volons en août vers l’Espagne.",
+      "en": "We’re flying to Spain in August."
+    },
+    {
+      "de": "Der März war dieses Jahr warm.",
+      "fr": "Mars a été chaud cette année.",
+      "en": "March was warm this year."
+    },
+    {
+      "de": "Im Dezember feiern wir Weihnachten.",
+      "fr": "En décembre nous fêtons Noël.",
+      "en": "In December we celebrate Christmas."
+    },
+    {
+      "de": "Am ersten Mai ist Frühling.",
+      "fr": "Le 1er mai, c’est le printemps.",
+      "en": "On the first of May it is spring."
+    }
+  ]
+}

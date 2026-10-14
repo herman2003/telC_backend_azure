@@ -1,0 +1,39 @@
+{
+  "slug": "relativpronomen-dativ-gram-u-307",
+  "titleFr": "Pronom relatif au datif",
+  "titleEn": "Relative pronouns — dative",
+  "titleDe": "Relativpronomen — Dativ",
+  "ruleFr": "## Relatif au datif — complément indirect / datif\n\nSi le relatif est au **datif** dans la relative (*helfen, mit, bei…*) → formes datif.\n\n### Formes\n| Mask. | Fem. | Neut. | Plur. |\n|---|---|---|---|\n| **dem** | **der** | **dem** | **denen** |\n\n### Pluriel : *denen* (pas *die* !)\n- *die Leute, **denen** ich helfe*\n\n### Exemples\n- *der Freund, **dem** ich danke*\n- *die Frau, **der** wir helfen*\n- *das Kind, **dem** sie ein Buch schenkt*\n\n### Mini-entraînement\n*helfen + Dat.* → relative avec *dem/der/denen*.",
+  "ruleEn": "## Dative relative pronoun\n\nIf the relative is **dative** inside the relative clause (*helfen, mit, bei…*) → dative forms.\n\n### Forms\n| Masc. | Fem. | Neut. | Plur. |\n|---|---|---|---|\n| **dem** | **der** | **dem** | **denen** |\n\n### Plural: *denen* (not *die*!)\n- *die Leute, **denen** ich helfe*\n\n### Examples\n- *der Freund, **dem** ich danke*\n- *die Frau, **der** wir helfen*\n- *das Kind, **dem** sie ein Buch schenkt*\n\n### Mini practice\n*helfen + Dat.* → relative with *dem/der/denen*.",
+  "ruleDe": "## Relativpronomen Dativ\n\nFormen: **dem/der/dem/denen**. Plural: **denen**!\n\n### Mini-Übung\n*helfen* → Relativsatz mit *dem/der/denen*.",
+  "notesFr": "Pluriel : *denen* (pas *die*) !",
+  "notesEn": "Plural: *denen* (not *die*)!",
+  "notesDe": "Plural: *denen* (nicht 'die')!",
+  "examples": [
+    {
+      "de": "Das ist der Freund, dem ich danke.",
+      "fr": "C’est l’ami que je remercie. (*dem*)",
+      "en": "That’s the friend I thank. (*dem*)"
+    },
+    {
+      "de": "Die Frau, der wir helfen, ist unsere Nachbarin.",
+      "fr": "La femme à qui nous aidons est notre voisine.",
+      "en": "The woman we help is our neighbour."
+    },
+    {
+      "de": "Das Kind, dem sie ein Buch schenkt, freut sich.",
+      "fr": "L’enfant à qui elle offre un livre est content.",
+      "en": "The child she gives a book to is happy."
+    },
+    {
+      "de": "Die Leute, denen ich helfe, sind dankbar.",
+      "fr": "Les gens à qui j’aide sont reconnaissants. (*denen*)",
+      "en": "The people I help are grateful. (*denen*)"
+    },
+    {
+      "de": "Kennst du den Mann, mit dem sie spricht?",
+      "fr": "Connais-tu l’homme avec qui elle parle ?",
+      "en": "Do you know the man she is talking to?"
+    }
+  ]
+}

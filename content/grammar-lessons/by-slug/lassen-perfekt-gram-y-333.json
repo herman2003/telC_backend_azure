@@ -1,0 +1,39 @@
+{
+  "slug": "lassen-perfekt-gram-y-333",
+  "titleFr": "lassen — parfait (Ersatzinfinitiv)",
+  "titleEn": "lassen — perfect tense",
+  "titleDe": "lassen — Perfekt",
+  "ruleFr": "## lassen — parfait avec infinitif\n\nQuand *lassen* est suivi d’un **infinitif**, le parfait utilise un **Ersatzinfinitiv** (comme les verbes modaux).\n\n### Règle centrale\n**haben + infinitif + lassen** (pas *gelassen* !)\n\n- ✓ *Ich habe mein Auto reparieren lassen.*\n- ✗ *Ich habe mein Auto reparieren gelassen.*\n\n### Comparaison\n| Sans infinitif | Avec infinitif |\n|---|---|\n| *Ich habe den Schlüssel gelassen.* (laissé) | *Ich habe den Schlüssel machen lassen.* |\n| participe *gelassen* | double infinitif : *… machen lassen* |\n\n### Ordre dans la subordonnée\n*…, dass ich das Auto habe reparieren lassen.*  \n(auxiliaire *habe* souvent avant les deux infinitifs)\n\n### Comme les modaux\nMême schéma que : *Ich habe gehen müssen.* / *Sie hat kommen wollen.*\n\n### Mini-entraînement\n1. Mettez 5 phrases au parfait.\n2. Corrigez les *gelassen* fautifs.\n3. Écrivez 3 subordonnées avec *haben … lassen*.",
+  "ruleEn": "## lassen — perfect with infinitive\n\nWhen *lassen* is followed by an **infinitive**, the perfect uses an **Ersatzinfinitiv** (like modal verbs).\n\n### Core rule\n**haben + infinitive + lassen** (not *gelassen*!)\n\n- ✓ *Ich habe mein Auto reparieren lassen.*\n- ✗ *Ich habe mein Auto reparieren gelassen.*\n\n### Comparison\n| Without infinitive | With infinitive |\n|---|---|\n| *Ich habe den Schlüssel gelassen.* | *Ich habe den Schlüssel machen lassen.* |\n| past participle *gelassen* | double infinitive: *… machen lassen* |\n\n### Order in subordinate clauses\n*…, dass ich das Auto habe reparieren lassen.*  \n(*habe* often before the two infinitives)\n\n### Like modals\nSame pattern as: *Ich habe gehen müssen.* / *Sie hat kommen wollen.*\n\n### Mini practice\n1. Put 5 sentences into the perfect.\n2. Correct wrong *gelassen* forms.\n3. Write 3 subordinates with *haben … lassen*.",
+  "ruleDe": "## lassen — Perfekt\n\nWenn *lassen* mit einem **Infinitiv** steht, steht im Perfekt ein **Ersatzinfinitiv** (wie bei Modalverben).\n\n### Kernregel\n**haben + Infinitiv + lassen** (nicht *gelassen*!)\n\n- ✓ *Ich habe mein Auto reparieren lassen.*\n- ✗ *Ich habe mein Auto reparieren gelassen.*\n\n### Vergleich\n| Ohne Infinitiv | Mit Infinitiv |\n|---|---|\n| *Ich habe den Schlüssel gelassen.* | *Ich habe den Schlüssel machen lassen.* |\n| Partizip *gelassen* | Doppelinfinitiv: *… machen lassen* |\n\n### Stellung im Nebensatz\n*…, dass ich das Auto habe reparieren lassen.*\n\n### Wie Modalverben\nGleich wie: *Ich habe gehen müssen.*\n\n### Mini-Übung\n1. 5 Sätze ins Perfekt setzen.\n2. Falsches *gelassen* korrigieren.\n3. 3 Nebensätze mit *haben … lassen* schreiben.",
+  "notesFr": "Ersatzinfinitiv ! Comme les modaux : haben + infinitif + lassen (pas gelassen).",
+  "notesEn": "Ersatzinfinitiv! Like modals: haben + infinitive + lassen (not gelassen).",
+  "notesDe": "Ersatzinfinitiv! Wie bei Modalverben: haben + Inf + lassen (nicht gelassen).",
+  "examples": [
+    {
+      "de": "Ich habe mein Auto reparieren lassen.",
+      "fr": "J’ai fait réparer ma voiture. (pas *gelassen*.)",
+      "en": "I had my car repaired. (not *gelassen*.)"
+    },
+    {
+      "de": "Sie hat sich die Haare schneiden lassen.",
+      "fr": "Elle s’est fait couper les cheveux.",
+      "en": "She had her hair cut."
+    },
+    {
+      "de": "Wir haben die Kinder allein spielen lassen.",
+      "fr": "Nous avons laissé les enfants jouer seuls.",
+      "en": "We let the children play alone."
+    },
+    {
+      "de": "Er hat mich nicht ausreden lassen.",
+      "fr": "Il ne m’a pas laissé finir mon propos.",
+      "en": "He didn’t let me finish speaking."
+    },
+    {
+      "de": "Ich weiß, dass sie das Haus haben streichen lassen.",
+      "fr": "Je sais qu’ils ont fait peindre la maison.",
+      "en": "I know that they had the house painted."
+    }
+  ]
+}

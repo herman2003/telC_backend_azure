@@ -1,0 +1,39 @@
+{
+  "slug": "genus-maskulin-endungen-gram-cc-346",
+  "titleFr": "Genre — terminaisons masculines",
+  "titleEn": "Gender — masculine endings",
+  "titleDe": "Genus — Maskulin-Endungen",
+  "ruleFr": "## Genre — terminaisons masculines\n\nCertaines **terminaisons** indiquent presque toujours le **masculin** (*der*).\n\n### Terminaisons typiquement masculines\n| Endung | Exemples |\n|---|---|\n| **-er** (noms d’agent) | *der Lehrer, der Fahrer, der Arbeiter* |\n| **-ling** | *der Lehrling, der Frühling, der Flüchtling* |\n| **-or** | *der Motor, der Doktor, der Traktor* |\n| **-ismus** | *der Tourismus, der Idealismus* |\n| **-ant / -ent** | *der Student, der Elefant, der Präsident* |\n| **-ner** | *der Rentner, der Künstler* |\n\n### Aussi masculins (sens)\n- Jours, mois, saisons : *der Montag, der Januar, der Sommer*\n- Points cardinaux : *der Norden, der Süden*\n- Alcool fort : *der Wein, der Schnaps* (souvent)\n\n### Attention\n**-er** n’est pas toujours masculin : *die Butter, die Tochter, das Fenster, das Messer*…\n\n### Mini-entraînement\n1. Ajoutez *der/die/das* à 15 mots en -er/-ung/-chen.\n2. Listez 10 professions en *-er* / *-ent*.\n3. Apprenez jours/mois avec *der*.",
+  "ruleEn": "## Gender — masculine endings\n\nSome **endings** almost always signal **masculine** (*der*).\n\n### Typically masculine endings\n| Ending | Examples |\n|---|---|\n| **-er** (agent nouns) | *der Lehrer, der Fahrer, der Arbeiter* |\n| **-ling** | *der Lehrling, der Frühling* |\n| **-or** | *der Motor, der Doktor* |\n| **-ismus** | *der Tourismus, der Idealismus* |\n| **-ant / -ent** | *der Student, der Präsident* |\n\n### Also masculine (meaning)\n- Days, months, seasons: *der Montag, der Januar, der Sommer*\n- Cardinal points: *der Norden*\n\n### Caution\n**-er** is not always masculine: *die Butter, die Tochter, das Fenster*…\n\n### Mini practice\n1. Add *der/die/das* to 15 words.\n2. List 10 jobs in *-er* / *-ent*.\n3. Learn days/months with *der*.",
+  "ruleDe": "## Genus — Maskulin-Endungen\n\nManche **Endungen** signalieren fast immer **Maskulinum** (*der*).\n\n### Typisch maskulin\n| Endung | Beispiele |\n|---|---|\n| **-er** | *der Lehrer, der Fahrer* |\n| **-ling** | *der Lehrling, der Frühling* |\n| **-or** | *der Motor, der Doktor* |\n| **-ismus** | *der Tourismus* |\n| **-ant / -ent** | *der Student, der Präsident* |\n\n### Auch maskulin\nTage, Monate, Jahreszeiten: *der Montag, der Januar, der Sommer*.\n\n### Vorsicht\n**-er** nicht immer maskulin: *die Butter, das Fenster*…\n\n### Mini-Übung\n1. Artikel zu 15 Wörtern setzen.\n2. 10 Berufe auf *-er/-ent* nennen.\n3. Tage/Monate mit *der* lernen.",
+  "notesFr": "Aussi : jours, mois, saisons (der Montag, der Januar, der Sommer). Attention : -er n’est pas toujours masculin.",
+  "notesEn": "Also: days, months, seasons (der Montag, der Januar, der Sommer). Caution: -er is not always masculine.",
+  "notesDe": "Auch: Tage, Monate, Jahreszeiten. Vorsicht: -er nicht immer maskulin.",
+  "examples": [
+    {
+      "de": "Der Lehrer erklärt die Regel.",
+      "fr": "Le professeur explique la règle. (-er = souvent masculin.)",
+      "en": "The teacher explains the rule. (-er = often masculine.)"
+    },
+    {
+      "de": "Der Student lernt für die Prüfung.",
+      "fr": "L’étudiant révise pour l’examen. (-ent.)",
+      "en": "The student is studying for the exam. (-ent.)"
+    },
+    {
+      "de": "Der Motor ist kaputt.",
+      "fr": "Le moteur est en panne. (-or.)",
+      "en": "The engine is broken. (-or.)"
+    },
+    {
+      "de": "Der Sommer war sehr heiß.",
+      "fr": "L’été a été très chaud. (saison = masculin.)",
+      "en": "The summer was very hot. (season = masculine.)"
+    },
+    {
+      "de": "Der Tourismus wächst in der Region.",
+      "fr": "Le tourisme croît dans la région. (-ismus.)",
+      "en": "Tourism is growing in the region. (-ismus.)"
+    }
+  ]
+}

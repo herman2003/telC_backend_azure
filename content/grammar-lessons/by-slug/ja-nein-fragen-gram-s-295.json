@@ -1,0 +1,39 @@
+{
+  "slug": "ja-nein-fragen-gram-s-295",
+  "titleFr": "Les questions oui / non",
+  "titleEn": "Yes / no questions",
+  "titleDe": "Ja/Nein-Fragen",
+  "ruleFr": "## Questions oui / non\n\nPour une question à réponse **ja** ou **nein**, le verbe conjugué passe en **position 1**.\n\n### Structure\n**Verb + Subjekt + Rest?**\n- ***Kommst** du morgen?*\n- ***Hast** du Zeit?*\n- ***Ist** das dein Auto?*\n\n### Pas de *do / does*\nContrairement à l’anglais, on n’ajoute pas d’auxiliaire : on inverse directement.\n- EN: *Do you speak German?*\n- DE: ***Sprichst** du Deutsch?*\n\n### Réponses\n- *Ja, ich komme.* / *Nein, ich komme nicht.*\n- Après une question **négative**, une réponse positive utilise souvent **doch** (leçon suivante).\n\n### Mini-entraînement\nTransformez 5 affirmations en questions oui/non.",
+  "ruleEn": "## Yes / no questions\n\nFor a **yes/no** question, the conjugated verb moves to **position 1**.\n\n### Structure\n**Verb + Subject + Rest?**\n- ***Kommst** du morgen?*\n- ***Hast** du Zeit?*\n- ***Ist** das dein Auto?*\n\n### No *do / does*\nUnlike English, you don’t add an auxiliary — you invert directly.\n- EN: *Do you speak German?*\n- DE: ***Sprichst** du Deutsch?*\n\n### Answers\n- *Ja, ich komme.* / *Nein, ich komme nicht.*\n- After a **negative** question, a positive answer often uses **doch**.\n\n### Mini practice\nTurn 5 statements into yes/no questions.",
+  "ruleDe": "## Ja/Nein-Fragen\n\nBei Ja/Nein-Fragen steht das finite Verb auf **Position 1**.\n\n### Struktur\n**Verb + Subjekt + Rest?**\n- ***Kommst** du morgen?*\n- ***Hast** du Zeit?*\n\n### Kein *do/does*\nDirekt invertieren: ***Sprichst** du Deutsch?*\n\n### Mini-Übung\n5 Aussagen in Ja/Nein-Fragen umformen.",
+  "notesFr": "Pas de *do/does* comme en anglais ! Le verbe va directement en tête.",
+  "notesEn": "No *do/does* like in English! The verb goes straight to the front.",
+  "notesDe": "Kein 'do/does' wie im Englischen! Verb direkt an den Anfang.",
+  "examples": [
+    {
+      "de": "Kommst du morgen?",
+      "fr": "Tu viens demain ?",
+      "en": "Are you coming tomorrow?"
+    },
+    {
+      "de": "Hast du Zeit?",
+      "fr": "As-tu le temps ?",
+      "en": "Do you have time?"
+    },
+    {
+      "de": "Ist das dein Fahrrad?",
+      "fr": "Est-ce ton vélo ?",
+      "en": "Is that your bike?"
+    },
+    {
+      "de": "Sprichst du Deutsch?",
+      "fr": "Parles-tu allemand ?",
+      "en": "Do you speak German?"
+    },
+    {
+      "de": "Wohnen Sie in Berlin?",
+      "fr": "Habitez-vous à Berlin ?",
+      "en": "Do you live in Berlin?"
+    }
+  ]
+}

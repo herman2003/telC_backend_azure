@@ -1,0 +1,39 @@
+{
+  "slug": "welcher-welche-welches-gram-c-073",
+  "titleFr": "Welcher — déclinaison comme dieser",
+  "titleEn": "Welcher — declension like dieser",
+  "titleDe": "welcher/welche/welches",
+  "ruleFr": "## Welcher se décline comme dieser\n\nMêmes terminaisons que l’article défini / *dieser*.\n\n### Aperçu masculin\n| cas | forme |\n|---|---|\n| Nom. | **welcher** Mann |\n| Akk. | **welchen** Mann |\n| Dat. | **welchem** Mann |\n| Gen. | **welches** Mannes |\n\n### Féminin / neutre / pluriel (idée)\nComme *diese / dieses / diese* : *-e, -es, -er, -em, -en* selon le cas.\n\n### Mini-entraînement\nPosez la même question aux 4 cas : *___ Film siehst du? / mit ___ Freund sprichst du?* etc.",
+  "ruleEn": "## Welcher declines like dieser\n\nSame endings as the definite article / *dieser*.\n\n### Masculine overview\nNom. **welcher** · Acc. **welchen** · Dat. **welchem** · Gen. **welches**\n\n### Mini practice\nAsk related questions in different cases: *___ Film…? / mit ___ Freund…?*",
+  "ruleDe": "## Welcher dekliniert wie dieser\n\n### Maskulinum\nNom **welcher** · Akk **welchen** · Dat **welchem** · Gen **welches**\n\n### Mini-Übung\nFragen in verschiedenen Kasus: *___ Film…? / mit ___ Freund…?*",
+  "notesFr": "Tous les cas : *-er, -en, -em, -es* (m) | *-e, -e, -er, -er* (f) | *-es, -es, -em, -es* (n).",
+  "notesEn": "All cases: *-er, -en, -em, -es* (m) | *-e, -e, -er, -er* (f) | *-es, -es, -em, -es* (n).",
+  "notesDe": "Alle Kasus: *-er, -en, -em, -es* (m) | *-e, -e, -er, -er* (f) | *-es, -es, -em, -es* (n).",
+  "examples": [
+    {
+      "de": "Welcher Film läuft heute?",
+      "fr": "Quel film passe aujourd’hui ? (nominatif.)",
+      "en": "Which film is on today? (nominative.)"
+    },
+    {
+      "de": "Welchen Film siehst du?",
+      "fr": "Quel film regardes-tu ? (accusatif.)",
+      "en": "Which film are you watching? (accusative.)"
+    },
+    {
+      "de": "Mit welchem Freund sprichst du?",
+      "fr": "Avec quel ami parles-tu ? (datif.)",
+      "en": "Which friend are you talking to? (dative.)"
+    },
+    {
+      "de": "Trotz welches Problems gehst du hin?",
+      "fr": "Malgré quel problème y vas-tu ? (génitif, soutenu.)",
+      "en": "Despite which problem are you going? (genitive, formal.)"
+    },
+    {
+      "de": "In welcher Stadt wohnst du?",
+      "fr": "Dans quelle ville habites-tu ?",
+      "en": "In which city do you live?"
+    }
+  ]
+}

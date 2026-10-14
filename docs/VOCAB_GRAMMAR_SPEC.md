@@ -532,9 +532,16 @@ Thème (id UUID)
 # —— EXERCICES grammar (quotidien, ordre forcé) ——
 /api/grammar/exercises/of-the-day                GET   liste ordonnée + flags locked/unlocked/done (sans answer)
 /api/grammar/exercises/:exerciseId/submit        POST  { answer } → correct ; refuse si step locked
+
+# —— PRACTICE grammar (libre, avec answers ; chrono client only) ——
+/api/grammar/levels                              GET   presets easy/medium/hard + durationMinutes 5/7/10
+/api/grammar/exercises/practice?difficulty=…     GET   pool topics published (mcq+cloze) ; difficulty optionnel
+/api/grammar/practice/submit                     POST  session QCM libre { answers, difficulty?, durationSeconds?, attemptId? } → score persisté
+/api/grammar/practice/sessions                   GET   historique sessions practice
+/api/grammar/practice/progress                   GET   résumé (count, moyenne, lastAttempt)
 ```
 
-Ordre Nest : `of-the-day` / `of-the-week` / `exercises/of-the-day` / `me/...` **avant** params.
+Ordre Nest : `levels` / `exercises/practice` / `practice/*` / `of-the-day` / `exercises/of-the-day` **avant** params (`topics/:topicId`, `exercises/:exerciseId`).
 
 ### Hors scope (ne pas implémenter)
 

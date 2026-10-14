@@ -1,0 +1,39 @@
+{
+  "slug": "plural-ubersicht-gram-cc-350",
+  "titleFr": "Pluriel — aperçu",
+  "titleEn": "Plural — overview",
+  "titleDe": "Plural — Übersicht",
+  "ruleFr": "## Pluriel — aperçu\n\nL’allemand a **plusieurs types** de pluriel. Il n’y a pas de règle unique : on apprend le pluriel **avec le nom**.\n\n### Les 5 types principaux\n| Type | Singular → Plural | Exemples |\n|---|---|---|\n| **-e** | *der Tag → die Tage* | *der Hund → die Hunde* |\n| **-er** (+ souvent umlaut) | *das Kind → die Kinder* | *das Buch → die Bücher* |\n| **-(e)n** | *die Frau → die Frauen* | *die Blume → die Blumen* |\n| **-s** | *das Auto → die Autos* | *das Hotel → die Hotels* |\n| **Ø** (pas d’ending, parfois umlaut) | *der Lehrer → die Lehrer* | *der Apfel → die Äpfel* |\n\n### Article pluriel\nToujours **die** au nominatif pluriel (défini).\n\n### Stratégie d’apprentissage\nToujours noter : **article + singulier + pluriel**  \n*der Tisch, die Tische* · *das Buch, die Bücher*\n\n### Mini-entraînement\n1. Classez 20 noms dans les 5 types.\n2. Récitez 10 paires singulier/pluriel.\n3. Écrivez 5 phrases au pluriel.",
+  "ruleEn": "## Plural — overview\n\nGerman has **several plural types**. No single rule: learn the plural **with the noun**.\n\n### The 5 main types\n| Type | Singular → Plural | Examples |\n|---|---|---|\n| **-e** | *der Tag → die Tage* | *der Hund → die Hunde* |\n| **-er** (+ often umlaut) | *das Kind → die Kinder* | *das Buch → die Bücher* |\n| **-(e)n** | *die Frau → die Frauen* | *die Blume → die Blumen* |\n| **-s** | *das Auto → die Autos* | *das Hotel → die Hotels* |\n| **Ø** (no ending, sometimes umlaut) | *der Lehrer → die Lehrer* | *der Apfel → die Äpfel* |\n\n### Plural article\nAlways **die** in nominative plural (definite).\n\n### Learning strategy\nAlways note: **article + singular + plural**\n\n### Mini practice\n1. Sort 20 nouns into the 5 types.\n2. Recite 10 singular/plural pairs.\n3. Write 5 plural sentences.",
+  "ruleDe": "## Plural — Übersicht\n\nEs gibt **mehrere Pluraltypen**. Keine Einheitsregel: Plural **mit dem Nomen** lernen.\n\n### Die 5 Haupttypen\n| Typ | Singular → Plural | Beispiele |\n|---|---|---|\n| **-e** | *der Tag → die Tage* | *der Hund → die Hunde* |\n| **-er** | *das Kind → die Kinder* | *das Buch → die Bücher* |\n| **-(e)n** | *die Frau → die Frauen* | *die Blume → die Blumen* |\n| **-s** | *das Auto → die Autos* | *das Hotel → die Hotels* |\n| **Ø** | *der Lehrer → die Lehrer* | *der Apfel → die Äpfel* |\n\n### Pluralartikel\nImmer **die** im Nominativ Plural.\n\n### Mini-Übung\n1. 20 Nomen den 5 Typen zuordnen.\n2. 10 Paare aufsagen.\n3. 5 Plural-Sätze schreiben.",
+  "notesFr": "Pas de règle unique ! Toujours apprendre le pluriel avec le nom : der Tisch – die Tische.",
+  "notesEn": "No single rule! Always learn the plural with the noun: der Tisch – die Tische.",
+  "notesDe": "Keine feste Regel! Plural immer mit dem Nomen lernen: der Tisch – die Tische.",
+  "examples": [
+    {
+      "de": "Die Tage werden länger.",
+      "fr": "Les jours s’allongent. (Tag → Tage : -e.)",
+      "en": "The days are getting longer. (Tag → Tage: -e.)"
+    },
+    {
+      "de": "Die Kinder spielen draußen.",
+      "fr": "Les enfants jouent dehors. (Kind → Kinder : -er.)",
+      "en": "The children are playing outside. (Kind → Kinder: -er.)"
+    },
+    {
+      "de": "Die Frauen warten an der Haltestelle.",
+      "fr": "Les femmes attendent à l’arrêt. (Frau → Frauen : -en.)",
+      "en": "The women are waiting at the stop. (Frau → Frauen: -en.)"
+    },
+    {
+      "de": "Die Autos stehen im Stau.",
+      "fr": "Les voitures sont dans les embouteillages. (Auto → Autos : -s.)",
+      "en": "The cars are stuck in traffic. (Auto → Autos: -s.)"
+    },
+    {
+      "de": "Die Lehrer sprechen Deutsch.",
+      "fr": "Les enseignants parlent allemand. (Lehrer → Lehrer : Ø.)",
+      "en": "The teachers speak German. (Lehrer → Lehrer: Ø.)"
+    }
+  ]
+}

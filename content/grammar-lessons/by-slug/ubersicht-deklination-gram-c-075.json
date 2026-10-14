@@ -1,0 +1,39 @@
+{
+  "slug": "ubersicht-deklination-gram-c-075",
+  "titleFr": "Aperçu — déclinaison des démonstratifs",
+  "titleEn": "Overview — declension of demonstratives",
+  "titleDe": "Übersicht — Deklination",
+  "ruleFr": "## Un même schéma pour presque tous les démonstratifs\n\n*Dieser, jener, welcher, solcher…* suivent en gros les **terminaisons fortes** de l’article défini *der/die/das*.\n\n### Schéma récapitulatif (type *dieser*)\n| | Mask. | Fem. | Neutr. | Plur. |\n|---|---|---|---|---|\n| Nom. | -er | -e | -es | -e |\n| Akk. | -en | -e | -es | -e |\n| Dat. | -em | -er | -em | -en |\n| Gen. | -es | -er | -es | -er |\n\n### À brancher sur\ndieser · jener · welcher · (solcher selon construction) · jeder · …\n\n### Astuce mémoire\nApprenez **une** table (*dieser*) et réutilisez-la.\n\n### Mini-entraînement\nRemplissez la table pour *jener* et *welcher* de mémoire.",
+  "ruleEn": "## One pattern for almost all demonstratives\n\n*Dieser, jener, welcher, solcher…* mostly follow the **strong endings** of definite *der/die/das*.\n\n### Summary table (like *dieser*)\n| | Masc. | Fem. | Neut. | Plur. |\n|---|---|---|---|---|\n| Nom. | -er | -e | -es | -e |\n| Acc. | -en | -e | -es | -e |\n| Dat. | -em | -er | -em | -en |\n| Gen. | -es | -er | -es | -er |\n\n### Applies to\ndieser · jener · welcher · (solcher in some patterns) · jeder · …\n\n### Memory tip\nLearn **one** table (*dieser*) and reuse it.\n\n### Mini practice\nFill the table for *jener* and *welcher* from memory.",
+  "ruleDe": "## Ein Muster für fast alle Demonstrativa\n\n*Dieser, jener, welcher…* folgen den **starken Endungen** wie *der*.\n\n### Übersicht (Typ *dieser*)\nNom -er/-e/-es/-e · Akk -en/-e/-es/-e · Dat -em/-er/-em/-en · Gen -es/-er/-es/-er\n\n### Tipp\nEine Tabelle lernen und übertragen.\n\n### Mini-Übung\nTabelle für *jener* und *welcher* auswendig ausfüllen.",
+  "notesFr": "Retenez : terminaisons fortes comme l’article défini.",
+  "notesEn": "Remember: strong endings like the definite article.",
+  "notesDe": "Merke: starke Endungen wie beim bestimmten Artikel.",
+  "examples": [
+    {
+      "de": "Dieser Mann, jener Mann, welcher Mann?",
+      "fr": "Cet homme, cet homme-là, quel homme ? (même schéma.)",
+      "en": "This man, that man, which man? (same pattern.)"
+    },
+    {
+      "de": "Ich sehe diesen / jenen / welchen Film.",
+      "fr": "Je vois ce / ce …-là / quel film. (accusatif m.)",
+      "en": "I see this / that / which film. (acc. m.)"
+    },
+    {
+      "de": "Mit diesem / jenem / welchem Freund?",
+      "fr": "Avec cet / ce …-là / quel ami ? (datif.)",
+      "en": "With this / that / which friend? (dative.)"
+    },
+    {
+      "de": "Trotz dieses / jenes Problems…",
+      "fr": "Malgré ce / ce …-là problème… (génitif.)",
+      "en": "Despite this / that problem… (genitive.)"
+    },
+    {
+      "de": "Lerne eine Tabelle — nutze sie für alle.",
+      "fr": "Apprenez une table — utilisez-la pour tous.",
+      "en": "Learn one table — use it for all of them."
+    }
+  ]
+}

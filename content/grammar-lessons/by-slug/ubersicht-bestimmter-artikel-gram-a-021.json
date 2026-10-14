@@ -1,0 +1,39 @@
+{
+  "slug": "ubersicht-bestimmter-artikel-gram-a-021",
+  "titleFr": "Tableau des articles définis",
+  "titleEn": "Overview of the definite article",
+  "titleDe": "Übersicht — bestimmter Artikel",
+  "ruleFr": "## Déclinaison complète de *der / die / das*\n\n| Cas | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| Nominatif | **der** | **die** | **das** | **die** |\n| Accusatif | **den** | die | das | die |\n| Datif | **dem** | **der** | **dem** | **den** |\n| Génitif | **des** | **der** | **des** | **der** |\n\n### Observation clé\nLe **masculin** change le plus : *der → den → dem → des*.\nFéminin et neutre bougent surtout au datif/génitif.\n\n### Mini-parcours d’apprentissage\n1. Mémorisez d’abord la colonne masculine.\n2. Ajoutez *die/das* (souvent stables en Nom./Akk.).\n3. Apprenez pluriel : *die / die / den / der*.\n\n### Erreurs fréquentes\n- Confondre *den* (Akk. m) et *dem* (Dat. m/n).\n- Oublier *des* + *(e)s* au génitif.\n\n### Mini-entraînement\n1. Remplissez le tableau de mémoire.\n2. Déclinez *der Tag / die Nacht / das Jahr* aux 4 cas.\n3. Lisez 10 phrases et nommez le cas de chaque article.",
+  "ruleEn": "## Full declension of *der / die / das*\n\n| Case | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| Nominative | **der** | **die** | **das** | **die** |\n| Accusative | **den** | die | das | die |\n| Dative | **dem** | **der** | **dem** | **den** |\n| Genitive | **des** | **der** | **des** | **der** |\n\n### Key observation\n**Masculine** changes most: *der → den → dem → des*.\nFeminine and neuter mostly move in dative/genitive.\n\n### Learning path\n1. Memorise the masculine column first.\n2. Add *die/das* (often stable in Nom./Akk.).\n3. Learn plural: *die / die / den / der*.\n\n### Common mistakes\n- Mixing *den* (Akk. m) and *dem* (Dat. m/n).\n- Forgetting *des* + *(e)s* in the genitive.\n\n### Mini practice\n1. Fill the chart from memory.\n2. Decline *der Tag / die Nacht / das Jahr* in all 4 cases.\n3. Read 10 sentences and name each article’s case.",
+  "ruleDe": "## Vollständige Deklination von *der / die / das*\n\n| Kasus | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| Nominativ | **der** | **die** | **das** | **die** |\n| Akkusativ | **den** | die | das | die |\n| Dativ | **dem** | **der** | **dem** | **den** |\n| Genitiv | **des** | **der** | **des** | **der** |\n\n### Wichtige Beobachtung\nDas **Maskulinum** ändert sich am stärksten: *der → den → dem → des*.\n\n### Lernweg\n1. Zuerst die maskuline Spalte.\n2. Dann *die/das* (oft stabil in Nom./Akk.).\n3. Plural: *die / die / den / der*.\n\n### Häufige Fehler\n- *den* (Akk. m) und *dem* (Dat. m/n) verwechseln.\n- *des* + *(e)s* im Genitiv vergessen.\n\n### Mini-Übung\n1. Tabelle auswendig ausfüllen.\n2. *der Tag / die Nacht / das Jahr* in 4 Kasus.\n3. Zehn Sätze: Kasus jedes Artikels nennen.",
+  "notesFr": "Priorité absolue : la colonne masculine *der–den–dem–des* — une fois solide, le reste s’accroche plus facilement.",
+  "notesEn": "Top priority: the masculine column *der–den–dem–des* — once solid, the rest sticks more easily.",
+  "notesDe": "Top-Priorität: die maskuline Spalte *der–den–dem–des* — danach hängt der Rest leichter.",
+  "examples": [
+    {
+      "de": "Der Mann kommt.",
+      "fr": "L’homme arrive. (*der* = nominatif masculin)",
+      "en": "The man is coming. (*der* = masculine nominative)"
+    },
+    {
+      "de": "Ich sehe den Mann.",
+      "fr": "Je vois l’homme. (*den* = accusatif)",
+      "en": "I see the man. (*den* = accusative)"
+    },
+    {
+      "de": "Ich helfe dem Mann.",
+      "fr": "J’aide l’homme. (*dem* = datif)",
+      "en": "I help the man. (*dem* = dative)"
+    },
+    {
+      "de": "Das ist das Auto des Mannes.",
+      "fr": "C’est la voiture de l’homme. (*des* = génitif)",
+      "en": "That is the man’s car. (*des* = genitive)"
+    },
+    {
+      "de": "Die Frau gibt dem Kind den Ball.",
+      "fr": "La femme donne le ballon à l’enfant. (plusieurs cas dans une phrase)",
+      "en": "The woman gives the child the ball. (several cases in one sentence)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "negation-nicht-vor-pradikat-gram-t-298",
+  "titleFr": "nicht devant l’élément nié",
+  "titleEn": "Negation — nicht before the negated element",
+  "titleDe": "Negation — nicht vor Prädikat",
+  "ruleFr": "## *nicht* juste devant ce qu’on nie\n\nQuand on nie un **adjectif**, un **adverbe**, une **préposition**, un **infinitif** ou un **participe**, *nicht* se place **immédiatement avant**.\n\n### Devant un adjectif / adverbe\n- *Das ist **nicht** wichtig.*\n- *Er fährt **nicht** schnell.*\n\n### Devant un groupe prépositionnel\n- *Wir treffen uns **nicht** vor dem Bahnhof.*\n- *Sie arbeitet **nicht** bei Siemens.*\n\n### Devant infinitif / participe (parenthèse)\n- *Ich habe **nicht** gelacht.*\n- *Er will **nicht** bleiben.*\n\n### Contraste : négation large vs étroite\n- *Ich gehe heute **nicht** ins Kino.* (plutôt toute l’action)\n- *Ich gehe heute **nicht** ins Kino, sondern ins Theater.* (lieu précis)\n\n### Mini-entraînement\nPlacez *nicht* pour nier seulement l’adjectif, puis seulement le lieu.",
+  "ruleEn": "## *nicht* right before what you negate\n\nWhen you negate an **adjective**, **adverb**, **prepositional phrase**, **infinitive** or **participle**, *nicht* goes **immediately before** it.\n\n### Before adjective / adverb\n- *Das ist **nicht** wichtig.*\n- *Er fährt **nicht** schnell.*\n\n### Before a prepositional phrase\n- *Wir treffen uns **nicht** vor dem Bahnhof.*\n- *Sie arbeitet **nicht** bei Siemens.*\n\n### Before infinitive / participle\n- *Ich habe **nicht** gelacht.*\n- *Er will **nicht** bleiben.*\n\n### Broad vs narrow negation\n- *Ich gehe heute **nicht** ins Kino.*\n- *Ich gehe heute **nicht** ins Kino, sondern ins Theater.*\n\n### Mini practice\nPlace *nicht* to negate only the adjective, then only the place.",
+  "ruleDe": "## *nicht* direkt vor dem verneinten Element\n\nVor Adjektiv, Adverb, Präpositionalgruppe, Infinitiv/Partizip: *nicht* **direkt davor**.\n\n### Beispiele\n- *Das ist **nicht** wichtig.*\n- *Er fährt **nicht** schnell.*\n- *Wir treffen uns **nicht** vor dem Bahnhof.*\n- *Ich habe **nicht** gelacht.*\n\n### Mini-Übung\nNur Adjektiv / nur Ort verneinen.",
+  "notesFr": "*nicht* directement devant l’élément nié !",
+  "notesEn": "*nicht* directly before the negated element!",
+  "notesDe": "*nicht* direkt vor dem Element, das verneint wird!",
+  "examples": [
+    {
+      "de": "Das ist nicht wichtig.",
+      "fr": "Ce n’est pas important. (*nicht* + adjectif)",
+      "en": "That is not important. (*nicht* + adjective)"
+    },
+    {
+      "de": "Er spricht nicht laut.",
+      "fr": "Il ne parle pas fort.",
+      "en": "He doesn’t speak loudly."
+    },
+    {
+      "de": "Wir treffen uns nicht vor dem Kino.",
+      "fr": "Nous ne nous retrouvons pas devant le cinéma.",
+      "en": "We’re not meeting in front of the cinema."
+    },
+    {
+      "de": "Sie will nicht bleiben.",
+      "fr": "Elle ne veut pas rester.",
+      "en": "She doesn’t want to stay."
+    },
+    {
+      "de": "Ich habe nicht gelacht.",
+      "fr": "Je n’ai pas ri.",
+      "en": "I didn’t laugh."
+    }
+  ]
+}

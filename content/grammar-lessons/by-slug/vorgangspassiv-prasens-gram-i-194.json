@@ -1,0 +1,39 @@
+{
+  "slug": "vorgangspassiv-prasens-gram-i-194",
+  "titleFr": "Vorgangspassiv au présent",
+  "titleEn": "Process passive in the present",
+  "titleDe": "Vorgangspassiv — Präsens",
+  "ruleFr": "## Vorgangspassiv — Präsens\n\n### Formation\n**werden** au présent + **Partizip II**\n\n| Personne | Forme |\n|---|---|\n| ich | werde … Partizip II |\n| du | wirst … |\n| er/sie/es | wird … |\n| wir/Sie/sie | werden … |\n| ihr | werdet … |\n\nExemples :\n- *Das Essen **wird** gekocht.*\n- *Die Tickets **werden** verkauft.*\n\n### Position\nPartizip II en fin de proposition principale (comme au Perfekt).\n\n### Mini-entraînement\nConjuguez *werden* + *geöffnet* pour toutes les personnes.",
+  "ruleEn": "## Vorgangspassiv — present\n\n### Formation\nPresent **werden** + **past participle**\n\n| Person | Form |\n|---|---|\n| ich | werde … participle |\n| du | wirst … |\n| er/sie/es | wird … |\n| wir/Sie/sie | werden … |\n| ihr | werdet … |\n\nExamples:\n- *Das Essen **wird** gekocht.*\n- *Die Tickets **werden** verkauft.*\n\n### Position\nPast participle at the end of the main clause.\n\n### Mini practice\nConjugate *werden* + *geöffnet* for all persons.",
+  "ruleDe": "## Vorgangspassiv — Präsens\n\n### Bildung\n**werden** im Präsens + **Partizip II**\n\n| Person | Form |\n|---|---|\n| ich | werde … |\n| du | wirst … |\n| er/sie/es | wird … |\n| wir/Sie/sie | werden … |\n| ihr | werdet … |\n\n### Position\nPartizip II am Ende des Hauptsatzes.\n\n### Mini-Übung\nKonjugieren Sie *werden* + *geöffnet* in allen Personen.",
+  "notesFr": "werden : werde, wirst, wird, werden, werdet, werden",
+  "notesEn": "werden: werde, wirst, wird, werden, werdet, werden",
+  "notesDe": "werden: werde, wirst, wird, werden, werdet, werden",
+  "examples": [
+    {
+      "de": "Das Essen wird gekocht.",
+      "fr": "Le repas est en train d’être cuisiné.",
+      "en": "The food is being cooked."
+    },
+    {
+      "de": "Die Tickets werden verkauft.",
+      "fr": "Les billets sont vendus / en vente.",
+      "en": "The tickets are being sold."
+    },
+    {
+      "de": "Du wirst oft gefragt.",
+      "fr": "On te demande souvent / Tu es souvent interrogé(e).",
+      "en": "You are often asked."
+    },
+    {
+      "de": "Wir werden erwartet.",
+      "fr": "On nous attend.",
+      "en": "We are expected."
+    },
+    {
+      "de": "Das Problem wird gelöst.",
+      "fr": "Le problème est en train d’être résolu.",
+      "en": "The problem is being solved."
+    }
+  ]
+}

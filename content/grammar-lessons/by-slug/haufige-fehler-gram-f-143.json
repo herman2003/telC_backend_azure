@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-f-143",
+  "titleFr": "Erreurs fréquentes — verbes en -t/-d",
+  "titleEn": "Common mistakes — verbs in -t/-d",
+  "titleDe": "Häufige Fehler — Verben auf -t/-d",
+  "ruleFr": "## Erreur fréquente : oublier le -e- (verbes en -t/-d)\n\nQuand le radical se termine par **-t** ou **-d**, on ajoute un **-e-** de liaison avant *-st* et *-t* au présent.\n\n### La règle\n| Infinitif | ✗ Faux | ✓ Correct |\n|---|---|---|\n| arbeiten | du *arbeitst* | du **arbeitest** |\n| finden | er *findt* | er **findet** |\n| warten | du *wartst* | du **wartest** |\n| baden | er *badt* | er **badet** |\n\n### Pourquoi ?\nSans *-e-*, la forme serait imprononçable (*arbeitst*).\n\n### Qui est concerné ?\n*arbeiten, finden, warten, baden, kosten, bilden, reden, öffnen…*\n\n### Erreurs fréquentes\n- ✗ *du arbeitst*, *er findt*\n- ✓ *du arbeitest*, *er findet*\n\n### Mini-entraînement\nConjuguez *arbeiten* et *finden* pour toutes les personnes.",
+  "ruleEn": "## Common mistake: forgetting -e- (stems in -t/-d)\n\nWhen the stem ends in **-t** or **-d**, insert a linking **-e-** before *-st* and *-t* in the present.\n\n### The rule\n| Infinitive | ✗ Wrong | ✓ Correct |\n|---|---|---|\n| arbeiten | du *arbeitst* | du **arbeitest** |\n| finden | er *findt* | er **findet** |\n| warten | du *wartst* | du **wartest** |\n| baden | er *badt* | er **badet** |\n\n### Why?\nWithout *-e-*, the form is hard to pronounce (*arbeitst*).\n\n### Who is affected?\n*arbeiten, finden, warten, baden, kosten, bilden, reden, öffnen…*\n\n### Common mistakes\n- ✗ *du arbeitst*, *er findt*\n- ✓ *du arbeitest*, *er findet*\n\n### Mini practice\nConjugate *arbeiten* and *finden* for all persons.",
+  "ruleDe": "## Häufiger Fehler: -e- vergessen (Stamm auf -t/-d)\n\nEndet der Stamm auf **-t** oder **-d**, steht ein Verbindungs-**-e-** vor *-st* und *-t* im Präsens.\n\n### Die Regel\n| Infinitiv | ✗ Falsch | ✓ Richtig |\n|---|---|---|\n| arbeiten | du *arbeitst* | du **arbeitest** |\n| finden | er *findt* | er **findet** |\n| warten | du *wartst* | du **wartest** |\n| baden | er *badt* | er **badet** |\n\n### Warum?\nOhne *-e-* wäre die Form schwer sprechbar (*arbeitst*).\n\n### Betroffene Verben\n*arbeiten, finden, warten, baden, kosten, bilden, reden, öffnen…*\n\n### Häufige Fehler\n- ✗ *du arbeitst*, *er findt*\n- ✓ *du arbeitest*, *er findet*\n\n### Mini-Übung\nKonjugieren Sie *arbeiten* und *finden* für alle Personen.",
+  "notesFr": "Toujours *-e-* devant *-st* et *-t* quand le radical finit en *-t* ou *-d*.",
+  "notesEn": "Always insert *-e-* before *-st* and *-t* when the stem ends in *-t* or *-d*.",
+  "notesDe": "Immer *-e-* vor *-st* und *-t* bei Stämmen auf *-t/-d*!",
+  "examples": [
+    {
+      "de": "Du arbeitest bis abends.",
+      "fr": "Tu travailles jusqu’au soir. (*arbeitest*, pas *arbeitst*.)",
+      "en": "You work until evening. (*arbeitest*, not *arbeitst*.)"
+    },
+    {
+      "de": "Er findet den Schlüssel.",
+      "fr": "Il trouve la clé. (*findet*, pas *findt*.)",
+      "en": "He finds the key. (*findet*, not *findt*.)"
+    },
+    {
+      "de": "Ihr wartet auf den Bus.",
+      "fr": "Vous attendez le bus.",
+      "en": "You (plural) wait for the bus."
+    },
+    {
+      "de": "Sie badet gerne.",
+      "fr": "Elle aime se baigner / prendre un bain.",
+      "en": "She likes to bathe."
+    },
+    {
+      "de": "Das kostet zehn Euro.",
+      "fr": "Cela coûte dix euros.",
+      "en": "That costs ten euros."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "genitiv-plural-gram-a-018",
+  "titleFr": "Le génitif pluriel",
+  "titleEn": "The genitive plural",
+  "titleDe": "Genitiv — Plural",
+  "ruleFr": "## Génitif pluriel : *der* pour tous les genres\n\nAu **génitif pluriel**, l’article défini est **der** — pour masculin, féminin et neutre.\n\n### Règle\n**der** + pluriel (**sans** *-s* de génitif sur le nom)\n\n- die Bücher **der** Studenten\n- die Namen **der** Städte\n- die Dächer **der** Häuser\n\n### Contraste avec le singulier\n| | m/n sing. | f sing. | pluriel |\n|---|---|---|---|\n| article | des | der | **der** |\n| nom | +*(e)s* | — | **pas** de *-s* génitif |\n\n### Erreurs fréquentes\n- Ajouter *-s* au pluriel : ✗ *der Kinders* → ✓ *der Kinder*\n- Confondre avec datif pluriel *den Kindern*\n\n### Mini-entraînement\n1. die Lehrer / die Frauen / die Kinder → génitif.\n2. Formez : *die Rechte ___ (die Bürger)*.\n3. Distinguez 3× *der* : Nom. f / Gen. f / Gen. pl.",
+  "ruleEn": "## Genitive plural: *der* for all genders\n\nIn the **genitive plural**, the definite article is **der** — for masculine, feminine and neuter.\n\n### Rule\n**der** + plural (**no** genitive *-s* on the noun)\n\n- die Bücher **der** Studenten\n- die Namen **der** Städte\n- die Dächer **der** Häuser\n\n### Contrast with singular\n| | m/n sg. | f sg. | plural |\n|---|---|---|---|\n| article | des | der | **der** |\n| noun | +*(e)s* | — | **no** genitive *-s*\n\n### Common mistakes\n- Adding *-s* in the plural: ✗ *der Kinders* → ✓ *der Kinder*\n- Confusing with dative plural *den Kindern*\n\n### Mini practice\n1. die Lehrer / die Frauen / die Kinder → genitive.\n2. Form: *die Rechte ___ (die Bürger)*.\n3. Distinguish 3× *der*: Nom. f / Gen. f / Gen. pl.",
+  "ruleDe": "## Genitiv Plural: *der* für alle Genera\n\nIm **Genitiv Plural** steht der bestimmte Artikel **der** — für Maskulinum, Femininum und Neutrum.\n\n### Regel\n**der** + Plural (**kein** Genitiv-*-s* am Nomen)\n\n- die Bücher **der** Studenten\n- die Namen **der** Städte\n- die Dächer **der** Häuser\n\n### Kontrast zum Singular\n| | m/n Sg. | f Sg. | Plural |\n|---|---|---|---|\n| Artikel | des | der | **der** |\n| Nomen | +*(e)s* | — | **kein** Genitiv-*-s*\n\n### Häufige Fehler\n- *-s* im Plural: ✗ *der Kinders* → ✓ *der Kinder*\n- Verwechslung mit Dativ Plural *den Kindern*\n\n### Mini-Übung\n1. die Lehrer / die Frauen / die Kinder → Genitiv.\n2. Bilden: *die Rechte ___ (die Bürger)*.\n3. Drei *der*: Nom. f / Gen. f / Gen. Pl. unterscheiden.",
+  "notesFr": "Pluriel génitif = *der* + forme plurielle normale — le *-s* du génitif n’existe qu’au singulier m/n.",
+  "notesEn": "Plural genitive = *der* + normal plural form — genitive *-s* exists only in singular m/n.",
+  "notesDe": "Plural-Genitiv = *der* + normale Pluralform — Genitiv-*-s* gibt es nur im Singular m/n.",
+  "examples": [
+    {
+      "de": "Die Bücher der Studenten liegen auf dem Tisch.",
+      "fr": "Les livres des étudiants sont sur la table. (*der Studenten*)",
+      "en": "The students’ books are on the table. (*der Studenten*)"
+    },
+    {
+      "de": "Die Namen der Städte sind schwer zu merken.",
+      "fr": "Les noms des villes sont difficiles à retenir. (*der Städte*)",
+      "en": "The names of the cities are hard to remember. (*der Städte*)"
+    },
+    {
+      "de": "Wir sprechen über die Rechte der Kinder.",
+      "fr": "Nous parlons des droits des enfants. (*der Kinder*)",
+      "en": "We are talking about children’s rights. (*der Kinder*)"
+    },
+    {
+      "de": "Die Dächer der Häuser sind rot.",
+      "fr": "Les toits des maisons sont rouges. (*der Häuser*)",
+      "en": "The roofs of the houses are red. (*der Häuser*)"
+    },
+    {
+      "de": "Am Ende der Ferien sind alle müde.",
+      "fr": "À la fin des vacances, tout le monde est fatigué. (*der Ferien*)",
+      "en": "At the end of the holidays everyone is tired. (*der Ferien*)"
+    }
+  ]
+}

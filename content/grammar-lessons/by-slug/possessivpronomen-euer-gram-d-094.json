@@ -1,0 +1,39 @@
+{
+  "slug": "possessivpronomen-euer-gram-d-094",
+  "titleFr": "Le possessif « euer » (votre / vos)",
+  "titleEn": "The possessive “euer” (your, plural informal)",
+  "titleDe": "Possessivpronomen — euer",
+  "ruleFr": "## Le possessif *euer*\n\n*Euer* = **votre / vos** pour plusieurs personnes qu’on tutoie (*ihr*). Comme *mein*, il se décline, mais avec une particularité orthographique.\n\n### Règle clé\nQuand une **terminaison** suit *euer*, le deuxième **e** disparaît souvent :\n- *euer* → *eur**e*** (pas *euere*)\n- *euer* → *eur**em***, *eur**en***, *eur**er***, *eur**es***\n\n### Tableau (formes courantes)\n| Cas | m. | f. | n. | pl. |\n|---|---|---|---|---|\n| Nom. | euer | eure | euer | eure |\n| Akk. | euren | eure | euer | eure |\n| Dat. | eurem | eurer | eurem | euren |\n| Gén. | eures | eurer | eures | eurer |\n\n### Exemples\n- *Ist das **euer** Auto?* (Nom. n.)\n- *Wo ist **eure** Mutter?* (Nom. f.)\n- *Ich helfe **eurem** Bruder.* (Dat. m.)\n\n### Erreurs fréquentes\n✗ *euere Freunde* → ✓ *eure Freunde*\n✗ *euern Vater* (souvent) → ✓ *euren Vater*\n\n### Mini-entraînement\nConjuguez *euer* devant *Hund / Katze / Kind / Eltern* au nominatif et au datif.",
+  "ruleEn": "## The possessive *euer*\n\n*Euer* = **your** for several people you address with *ihr* (informal plural). Like *mein*, it declines — with one spelling quirk.\n\n### Core rule\nWhen an **ending** follows *euer*, the second **e** often drops:\n- *euer* → *eur**e*** (not *euere*)\n- *euer* → *eur**em***, *eur**en***, *eur**er***, *eur**es***\n\n### Common forms\n| Case | m. | f. | n. | pl. |\n|---|---|---|---|---|\n| Nom. | euer | eure | euer | eure |\n| Acc. | euren | eure | euer | eure |\n| Dat. | eurem | eurer | eurem | euren |\n| Gen. | eures | eurer | eures | eurer |\n\n### Examples\n- *Ist das **euer** Auto?* (Nom. n.)\n- *Wo ist **eure** Mutter?* (Nom. f.)\n- *Ich helfe **eurem** Bruder.* (Dat. m.)\n\n### Common mistakes\n✗ *euere Freunde* → ✓ *eure Freunde*\n✗ *euern Vater* → ✓ *euren Vater*\n\n### Mini practice\nDecline *euer* before *Hund / Katze / Kind / Eltern* in nominative and dative.",
+  "ruleDe": "## Possessivpronomen *euer*\n\n*Euer* = Possessiv zu *ihr* (2. Person Plural). Wie *mein* wird es dekliniert — mit einer Schreibbesonderheit.\n\n### Kernregel\nFolgt eine **Endung**, fällt das zweite **e** oft weg:\n- *euer* → *eur**e*** (nicht *euere*)\n- *euer* → *eur**em***, *eur**en***, *eur**er***, *eur**es***\n\n### Häufige Formen\n| Kasus | m. | f. | n. | Pl. |\n|---|---|---|---|---|\n| Nom. | euer | eure | euer | eure |\n| Akk. | euren | eure | euer | eure |\n| Dat. | eurem | eurer | eurem | euren |\n| Gen. | eures | eurer | eures | eurer |\n\n### Beispiele\n- *Ist das **euer** Auto?*\n- *Wo ist **eure** Mutter?*\n- *Ich helfe **eurem** Bruder.*\n\n### Häufige Fehler\n✗ *euere Freunde* → ✓ *eure Freunde*\n\n### Mini-Übung\nDeklinieren Sie *euer* vor *Hund / Katze / Kind / Eltern* im Nominativ und Dativ.",
+  "notesFr": "euer → eure (pas « euere » !), eurem, euren, eurer, eures.",
+  "notesEn": "euer → eure (not “euere”!), eurem, euren, eurer, eures.",
+  "notesDe": "euer → eure (nicht „euere“!), eurem, euren, eurer, eures.",
+  "examples": [
+    {
+      "de": "Ist das euer Haus?",
+      "fr": "Est-ce que c’est votre maison ? (« euer » = nominatif neutre, sans terminaison.)",
+      "en": "Is that your house? (“euer” = neuter nominative, no ending.)"
+    },
+    {
+      "de": "Eure Eltern wohnen in München.",
+      "fr": "Vos parents habitent à Munich. (« Eure » = euer + -e, le e tombe.)",
+      "en": "Your parents live in Munich. (“Eure” = euer + -e, the e drops.)"
+    },
+    {
+      "de": "Ich kenne euren Bruder gut.",
+      "fr": "Je connais bien votre frère. (« euren » = accusatif masculin.)",
+      "en": "I know your brother well. (“euren” = masculine accusative.)"
+    },
+    {
+      "de": "Wir helfen eurem Kind.",
+      "fr": "Nous aidons votre enfant. (« eurem » = datif neutre.)",
+      "en": "We help your child. (“eurem” = neuter dative.)"
+    },
+    {
+      "de": "Wo sind eure Schlüssel?",
+      "fr": "Où sont vos clés ? (« eure » pluriel, pas « euere ».)",
+      "en": "Where are your keys? (“eure” plural, not “euere”.)"
+    }
+  ]
+}

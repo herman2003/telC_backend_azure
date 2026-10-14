@@ -1,0 +1,39 @@
+{
+  "slug": "solcher-solche-solches-gram-c-066",
+  "titleFr": "Solcher — constructions avec adjectif et article",
+  "titleEn": "Solcher — patterns with adjectives and articles",
+  "titleDe": "solcher/solche/solches",
+  "ruleFr": "## Constructions avec solcher\n\nPlusieurs structures courantes, **même sens** approximatif :\n\n### 1) solch + ein + adjectif + nom\n*solch ein schönes Haus*\n\nIci **solch** reste souvent **sans terminaison**.\n\n### 2) so ein + adjectif + nom\n*so ein schönes Haus* — très courant à l’oral.\n\n### 3) ein solcher + adjectif + nom\n*ein solches Problem* — *solcher* se décline comme un adjectif après *ein*.\n\n### 4) solcher + nom (sans ein)\n*solche Probleme* (pluriel surtout)\n\n### Conseil\nPour parler naturellement : commencez par **so ein / so eine / so ein**. Ajoutez *solcher* à l’écrit.\n\n### Mini-entraînement\nÉcrivez la même idée dans les 3 formes : *so ein / solch ein / ein solcher*.",
+  "ruleEn": "## Patterns with solcher\n\nSeveral structures, roughly **same meaning**:\n\n### 1) solch + ein + adjective + noun\n*solch ein schönes Haus* — **solch** often uninflected.\n\n### 2) so ein + adjective + noun\n*so ein schönes Haus* — very common in speech.\n\n### 3) ein solcher + adjective + noun\n*ein solches Problem* — *solcher* declines like an adjective after *ein*.\n\n### 4) solcher + noun (no ein)\n*solche Probleme* (especially plural)\n\n### Tip\nFor natural speech: start with **so ein**. Add *solcher* in writing.\n\n### Mini practice\nExpress one idea in all three: *so ein / solch ein / ein solcher*.",
+  "ruleDe": "## Konstruktionen mit solcher\n\n### 1) solch + ein + Adjektiv + Nomen\n*solch ein schönes Haus* — *solch* oft ohne Endung.\n\n### 2) so ein …\n*so ein schönes Haus* — sehr üblich.\n\n### 3) ein solcher …\n*ein solches Problem*\n\n### 4) solcher + Nomen\n*solche Probleme*\n\n### Tipp\nMündlich: **so ein**. Schriftlich auch *solcher*.\n\n### Mini-Übung\nEine Idee in 3 Formen: *so ein / solch ein / ein solcher*.",
+  "notesFr": "Alternatives : *solch ein*, *so ein*, *ein solcher* — même sens approximatif.",
+  "notesEn": "Alternatives: *solch ein*, *so ein*, *ein solcher* — roughly the same meaning.",
+  "notesDe": "Alternativen: *solch ein*, *so ein*, *ein solcher* — ähnliche Bedeutung.",
+  "examples": [
+    {
+      "de": "Solch ein schönes Haus habe ich noch nie gesehen.",
+      "fr": "Je n’ai jamais vu une si belle maison. (solch + ein.)",
+      "en": "I’ve never seen such a beautiful house. (solch + ein.)"
+    },
+    {
+      "de": "So ein teures Auto kann ich mir nicht kaufen.",
+      "fr": "Je ne peux pas m’acheter une voiture aussi chère. (so ein.)",
+      "en": "I can’t buy such an expensive car. (so ein.)"
+    },
+    {
+      "de": "Ein solches Geschenk freut mich.",
+      "fr": "Un tel cadeau me fait plaisir. (ein solcher…)",
+      "en": "Such a gift makes me happy. (ein solcher…)"
+    },
+    {
+      "de": "Solche schwierigen Fragen kommen in der Prüfung vor.",
+      "fr": "De telles questions difficiles tombent à l’examen.",
+      "en": "Such difficult questions appear in the exam."
+    },
+    {
+      "de": "Mit solch einem Team gewinnen wir.",
+      "fr": "Avec une telle équipe, on gagne.",
+      "en": "With such a team we win."
+    }
+  ]
+}

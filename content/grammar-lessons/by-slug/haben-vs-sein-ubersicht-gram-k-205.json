@@ -1,0 +1,39 @@
+{
+  "slug": "haben-vs-sein-ubersicht-gram-k-205",
+  "titleFr": "haben ou sein au Perfekt — vue d’ensemble",
+  "titleEn": "haben vs sein in the perfect — overview",
+  "titleDe": "haben vs. sein — Übersicht",
+  "ruleFr": "## haben vs. sein — vue d’ensemble\n\nAu Perfekt, l’auxiliaire est presque toujours **haben**. **sein** est l’exception, limitée à des groupes clairs.\n\n### Avec *haben* (défaut)\n- verbes transitifs (avec COD) : *Ich habe das Buch **gelesen**.*\n- verbes réfléchis : *Ich habe mich **gewaschen**.*\n- modaux : *Ich habe schwimmen **können**.*\n- la plupart des autres : *gearbeitet, geschlafen, gesprochen…*\n\n### Avec *sein* (exception)\n- mouvement avec direction/but\n- changement d’état\n- *sein, bleiben, werden* (+ quelques verbes comme *geschehen, passieren*)\n\n### Mini-entraînement\nClassez 10 verbes : *haben* ou *sein* ?",
+  "ruleEn": "## haben vs sein — overview\n\nIn the perfect, the auxiliary is almost always **haben**. **sein** is the exception for clear groups.\n\n### With *haben* (default)\n- transitive verbs: *Ich habe das Buch **gelesen**.*\n- reflexives: *Ich habe mich **gewaschen**.*\n- modals: *Ich habe schwimmen **können**.*\n- most others: *gearbeitet, geschlafen, gesprochen…*\n\n### With *sein* (exception)\n- motion with direction/goal\n- change of state\n- *sein, bleiben, werden* (+ *geschehen, passieren*, etc.)\n\n### Mini practice\nClassify 10 verbs: *haben* or *sein*?",
+  "ruleDe": "## haben vs. sein — Übersicht\n\nIm Perfekt ist **haben** der Default. **sein** nur bei klaren Gruppen.\n\n### Mit *haben*\n- transitive Verben, Reflexiva, Modalverben, die meisten anderen\n\n### Mit *sein*\n- Bewegung mit Richtung/Ziel\n- Zustandsänderung\n- *sein, bleiben, werden* (+ *geschehen, passieren* …)\n\n### Mini-Übung\nOrdnen Sie 10 Verben: *haben* oder *sein*?",
+  "notesFr": "haben est le défaut ! sein seulement pour mouvement + changement d’état (+ sein/bleiben/werden).",
+  "notesEn": "haben is the default! sein only for motion + change of state (+ sein/bleiben/werden).",
+  "notesDe": "haben ist der Default! sein nur bei Bewegung + Zustandsänderung (+ sein/bleiben/werden).",
+  "examples": [
+    {
+      "de": "Ich habe ein Buch gelesen.",
+      "fr": "J’ai lu un livre. (transitif → haben)",
+      "en": "I have read a book. (transitive → haben)"
+    },
+    {
+      "de": "Sie hat lange geschlafen.",
+      "fr": "Elle a longtemps dormi. (défaut → haben)",
+      "en": "She slept for a long time. (default → haben)"
+    },
+    {
+      "de": "Wir haben uns getroffen.",
+      "fr": "Nous nous sommes rencontrés. (réfléchi → haben)",
+      "en": "We met. (reflexive → haben)"
+    },
+    {
+      "de": "Er ist nach Berlin gefahren.",
+      "fr": "Il est allé à Berlin (en véhicule). (mouvement → sein)",
+      "en": "He went to Berlin. (motion → sein)"
+    },
+    {
+      "de": "Das Kind ist eingeschlafen.",
+      "fr": "L’enfant s’est endormi. (changement d’état → sein)",
+      "en": "The child fell asleep. (change of state → sein)"
+    }
+  ]
+}

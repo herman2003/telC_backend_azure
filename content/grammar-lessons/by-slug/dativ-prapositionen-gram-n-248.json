@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-prapositionen-gram-n-248",
+  "titleFr": "Prépositions au datif",
+  "titleEn": "Dative prepositions",
+  "titleDe": "Dativ-Präpositionen",
+  "ruleFr": "## Prépositions au datif\n\nCes prépositions exigent **toujours** le datif.\n\n### Liste à chanter / mémoriser\n**aus, bei, mit, nach, seit, von, zu** (+ *außer*, *gegenüber*)\n\n### Articles au datif\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **dem** | **der** | **dem** | **den** (+ *-n* au nom souvent) |\n| indéfini | **einem** | **einer** | **einem** | — |\n\nExemples :\n- Ich komme **aus der** Schweiz.\n- Sie wohnt **bei ihren** Eltern.\n- Ich fahre **mit dem** Bus.\n\n### Mini-entraînement\n1. Récitez *aus-bei-mit-nach-seit-von-zu*.\n2. Déclinez après *mit* : Mann / Frau / Kind / Freunde.\n3. 7 mini-phrases, une par préposition.",
+  "ruleEn": "## Dative prepositions\n\nThese prepositions **always** take the dative.\n\n### List to memorize\n**aus, bei, mit, nach, seit, von, zu** (+ *außer*, *gegenüber*)\n\n### Dative articles\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **dem** | **der** | **dem** | **den** |\n| indefinite | **einem** | **einer** | **einem** | — |\n\nExamples:\n- Ich komme **aus der** Schweiz.\n- Sie wohnt **bei ihren** Eltern.\n- Ich fahre **mit dem** Bus.\n\n### Mini practice\n1. Recite *aus-bei-mit-nach-seit-von-zu*.\n2. Decline after *mit*: Mann / Frau / Kind / Freunde.\n3. Seven mini-sentences, one per preposition.",
+  "ruleDe": "## Dativ-Präpositionen\n\nDiese Präpositionen verlangen **immer** Dativ.\n\n### Merkliste\n**aus, bei, mit, nach, seit, von, zu** (+ *außer*, *gegenüber*)\n\n### Artikel im Dativ\n| | Mask. | Fem. | Neutr. | Plural |\n|---|---|---|---|---|\n| best. | **dem** | **der** | **dem** | **den** |\n| unbest. | **einem** | **einer** | **einem** | — |\n\nBeispiele:\n- Ich komme **aus der** Schweiz.\n- Sie wohnt **bei ihren** Eltern.\n- Ich fahre **mit dem** Bus.\n\n### Mini-Übung\n1. *aus-bei-mit-nach-seit-von-zu* aufsagen.\n2. Nach *mit* deklinieren.\n3. 7 Kurzsätze.",
+  "notesFr": "Aide-mémoire : Aus-Bei-Mit-Nach-Seit-Von-Zu (comme une chanson).",
+  "notesEn": "Mnemonic: Aus-Bei-Mit-Nach-Seit-Von-Zu (like a song).",
+  "notesDe": "Merkhilfe: 'Aus-Bei-Mit-Nach-Seit-Von-Zu' (wie ein Lied!).",
+  "examples": [
+    {
+      "de": "Ich komme aus der Schweiz.",
+      "fr": "Je viens de Suisse.",
+      "en": "I come from Switzerland."
+    },
+    {
+      "de": "Sie wohnt bei ihren Eltern.",
+      "fr": "Elle habite chez ses parents.",
+      "en": "She lives with her parents."
+    },
+    {
+      "de": "Ich fahre mit dem Bus.",
+      "fr": "Je prends le bus.",
+      "en": "I go by bus."
+    },
+    {
+      "de": "Nach dem Essen gehen wir spazieren.",
+      "fr": "Après le repas, nous nous promenons.",
+      "en": "After the meal we go for a walk."
+    },
+    {
+      "de": "Ich gehe zu dem Arzt. / Ich gehe zum Arzt.",
+      "fr": "Je vais chez le médecin.",
+      "en": "I am going to the doctor."
+    }
+  ]
+}

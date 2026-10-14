@@ -1,0 +1,39 @@
+{
+  "slug": "wortstellung-tekamolo-gram-r-287",
+  "titleFr": "TeKaMoLo — ordre des compléments",
+  "titleEn": "Word order — TeKaMoLo",
+  "titleDe": "Wortstellung — TeKaMoLo",
+  "ruleFr": "## TeKaMoLo — ordre dans le Mittelfeld\n\nQuand plusieurs compléments suivent le verbe, l’ordre typique est :\n\n**Te**mporal – **Ka**usal – **Mo**dal – **Lo**kal\n\n| Abréviation | Sens | Question |\n|---|---|---|\n| Te | temps | Wann? |\n| Ka | cause | Warum? |\n| Mo | manière | Wie? |\n| Lo | lieu | Wo? / Wohin? |\n\n### Exemple\n*Ich fahre **morgen** **wegen des Termins** **mit dem Zug** **nach Berlin**.*\n- morgen (Te) – wegen des Termins (Ka) – mit dem Zug (Mo) – nach Berlin (Lo)\n\n### Remarques\n- Ce n’est pas une loi absolue, mais un **ordre naturel** très utile.\n- Les pronoms courts se placent souvent plus tôt.\n- On peut déplacer un élément en position 1 pour le mettre en relief.\n\n### Mini-entraînement\n1. Ordonnez : *mit dem Auto / heute / nach Hause / wegen des Regens*.\n2. Vérifiez avec Te–Ka–Mo–Lo.",
+  "ruleEn": "## TeKaMoLo — order in the middle field\n\nWhen several adverbials follow the verb, the typical order is:\n\n**Te**mporal – **Ka**usal – **Mo**dal – **Lo**kal\n\n| Abbreviation | Meaning | Question |\n|---|---|---|\n| Te | time | Wann? |\n| Ka | reason | Warum? |\n| Mo | manner | Wie? |\n| Lo | place | Wo? / Wohin? |\n\n### Example\n*Ich fahre **morgen** **wegen des Termins** **mit dem Zug** **nach Berlin**.*\n- tomorrow (Te) – because of the appointment (Ka) – by train (Mo) – to Berlin (Lo)\n\n### Notes\n- Not an absolute law, but a very useful **default order**.\n- Short pronouns often come earlier.\n- You can move an element to position 1 for emphasis.\n\n### Mini practice\n1. Order: *mit dem Auto / heute / nach Hause / wegen des Regens*.\n2. Check with Te–Ka–Mo–Lo.",
+  "ruleDe": "## TeKaMoLo — Reihenfolge im Mittelfeld\n\nMehrere Angaben nach dem Verb: typische Reihenfolge\n\n**Te**mporal – **Ka**usal – **Mo**dal – **Lo**kal\n\n| Kürzel | Bedeutung | Frage |\n|---|---|---|\n| Te | Zeit | Wann? |\n| Ka | Grund | Warum? |\n| Mo | Art und Weise | Wie? |\n| Lo | Ort | Wo? / Wohin? |\n\n### Beispiel\n*Ich fahre **morgen** **wegen des Termins** **mit dem Zug** **nach Berlin**.*\n\n### Hinweise\n- Keine Absolute, aber sehr nützliche Grundordnung.\n- Kurze Pronomen oft früher.\n- Ein Element kann zur Betonung auf Position 1.\n\n### Mini-Übung\n1. Ordnen: *mit dem Auto / heute / nach Hause / wegen des Regens*.\n2. Mit Te–Ka–Mo–Lo prüfen.",
+  "notesFr": "Temps avant cause avant manière avant lieu !",
+  "notesEn": "Time before reason before manner before place!",
+  "notesDe": "Zeit vor Grund vor Art und Weise vor Ort!",
+  "examples": [
+    {
+      "de": "Ich fahre morgen mit dem Zug nach Berlin.",
+      "fr": "Je vais demain en train à Berlin. (Te – Mo – Lo)",
+      "en": "I’m going to Berlin by train tomorrow. (Te – Mo – Lo)"
+    },
+    {
+      "de": "Sie arbeitet heute wegen der Prüfung sehr intensiv zu Hause.",
+      "fr": "Elle travaille aujourd’hui à cause de l’examen très intensivement à la maison.",
+      "en": "She’s working very intensively at home today because of the exam."
+    },
+    {
+      "de": "Wir gehen am Abend mit Freunden ins Kino.",
+      "fr": "Nous allons le soir avec des amis au cinéma.",
+      "en": "We’re going to the cinema with friends in the evening."
+    },
+    {
+      "de": "Er ist gestern wegen des Staus zu spät zur Arbeit gekommen.",
+      "fr": "Hier, à cause des embouteillages, il est arrivé trop tard au travail.",
+      "en": "Yesterday he arrived late to work because of the traffic jam."
+    },
+    {
+      "de": "Ich bleibe dieses Wochenende wegen des Wetters einfach zu Hause.",
+      "fr": "Ce week-end, à cause du temps, je reste simplement à la maison.",
+      "en": "This weekend I’m simply staying home because of the weather."
+    }
+  ]
+}

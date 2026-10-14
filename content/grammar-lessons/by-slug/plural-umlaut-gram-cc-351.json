@@ -1,0 +1,39 @@
+{
+  "slug": "plural-umlaut-gram-cc-351",
+  "titleFr": "Pluriel — umlaut",
+  "titleEn": "Plural — umlaut",
+  "titleDe": "Plural — Umlaut",
+  "ruleFr": "## Pluriel — umlaut\n\nBeaucoup de pluriels ajoutent un **umlaut** : *a→ä*, *o→ö*, *u→ü* (parfois *au→äu*).\n\n### Exemples fréquents\n| Singular | Plural |\n|---|---|\n| *der Vater* | *die Väter* |\n| *die Mutter* | *die Mütter* |\n| *der Bruder* | *die Brüder* |\n| *der Apfel* | *die Äpfel* |\n| *das Buch* | *die Bücher* (-er + umlaut) |\n| *die Hand* | *die Hände* |\n| *das Haus* | *die Häuser* |\n| *der Zug* | *die Züge* |\n\n### Combinaisons\nUmlaut **seul** (*Vater → Väter*) ou **umlaut + terminaison** (*Buch → Bücher*).\n\n### Pas automatique\nTous les *a/o/u* ne prennent pas d’umlaut : *der Tag → die Tage* (sans ä).\n\n### Mini-entraînement\n1. Formez le pluriel de 15 noms avec umlaut possible.\n2. Lisez à voix haute : *Väter, Mütter, Bücher, Häuser*.\n3. Notez vos erreurs dans une liste perso.",
+  "ruleEn": "## Plural — umlaut\n\nMany plurals add an **umlaut**: *a→ä*, *o→ö*, *u→ü* (sometimes *au→äu*).\n\n### Common examples\n| Singular | Plural |\n|---|---|\n| *der Vater* | *die Väter* |\n| *die Mutter* | *die Mütter* |\n| *der Bruder* | *die Brüder* |\n| *der Apfel* | *die Äpfel* |\n| *das Buch* | *die Bücher* |\n| *die Hand* | *die Hände* |\n| *das Haus* | *die Häuser* |\n\n### Combinations\nUmlaut alone (*Vater → Väter*) or umlaut + ending (*Buch → Bücher*).\n\n### Not automatic\nNot every *a/o/u* umlauts: *der Tag → die Tage*.\n\n### Mini practice\n1. Pluralize 15 nouns that may take umlaut.\n2. Read aloud: *Väter, Mütter, Bücher, Häuser*.\n3. Keep a personal error list.",
+  "ruleDe": "## Plural — Umlaut\n\nViele Plurale bekommen einen **Umlaut**: *a→ä*, *o→ö*, *u→ü* (manchmal *au→äu*).\n\n### Häufige Beispiele\n| Singular | Plural |\n|---|---|\n| *der Vater* | *die Väter* |\n| *die Mutter* | *die Mütter* |\n| *der Bruder* | *die Brüder* |\n| *der Apfel* | *die Äpfel* |\n| *das Buch* | *die Bücher* |\n| *die Hand* | *die Hände* |\n| *das Haus* | *die Häuser* |\n\n### Kombination\nNur Umlaut oder Umlaut + Endung (*Buch → Bücher*).\n\n### Nicht automatisch\n*der Tag → die Tage* (ohne Umlaut).\n\n### Mini-Übung\n1. Plural von 15 Nomen bilden.\n2. Laut lesen: *Väter, Mütter, Bücher, Häuser*.\n3. Eigene Fehlerliste führen.",
+  "notesFr": "Umlaut + terminaison souvent combinés : Buch → Bücher (-er + umlaut). Pas systématique pour tous les a/o/u.",
+  "notesEn": "Umlaut + ending often combine: Buch → Bücher (-er + umlaut). Not automatic for every a/o/u.",
+  "notesDe": "Umlaut + Endung oft kombiniert: Buch → Bücher. Nicht bei jedem a/o/u automatisch.",
+  "examples": [
+    {
+      "de": "Die Väter holen die Kinder ab.",
+      "fr": "Les pères vont chercher les enfants. (Vater → Väter.)",
+      "en": "The fathers are picking up the children. (Vater → Väter.)"
+    },
+    {
+      "de": "Die Mütter arbeiten Teilzeit.",
+      "fr": "Les mères travaillent à temps partiel.",
+      "en": "The mothers work part-time."
+    },
+    {
+      "de": "Die Bücher stehen im Regal.",
+      "fr": "Les livres sont sur l’étagère. (Buch → Bücher.)",
+      "en": "The books are on the shelf. (Buch → Bücher.)"
+    },
+    {
+      "de": "Die Äpfel sind reif.",
+      "fr": "Les pommes sont mûres. (Apfel → Äpfel.)",
+      "en": "The apples are ripe. (Apfel → Äpfel.)"
+    },
+    {
+      "de": "Die Häuser sind alt.",
+      "fr": "Les maisons sont anciennes. (Haus → Häuser.)",
+      "en": "The houses are old. (Haus → Häuser.)"
+    }
+  ]
+}

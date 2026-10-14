@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-endung-maskulinum-gram-b-047",
+  "titleFr": "Le genre masculin — noms dérivés de verbes",
+  "titleEn": "Masculine gender — nouns from verb stems",
+  "titleDe": "Genus nach Endung — Maskulinum",
+  "ruleFr": "## Masculins dérivés de verbes (sans suffixe)\n\nBeaucoup de noms allemands sont formés à partir d’un **verbe** en coupant **-en**. Ces noms sont en général **masculins** (**der**).\n\n### La règle\n**Verbe** → enlever **-en** → **nom masculin** (souvent une action ou un résultat).\n\n| Verbe | Nom |\n|---|---|\n| laufen | **der** Lauf |\n| sitzen | **der** Sitz |\n| schlafen | **der** Schlaf |\n| beginnen | **der** Beginn |\n| fallen | **der** Fall |\n\n### Sens typique\nCes noms désignent souvent :\n- une **action** : *der Kauf*, *der Ruf*\n- un **résultat** / un état : *der Fund*, *der Schlaf*\n- un **lieu / objet** lié à l’action : *der Sitz*, *der Gang*\n\n### Exceptions à noter\nCe n’est **pas** une règle absolue. Exemples neutres ou autres :\n- **das** Essen (manger → le repas)\n- **das** Leben\n- **die** Fahrt (voyage)\n\nMais pour les **racines nues** du type *Lauf, Sitz, Kauf, Ruf*, le masculin est le réflexe sûr.\n\n### Mini-entraînement (5–10 min)\n1. Prenez 5 verbes en *-en* et formez le nom possible.\n2. Ajoutez *der* et une phrase courte.\n3. Vérifiez dans un dictionnaire les exceptions.",
+  "ruleEn": "## Masculine nouns from verb stems\n\nMany German nouns come from a **verb** by dropping **-en**. These nouns are usually **masculine** (**der**).\n\n### The rule\n**Verb** → remove **-en** → **masculine noun** (often an action or result).\n\n| Verb | Noun |\n|---|---|\n| laufen | **der** Lauf |\n| sitzen | **der** Sitz |\n| schlafen | **der** Schlaf |\n| beginnen | **der** Beginn |\n| fallen | **der** Fall |\n\n### Typical meaning\nThese nouns often name:\n- an **action**: *der Kauf*, *der Ruf*\n- a **result** / state: *der Fund*, *der Schlaf*\n- a **place / object** related to the action: *der Sitz*, *der Gang*\n\n### Exceptions\nNot absolute. Counterexamples:\n- **das** Essen\n- **das** Leben\n- **die** Fahrt\n\nBut bare stems like *Lauf, Sitz, Kauf, Ruf* are safely masculine.\n\n### Mini practice (5–10 min)\n1. Take 5 *-en* verbs and form the likely noun.\n2. Add *der* and a short sentence.\n3. Check exceptions in a dictionary.",
+  "ruleDe": "## Maskulina aus Verbstämmen (ohne Endung)\n\nViele Substantive entstehen aus einem **Verb**, indem man **-en** weglässt. Diese Nomen sind meist **Maskulinum** (**der**).\n\n### Die Regel\n**Verb** → **-en** streichen → **maskulines Nomen** (oft Handlung oder Ergebnis).\n\n| Verb | Nomen |\n|---|---|\n| laufen | **der** Lauf |\n| sitzen | **der** Sitz |\n| schlafen | **der** Schlaf |\n| beginnen | **der** Beginn |\n| fallen | **der** Fall |\n\n### Typische Bedeutung\nOft:\n- **Handlung**: *der Kauf*, *der Ruf*\n- **Ergebnis/Zustand**: *der Fund*, *der Schlaf*\n- **Ort/Gegenstand**: *der Sitz*, *der Gang*\n\n### Ausnahmen\nNicht absolut. Gegenbeispiele:\n- **das** Essen\n- **das** Leben\n- **die** Fahrt\n\nNackte Stämme wie *Lauf, Sitz, Kauf, Ruf* sind aber sicher maskulin.\n\n### Mini-Übung (5–10 Min.)\n1. Bilden Sie aus 5 Verben auf *-en* das mögliche Nomen.\n2. Setzen Sie *der* und einen kurzen Satz.\n3. Prüfen Sie Ausnahmen im Wörterbuch.",
+  "notesFr": "Astuce : apprenez ensemble *laufen – der Lauf*, *kaufen – der Kauf* — le verbe rappelle le genre.",
+  "notesEn": "Tip: learn pairs like *laufen – der Lauf*, *kaufen – der Kauf* — the verb cues the gender.",
+  "notesDe": "Tipp: Lernen Sie Paare wie *laufen – der Lauf*, *kaufen – der Kauf* — das Verb hilft beim Genus.",
+  "examples": [
+    {
+      "de": "Der Lauf dauert eine Stunde.",
+      "fr": "La course dure une heure. (« der Lauf » ← laufen.)",
+      "en": "The run lasts one hour. (“der Lauf” ← laufen.)"
+    },
+    {
+      "de": "Der Sitz ist bequem.",
+      "fr": "Le siège est confortable. (« der Sitz » ← sitzen.)",
+      "en": "The seat is comfortable. (“der Sitz” ← sitzen.)"
+    },
+    {
+      "de": "Der Schlaf war tief.",
+      "fr": "Le sommeil était profond. (« der Schlaf » ← schlafen.)",
+      "en": "The sleep was deep. (“der Schlaf” ← schlafen.)"
+    },
+    {
+      "de": "Der Beginn des Kurses ist um neun.",
+      "fr": "Le début du cours est à neuf heures. (« der Beginn » ← beginnen.)",
+      "en": "The start of the course is at nine. (“der Beginn” ← beginnen.)"
+    },
+    {
+      "de": "Der Kauf war teuer.",
+      "fr": "L’achat était cher. (« der Kauf » ← kaufen.)",
+      "en": "The purchase was expensive. (“der Kauf” ← kaufen.)"
+    }
+  ]
+}

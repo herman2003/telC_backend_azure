@@ -1,0 +1,39 @@
+{
+  "slug": "infinitiv-mit-zu-trennbare-verben-gram-v-314",
+  "titleFr": "zu avec les verbes séparables",
+  "titleEn": "Infinitive with zu — separable verbs",
+  "titleDe": "Infinitiv mit zu — trennbare Verben",
+  "ruleFr": "## *zu* avec les verbes séparables\n\nAvec un verbe **séparable**, *zu* s’insère **entre** le préfixe et le verbe : un seul mot.\n\n### Règle\n*Präfix + zu + Verb* → **aufzustehen**, **anzufangen**, **mitzunehmen**\n- *Ich versuche, früh **aufzustehen**.*\n- *Es ist schwer, damit **anzufangen**.*\n- *Vergiss nicht, den Ausweis **mitzunehmen**.*\n\n### Erreurs\n- ✗ *auf zu stehen* (trois mots) → ✓ *aufzustehen*\n- ✗ *zu aufstehen* → ✓ *aufzustehen*\n\n### Verbes non séparables\n*verstehen, bekommen…* → *zu* devant : *zu verstehen*, *zu bekommen*\n\n### Mini-entraînement\nFormez : *anrufen / einkaufen / fernsehen* avec *zu*.",
+  "ruleEn": "## *zu* with separable verbs\n\nWith a **separable** verb, *zu* goes **between** prefix and verb — one word.\n\n### Rule\n*Prefix + zu + Verb* → **aufzustehen**, **anzufangen**, **mitzunehmen**\n- *Ich versuche, früh **aufzustehen**.*\n- *Es ist schwer, damit **anzufangen**.*\n- *Vergiss nicht, den Ausweis **mitzunehmen**.*\n\n### Mistakes\n- ✗ *auf zu stehen* → ✓ *aufzustehen*\n- ✗ *zu aufstehen* → ✓ *aufzustehen*\n\n### Inseparable verbs\n*verstehen, bekommen…* → *zu* in front: *zu verstehen*\n\n### Mini practice\nForm: *anrufen / einkaufen / fernsehen* with *zu*.",
+  "ruleDe": "## *zu* bei trennbaren Verben\n\n*Präfix + zu + Verb* als **ein** Wort: **aufzustehen**, **anzufangen**.\n\n### Fehler\n✗ *auf zu stehen* → ✓ *aufzustehen*\n\n### Mini-Übung\n*anrufen / einkaufen / fernsehen* mit *zu*.",
+  "notesFr": "UN SEUL mot : *aufzustehen* (pas *auf zu stehen*).",
+  "notesEn": "ONE word: *aufzustehen* (not *auf zu stehen*).",
+  "notesDe": "EIN WORT: *aufzustehen* (nicht 'auf zu stehen').",
+  "examples": [
+    {
+      "de": "Ich versuche, früh aufzustehen.",
+      "fr": "J’essaie de me lever tôt. (*auf-zu-stehen*)",
+      "en": "I try to get up early. (*auf-zu-stehen*)"
+    },
+    {
+      "de": "Es ist Zeit, mit der Arbeit anzufangen.",
+      "fr": "Il est temps de commencer le travail.",
+      "en": "It’s time to start the work."
+    },
+    {
+      "de": "Vergiss nicht, den Schlüssel mitzunehmen.",
+      "fr": "N’oublie pas d’emporter la clé.",
+      "en": "Don’t forget to take the key with you."
+    },
+    {
+      "de": "Sie hofft, dich bald anzurufen.",
+      "fr": "Elle espère t’appeler bientôt.",
+      "en": "She hopes to call you soon."
+    },
+    {
+      "de": "Wir haben vor, heute Abend fernzusehen.",
+      "fr": "Nous avons l’intention de regarder la télé ce soir.",
+      "en": "We intend to watch TV this evening."
+    }
+  ]
+}

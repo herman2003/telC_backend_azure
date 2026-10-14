@@ -1,0 +1,39 @@
+{
+  "slug": "kardinalzahlen-grundlagen-gram-e-105",
+  "titleFr": "Les nombres cardinaux — bases (0–12)",
+  "titleEn": "Cardinal numbers — basics (0–12)",
+  "titleDe": "Kardinalzahlen — Grundlagen",
+  "ruleFr": "## Les cardinaux 0–12\n\nLes nombres de **0 à 12** sont irréguliers : il faut les **apprendre par cœur**.\n\n### Liste\n| Chiffre | Allemand |\n|---|---|\n| 0 | null |\n| 1 | eins |\n| 2 | zwei |\n| 3 | drei |\n| 4 | vier |\n| 5 | fünf |\n| 6 | sechs |\n| 7 | sieben |\n| 8 | acht |\n| 9 | neun |\n| 10 | zehn |\n| 11 | elf |\n| 12 | zwölf |\n\n### Emplois\n- Âge : *Er ist **fünf** Jahre alt.*\n- Quantité : *Ich habe **zwei** Kinder.*\n- Heure / prix : bases pour tout le reste.\n\n### Astuce\n*elf* et *zwölf* ne suivent pas la logique de *zehn* — comme *eleven / twelve* en anglais.\n\n### Mini-entraînement\nRécitez 0–12 à voix haute, puis à l’envers.",
+  "ruleEn": "## Cardinals 0–12\n\nNumbers **0–12** are irregular: you must **memorize** them.\n\n### List\n| Digit | German |\n|---|---|\n| 0 | null |\n| 1 | eins |\n| 2 | zwei |\n| 3 | drei |\n| 4 | vier |\n| 5 | fünf |\n| 6 | sechs |\n| 7 | sieben |\n| 8 | acht |\n| 9 | neun |\n| 10 | zehn |\n| 11 | elf |\n| 12 | zwölf |\n\n### Uses\n- Age: *Er ist **fünf** Jahre alt.*\n- Quantity: *Ich habe **zwei** Kinder.*\n\n### Tip\n*elf* and *zwölf* break the *zehn* pattern — like English *eleven / twelve*.\n\n### Mini practice\nSay 0–12 aloud, then backwards.",
+  "ruleDe": "## Kardinalzahlen 0–12\n\nDie Zahlen **0–12** sind unregelmäßig und müssen **auswendig** gelernt werden.\n\n### Liste\nnull, eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, zehn, elf, zwölf\n\n### Gebrauch\n- Alter: *Er ist **fünf** Jahre alt.*\n- Menge: *Ich habe **zwei** Kinder.*\n\n### Mini-Übung\n0–12 vorwärts und rückwärts sprechen.",
+  "notesFr": "Ces nombres doivent être appris par cœur !",
+  "notesEn": "These numbers must be learned by heart!",
+  "notesDe": "Diese Zahlen müssen auswendig gelernt werden!",
+  "examples": [
+    {
+      "de": "Ich habe zwei Kinder.",
+      "fr": "J’ai deux enfants.",
+      "en": "I have two children."
+    },
+    {
+      "de": "Er ist fünf Jahre alt.",
+      "fr": "Il a cinq ans.",
+      "en": "He is five years old."
+    },
+    {
+      "de": "Wir brauchen zehn Stühle.",
+      "fr": "Nous avons besoin de dix chaises.",
+      "en": "We need ten chairs."
+    },
+    {
+      "de": "Null Fehler — sehr gut!",
+      "fr": "Zéro faute — très bien !",
+      "en": "Zero mistakes — very good!"
+    },
+    {
+      "de": "Um zwölf Uhr essen wir zu Mittag.",
+      "fr": "À midi nous déjeunons.",
+      "en": "At twelve we have lunch."
+    }
+  ]
+}

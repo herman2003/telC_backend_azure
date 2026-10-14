@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-dativ-gram-d-085",
+  "titleFr": "Pronoms personnels — datif pluriel",
+  "titleEn": "Personal pronouns — dative plural",
+  "titleDe": "Personalpronomen — Dativ",
+  "ruleFr": "## Datif pluriel : uns, euch, ihnen, Ihnen\n\n| Nom. | Dat. |\n|---|---|\n| wir | **uns** |\n| ihr | **euch** |\n| sie | **ihnen** |\n| Sie | **Ihnen** |\n\n### Piège\n*ihnen* (leur) vs *Ihnen* (vous poli) : majuscule !\n\n### Exemples\n*Das schmeckt **uns**.* · *Ich schreibe **euch**.* · *Ich zeige **ihnen** den Weg.* · *Wie kann ich **Ihnen** helfen?*\n\n### Mini-entraînement\nRemplacez *den Gästen / den Freunden / Ihnen* par le bon pronom.",
+  "ruleEn": "## Dative plural: uns, euch, ihnen, Ihnen\n\nwir→**uns** · ihr→**euch** · sie→**ihnen** · Sie→**Ihnen**\n\n### Trap\n*ihnen* (them) vs *Ihnen* (polite you): capitalization!\n\n### Mini practice\nReplace *den Gästen / den Freunden / Ihnen* with the right pronoun.",
+  "ruleDe": "## Dativ Plural\n\nwir→**uns** · ihr→**euch** · sie→**ihnen** · Sie→**Ihnen**\n\n### Falle\n*ihnen* vs *Ihnen* — Großschreibung!\n\n### Mini-Übung\n*den Gästen/Freunden/Ihnen* durch Pronomen ersetzen.",
+  "notesFr": "*ihnen* (leur) vs *Ihnen* (vous) — seule la majuscule !",
+  "notesEn": "*ihnen* (them) vs *Ihnen* (formal you) — only capitalization!",
+  "notesDe": "*ihnen* vs *Ihnen* — nur Großschreibung!",
+  "examples": [
+    {
+      "de": "Das schmeckt uns gut.",
+      "fr": "Cela nous plaît / a bon goût pour nous.",
+      "en": "That tastes good to us."
+    },
+    {
+      "de": "Ich schreibe euch einen Brief.",
+      "fr": "Je vous écris une lettre. (amis.)",
+      "en": "I’m writing you (pl.) a letter."
+    },
+    {
+      "de": "Ich zeige ihnen den Weg.",
+      "fr": "Je leur montre le chemin.",
+      "en": "I show them the way."
+    },
+    {
+      "de": "Wie kann ich Ihnen helfen?",
+      "fr": "Comment puis-je vous aider ?",
+      "en": "How can I help you (polite)?"
+    },
+    {
+      "de": "Gehört das Fahrrad euch?",
+      "fr": "Est-ce que le vélo vous appartient ?",
+      "en": "Does the bike belong to you (pl.)?"
+    }
+  ]
+}

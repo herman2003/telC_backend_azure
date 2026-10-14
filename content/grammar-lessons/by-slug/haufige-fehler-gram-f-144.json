@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-f-144",
+  "titleFr": "Erreurs fréquentes — voyelle au mauvais temps",
+  "titleEn": "Common mistakes — vowel change on wrong person",
+  "titleDe": "Häufige Fehler — Stammvokal bei falscher Person",
+  "ruleFr": "## Erreur fréquente : changer la voyelle à la mauvaise personne\n\nLe changement de voyelle (*gibt*, *sieht*, *fährt*) n’existe **que** pour *du* et *er/sie/es*. Pas pour *ich*, *wir*, *ihr*, *sie* (pluriel).\n\n### Tableau anti-erreur\n| ✓ Correct | ✗ Faux |\n|---|---|\n| ich **gebe** | ich *gibt* |\n| wir **fahren** | wir *fähren* |\n| ihr **seht** | ihr *sieht* |\n| du **gibst** | du *gebst* |\n| er **sieht** | er *seht* |\n\n### Règle à répéter\nStammvokaländerung = **seulement** 2ᵉ et 3ᵉ personne du **singulier**.\n\n### Mini-entraînement\nCorrigez : *ich sieht*, *wir gibt*, *ihr fährt*, *sie (Sing.) geben*.",
+  "ruleEn": "## Common mistake: vowel change on the wrong person\n\nStem vowel change (*gibt*, *sieht*, *fährt*) exists **only** for *du* and *er/sie/es* — not for *ich*, *wir*, *ihr*, *sie* (plural).\n\n### Anti-error table\n| ✓ Correct | ✗ Wrong |\n|---|---|\n| ich **gebe** | ich *gibt* |\n| wir **fahren** | wir *fähren* |\n| ihr **seht** | ihr *sieht* |\n| du **gibst** | du *gebst* |\n| er **sieht** | er *seht* |\n\n### Rule to repeat\nStem vowel change = **only** 2nd and 3rd person **singular**.\n\n### Mini practice\nCorrect: *ich sieht*, *wir gibt*, *ihr fährt*, *sie (Sg.) geben*.",
+  "ruleDe": "## Häufiger Fehler: Stammvokal bei falscher Person\n\nDie Stammvokaländerung (*gibt*, *sieht*, *fährt*) gilt **nur** für *du* und *er/sie/es* — nicht für *ich*, *wir*, *ihr*, *sie* (Plural).\n\n### Anti-Fehler-Tabelle\n| ✓ Richtig | ✗ Falsch |\n|---|---|\n| ich **gebe** | ich *gibt* |\n| wir **fahren** | wir *fähren* |\n| ihr **seht** | ihr *sieht* |\n| du **gibst** | du *gebst* |\n| er **sieht** | er *seht* |\n\n### Merksatz\nStammvokaländerung = **nur** 2. und 3. Person **Singular**.\n\n### Mini-Übung\nKorrigieren Sie: *ich sieht*, *wir gibt*, *ihr fährt*, *sie (Sg.) geben*.",
+  "notesFr": "Changement de voyelle UNIQUEMENT pour *du* et *er/sie/es* !",
+  "notesEn": "Stem vowel change ONLY with *du* and *er/sie/es*!",
+  "notesDe": "Stammvokaländerung NUR bei *du* und *er/sie/es*!",
+  "examples": [
+    {
+      "de": "Ich gebe dir Recht. (nicht: ich gibt)",
+      "fr": "Je te donne raison. (pas : *ich gibt*)",
+      "en": "I agree with you. (not: *ich gibt*)"
+    },
+    {
+      "de": "Wir fahren nach Berlin. (nicht: wir fähren)",
+      "fr": "Nous allons à Berlin. (pas : *wir fähren*)",
+      "en": "We drive to Berlin. (not: *wir fähren*)"
+    },
+    {
+      "de": "Ihr seht den Fehler. (nicht: ihr sieht)",
+      "fr": "Vous voyez l’erreur. (pas : *ihr sieht*)",
+      "en": "You (pl.) see the mistake. (not: *ihr sieht*)"
+    },
+    {
+      "de": "Du sprichst sehr gut Deutsch.",
+      "fr": "Tu parles très bien allemand. (changement correct.)",
+      "en": "You speak German very well. (correct change.)"
+    },
+    {
+      "de": "Sie (Plural) geben eine Party.",
+      "fr": "Ils organisent une fête. (pluriel : pas de changement.)",
+      "en": "They are giving a party. (plural: no change.)"
+    }
+  ]
+}

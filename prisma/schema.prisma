@@ -78,6 +78,7 @@ model Student {
   speaking_attempts        SpeakingAttempt[]
   grammar_topic_progress GrammarTopicProgress[]
   grammar_exercise_attempts GrammarExerciseAttempt[]
+  grammar_practice_attempts GrammarPracticeAttempt[]
 
   @@index([center_id])
   @@index([email])
@@ -1597,6 +1598,8 @@ model GrammarTopic {
   rule_fr      String
   rule_en      String?
   notes_fr     String?
+  notes_en     String?
+  notes_de     String?
   external_id  String?  @unique
   sort_order   Int      @default(0)
   published    Boolean  @default(false)
@@ -1631,11 +1634,15 @@ model GrammarExercise {
   /// easy | medium | hard
   difficulty     String
   sort_order     Int    @default(0)
+  /// Localized UI prompt (DE). Also used historically as cloze stem — regenerate to align.
   prompt_de      String?
   prompt_fr      String
+  prompt_en      String?
   options_json   Json?
   answer         String
   explanation_fr String?
+  explanation_en String?
+  explanation_de String?
 
   topic    GrammarTopic              @relation(fields: [topic_id], references: [id], onDelete: Cascade)
   attempts GrammarExerciseAttempt[]
@@ -1672,4 +1679,27 @@ model GrammarExerciseAttempt {
 
   @@index([student_id, exercise_id])
   @@map("grammar_exercise_attempts")
+}
+
+/// Free-practice QCM session (timer client-side). Not of-the-day; does not
+/// touch GrammarTopicProgress or StudentActivity readiness.
+model GrammarPracticeAttempt {
+  attempt_id       String    @id @default(uuid())
+  student_id       String
+  status           String    @default("completed")
+  /// 0–100, ratio of correct submitted answers.
+  score            Int
+  correct_count    Int
+  total            Int
+  /// easy | medium | hard when the client picked a level; null otherwise.
+  difficulty       String?
+  duration_seconds Int?
+  answers          Json
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  completed_at     DateTime? @db.Timestamptz(6)
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id, created_at])
+  @@map("grammar_practice_attempts")
 }

@@ -1,0 +1,39 @@
+{
+  "slug": "kardinalzahlen-13-19-gram-e-106",
+  "titleFr": "Les nombres 13–19",
+  "titleEn": "Numbers 13–19",
+  "titleDe": "Kardinalzahlen — 13-19",
+  "ruleFr": "## Les nombres 13–19\n\nFormation : **unité + zehn** (sauf irrégularités).\n\n### Liste\n| | |\n|---|---|\n| 13 | drei**zehn** |\n| 14 | vier**zehn** |\n| 15 | fünf**zehn** |\n| 16 | **sech**zehn (pas *sechszehn*) |\n| 17 | **sieb**zehn (pas *siebenzehn*) |\n| 18 | acht**zehn** |\n| 19 | neun**zehn** |\n\n### Attention\n- *sechzehn* : le *s* de *sechs* disparaît.\n- *siebzehn* : le *en* de *sieben* disparaît.\n\n### Mini-entraînement\nÉcrivez 13–19 en toutes lettres sans regarder.",
+  "ruleEn": "## Numbers 13–19\n\nPattern: **unit + zehn** (with two irregularities).\n\n### List\n13 dreizehn · 14 vierzehn · 15 fünfzehn · 16 **sech**zehn (not *sechszehn*) · 17 **sieb**zehn (not *siebenzehn*) · 18 achtzehn · 19 neunzehn\n\n### Watch out\n- *sechzehn*: the *s* of *sechs* drops.\n- *siebzehn*: the *en* of *sieben* drops.\n\n### Mini practice\nWrite 13–19 in words without looking.",
+  "ruleDe": "## Kardinalzahlen 13–19\n\nBildung: **Einer + zehn** (mit zwei Ausnahmen).\n\n### Liste\n13 dreizehn, 14 vierzehn, 15 fünfzehn, 16 **sechzehn**, 17 **siebzehn**, 18 achtzehn, 19 neunzehn\n\n### Achtung\nNicht *sechszehn* / *siebenzehn*!\n\n### Mini-Übung\n13–19 ausschreiben ohne Vorlage.",
+  "notesFr": "ATTENTION : sechzehn (pas « sechszehn »), siebzehn (pas « siebenzehn »).",
+  "notesEn": "WARNING: sechzehn (not “sechszehn”), siebzehn (not “siebenzehn”).",
+  "notesDe": "ACHTUNG: sechzehn (nicht „sechszehn“), siebzehn (nicht „siebenzehn“).",
+  "examples": [
+    {
+      "de": "Sie ist dreizehn Jahre alt.",
+      "fr": "Elle a treize ans.",
+      "en": "She is thirteen years old."
+    },
+    {
+      "de": "Wir treffen uns um vierzehn Uhr.",
+      "fr": "Nous nous retrouvons à quatorze heures.",
+      "en": "We’re meeting at fourteen hundred hours / 2 p.m."
+    },
+    {
+      "de": "Das Kostüm kostet fünfzehn Euro.",
+      "fr": "Le costume coûte quinze euros.",
+      "en": "The costume costs fifteen euros."
+    },
+    {
+      "de": "Ich brauche sechzehn Briefmarken.",
+      "fr": "J’ai besoin de seize timbres. (sechzehn, pas sechszehn.)",
+      "en": "I need sixteen stamps. (sechzehn, not sechszehn.)"
+    },
+    {
+      "de": "Er hat siebzehn Fehler korrigiert.",
+      "fr": "Il a corrigé dix-sept fautes.",
+      "en": "He corrected seventeen mistakes."
+    }
+  ]
+}

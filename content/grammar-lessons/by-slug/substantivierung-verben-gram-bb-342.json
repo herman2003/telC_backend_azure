@@ -1,0 +1,39 @@
+{
+  "slug": "substantivierung-verben-gram-bb-342",
+  "titleFr": "Nominalisation — verbes (infinitifs)",
+  "titleEn": "Nominalization — verbs",
+  "titleDe": "Substantivierung — Verben",
+  "ruleFr": "## Nominalisation — verbes\n\nUn **infinitif** peut devenir un **nom** : toujours **neutre**, avec majuscule.\n\n### Règle centrale\n**das** + Infinitif majuscule = nom\n\n- *lesen* → **das Lesen**\n- *schwimmen* → **das Schwimmen**\n- *essen* → **das Essen** (aussi « le repas »)\n\n### Genre et article\nToujours **neutre** : *das / ein / mein Lesen*…\n\n### Emploi\nSouvent après prépositions ou comme sujet :\n- *Beim Schwimmen entspanne ich mich.*\n- *Das Rauchen ist ungesund.*\n- *Ich bin gegen das Warten.*\n\n### Ne pas confondre\n- Verbe : *Ich lese.* (minuscule, conjugué)\n- Nom : *Das Lesen macht Spaß.*\n\n### Mini-entraînement\n1. Nominalisez 8 verbes avec *das*.\n2. Écrivez 5 *Beim / durch / ohne + das …*\n3. Distinguez verbe vs nom dans un texte.",
+  "ruleEn": "## Nominalization — verbs\n\nAn **infinitive** can become a **noun**: always **neuter**, capitalized.\n\n### Core rule\n**das** + capitalized infinitive = noun\n\n- *lesen* → **das Lesen**\n- *schwimmen* → **das Schwimmen**\n- *essen* → **das Essen** (also “the meal”)\n\n### Gender\nAlways **neuter**: *das / ein / mein Lesen*…\n\n### Use\nOften after prepositions or as subject:\n- *Beim Schwimmen entspanne ich mich.*\n- *Das Rauchen ist ungesund.*\n\n### Don’t confuse\n- Verb: *Ich lese.*\n- Noun: *Das Lesen macht Spaß.*\n\n### Mini practice\n1. Nominalize 8 verbs with *das*.\n2. Write 5 *Beim / durch / ohne + das …*\n3. Spot verb vs noun in a text.",
+  "ruleDe": "## Substantivierung — Verben\n\nEin **Infinitiv** kann zum **Nomen** werden: immer **Neutrum**, großgeschrieben.\n\n### Kernregel\n**das** + Infinitiv groß = Nomen\n\n- *lesen* → **das Lesen**\n- *schwimmen* → **das Schwimmen**\n- *essen* → **das Essen**\n\n### Genus\nImmer **Neutrum**.\n\n### Gebrauch\n- *Beim Schwimmen entspanne ich mich.*\n- *Das Rauchen ist ungesund.*\n\n### Mini-Übung\n1. 8 Verben mit *das* nominalisieren.\n2. 5 Sätze mit *Beim / durch / ohne + das …*\n3. Verb vs. Nomen im Text erkennen.",
+  "notesFr": "Infinitif → das + majuscule = nom neutre. das Lesen, das Schwimmen, das Essen.",
+  "notesEn": "Infinitive → das + capital = neuter noun. das Lesen, das Schwimmen, das Essen.",
+  "notesDe": "Infinitiv → das + Großschreibung = Neutrum. das Lesen, das Schwimmen, das Essen.",
+  "examples": [
+    {
+      "de": "Das Lesen macht mir Spaß.",
+      "fr": "La lecture me plaît. (*das Lesen* = infinitif nominalisé.)",
+      "en": "Reading is fun for me. (*das Lesen* = nominalized infinitive.)"
+    },
+    {
+      "de": "Beim Schwimmen entspanne ich mich.",
+      "fr": "En nageant, je me détends.",
+      "en": "I relax while swimming."
+    },
+    {
+      "de": "Das Rauchen ist ungesund.",
+      "fr": "Fumer est mauvais pour la santé.",
+      "en": "Smoking is unhealthy."
+    },
+    {
+      "de": "Ohne das Üben lernt man wenig.",
+      "fr": "Sans l’entraînement, on apprend peu.",
+      "en": "Without practice, you learn little."
+    },
+    {
+      "de": "Das Essen ist fertig.",
+      "fr": "Le repas est prêt. (*das Essen* = aussi « la nourriture / le repas ».)",
+      "en": "The meal is ready. (*das Essen* also means “the food/meal”.)"
+    }
+  ]
+}

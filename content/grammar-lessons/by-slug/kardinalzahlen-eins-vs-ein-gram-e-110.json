@@ -1,0 +1,39 @@
+{
+  "slug": "kardinalzahlen-eins-vs-ein-gram-e-110",
+  "titleFr": "eins ou ein ?",
+  "titleEn": "eins vs ein",
+  "titleDe": "Kardinalzahlen — eins vs ein",
+  "ruleFr": "## *eins* ou *ein* ?\n\n### Règle\n- ***eins*** : le nombre **seul**, sans nom (*Die Antwort ist **eins**.* / *Es ist **eins**.*)\n- ***ein / eine / einen…*** : devant un **nom**, et alors il se **décline** comme l’article indéfini.\n\n### Exemples\n| Seul | Devant un nom |\n|---|---|\n| *eins, zwei, drei…* | *ein Mann, eine Frau, ein Kind* |\n| *Nummer eins* | *einen Kaffee, bitte* |\n\n### Double sens\n*ein* = « un » (nombre) **ou** « un/une » (article) — le contexte décide.\n\n### Mini-entraînement\nComplétez : *Ich möchte ___ Apfel.* / *Wie viel ist eins plus null? ___ .*",
+  "ruleEn": "## *eins* or *ein*?\n\n### Rule\n- ***eins***: the number **alone**, no noun (*Die Antwort ist **eins**.*)\n- ***ein / eine / einen…***: before a **noun**, and then it **declines** like the indefinite article.\n\n### Examples\n| Alone | Before a noun |\n|---|---|\n| *eins, zwei, drei…* | *ein Mann, eine Frau, ein Kind* |\n\n### Double meaning\n*ein* can mean “one” or “a/an” — context decides.\n\n### Mini practice\nFill: *Ich möchte ___ Apfel.* / *Eins plus null ist ___ .*",
+  "ruleDe": "## *eins* oder *ein*?\n\n### Regel\n- ***eins***: Zahl **allein** (*Die Antwort ist **eins**.*)\n- ***ein / eine / einen…***: vor einem **Nomen**, dann dekliniert.\n\n### Mini-Übung\n*Ich möchte ___ Apfel.* / *Eins plus null ist ___ .*",
+  "notesFr": "ein/eine/einen = « un » ou « un/une » selon le contexte.",
+  "notesEn": "ein/eine/einen = “one” or “a/an” — context-dependent.",
+  "notesDe": "ein/eine/einen = „eins“ oder unbestimmter Artikel — kontextabhängig.",
+  "examples": [
+    {
+      "de": "Eins und eins ist zwei.",
+      "fr": "Un et un font deux. (« Eins » seul.)",
+      "en": "One and one is two. (“Eins” alone.)"
+    },
+    {
+      "de": "Ich habe nur ein Ticket.",
+      "fr": "Je n’ai qu’un billet. (« ein » devant nom.)",
+      "en": "I only have one ticket. (“ein” before a noun.)"
+    },
+    {
+      "de": "Sie kauft eine Zeitung und einen Stift.",
+      "fr": "Elle achète un journal et un stylo. (déclinaison.)",
+      "en": "She buys a newspaper and a pen. (declension.)"
+    },
+    {
+      "de": "Welche Nummer? — Die eins.",
+      "fr": "Quel numéro ? — Le un.",
+      "en": "Which number? — Number one."
+    },
+    {
+      "de": "Ein Kind spielt im Hof.",
+      "fr": "Un enfant joue dans la cour. (article / nombre.)",
+      "en": "A / one child is playing in the yard."
+    }
+  ]
+}

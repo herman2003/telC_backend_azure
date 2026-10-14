@@ -1,0 +1,39 @@
+{
+  "slug": "passiv-von-dativ-gram-i-199",
+  "titleFr": "Passif avec von + datif (agent)",
+  "titleEn": "Passive with von + dative (agent)",
+  "titleDe": "Passiv — von + Dativ",
+  "ruleFr": "## Passif — *von* + datif\n\nPour indiquer **qui** fait l’action au passif, utilisez **von** + **datif**.\n\n### Structure\n… Passiv … **von** + personne/agens (datif)\n\n- *Das Buch wurde **von dem Autor** geschrieben.*\n- *Die Pizza wird **von dem Koch** gemacht.*\n\n### Quand l’omettre ?\nSi l’agent n’est pas important : *Das Buch wurde 2020 geschrieben.*\n\n### Ne pas confondre\n- **von** + datif → personne / agent (*by someone*)\n- **durch** + accusatif → moyen / cause (*by means of*)\n\n### Mini-entraînement\nAjoutez un agent *von + datif* à 4 phrases passives.",
+  "ruleEn": "## Passive — *von* + dative\n\nTo say **who** performs the action in the passive, use **von** + **dative**.\n\n### Pattern\n… passive … **von** + person/agent (dative)\n\n- *Das Buch wurde **von dem Autor** geschrieben.*\n- *Die Pizza wird **von dem Koch** gemacht.*\n\n### When to omit?\nIf the agent is unimportant: *Das Buch wurde 2020 geschrieben.*\n\n### Don’t confuse\n- **von** + dative → person / agent\n- **durch** + accusative → means / cause\n\n### Mini practice\nAdd an agent *von + dative* to 4 passive sentences.",
+  "ruleDe": "## Passiv — *von* + Dativ\n\nDie handelnde Person: **von** + **Dativ**.\n\n### Muster\n… Passiv … **von** + Agens (Dativ)\n\n- *Das Buch wurde **von dem Autor** geschrieben.*\n\n### Weglassen?\nWenn das Agens unwichtig ist: oft ohne *von*-Angabe.\n\n### Nicht verwechseln\n- **von** + Dativ → Person/Agens\n- **durch** + Akkusativ → Mittel/Ursache\n\n### Mini-Übung\nErgänzen Sie bei 4 Passivsätzen ein Agens mit *von*.",
+  "notesFr": "von = by (personne/agent). Souvent omis si non important.",
+  "notesEn": "von = by (person/agent). Often omitted if unimportant.",
+  "notesDe": "von = by (Person/Agens). Oft weggelassen, wenn unwichtig.",
+  "examples": [
+    {
+      "de": "Das Buch wurde von dem Autor geschrieben.",
+      "fr": "Le livre a été écrit par l’auteur.",
+      "en": "The book was written by the author."
+    },
+    {
+      "de": "Die Pizza wird von dem Koch gemacht.",
+      "fr": "La pizza est préparée par le cuisinier.",
+      "en": "The pizza is being made by the cook."
+    },
+    {
+      "de": "Er wurde von seiner Lehrerin gelobt.",
+      "fr": "Il a été félicité par son professeure.",
+      "en": "He was praised by his teacher."
+    },
+    {
+      "de": "Der Brief ist von meiner Mutter geschickt worden.",
+      "fr": "La lettre a été envoyée par ma mère.",
+      "en": "The letter has been sent by my mother."
+    },
+    {
+      "de": "Die Stadt wurde von Touristen besucht.",
+      "fr": "La ville a été visitée par des touristes.",
+      "en": "The city was visited by tourists."
+    }
+  ]
+}

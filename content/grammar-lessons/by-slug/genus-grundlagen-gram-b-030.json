@@ -1,0 +1,39 @@
+{
+  "slug": "genus-grundlagen-gram-b-030",
+  "titleFr": "Le genre influence articles, adjectifs et pronoms",
+  "titleEn": "Gender affects articles, adjectives and pronouns",
+  "titleDe": "Genus — Wirkung auf Artikel, Adjektive und Pronomen",
+  "ruleFr": "## Le genre « rayonne » sur toute la nominalisation\n\nContrairement à l’anglais, le genre allemand **change la forme** des mots autour du nom.\n\n### 1) Articles\n*der Wein / die Milch / das Wasser*\n\n### 2) Adjectifs\n- ein **guter** Wein (m)\n- eine **gute** Idee (f)\n- ein **gutes** Buch (n)\n\n### 3) Pronoms\n- Wo ist der Schlüssel? → **Er** liegt dort.\n- Wo ist die Karte? → **Sie** liegt dort.\n- Wo ist das Ticket? → **Es** liegt dort.\n\n### Conséquence pédagogique\nUne erreur de genre entraîne souvent **plusieurs** fautes en chaîne (article + adjectif + pronom).\n\n### Mini-entraînement\n1. Pour 10 noms : article + adjectif *neu* + pronom.\n2. Corrigez un paragraphe où tous les *er/sie/es* sont faux.\n3. Dictez-vous des paires *die Tür → sie*.",
+  "ruleEn": "## Gender “radiates” through the noun phrase\n\nUnlike English, German gender **changes the forms** of words around the noun.\n\n### 1) Articles\n*der Wein / die Milch / das Wasser*\n\n### 2) Adjectives\n- ein **guter** Wein (m)\n- eine **gute** Idee (f)\n- ein **gutes** Buch (n)\n\n### 3) Pronouns\n- Wo ist der Schlüssel? → **Er** liegt dort.\n- Wo ist die Karte? → **Sie** liegt dort.\n- Wo ist das Ticket? → **Es** liegt dort.\n\n### Learning consequence\nA gender error often causes a **chain** of mistakes (article + adjective + pronoun).\n\n### Mini practice\n1. For 10 nouns: article + adjective *neu* + pronoun.\n2. Fix a paragraph with wrong *er/sie/es*.\n3. Drill pairs *die Tür → sie*.",
+  "ruleDe": "## Das Genus wirkt auf die ganze Nominalgruppe\n\nAnders als im Englischen verändert das Genus **Formen** um das Nomen herum.\n\n### 1) Artikel\n*der Wein / die Milch / das Wasser*\n\n### 2) Adjektive\n- ein **guter** Wein (m)\n- eine **gute** Idee (f)\n- ein **gutes** Buch (n)\n\n### 3) Pronomen\n- Wo ist der Schlüssel? → **Er** liegt dort.\n- Wo ist die Karte? → **Sie** liegt dort.\n- Wo ist das Ticket? → **Es** liegt dort.\n\n### Konsequenz\nEin Genusfehler erzeugt oft eine **Fehlerkette**.\n\n### Mini-Übung\n1. Zehn Nomen: Artikel + Adjektiv *neu* + Pronomen.\n2. Absatz mit falschen *er/sie/es* korrigieren.\n3. Paare *die Tür → sie* trainieren.",
+  "notesFr": "Test rapide : remplacez le nom par *er/sie/es* — si le pronom est faux, le genre n’est pas encore acquis.",
+  "notesEn": "Quick test: replace the noun with *er/sie/es* — if the pronoun is wrong, gender is not secure yet.",
+  "notesDe": "Schnelltest: Nomen durch *er/sie/es* ersetzen — falsches Pronomen = Genus noch unsicher.",
+  "examples": [
+    {
+      "de": "Der Wein ist gut. Er ist teuer.",
+      "fr": "Le vin est bon. Il est cher. (*er* reprend *der Wein*)",
+      "en": "The wine is good. It is expensive. (*er* refers to *der Wein*)"
+    },
+    {
+      "de": "Die Milch ist frisch. Sie steht im Kühlschrank.",
+      "fr": "Le lait est frais. Il est dans le frigo. (*sie* pour *die Milch*)",
+      "en": "The milk is fresh. It is in the fridge. (*sie* for *die Milch*)"
+    },
+    {
+      "de": "Das Wasser ist kalt. Es kommt aus der Flasche.",
+      "fr": "L’eau est froide. Elle vient de la bouteille. (*es*)",
+      "en": "The water is cold. It comes from the bottle. (*es*)"
+    },
+    {
+      "de": "Ein guter Film hilft am Abend.",
+      "fr": "Un bon film aide le soir. (adjectif accordé au masculin)",
+      "en": "A good film helps in the evening. (adjective agreeing masculine)"
+    },
+    {
+      "de": "Eine gute Idee spart Zeit.",
+      "fr": "Une bonne idée fait gagner du temps. (adjectif féminin)",
+      "en": "A good idea saves time. (feminine adjective)"
+    }
+  ]
+}

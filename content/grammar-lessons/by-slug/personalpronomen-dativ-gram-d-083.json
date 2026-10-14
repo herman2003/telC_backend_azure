@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-dativ-gram-d-083",
+  "titleFr": "Pronoms personnels — datif (aperçu)",
+  "titleEn": "Personal pronouns — dative (overview)",
+  "titleDe": "Personalpronomen — Dativ",
+  "ruleFr": "## Datif : complément d’objet indirect\n\nQuestion : **Wem?**\n\n### Formes\n| Nom. | Dat. |\n|---|---|\n| ich | **mir** |\n| du | **dir** |\n| er | **ihm** |\n| sie (f) | **ihr** |\n| es | **ihm** |\n| wir | **uns** |\n| ihr | **euch** |\n| sie | **ihnen** |\n| Sie | **Ihnen** |\n\n### Verbes courants + datif\n*helfen, danken, gehören, gefallen, schmecken…*\n\n### Mini-entraînement\nComplétez : *Das gehört ___ (ich/du/er/sie/wir).*",
+  "ruleEn": "## Dative: indirect object\n\nQuestion: **Wem?**\n\n### Forms\nich→**mir** · du→**dir** · er→**ihm** · sie→**ihr** · es→**ihm** · wir→**uns** · ihr→**euch** · sie→**ihnen** · Sie→**Ihnen**\n\n### Common dative verbs\n*helfen, danken, gehören, gefallen, schmecken…*\n\n### Mini practice\nComplete: *Das gehört ___ (ich/du/er/sie/wir).*",
+  "ruleDe": "## Dativ: indirektes Objekt\n\nFrage: **Wem?**\n\n### Formen\nich→**mir** · du→**dir** · er→**ihm** · sie→**ihr** · es→**ihm** · wir→**uns** · ihr→**euch** · sie→**ihnen** · Sie→**Ihnen**\n\n### Mini-Übung\n*Das gehört ___* ergänzen.",
+  "notesFr": "Question : *Wem?*",
+  "notesEn": "Question: *Wem?*",
+  "notesDe": "Frage: *Wem?*",
+  "examples": [
+    {
+      "de": "Kannst du mir helfen?",
+      "fr": "Peux-tu m’aider ? (mir.)",
+      "en": "Can you help me? (mir.)"
+    },
+    {
+      "de": "Ich danke dir.",
+      "fr": "Je te remercie. (dir.)",
+      "en": "I thank you. (dir.)"
+    },
+    {
+      "de": "Das Buch gehört ihm.",
+      "fr": "Le livre lui appartient. (ihm ← er.)",
+      "en": "The book belongs to him. (ihm ← er.)"
+    },
+    {
+      "de": "Die Idee gefällt ihr.",
+      "fr": "L’idée lui plaît. (ihr ← sie.)",
+      "en": "She likes the idea. (ihr ← sie.)"
+    },
+    {
+      "de": "Wie kann ich Ihnen helfen?",
+      "fr": "Comment puis-je vous aider ?",
+      "en": "How can I help you (polite)?"
+    }
+  ]
+}

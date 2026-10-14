@@ -1,0 +1,39 @@
+{
+  "slug": "ortsadverbien-richtung-gram-m-238",
+  "titleFr": "Adverbes de lieu — direction",
+  "titleEn": "Place adverbs — direction",
+  "titleDe": "Ortsadverbien — Richtung",
+  "ruleFr": "## Adverbes de lieu — direction (Wohin?)\n\nIls répondent à **Wohin?** (où va-t-on ? — mouvement).\n\n### Liste utile\n| Allemand | Sens |\n|---|---|\n| hierher | vers ici (vers moi) |\n| dorthin | vers là-bas |\n| nach oben / nach unten | vers le haut / le bas |\n| rein / raus | dedans / dehors (mouvement) |\n| hinein / heraus | vers l’intérieur / l’extérieur |\n| hin / her | loin du locuteur / vers le locuteur |\n\n### hin vs her (très important)\n- **hin** = mouvement **loin** du locuteur\n- **her** = mouvement **vers** le locuteur\n- Komm **her**! (viens vers moi)\n- Geh **hin**! (va là-bas)\n\n### Emploi\n- Komm bitte **hierher**.\n- Wir gehen **nach oben**.\n- Die Katze läuft **raus**.\n\n### Mini-entraînement\n1. Transformez Wo? → Wohin? : *Er ist oben.* → *Er geht nach oben.*\n2. Choisissez *hin* ou *her* : *Komm ___!* / *Bring das Buch ___!*\n3. 4 phrases avec *rein, raus, hierher, dorthin*.",
+  "ruleEn": "## Place adverbs — direction (Wohin?)\n\nThey answer **Wohin?** (where to? — movement).\n\n### Useful list\n| German | Meaning |\n|---|---|\n| hierher | to here (toward me) |\n| dorthin | to there |\n| nach oben / nach unten | upward / downward |\n| rein / raus | in / out (movement) |\n| hinein / heraus | into / out of |\n| hin / her | away from speaker / toward speaker |\n\n### hin vs her (crucial)\n- **hin** = movement **away** from the speaker\n- **her** = movement **toward** the speaker\n- Komm **her**! (come to me)\n- Geh **hin**! (go over there)\n\n### Use\n- Komm bitte **hierher**.\n- Wir gehen **nach oben**.\n- Die Katze läuft **raus**.\n\n### Mini practice\n1. Turn Wo? into Wohin?: *Er ist oben.* → *Er geht nach oben.*\n2. Choose *hin* or *her*: *Komm ___!* / *Bring das Buch ___!*\n3. Four sentences with *rein, raus, hierher, dorthin*.",
+  "ruleDe": "## Ortsadverbien — Richtung (Wohin?)\n\nSie antworten auf **Wohin?** (Richtung / Bewegung).\n\n### Nützliche Liste\n| Deutsch | Bedeutung |\n|---|---|\n| hierher | hierher (zu mir) |\n| dorthin | dorthin |\n| nach oben / nach unten | nach oben / unten |\n| rein / raus | hinein / hinaus (ugs.) |\n| hinein / heraus | hinein / heraus |\n| hin / her | weg vom Sprecher / zum Sprecher |\n\n### hin vs her\n- **hin** = Bewegung **weg** vom Sprecher\n- **her** = Bewegung **zum** Sprecher\n- Komm **her**!\n- Geh **hin**!\n\n### Gebrauch\n- Komm bitte **hierher**.\n- Wir gehen **nach oben**.\n- Die Katze läuft **raus**.\n\n### Mini-Übung\n1. Wo? → Wohin?: *Er ist oben.* → *Er geht nach oben.*\n2. *hin* oder *her*?\n3. 4 Sätze mit *rein, raus, hierher, dorthin*.",
+  "notesFr": "*hin* = loin du locuteur ; *her* = vers le locuteur.",
+  "notesEn": "*hin* = away from the speaker; *her* = toward the speaker.",
+  "notesDe": "hin = weg vom Sprecher, her = zum Sprecher.",
+  "examples": [
+    {
+      "de": "Komm bitte hierher!",
+      "fr": "Viens ici s’il te plaît ! (vers moi)",
+      "en": "Please come here! (toward me)"
+    },
+    {
+      "de": "Wir gehen nach oben.",
+      "fr": "Nous montons / allons en haut.",
+      "en": "We are going upstairs."
+    },
+    {
+      "de": "Die Katze läuft raus.",
+      "fr": "Le chat sort en courant.",
+      "en": "The cat runs outside."
+    },
+    {
+      "de": "Bring das Buch her!",
+      "fr": "Apporte le livre ici ! (*her* = vers moi)",
+      "en": "Bring the book here! (*her* = toward me)"
+    },
+    {
+      "de": "Geh dorthin und warte.",
+      "fr": "Va là-bas et attends.",
+      "en": "Go over there and wait."
+    }
+  ]
+}

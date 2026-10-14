@@ -1,0 +1,39 @@
+{
+  "slug": "jener-jene-jenes-gram-c-064",
+  "titleFr": "Dieser vs jener — proche et loin",
+  "titleEn": "Dieser vs jener — near and far",
+  "titleDe": "jener/jene/jenes",
+  "ruleFr": "## Contraste dieser / jener\n\nComme *this / that* en anglais, mais *jener* est **plus rare** et **plus formel**.\n\n### Schéma\n| proche | éloigné |\n|---|---|\n| **dieser** Weg | **jener** Weg |\n| **diese** Idee | **jene** Idee |\n| **dieses** Haus | **jenes** Haus |\n\nPhrase type : *Dieser Weg ist kurz, jener Weg ist lang.*\n\n### Alternatives orales\n- *dieser hier* / *der da*\n- *dieser* + geste + *der andere*\n\n### Quand utiliser jener ?\nTextes écrits, contrastes nets, style soutenu. Au café : préférez *dieser* / *der da*.\n\n### Mini-entraînement\nÉcrivez 3 paires contrastives *dieser…, jener…*.",
+  "ruleEn": "## Contrast dieser / jener\n\nLike English *this / that*, but *jener* is **rarer** and **more formal**.\n\n### Pattern\n| near | far |\n|---|---|\n| **dieser** Weg | **jener** Weg |\n\nTypical: *Dieser Weg ist kurz, jener Weg ist lang.*\n\n### Spoken alternatives\n*dieser hier* / *der da* / *der andere*\n\n### When to use jener?\nWritten texts, clear contrast, formal style. Everyday: prefer *dieser* / *der da*.\n\n### Mini practice\nWrite 3 contrastive pairs *dieser…, jener…*.",
+  "ruleDe": "## Kontrast dieser / jener\n\nWie englisch *this/that*, aber *jener* ist **seltener** und **formeller**.\n\n### Muster\n**dieser** Weg — **jener** Weg  \n*Dieser Weg ist kurz, jener Weg ist lang.*\n\n### Mündlich\n*dieser hier* / *der da*\n\n### Mini-Übung\n3 Kontrastpaare *dieser…, jener…* schreiben.",
+  "notesFr": "Comme anglais *this/that*, mais *jener* est plus rare et plus formel.",
+  "notesEn": "Like English *this/that*, but *jener* is rarer and more formal.",
+  "notesDe": "Wie englisch *this/that*, aber *jener* ist seltener und formeller.",
+  "examples": [
+    {
+      "de": "Dieser Weg ist kurz, jener Weg ist lang.",
+      "fr": "Ce chemin-ci est court, celui-là est long.",
+      "en": "This path is short; that path is long."
+    },
+    {
+      "de": "Dieses Auto gefällt mir, jenes nicht.",
+      "fr": "Cette voiture-ci me plaît, celle-là non.",
+      "en": "I like this car, not that one."
+    },
+    {
+      "de": "Diese Lösung ist gut, jene ist besser.",
+      "fr": "Cette solution-ci est bonne, celle-là est meilleure.",
+      "en": "This solution is good; that one is better."
+    },
+    {
+      "de": "In dieser Stadt wohne ich, in jener arbeite ich.",
+      "fr": "J’habite dans cette ville-ci, je travaille dans celle-là.",
+      "en": "I live in this city; I work in that one."
+    },
+    {
+      "de": "Diesen Tag vergesse ich nicht, jenen schon.",
+      "fr": "Je n’oublie pas ce jour-ci ; celui-là si.",
+      "en": "I won’t forget this day; that one I will."
+    }
+  ]
+}

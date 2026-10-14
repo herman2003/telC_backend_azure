@@ -1,0 +1,39 @@
+{
+  "slug": "nach-bestimmtem-artikel-dativ-gram-l-215",
+  "titleFr": "Adjectifs après article défini — datif",
+  "titleEn": "Adjectives after definite articles — dative",
+  "titleDe": "Nach bestimmtem Artikel — Dativ",
+  "ruleFr": "## Après article défini — datif\n\nAu **datif** après *dem / der / dem / den*, l’adjectif prend **toujours -en**.\n\n### Tableau\n| | m | f | n | pl |\n|---|---|---|---|---|\n| | dem groß**en** | der klein**en** | dem neu**en** | den alt**en** |\n\n### Exemples\n- *mit dem groß**en** Mann*\n- *mit der klein**en** Frau*\n- *in dem neu**en** Auto*\n- *mit den alt**en** Freunden*\n\n### Mini-entraînement\nComplétez : *mit dem/der/dem/den + adjectif + nom*.",
+  "ruleEn": "## After definite articles — dative\n\nIn the **dative** after *dem / der / dem / den*, the adjective **always** takes **-en**.\n\n### Chart\n| | m | f | n | pl |\n|---|---|---|---|---|\n| | dem groß**en** | der klein**en** | dem neu**en** | den alt**en** |\n\n### Examples\n- *mit dem groß**en** Mann*\n- *mit der klein**en** Frau*\n- *in dem neu**en** Auto*\n- *mit den alt**en** Freunden*\n\n### Mini practice\nComplete: *mit dem/der/dem/den + adjective + noun*.",
+  "ruleDe": "## Nach bestimmtem Artikel — Dativ\n\nDativ nach bestimmtem Artikel: Adjektiv **immer -en**.\n\n### Beispiele\n*mit dem großen Mann, mit der kleinen Frau, in dem neuen Auto, mit den alten Freunden*\n\n### Mini-Übung\nErgänzen Sie Dativgruppen mit Adjektiv.",
+  "notesFr": "Datif = toujours -en (tous genres, aussi pluriel).",
+  "notesEn": "Dative = always -en (all genders, including plural).",
+  "notesDe": "Dativ = immer -en (alle Genera, auch Plural).",
+  "examples": [
+    {
+      "de": "Ich spreche mit dem großen Mann.",
+      "fr": "Je parle avec le grand homme.",
+      "en": "I speak with the tall man."
+    },
+    {
+      "de": "Sie hilft der kleinen Frau.",
+      "fr": "Elle aide la petite femme.",
+      "en": "She helps the small woman."
+    },
+    {
+      "de": "Wir fahren in dem neuen Auto.",
+      "fr": "Nous roulons dans la voiture neuve.",
+      "en": "We are driving in the new car."
+    },
+    {
+      "de": "Er gibt es den alten Freunden.",
+      "fr": "Il le donne aux vieux amis.",
+      "en": "He gives it to the old friends."
+    },
+    {
+      "de": "aus dem schönen Haus",
+      "fr": "hors de la belle maison",
+      "en": "out of the beautiful house"
+    }
+  ]
+}

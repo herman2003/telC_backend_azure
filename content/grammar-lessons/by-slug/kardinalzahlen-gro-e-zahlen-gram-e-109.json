@@ -1,0 +1,39 @@
+{
+  "slug": "kardinalzahlen-gro-e-zahlen-gram-e-109",
+  "titleFr": "Les grands nombres",
+  "titleEn": "Large numbers",
+  "titleDe": "Kardinalzahlen — Große Zahlen",
+  "ruleFr": "## Les grands nombres\n\n### Unités\n| | Allemand | Genre |\n|---|---|---|\n| 100 | (ein)hundert | — |\n| 1 000 | (ein)tausend | — |\n| 1 000 000 | eine **Million** | féminin |\n| 1 000 000 000 | eine **Milliarde** | féminin |\n\n### Points clés\n- *hundert / tausend* : souvent sans *ein* (*zweihundert*, *dreitausend*).\n- *Million / Milliarde* sont **féminins** : *eine Million*, *zwei Millionen*.\n- Accord verbal au pluriel : *Eine Million Menschen **kommen**.*\n\n### Séparateurs\nEn allemand : point pour les milliers (*1.000*), virgule pour les décimales (*1,5*).\n\n### Mini-entraînement\nLisez : 250 · 1.800 · 2.000.000.",
+  "ruleEn": "## Large numbers\n\n### Units\n100 (ein)hundert · 1,000 (ein)tausend · 1,000,000 eine **Million** (feminine) · 1,000,000,000 eine **Milliarde** (feminine)\n\n### Key points\n- *hundert / tausend* often without *ein*.\n- *Million / Milliarde* are feminine; plural verb: *Eine Million Menschen **kommen**.*\n\n### Separators\nGerman: point for thousands (*1.000*), comma for decimals (*1,5*).\n\n### Mini practice\nRead aloud: 250 · 1.800 · 2.000.000.",
+  "ruleDe": "## Große Zahlen\n\n(ein)hundert, (ein)tausend, eine Million, eine Milliarde\n\n### Wichtig\n*Million / Milliarde* sind Femininum. *Eine Million Menschen **kommen*** (Plural!).\n\n### Mini-Übung\nVorlesen: 250 · 1.800 · 2.000.000.",
+  "notesFr": "Million / Milliarde sont féminins ! Eine Million Menschen KOMMEN (pluriel !).",
+  "notesEn": "Million / Milliarde are feminine! Eine Million Menschen KOMMEN (plural!).",
+  "notesDe": "Million/Milliarde sind Femininum! Eine Million Menschen KOMMEN (Plural!).",
+  "examples": [
+    {
+      "de": "Das Rathaus hat zweihundert Jahre.",
+      "fr": "L’hôtel de ville a deux cents ans.",
+      "en": "The town hall is two hundred years old."
+    },
+    {
+      "de": "Eintausend Menschen demonstrieren.",
+      "fr": "Mille personnes manifestent.",
+      "en": "One thousand people are demonstrating."
+    },
+    {
+      "de": "Eine Million Touristen besuchen die Stadt.",
+      "fr": "Un million de touristes visitent la ville. (verbe pluriel.)",
+      "en": "One million tourists visit the city. (plural verb.)"
+    },
+    {
+      "de": "Das kostet eine Milliarde Euro.",
+      "fr": "Cela coûte un milliard d’euros.",
+      "en": "That costs one billion euros."
+    },
+    {
+      "de": "Dreihundertfünfundvierzig Schüler lernen hier.",
+      "fr": "Trois cent quarante-cinq élèves apprennent ici.",
+      "en": "Three hundred forty-five pupils learn here."
+    }
+  ]
+}

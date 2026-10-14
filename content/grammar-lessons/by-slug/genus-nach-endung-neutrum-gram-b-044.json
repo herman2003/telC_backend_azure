@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-endung-neutrum-gram-b-044",
+  "titleFr": "Suffixes -um et -ment : généralement neutres",
+  "titleEn": "The suffixes -um and -ment: mostly neuter",
+  "titleDe": "Genus nach Endung — -um und -ment meist Neutrum",
+  "ruleFr": "## *-um / -ment* → souvent **das**\n\nLes emprunts savants en **-um** et **-ment** sont **généralement neutres**.\n\n### Exemples *-um*\n*das Museum, das Zentrum, das Datum, das Album, das Praktikum, das Stadium*\n\n### Exemples *-ment*\n*das Instrument, das Dokument, das Experiment, das Parlament, das Apartment / Appartement*\n\n### Pluriels irréguliers (bonus)\nSouvent *-um → -en* : *das Museum → die Museen*, *das Zentrum → die Zentren*.\n\n### Mini-entraînement\n1. Apprenez 8 noms avec *das*.\n2. Formez 3 pluriels en *-en*.\n3. Une visite : *Wir gehen ins Museum.* (*in das*)",
+  "ruleEn": "## *-um / -ment* → usually **das**\n\nScholarly loanwords in **-um** and **-ment** are **generally neuter**.\n\n### *-um* examples\n*das Museum, das Zentrum, das Datum, das Album, das Praktikum, das Stadium*\n\n### *-ment* examples\n*das Instrument, das Dokument, das Experiment, das Parlament, das Apartment*\n\n### Irregular plurals (bonus)\nOften *-um → -en*: *das Museum → die Museen*, *das Zentrum → die Zentren*.\n\n### Mini practice\n1. Learn 8 nouns with *das*.\n2. Form 3 plurals in *-en*.\n3. One outing: *Wir gehen ins Museum.* (*in das*)",
+  "ruleDe": "## *-um / -ment* → meist **das**\n\nGelehrte Fremdwörter auf **-um** und **-ment** sind **meist Neutrum**.\n\n### Beispiele *-um*\n*das Museum, das Zentrum, das Datum, das Album, das Praktikum, das Stadium*\n\n### Beispiele *-ment*\n*das Instrument, das Dokument, das Experiment, das Parlament, das Apartment*\n\n### Unregelmäßige Plurale\nOft *-um → -en*: *das Museum → die Museen*.\n\n### Mini-Übung\n1. Acht Nomen mit *das*.\n2. Drei Plurale auf *-en*.\n3. Ausflug: *Wir gehen ins Museum.*",
+  "notesFr": "Pensez *das Museum / das Zentrum / das Dokument* — et retenez le pluriel *die Museen*.",
+  "notesEn": "Think *das Museum / das Zentrum / das Dokument* — and remember the plural *die Museen*.",
+  "notesDe": "Merken: *das Museum / das Zentrum / das Dokument* — und Plural *die Museen*.",
+  "examples": [
+    {
+      "de": "Das Museum öffnet um zehn.",
+      "fr": "Le musée ouvre à dix heures. (*das Museum*)",
+      "en": "The museum opens at ten. (*das Museum*)"
+    },
+    {
+      "de": "Das Zentrum der Stadt ist alt.",
+      "fr": "Le centre de la ville est ancien. (*das Zentrum*)",
+      "en": "The city centre is old. (*das Zentrum*)"
+    },
+    {
+      "de": "Bitte schicken Sie das Dokument.",
+      "fr": "Veuillez envoyer le document. (*das Dokument*)",
+      "en": "Please send the document. (*das Dokument*)"
+    },
+    {
+      "de": "Das Experiment war erfolgreich.",
+      "fr": "L’expérience a réussi. (*das Experiment*)",
+      "en": "The experiment was successful. (*das Experiment*)"
+    },
+    {
+      "de": "Wir besuchen die Museen am Wochenende.",
+      "fr": "Nous visitons les musées le week-end. (pluriel *Museen*)",
+      "en": "We visit the museums at the weekend. (plural *Museen*)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "nominativ-gram-a-001",
+  "titleFr": "Le nominatif",
+  "titleEn": "The nominative",
+  "titleDe": "Nominativ",
+  "ruleFr": "## Le nominatif — le sujet de la phrase\n\nEn allemand, chaque groupe nominal a un **cas**. Le **nominatif** est le cas du **sujet** : la personne ou la chose qui fait l’action (ou dont on dit quelque chose).\n\n### À quoi ça sert ?\nLa question du nominatif est : **Wer?** ou **Was?** (Qui ? / Quoi ?).\n\n- *Wer liest?* → **Der Mann** liest.\n- *Was liegt auf dem Tisch?* → **Das Buch** liegt auf dem Tisch.\n\n### Les articles au nominatif (à retenir)\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **der** | **die** | **das** | **die** |\n| indéfini | **ein** | **eine** | **ein** | — (pas d’indéfini pluriel) |\n\nExemples :\n- **Der** Lehrer erklärt die Regel.\n- **Eine** Frau wartet.\n- **Das** Kind spielt.\n- **Die** Studenten lernen.\n\n### Comment le reconnaître dans une phrase\n1. Trouvez le verbe conjugué.\n2. Demandez *Wer?* / *Was?* devant ce verbe.\n3. La réponse est au nominatif (souvent juste avant ou juste après le verbe en phrase déclarative).\n\nPhrase type : **Subjekt (Nominativ)** + Verb + reste…\n→ **Die Katze** schläft.\n\n### Ne pas confondre\n- Nominatif = sujet (*Wer?*).\n- Accusatif = complément d’objet direct (*Wen?* / *Was?*).\n  - *Der Mann* (Nom.) *sieht **den Hund*** (Akk.).\n\n### Erreurs fréquentes\n- Mettre *den* / *dem* pour le sujet : ✗ *Den Mann liest.* → ✓ *Der Mann liest.*\n- Oublier que le sujet peut être un pronom : *Ich*, *er*, *sie*, *es*, *wir*… (déjà « nominatif »).\n\n### Mini-entraînement (5–10 min)\n1. Lisez 5 phrases et soulignez le sujet.\n2. Pour chaque sujet, posez *Wer?* / *Was?*.\n3. Écrivez 3 phrases : *Der / Die / Das … + verbe.*",
+  "ruleEn": "## The nominative — the subject of the sentence\n\nIn German, every noun phrase has a **case**. The **nominative** is the case of the **subject**: who or what performs the action (or is described).\n\n### What is it for?\nThe nominative question is **Wer?** or **Was?** (Who? / What?).\n\n- *Wer liest?* → **Der Mann** liest.\n- *Was liegt auf dem Tisch?* → **Das Buch** liegt auf dem Tisch.\n\n### Nominative articles (learn these)\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **der** | **die** | **das** | **die** |\n| indefinite | **ein** | **eine** | **ein** | — (no indefinite plural) |\n\nExamples:\n- **Der** Lehrer erklärt die Regel.\n- **Eine** Frau wartet.\n- **Das** Kind spielt.\n- **Die** Studenten lernen.\n\n### How to spot it\n1. Find the conjugated verb.\n2. Ask *Wer?* / *Was?* with that verb.\n3. The answer is nominative (often next to the verb in a main clause).\n\nPattern: **Subject (Nominative)** + verb + rest…\n→ **Die Katze** schläft.\n\n### Don’t confuse\n- Nominative = subject (*Wer?*).\n- Accusative = direct object (*Wen?* / *Was?*).\n  - *Der Mann* (Nom.) *sieht **den Hund*** (Akk.).\n\n### Common mistakes\n- Using *den* / *dem* for the subject: ✗ *Den Mann liest.* → ✓ *Der Mann liest.*\n- Forgetting pronouns are already nominative: *Ich*, *er*, *sie*, *es*, *wir*…\n\n### Mini practice (5–10 min)\n1. Read 5 sentences and underline the subject.\n2. For each subject, ask *Wer?* / *Was?*.\n3. Write 3 sentences: *Der / Die / Das … + verb.*",
+  "ruleDe": "## Nominativ — das Subjekt im Satz\n\nIm Deutschen hat jede Nominalgruppe einen **Kasus**. Der **Nominativ** ist der Kasus des **Subjekts**: wer oder was die Handlung ausführt (oder beschrieben wird).\n\n### Wozu braucht man ihn?\nDie Nominativfrage lautet **Wer?** oder **Was?**.\n\n- *Wer liest?* → **Der Mann** liest.\n- *Was liegt auf dem Tisch?* → **Das Buch** liegt auf dem Tisch.\n\n### Artikel im Nominativ (merken!)\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| bestimmt | **der** | **die** | **das** | **die** |\n| unbestimmt | **ein** | **eine** | **ein** | — (kein unbestimmter Plural) |\n\nBeispiele:\n- **Der** Lehrer erklärt die Regel.\n- **Eine** Frau wartet.\n- **Das** Kind spielt.\n- **Die** Studenten lernen.\n\n### So erkennen Sie ihn\n1. Finden Sie das konjugierte Verb.\n2. Fragen Sie *Wer?* / *Was?* zum Verb.\n3. Die Antwort steht im Nominativ (oft neben dem Verb im Hauptsatz).\n\nMuster: **Subjekt (Nominativ)** + Verb + Rest…\n→ **Die Katze** schläft.\n\n### Nicht verwechseln\n- Nominativ = Subjekt (*Wer?*).\n- Akkusativ = direktes Objekt (*Wen?* / *Was?*).\n  - *Der Mann* (Nom.) *sieht **den Hund*** (Akk.).\n\n### Häufige Fehler\n- *den* / *dem* als Subjekt: ✗ *Den Mann liest.* → ✓ *Der Mann liest.*\n- Pronomen sind schon Nominativ: *ich*, *er*, *sie*, *es*, *wir*…\n\n### Mini-Übung (5–10 Min.)\n1. Lesen Sie 5 Sätze und unterstreichen Sie das Subjekt.\n2. Stellen Sie zu jedem Subjekt *Wer?* / *Was?*.\n3. Schreiben Sie 3 Sätze: *Der / Die / Das … + Verb.*",
+  "notesFr": "Astuce : si vous pouvez remplacer le groupe par er / sie / es / sie (pluriel), c’est presque toujours le nominatif (sujet).",
+  "notesEn": "Tip: if you can replace the noun phrase with er / sie / es / sie (plural), it is almost always nominative (the subject).",
+  "notesDe": "Tipp: Wenn Sie die Nominalgruppe durch er / sie / es / sie (Plural) ersetzen können, ist es fast immer Nominativ (Subjekt).",
+  "examples": [
+    {
+      "de": "Der Mann liest das Buch.",
+      "fr": "L’homme lit le livre. (« Der Mann » = sujet au nominatif.)",
+      "en": "The man reads the book. (“Der Mann” = nominative subject.)"
+    },
+    {
+      "de": "Die Frau arbeitet in Berlin.",
+      "fr": "La femme travaille à Berlin. (« Die Frau » = nominatif.)",
+      "en": "The woman works in Berlin. (“Die Frau” = nominative.)"
+    },
+    {
+      "de": "Das Kind spielt im Garten.",
+      "fr": "L’enfant joue dans le jardin. (« Das Kind » = nominatif neutre.)",
+      "en": "The child plays in the garden. (“Das Kind” = neuter nominative.)"
+    },
+    {
+      "de": "Ein Lehrer erklärt die Grammatik.",
+      "fr": "Un professeur explique la grammaire. (« Ein Lehrer » = nominatif indéfini.)",
+      "en": "A teacher explains the grammar. (“Ein Lehrer” = indefinite nominative.)"
+    },
+    {
+      "de": "Die Studenten lernen Deutsch.",
+      "fr": "Les étudiants apprennent l’allemand. (« Die Studenten » = nominatif pluriel.)",
+      "en": "The students learn German. (“Die Studenten” = plural nominative.)"
+    }
+  ]
+}

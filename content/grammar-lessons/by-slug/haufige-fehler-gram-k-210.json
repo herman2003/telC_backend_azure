@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-k-210",
+  "titleFr": "Erreur fréquente : haben au lieu de sein (mouvement)",
+  "titleEn": "Common mistake: haben instead of sein (motion)",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur fréquente — *haben* au lieu de *sein* (mouvement)\n\n### Erreur typique\nAvec un verbe de mouvement **+ but**, les apprenants mettent *haben* :\n\n- ✗ *Ich **habe** nach Berlin **gefahren**.*\n- ✓ *Ich **bin** nach Berlin **gefahren**.*\n\n### Verbes à surveiller\n*gehen, fahren, fliegen, kommen, laufen, reisen, schwimmen, springen, ziehen…*\n\n### Rappel\nMouvement + **Wohin?** → **sein**.\n\n### Mini-entraînement\nCorrigez 5 phrases erronées avec *haben* → *sein*.",
+  "ruleEn": "## Common mistake — *haben* instead of *sein* (motion)\n\n### Typical error\nWith motion verbs **+ goal**, learners use *haben*:\n\n- ✗ *Ich **habe** nach Berlin **gefahren**.*\n- ✓ *Ich **bin** nach Berlin **gefahren**.*\n\n### Watch-list verbs\n*gehen, fahren, fliegen, kommen, laufen, reisen, schwimmen, springen, ziehen…*\n\n### Reminder\nMotion + **Wohin?** → **sein**.\n\n### Mini practice\nFix 5 wrong *haben* sentences → *sein*.",
+  "ruleDe": "## Häufiger Fehler — *haben* statt *sein* (Bewegung)\n\n### Typischer Fehler\n- ✗ *Ich **habe** nach Berlin **gefahren**.*\n- ✓ *Ich **bin** nach Berlin **gefahren**.*\n\n### Merkliste\n*gehen, fahren, fliegen, kommen, laufen, reisen…*\n\n### Merke\nBewegung + Ziel = **sein**.\n\n### Mini-Übung\nKorrigieren Sie 5 Sätze.",
+  "notesFr": "Mouvement + but = sein ! gehen, fahren, fliegen, kommen, laufen…",
+  "notesEn": "Motion + goal = sein! gehen, fahren, fliegen, kommen, laufen…",
+  "notesDe": "Bewegung + Ziel = sein! gehen, fahren, fliegen, kommen, laufen…",
+  "examples": [
+    {
+      "de": "Ich bin nach Berlin gefahren.",
+      "fr": "Je suis allé(e) à Berlin (en véhicule).",
+      "en": "I went/drove to Berlin."
+    },
+    {
+      "de": "Sie ist nach Hause gegangen.",
+      "fr": "Elle est rentrée à la maison.",
+      "en": "She went home."
+    },
+    {
+      "de": "Wir sind nach Spanien geflogen.",
+      "fr": "Nous sommes allés en Espagne en avion.",
+      "en": "We flew to Spain."
+    },
+    {
+      "de": "Bist du früh gekommen?",
+      "fr": "Es-tu venu(e) tôt ?",
+      "en": "Did you come early?"
+    },
+    {
+      "de": "Er ist schnell gelaufen.",
+      "fr": "Il a couru vite. (souvent sein si déplacement)",
+      "en": "He ran fast. (often sein for displacement)"
+    }
+  ]
+}

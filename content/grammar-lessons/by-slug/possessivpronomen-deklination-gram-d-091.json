@@ -1,0 +1,39 @@
+{
+  "slug": "possessivpronomen-deklination-gram-d-091",
+  "titleFr": "Déterminants possessifs — accusatif",
+  "titleEn": "Possessive determiners — accusative",
+  "titleDe": "Possessivpronomen — Deklination",
+  "ruleFr": "## Accusatif des possessifs\n\nComme *ein* → *einen* au masculin.\n\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| | **meinen** Vater | **meine** Mutter | **mein** Kind | **meine** Eltern |\n\nSeul le **masculin** ajoute **-en** (*mein → meinen*).\n\n### Exemples\n*Ich treffe **meinen** Freund.* · *Ich rufe **meine** Schwester an.* · *Ich nehme **mein** Buch.*\n\n### Mini-entraînement\nMettez *dein Bruder / deine Schwester / dein Auto* à l’accusatif après *sehen*.",
+  "ruleEn": "## Accusative of possessives\n\nLike *ein* → *einen* for masculine.\n\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| | **meinen** Vater | **meine** Mutter | **mein** Kind | **meine** Eltern |\n\nOnly masculine adds **-en**.\n\n### Mini practice\nPut *dein Bruder / deine Schwester / dein Auto* into the accusative after *sehen*.",
+  "ruleDe": "## Akkusativ der Possessiva\n\nWie *ein* → *einen* (nur Maskulinum **-en**).\n\n**meinen** Vater · **meine** Mutter · **mein** Kind · **meine** Eltern\n\n### Mini-Übung\n*dein Bruder/Schwester/Auto* nach *sehen* in den Akkusativ.",
+  "notesFr": "Seul le masculin : *mein* → *meinen*.",
+  "notesEn": "Only masculine: *mein* → *meinen*.",
+  "notesDe": "Nur Maskulinum: *mein* → *meinen*.",
+  "examples": [
+    {
+      "de": "Ich treffe meinen Freund.",
+      "fr": "Je retrouve mon ami. (meinen.)",
+      "en": "I’m meeting my friend. (meinen.)"
+    },
+    {
+      "de": "Sie ruft ihre Schwester an.",
+      "fr": "Elle appelle sa sœur. (ihre.)",
+      "en": "She is calling her sister. (ihre.)"
+    },
+    {
+      "de": "Er nimmt sein Buch mit.",
+      "fr": "Il emporte son livre. (sein = neutre akk.)",
+      "en": "He takes his book along. (sein = neuter acc.)"
+    },
+    {
+      "de": "Wir besuchen unsere Großeltern.",
+      "fr": "Nous rendons visite à nos grands-parents.",
+      "en": "We visit our grandparents."
+    },
+    {
+      "de": "Kennst du meinen Bruder?",
+      "fr": "Connais-tu mon frère ?",
+      "en": "Do you know my brother?"
+    }
+  ]
+}

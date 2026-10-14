@@ -1,0 +1,39 @@
+{
+  "slug": "uhrzeit-volle-stunden-gram-e-119",
+  "titleFr": "Les heures pleines",
+  "titleEn": "Full hours",
+  "titleDe": "Uhrzeit — Volle Stunden",
+  "ruleFr": "## Heures pleines\n\n### Formule\n*Es ist **… Uhr**.*\n- *Es ist **zwei Uhr**.*\n- *Es ist **zwölf Uhr**.*\n\n### Attention à 1 h\n- *Es ist **ein** Uhr.* (pas *eins Uhr*)\n- Mais seul : *Es ist **eins**.* (sans *Uhr*)\n\n### Avec *um*\n*Der Film beginnt **um** acht Uhr.*\n\n### Mini-entraînement\nDites : 1:00, 5:00, 12:00 avec et sans *Uhr*.",
+  "ruleEn": "## Full hours\n\n### Formula\n*Es ist **… Uhr**.*\n\n### Watch 1 o’clock\n- *Es ist **ein** Uhr.* (not *eins Uhr*)\n- Alone: *Es ist **eins**.*\n\n### With *um*\n*Der Film beginnt **um** acht Uhr.*\n\n### Mini practice\nSay 1:00, 5:00, 12:00 with and without *Uhr*.",
+  "ruleDe": "## Volle Stunden\n\n*Es ist … Uhr.* — bei 1: *ein Uhr* (nicht *eins Uhr*), aber *Es ist eins.*\n\n### Mini-Übung\n1:00, 5:00, 12:00 formulieren.",
+  "notesFr": "ATTENTION : ein Uhr (pas « eins Uhr ») — mais : Es ist eins.",
+  "notesEn": "WARNING: ein Uhr (not “eins Uhr”) — but: Es ist eins.",
+  "notesDe": "ACHTUNG: ein Uhr (nicht „eins Uhr“) — aber: Es ist eins.",
+  "examples": [
+    {
+      "de": "Es ist ein Uhr.",
+      "fr": "Il est une heure. (« ein Uhr », pas « eins Uhr ».)",
+      "en": "It is one o’clock. (“ein Uhr”, not “eins Uhr”.)"
+    },
+    {
+      "de": "Es ist eins.",
+      "fr": "Il est une heure. (sans « Uhr » → « eins ».)",
+      "en": "It is one. (without “Uhr” → “eins”.)"
+    },
+    {
+      "de": "Es ist zwölf Uhr.",
+      "fr": "Il est midi / minuit (selon le contexte).",
+      "en": "It is twelve o’clock."
+    },
+    {
+      "de": "Um acht Uhr beginnt der Film.",
+      "fr": "Le film commence à huit heures.",
+      "en": "The film starts at eight o’clock."
+    },
+    {
+      "de": "Wir treffen uns um drei Uhr.",
+      "fr": "Nous nous retrouvons à trois heures.",
+      "en": "We’re meeting at three o’clock."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "komparativ-deklination-gram-l-224",
+  "titleFr": "Le comparatif — déclinaison",
+  "titleEn": "The comparative — declension",
+  "titleDe": "Komparativ — Deklination",
+  "ruleFr": "## Comparatif — déclinaison\n\nDevant un nom, le comparatif se décline comme un adjectif normal : **thème en -er** + terminaison.\n\n### Exemples\n- *ein größ**er**es Haus* (*größer* + *-es*)\n- *der schnell**er**e Zug* (*schneller* + *-e*)\n- *mit dem ält**er**en Bruder* (*älter* + *-en*)\n\n### Schéma\nKomparatif (*größer*) + terminaison faible / mixte / forte selon l’article.\n\n### Mini-entraînement\nDéclinez *schneller* après *der / ein / ∅* au nominatif.",
+  "ruleEn": "## Comparative — declension\n\nBefore a noun, the comparative declines like a normal adjective: **-er stem** + ending.\n\n### Examples\n- *ein größ**er**es Haus* (*größer* + *-es*)\n- *der schnell**er**e Zug* (*schneller* + *-e*)\n- *mit dem ält**er**en Bruder* (*älter* + *-en*)\n\n### Pattern\nComparative (*größer*) + weak / mixed / strong ending depending on the article.\n\n### Mini practice\nDecline *schneller* after *der / ein / ∅* in the nominative.",
+  "ruleDe": "## Komparativ — Deklination\n\nVor dem Nomen: Komparativ wie normales Adjektiv: *-er* + Endung.\n\n### Beispiele\n*ein größeres Haus, der schnellere Zug, mit dem älteren Bruder*\n\n### Mini-Übung\nDeklinieren Sie *schneller* nach *der / ein / ohne Artikel*.",
+  "notesFr": "größer + -e = größere ; größer + -en = größeren",
+  "notesEn": "größer + -e = größere; größer + -en = größeren",
+  "notesDe": "größer + -e = größere, größer + -en = größeren",
+  "examples": [
+    {
+      "de": "ein größeres Haus",
+      "fr": "une plus grande maison",
+      "en": "a bigger house"
+    },
+    {
+      "de": "der schnellere Zug",
+      "fr": "le train plus rapide",
+      "en": "the faster train"
+    },
+    {
+      "de": "mit dem älteren Bruder",
+      "fr": "avec le frère aîné / plus âgé",
+      "en": "with the older brother"
+    },
+    {
+      "de": "eine bessere Idee",
+      "fr": "une meilleure idée",
+      "en": "a better idea"
+    },
+    {
+      "de": "die kleineren Kinder",
+      "fr": "les plus petits enfants / les enfants plus jeunes",
+      "en": "the smaller / younger children"
+    }
+  ]
+}

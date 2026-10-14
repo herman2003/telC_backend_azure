@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-aus-bei-gram-n-249",
+  "titleFr": "Datif — aus / bei",
+  "titleEn": "Dative — aus / bei",
+  "titleDe": "Dativ — aus/bei",
+  "ruleFr": "## *aus* et *bei* (+ datif)\n\n### *aus* = hors de / originaire de\n- Herkunft : Ich komme **aus** Deutschland / **aus der** Türkei.\n- Sortie : Er geht **aus dem** Haus.\n\n### *bei* = chez / auprès de / pendant\n- Personne / entreprise : **bei** mir, **bei** Siemens arbeiten\n- Proximité : **bei** der Schule\n- Circonstance : **bei** Regen, **bei** der Arbeit\n\n### Attention\n- *aus* + pays **sans article** : *aus Frankreich*\n- *aus* + pays **avec article** : *aus der Schweiz*, *aus den USA*\n- *bei* + personne **sans mouvement vers** (pour « aller chez » on utilise souvent *zu*)\n\n### Mini-entraînement\n1. Origine : *aus* + votre pays.\n2. *bei mir / bei dir / bei uns* dans 3 phrases.\n3. Distinguez *aus dem Haus* et *zu Hause*.",
+  "ruleEn": "## *aus* and *bei* (+ dative)\n\n### *aus* = out of / from (origin)\n- Origin: Ich komme **aus** Deutschland / **aus der** Türkei.\n- Exit: Er geht **aus dem** Haus.\n\n### *bei* = at / with / near / during\n- Person / company: **bei** mir, work **bei** Siemens\n- Near: **bei** der Schule\n- Circumstance: **bei** Regen, **bei** der Arbeit\n\n### Watch out\n- *aus* + country without article: *aus Frankreich*\n- *aus* + country with article: *aus der Schweiz*, *aus den USA*\n- *bei* + person is location; “go to someone’s” often uses *zu*\n\n### Mini practice\n1. Origin: *aus* + your country.\n2. *bei mir / bei dir / bei uns* in 3 sentences.\n3. Contrast *aus dem Haus* and *zu Hause*.",
+  "ruleDe": "## *aus* und *bei* (+ Dativ)\n\n### *aus* = aus / Herkunft\n- Herkunft: Ich komme **aus** Deutschland / **aus der** Türkei.\n- Heraus: Er geht **aus dem** Haus.\n\n### *bei* = bei / an / während\n- Person/Firma: **bei** mir, **bei** Siemens arbeiten\n- Nähe: **bei** der Schule\n- Umstand: **bei** Regen\n\n### Achtung\n- *aus* + Land ohne Artikel: *aus Frankreich*\n- *aus* + Land mit Artikel: *aus der Schweiz*\n\n### Mini-Übung\n1. Herkunft mit *aus*.\n2. *bei mir / dir / uns*.\n3. *aus dem Haus* vs. *zu Hause*.",
+  "notesFr": "*bei* + entreprise/personne : *bei Siemens arbeiten*, *bei mir wohnen*.",
+  "notesEn": "*bei* + company/person: *bei Siemens arbeiten*, *bei mir wohnen*.",
+  "notesDe": "bei + Firma/Person: bei Siemens arbeiten, bei mir wohnen.",
+  "examples": [
+    {
+      "de": "Ich komme aus Frankreich.",
+      "fr": "Je viens de France.",
+      "en": "I come from France."
+    },
+    {
+      "de": "Sie kommt aus der Schweiz.",
+      "fr": "Elle vient de Suisse.",
+      "en": "She comes from Switzerland."
+    },
+    {
+      "de": "Er arbeitet bei Siemens.",
+      "fr": "Il travaille chez Siemens.",
+      "en": "He works at Siemens."
+    },
+    {
+      "de": "Wohnst du noch bei deinen Eltern?",
+      "fr": "Habites-tu encore chez tes parents ?",
+      "en": "Do you still live with your parents?"
+    },
+    {
+      "de": "Bei Regen bleibe ich zu Hause.",
+      "fr": "Quand il pleut, je reste à la maison.",
+      "en": "When it rains I stay home."
+    }
+  ]
+}

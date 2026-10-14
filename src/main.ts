@@ -25,6 +25,11 @@ async function bootstrap() {
   // Before listen: so a SIGTERM during/after boot still closes Prisma/Valkey.
   configureLifecycle(app);
   app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/static' });
+  // Local grammar illustrations (content/grammar-images). Off-instance by default:
+  // URLs are only emitted when GRAMMAR_IMAGES_PUBLIC_BASE_URL is set.
+  app.useStaticAssets(join(__dirname, '..', 'content', 'grammar-images'), {
+    prefix: '/static/grammar-images',
+  });
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Lerniqo API')

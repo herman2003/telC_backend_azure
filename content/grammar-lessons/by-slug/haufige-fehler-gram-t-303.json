@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-t-303",
+  "titleFr": "Erreur fréquente : mauvaise place de nicht",
+  "titleEn": "Common mistake: wrong position of nicht",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur : *nicht* mal placé\n\nLa place de *nicht* change le sens. Placez-le **devant l’élément nié**, ou en fin pour la négation large.\n\n### Pièges typiques\n- ✗ *Ich nicht komme heute.* → ✓ *Ich komme heute **nicht**.*\n- ✗ *Er wohnt in nicht Berlin.* → ✓ *Er wohnt **nicht** in Berlin.*\n- ✗ *Ich habe nicht das Buch gelesen.* (souvent lourd) → ✓ *Ich habe das Buch **nicht** gelesen.* (négation large)\n\n### Rappels\n1. Négation de phrase → souvent **fin** (avant participe/préfixe)\n2. Négation d’adjectif/adverbe/préposition → **juste avant**\n3. Nom indéfini → plutôt **kein**\n\n### Mini-entraînement\nPlacez *nicht* correctement dans 5 phrases désordonnées.",
+  "ruleEn": "## Mistake: *nicht* in the wrong place\n\nThe position of *nicht* changes meaning. Put it **before the negated element**, or near the end for broad negation.\n\n### Typical traps\n- ✗ *Ich nicht komme heute.* → ✓ *Ich komme heute **nicht**.*\n- ✗ *Er wohnt in nicht Berlin.* → ✓ *Er wohnt **nicht** in Berlin.*\n- ✗ *Ich habe nicht das Buch gelesen.* → often ✓ *Ich habe das Buch **nicht** gelesen.*\n\n### Reminders\n1. Sentence negation → often **end** (before participle/prefix)\n2. Adjective/adverb/preposition → **right before**\n3. Indefinite noun → preferably **kein**\n\n### Mini practice\nPlace *nicht* correctly in 5 scrambled sentences.",
+  "ruleDe": "## Fehler: *nicht* an falscher Position\n\n*nicht* vor dem verneinten Element — oder am Ende bei Satznegation.\n\n### Fallen\n- ✗ *Ich nicht komme heute.* → ✓ *Ich komme heute **nicht**.*\n- ✗ *Er wohnt in nicht Berlin.* → ✓ *Er wohnt **nicht** in Berlin.*\n\n### Mini-Übung\n*nicht* in 5 Sätzen richtig setzen.",
+  "notesFr": "*nicht* avant prédicat/préposition ; en fin pour toute la phrase.",
+  "notesEn": "*nicht* before predicate/preposition; at the end for the whole sentence.",
+  "notesDe": "*nicht* vor Prädikat/Präposition, *nicht* am Ende bei ganzem Satz.",
+  "examples": [
+    {
+      "de": "Ich komme heute nicht.",
+      "fr": "Je ne viens pas aujourd’hui. (pas *Ich nicht komme*)",
+      "en": "I’m not coming today. (not *Ich nicht komme*)"
+    },
+    {
+      "de": "Er wohnt nicht in Hamburg.",
+      "fr": "Il n’habite pas à Hambourg.",
+      "en": "He doesn’t live in Hamburg."
+    },
+    {
+      "de": "Ich habe den Brief nicht geschrieben.",
+      "fr": "Je n’ai pas écrit la lettre.",
+      "en": "I didn’t write the letter."
+    },
+    {
+      "de": "Das ist nicht neu.",
+      "fr": "Ce n’est pas nouveau.",
+      "en": "That isn’t new."
+    },
+    {
+      "de": "Sie geht nicht mit dem Bus, sondern zu Fuß.",
+      "fr": "Elle ne prend pas le bus, mais va à pied.",
+      "en": "She’s not going by bus, but on foot."
+    }
+  ]
+}

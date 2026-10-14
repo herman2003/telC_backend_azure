@@ -28,7 +28,11 @@
     "db:migrate-from-supabase": "node scripts/migrate-supabase-to-neon.mjs",
     "start:testdb": "powershell -ExecutionPolicy Bypass -File ./scripts/start-dev-testdb.ps1",
     "grammar:import": "ts-node -r dotenv/config scripts/import-grammar-from-rep12.ts",
-    "grammar:generate-exercises": "ts-node -r dotenv/config scripts/generate-grammar-exercises.ts"
+    "grammar:export": "ts-node -r dotenv/config scripts/export-grammar-topics.ts",
+    "grammar:build-lessons": "ts-node -r dotenv/config scripts/build-grammar-lessons.ts",
+    "grammar:enrich": "ts-node -r dotenv/config scripts/enrich-grammar-lessons.ts",
+    "grammar:generate-exercises": "ts-node -r dotenv/config scripts/generate-grammar-exercises.ts",
+    "grammar:backfill-exercise-locales": "ts-node -r dotenv/config scripts/backfill-grammar-exercise-locales.ts"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",

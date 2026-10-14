@@ -1,0 +1,39 @@
+{
+  "slug": "indirekte-rede-konjunktiv-i-gram-z-334",
+  "titleFr": "Discours indirect — Konjunktiv I",
+  "titleEn": "Reported speech — Konjunktiv I",
+  "titleDe": "Indirekte Rede — Konjunktiv I",
+  "ruleFr": "## Discours indirect — Konjunktiv I\n\nLe **discours indirect** rapporte les paroles de quelqu’un. En allemand soigné / écrit, on utilise souvent le **Konjunktiv I**.\n\n### Règle centrale\nVerbe introducteur (*sagen, meinen, behaupten…*) + proposition au **Konjunktiv I**.\n\n- Direct : *Er sagt: „Ich bin krank.“*\n- Indirect : *Er sagt, er **sei** krank.*\n\n### À quoi ça sert ?\nMarquer : **ce n’est pas mon affirmation**, c’est celle d’un autre (distance / neutralité journalistique).\n\n### Exemples types\n| Direct | Indirect (Konj. I) |\n|---|---|\n| *Ich habe Zeit.* | *Sie sagt, sie **habe** Zeit.* |\n| *Wir kommen morgen.* | *Sie sagen, sie **kämen**/sie **würden** kommen.* (souvent Ersatz) |\n| *Es ist wichtig.* | *Er meint, es **sei** wichtig.* |\n\n### Ne pas confondre\n- Konjunktiv I (discours rapporté) ≠ Konjunktiv II (irrēel / politesse)\n- En oral familier : souvent **indicatif** (*Er sagt, er ist krank.*)\n\n### Mini-entraînement\n1. Transformez 5 citations en discours indirect.\n2. Repérez le Konjunktiv I dans un article de presse.\n3. Écrivez : *Sie behauptet, …*",
+  "ruleEn": "## Reported speech — Konjunktiv I\n\n**Reported speech** retells someone’s words. In formal/written German, this often uses **Konjunktiv I**.\n\n### Core rule\nReporting verb (*sagen, meinen, behaupten…*) + clause in **Konjunktiv I**.\n\n- Direct: *Er sagt: „Ich bin krank.“*\n- Indirect: *Er sagt, er **sei** krank.*\n\n### What for?\nTo mark: **this is not my claim** — someone else’s (journalistic distance).\n\n### Typical pairs\n| Direct | Indirect (Konj. I) |\n|---|---|\n| *Ich habe Zeit.* | *Sie sagt, sie **habe** Zeit.* |\n| *Es ist wichtig.* | *Er meint, es **sei** wichtig.* |\n\n### Don’t confuse\n- Konjunktiv I (reported) ≠ Konjunktiv II (unreal / polite)\n- In casual speech: often **indicative** (*Er sagt, er ist krank.*)\n\n### Mini practice\n1. Turn 5 quotes into reported speech.\n2. Find Konjunktiv I in a news text.\n3. Write: *Sie behauptet, …*",
+  "ruleDe": "## Indirekte Rede — Konjunktiv I\n\nDie **indirekte Rede** gibt die Worte einer anderen Person wieder. In der Schriftsprache oft mit **Konjunktiv I**.\n\n### Kernregel\nEinleitung (*sagen, meinen, behaupten…*) + Satz im **Konjunktiv I**.\n\n- Direkt: *Er sagt: „Ich bin krank.“*\n- Indirekt: *Er sagt, er **sei** krank.*\n\n### Wozu?\nSignal: **Das ist nicht meine Aussage** (Distanz, Journalismus).\n\n### Typische Paare\n| Direkt | Indirekt |\n|---|---|\n| *Ich habe Zeit.* | *Sie sagt, sie **habe** Zeit.* |\n| *Es ist wichtig.* | *Er meint, es **sei** wichtig.* |\n\n### Nicht verwechseln\n- Konjunktiv I ≠ Konjunktiv II\n- Umgangssprachlich oft **Indikativ**\n\n### Mini-Übung\n1. 5 Zitate in indirekte Rede umformen.\n2. Konjunktiv I in einem Zeitungstext finden.\n3. Schreiben: *Sie behauptet, …*",
+  "notesFr": "Le Konjunktiv I montre : ce n’est pas MON affirmation. Typique de la presse et de l’écrit formel.",
+  "notesEn": "Konjunktiv I signals: this is not MY claim. Typical of press and formal writing.",
+  "notesDe": "Konjunktiv I zeigt: Das ist nicht MEINE Aussage! Typisch für Presse und formelle Schrift.",
+  "examples": [
+    {
+      "de": "Er sagt, er sei krank.",
+      "fr": "Il dit qu’il est malade. (*sei* = Konjunktiv I de *sein*.)",
+      "en": "He says he is ill. (*sei* = Konjunktiv I of *sein*.)"
+    },
+    {
+      "de": "Sie meint, sie habe keine Zeit.",
+      "fr": "Elle pense qu’elle n’a pas le temps.",
+      "en": "She thinks she has no time."
+    },
+    {
+      "de": "Der Minister behauptet, das sei alternativlos.",
+      "fr": "Le ministre affirme que c’est sans alternative.",
+      "en": "The minister claims there is no alternative."
+    },
+    {
+      "de": "Sie schreibt, sie komme später.",
+      "fr": "Elle écrit qu’elle viendra plus tard.",
+      "en": "She writes that she will come later."
+    },
+    {
+      "de": "Er erklärt, er wisse nichts davon.",
+      "fr": "Il explique qu’il n’en sait rien.",
+      "en": "He explains that he knows nothing about it."
+    }
+  ]
+}

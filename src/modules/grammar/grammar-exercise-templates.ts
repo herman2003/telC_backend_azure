@@ -1,5 +1,6 @@
 /**
  * Build easy / medium / hard exercises from a topic example (no Gemini).
+ * Prompts and explanations are produced in FR / EN / DE for course UI lang.
  */
 
 export interface GeneratedExercise {
@@ -8,9 +9,12 @@ export interface GeneratedExercise {
   sort_order: number;
   prompt_de: string | null;
   prompt_fr: string;
+  prompt_en: string;
   options_json: string[] | null;
   answer: string;
   explanation_fr: string;
+  explanation_en: string;
+  explanation_de: string;
 }
 
 function scrambleOptions(correct: string, distractors: string[]): string[] {
@@ -24,23 +28,35 @@ function scrambleOptions(correct: string, distractors: string[]): string[] {
   });
 }
 
+function truncateRule(rule: string, max = 80): string {
+  if (rule.length <= max) return rule;
+  return `${rule.slice(0, max)}…`;
+}
+
 export function generateExercisesFromExample(input: {
   titleFr: string;
+  titleEn: string | null;
+  titleDe: string;
   ruleFr: string;
+  ruleEn: string | null;
+  ruleDe: string;
   exampleDe: string;
   exampleEn: string | null;
 }): GeneratedExercise[] {
-  const { titleFr, ruleFr, exampleDe, exampleEn } = input;
+  const { titleFr, ruleFr, ruleEn, ruleDe, exampleDe, exampleEn } = input;
+  const ruleEnResolved = ruleEn?.trim() || ruleFr;
+
   const words = exampleDe.split(/\s+/).filter((w) => w.length > 2);
   const target =
     words[Math.min(1, words.length - 1)]?.replace(/[.,!?]/g, '') ||
     exampleDe.slice(0, 12);
   const cloze = exampleDe.replace(target, '_____');
 
-  const easyOptions = scrambleOptions(exampleEn || titleFr, [
+  const easyAnswer = exampleEn || titleFr;
+  const easyOptions = scrambleOptions(easyAnswer, [
     'Incorrect option A',
     'Incorrect option B',
-    titleFr === (exampleEn || titleFr) ? 'Autre sens' : titleFr,
+    titleFr === easyAnswer ? 'Autre sens' : titleFr,
   ]);
 
   return [
@@ -48,28 +64,35 @@ export function generateExercisesFromExample(input: {
       kind: 'mcq',
       difficulty: 'easy',
       sort_order: 0,
-      prompt_de: null,
+      prompt_de: `Was bedeutet das Beispiel: « ${exampleDe} »?`,
       prompt_fr: `Que signifie l’exemple : « ${exampleDe} » ?`,
+      prompt_en: `What does the example mean: « ${exampleDe} »?`,
       options_json: easyOptions,
-      answer: exampleEn || titleFr,
+      answer: easyAnswer,
       explanation_fr: ruleFr,
+      explanation_en: ruleEnResolved,
+      explanation_de: ruleDe,
     },
     {
       kind: 'cloze',
       difficulty: 'medium',
       sort_order: 0,
-      prompt_de: cloze,
+      prompt_de: `Ergänze: ${cloze}`,
       prompt_fr: `Complète : ${cloze}`,
+      prompt_en: `Complete: ${cloze}`,
       options_json: null,
       answer: target,
       explanation_fr: ruleFr,
+      explanation_en: ruleEnResolved,
+      explanation_de: ruleDe,
     },
     {
       kind: 'mcq',
       difficulty: 'hard',
       sort_order: 0,
-      prompt_de: exampleDe,
+      prompt_de: `Welches Grammatikthema passt zu « ${exampleDe} »?`,
       prompt_fr: `Quel thème grammatical correspond à « ${exampleDe} » ?`,
+      prompt_en: `Which grammar topic matches « ${exampleDe} »?`,
       options_json: scrambleOptions(titleFr, [
         'Passiv',
         'Konjunktiv I',
@@ -77,6 +100,8 @@ export function generateExercisesFromExample(input: {
       ]),
       answer: titleFr,
       explanation_fr: ruleFr,
+      explanation_en: ruleEnResolved,
+      explanation_de: ruleDe,
     },
   ];
 }
@@ -84,16 +109,27 @@ export function generateExercisesFromExample(input: {
 /** Minimal fallback when a topic has no example sentence. */
 export function generateMinimalExercises(input: {
   titleFr: string;
+  titleEn: string | null;
+  titleDe: string;
   ruleFr: string;
+  ruleEn: string | null;
+  ruleDe: string;
 }): GeneratedExercise[] {
-  const { titleFr, ruleFr } = input;
+  const { titleFr, titleEn, titleDe, ruleFr, ruleEn, ruleDe } = input;
+  const titleEnResolved = titleEn?.trim() || titleFr;
+  const ruleEnResolved = ruleEn?.trim() || ruleFr;
+  const ruleFrShort = truncateRule(ruleFr);
+  const ruleEnShort = truncateRule(ruleEnResolved);
+  const ruleDeShort = truncateRule(ruleDe);
+
   return [
     {
       kind: 'mcq',
       difficulty: 'easy',
       sort_order: 0,
-      prompt_de: null,
+      prompt_de: `Was ist das Thema dieser Lektion?`,
       prompt_fr: `Quel est le thème de cette leçon ?`,
+      prompt_en: `What is the topic of this lesson?`,
       options_json: scrambleOptions(titleFr, [
         'Artikel',
         'Präposition',
@@ -101,23 +137,29 @@ export function generateMinimalExercises(input: {
       ]),
       answer: titleFr,
       explanation_fr: ruleFr,
+      explanation_en: ruleEnResolved,
+      explanation_de: ruleDe,
     },
     {
       kind: 'mcq',
       difficulty: 'medium',
       sort_order: 0,
-      prompt_de: null,
-      prompt_fr: `La règle « ${ruleFr.slice(0, 80)}… » traite de :`,
+      prompt_de: `Die Regel « ${ruleDeShort} » behandelt:`,
+      prompt_fr: `La règle « ${ruleFrShort} » traite de :`,
+      prompt_en: `The rule « ${ruleEnShort} » is about:`,
       options_json: scrambleOptions(titleFr, ['Tempus', 'Modus', 'Numerus']),
       answer: titleFr,
       explanation_fr: ruleFr,
+      explanation_en: ruleEnResolved,
+      explanation_de: ruleDe,
     },
     {
       kind: 'mcq',
       difficulty: 'hard',
       sort_order: 0,
-      prompt_de: null,
+      prompt_de: `Identifiziere das Grammatikthema: ${titleDe}`,
       prompt_fr: `Identifie le sujet grammatical : ${titleFr}`,
+      prompt_en: `Identify the grammar topic: ${titleEnResolved}`,
       options_json: scrambleOptions(titleFr, [
         'Syntax',
         'Phonetik',
@@ -125,6 +167,8 @@ export function generateMinimalExercises(input: {
       ]),
       answer: titleFr,
       explanation_fr: ruleFr,
+      explanation_en: ruleEnResolved,
+      explanation_de: ruleDe,
     },
   ];
 }

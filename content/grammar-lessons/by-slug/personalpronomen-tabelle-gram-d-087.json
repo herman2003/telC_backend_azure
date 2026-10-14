@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-tabelle-gram-d-087",
+  "titleFr": "Pronoms personnels — tableau (pluriel)",
+  "titleEn": "Personal pronouns — table (plural)",
+  "titleDe": "Personalpronomen — Tabelle",
+  "ruleFr": "## Tableau complet — pluriel\n\n| | Nom. | Akk. | Dat. |\n|---|---|---|---|\n| 1re | wir | uns | uns |\n| 2e | ihr | euch | euch |\n| 3e | sie | sie | ihnen |\n| politesse | Sie | Sie | Ihnen |\n\n### Observation cruciale\n- *wir / ihr* : **Akk = Dat** (*uns*, *euch*)\n- 3e personne : le datif se distingue (*ihnen* / *Ihnen*)\n\n### Mini-entraînement\nComplétez : *Sie sehen ___ (wir). Sie helfen ___ (wir).*",
+  "ruleEn": "## Full table — plural\n\n| | Nom. | Acc. | Dat. |\n|---|---|---|---|\n| 1st | wir | uns | uns |\n| 2nd | ihr | euch | euch |\n| 3rd | sie | sie | ihnen |\n| polite | Sie | Sie | Ihnen |\n\n### Key observation\n- *wir / ihr*: **Acc = Dat**\n- 3rd person: dative differs (*ihnen*)\n\n### Mini practice\nComplete: *Sie sehen ___ (wir). Sie helfen ___ (wir).*",
+  "ruleDe": "## Tabelle — Plural\n\n| | Nom. | Akk. | Dat. |\n|---|---|---|---|\n| 1. | wir | uns | uns |\n| 2. | ihr | euch | euch |\n| 3. | sie | sie | ihnen |\n| höflich | Sie | Sie | Ihnen |\n\n### Wichtig\n*wir/ihr*: Akk = Dat! 3. Person: Dat *ihnen*.\n\n### Mini-Übung\n*Sie sehen ___ (wir). Sie helfen ___ (wir).*",
+  "notesFr": "*wir/ihr* : Akk = Dat ! 3e personne : *sie→sie→ihnen*.",
+  "notesEn": "*wir/ihr*: Acc = Dat! 3rd person: *sie→sie→ihnen*.",
+  "notesDe": "*wir/ihr*: Akk = Dat! 3. Person: *sie→sie→ihnen*.",
+  "examples": [
+    {
+      "de": "Sie sehen uns. Sie helfen uns.",
+      "fr": "Ils nous voient. Ils nous aident. (uns = akk. et dat.)",
+      "en": "They see us. They help us. (uns = acc. and dat.)"
+    },
+    {
+      "de": "Wir hören euch. Wir danken euch.",
+      "fr": "Nous vous entendons. Nous vous remercions.",
+      "en": "We hear you. We thank you."
+    },
+    {
+      "de": "Ich kenne sie. Ich gebe ihnen die Schlüssel.",
+      "fr": "Je les connais. Je leur donne les clés.",
+      "en": "I know them. I give them the keys."
+    },
+    {
+      "de": "Darf ich Sie fragen? Darf ich Ihnen danken?",
+      "fr": "Puis-je vous demander ? Puis-je vous remercier ?",
+      "en": "May I ask you? May I thank you?"
+    },
+    {
+      "de": "Uns und euch: Akkusativ = Dativ.",
+      "fr": "Uns et euch : accusatif = datif.",
+      "en": "Uns and euch: accusative = dative."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "nach-bestimmtem-artikel-akkusativ-gram-l-214",
+  "titleFr": "Adjectifs après article défini — accusatif",
+  "titleEn": "Adjectives after definite articles — accusative",
+  "titleDe": "Nach bestimmtem Artikel — Akkusativ",
+  "ruleFr": "## Après article défini — accusatif\n\nÀ l’**accusatif** après article défini :\n- masculin : **-en** (*den groß**en** Mann*)\n- féminin / neutre / pluriel : comme au nominatif (*die klein**e** Frau, das neu**e** Auto, die alt**en** Bücher*)\n\n### Point clé\nSeul le **masculin** change par rapport au nominatif (*der große* → *den großen*).\n\n### Exemples\n- *Ich sehe den groß**en** Mann.*\n- *Ich sehe die klein**e** Frau.*\n- *Ich sehe das neu**e** Auto.*\n\n### Mini-entraînement\nMettez 6 groupes nominatifs à l’accusatif.",
+  "ruleEn": "## After definite articles — accusative\n\nIn the **accusative** after a definite article:\n- masculine: **-en** (*den groß**en** Mann*)\n- feminine / neuter / plural: like nominative\n\n### Key point\nOnly **masculine** changes from nominative (*der große* → *den großen*).\n\n### Examples\n- *Ich sehe den groß**en** Mann.*\n- *Ich sehe die klein**e** Frau.*\n- *Ich sehe das neu**e** Auto.*\n\n### Mini practice\nPut 6 nominative noun phrases into the accusative.",
+  "ruleDe": "## Nach bestimmtem Artikel — Akkusativ\n\nAkkusativ: Maskulin **-en**, sonst wie Nominativ (*-e* / Plural *-en*).\n\n### Merke\nNur Maskulin ändert sich: *den großen Mann*.\n\n### Mini-Übung\nSetzen Sie 6 Nominativgruppen in den Akkusativ.",
+  "notesFr": "Seul le masculin change ! (den großEN Mann)",
+  "notesEn": "Only masculine changes! (den großEN Mann)",
+  "notesDe": "Nur Maskulin ändert sich! (den großEN Mann)",
+  "examples": [
+    {
+      "de": "Ich sehe den großen Mann.",
+      "fr": "Je vois le grand homme.",
+      "en": "I see the tall man."
+    },
+    {
+      "de": "Ich sehe die kleine Frau.",
+      "fr": "Je vois la petite femme.",
+      "en": "I see the small woman."
+    },
+    {
+      "de": "Ich sehe das neue Auto.",
+      "fr": "Je vois la voiture neuve.",
+      "en": "I see the new car."
+    },
+    {
+      "de": "Er kauft den teuren Computer.",
+      "fr": "Il achète l’ordinateur cher.",
+      "en": "He buys the expensive computer."
+    },
+    {
+      "de": "Wir lesen die interessanten Bücher.",
+      "fr": "Nous lisons les livres intéressants.",
+      "en": "We read the interesting books."
+    }
+  ]
+}

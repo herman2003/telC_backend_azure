@@ -1,0 +1,39 @@
+{
+  "slug": "datum-fragen-gram-e-114",
+  "titleFr": "Demander la date",
+  "titleEn": "Asking the date",
+  "titleDe": "Datum — Fragen",
+  "ruleFr": "## Demander la date\n\n### Questions courantes\n- ***Der Wievielte ist heute?***\n- ***Welches Datum haben wir heute?***\n- *Den Wievielten haben wir heute?*\n\n### Réponses typiques\n- *Heute ist der **erste** März.* (nominatif)\n- *Heute haben wir den **ersten** März.* (accusatif)\n- *Heute ist der 3.3.* / *der dritte dritte*\n\n### Pattern\n**Heute ist der + ordinal (+ Monat).**\n\n### Mini-entraînement\nPosez et répondez pour aujourd’hui et demain.",
+  "ruleEn": "## Asking the date\n\n### Common questions\n- ***Der Wievielte ist heute?***\n- ***Welches Datum haben wir heute?***\n\n### Typical answers\n- *Heute ist der **erste** März.* (nominative)\n- *Heute haben wir den **ersten** März.* (accusative)\n\n### Pattern\n**Heute ist der + ordinal (+ month).**\n\n### Mini practice\nAsk and answer for today and tomorrow.",
+  "ruleDe": "## Nach dem Datum fragen\n\nFragen: *Der Wievielte ist heute?* / *Welches Datum haben wir heute?*\nAntwort: *Heute ist der + Ordinalzahl (+ Monat).*\n\n### Mini-Übung\nHeute und morgen erfragen und antworten.",
+  "notesFr": "Réponse au nominatif : Heute ist DER + nombre ordinal.",
+  "notesEn": "Answer in nominative: Heute ist DER + ordinal.",
+  "notesDe": "Antwort im Nominativ: Heute ist DER + Ordinalzahl.",
+  "examples": [
+    {
+      "de": "Der Wievielte ist heute?",
+      "fr": "Quel jour du mois sommes-nous aujourd’hui ?",
+      "en": "What’s today’s date? (literally: the how-manieth is today?)"
+    },
+    {
+      "de": "Heute ist der erste April.",
+      "fr": "Aujourd’hui c’est le premier avril.",
+      "en": "Today is the first of April."
+    },
+    {
+      "de": "Welches Datum haben wir heute?",
+      "fr": "Quelle date avons-nous aujourd’hui ?",
+      "en": "What date do we have today?"
+    },
+    {
+      "de": "Heute haben wir den fünfzehnten Mai.",
+      "fr": "Aujourd’hui nous sommes le 15 mai.",
+      "en": "Today we have the fifteenth of May."
+    },
+    {
+      "de": "Der Wievielte ist morgen?",
+      "fr": "Quelle date serons-nous demain ?",
+      "en": "What date is tomorrow?"
+    }
+  ]
+}

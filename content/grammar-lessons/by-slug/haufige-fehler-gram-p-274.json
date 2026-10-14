@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-p-274",
+  "titleFr": "Erreurs fréquentes — verbes au datif",
+  "titleEn": "Common mistakes — dative verbs",
+  "titleDe": "Häufige Fehler — Dativ-Verben",
+  "ruleFr": "## Erreur fréquente : accusatif au lieu du datif\n\n### Le piège\nLes apprenants calquent le français/anglais et mettent l’accusatif :\n✗ *Ich helfe dich.* → ✓ *Ich helfe dir.*\n✗ *Ich danke dich.* → ✓ *Ich danke dir.*\n✗ *Ich gefalle das Kleid.* → ✓ *Das Kleid gefällt mir.*\n\n### Verbes à surveiller\nhelfen, danken, gefallen, gehören, antworten, glauben, folgen, gratulieren, zuhören\n\n### Astuce\nPosez **Wem?** (pas *Wen?*) :\n- Wem hilfst du? → **Dem Freund** / **ihm**\n\n### Mini-entraînement\n1. Listez 8 verbes datifs.\n2. Remplacez chaque complément par un pronom datif.\n3. Corrigez un paragraphe fautif.",
+  "ruleEn": "## Common mistake: accusative instead of dative\n\n### The trap\nLearners calque English/French and use accusative:\n✗ *Ich helfe dich.* → ✓ *Ich helfe dir.*\n✗ *Ich danke dich.* → ✓ *Ich danke dir.*\n✗ *Ich gefalle das Kleid.* → ✓ *Das Kleid gefällt mir.*\n\n### Verbs to watch\nhelfen, danken, gefallen, gehören, antworten, glauben, folgen, gratulieren, zuhören\n\n### Tip\nAsk **Wem?** (not *Wen?*):\n- Wem hilfst du? → **Dem Freund** / **ihm**\n\n### Mini practice\n1. List 8 dative verbs.\n2. Replace each object with a dative pronoun.\n3. Correct a faulty paragraph.",
+  "ruleDe": "## Häufiger Fehler: Akkusativ statt Dativ\n\n### Die Falle\n✗ *Ich helfe dich.* → ✓ *Ich helfe dir.*\n✗ *Das Kleid gefällt mich.* → ✓ *Das Kleid gefällt mir.*\n\n### Verben merken\nhelfen, danken, gefallen, gehören, antworten, glauben…\n\n### Tipp\nFrage **Wem?**\n\n### Mini-Übung\n1. 8 Dativverben.\n2. Pronomen im Dativ.\n3. Text korrigieren.",
+  "notesFr": "*gefallen, helfen, danken, gehören* → TOUJOURS datif !",
+  "notesEn": "*gefallen, helfen, danken, gehören* → ALWAYS dative!",
+  "notesDe": "gefallen, helfen, danken, gehören → IMMER Dativ!",
+  "examples": [
+    {
+      "de": "Falsch: Ich helfe dich. — Richtig: Ich helfe dir.",
+      "fr": "Toujours datif avec *helfen*.",
+      "en": "Always dative with *helfen*."
+    },
+    {
+      "de": "Falsch: Ich danke dich. — Richtig: Ich danke dir.",
+      "fr": "Toujours datif avec *danken*.",
+      "en": "Always dative with *danken*."
+    },
+    {
+      "de": "Falsch: Ich gefalle das Kleid. — Richtig: Das Kleid gefällt mir.",
+      "fr": "Sujet = la chose ; personne au datif.",
+      "en": "Subject = the thing; person in dative."
+    },
+    {
+      "de": "Das Auto gehört mir nicht.",
+      "fr": "La voiture ne m’appartient pas.",
+      "en": "The car does not belong to me."
+    },
+    {
+      "de": "Warum antwortest du mir nicht?",
+      "fr": "Pourquoi ne me réponds-tu pas ?",
+      "en": "Why don’t you answer me?"
+    }
+  ]
+}

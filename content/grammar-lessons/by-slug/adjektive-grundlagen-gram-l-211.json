@@ -1,0 +1,39 @@
+{
+  "slug": "adjektive-grundlagen-gram-l-211",
+  "titleFr": "Les adjectifs — bases",
+  "titleEn": "Adjectives — basics",
+  "titleDe": "Adjektive — Grundlagen",
+  "ruleFr": "## Adjectifs — bases\n\nEn allemand, l’adjectif **devant un nom** (épithète) prend une **terminaison**. Après *sein / werden / bleiben* (attribut), il reste **inchangé**.\n\n### Deux positions\n| Position | Exemple | Terminaison ? |\n|---|---|---|\n| Épithète (avant le nom) | *der groß**e** Mann* | oui |\n| Attribut (après *sein*) | *Der Mann ist groß.* | non |\n\n### Pourquoi des terminaisons ?\nElles indiquent genre, nombre et cas — surtout quand l’article ne le montre pas assez clairement.\n\n### Mini-entraînement\nTransformez : *Das Auto ist neu.* → *das neue Auto* (et vice versa).",
+  "ruleEn": "## Adjectives — basics\n\nIn German, an adjective **before a noun** (attributive) takes an **ending**. After *sein / werden / bleiben* (predicative), it stays **unchanged**.\n\n### Two positions\n| Position | Example | Ending? |\n|---|---|---|\n| Attributive (before noun) | *der groß**e** Mann* | yes |\n| Predicative (after *sein*) | *Der Mann ist groß.* | no |\n\n### Why endings?\nThey show gender, number, and case — especially when the article doesn’t show them clearly.\n\n### Mini practice\nTransform: *Das Auto ist neu.* → *das neue Auto* (and vice versa).",
+  "ruleDe": "## Adjektive — Grundlagen\n\nAdjektive **vor dem Nomen** werden dekliniert. Nach *sein/werden/bleiben* bleiben sie unverändert.\n\n### Zwei Positionen\n| Position | Beispiel | Endung? |\n|---|---|---|\n| Attributiv | *der große Mann* | ja |\n| Prädikativ | *Der Mann ist groß.* | nein |\n\n### Mini-Übung\nWandeln Sie um: *Das Auto ist neu.* ↔ *das neue Auto*.",
+  "notesFr": "Prédicatif (après sein/werden) = pas de terminaison !",
+  "notesEn": "Predicative (after sein/werden) = no ending!",
+  "notesDe": "Prädikativ (nach sein/werden) = keine Endung!",
+  "examples": [
+    {
+      "de": "Der große Mann liest.",
+      "fr": "Le grand homme lit. (adjectif décliné)",
+      "en": "The tall man is reading. (declined adjective)"
+    },
+    {
+      "de": "Der Mann ist groß.",
+      "fr": "L’homme est grand. (pas de terminaison)",
+      "en": "The man is tall. (no ending)"
+    },
+    {
+      "de": "Eine schöne Stadt.",
+      "fr": "Une belle ville.",
+      "en": "A beautiful city."
+    },
+    {
+      "de": "Das Auto ist neu.",
+      "fr": "La voiture est neuve.",
+      "en": "The car is new."
+    },
+    {
+      "de": "das neue Auto",
+      "fr": "la voiture neuve (groupe nominal)",
+      "en": "the new car (noun phrase)"
+    }
+  ]
+}

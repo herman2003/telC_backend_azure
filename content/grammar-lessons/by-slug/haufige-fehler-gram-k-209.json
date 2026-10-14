@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-k-209",
+  "titleFr": "Erreur fréquente : worden vs geworden",
+  "titleEn": "Common mistake: worden vs geworden",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur fréquente — *worden* vs *geworden*\n\n### Confusion\nAu Perfekt, *werden* a **deux participes** selon le sens :\n\n| Sens | Participe | Exemple |\n|---|---|---|\n| Passif (être fait) | ***worden*** | *Das Auto ist repariert **worden**.* |\n| Devenir | ***geworden*** | *Er ist Arzt **geworden**.* |\n\n### Astuce\n- Passif = *worden* (sans *ge-*)\n- « devenir » = *geworden*\n\n### Mini-entraînement\nComplétez 6 phrases : *worden* ou *geworden* ?",
+  "ruleEn": "## Common mistake — *worden* vs *geworden*\n\n### Confusion\nIn the perfect, *werden* has **two participles** depending on meaning:\n\n| Meaning | Participle | Example |\n|---|---|---|\n| Passive (be done) | ***worden*** | *Das Auto ist repariert **worden**.* |\n| Become | ***geworden*** | *Er ist Arzt **geworden**.* |\n\n### Tip\n- Passive = *worden* (no *ge-*)\n- “become” = *geworden*\n\n### Mini practice\nFill in 6 sentences: *worden* or *geworden*?",
+  "ruleDe": "## Häufiger Fehler — *worden* vs. *geworden*\n\n### Verwechslung\n| Bedeutung | Partizip | Beispiel |\n|---|---|---|\n| Passiv | ***worden*** | *ist repariert worden* |\n| werden = werden zu | ***geworden*** | *ist Arzt geworden* |\n\n### Mini-Übung\nErgänzen Sie 6 Sätze: *worden* oder *geworden*?",
+  "notesFr": "Passif = « worden ». Actif (devenir) = « geworden ».",
+  "notesEn": "Passive = ‘worden’. Active (become) = ‘geworden’.",
+  "notesDe": "Passiv = ‚worden‘. Aktiv (werden) = ‚geworden‘.",
+  "examples": [
+    {
+      "de": "Das Auto ist repariert worden.",
+      "fr": "La voiture a été réparée. (passif → worden)",
+      "en": "The car has been repaired. (passive → worden)"
+    },
+    {
+      "de": "Er ist Arzt geworden.",
+      "fr": "Il est devenu médecin. (devenir → geworden)",
+      "en": "He has become a doctor. (become → geworden)"
+    },
+    {
+      "de": "Wir sind eingeladen worden.",
+      "fr": "Nous avons été invités.",
+      "en": "We have been invited."
+    },
+    {
+      "de": "Es ist kalt geworden.",
+      "fr": "Il a fait froid / Il est devenu froid.",
+      "en": "It has become cold."
+    },
+    {
+      "de": "Das Problem ist gelöst worden.",
+      "fr": "Le problème a été résolu.",
+      "en": "The problem has been solved."
+    }
+  ]
+}

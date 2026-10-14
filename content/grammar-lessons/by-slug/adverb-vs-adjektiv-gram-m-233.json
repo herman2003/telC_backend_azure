@@ -1,0 +1,39 @@
+{
+  "slug": "adverb-vs-adjektiv-gram-m-233",
+  "titleFr": "Adverbe vs adjectif",
+  "titleEn": "Adverb vs. adjective",
+  "titleDe": "Adverb vs. Adjektiv",
+  "ruleFr": "## Adverbe vs adjectif\n\nEn allemand, adjectif et adverbe ont souvent **la même forme** (contrairement à l’anglais *beautiful / beautifully*).\n\n### Distinguer\n| Fonction | Place | Déclinaison | Exemple |\n|---|---|---|---|\n| Adjectif | devant un nom | oui | ein **schönes** Lied |\n| Adjectif prédicatif | après *sein* | non | Das Lied ist **schön**. |\n| Adverbe | près du verbe | non | Sie singt **schön**. |\n\n### Test\n1. Nom juste après ? → adjectif (souvent décliné)\n2. Décrit *comment* on fait l’action ? → adverbe\n3. Après *sein* ? → adjectif prédicatif\n\n### Attention\n✓ *Er spricht gutes Deutsch.* (*gutes* devant le nom)\n✓ *Er spricht gut.* (adverbe)\n✗ *Er spricht gute.*\n\n### Mini-entraînement\n1. Classez dans *Der schnelle Zug fährt schnell.*\n2. « She sings beautifully » → *Sie singt schön.*\n3. Corrigez : *Er arbeitet harte.*",
+  "ruleEn": "## Adverb vs. adjective\n\nIn German, adjective and adverb often share **the same form** (unlike English *beautiful / beautifully*).\n\n### Distinguishing them\n| Function | Position | Declension | Example |\n|---|---|---|---|\n| Adjective | before a noun | yes | ein **schönes** Lied |\n| Predicative adjective | after *sein* | no | Das Lied ist **schön**. |\n| Adverb | near the verb | no | Sie singt **schön**. |\n\n### Test\n1. Noun right after? → adjective (usually declined)\n2. Says *how* the action is done? → adverb\n3. After *sein*? → predicative adjective\n\n### Watch out\n✓ *Er spricht gutes Deutsch.* (*gutes* before the noun)\n✓ *Er spricht gut.* (adverb)\n✗ *Er spricht gute.*\n\n### Mini practice\n1. Label parts in *Der schnelle Zug fährt schnell.*\n2. “She sings beautifully” → *Sie singt schön.*\n3. Correct: *Er arbeitet harte.*",
+  "ruleDe": "## Adverb vs. Adjektiv\n\nIm Deutschen oft **dieselbe Form** (anders als Englisch *beautiful / beautifully*).\n\n### Unterscheiden\n| Funktion | Stellung | Deklination | Beispiel |\n|---|---|---|---|\n| Adjektiv | vor dem Nomen | ja | ein **schönes** Lied |\n| Prädikatives Adjektiv | nach *sein* | nein | Das Lied ist **schön**. |\n| Adverb | beim Verb | nein | Sie singt **schön**. |\n\n### Test\n1. Folgt ein Nomen? → Adjektiv\n2. Beschreibt *wie* die Handlung? → Adverb\n3. Nach *sein*? → prädikatives Adjektiv\n\n### Achtung\n✓ *Er spricht gutes Deutsch.*\n✓ *Er spricht gut.*\n✗ *Er spricht gute.*\n\n### Mini-Übung\n1. Markieren in *Der schnelle Zug fährt schnell.*\n2. “She sings beautifully” → *Sie singt schön.*\n3. Korrigieren: *Er arbeitet harte.*",
+  "notesFr": "Allemand : souvent la même forme. Anglais : *beautiful* vs *beautifully*.",
+  "notesEn": "German: often the same form. English: *beautiful* vs. *beautifully*.",
+  "notesDe": "Deutsch: oft gleiche Form! Englisch: beautiful vs. beautifully.",
+  "examples": [
+    {
+      "de": "Das ist ein schönes Haus.",
+      "fr": "C’est une belle maison. (adjectif décliné)",
+      "en": "That is a beautiful house. (declined adjective)"
+    },
+    {
+      "de": "Das Haus ist schön.",
+      "fr": "La maison est belle. (prédicatif)",
+      "en": "The house is beautiful. (predicative)"
+    },
+    {
+      "de": "Sie singt schön.",
+      "fr": "Elle chante joliment. (adverbe)",
+      "en": "She sings beautifully. (adverb)"
+    },
+    {
+      "de": "Der schnelle Zug fährt schnell.",
+      "fr": "Le train rapide roule vite.",
+      "en": "The fast train runs quickly."
+    },
+    {
+      "de": "Er arbeitet hart.",
+      "fr": "Il travaille dur. (pas *harte*)",
+      "en": "He works hard. (not *harte*)"
+    }
+  ]
+}

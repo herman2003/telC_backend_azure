@@ -1,0 +1,39 @@
+{
+  "slug": "schwierige-falle-gram-b-054",
+  "titleFr": "Cas difficiles — deux articles possibles",
+  "titleEn": "Tricky cases — two accepted articles",
+  "titleDe": "Schwierige Fälle",
+  "ruleFr": "## Deux articles corrects pour un même mot\n\nPour certains noms, **deux genres** sont acceptés (usage régional ou flottant).\n\n### Exemples fréquents\n| mot | formes acceptées |\n|---|---|\n| Virus | **der** Virus / **das** Virus |\n| Joghurt | **der** Joghurt / **das** Joghurt |\n| Ketchup | **der** Ketchup / **das** Ketchup |\n| Email (courriel, variante) | parfois **die** / **das** E-Mail (standard : **die** E-Mail) |\n| Event | **das** Event (souvent) / parfois **der** |\n\n### Conseils pratiques\n1. Choisissez **une** forme et restez cohérent (surtout à l’écrit exam).\n2. En Allemagne, *der Virus* et *das Virus* sont tous deux courants ; en contexte médical, les deux passent.\n3. Pour l’apprentissage A1–B1, notez la forme de **votre manuel** comme référence.\n\n### Ce n’est pas une erreur\nSi vous voyez l’autre article ailleurs, ce n’est pas forcément faux — c’est la variation.\n\n### Mini-entraînement\nPour 5 mots « doubles », notez la forme de votre cours et une phrase.",
+  "ruleEn": "## Two accepted articles for one word\n\nFor some nouns, **two genders** are accepted (regional or floating usage).\n\n### Frequent examples\n| word | accepted forms |\n|---|---|\n| Virus | **der** Virus / **das** Virus |\n| Joghurt | **der** Joghurt / **das** Joghurt |\n| Ketchup | **der** Ketchup / **das** Ketchup |\n| Event | often **das** Event |\n\n### Practical advice\n1. Pick **one** form and stay consistent (especially in exams).\n2. Both *der Virus* and *das Virus* are common.\n3. For A1–B1, follow **your textbook** as the reference form.\n\n### Not an error\nSeeing the other article elsewhere isn’t necessarily wrong — it’s variation.\n\n### Mini practice\nFor 5 “double” words, note your course’s form + one sentence.",
+  "ruleDe": "## Zwei Artikel für dasselbe Wort\n\nBei manchen Nomen sind **zwei Genera** akzeptiert.\n\n### Häufige Beispiele\n| Wort | Formen |\n|---|---|\n| Virus | **der** Virus / **das** Virus |\n| Joghurt | **der** Joghurt / **das** Joghurt |\n| Ketchup | **der** Ketchup / **das** Ketchup |\n| Event | oft **das** Event |\n\n### Praxis\n1. Eine Form wählen und beibehalten (besonders in Prüfungen).\n2. *der/das Virus* — beides üblich.\n3. A1–B1: Form aus dem **Lehrbuch** als Referenz.\n\n### Mini-Übung\n5 „Doppelwörter“: Kursform + Satz notieren.",
+  "notesFr": "Similaire : *der/das Joghurt*, *der/das Ketchup* — choisissez une forme et tenez-vous-y.",
+  "notesEn": "Similar: *der/das Joghurt*, *der/das Ketchup* — pick one form and stick to it.",
+  "notesDe": "Ähnlich: *der/das Joghurt*, *der/das Ketchup* — eine Form wählen und beibehalten.",
+  "examples": [
+    {
+      "de": "Der Virus breitet sich aus.",
+      "fr": "Le virus se propage. (forme masculine acceptée.)",
+      "en": "The virus is spreading. (accepted masculine form.)"
+    },
+    {
+      "de": "Das Virus ist gefährlich.",
+      "fr": "Le virus est dangereux. (forme neutre aussi correcte.)",
+      "en": "The virus is dangerous. (neuter also correct.)"
+    },
+    {
+      "de": "Der Joghurt steht im Kühlschrank.",
+      "fr": "Le yaourt est dans le frigo. (der…)",
+      "en": "The yoghurt is in the fridge. (der…)"
+    },
+    {
+      "de": "Das Joghurt schmeckt gut.",
+      "fr": "Le yaourt a bon goût. (das… aussi possible.)",
+      "en": "The yoghurt tastes good. (das… also possible.)"
+    },
+    {
+      "de": "Der Ketchup ist alle. / Das Ketchup ist alle.",
+      "fr": "Il n’y a plus de ketchup. (les deux articles passent.)",
+      "en": "We’re out of ketchup. (both articles work.)"
+    }
+  ]
+}

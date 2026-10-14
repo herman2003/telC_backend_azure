@@ -1,0 +1,39 @@
+{
+  "slug": "wechselprapositionen-an-auf-gram-n-256",
+  "titleFr": "Prépositions mixtes — an / auf",
+  "titleEn": "Two-way prepositions — an / auf",
+  "titleDe": "Wechselpräpositionen — an/auf",
+  "ruleFr": "## *an* et *auf* (datif ou accusatif)\n\n### Différence de sens\n| Préposition | Idée | Exemples typiques |\n|---|---|---|\n| **an** | contact / vertical / bord | an der Wand, am Meer, am Fenster |\n| **auf** | sur une surface (dessus) | auf dem Tisch, auf dem Dach |\n\n### Contractions\n- *an dem* → **am** ; *an das* → **ans**\n- *auf dem / auf das* restent souvent séparés (sauf langage oral)\n\n### Wo? / Wohin?\n- Das Bild hängt **an der** Wand. / Ich hänge es **an die** Wand.\n- Das Buch liegt **auf dem** Tisch. / Ich lege es **auf den** Tisch.\n\n### Expressions\n*am Montag*, *an der Universität*, *auf der Party*, *auf Deutsch*\n\n### Mini-entraînement\n1. Choisissez *an* ou *auf* pour mur / table / mer.\n2. Formez *am* / *ans*.\n3. 4 paires Wo?/Wohin?.",
+  "ruleEn": "## *an* and *auf* (dative or accusative)\n\n### Meaning difference\n| Preposition | Idea | Typical examples |\n|---|---|---|\n| **an** | contact / vertical / edge | an der Wand, am Meer, am Fenster |\n| **auf** | on top of a surface | auf dem Tisch, auf dem Dach |\n\n### Contractions\n- *an dem* → **am**; *an das* → **ans**\n\n### Wo? / Wohin?\n- Das Bild hängt **an der** Wand. / Ich hänge es **an die** Wand.\n- Das Buch liegt **auf dem** Tisch. / Ich lege es **auf den** Tisch.\n\n### Phrases\n*am Montag*, *an der Universität*, *auf der Party*, *auf Deutsch*\n\n### Mini practice\n1. Choose *an* or *auf* for wall / table / sea.\n2. Form *am* / *ans*.\n3. Four Wo?/Wohin? pairs.",
+  "ruleDe": "## *an* und *auf* (Dativ oder Akkusativ)\n\n### Bedeutungsunterschied\n| Präposition | Idee | Beispiele |\n|---|---|---|\n| **an** | Kontakt / vertikal / Rand | an der Wand, am Meer |\n| **auf** | oben auf einer Fläche | auf dem Tisch |\n\n### Verschmelzungen\n- *an dem* → **am**; *an das* → **ans**\n\n### Wo? / Wohin?\n- hängt **an der** Wand / hänge **an die** Wand\n- liegt **auf dem** Tisch / lege **auf den** Tisch\n\n### Mini-Übung\n1. *an* oder *auf*?\n2. *am* / *ans* bilden.\n3. 4 Wo?/Wohin?-Paare.",
+  "notesFr": "*an dem* = *am* ; *an das* = *ans*.",
+  "notesEn": "*an dem* = *am*; *an das* = *ans*.",
+  "notesDe": "an dem = am, an das = ans.",
+  "examples": [
+    {
+      "de": "Das Bild hängt an der Wand.",
+      "fr": "Le tableau est accroché au mur. (*an* + datif)",
+      "en": "The picture hangs on the wall. (*an* + dative)"
+    },
+    {
+      "de": "Ich hänge das Bild an die Wand.",
+      "fr": "J’accroche le tableau au mur. (*an* + akk.)",
+      "en": "I hang the picture on the wall. (*an* + acc.)"
+    },
+    {
+      "de": "Die Tasse steht auf dem Tisch.",
+      "fr": "La tasse est sur la table. (*auf* + datif)",
+      "en": "The cup is on the table. (*auf* + dative)"
+    },
+    {
+      "de": "Ich stelle die Tasse auf den Tisch.",
+      "fr": "Je pose la tasse sur la table. (*auf* + akk.)",
+      "en": "I put the cup on the table. (*auf* + acc.)"
+    },
+    {
+      "de": "Wir treffen uns am Bahnhof.",
+      "fr": "Nous nous retrouvons à la gare.",
+      "en": "We meet at the station."
+    }
+  ]
+}

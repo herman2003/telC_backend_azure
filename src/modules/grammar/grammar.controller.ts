@@ -5,6 +5,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -21,9 +22,17 @@ import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.i
 import {
   CompleteLessonResponseDto,
   GrammarExercisesOfTheDayDto,
+  GrammarLangQueryDto,
   GrammarOfTheDayDto,
+  GrammarPracticeExercisesDto,
+  GrammarPracticeLevelsDto,
+  GrammarPracticeProgressDto,
+  GrammarPracticeQueryDto,
+  GrammarPracticeSessionDto,
   SubmitGrammarExerciseDto,
   SubmitGrammarExerciseResponseDto,
+  SubmitGrammarPracticeDto,
+  SubmitGrammarPracticeResponseDto,
 } from './dto/grammar.dto';
 import { GrammarService } from './grammar.service';
 
@@ -35,12 +44,20 @@ export class GrammarController {
   constructor(private readonly grammar: GrammarService) {}
 
   @Get('of-the-day')
-  @ApiOperation({ summary: 'Grammar theme of the day (lesson + progress)' })
+  @ApiOperation({
+    summary: 'Grammar theme of the day (lesson + progress)',
+    description:
+      'Pass optional `lang` (fr|en|de, default fr) to localize title, rule, notes, and example glosses.',
+  })
   @ApiOkResponse({ type: GrammarOfTheDayDto })
   ofTheDay(
     @CurrentStudent() student: AccessTokenPayload,
+    @Query() query: GrammarLangQueryDto,
   ): Promise<GrammarOfTheDayDto> {
-    return this.grammar.getOfTheDay(student.studentId);
+    return this.grammar.getOfTheDay(student.studentId, new Date(), {
+      isGuest: student.isGuest === true,
+      lang: query.lang,
+    });
   }
 
   @Post('of-the-day/lesson/complete')
@@ -49,23 +66,103 @@ export class GrammarController {
   completeLesson(
     @CurrentStudent() student: AccessTokenPayload,
   ): Promise<CompleteLessonResponseDto> {
-    return this.grammar.completeLesson(student.studentId);
+    return this.grammar.completeLesson(student.studentId, new Date(), {
+      isGuest: student.isGuest === true,
+    });
+  }
+
+  @Get('levels')
+  @ApiOperation({
+    summary: 'Free-practice level presets (client timer hints only)',
+  })
+  @ApiOkResponse({ type: GrammarPracticeLevelsDto })
+  levels(): GrammarPracticeLevelsDto {
+    return this.grammar.getLevels();
   }
 
   @Get('exercises/of-the-day')
   @ApiOperation({
     summary: 'Today’s exercises (no answers); status locked|unlocked|completed',
+    description:
+      'Pass optional `lang` (fr|en|de, default fr) to localize exercise prompts.',
   })
   @ApiOkResponse({ type: GrammarExercisesOfTheDayDto })
   exercisesOfTheDay(
     @CurrentStudent() student: AccessTokenPayload,
+    @Query() query: GrammarLangQueryDto,
   ): Promise<GrammarExercisesOfTheDayDto> {
-    return this.grammar.getExercisesOfTheDay(student.studentId);
+    return this.grammar.getExercisesOfTheDay(student.studentId, new Date(), {
+      isGuest: student.isGuest === true,
+      lang: query.lang,
+    });
+  }
+
+  @Get('exercises/practice')
+  @ApiOperation({
+    summary:
+      'Free-practice pool from published topics (includes answers); optional difficulty filter',
+    description:
+      'Pass optional `lang` (fr|en|de, default fr) to localize prompt and explanation.',
+  })
+  @ApiOkResponse({ type: GrammarPracticeExercisesDto })
+  practiceExercises(
+    @Query() query: GrammarPracticeQueryDto,
+  ): Promise<GrammarPracticeExercisesDto> {
+    return this.grammar.getPracticeExercises(query.difficulty, {
+      lang: query.lang,
+    });
+  }
+
+  @Post('practice/submit')
+  @ApiOperation({
+    summary:
+      'Submit a free-practice session (no of-the-day locks); persists score like other training modules',
+  })
+  @ApiOkResponse({ type: SubmitGrammarPracticeResponseDto })
+  submitPractice(
+    @CurrentStudent() student: AccessTokenPayload,
+    @Body() body: SubmitGrammarPracticeDto,
+  ): Promise<SubmitGrammarPracticeResponseDto> {
+    return this.grammar.submitPractice(student.studentId, body, {
+      isGuest: student.isGuest === true,
+    });
+  }
+
+  @Get('practice/sessions')
+  @ApiOperation({ summary: 'Free-practice session history for the student' })
+  @ApiOkResponse({ type: [GrammarPracticeSessionDto] })
+  practiceSessions(
+    @CurrentStudent() student: AccessTokenPayload,
+  ): Promise<GrammarPracticeSessionDto[]> {
+    if (student.isGuest === true) {
+      return Promise.resolve([]);
+    }
+    return this.grammar.getPracticeSessions(student.studentId);
+  }
+
+  @Get('practice/progress')
+  @ApiOperation({
+    summary: 'Free-practice progress summary (count, average, last session)',
+  })
+  @ApiOkResponse({ type: GrammarPracticeProgressDto })
+  practiceProgress(
+    @CurrentStudent() student: AccessTokenPayload,
+  ): Promise<GrammarPracticeProgressDto> {
+    if (student.isGuest === true) {
+      return Promise.resolve({
+        attemptCount: 0,
+        averageScore: null,
+        lastAttempt: null,
+      });
+    }
+    return this.grammar.getPracticeProgress(student.studentId);
   }
 
   @Post('exercises/:exerciseId/submit')
   @ApiOperation({
     summary: 'Submit an answer; requires success to unlock next',
+    description:
+      'Pass optional `lang` (fr|en|de, default fr) to localize the explanation.',
   })
   @ApiOkResponse({ type: SubmitGrammarExerciseResponseDto })
   @ApiConflictResponse({ description: 'GRAMMAR_STEP_LOCKED' })
@@ -73,21 +170,32 @@ export class GrammarController {
     @CurrentStudent() student: AccessTokenPayload,
     @Param('exerciseId', ParseUUIDPipe) exerciseId: string,
     @Body() body: SubmitGrammarExerciseDto,
+    @Query() query: GrammarLangQueryDto,
   ): Promise<SubmitGrammarExerciseResponseDto> {
     return this.grammar.submitExercise(
       student.studentId,
       exerciseId,
       body.answer,
+      new Date(),
+      { isGuest: student.isGuest === true, lang: query.lang },
     );
   }
 
   @Get('topics/:topicId')
-  @ApiOperation({ summary: 'Today’s topic by UUID (404 if not today)' })
+  @ApiOperation({
+    summary: 'Today’s topic by UUID (404 if not today)',
+    description:
+      'Pass optional `lang` (fr|en|de, default fr) to localize the topic payload.',
+  })
   @ApiOkResponse({ type: GrammarOfTheDayDto })
   topicById(
     @CurrentStudent() student: AccessTokenPayload,
     @Param('topicId', ParseUUIDPipe) topicId: string,
+    @Query() query: GrammarLangQueryDto,
   ): Promise<GrammarOfTheDayDto> {
-    return this.grammar.getTopicById(student.studentId, topicId);
+    return this.grammar.getTopicById(student.studentId, topicId, new Date(), {
+      isGuest: student.isGuest === true,
+      lang: query.lang,
+    });
   }
 }

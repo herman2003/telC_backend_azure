@@ -1,0 +1,39 @@
+{
+  "slug": "prasens-beispiel-spielen-gram-f-129",
+  "titleFr": "Présent de « spielen »",
+  "titleEn": "Present tense of “spielen”",
+  "titleDe": "Präsens — Beispiel: spielen",
+  "ruleFr": "## Conjugaison : *spielen*\n\nAutre verbe régulier. Radical **spiel-**.\n\n| | |\n|---|---|\n| ich spiele | wir spielen |\n| du spielst | ihr spielt |\n| er/sie/es spielt | sie/Sie spielen |\n\n### Emplois\n*Fußball spielen, Klavier spielen, eine Rolle spielen…*\n\n### Mini-entraînement\nRemplacez *machen* par *spielen* dans 4 phrases.",
+  "ruleEn": "## Conjugation: *spielen*\n\nRegular verb. Stem **spiel-**.\n\nich spiele · du spielst · er spielt · wir spielen · ihr spielt · sie spielen\n\n### Uses\n*Fußball spielen, Klavier spielen…*\n\n### Mini practice\nSwap *machen* for *spielen* in 4 sentences.",
+  "ruleDe": "## Konjugation: *spielen*\n\nich spiele, du spielst, er spielt, wir spielen, ihr spielt, sie/Sie spielen\n\n### Mini-Übung\n*machen* durch *spielen* ersetzen.",
+  "notesFr": "Le radical « spiel- » reste inchangé à toutes les personnes.",
+  "notesEn": "The stem “spiel-” stays unchanged in all forms.",
+  "notesDe": "Stamm „spiel-“ bleibt unverändert in allen Formen.",
+  "examples": [
+    {
+      "de": "Ich spiele Gitarre.",
+      "fr": "Je joue de la guitare.",
+      "en": "I play the guitar."
+    },
+    {
+      "de": "Spielst du Tennis?",
+      "fr": "Tu joues au tennis ?",
+      "en": "Do you play tennis?"
+    },
+    {
+      "de": "Das Kind spielt im Park.",
+      "fr": "L’enfant joue dans le parc.",
+      "en": "The child plays in the park."
+    },
+    {
+      "de": "Wir spielen Karten.",
+      "fr": "Nous jouons aux cartes.",
+      "en": "We play cards."
+    },
+    {
+      "de": "Sie spielen eine wichtige Rolle.",
+      "fr": "Ils / vous jouez un rôle important.",
+      "en": "They / you play an important role."
+    }
+  ]
+}

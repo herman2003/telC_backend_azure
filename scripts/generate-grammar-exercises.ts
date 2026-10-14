@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument */
 /**
  * Generate easy/medium/hard exercises from imported grammar examples.
  *
@@ -27,7 +27,9 @@ async function main() {
   }
 
   const pool = new Pool({ connectionString });
-  const prisma = new PrismaClient({ adapter: new PrismaPg(pool) } as never);
+  const prisma: any = new PrismaClient({
+    adapter: new PrismaPg(pool),
+  } as never);
 
   let topicsDone = 0;
   let exercisesCreated = 0;
@@ -54,13 +56,21 @@ async function main() {
       const generated = example
         ? generateExercisesFromExample({
             titleFr: topic.title_fr,
+            titleEn: topic.title_en,
+            titleDe: topic.title_de,
             ruleFr: topic.rule_fr,
+            ruleEn: topic.rule_en,
+            ruleDe: topic.rule_de,
             exampleDe: example.de,
             exampleEn: example.en,
           })
         : generateMinimalExercises({
             titleFr: topic.title_fr,
+            titleEn: topic.title_en,
+            titleDe: topic.title_de,
             ruleFr: topic.rule_fr,
+            ruleEn: topic.rule_en,
+            ruleDe: topic.rule_de,
           });
 
       for (const exo of generated) {
@@ -72,9 +82,12 @@ async function main() {
             sort_order: exo.sort_order,
             prompt_de: exo.prompt_de,
             prompt_fr: exo.prompt_fr,
+            prompt_en: exo.prompt_en,
             options_json: exo.options_json ?? undefined,
             answer: exo.answer,
             explanation_fr: exo.explanation_fr,
+            explanation_en: exo.explanation_en,
+            explanation_de: exo.explanation_de,
           },
         });
         exercisesCreated += 1;

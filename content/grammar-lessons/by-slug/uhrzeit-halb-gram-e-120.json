@@ -1,0 +1,39 @@
+{
+  "slug": "uhrzeit-halb-gram-e-120",
+  "titleFr": "L’heure avec « halb »",
+  "titleEn": "Time with “halb”",
+  "titleDe": "Uhrzeit — Halb",
+  "ruleFr": "## *halb* + heure suivante\n\nEn allemand, ***halb*** pointe vers l’heure **suivante** : on est à mi-chemin **vers** cette heure.\n\n### Règle d’or\n***halb acht** = 7:30* (pas 8:30 !)\n= « à moitié (en chemin) vers huit heures »\n\n### Tableau\n| Allemand | Heure |\n|---|---|\n| halb eins | 12:30 |\n| halb zwei | 1:30 |\n| halb drei | 2:30 |\n| halb acht | 7:30 |\n\n### Mini-entraînement\nConvertissez : halb vier, halb zwölf, 5:30, 9:30.",
+  "ruleEn": "## *halb* + next hour\n\nGerman ***halb*** points to the **upcoming** hour: you are halfway **to** that hour.\n\n### Golden rule\n***halb acht** = 7:30* (not 8:30!)\n\n### Chart\n| German | Time |\n|---|---|\n| halb eins | 12:30 |\n| halb zwei | 1:30 |\n| halb acht | 7:30 |\n\n### Mini practice\nConvert: halb vier, halb zwölf, 5:30, 9:30.",
+  "ruleDe": "## *halb* + nächste Stunde\n\n***halb acht** = 7:30* — halb auf dem Weg zur nächsten Stunde!\n\n### Mini-Übung\nhalb vier, halb zwölf, 5:30, 9:30.",
+  "notesFr": "IMPORTANT : halb acht = 7:30 (à mi-chemin vers huit) !",
+  "notesEn": "IMPORTANT: halb acht means 7:30 (halfway to eight)!",
+  "notesDe": "WICHTIG: halb acht bedeutet 7:30 — halb auf dem Weg zu acht!",
+  "examples": [
+    {
+      "de": "Es ist halb acht.",
+      "fr": "Il est sept heures et demie. (7:30, pas 8:30 !)",
+      "en": "It is half past seven. (7:30, not 8:30!)"
+    },
+    {
+      "de": "Der Zug fährt um halb neun.",
+      "fr": "Le train part à huit heures et demie.",
+      "en": "The train leaves at half past eight."
+    },
+    {
+      "de": "Um halb zwei esse ich zu Mittag.",
+      "fr": "À treize heures trente je déjeune.",
+      "en": "At half past one I have lunch."
+    },
+    {
+      "de": "Komm bitte um halb sechs!",
+      "fr": "Viens à cinq heures et demie !",
+      "en": "Please come at half past five!"
+    },
+    {
+      "de": "Halb zwölf — Zeit für eine Pause.",
+      "fr": "Onze heures et demie — pause.",
+      "en": "Half past eleven — time for a break."
+    }
+  ]
+}

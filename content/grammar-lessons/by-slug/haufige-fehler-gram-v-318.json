@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-v-318",
+  "titleFr": "Erreur fréquente : zu après un modal",
+  "titleEn": "Common mistake: zu after modals",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur : *zu* après un verbe modal\n\nLes modaux (**können, müssen, wollen, sollen, dürfen, mögen**) se construisent **sans** *zu*.\n\n### Corrections\n- ✗ *Ich kann **zu** schwimmen.* → ✓ *Ich kann schwimmen.*\n- ✗ *Du musst **zu** lernen.* → ✓ *Du musst lernen.*\n- ✗ *Wir wollen **zu** gehen.* → ✓ *Wir wollen gehen.*\n\n### Où *zu* est correct\n- *Ich versuche **zu** schwimmen.* (versuchen ≠ modal)\n- *Es ist wichtig, **zu** lernen.*\n\n### Mini-entraînement\nRayez le *zu* superflu après les modaux dans 5 phrases.",
+  "ruleEn": "## Mistake: *zu* after a modal verb\n\nModals (**können, müssen, wollen, sollen, dürfen, mögen**) take **no** *zu*.\n\n### Fixes\n- ✗ *Ich kann **zu** schwimmen.* → ✓ *Ich kann schwimmen.*\n- ✗ *Du musst **zu** lernen.* → ✓ *Du musst lernen.*\n- ✗ *Wir wollen **zu** gehen.* → ✓ *Wir wollen gehen.*\n\n### Where *zu* is correct\n- *Ich versuche **zu** schwimmen.*\n- *Es ist wichtig, **zu** lernen.*\n\n### Mini practice\nDelete superfluous *zu* after modals in 5 sentences.",
+  "ruleDe": "## Fehler: *zu* nach Modalverben\n\nModalverben **nie** mit *zu*!\n\n### Korrekturen\n- ✗ *Ich kann **zu** schwimmen.* → ✓ *Ich kann schwimmen.*\n\n### Mini-Übung\nÜberflüssiges *zu* streichen.",
+  "notesFr": "Les modaux (können, müssen, wollen, sollen, dürfen, mögen) JAMAIS avec *zu* !",
+  "notesEn": "Modals (können, müssen, wollen, sollen, dürfen, mögen) NEVER with *zu*!",
+  "notesDe": "Modalverben (können, müssen, wollen, sollen, dürfen, mögen) NIE mit *zu*!",
+  "examples": [
+    {
+      "de": "Ich kann gut kochen.",
+      "fr": "Je sais bien cuisiner. (pas *zu kochen*)",
+      "en": "I can cook well. (not *zu kochen*)"
+    },
+    {
+      "de": "Du musst mehr schlafen.",
+      "fr": "Tu dois dormir davantage.",
+      "en": "You must sleep more."
+    },
+    {
+      "de": "Wir wollen nach Hause gehen.",
+      "fr": "Nous voulons rentrer à la maison.",
+      "en": "We want to go home."
+    },
+    {
+      "de": "Man darf hier nicht rauchen.",
+      "fr": "On n’a pas le droit de fumer ici.",
+      "en": "You’re not allowed to smoke here."
+    },
+    {
+      "de": "Ich versuche, besser zu kochen.",
+      "fr": "J’essaie de mieux cuisiner. (*versuchen* → avec *zu*)",
+      "en": "I try to cook better. (*versuchen* → with *zu*)"
+    }
+  ]
+}

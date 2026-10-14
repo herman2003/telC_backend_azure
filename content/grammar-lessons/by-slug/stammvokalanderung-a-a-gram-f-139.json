@@ -1,0 +1,39 @@
+{
+  "slug": "stammvokalanderung-a-a-gram-f-139",
+  "titleFr": "Changement de voyelle a→ä",
+  "titleEn": "Stem vowel change a→ä",
+  "titleDe": "Stammvokaländerung — a→ä",
+  "ruleFr": "## Changement de voyelle a→ä\n\nCertains verbes allemands changent le **a** du radical en **ä** aux 2ᵉ et 3ᵉ personnes du singulier (*du* / *er* / *sie* / *es*) au présent.\n\n### La règle\n| Personne | Radical | Exemple *fahren* |\n|---|---|---|\n| ich | a | ich **fahre** |\n| **du** | **ä** | du **fährst** |\n| **er/sie/es** | **ä** | er **fährt** |\n| wir / ihr / sie | a | wir **fahren** |\n\n### Où ça s’applique\nUniquement **du** et **er/sie/es**. Le pluriel et *ich* gardent le **a**.\n\n### Comment le reconnaître\n1. Le verbe a un **a** dans le radical (*fahren*, *schlafen*, *tragen*).\n2. Vous conjuguez pour *du* ou *er/sie/es*.\n3. → **a** devient **ä** + terminaison (-st / -t).\n\n### Ne pas confondre\n- *laufen* : **au → äu** (*du läufst*), pas a→ä.\n- Pas de changement pour *ich*, *wir*, *ihr*, *sie* (pluriel).\n\n### Erreurs fréquentes\n- ✗ *du fahrst* → ✓ *du **fährst***\n- ✗ *wir fähren* → ✓ *wir **fahren***\n\n### Mini-entraînement (5–10 min)\n1. Conjuguez *fahren*, *schlafen*, *tragen* au présent.\n2. Soulignez les formes avec **ä**.\n3. Écrivez 3 phrases : *du …* / *er …* / *wir …*.",
+  "ruleEn": "## Stem vowel change a→ä\n\nSome German verbs change the stem vowel **a** to **ä** in the 2nd and 3rd person singular (*du* / *er* / *sie* / *es*) in the present tense.\n\n### The rule\n| Person | Stem | Example *fahren* |\n|---|---|---|\n| ich | a | ich **fahre** |\n| **du** | **ä** | du **fährst** |\n| **er/sie/es** | **ä** | er **fährt** |\n| wir / ihr / sie | a | wir **fahren** |\n\n### Where it applies\nOnly **du** and **er/sie/es**. Plural and *ich* keep **a**.\n\n### How to spot it\n1. The verb has **a** in the stem (*fahren*, *schlafen*, *tragen*).\n2. You conjugate for *du* or *er/sie/es*.\n3. → **a** becomes **ä** + ending (-st / -t).\n\n### Don’t confuse\n- *laufen*: **au → äu** (*du läufst*), not a→ä.\n- No change for *ich*, *wir*, *ihr*, *sie* (plural).\n\n### Common mistakes\n- ✗ *du fahrst* → ✓ *du **fährst***\n- ✗ *wir fähren* → ✓ *wir **fahren***\n\n### Mini practice (5–10 min)\n1. Conjugate *fahren*, *schlafen*, *tragen* in the present.\n2. Underline the forms with **ä**.\n3. Write 3 sentences: *du …* / *er …* / *wir …*.",
+  "ruleDe": "## Stammvokaländerung — a→ä\n\nManche Verben ändern den Stammvokal **a** zu **ä** in der 2. und 3. Person Singular (*du* / *er* / *sie* / *es*) im Präsens.\n\n### Die Regel\n| Person | Stamm | Beispiel *fahren* |\n|---|---|---|\n| ich | a | ich **fahre** |\n| **du** | **ä** | du **fährst** |\n| **er/sie/es** | **ä** | er **fährt** |\n| wir / ihr / sie | a | wir **fahren** |\n\n### Wo gilt das?\nNur bei **du** und **er/sie/es**. Plural und *ich* behalten **a**.\n\n### So erkennen Sie es\n1. Das Verb hat **a** im Stamm (*fahren*, *schlafen*, *tragen*).\n2. Sie konjugieren für *du* oder *er/sie/es*.\n3. → **a** wird **ä** + Endung (-st / -t).\n\n### Nicht verwechseln\n- *laufen*: **au → äu** (*du läufst*), nicht a→ä.\n- Keine Änderung bei *ich*, *wir*, *ihr*, *sie* (Plural).\n\n### Häufige Fehler\n- ✗ *du fahrst* → ✓ *du **fährst***\n- ✗ *wir fähren* → ✓ *wir **fahren***\n\n### Mini-Übung (5–10 Min.)\n1. Konjugieren Sie *fahren*, *schlafen*, *tragen* im Präsens.\n2. Unterstreichen Sie die Formen mit **ä**.\n3. Schreiben Sie 3 Sätze: *du …* / *er …* / *wir …*.",
+  "notesFr": "Astuce : seul le singulier *du* / *er/sie/es* change — le pluriel reste avec a (*wir fahren*).",
+  "notesEn": "Tip: only singular *du* / *er/sie/es* change — the plural keeps a (*wir fahren*).",
+  "notesDe": "Tipp: Nur Singular *du* / *er/sie/es* ändern — der Plural bleibt mit a (*wir fahren*).",
+  "examples": [
+    {
+      "de": "Du fährst jeden Tag zur Arbeit.",
+      "fr": "Tu vas au travail tous les jours. (*fährst* = a→ä.)",
+      "en": "You drive to work every day. (*fährst* = a→ä.)"
+    },
+    {
+      "de": "Er schläft bis zehn Uhr.",
+      "fr": "Il dort jusqu’à dix heures. (*schläft* = a→ä.)",
+      "en": "He sleeps until ten o’clock. (*schläft* = a→ä.)"
+    },
+    {
+      "de": "Sie trägt eine schwere Tasche.",
+      "fr": "Elle porte un sac lourd. (*trägt* = a→ä.)",
+      "en": "She carries a heavy bag. (*trägt* = a→ä.)"
+    },
+    {
+      "de": "Wir fahren zusammen nach München.",
+      "fr": "Nous allons ensemble à Munich. (*fahren* = a inchangé.)",
+      "en": "We drive to Munich together. (*fahren* = a unchanged.)"
+    },
+    {
+      "de": "Was hältst du von dem Plan?",
+      "fr": "Que penses-tu du plan ? (*hältst* = a→ä.)",
+      "en": "What do you think of the plan? (*hältst* = a→ä.)"
+    }
+  ]
+}

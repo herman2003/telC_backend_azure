@@ -1,0 +1,39 @@
+{
+  "slug": "subordinierende-konjunktionen-gram-q-280",
+  "titleFr": "Les conjonctions de subordination",
+  "titleEn": "Subordinating conjunctions",
+  "titleDe": "Subordinierende Konjunktionen",
+  "ruleFr": "## Conjonctions de subordination\n\nUne conjonction **subordonnante** ouvre un **Nebensatz** : le verbe conjugué va à la **fin** de la subordonnée.\n\n### Les plus importantes\n| Mot | Sens |\n|---|---|\n| **weil** | parce que |\n| **dass** | que |\n| **wenn** | si / quand |\n| **ob** | si (oui/non) |\n| **obwohl** | bien que |\n| **als** | quand (passé unique) |\n| **bevor** | avant que |\n| **nachdem** | après que |\n\n### Structure\n*Konjunktion + … + Verb am Ende*\n- *Ich weiß, **dass** er morgen **kommt**.*\n- *Ich bleibe, **weil** ich müde **bin**.*\n- ***Wenn** du kommst, **rufe** mich an.* (verbe du principal juste après la virgule si subordonnée en tête)\n\n### Coordonnantes vs subordonnantes\n- Coordonnantes (*und, aber, denn…*) → verbe position 2\n- Subordonnantes (*weil, dass…*) → verbe à la fin\n\n### Mini-entraînement\n1. Transformez : *Er kommt. Ich weiß das.* → *Ich weiß, dass…*\n2. Placez une subordonnée en tête et vérifiez l’inversion du principal.",
+  "ruleEn": "## Subordinating conjunctions\n\nA **subordinating** conjunction opens a **subordinate clause**: the conjugated verb goes to the **end**.\n\n### The most important ones\n| Word | Meaning |\n|---|---|\n| **weil** | because |\n| **dass** | that |\n| **wenn** | if / when |\n| **ob** | whether / if |\n| **obwohl** | although |\n| **als** | when (one-time past) |\n| **bevor** | before |\n| **nachdem** | after |\n\n### Structure\n*Conjunction + … + verb at the end*\n- *Ich weiß, **dass** er morgen **kommt**.*\n- *Ich bleibe, **weil** ich müde **bin**.*\n- ***Wenn** du kommst, **rufe** mich an.* (main verb right after the comma if the subordinate clause comes first)\n\n### Coordinating vs subordinating\n- Coordinating (*und, aber, denn…*) → verb position 2\n- Subordinating (*weil, dass…*) → verb at the end\n\n### Mini practice\n1. Transform: *Er kommt. Ich weiß das.* → *Ich weiß, dass…*\n2. Put a subordinate clause first and check main-clause inversion.",
+  "ruleDe": "## Subordinierende Konjunktionen\n\nEine **unterordnende** Konjunktion öffnet einen **Nebensatz**: das konjugierte Verb steht am **Ende**.\n\n### Die wichtigsten\n| Wort | Bedeutung |\n|---|---|\n| **weil** | weil |\n| **dass** | dass |\n| **wenn** | wenn/falls |\n| **ob** | ob |\n| **obwohl** | obwohl |\n| **als** | als (einmalige Vergangenheit) |\n| **bevor** | bevor |\n| **nachdem** | nachdem |\n\n### Struktur\n*Konjunktion + … + Verb am Ende*\n- *Ich weiß, **dass** er morgen **kommt**.*\n- *Ich bleibe, **weil** ich müde **bin**.*\n- ***Wenn** du kommst, **rufe** mich an.*\n\n### Neben- vs. Unterordnung\n- Nebenordnend (*und, aber, denn…*) → Verb Position 2\n- Unterordnend (*weil, dass…*) → Verb am Ende\n\n### Mini-Übung\n1. Umformen: *Er kommt. Ich weiß das.* → *Ich weiß, dass…*\n2. Nebensatz vorne, Hauptsatz prüfen.",
+  "notesFr": "Nebensatz = verbe à la fin ! Hauptsatz = verbe en position 2.",
+  "notesEn": "Subordinate clause = verb at the end! Main clause = verb in position 2.",
+  "notesDe": "Nebensatz = Verb am Ende! Hauptsatz = Verb an Position 2.",
+  "examples": [
+    {
+      "de": "Ich weiß, dass er kommt.",
+      "fr": "Je sais qu’il vient. (*dass* + verbe à la fin)",
+      "en": "I know that he’s coming. (*dass* + verb at end)"
+    },
+    {
+      "de": "Ich bleibe, weil ich müde bin.",
+      "fr": "Je reste parce que je suis fatigué.",
+      "en": "I’m staying because I’m tired."
+    },
+    {
+      "de": "Wenn du kommst, rufe mich an.",
+      "fr": "Si tu viens, appelle-moi. (subordonnée en tête)",
+      "en": "If you come, call me. (subordinate clause first)"
+    },
+    {
+      "de": "Obwohl es regnet, gehen wir spazieren.",
+      "fr": "Bien qu’il pleuve, nous nous promenons.",
+      "en": "Although it’s raining, we’re going for a walk."
+    },
+    {
+      "de": "Bevor wir essen, waschen wir uns die Hände.",
+      "fr": "Avant de manger, nous nous lavons les mains.",
+      "en": "Before we eat, we wash our hands."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "akkusativ-artikel-gram-a-006",
+  "titleFr": "Articles définis à l’accusatif",
+  "titleEn": "Definite articles in the accusative",
+  "titleDe": "Akkusativ — bestimmter Artikel",
+  "ruleFr": "## Articles définis à l’accusatif\n\nComparez nominatif et accusatif pour l’article défini :\n\n| Cas | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| Nominatif | der | die | das | die |\n| **Akkusatif** | **den** | die | das | die |\n\n### Règle d’or\n**Seul le masculin change** : *der* → *den*. *Die* et *das* restent identiques.\n\n### Exemples\n- Ich hole **den** Schlüssel. (m)\n- Ich hole **die** Tasche. (f)\n- Ich hole **das** Ticket. (n)\n- Ich hole **die** Tickets. (pl)\n\n### Quand ?\nObjet direct après un verbe transitif, ou après certaines prépositions (*durch, für, ohne, um, gegen…*).\n\n### Erreurs fréquentes\n- ✗ *für der Freund* → ✓ *für **den** Freund*\n- Changer *die* en *den* par « hypercorrection » : ✗ *Ich sehe den Frau.* → ✓ *die Frau*\n\n### Mini-entraînement\n1. Remplacez : *der Tisch* → à l’accusatif *___ Tisch*.\n2. Cochez ce qui change vraiment : der / die / das.\n3. Traduisez : Je prends le livre / la lettre / le stylo.",
+  "ruleEn": "## Definite articles in the accusative\n\nCompare nominative and accusative for the definite article:\n\n| Case | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| Nominative | der | die | das | die |\n| **Accusative** | **den** | die | das | die |\n\n### Golden rule\n**Only masculine changes**: *der* → *den*. *Die* and *das* stay the same.\n\n### Examples\n- Ich hole **den** Schlüssel. (m)\n- Ich hole **die** Tasche. (f)\n- Ich hole **das** Ticket. (n)\n- Ich hole **die** Tickets. (pl)\n\n### When?\nDirect object after a transitive verb, or after certain prepositions (*durch, für, ohne, um, gegen…*).\n\n### Common mistakes\n- ✗ *für der Freund* → ✓ *für **den** Freund*\n- Hypercorrecting *die*: ✗ *Ich sehe den Frau.* → ✓ *die Frau*\n\n### Mini practice\n1. Replace: *der Tisch* → accusative *___ Tisch*.\n2. Tick what really changes: der / die / das.\n3. Translate: I take the book / the letter / the pen.",
+  "ruleDe": "## Bestimmter Artikel im Akkusativ\n\nVergleich Nominativ / Akkusativ:\n\n| Kasus | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| Nominativ | der | die | das | die |\n| **Akkusativ** | **den** | die | das | die |\n\n### Goldene Regel\n**Nur Maskulinum ändert sich**: *der* → *den*. *Die* und *das* bleiben gleich.\n\n### Beispiele\n- Ich hole **den** Schlüssel. (m)\n- Ich hole **die** Tasche. (f)\n- Ich hole **das** Ticket. (n)\n- Ich hole **die** Tickets. (pl)\n\n### Wann?\nDirektes Objekt nach transitiven Verben oder nach Präpositionen wie *durch, für, ohne, um, gegen…*.\n\n### Häufige Fehler\n- ✗ *für der Freund* → ✓ *für **den** Freund*\n- Hyperkorrektur: ✗ *Ich sehe den Frau.* → ✓ *die Frau*\n\n### Mini-Übung\n1. Ersetzen: *der Tisch* → Akkusativ *___ Tisch*.\n2. Was ändert sich wirklich: der / die / das?\n3. Übersetzen: Ich nehme das Buch / den Brief / den Stift.",
+  "notesFr": "Point clé : *die* et *das* ne changent pas à l’accusatif — seule la forme masculine *den* est nouvelle.",
+  "notesEn": "Key point: *die* and *das* do not change in the accusative — only masculine *den* is new.",
+  "notesDe": "Kernpunkt: *die* und *das* ändern sich im Akkusativ nicht — neu ist nur maskulines *den*.",
+  "examples": [
+    {
+      "de": "Ich brauche den Schlüssel.",
+      "fr": "J’ai besoin de la clé. (*den* = masculin accusatif)",
+      "en": "I need the key. (*den* = masculine accusative)"
+    },
+    {
+      "de": "Sie öffnet die Tür.",
+      "fr": "Elle ouvre la porte. (*die* inchangé)",
+      "en": "She opens the door. (*die* unchanged)"
+    },
+    {
+      "de": "Er schließt das Fenster.",
+      "fr": "Il ferme la fenêtre. (*das* inchangé)",
+      "en": "He closes the window. (*das* unchanged)"
+    },
+    {
+      "de": "Wir besuchen die Freunde.",
+      "fr": "Nous rendons visite aux amis. (*die* pluriel)",
+      "en": "We are visiting the friends. (*die* plural)"
+    },
+    {
+      "de": "Das Geschenk ist für den Vater.",
+      "fr": "Le cadeau est pour le père. (*für* + accusatif)",
+      "en": "The present is for the father. (*für* + accusative)"
+    }
+  ]
+}

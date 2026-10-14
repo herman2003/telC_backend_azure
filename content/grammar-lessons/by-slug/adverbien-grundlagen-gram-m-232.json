@@ -1,0 +1,39 @@
+{
+  "slug": "adverbien-grundlagen-gram-m-232",
+  "titleFr": "Les adverbes — bases",
+  "titleEn": "Adverbs — basics",
+  "titleDe": "Adverbien — Grundlagen",
+  "ruleFr": "## Les adverbes — bases\n\nUn **adverbe** précise le verbe, un adjectif, un autre adverbe ou toute la phrase : temps, lieu, manière, degré.\n\n### Différence avec l’adjectif\n- Adjectif devant un nom → **décliné** : *ein schnelles Auto*\n- Adverbe → **jamais décliné** : *Er fährt schnell*\n\nSouvent la **même forme** (*schnell*), mais une autre fonction.\n\n### Types principaux\n| Type | Question | Exemples |\n|---|---|---|\n| Temps | Wann? | heute, jetzt, bald |\n| Lieu | Wo? / Wohin? | hier, dort, nach Hause |\n| Manière | Wie? | gut, langsam, gerne |\n| Degré | Wie sehr? | sehr, ziemlich, zu |\n\n### Place\nSouvent après le verbe conjugué, ou en tête pour l’emphase :\n- Ich gehe **heute** ins Kino.\n- **Heute** gehe ich ins Kino.\n\n### Erreurs fréquentes\n✗ *Er singt schöne.* → ✓ *Er singt schön.*\n\n### Mini-entraînement\n1. Repérez l’adverbe dans 5 phrases.\n2. *ein langsames Auto* → *Er fährt ___.*\n3. Une phrase avec temps, lieu et manière.",
+  "ruleEn": "## Adverbs — basics\n\nAn **adverb** modifies a verb, adjective, another adverb, or the whole sentence: time, place, manner, degree.\n\n### Difference from adjectives\n- Adjective before a noun → **declined**: *ein schnelles Auto*\n- Adverb → **never declined**: *Er fährt schnell*\n\nOften the **same form** (*schnell*), different function.\n\n### Main types\n| Type | Question | Examples |\n|---|---|---|\n| Time | Wann? | heute, jetzt, bald |\n| Place | Wo? / Wohin? | hier, dort, nach Hause |\n| Manner | Wie? | gut, langsam, gerne |\n| Degree | Wie sehr? | sehr, ziemlich, zu |\n\n### Position\nOften after the conjugated verb, or fronted for emphasis:\n- Ich gehe **heute** ins Kino.\n- **Heute** gehe ich ins Kino.\n\n### Common mistakes\n✗ *Er singt schöne.* → ✓ *Er singt schön.*\n\n### Mini practice\n1. Spot the adverb in 5 sentences.\n2. *ein langsames Auto* → *Er fährt ___.*\n3. One sentence each with time, place, manner.",
+  "ruleDe": "## Adverbien — Grundlagen\n\nEin **Adverb** spezifiziert Verb, Adjektiv, anderes Adverb oder den Satz: Zeit, Ort, Art/Weise, Grad.\n\n### Unterschied zum Adjektiv\n- Adjektiv vor Nomen → **dekliniert**: *ein schnelles Auto*\n- Adverb → **nie dekliniert**: *Er fährt schnell*\n\nOft **gleiche Form** (*schnell*), andere Funktion.\n\n### Haupttypen\n| Typ | Frage | Beispiele |\n|---|---|---|\n| Zeit | Wann? | heute, jetzt, bald |\n| Ort | Wo? / Wohin? | hier, dort, nach Hause |\n| Art/Weise | Wie? | gut, langsam, gerne |\n| Grad | Wie sehr? | sehr, ziemlich, zu |\n\n### Stellung\nOft nach dem Verb, oder am Anfang zur Betonung:\n- Ich gehe **heute** ins Kino.\n- **Heute** gehe ich ins Kino.\n\n### Häufige Fehler\n✗ *Er singt schöne.* → ✓ *Er singt schön.*\n\n### Mini-Übung\n1. Adverb in 5 Sätzen markieren.\n2. *ein langsames Auto* → *Er fährt ___.*\n3. Je ein Satz mit Zeit, Ort, Art/Weise.",
+  "notesFr": "Pas de terminaison : l’adverbe garde toujours la même forme.",
+  "notesEn": "No endings: the adverb always keeps the same form.",
+  "notesDe": "Keine Endungen! Immer die gleiche Form.",
+  "examples": [
+    {
+      "de": "Er fährt schnell.",
+      "fr": "Il conduit vite. (*schnell* = adverbe)",
+      "en": "He drives fast. (*schnell* = adverb)"
+    },
+    {
+      "de": "Sie kommt heute.",
+      "fr": "Elle vient aujourd’hui.",
+      "en": "She is coming today."
+    },
+    {
+      "de": "Das Kind spielt draußen.",
+      "fr": "L’enfant joue dehors.",
+      "en": "The child is playing outside."
+    },
+    {
+      "de": "Ich bin sehr müde.",
+      "fr": "Je suis très fatigué. (*sehr* = degré)",
+      "en": "I am very tired. (*sehr* = degree)"
+    },
+    {
+      "de": "Wir lernen gerne Deutsch.",
+      "fr": "Nous apprenons volontiers l’allemand.",
+      "en": "We like learning German."
+    }
+  ]
+}

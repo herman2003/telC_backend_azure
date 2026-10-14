@@ -1,0 +1,39 @@
+{
+  "slug": "negation-nicht-position-gram-t-297",
+  "titleFr": "La place de nicht",
+  "titleEn": "Negation — position of nicht",
+  "titleDe": "Negation — nicht Position",
+  "ruleFr": "## La place de *nicht*\n\n*nicht* nie le verbe / la phrase ou un élément précis. Sa place dépend de **ce qu’on nie**.\n\n### 1. Négation de toute la phrase\nSouvent **vers la fin** (avant la partie non finie de la parenthèse verbale) :\n- *Ich komme **nicht**.*\n- *Ich habe das Buch **nicht** gelesen.*\n- *Ich rufe dich **nicht** an.*\n\n### 2. Négation d’un élément précis\n*nicht* se place **juste avant** cet élément :\n- *Er wohnt **nicht** in Berlin.* (mais ailleurs)\n- *Das ist **nicht** teuer.* (adjectif)\n- *Sie spricht **nicht** schnell.* (adverbe)\n\n### Ne pas utiliser *nicht* devant un nom indéfini\nPour *ein / Ø* → plutôt **kein** (voir leçon *kein*).\n\n### Mini-entraînement\n1. Niez toute la phrase : *Ich gehe heute ins Kino.*\n2. Niez seulement le lieu : *Er arbeitet in München.*",
+  "ruleEn": "## Position of *nicht*\n\n*nicht* negates the verb/sentence or a specific element. Its place depends on **what you negate**.\n\n### 1. Negating the whole sentence\nOften **near the end** (before the non-finite verbal part):\n- *Ich komme **nicht**.*\n- *Ich habe das Buch **nicht** gelesen.*\n- *Ich rufe dich **nicht** an.*\n\n### 2. Negating a specific element\n*nicht* goes **right before** that element:\n- *Er wohnt **nicht** in Berlin.*\n- *Das ist **nicht** teuer.*\n- *Sie spricht **nicht** schnell.*\n\n### Don’t use *nicht* before an indefinite noun\nFor *ein / Ø* → use **kein** instead.\n\n### Mini practice\n1. Negate the whole sentence: *Ich gehe heute ins Kino.*\n2. Negate only the place: *Er arbeitet in München.*",
+  "ruleDe": "## Stellung von *nicht*\n\n*nicht* verneint den Satz oder ein Element. Die Stellung hängt vom **Skopus** ab.\n\n### 1. Satznegation\nOft **am Ende** (vor dem infiniten Teil):\n- *Ich komme **nicht**.*\n- *Ich habe das Buch **nicht** gelesen.*\n\n### 2. Negation eines Elements\n*nicht* **direkt davor**:\n- *Er wohnt **nicht** in Berlin.*\n- *Das ist **nicht** teuer.*\n\n### Mini-Übung\n1. Ganzen Satz verneinen.\n2. Nur den Ort verneinen.",
+  "notesFr": "*nicht* avant : adjectif, adverbe, préposition. *nicht* en fin : phrase entière.",
+  "notesEn": "*nicht* before: adjective, adverb, preposition. *nicht* at end: whole sentence.",
+  "notesDe": "*nicht* vor: Adjektiv, Adverb, Präposition. *nicht* am Ende: ganzer Satz.",
+  "examples": [
+    {
+      "de": "Ich komme heute nicht.",
+      "fr": "Je ne viens pas aujourd’hui. (négation de phrase)",
+      "en": "I’m not coming today. (sentence negation)"
+    },
+    {
+      "de": "Ich habe den Film nicht gesehen.",
+      "fr": "Je n’ai pas vu le film.",
+      "en": "I haven’t seen the film."
+    },
+    {
+      "de": "Er wohnt nicht in Berlin.",
+      "fr": "Il n’habite pas à Berlin. (*nicht* avant le lieu)",
+      "en": "He doesn’t live in Berlin. (*nicht* before place)"
+    },
+    {
+      "de": "Das Auto ist nicht teuer.",
+      "fr": "La voiture n’est pas chère.",
+      "en": "The car is not expensive."
+    },
+    {
+      "de": "Sie ruft mich nicht an.",
+      "fr": "Elle ne m’appelle pas.",
+      "en": "She isn’t calling me."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "verbstruktur-grundlagen-gram-f-126",
+  "titleFr": "Infinitif et conjugaison",
+  "titleEn": "Infinitive and conjugation",
+  "titleDe": "Verbstruktur — Infinitiv und Konjugation",
+  "ruleFr": "## De l’infinitif à la conjugaison\n\nDans le dictionnaire, on trouve toujours l’**infinitif**. Conjuguer = coller au radical la **bonne terminaison** selon le sujet.\n\n### Schéma\n1. Chercher l’infinitif (*spielen*)\n2. Isoler le radical (*spiel-*)\n3. Ajouter la terminaison (*ich spiel**e**, du spiel**st**…*)\n\n### Le sujet décide\n| Sujet | Rôle |\n|---|---|\n| ich | 1re sg. |\n| du | 2e sg. |\n| er/sie/es | 3e sg. |\n| wir / sie / Sie | formes en *-en* |\n| ihr | 2e pl. |\n\n### Mini-entraînement\nConjuguez *wohnen* avec tous les pronoms sujets.",
+  "ruleEn": "## From infinitive to conjugation\n\nDictionaries list the **infinitive**. Conjugation = stem + the **right ending** for the subject.\n\n### Steps\n1. Find infinitive (*spielen*)\n2. Get stem (*spiel-*)\n3. Add ending (*ich spiel**e**…*)\n\n### Mini practice\nConjugate *wohnen* with all subject pronouns.",
+  "ruleDe": "## Vom Infinitiv zur Konjugation\n\nIm Wörterbuch steht der Infinitiv. Konjugation = Stamm + Personalendung je nach Subjekt.\n\n### Mini-Übung\n*wohnen* mit allen Personalpronomen konjugieren.",
+  "notesFr": "Les terminaisons personnelles changent selon le sujet.",
+  "notesEn": "Personal endings change depending on the subject.",
+  "notesDe": "Personalendungen ändern sich je nach Subjekt.",
+  "examples": [
+    {
+      "de": "Infinitiv: wohnen → ich wohne",
+      "fr": "Infinitif : wohnen → ich wohne",
+      "en": "Infinitive: wohnen → ich wohne"
+    },
+    {
+      "de": "du wohnst in Berlin",
+      "fr": "tu habites à Berlin",
+      "en": "you live in Berlin"
+    },
+    {
+      "de": "er wohnt bei seinen Eltern",
+      "fr": "il habite chez ses parents",
+      "en": "he lives with his parents"
+    },
+    {
+      "de": "wir wohnen zusammen",
+      "fr": "nous habitons ensemble",
+      "en": "we live together"
+    },
+    {
+      "de": "Wo wohnen Sie?",
+      "fr": "Où habitez-vous ?",
+      "en": "Where do you live?"
+    }
+  ]
+}

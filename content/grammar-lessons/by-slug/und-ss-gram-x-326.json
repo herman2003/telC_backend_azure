@@ -1,0 +1,39 @@
+{
+  "slug": "und-ss-gram-x-326",
+  "titleFr": "ß et ss",
+  "titleEn": "ß and ss",
+  "titleDe": "ß und ss",
+  "ruleFr": "## ß et ss\n\nLe **ß** (Eszett / « s dur ») et le **ss** ne sont pas interchangeables : la règle dépend de la **longueur de la voyelle** devant.\n\n### Règle centrale (depuis 1996 / réforme)\n| Situation | Écriture | Exemples |\n|---|---|---|\n| Voyelle **longue** ou diphtongue devant | **ß** | *Maß*, *Fuß*, *heiß*, *weißen* |\n| Voyelle **courte** devant | **ss** | *Wasser*, *müssen*, *Klasse*, *Fluss* |\n\n### Test simple\n1. Prononcez la voyelle : longue → ß ; courte → ss.\n2. Au pluriel / dérivés : *der Fluss* → *die Flüsse* (u court → ss) ; *der Fuß* → *die Füße* (u long → ß).\n\n### Majuscule\nEn capitales : **SS** (ou **ẞ** moderne) : *STRASSE* / *STRAẞE*.\n\n### Suisse\nEn **suisse allemand écrit**, on n’utilise **pas** le ß : toujours *ss* (*Strasse*, *heiss*).\n\n### Erreurs fréquentes\n- *Strasse* (DE standard) → ✓ *Straße* (voyelle longue a)\n- *daß* (ancienne orthographe) → ✓ *dass* (conjonction ; a court)\n- Confondre *das* (article) et *dass* (conjonction)\n\n### Mini-entraînement\n1. Classez 10 mots : ß ou ss ?\n2. Corrigez : *heiss, muss, Fuss, Masse* (selon le sens).\n3. Écrivez 5 phrases avec *Straße*, *Wasser*, *heiß*, *müssen*, *dass*.",
+  "ruleEn": "## ß and ss\n\n**ß** (Eszett) and **ss** are not interchangeable: the rule depends on **vowel length** before them.\n\n### Core rule (post-1996 reform)\n| Situation | Spelling | Examples |\n|---|---|---|\n| **Long** vowel or diphthong before | **ß** | *Maß*, *Fuß*, *heiß*, *weißen* |\n| **Short** vowel before | **ss** | *Wasser*, *müssen*, *Klasse*, *Fluss* |\n\n### Simple test\n1. Say the vowel: long → ß; short → ss.\n2. Check plurals/derivatives: *der Fluss* → *die Flüsse* (short u → ss); *der Fuß* → *die Füße* (long u → ß).\n\n### Capitals\nIn all caps: **SS** (or modern **ẞ**): *STRASSE* / *STRAẞE*.\n\n### Switzerland\n**Swiss German spelling** does **not** use ß: always *ss* (*Strasse*, *heiss*).\n\n### Common mistakes\n- *Strasse* (standard DE) → ✓ *Straße* (long a)\n- old *daß* → ✓ *dass* (conjunction; short a)\n- Mixing up *das* (article) and *dass* (conjunction)\n\n### Mini practice\n1. Sort 10 words: ß or ss?\n2. Fix: *heiss, muss, Fuss, Masse* (by meaning).\n3. Write 5 sentences with *Straße*, *Wasser*, *heiß*, *müssen*, *dass*.",
+  "ruleDe": "## ß und ss\n\n**ß** (Eszett) und **ss** sind nicht austauschbar: Die Regel hängt von der **Vokallänge** davor ab.\n\n### Kernregel (seit Reform 1996)\n| Situation | Schreibweise | Beispiele |\n|---|---|---|\n| **Langer** Vokal oder Diphthong davor | **ß** | *Maß*, *Fuß*, *heiß*, *weißen* |\n| **Kurzer** Vokal davor | **ss** | *Wasser*, *müssen*, *Klasse*, *Fluss* |\n\n### Einfacher Test\n1. Vokal sprechen: lang → ß; kurz → ss.\n2. Plural/Ableitung prüfen: *der Fluss* → *die Flüsse* (kurz → ss); *der Fuß* → *die Füße* (lang → ß).\n\n### Versalien\nIn Großbuchstaben: **SS** (oder modernes **ẞ**): *STRASSE* / *STRAẞE*.\n\n### Schweiz\nIn der **Schweiz** gibt es **kein** ß: immer *ss* (*Strasse*, *heiss*).\n\n### Häufige Fehler\n- *Strasse* (DE Standard) → ✓ *Straße* (langes a)\n- altes *daß* → ✓ *dass* (Konjunktion; kurzes a)\n- *das* (Artikel) und *dass* (Konjunktion) verwechseln\n\n### Mini-Übung\n1. Ordnen Sie 10 Wörter: ß oder ss?\n2. Korrigieren Sie: *heiss, muss, Fuss, Masse*.\n3. Schreiben Sie 5 Sätze mit *Straße*, *Wasser*, *heiß*, *müssen*, *dass*.",
+  "notesFr": "En Suisse : pas de ß, toujours ss. En Allemagne/Autriche : ß après voyelle longue, ss après voyelle courte. *dass* (conjonction) s’écrit avec ss.",
+  "notesEn": "In Switzerland: no ß, always ss. In Germany/Austria: ß after long vowels, ss after short ones. Conjunction *dass* takes ss.",
+  "notesDe": "Schweiz: kein ß, immer ss. DE/AT: ß nach langem Vokal, ss nach kurzem. Die Konjunktion *dass* mit ss.",
+  "examples": [
+    {
+      "de": "Die Straße ist lang.",
+      "fr": "La rue est longue. (a long → ß.)",
+      "en": "The street is long. (long a → ß.)"
+    },
+    {
+      "de": "Das Wasser ist kalt.",
+      "fr": "L’eau est froide. (a court → ss.)",
+      "en": "The water is cold. (short a → ss.)"
+    },
+    {
+      "de": "Es ist heute sehr heiß.",
+      "fr": "Il fait très chaud aujourd’hui. (diphtongue ei → ß.)",
+      "en": "It is very hot today. (diphthong ei → ß.)"
+    },
+    {
+      "de": "Wir müssen lernen.",
+      "fr": "Nous devons apprendre. (ü court → ss.)",
+      "en": "We have to learn. (short ü → ss.)"
+    },
+    {
+      "de": "Ich weiß, dass er kommt.",
+      "fr": "Je sais qu’il vient. (*weiß* = ß ; *dass* = ss.)",
+      "en": "I know that he is coming. (*weiß* = ß; *dass* = ss.)"
+    }
+  ]
+}

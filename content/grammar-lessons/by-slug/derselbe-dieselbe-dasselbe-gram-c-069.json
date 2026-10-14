@@ -1,0 +1,39 @@
+{
+  "slug": "derselbe-dieselbe-dasselbe-gram-c-069",
+  "titleFr": "Derselbe vs der gleiche — identique ou semblable",
+  "titleEn": "Derselbe vs der gleiche — identical or of the same kind",
+  "titleDe": "derselbe/dieselbe/dasselbe",
+  "ruleFr": "## Derselbe ≠ der gleiche\n\nDistinction utile (surtout à l’écrit) :\n\n| expression | sens |\n|---|---|\n| **derselbe** | **identique** — la même chose / personne |\n| **der gleiche** | **de même type** — semblable, égal en genre |\n\n### Exemples\n- *Wir tragen **dieselbe** Jacke.* → une seule veste partagée / la même pièce précise (selon contexte).\n- *Wir tragen **die gleiche** Jacke.* → chacun une veste **du même modèle**.\n\n### Réalité orale\nBeaucoup de locuteurs **mélangent** les deux. Pour un examen ou un texte soigné, respectez la distinction.\n\n### Mini-entraînement\nInventez 2 paires de phrases illustrant la différence.",
+  "ruleEn": "## Derselbe ≠ der gleiche\n\nUseful distinction (especially in writing):\n\n| expression | meaning |\n|---|---|\n| **derselbe** | **identical** — the very same thing/person |\n| **der gleiche** | **same kind** — similar / matching type |\n\n### Examples\n- *dieselbe Jacke* → the identical jacket (shared/same item)\n- *die gleiche Jacke* → jackets of the same model\n\n### Spoken reality\nMany speakers mix them. For exams/careful writing, keep the distinction.\n\n### Mini practice\nInvent 2 sentence pairs showing the difference.",
+  "ruleDe": "## Derselbe ≠ der gleiche\n\n| Ausdruck | Sinn |\n|---|---|\n| **derselbe** | **identisch** |\n| **der gleiche** | **gleichartig** |\n\n### Beispiele\n- *dieselbe Jacke* → dieselbe Sache\n- *die gleiche Jacke* → gleiches Modell\n\n### Umgangssprache\nOft verwechselt. In Prüfungen die Unterscheidung beachten.\n\n### Mini-Übung\n2 Satzpaare zur Differenz bilden.",
+  "notesFr": "Important : *derselbe* = identique ; *der gleiche* = de même type. Souvent confondus à l’oral !",
+  "notesEn": "Important: *derselbe* = identical; *der gleiche* = same kind. Often mixed up in speech!",
+  "notesDe": "Wichtig: *derselbe* = identisch; *der gleiche* = gleichartig. Umgangssprachlich oft verwechselt!",
+  "examples": [
+    {
+      "de": "Wir wohnen in demselben Haus.",
+      "fr": "Nous habitons dans la même maison. (le même bâtiment.)",
+      "en": "We live in the same house. (the identical building.)"
+    },
+    {
+      "de": "Wir wohnen in dem gleichen Haustyp.",
+      "fr": "Nous habitons le même type de maison. (semblable.)",
+      "en": "We live in the same type of house. (same kind.)"
+    },
+    {
+      "de": "Sie hat denselben Schlüssel wie ich. (einen).",
+      "fr": "Elle a la même clé que moi (le double / la même).",
+      "en": "She has the same key as I do."
+    },
+    {
+      "de": "Wir haben die gleiche Meinung.",
+      "fr": "Nous avons la même opinion. (également partagée / de même teneur.)",
+      "en": "We have the same opinion."
+    },
+    {
+      "de": "Das ist nicht dasselbe — nur das Gleiche.",
+      "fr": "Ce n’est pas la même chose — seulement du même genre.",
+      "en": "That’s not the same thing — only the same kind."
+    }
+  ]
+}

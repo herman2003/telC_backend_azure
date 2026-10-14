@@ -1,0 +1,39 @@
+{
+  "slug": "dieser-diese-dieses-gram-c-057",
+  "titleFr": "Dieser / diese / dieses — montrer ce qui est proche",
+  "titleEn": "Dieser / diese / dieses — pointing to something near",
+  "titleDe": "dieser/diese/dieses",
+  "ruleFr": "## Dieser — « celui-ci / cette …-ci »\n\n**Dieser / diese / dieses** désigne quelque chose de **proche** (dans l’espace, le temps ou le discours) — comme *this* en anglais, ou *ce …-ci* en français.\n\n### Emploi\n- Montrer : *Welches Buch? — **Dieses** Buch.*\n- Contraste avec quelque chose de plus loin : *dieser* (proche) vs *jener* (loin, plus littéraire).\n- Reprendre ce qui vient d’être dit : *Dieses Problem kennen wir.*\n\n### Formes de base (nominatif)\n| masculin | féminin | neutre | pluriel |\n|---|---|---|---|\n| **dieser** Mann | **diese** Frau | **dieses** Kind | **diese** Leute |\n\n### À ne pas confondre\n- **der / die / das** = article défini (« le / la »)\n- **dieser / diese / dieses** = démonstratif (« ce …-ci »)\n\n### Mini-entraînement\nDésignez 5 objets autour de vous avec *dieser/diese/dieses* + nom.",
+  "ruleEn": "## Dieser — “this (one here)”\n\n**Dieser / diese / dieses** points to something **near** (space, time, or discourse) — like English *this*.\n\n### Use\n- Pointing: *Welches Buch? — **Dieses** Buch.*\n- Contrast with something farther: *dieser* (near) vs *jener* (far, more formal/literary).\n- Referring back: *Dieses Problem kennen wir.*\n\n### Basic forms (nominative)\n| masculine | feminine | neuter | plural |\n|---|---|---|---|\n| **dieser** Mann | **diese** Frau | **dieses** Kind | **diese** Leute |\n\n### Don’t confuse\n- **der / die / das** = definite article (“the”)\n- **dieser / diese / dieses** = demonstrative (“this”)\n\n### Mini practice\nPoint to 5 things around you with *dieser/diese/dieses* + noun.",
+  "ruleDe": "## Dieser — „dieser hier“\n\n**Dieser / diese / dieses** zeigt auf etwas **Nahes** (Raum, Zeit, Rede) — wie englisch *this*.\n\n### Gebrauch\n- Zeigen: *Welches Buch? — **Dieses** Buch.*\n- Kontrast zu Fernem: *dieser* vs *jener* (förmlicher/literarisch).\n- Rückverweis: *Dieses Problem kennen wir.*\n\n### Grundformen (Nominativ)\n| Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|\n| **dieser** Mann | **diese** Frau | **dieses** Kind | **diese** Leute |\n\n### Nicht verwechseln\n- **der/die/das** = bestimmter Artikel\n- **dieser/diese/dieses** = Demonstrativum\n\n### Mini-Übung\n5 Dinge um Sie herum mit *dieser/diese/dieses* + Nomen benennen.",
+  "notesFr": "Contraste : *dieser* (proche) vs *jener* (loin) — *jener* est plus formel / littéraire.",
+  "notesEn": "Contrast: *dieser* (near) vs *jener* (far) — *jener* is more formal/literary.",
+  "notesDe": "Gegensatz: *dieser* (nah) vs *jener* (fern) — *jener* ist formeller/literarisch.",
+  "examples": [
+    {
+      "de": "Dieser Mann wohnt hier.",
+      "fr": "Cet homme habite ici. (proche / désigné.)",
+      "en": "This man lives here. (near / pointed out.)"
+    },
+    {
+      "de": "Diese Frau ist meine Lehrerin.",
+      "fr": "Cette femme est mon enseignante.",
+      "en": "This woman is my teacher."
+    },
+    {
+      "de": "Dieses Buch ist interessant.",
+      "fr": "Ce livre est intéressant.",
+      "en": "This book is interesting."
+    },
+    {
+      "de": "Diese Schuhe passen mir.",
+      "fr": "Ces chaussures me vont.",
+      "en": "These shoes fit me."
+    },
+    {
+      "de": "Dieses Problem kenne ich.",
+      "fr": "Je connais ce problème.",
+      "en": "I know this problem."
+    }
+  ]
+}

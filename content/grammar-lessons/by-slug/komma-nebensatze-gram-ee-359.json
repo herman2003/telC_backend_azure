@@ -1,0 +1,39 @@
+{
+  "slug": "komma-nebensatze-gram-ee-359",
+  "titleFr": "Virgule — propositions subordonnées",
+  "titleEn": "Comma — subordinate clauses",
+  "titleDe": "Komma — Nebensätze",
+  "ruleFr": "## Virgule — propositions subordonnées\n\nEn allemand, on met **toujours une virgule** devant une subordonnée introduite par une conjonction.\n\n### Règle centrale\nVirgule avant : *dass, weil, wenn, obwohl, als, ob, damit, während, nachdem, bevor…*\n\n- *Ich weiß**,** dass er kommt.*\n- *Er bleibt**,** weil er müde ist.*\n- *Wenn du kommst**,** rufe ich an.* (virgule aussi après la subordonnée en tête)\n\n### Subordonnée en tête\n**Subordonnée + , + principale**\n\n- *Obwohl es regnet, gehen wir spazieren.*\n\n### Erreurs fréquentes\n- Oublier la virgule devant *dass* (calque de l’anglais *that* sans virgule).\n- Double virgule manquante autour d’une subordonnée encadrée.\n\n### Mini-entraînement\n1. Ajoutez les virgules dans 10 phrases.\n2. Écrivez 5 *weil / dass / wenn*-Sätze.\n3. Placez la subordonnée en tête + virgule.",
+  "ruleEn": "## Comma — subordinate clauses\n\nIn German, there is **always a comma** before a subordinate clause with a conjunction.\n\n### Core rule\nComma before: *dass, weil, wenn, obwohl, als, ob, damit, während, nachdem, bevor…*\n\n- *Ich weiß**,** dass er kommt.*\n- *Er bleibt**,** weil er müde ist.*\n- *Wenn du kommst**,** rufe ich an.*\n\n### Clause first\n**Subordinate + , + main clause**\n\n- *Obwohl es regnet, gehen wir spazieren.*\n\n### Common mistakes\n- Forgetting the comma before *dass* (English *that* has none).\n- Missing commas around an embedded clause.\n\n### Mini practice\n1. Add commas in 10 sentences.\n2. Write 5 *weil / dass / wenn* sentences.\n3. Front the subordinate clause + comma.",
+  "ruleDe": "## Komma — Nebensätze\n\nVor Nebensätzen mit Konjunktion steht **immer ein Komma**.\n\n### Kernregel\nKomma vor: *dass, weil, wenn, obwohl, als, ob, damit, während…*\n\n- *Ich weiß**,** dass er kommt.*\n- *Er bleibt**,** weil er müde ist.*\n- *Wenn du kommst**,** rufe ich an.*\n\n### Nebensatz vorne\n**Nebensatz + , + Hauptsatz**\n\n### Häufige Fehler\n- Komma vor *dass* vergessen.\n- Einschub ohne Kommas.\n\n### Mini-Übung\n1. Kommas in 10 Sätzen setzen.\n2. 5 *weil/dass/wenn*-Sätze schreiben.\n3. Nebensatz voranstellen.",
+  "notesFr": "TOUJOURS une virgule avant dass, weil, wenn, ob, als, obwohl, damit, während !",
+  "notesEn": "ALWAYS a comma before dass, weil, wenn, ob, als, obwohl, damit, während!",
+  "notesDe": "IMMER Komma vor dass, weil, wenn, ob, als, obwohl, damit, während!",
+  "examples": [
+    {
+      "de": "Ich weiß, dass er kommt.",
+      "fr": "Je sais qu’il vient.",
+      "en": "I know that he is coming."
+    },
+    {
+      "de": "Er bleibt zu Hause, weil er müde ist.",
+      "fr": "Il reste à la maison parce qu’il est fatigué.",
+      "en": "He stays home because he is tired."
+    },
+    {
+      "de": "Wenn du kommst, rufe ich an.",
+      "fr": "Si tu viens, j’appelle.",
+      "en": "If you come, I’ll call."
+    },
+    {
+      "de": "Obwohl es regnet, gehen wir spazieren.",
+      "fr": "Bien qu’il pleuve, nous allons nous promener.",
+      "en": "Although it is raining, we are going for a walk."
+    },
+    {
+      "de": "Sie fragt, ob wir Zeit haben.",
+      "fr": "Elle demande si nous avons le temps.",
+      "en": "She asks whether we have time."
+    }
+  ]
+}

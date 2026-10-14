@@ -1,0 +1,39 @@
+{
+  "slug": "es-korrelat-gram-aa-341",
+  "titleFr": "es — corrélat (renvoi au dass-Satz)",
+  "titleEn": "es — correlative",
+  "titleDe": "es — Korrelat",
+  "ruleFr": "## es — corrélat\n\n**es** peut **annoncer** une proposition (*dass…*) ou un infinitif qui suit.\n\n### Règle centrale\n*Es* + expression + **,** + *dass…* / *zu* + infinitif\n\n- *Es ist wichtig, dass du kommst.*\n- *Es freut mich, dass du da bist.*\n- *Es fällt mir schwer, früh aufzustehen.*\n\n### Expressions fréquentes\n| Allemand | Français |\n|---|---|\n| *Es ist wichtig / nötig / klar, dass…* | Il est important / nécessaire / clair que… |\n| *Es freut mich / wundert mich, dass…* | Cela me réjouit / m’étonne que… |\n| *Es scheint, dass…* | Il semble que… |\n| *Es lohnt sich, zu…* | Cela vaut la peine de… |\n\n### Omission possible\nParfois *es* tombe si la proposition est en tête :\n- *Dass du kommst, ist wichtig.*\n\n### Mini-entraînement\n1. Complétez : *Es ist …, dass…*\n2. Transformez en *Dass…, ist…*\n3. Écrivez 5 *Es freut / ärgert / wundert mich…*",
+  "ruleEn": "## es — correlative\n\n**es** can **point ahead** to a following *dass*-clause or infinitive.\n\n### Core rule\n*Es* + expression + **,** + *dass…* / *zu* + infinitive\n\n- *Es ist wichtig, dass du kommst.*\n- *Es freut mich, dass du da bist.*\n- *Es fällt mir schwer, früh aufzustehen.*\n\n### Common patterns\n| German | English |\n|---|---|\n| *Es ist wichtig / nötig / klar, dass…* | It is important / necessary / clear that… |\n| *Es freut mich / wundert mich, dass…* | I’m glad / surprised that… |\n| *Es scheint, dass…* | It seems that… |\n| *Es lohnt sich, zu…* | It’s worth … |\n\n### Omission\nSometimes *es* drops if the clause is fronted:\n- *Dass du kommst, ist wichtig.*\n\n### Mini practice\n1. Complete: *Es ist …, dass…*\n2. Transform to *Dass…, ist…*\n3. Write 5 *Es freut / ärgert / wundert mich…*",
+  "ruleDe": "## es — Korrelat\n\n**es** kann auf einen folgenden *dass*-Satz oder Infinitiv **vorausweisen**.\n\n### Kernregel\n*Es* + Ausdruck + **,** + *dass…* / *zu* + Infinitiv\n\n- *Es ist wichtig, dass du kommst.*\n- *Es freut mich, dass du da bist.*\n- *Es fällt mir schwer, früh aufzustehen.*\n\n### Häufige Muster\n- *Es ist wichtig / nötig / klar, dass…*\n- *Es freut / wundert mich, dass…*\n- *Es scheint, dass…*\n- *Es lohnt sich, zu…*\n\n### Wegfall\nManchmal fällt *es* weg, wenn der Nebensatz vorne steht:\n- *Dass du kommst, ist wichtig.*\n\n### Mini-Übung\n1. Ergänzen: *Es ist …, dass…*\n2. Umformen zu *Dass…, ist…*\n3. 5 Sätze mit *Es freut / ärgert / wundert mich…*",
+  "notesFr": "es renvoie à la proposition dass… ou à l’infinitif qui suit. Es ist wichtig, dass… / Es freut mich, dass…",
+  "notesEn": "es points to the following dass-clause or infinitive. Es ist wichtig, dass… / Es freut mich, dass…",
+  "notesDe": "es verweist auf den folgenden dass-Satz oder Infinitiv. Es ist wichtig, dass… / Es freut mich, dass…",
+  "examples": [
+    {
+      "de": "Es ist wichtig, dass du pünktlich bist.",
+      "fr": "Il est important que tu sois à l’heure.",
+      "en": "It is important that you are on time."
+    },
+    {
+      "de": "Es freut mich, dass du gekommen bist.",
+      "fr": "Je suis content(e) que tu sois venu(e).",
+      "en": "I’m glad that you came."
+    },
+    {
+      "de": "Es fällt mir schwer, Nein zu sagen.",
+      "fr": "Il m’est difficile de dire non.",
+      "en": "I find it hard to say no."
+    },
+    {
+      "de": "Es scheint, dass er Recht hat.",
+      "fr": "Il semble qu’il ait raison.",
+      "en": "It seems that he is right."
+    },
+    {
+      "de": "Dass du hilfst, ist sehr nett.",
+      "fr": "Que tu aides est très gentil. (*es* omis, *dass*-Satz en tête.)",
+      "en": "That you help is very kind. (*es* omitted, *dass*-clause fronted.)"
+    }
+  ]
+}

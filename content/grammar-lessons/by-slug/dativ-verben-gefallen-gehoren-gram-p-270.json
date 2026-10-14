@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-verben-gefallen-gehoren-gram-p-270",
+  "titleFr": "Verbes au datif — gefallen / gehören",
+  "titleEn": "Dative verbs — gefallen / gehören",
+  "titleDe": "Dativ-Verben — gefallen/gehören",
+  "ruleFr": "## *gefallen* et *gehören* (+ datif)\n\n### *gefallen* = plaire (structure inversée pour les francophones)\nLe **sujet** est la chose ; la personne est au **datif** :\n- **Das Kleid** gefällt **mir**. = La robe me plaît. / I like the dress.\n✗ *Ich gefalle das Kleid.*\n\n### *gehören* = appartenir à\n- Das Buch gehört **mir**.\n- Wem gehört **das** Auto?\n- Die Schlüssel gehören **dem** Nachbarn.\n\n### Attention\nAvec *gefallen*, accordez le verbe avec le **sujet** (la chose) :\n- Die Schuhe **gefallen** mir. (pluriel)\n\n### Mini-entraînement\n1. Reformulez *I like X* → *X gefällt mir*.\n2. 5 objets : *gehört mir / dir / ihm*.\n3. Corrigez la structure française calquée.",
+  "ruleEn": "## *gefallen* and *gehören* (+ dative)\n\n### *gefallen* = to please (word order feels reversed)\nThe **subject** is the thing; the person is **dative**:\n- **Das Kleid** gefällt **mir**. = I like the dress.\n✗ *Ich gefalle das Kleid.*\n\n### *gehören* = belong to\n- Das Buch gehört **mir**.\n- Wem gehört **das** Auto?\n\n### Watch out\nWith *gefallen*, the verb agrees with the **thing** (subject):\n- Die Schuhe **gefallen** mir. (plural)\n\n### Mini practice\n1. Rephrase *I like X* → *X gefällt mir*.\n2. Five objects: *gehört mir / dir / ihm*.\n3. Avoid English/French word order calques.",
+  "ruleDe": "## *gefallen* und *gehören* (+ Dativ)\n\n### *gefallen*\n**Das Kleid** gefällt **mir**.\n✗ *Ich gefalle das Kleid.*\n\n### *gehören*\nDas Buch gehört **mir**.\nWem gehört das Auto?\n\n### Achtung\nVerb kongruiert mit dem Subjekt (der Sache):\nDie Schuhe **gefallen** mir.\n\n### Mini-Übung\n1. *I like X* → *X gefällt mir*.\n2. *gehören* mit Pronomen.\n3. Wortstellung prüfen.",
+  "notesFr": "*gefallen* : le sujet plaît à quelqu’un (datif). Pas *Ich gefalle das Kleid*.",
+  "notesEn": "*gefallen*: the subject pleases someone (dative). Not *Ich gefalle das Kleid*.",
+  "notesDe": "gefallen: das Subjekt gefällt JEMANDEM (Dativ!). Nicht 'Ich gefalle das Kleid'!",
+  "examples": [
+    {
+      "de": "Das Kleid gefällt mir sehr.",
+      "fr": "Cette robe me plaît beaucoup.",
+      "en": "I like the dress a lot. / The dress pleases me."
+    },
+    {
+      "de": "Gefallen dir die neuen Schuhe?",
+      "fr": "Les nouvelles chaussures te plaisent-elles ?",
+      "en": "Do you like the new shoes?"
+    },
+    {
+      "de": "Dieses Haus gehört meiner Familie.",
+      "fr": "Cette maison appartient à ma famille.",
+      "en": "This house belongs to my family."
+    },
+    {
+      "de": "Wem gehört der Hund?",
+      "fr": "À qui est le chien ?",
+      "en": "Who does the dog belong to?"
+    },
+    {
+      "de": "Die Idee gefällt uns.",
+      "fr": "L’idée nous plaît.",
+      "en": "We like the idea."
+    }
+  ]
+}

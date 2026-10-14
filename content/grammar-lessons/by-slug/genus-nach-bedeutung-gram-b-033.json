@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-bedeutung-gram-b-033",
+  "titleFr": "Genre selon le sens : personnes et animaux femelles",
+  "titleEn": "Gender by meaning: female persons and animals",
+  "titleDe": "Genus nach Bedeutung — weibliche Personen und Tiere",
+  "ruleFr": "## Personnes et animaux femelles → souvent féminin\n\nLes êtres de sexe féminin prennent en général **die**.\n\n### Exemples\n- *die Frau, die Mutter, die Tochter, die Tante, die Lehrerin, die Ärztin*\n- *die Stute, die Henne, die Kuh*\n\n### Exceptions célèbres (diminutifs neutres)\n- ***das Mädchen*** (fille)\n- ***das Fräulein*** (vieilli : demoiselle)\n\nLe sens est féminin, le genre grammatical est **neutre** → pronom soigné : souvent *es*, même si l’usage oral peut glisser vers *sie*.\n\n### Mini-entraînement\n1. Formez 8 paires *der X / die X-in*.\n2. Expliquez pourquoi *das Mädchen* est neutre.\n3. Remplacez *das Mädchen* par un pronom dans 3 phrases.",
+  "ruleEn": "## Female persons and animals → usually feminine\n\nFemale beings usually take **die**.\n\n### Examples\n- *die Frau, die Mutter, die Tochter, die Tante, die Lehrerin, die Ärztin*\n- *die Stute, die Henne, die Kuh*\n\n### Famous exceptions (neuter diminutives)\n- ***das Mädchen*** (girl)\n- ***das Fräulein*** (dated: young lady)\n\nMeaning is female, grammatical gender is **neuter** → careful pronoun often *es*, though spoken usage may shift to *sie*.\n\n### Mini practice\n1. Form 8 pairs *der X / die X-in*.\n2. Explain why *das Mädchen* is neuter.\n3. Replace *das Mädchen* with a pronoun in 3 sentences.",
+  "ruleDe": "## Weibliche Personen und Tiere → meist Femininum\n\nWeibliche Lebewesen stehen meist mit **die**.\n\n### Beispiele\n- *die Frau, die Mutter, die Tochter, die Tante, die Lehrerin, die Ärztin*\n- *die Stute, die Henne, die Kuh*\n\n### Berühmte Ausnahmen (Neutrum)\n- ***das Mädchen***\n- ***das Fräulein*** (veraltet)\n\nBedeutung weiblich, Genus **Neutrum** → Pronomen oft *es*.\n\n### Mini-Übung\n1. Acht Paare *der X / die X-in*.\n2. Warum ist *das Mädchen* Neutrum?\n3. *das Mädchen* in 3 Sätzen pronominalisieren.",
+  "notesFr": "Exception à retenir absolument : *das Mädchen* — le *-chen* impose le neutre, pas le sens « fille ».",
+  "notesEn": "Must-know exception: *das Mädchen* — *-chen* forces neuter, not the meaning “girl”.",
+  "notesDe": "Muss-Ausnahme: *das Mädchen* — *-chen* erzwingt Neutrum, nicht die Bedeutung „Mädchen“.",
+  "examples": [
+    {
+      "de": "Die Mutter liest ein Buch.",
+      "fr": "La mère lit un livre. (*die Mutter*)",
+      "en": "The mother is reading a book. (*die Mutter*)"
+    },
+    {
+      "de": "Die Ärztin kommt gleich.",
+      "fr": "La médecin arrive tout de suite. (*die Ärztin*)",
+      "en": "The (female) doctor is coming soon. (*die Ärztin*)"
+    },
+    {
+      "de": "Die Kuh steht auf der Weide.",
+      "fr": "La vache est dans le pré. (*die Kuh*)",
+      "en": "The cow is in the meadow. (*die Kuh*)"
+    },
+    {
+      "de": "Das Mädchen spielt im Garten.",
+      "fr": "La fille joue dans le jardin. (*das Mädchen* = neutre)",
+      "en": "The girl is playing in the garden. (*das Mädchen* = neuter)"
+    },
+    {
+      "de": "Wo ist das Mädchen? Es ist draußen.",
+      "fr": "Où est la fille ? Elle est dehors. (*es* grammatical)",
+      "en": "Where is the girl? She/It is outside. (*es* grammatically)"
+    }
+  ]
+}

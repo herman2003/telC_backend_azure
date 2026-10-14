@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-r-290",
+  "titleFr": "Erreurs fréquentes : verbe pas à la fin",
+  "titleEn": "Common mistakes: verb not at the end",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur fréquente : verbe pas à la fin du Nebensatz\n\nAprès *weil, dass, wenn, ob, als, obwohl…*, le verbe conjugué doit être à la **fin**.\n\n### Le piège\n✗ *Ich weiß, dass er kommt morgen.*\n✓ *Ich weiß, dass er morgen **kommt**.*\n\n### Autres corrections\n- ✗ *…, weil ich bin müde.* → ✓ *…, weil ich müde **bin**.*\n- ✗ *…, wenn du hast Zeit.* → ✓ *…, wenn du Zeit **hast**.*\n- ✗ *…, obwohl es regnet stark.* → ✓ *…, obwohl es stark **regnet**.*\n\n### Astuce\nÉcrivez d’abord la conjonction, puis tous les compléments, **puis** le verbe.\n\n### Mini-entraînement\nCorrigez 5 subordonnées avec le verbe trop tôt.",
+  "ruleEn": "## Common mistake: verb not at the end of the subordinate clause\n\nAfter *weil, dass, wenn, ob, als, obwohl…*, the conjugated verb must be at the **end**.\n\n### The trap\n✗ *Ich weiß, dass er kommt morgen.*\n✓ *Ich weiß, dass er morgen **kommt**.*\n\n### More fixes\n- ✗ *…, weil ich bin müde.* → ✓ *…, weil ich müde **bin**.*\n- ✗ *…, wenn du hast Zeit.* → ✓ *…, wenn du Zeit **hast**.*\n- ✗ *…, obwohl es regnet stark.* → ✓ *…, obwohl es stark **regnet**.*\n\n### Tip\nWrite the conjunction first, then all complements, **then** the verb.\n\n### Mini practice\nFix 5 subordinate clauses with the verb too early.",
+  "ruleDe": "## Häufiger Fehler: Verb nicht am Ende im Nebensatz\n\nNach *weil, dass, wenn, ob, als, obwohl…* muss das finite Verb am **Ende** stehen.\n\n### Die Falle\n✗ *Ich weiß, dass er kommt morgen.*\n✓ *Ich weiß, dass er morgen **kommt**.*\n\n### Weitere Korrekturen\n- ✗ *…, weil ich bin müde.* → ✓ *…, weil ich müde **bin**.*\n- ✗ *…, wenn du hast Zeit.* → ✓ *…, wenn du Zeit **hast**.*\n\n### Tipp\nZuerst Konjunktion, dann Angaben, **dann** Verb.\n\n### Mini-Übung\n5 Nebensätze mit zu frühem Verb korrigieren.",
+  "notesFr": "*weil, dass, wenn, ob, als, obwohl* → verbe à la FIN !",
+  "notesEn": "*weil, dass, wenn, ob, als, obwohl* → verb at the END!",
+  "notesDe": "*weil, dass, wenn, ob, als, obwohl* → Verb ans ENDE!",
+  "examples": [
+    {
+      "de": "Ich weiß, dass er morgen kommt.",
+      "fr": "Je sais qu’il vient demain. (pas *dass er kommt morgen*)",
+      "en": "I know that he’s coming tomorrow. (not *dass er kommt morgen*)"
+    },
+    {
+      "de": "Sie bleibt zu Hause, weil sie krank ist.",
+      "fr": "Elle reste à la maison parce qu’elle est malade.",
+      "en": "She’s staying home because she’s ill."
+    },
+    {
+      "de": "Ruf mich an, wenn du Zeit hast.",
+      "fr": "Appelle-moi quand tu as le temps.",
+      "en": "Call me when you have time."
+    },
+    {
+      "de": "Ich frage mich, ob das stimmt.",
+      "fr": "Je me demande si c’est vrai.",
+      "en": "I wonder whether that’s true."
+    },
+    {
+      "de": "Obwohl wir wenig geschlafen haben, sind wir früh aufgestanden.",
+      "fr": "Bien que nous ayons peu dormi, nous nous sommes levés tôt.",
+      "en": "Although we slept little, we got up early."
+    }
+  ]
+}

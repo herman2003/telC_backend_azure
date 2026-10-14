@@ -1,0 +1,39 @@
+{
+  "slug": "possessivpronomen-zuordnung-gram-d-089",
+  "titleFr": "Déterminants possessifs — correspondance avec les personnes",
+  "titleEn": "Possessive determiners — mapping to persons",
+  "titleDe": "Possessivpronomen — Zuordnung",
+  "ruleFr": "## Chaque pronom personnel → un possessif\n\n| personnel | possessif | sens |\n|---|---|---|\n| ich | mein | mon / ma / mes |\n| du | dein | ton / ta / tes |\n| er | sein | son (à lui) |\n| sie (f) | ihr | son (à elle) |\n| es | sein | son (à « ça ») |\n| wir | unser | notre / nos |\n| ihr | euer | votre / vos (tutoiement pl.) |\n| sie (pl) | ihr | leur / leurs |\n| Sie | Ihr | votre / vos (politesse) |\n\n### Attention\n**sein** (his/its) vs **ihr** (her/their) : dépend du **possesseur**, pas de l’objet !\n\n- *der Mann → **sein** Auto*\n- *die Frau → **ihr** Auto*\n- *die Leute → **ihr** Auto*\n\n### Mini-entraînement\nRemplacez le possesseur nominal par le bon possessif.",
+  "ruleEn": "## Each personal pronoun → one possessive\n\n| personal | possessive |\n|---|---|\n| ich | mein |\n| du | dein |\n| er / es | sein |\n| sie (f/pl) | ihr |\n| wir | unser |\n| ihr | euer |\n| Sie | Ihr |\n\n### Watch out\n**sein** (his/its) vs **ihr** (her/their) depends on the **owner**, not the object!\n\n### Mini practice\nReplace the nominal owner with the right possessive.",
+  "ruleDe": "## Jedes Personalpronomen → ein Possessiv\n\nich→mein · du→dein · er/es→sein · sie→ihr · wir→unser · ihr→euer · Sie→Ihr\n\n### Achtung\n**sein** vs **ihr** — hängt vom **Besitzer** ab!\n\n### Mini-Übung\nNominalen Besitzer durch Possessiv ersetzen.",
+  "notesFr": "Attention : *sein* (his/its) vs *ihr* (her/their) — selon le contexte !",
+  "notesEn": "Watch: *sein* (his/its) vs *ihr* (her/their) — depends on context!",
+  "notesDe": "Achtung: *sein* (his/its) vs *ihr* (her/their) — vom Kontext abhängig!",
+  "examples": [
+    {
+      "de": "Der Mann sucht sein Handy.",
+      "fr": "L’homme cherche son portable. (sein ← er.)",
+      "en": "The man is looking for his phone. (sein ← er.)"
+    },
+    {
+      "de": "Die Frau sucht ihr Handy.",
+      "fr": "La femme cherche son portable. (ihr ← sie.)",
+      "en": "The woman is looking for her phone. (ihr ← sie.)"
+    },
+    {
+      "de": "Das Kind sucht sein Spielzeug.",
+      "fr": "L’enfant cherche son jouet. (sein ← es.)",
+      "en": "The child is looking for its toy. (sein ← es.)"
+    },
+    {
+      "de": "Die Studenten schreiben ihre Prüfung.",
+      "fr": "Les étudiants passent leur examen. (ihr ← sie pl.)",
+      "en": "The students are taking their exam. (ihr ← they.)"
+    },
+    {
+      "de": "Haben Sie Ihr Ticket?",
+      "fr": "Avez-vous votre billet ?",
+      "en": "Do you have your ticket?"
+    }
+  ]
+}

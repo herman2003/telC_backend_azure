@@ -1,0 +1,39 @@
+{
+  "slug": "possessivpronomen-deklination-gram-d-092",
+  "titleFr": "Déterminants possessifs — datif",
+  "titleEn": "Possessive determiners — dative",
+  "titleDe": "Possessivpronomen — Deklination",
+  "ruleFr": "## Datif des possessifs\n\nTerminaisons comme *dem / der / dem / den* :\n\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| | **meinem** Vater | **meiner** Mutter | **meinem** Kind | **meinen** Eltern |\n\n### Exemples\n*Ich helfe **meinem** Bruder.* · *Das gehört **meiner** Schwester.* · *Wir danken **unseren** Lehrern.*\n\n### Mini-entraînement\nComplétez *mit ___ (mein) Freund / Freundin / Kind / Freunden*.",
+  "ruleEn": "## Dative of possessives\n\nEndings like *dem / der / dem / den*:\n\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| | **meinem** Vater | **meiner** Mutter | **meinem** Kind | **meinen** Eltern |\n\n### Mini practice\nComplete *mit ___ (mein) Freund / Freundin / Kind / Freunden*.",
+  "ruleDe": "## Dativ der Possessiva\n\nEndungen wie *dem/der/dem/den*:\n\n**meinem** Vater · **meiner** Mutter · **meinem** Kind · **meinen** Eltern\n\n### Mini-Übung\n*mit ___ Freund/Freundin/Kind/Freunden* (mein).",
+  "notesFr": "Mêmes terminaisons que l’article : *dem/der/dem/den*.",
+  "notesEn": "Same endings as the article: *dem/der/dem/den*.",
+  "notesDe": "Gleiche Endungen wie beim Artikel: *dem/der/dem/den*.",
+  "examples": [
+    {
+      "de": "Ich helfe meinem Bruder.",
+      "fr": "J’aide mon frère. (meinem.)",
+      "en": "I help my brother. (meinem.)"
+    },
+    {
+      "de": "Das gehört meiner Schwester.",
+      "fr": "Cela appartient à ma sœur. (meiner.)",
+      "en": "That belongs to my sister. (meiner.)"
+    },
+    {
+      "de": "Wir spielen mit unserem Kind.",
+      "fr": "Nous jouons avec notre enfant. (unserem.)",
+      "en": "We play with our child. (unserem.)"
+    },
+    {
+      "de": "Sie spricht mit ihren Freunden.",
+      "fr": "Elle parle avec ses amis. (ihren + pluriel.)",
+      "en": "She talks with her friends. (ihren + plural.)"
+    },
+    {
+      "de": "Ich fahre zu meinem Arzt.",
+      "fr": "Je vais chez mon médecin.",
+      "en": "I’m going to my doctor."
+    }
+  ]
+}

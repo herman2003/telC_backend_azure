@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-bedeutung-gram-b-035",
+  "titleFr": "Météo et points cardinaux : souvent masculins",
+  "titleEn": "Weather and cardinal directions: mostly masculine",
+  "titleDe": "Genus nach Bedeutung — Wetter und Himmelsrichtungen",
+  "ruleFr": "## Phénomènes météo et directions → souvent *der*\n\n### Souvent masculins\n- Météo : *der Regen, der Schnee, der Wind, der Sturm, der Nebel, der Hagel*\n- Points cardinaux : *der Norden, der Süden, der Osten, der Westen*\n\n### Exceptions féminines utiles\n- ***die Sonne***, ***die Wolke***, ***die Luft***, parfois *die Hitze / die Kälte* (états)\n\n### Structures\n- *im Norden / im Süden*\n- *bei Regen* / *der Regen fällt*\n\n### Mini-entraînement\n1. Apprenez 8 noms météo avec article.\n2. Formez : *Im ___ ist es warm.* (direction)\n3. Notez 3 exceptions féminines.",
+  "ruleEn": "## Weather and directions → often *der*\n\n### Often masculine\n- Weather: *der Regen, der Schnee, der Wind, der Sturm, der Nebel, der Hagel*\n- Cardinal points: *der Norden, der Süden, der Osten, der Westen*\n\n### Useful feminine exceptions\n- ***die Sonne***, ***die Wolke***, ***die Luft***, also *die Hitze / die Kälte*\n\n### Patterns\n- *im Norden / im Süden*\n- *bei Regen* / *der Regen fällt*\n\n### Mini practice\n1. Learn 8 weather nouns with article.\n2. Form: *Im ___ ist es warm.* (direction)\n3. Note 3 feminine exceptions.",
+  "ruleDe": "## Wetter und Himmelsrichtungen → oft *der*\n\n### Oft maskulin\n- Wetter: *der Regen, der Schnee, der Wind, der Sturm, der Nebel, der Hagel*\n- Himmelsrichtungen: *der Norden, der Süden, der Osten, der Westen*\n\n### Wichtige feminine Ausnahmen\n- ***die Sonne***, ***die Wolke***, ***die Luft***, auch *die Hitze / die Kälte*\n\n### Muster\n- *im Norden / im Süden*\n- *bei Regen* / *der Regen fällt*\n\n### Mini-Übung\n1. Acht Wetterwörter mit Artikel.\n2. Bilden: *Im ___ ist es warm.*\n3. Drei feminine Ausnahmen notieren.",
+  "notesFr": "Retenez le bloc *der Regen / der Schnee / der Wind* et l’exception star *die Sonne*.",
+  "notesEn": "Remember the block *der Regen / der Schnee / der Wind* and the star exception *die Sonne*.",
+  "notesDe": "Block merken: *der Regen / der Schnee / der Wind* — und Star-Ausnahme *die Sonne*.",
+  "examples": [
+    {
+      "de": "Der Regen fällt seit Stunden.",
+      "fr": "La pluie tombe depuis des heures. (*der Regen*)",
+      "en": "The rain has been falling for hours. (*der Regen*)"
+    },
+    {
+      "de": "Der Wind ist heute stark.",
+      "fr": "Le vent est fort aujourd’hui. (*der Wind*)",
+      "en": "The wind is strong today. (*der Wind*)"
+    },
+    {
+      "de": "Im Norden ist es kälter.",
+      "fr": "Dans le nord, il fait plus froid. (*der Norden*)",
+      "en": "In the north it is colder. (*der Norden*)"
+    },
+    {
+      "de": "Die Sonne scheint.",
+      "fr": "Le soleil brille. (exception : *die Sonne*)",
+      "en": "The sun is shining. (exception: *die Sonne*)"
+    },
+    {
+      "de": "Die Wolken kommen von Westen.",
+      "fr": "Les nuages viennent de l’ouest. (*die Wolken* / *der Westen*)",
+      "en": "The clouds are coming from the west. (*die Wolken* / *der Westen*)"
+    }
+  ]
+}

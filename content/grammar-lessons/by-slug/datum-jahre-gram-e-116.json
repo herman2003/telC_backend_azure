@@ -1,0 +1,39 @@
+{
+  "slug": "datum-jahre-gram-e-116",
+  "titleFr": "Les années",
+  "titleEn": "Years",
+  "titleDe": "Datum — Jahre",
+  "ruleFr": "## Exprimer l’année\n\n### Règles\n- On dit l’année **sans** *in* : *Ich bin **2020** nach Berlin gezogen.*\n- Ou avec ***im Jahr*** : *im Jahr 2020*\n- ✗ *in 2026* (calque de l’anglais) → ✓ *2026* / *im Jahr 2026*\n\n### Lecture des années\n- Jusqu’en 1999 souvent : *neunzehnhundert…* (19xx)\n- À partir de 2000 : *zweitausend…* / *zwanzig…*\n  - 2026 = *zweitausendsechsundzwanzig* ou *zwanzig sechsundzwanzig*\n\n### Mini-entraînement\nLisez : 1989, 2001, 2015, 2026.",
+  "ruleEn": "## Saying the year\n\n### Rules\n- Year **without** *in*: *Ich bin **2020** nach Berlin gezogen.*\n- Or ***im Jahr***: *im Jahr 2020*\n- ✗ *in 2026* → ✓ *2026* / *im Jahr 2026*\n\n### Reading years\n- Until 1999 often: *neunzehnhundert…*\n- From 2000: *zweitausend…* / *zwanzig…*\n\n### Mini practice\nRead: 1989, 2001, 2015, 2026.",
+  "ruleDe": "## Jahreszahlen\n\nOhne *in*: *2020* · oder *im Jahr 2020*\nFalsch: *in 2026*\n\n### Mini-Übung\n1989, 2001, 2015, 2026 vorlesen.",
+  "notesFr": "FAUX : in 2026. CORRECT : 2026 / im Jahr 2026.",
+  "notesEn": "WRONG: in 2026. RIGHT: 2026 / im Jahr 2026.",
+  "notesDe": "FALSCH: in 2026. RICHTIG: 2026 / im Jahr 2026.",
+  "examples": [
+    {
+      "de": "Ich bin 2018 nach Deutschland gekommen.",
+      "fr": "Je suis venu(e) en Allemagne en 2018. (sans « in ».)",
+      "en": "I came to Germany in 2018. (no “in” before the year.)"
+    },
+    {
+      "de": "Im Jahr 2020 war vieles anders.",
+      "fr": "En l’an 2020, beaucoup de choses étaient différentes.",
+      "en": "In the year 2020, much was different."
+    },
+    {
+      "de": "Goethe wurde 1749 geboren.",
+      "fr": "Goethe est né en 1749.",
+      "en": "Goethe was born in 1749."
+    },
+    {
+      "de": "Die Olympischen Spiele finden 2028 statt.",
+      "fr": "Les Jeux olympiques ont lieu en 2028.",
+      "en": "The Olympic Games take place in 2028."
+    },
+    {
+      "de": "Zweitausendsechsundzwanzig beginnt ein neues Projekt.",
+      "fr": "En 2026 commence un nouveau projet.",
+      "en": "In 2026 a new project begins."
+    }
+  ]
+}

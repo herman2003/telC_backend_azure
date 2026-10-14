@@ -1,0 +1,39 @@
+{
+  "slug": "prateritum-grundlagen-gram-g-164",
+  "titleFr": "Prétérit — bases",
+  "titleEn": "Simple past — basics",
+  "titleDe": "Präteritum — Grundlagen",
+  "ruleFr": "## Le Präteritum (passé simple allemand)\n\nLe **Präteritum** exprime le passé en **une** forme verbale (*ich machte*, *ich ging*).\n\n### Où on l’utilise\n- **écriture** : romans, articles, rapports\n- **langue formelle** / récits\n- À l’**oral** : surtout *sein*, *haben*, verbes de modalité (*war*, *hatte*, *konnte*…)\n\n### Comparaison rapide\n| Oral (souvent) | Écrit (souvent) |\n|---|---|\n| Ich **habe** das **gemacht**. | Ich **machte** das. |\n| Ich **bin** **gegangen**. | Ich **ging**. |\n\n### Mini-entraînement\nRepérez dans un petit texte 5 formes au Präteritum.",
+  "ruleEn": "## The simple past (Präteritum)\n\nThe **Präteritum** expresses the past in **one** verb form (*ich machte*, *ich ging*).\n\n### Where it is used\n- **writing**: novels, articles, reports\n- **formal** language / narratives\n- In **speech**: mainly *sein*, *haben*, modals (*war*, *hatte*, *konnte*…)\n\n### Quick comparison\n| Spoken (often) | Written (often) |\n|---|---|\n| Ich **habe** das **gemacht**. | Ich **machte** das. |\n| Ich **bin** **gegangen**. | Ich **ging**. |\n\n### Mini practice\nIn a short text, find 5 Präteritum forms.",
+  "ruleDe": "## Präteritum — Grundlagen\n\nDas **Präteritum** ist die einfache Vergangenheit (*ich machte*, *ich ging*).\n\n### Wo verwendet man es?\n- in der **Schrift**: Bücher, Nachrichten, Berichte\n- formelle Sprache / Erzählungen\n- **mündlich** vor allem: *sein*, *haben*, Modalverben (*war*, *hatte*, *konnte*…)\n\n### Kurzvergleich\n| Gesprochen (oft) | Geschrieben (oft) |\n|---|---|\n| Ich **habe** das **gemacht**. | Ich **machte** das. |\n| Ich **bin** **gegangen**. | Ich **ging**. |\n\n### Mini-Übung\nMarkieren Sie in einem Kurztext 5 Präteritum-Formen.",
+  "notesFr": "À l’oral : surtout Perfekt. Präteritum = livres, actualités — sauf *war/hatte*.",
+  "notesEn": "In speech: mostly Perfekt. Präteritum = books, news — except *war/hatte*.",
+  "notesDe": "Im gesprochenen Deutsch meist Perfekt! Präteritum = Bücher, Nachrichten.",
+  "examples": [
+    {
+      "de": "Gestern machte er seine Hausaufgaben.",
+      "fr": "Hier, il fit / a fait ses devoirs. (écrit / narratif)",
+      "en": "Yesterday he did his homework. (written/narrative)"
+    },
+    {
+      "de": "Es war einmal eine Königin.",
+      "fr": "Il était une fois une reine.",
+      "en": "Once upon a time there was a queen."
+    },
+    {
+      "de": "Der Bericht beschrieb die Lage genau.",
+      "fr": "Le rapport décrivait la situation précisément.",
+      "en": "The report described the situation precisely."
+    },
+    {
+      "de": "Ich hatte keine Zeit.",
+      "fr": "Je n’avais pas le temps. (aussi naturel à l’oral)",
+      "en": "I had no time. (also natural in speech)"
+    },
+    {
+      "de": "Sie ging zur Tür und öffnete sie.",
+      "fr": "Elle alla à la porte et l’ouvrit.",
+      "en": "She went to the door and opened it."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "uhrzeit-viertel-gram-e-121",
+  "titleFr": "L’heure avec « Viertel »",
+  "titleEn": "Time with “Viertel”",
+  "titleDe": "Uhrzeit — Viertel",
+  "ruleFr": "## Les quarts d’heure\n\n### Formules standards\n- ***Viertel nach*** acht = **8:15**\n- ***Viertel vor*** acht = **7:45**\n\n### Variantes régionales (à connaître)\n- *viertel acht* = souvent **7:15** (un quart vers huit)\n- *dreiviertel acht* = **7:45**\n\nSelon la région, les usages diffèrent — en cours, préférez *Viertel nach / Viertel vor*.\n\n### Mini-entraînement\nDites 3:15, 3:45, 10:15, 10:45.",
+  "ruleEn": "## Quarter hours\n\n### Standard formulas\n- ***Viertel nach*** acht = **8:15**\n- ***Viertel vor*** acht = **7:45**\n\n### Regional variants\n- *viertel acht* ≈ **7:15**\n- *dreiviertel acht* ≈ **7:45**\n\nIn class, prefer *Viertel nach / Viertel vor*.\n\n### Mini practice\nSay 3:15, 3:45, 10:15, 10:45.",
+  "ruleDe": "## Viertelstunden\n\n*Viertel nach acht* = 8:15 · *Viertel vor acht* = 7:45\nRegional: *viertel acht*, *dreiviertel acht*\n\n### Mini-Übung\n3:15, 3:45, 10:15, 10:45.",
+  "notesFr": "Régional aussi : viertel acht (7:15), dreiviertel acht (7:45).",
+  "notesEn": "Regional also: viertel acht (7:15), dreiviertel acht (7:45).",
+  "notesDe": "Regional auch: viertel acht (7:15), dreiviertel acht (7:45).",
+  "examples": [
+    {
+      "de": "Es ist Viertel nach drei.",
+      "fr": "Il est trois heures et quart. (3:15)",
+      "en": "It is a quarter past three. (3:15)"
+    },
+    {
+      "de": "Es ist Viertel vor acht.",
+      "fr": "Il est huit heures moins le quart. (7:45)",
+      "en": "It is a quarter to eight. (7:45)"
+    },
+    {
+      "de": "Der Bus kommt um Viertel nach zehn.",
+      "fr": "Le bus arrive à dix heures et quart.",
+      "en": "The bus comes at a quarter past ten."
+    },
+    {
+      "de": "Wir starten um Viertel vor neun.",
+      "fr": "Nous commençons à neuf heures moins le quart.",
+      "en": "We start at a quarter to nine."
+    },
+    {
+      "de": "Dreiviertel sieben — fast Feierabend.",
+      "fr": "Six heures trois quarts — bientôt la fin de journée. (variante régionale 6:45)",
+      "en": "Dreiviertel sieben — almost quitting time. (regional 6:45)"
+    }
+  ]
+}

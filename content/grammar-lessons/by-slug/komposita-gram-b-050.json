@@ -1,0 +1,39 @@
+{
+  "slug": "komposita-gram-b-050",
+  "titleFr": "Les mots composés — sons de liaison (Fugenlaute)",
+  "titleEn": "Compound nouns — linking sounds (Fugenlaute)",
+  "titleDe": "Komposita",
+  "ruleFr": "## Fugenelemente — le « colle » entre les parties\n\nParfois on ajoute un son entre A et B : **-s**, **-es**, **-n**, **-en**, **-er**, ou **rien**.\n\n### Exemples courants\n| sans / avec liaison | composé |\n|---|---|\n| Liebe + s + Brief | **der Liebesbrief** |\n| Arbeit + s + Platz | **der Arbeitsplatz** |\n| Tag + es + Licht | **das Tageslicht** |\n| Frau + en + Arzt | **der Frauenarzt** |\n| Kind + er + Garten | **der Kindergarten** |\n| Haus + Ø + Tür | **die Haustür** (pas de -s) |\n\n### Ce qu’il faut retenir\n1. Le Fugenlaut **ne change pas** le genre : le genre vient toujours du **dernier** mot.\n2. Il n’y a **pas** de règle unique à 100 % — beaucoup de formes se mémorisent.\n3. Indices fréquents :\n   - noms en *-ung*, *-heit*, *-schaft*, *-keit* → souvent **-s-** (*die Wohnungsnot*)\n   - pluriel interne parfois visible : *Kinder-*, *Frauen-*\n\n### Erreur fréquente\nInventer un *-s-* partout : ✗ *Hauss-tür* → ✓ **Haustür**.\n\n### Mini-entraînement\nListez 6 composés : 3 avec *-s-*, 3 sans liaison.",
+  "ruleEn": "## Linking elements (Fugenlaute)\n\nSometimes a sound joins A and B: **-s**, **-es**, **-n**, **-en**, **-er**, or **nothing**.\n\n### Common examples\n| linking | compound |\n|---|---|\n| Liebe + s + Brief | **der Liebesbrief** |\n| Arbeit + s + Platz | **der Arbeitsplatz** |\n| Tag + es + Licht | **das Tageslicht** |\n| Frau + en + Arzt | **der Frauenarzt** |\n| Kind + er + Garten | **der Kindergarten** |\n| Haus + Ø + Tür | **die Haustür** |\n\n### Takeaways\n1. The linking sound does **not** change gender — last word still rules.\n2. No 100% rule — many forms are memorized.\n3. Frequent cue: *-ung/-heit/-schaft/-keit* often take **-s-**.\n\n### Common mistake\nAdding *-s-* everywhere: ✗ *Hauss-tür* → ✓ **Haustür**.\n\n### Mini practice\nList 6 compounds: 3 with *-s-*, 3 without.",
+  "ruleDe": "## Fugenelemente\n\nManchmal steht zwischen A und B ein Laut: **-s**, **-es**, **-n**, **-en**, **-er** oder **nichts**.\n\n### Beispiele\n| Fuge | Kompositum |\n|---|---|\n| Liebe + s + Brief | **der Liebesbrief** |\n| Arbeit + s + Platz | **der Arbeitsplatz** |\n| Tag + es + Licht | **das Tageslicht** |\n| Frau + en + Arzt | **der Frauenarzt** |\n| Kind + er + Garten | **der Kindergarten** |\n| Haus + Ø + Tür | **die Haustür** |\n\n### Merken\n1. Die Fuge ändert das Genus **nicht**.\n2. Keine 100%-Regel — vieles auswendig.\n3. *-ung/-heit/-schaft/-keit* oft mit **-s-**.\n\n### Fehler\nÜberall *-s-*: ✗ *Hauss-tür* → ✓ **Haustür**.\n\n### Mini-Übung\n6 Komposita: 3 mit *-s-*, 3 ohne.",
+  "notesFr": "Fugenelemente possibles : *-s, -es, -n, -en, -er*, ou rien — le genre reste celui du dernier mot.",
+  "notesEn": "Possible linking elements: *-s, -es, -n, -en, -er*, or nothing — gender still follows the last word.",
+  "notesDe": "Fugenelemente: *-s, -es, -n, -en, -er* oder nichts — Genus bleibt beim letzten Wort.",
+  "examples": [
+    {
+      "de": "Der Liebesbrief ist lang.",
+      "fr": "La lettre d’amour est longue. (Liebe**s**brief.)",
+      "en": "The love letter is long. (Liebe**s**brief.)"
+    },
+    {
+      "de": "Mein Arbeitsplatz ist neu.",
+      "fr": "Mon poste de travail est neuf. (Arbeit**s**platz.)",
+      "en": "My workplace is new. (Arbeit**s**platz.)"
+    },
+    {
+      "de": "Das Tageslicht ist hell.",
+      "fr": "La lumière du jour est vive. (Tag**es**licht.)",
+      "en": "The daylight is bright. (Tag**es**licht.)"
+    },
+    {
+      "de": "Der Kindergarten öffnet um acht.",
+      "fr": "Le jardin d’enfants ouvre à huit heures. (Kind**er**garten.)",
+      "en": "The kindergarten opens at eight. (Kind**er**garten.)"
+    },
+    {
+      "de": "Die Haustür knarrt.",
+      "fr": "La porte d’entrée grince. (pas de Fuge.)",
+      "en": "The front door creaks. (no linking sound.)"
+    }
+  ]
+}
