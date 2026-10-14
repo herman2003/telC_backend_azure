@@ -71,6 +71,11 @@ model Student {
   notifications   Notification[]
   activities      StudentActivity[]
   training_audio_plays TrainingAudioPlay[]
+  writing_attempts         WritingAttempt[]
+  listening_attempts       ListeningAttempt[]
+  sprachbausteine_attempts SprachbausteineAttempt[]
+  lesen_attempts           LesenAttempt[]
+  speaking_attempts        SpeakingAttempt[]
 
   @@index([center_id])
   @@index([email])
@@ -643,6 +648,9 @@ model WritingAttempt {
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id])
   @@index([erasure_id])
   @@map("writing_attempts")
 }
@@ -668,7 +676,6 @@ model ListeningAttempt {
   /// every training row written before this stays as it was.
   answers Json?
 
-  // Column only, no relation — matches WritingAttempt and SprachbausteineAttempt.
   // Nullable on purpose: Hoeren content is not yet in the database, so an
   // attempt whose content_revision names no Modelltest (e.g. the historic
   // mock-horen-* rows) genuinely belongs to no exam.
@@ -684,6 +691,9 @@ model ListeningAttempt {
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id])
   @@index([listening_exercise_id])
   @@index([erasure_id])
   @@map("listening_attempts")
@@ -714,6 +724,8 @@ model SprachbausteineAttempt {
 
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
   @@index([student_id, teil_id])
   @@index([erasure_id])
@@ -1225,6 +1237,8 @@ model LesenAttempt {
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
   @@index([student_id, teil_id])
   @@index([erasure_id])
   @@map("lesen_attempts")
@@ -1252,6 +1266,8 @@ model SpeakingAttempt {
   /// being null, or a candidate would find their exam transcript in their
   /// own practice history before the center released anything.
   exam_attempt_id String?
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
   @@index([student_id, teil_number])
   @@index([erasure_id])
