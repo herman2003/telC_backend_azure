@@ -732,36 +732,6 @@ model SprachbausteineAttempt {
   @@map("sprachbausteine_attempts")
 }
 
-model LesenPassage {
-  id         String    @id @default(uuid())
-  title      String
-  content    String
-  cefr_level String    @default("B1")
-  topic      String?
-  word_count Int?
-  created_at DateTime? @default(now())
-
-  questions LesenQuestion[]
-
-  @@map("lesen_passages")
-}
-
-model LesenQuestion {
-  id             String    @id @default(uuid())
-  passage_id     String
-  question_text  String
-  question_type  String
-  options        Json
-  correct_answer String
-  explanation    String?
-  difficulty     Int?
-  created_at     DateTime? @default(now())
-
-  passage LesenPassage @relation(fields: [passage_id], references: [id])
-
-  @@map("lesen_questions")
-}
-
 model LesenTeil2Exercise {
   id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   contentRevision String
