@@ -1,0 +1,65 @@
+meta {
+  name: 01 Purchase add-on
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/entitlements/purchase
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+  Idempotency-Key: {{idempotencyKey}}
+}
+
+body:json {
+  {
+    "product": "AI_SPEAKING_CREDIT",
+    "quantity": 10
+  }
+}
+
+script:post-response {
+  if (res.getStatus() === 201) {
+    bru.setEnvVar("paymentId", res.getBody().id);
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.status: eq PENDING
+  res.body.kind: eq AI_SPEAKING_CREDIT
+  res.body.quantity: eq 10
+  res.body.unitPriceXaf: eq 300
+}
+
+docs {
+  Records intent to buy an add-on. Grants nothing until the webhook.
+
+  Run `Center Auth / 03 Login` first. Center should be ACTIVE (or at least
+  able to pay). Change `{{idempotencyKey}}` for each new purchase.
+
+  ## Products to smoke (launch)
+
+  | product | unitPriceXaf (HT) | body example |
+  |---------| | ----------------- | ------------ |
+  | PREP_PASS | 1000 | `{"product":"PREP_PASS","quantity":1}` |
+  | AI_SPEAKING_CREDIT | 300 | `{"product":"AI_SPEAKING_CREDIT","quantity":10}` |
+
+  `amountXaf` on the response is **TTC** (HT × 1.18).
+
+  Do **not** smoke-sell AI_ASSISTED_LEARNING / Exam Day IA in production UI.
+
+  ## Next steps
+
+  1. `Center Payments / 05 Start checkout` (same `paymentId`)
+  2. `Center Payments / 06 Simulate provider webhook` (local fake)
+  3. Assign: `PUT /api/centers/me/codes/{codeId}/entitlements/PREP_PASS`
+     (body depends on product — Prep Pass grants 30 days from assign)
+  4. Student: `GET /api/me/entitlements`
+
+  Same Idempotency-Key twice → same payment id. Different body → 409.
+}
