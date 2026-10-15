@@ -1,0 +1,30 @@
+meta {
+  name: 03 Patch manager phone
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/api/centers/me/manager
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "phone": "+237600000000"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  Phone lives on the manager, not on PATCH /me.
+  After this, onboarding.missing should be empty.
+}

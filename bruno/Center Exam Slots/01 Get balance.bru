@@ -1,0 +1,24 @@
+meta {
+  name: 01 Get balance
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-slots
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  slotsRemaining = Exam Day (manual, 1000 XAF).
+  aiSlotsRemaining = Exam Day IA (not sold at launch).
+}

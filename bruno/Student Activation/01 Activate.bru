@@ -45,21 +45,14 @@ docs {
   - a password under 8 characters -> 400. Activation must not be a weaker door
     into an account than registration is.
 
-  THE TRIAL CLOCK starts here, on the FIRST activation in a center. Check
-  `Center Subscription / 01 Get subscription` before and after:
+  THE TRIAL CLOCK does **not** start here. The manager starts it with
+  `Center Subscription / 03 Start trial` (`POST /api/centers/me/trial`), which
+  also issues the activation key this request consumes. Check subscription
+  before Activate: it should already be TRIAL with `trialEndsAt` set.
 
-      before   status TRIAL_PENDING, trialStartedAt null
-      after    status TRIAL,         trialEndsAt = +14 days
-
-  Fourteen days, not thirty: the clock starts HERE rather than at signup, so
-  these are fourteen ACTIVE days rather than a typical thirty where the first
-  fortnight goes on forgetting to set the thing up.
-
-  Then provision and activate a SECOND student and check again. The timestamps
-  must be unchanged — a second student does not buy the center another
-  fortnight. On a fresh trial center there is only one seat anyway, so the
-  second provisioning is refused before it gets this far; raise the Start
-  quantity in `center_seats` to try it.
+  A second activation with the same key → 400 ACTIVATION_KEY_INVALID (consumed).
+  A second student needs another paid/provisioned seat — the trial only mints
+  one code.
 
   The password set here belongs to the student. Their center never learns it,
   and cannot re-key the account now that it is active.

@@ -1,0 +1,38 @@
+meta {
+  name: 02 Assign Prep Pass to seat
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/codes/{{codeId}}/entitlements/PREP_PASS
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "cap": 0
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  Assigns one Prep Pass from the school pool to a seat (activation code).
+  Grants 30 days from now.
+
+  1. Set env `codeId` to the connected seat id, e.g.
+     3b4982f4-8c3a-426d-ad5e-7228379988b8
+  2. Center must have bought Prep Pass and webhook ACTIVATED it.
+  3. Send.
+
+  Then student can open Modelltests outside of-the-week (e.g. modelltest=1).
+}
