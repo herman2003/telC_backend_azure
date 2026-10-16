@@ -125,9 +125,10 @@ Bruno / API : body `{"seats": 16}` (= total voulu, **pas** « +6 »).
 | Check | **Aujourd’hui (code)** | **Cible (D4)** |
 |-------|------------------------|----------------|
 | Sièges facturés | **6** (16 − 10) | 6 |
-| Montant HT | **6 × 4500 = 27 000** | `ceil(6 × 4500 × jours_restants / jours_période)` |
+| Montant HT | **6 × 4500 = 27 000** (TTC **31 860**) | `ceil(6 × 4500 × jours_restants / jours_période)` |
 | Anchor / `paid_until` après webhook | **Inchangés** | Inchangés |
 | Codes | +6 codes, même fin de période | Idem |
+| Quote vs payment | Quote may show **full** 16× TTC; payment `amountXaf` is **delta only** | Same split once prorata ships |
 
 **Comment mesurer les jours (cible)**
 
@@ -159,10 +160,11 @@ Puis `{"seats": 11}`.
 
 ### P5 — Mid-period shrink
 
-`{"seats": 8}` alors que 10 payés et période active.
+- `{"seats": 8}` avec 10+ payés → souvent `SEATS_BELOW_MINIMUM` (floor contrat 10 d’abord).
+- Pour viser le floor **payé** : tenir 16, demander `{"seats": 12}`.
 
-| Attendu | `400` / `SEATS_BELOW_PAID_FLOOR` |
-|---------|----------------------------------|
+| Attendu | `400` / `SEATS_BELOW_PAID_FLOOR` (requiredSeatsTotal = sièges déjà payés) |
+|---------|--------------------------------------------------------------------------|
 
 ### P6 — NOTHING_TO_PAY
 
@@ -209,17 +211,17 @@ Ne pas re-tester Prep Pass / Elena ici sauf régression.
 
 | Case | Tester | Date | Today | Target | Notes (amounts, paid_until) |
 |------|--------|------|-------|--------|------------------------------|
-| P1 First Start | | | PASS/FAIL | n/a | |
-| P2 Renewal / grace | | | | n/a | |
-| P3 Mid +N | | | | PASS/FAIL/SKIP | HT observed: ___ |
-| P4 Min charge | | | SKIP | | |
-| P5 Shrink | | | | n/a | |
-| P6 Nothing to pay | | | | n/a | |
-| P7 Blocked re-entry | | | | n/a | |
-| P8 Idempotency / webhooks | | | | n/a | |
+| P1 First Start | Auto (agent) | 2026-10-16 | **PASS** | n/a | Center `prorata.qa+20261016080056@lerniqo.test`. Amount TTC **53100**. `ACTIVE`, seats 10, `paidUntil` **2026-11-15T23:00:00.000Z** (anchor ~16 Douala → next month). Full pack, not calendar prorata. |
+| P2 Renewal / grace | | | SKIP | n/a | Not run this session |
+| P3 Mid +N | Auto (agent) | 2026-10-16 | **PASS** | SKIP (formule non shippée) | `seats:16` → payment **amountXaf 31860** (= 6×4500×1.18). `paidUntil` **unchanged**. seatsHeld **16**. Note: quote returned 84960 (16× plein) while payment billed delta only. |
+| P4 Min charge | | | SKIP | | B2 open |
+| P5 Shrink | Auto (agent) | 2026-10-16 | **PASS** | n/a | `seats:8` → `SEATS_BELOW_MINIMUM`; `seats:12` with 16 held → `SEATS_BELOW_PAID_FLOOR` |
+| P6 Nothing to pay | Auto (agent) | 2026-10-16 | **PASS** | n/a | `seats:16` mid-period → `NOTHING_TO_PAY` |
+| P7 Blocked re-entry | | | SKIP | n/a | |
+| P8 Idempotency / webhooks | Auto (agent) | 2026-10-16 | **PASS** | n/a | Duplicate SUCCEEDED → `ALREADY_ACTIVE` |
 
-**OK pour client qui ne fait qu’un 1er Start ?** Oui si P1 + P8 PASS.  
-**OK pour promettre le prorata mid-period ?** Non tant que P3 Target ≠ PASS et B2 ouvert.
+**OK pour client qui ne fait qu’un 1er Start ?** Oui si P1 + P8 PASS. → **Oui (cette session).**  
+**OK pour promettre le prorata mid-period ?** Non tant que P3 Target ≠ PASS et B2 ouvert. → **Non** (today = plein × delta).
 
 ---
 
