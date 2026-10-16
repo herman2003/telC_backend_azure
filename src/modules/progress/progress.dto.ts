@@ -108,6 +108,42 @@ export class StudentProgressDto {
   alerts: ProgressAlertDto[];
 }
 
+export class SessionOfDayDto {
+  @ApiProperty({
+    enum: ['hoeren', 'lesen', 'sprachbausteine', 'schreiben', 'sprechen'],
+    example: 'hoeren',
+  })
+  moduleId: 'hoeren' | 'lesen' | 'sprachbausteine' | 'schreiben' | 'sprechen';
+
+  @ApiProperty({ example: 2, description: 'Teil number within the module (1-based).' })
+  teil: number;
+
+  @ApiProperty({ example: 10 })
+  durationMinutes: number;
+
+  @ApiProperty({
+    enum: ['exam', 'training'],
+    example: 'exam',
+    description:
+      'training when the Teil is under 60 % (pass mark); exam otherwise.',
+  })
+  mode: 'exam' | 'training';
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: 2,
+    description:
+      'Hörverstehen only: 2 in exam mode, 3 in training. Null for other modules.',
+  })
+  maxListens: number | null;
+
+  @ApiProperty({
+    example: 45,
+    description: 'Rounded score of the recommended Teil (0 if never attempted).',
+  })
+  weaknessPercent: number;
+}
+
 export class MyProgressDto extends StudentProgressDto {
   @ApiPropertyOptional({
     nullable: true,
@@ -124,6 +160,13 @@ export class MyProgressDto extends StudentProgressDto {
       'Readiness now minus readiness on the activity up to 7 days ago. Null while either is unknown.',
   })
   weeklyChange: number | null;
+
+  @ApiProperty({
+    type: SessionOfDayDto,
+    description:
+      'Home CTA (D7): one exercise in the weakest skill/Teil. Deterministic for the UTC calendar day.',
+  })
+  sessionOfDay: SessionOfDayDto;
 }
 
 class CenterAlertCountsDto {
