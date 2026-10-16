@@ -27,17 +27,18 @@ assert {
 }
 
 docs {
-  What N Start seats would cost. Run `Center Auth / 03 Login` first.
+  What N Start seats would cost **now**. Run `Center Auth / 03 Login` first.
 
-  Body: `{"seats": 10}` — a **total**, not an increment. Launch list price is
-  4,500 XAF HT per seat. Quote returns HT (`unitPriceXaf`, `totalXaf` =
-  seats × unit). The payment record charges TTC (×1.18) — see `02 Create
-  payment` (`amountXaf` 53,100 for ten seats).
+  Body: `{"seats": 10}` — a **total**, not an increment. `unitPriceXaf` is HT;
+  `totalXaf` is **TTC due now**. First purchase: full pack (e.g. 53,100 for 10).
+  Mid-period addition: day prorata on the delta — see `Center Payments Prorata`.
+
+  Also: `billableSeats`, `billingKind`, `amountHtXaf`, and when mid-period
+  `daysLeft` / `daysInPeriod`.
 
   Minimum contract: 10 seats. Below → 400 SEATS_BELOW_MINIMUM.
 
-  THE PRICE IS NOT AN INPUT. Extra fields (`unitPriceXaf`, `amount`, …) → 400
-  VALIDATION_ERROR (forbidNonWhitelisted).
+  THE PRICE IS NOT AN INPUT. Extra fields → 400 VALIDATION_ERROR.
 
   Works while BLOCKED and with an unfinished profile — paying starts with a
   quote. `02 Create payment` still refuses an incomplete profile.

@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { priceSeatsDue } from './seat-prorata';
 import { amountWithVatXaf } from './vat';
 
 /**
@@ -56,12 +57,30 @@ export interface CenterPricingContext {
   stampedPriceXaf: number | null;
   /** Every student the center governs. They all need a seat. */
   totalStudents: number;
+  /**
+   * Paid seat pool size (unit price > 0). Zero / trial seats do not count —
+   * converting from trial is a first purchase of the whole pack.
+   */
+  paidSeats?: number;
+  paidUntil?: Date | null;
+  anchorDay?: number | null;
+  /** Injected in tests; defaults to now. */
+  now?: Date;
 }
 
 export interface Quote {
   seats: number;
   unitPriceXaf: number;
+  /** TTC amount due now (full pack or mid-period prorata). */
   totalXaf: number;
+  /** Seats this charge covers: whole pack, or seats being added mid-period. */
+  billableSeats: number;
+  billingKind: 'full_pack' | 'mid_period_addition';
+  /** Present on mid-period additions only. */
+  daysLeft: number | null;
+  daysInPeriod: number | null;
+  /** HT before VAT — same figure `splitVatXaf` uses on create payment. */
+  amountHtXaf: number;
 }
 
 export type QuoteRefusalCode =
@@ -109,14 +128,45 @@ export class PricingService {
     }
 
     const unitPriceXaf = this.priceFor(context);
-    // unitPrice stays HT (catalogue / grandfathered stamp). totalXaf is TTC:
-    // providers only accept one integer amount, with no VAT field.
-    const netXaf = seats * unitPriceXaf;
+    const paidSeats = context.paidSeats ?? 0;
+    const paidUntil = context.paidUntil ?? null;
+    const now = context.now ?? new Date();
+    const midPeriod =
+      paidSeats > 0 &&
+      paidUntil != null &&
+      now.getTime() < paidUntil.getTime();
 
+    // Same gate as create-payment, so the UI sees the refusal on quote.
+    if (midPeriod && seats < paidSeats) {
+      throw new BadRequestException({
+        message: 'SEATS_BELOW_PAID_FLOOR',
+        requiredSeatsTotal: paidSeats,
+      });
+    }
+
+    const due = priceSeatsDue({
+      wanted: seats,
+      paidSeats,
+      paidUntil,
+      anchorDay: context.anchorDay ?? null,
+      unitPriceXaf,
+      now,
+    });
+
+    if (due.billableSeats === 0) {
+      throw new BadRequestException({ message: 'NOTHING_TO_PAY' });
+    }
+
+    // unitPrice stays HT. totalXaf is TTC due now (pack or prorata delta).
     return {
       seats,
       unitPriceXaf,
-      totalXaf: amountWithVatXaf(netXaf),
+      totalXaf: amountWithVatXaf(due.amountHtXaf),
+      billableSeats: due.billableSeats,
+      billingKind: due.midPeriod ? 'mid_period_addition' : 'full_pack',
+      daysLeft: due.daysLeft,
+      daysInPeriod: due.daysInPeriod,
+      amountHtXaf: due.amountHtXaf,
     };
   }
 

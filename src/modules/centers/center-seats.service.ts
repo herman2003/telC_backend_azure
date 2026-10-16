@@ -10,7 +10,10 @@ import type { CenterPricingContext } from './pricing.service';
  * transaction that writes the payment, or the price and the student floor are
  * decided against a snapshot that can move before the insert lands.
  */
-export type SeatContextReader = Pick<PrismaService, 'center' | 'centerSeat'>;
+export type SeatContextReader = Pick<
+  PrismaService,
+  'center' | 'centerSeat' | 'centerSubscription'
+>;
 
 /**
  * Loads what a center holds: the price it has already agreed to, and how many
@@ -38,7 +41,7 @@ export class CenterSeatsService {
     centerId: string,
     client: SeatContextReader = this.prisma,
   ): Promise<CenterPricingContext> {
-    const [center, seat] = await Promise.all([
+    const [center, seat, subscription] = await Promise.all([
       // Existence and the student body in one read. A center token can outlive
       // its center — the auth guard has a cache that does not recheck the row
       // — and without this the missing center surfaces as a foreign-key error
@@ -49,7 +52,11 @@ export class CenterSeatsService {
       }),
       client.centerSeat.findUnique({
         where: { center_id: centerId },
-        select: { unit_price_xaf: true },
+        select: { quantity: true, unit_price_xaf: true },
+      }),
+      client.centerSubscription.findUnique({
+        where: { center_id: centerId },
+        select: { paid_until: true, anchor_day: true },
       }),
     ]);
 
@@ -57,9 +64,16 @@ export class CenterSeatsService {
       throw new NotFoundException('CENTER_NOT_FOUND');
     }
 
+    // Trial seats are stamped at 0: converting from trial is a first purchase.
+    const paidSeats =
+      seat != null && seat.unit_price_xaf > 0 ? seat.quantity : 0;
+
     return {
       stampedPriceXaf: seat?.unit_price_xaf ?? null,
       totalStudents: center._count.students,
+      paidSeats,
+      paidUntil: subscription?.paid_until ?? null,
+      anchorDay: subscription?.anchor_day ?? null,
     };
   }
 }

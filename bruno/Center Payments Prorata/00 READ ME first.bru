@@ -1,0 +1,45 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/subscription
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+docs {
+  ## Mid-period seat prorata (D4 rule 3)
+
+  Prerequisites:
+  1. Center Auth login
+  2. Center already **ACTIVE** with paid seats and `paidUntil` in the future
+     (run happy-path Start 10 first, or use SQL on test DB only)
+  3. Profile complete (country / city / phone)
+
+  Body seat counts are **totals**, not increments.
+  Holding 10 and wanting +6 → send `{"seats": 16}`.
+
+  ### Expected today (after this feature)
+
+  Quote and create-payment charge:
+  `ceil_to_100(added × unitPrice × daysLeft / daysInPeriod)`,
+  then at least **1000 HT**, then ×1.18 VAT.
+
+  `paidUntil` / anchor do **not** move on an addition.
+
+  ### This folder
+
+  - 01 Quote mid-period addition
+  - 02 Create payment mid-period
+  - 03 Quote shrink refused
+  - 04 Quote nothing to pay
+
+  Fake webhook: reuse `Center Payments / 06` after setting `provider_reference`.
+}
