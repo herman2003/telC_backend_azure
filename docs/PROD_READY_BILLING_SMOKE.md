@@ -148,6 +148,9 @@ Bruno : `Subscription Access / 05–06`.
 - [ ] 1 paiement réel contrôlé (montant min) puis annulation / remboursement
 - [ ] Procédure kill : désactiver checkout / provider sans redeploy long
 
+**Période Start / renouvellement / mid-period (+ prorata cible) :**  
+→ [QA_BILLING_PERIOD_AND_PRORATA.md](./QA_BILLING_PERIOD_AND_PRORATA.md)
+
 ---
 
 ## Ordre d’exécution recommandé (staging, ~1–2 h)
@@ -157,7 +160,8 @@ Bruno : `Subscription Access / 05–06`.
 3. Bruno Payments : quote → pay → checkout → webhook → re-lire subscription.
 4. Bruno Entitlements : Prep Pass + Elena → assign → élève `/api/me/entitlements`.
 5. SQL block/restore (grâce + freeze).
-6. Cocher go-live gate avant prod.
+6. Période / mid-period : [QA_BILLING_PERIOD_AND_PRORATA.md](./QA_BILLING_PERIOD_AND_PRORATA.md) (P1 puis P3).
+7. Cocher go-live gate avant prod.
 
 ---
 
