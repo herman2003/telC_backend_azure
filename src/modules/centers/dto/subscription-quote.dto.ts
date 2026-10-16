@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsInt, Max, Min } from 'class-validator';
 import { MAX_SEATS_TOTAL } from '../pricing.service';
 
@@ -28,16 +28,53 @@ export class SubscriptionQuoteRequestDto {
 }
 
 export class SubscriptionQuoteResponseDto {
-  @ApiProperty({ example: 10, description: 'Seats this quote covers.' })
+  @ApiProperty({ example: 10, description: 'Total seats requested (not an increment).' })
   seats: number;
 
   @ApiProperty({
     example: 4500,
     description:
-      "What this center pays per seat: its own stamped price if it already holds seats, otherwise today's list price. Never read from the request.",
+      "What this center pays per seat HT: its own stamped price if it already holds paid seats, otherwise today's list price. Never read from the request.",
   })
   unitPriceXaf: number;
 
-  @ApiProperty({ example: 45000, description: 'seats × unitPriceXaf.' })
+  @ApiProperty({
+    example: 53100,
+    description:
+      'TTC amount due now. Full pack on first purchase / renewal; day-prorata on mid-period additions (same figure create-payment charges).',
+  })
   totalXaf: number;
+
+  @ApiProperty({
+    example: 6,
+    description:
+      'Seats this charge covers: the whole pack, or only seats being added mid-period.',
+  })
+  billableSeats: number;
+
+  @ApiProperty({
+    enum: ['full_pack', 'mid_period_addition'],
+    example: 'mid_period_addition',
+  })
+  billingKind: 'full_pack' | 'mid_period_addition';
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: 27,
+    description: 'Douala whole days left in the period (mid-period additions only).',
+  })
+  daysLeft: number | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: 31,
+    description: 'Douala whole days in the open period (mid-period additions only).',
+  })
+  daysInPeriod: number | null;
+
+  @ApiProperty({
+    example: 23600,
+    description: 'HT amount due now (before 18% VAT).',
+  })
+  amountHtXaf: number;
 }

@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -108,74 +107,20 @@ export class PaymentsService {
           return existing;
         }
 
+        // Quote decides full pack vs day-prorata addition (and throws
+        // SEATS_BELOW_PAID_FLOOR / NOTHING_TO_PAY). One clock inside quote —
+        // create-payment must not re-price separately.
         const quote = this.pricing.quote(
           wanted,
           await this.seats.pricingContextFor(identity.centerId, tx),
         );
 
-        // `quantity` on the payment is the TARGET seat pool (activation sets
-        // it). What is CHARGED depends on where the center stands in its
-        // period, because one route carries two different purchases.
-        //
-        // A trial row (unit price 0) is not a paid pool: converting from a
-        // trial is a first purchase, and the whole pack is billed.
-        const held = await tx.centerSeat.findUnique({
-          where: { center_id: identity.centerId },
-          select: { quantity: true, unit_price_xaf: true },
-        });
-        const paidSeats =
-          held != null && held.unit_price_xaf > 0 ? held.quantity : 0;
-
-        // Mid-period the center is adding seats to a pack it has already paid
-        // for (D4 rule 3). Once the period has elapsed — including the 7-day
-        // grace of rule 7, and the blocked state after it — the same request
-        // is a renewal of the whole pack (rule 5), which may be smaller than
-        // what it holds.
-        //
-        // A priced pool with no `paid_until` cannot be produced by activation,
-        // which writes both in one transaction. Should one exist — a by-hand
-        // price stamp, a seed, a data fix — it counts as a FIRST PURCHASE, not
-        // an addition. Calling it an addition looks safer, because it refuses a
-        // shrink, but it is the one answer with no way out: an addition does
-        // not start a period, `extendPaidPeriod` is the only writer of
-        // `paid_until`, and so every later order would be classified the same
-        // way. The center would be unable to pay for a period at all.
-        const subscription = await tx.centerSubscription.findUnique({
-          where: { center_id: identity.centerId },
-          select: { paid_until: true },
-        });
-        const midPeriod =
-          paidSeats > 0 &&
-          subscription?.paid_until != null &&
-          Date.now() < subscription.paid_until.getTime();
-
-        if (midPeriod && wanted < paidSeats) {
-          throw new BadRequestException({
-            message: 'SEATS_BELOW_PAID_FLOOR',
-            requiredSeatsTotal: paidSeats,
-          });
-        }
-
-        // Renewal bills the pack; an addition bills only what it adds.
-        //
-        // Deliberately NOT part of the request fingerprint, which stays
-        // `(center, seats)`. A retry whose key was first used before the period
-        // ended is answered from the original row, so the center is charged for
-        // the addition it was quoted and receives the seats — not a renewal it
-        // never asked for. It is then still free to renew, because a lapsed
-        // period makes the next order a renewal. Putting the period in the
-        // fingerprint would turn an ordinary retry that straddled midnight into
-        // IDEMPOTENCY_KEY_REUSED.
-        const billableSeats = midPeriod ? wanted - paidSeats : wanted;
-        if (billableSeats === 0) {
-          throw new BadRequestException({ message: 'NOTHING_TO_PAY' });
-        }
-
-        const amounts = splitVatXaf(billableSeats * quote.unitPriceXaf);
+        const amounts = splitVatXaf(quote.amountHtXaf);
 
         return tx.payment.create({
           data: {
             center_id: identity.centerId,
+            // TARGET seat pool (activation sets quantity to this).
             quantity: quote.seats,
             unit_price_xaf: quote.unitPriceXaf,
             amount_xaf: amounts.grossXaf,
@@ -184,7 +129,7 @@ export class PaymentsService {
             // Carried to activation, which must not re-read the clock: a
             // webhook arriving after the period ended would otherwise turn an
             // addition into a renewal (D4 rule 3).
-            renews_period: !midPeriod,
+            renews_period: quote.billingKind === 'full_pack',
             idempotency_key: idempotencyKey,
             request_hash: requestHash,
           },

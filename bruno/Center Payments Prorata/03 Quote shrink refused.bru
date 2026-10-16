@@ -1,0 +1,30 @@
+meta {
+  name: 03 Quote shrink refused
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/subscription/quote
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "seats": 12
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
+docs {
+  With 16 paid seats mid-period, asking for 12 must refuse
+  `SEATS_BELOW_PAID_FLOOR` (adjust body if you still hold 10 — use 8).
+}
