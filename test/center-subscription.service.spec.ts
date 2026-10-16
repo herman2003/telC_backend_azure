@@ -164,15 +164,30 @@ describe('CenterSubscriptionService', () => {
         unitPriceXaf: START_PRICE_XAF,
         // HT 45_000 → TTC with 18% VAT
         totalXaf: 53_100,
+        billableSeats: 10,
+        billingKind: 'full_pack',
+        daysLeft: null,
+        daysInPeriod: null,
+        amountHtXaf: 45_000,
       });
     });
 
     it('honours the price a center already agreed to', async () => {
-      prisma.centerSeat.findUnique.mockResolvedValue({ unit_price_xaf: 4_000 });
+      prisma.centerSeat.findUnique.mockResolvedValue({
+        quantity: 10,
+        unit_price_xaf: 4_000,
+      });
+      // No live period → first-purchase / renew pricing at the stamped rate,
+      // not a mid-period addition.
+      prisma.centerSubscription.findUnique.mockResolvedValue(
+        row({ paid_until: null }),
+      );
 
       await expect(service.quote(identity, 10)).resolves.toMatchObject({
         unitPriceXaf: 4_000,
         totalXaf: 47_200, // 40_000 HT + 18% VAT
+        billingKind: 'full_pack',
+        amountHtXaf: 40_000,
       });
     });
 
