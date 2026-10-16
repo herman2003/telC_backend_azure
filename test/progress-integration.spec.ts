@@ -135,6 +135,20 @@ describe('progress against real Postgres', () => {
       result.readiness.score! - weekAgo.readiness.score!,
     );
     expect(result.weeklyChange).toBeGreaterThan(0);
+    expect(result.sessionOfDay).toMatchObject({
+      moduleId: expect.stringMatching(
+        /^(hoeren|lesen|sprachbausteine|schreiben|sprechen)$/,
+      ),
+      teil: expect.any(Number),
+      durationMinutes: expect.any(Number),
+      mode: expect.stringMatching(/^(exam|training)$/),
+      weaknessPercent: expect.any(Number),
+    });
+    expect(result.sessionOfDay).toHaveProperty('maxListens');
+    expect(
+      result.sessionOfDay.maxListens === null ||
+        typeof result.sessionOfDay.maxListens === 'number',
+    ).toBe(true);
   });
 
   it('summarises a center over its own students only', async () => {
