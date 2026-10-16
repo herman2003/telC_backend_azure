@@ -148,6 +148,9 @@ Bruno : `Subscription Access / 05–06`.
 - [ ] 1 paiement réel contrôlé (montant min) puis annulation / remboursement
 - [ ] Procédure kill : désactiver checkout / provider sans redeploy long
 
+**Edge cases (échec, grâce, BLOCKED, doublon webhook, refund):** see the assignee runbook  
+→ [QA_BILLING_EDGE_CASES.md](./QA_BILLING_EDGE_CASES.md)
+
 ---
 
 ## Ordre d’exécution recommandé (staging, ~1–2 h)
@@ -156,7 +159,7 @@ Bruno : `Subscription Access / 05–06`.
 2. Bruno : Auth → **Start trial** → Activate student → Learn.
 3. Bruno Payments : quote → pay → checkout → webhook → re-lire subscription.
 4. Bruno Entitlements : Prep Pass + Elena → assign → élève `/api/me/entitlements`.
-5. SQL block/restore (grâce + freeze).
+5. Edge cases: follow [QA_BILLING_EDGE_CASES.md](./QA_BILLING_EDGE_CASES.md) (grace → block → FAILED webhook → duplicate).
 6. Cocher go-live gate avant prod.
 
 ---
