@@ -462,6 +462,7 @@ export class CenterProfileService {
       country_code?: string | null;
       city_id?: string | null;
       city_other?: string | null;
+      logo_url?: string | null;
     };
   }): OnboardingState {
     // The rules live in `center-onboarding` because payment creation asks the
@@ -469,6 +470,7 @@ export class CenterProfileService {
     return deriveOnboardingState({
       ...suppliedLocationOf(centerUser.center),
       phone: centerUser.phone,
+      logo: centerUser.center.logo_url ?? null,
     });
   }
 }

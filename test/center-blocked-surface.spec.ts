@@ -199,7 +199,7 @@ describe('what a blocked center can and cannot do', () => {
       ).rejects.toMatchObject({
         response: expect.objectContaining({
           message: 'CENTER_PROFILE_INCOMPLETE',
-          missing: ['country', 'city', 'phone'],
+          missing: ['country', 'city', 'phone', 'logo'],
         }),
       });
     });

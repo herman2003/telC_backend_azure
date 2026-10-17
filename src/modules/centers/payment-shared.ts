@@ -39,7 +39,12 @@ export async function assertCenterProfileComplete(
     select: {
       phone: true,
       center: {
-        select: { country_code: true, city_id: true, city_other: true },
+        select: {
+          country_code: true,
+          city_id: true,
+          city_other: true,
+          logo_url: true,
+        },
       },
     },
   });
@@ -54,6 +59,7 @@ export async function assertCenterProfileComplete(
     // it pays, is the worst possible place for these two to differ.
     ...suppliedLocationOf(manager.center),
     phone: manager.phone,
+    logo: manager.center.logo_url,
   });
 
   if (!onboarding.complete) {

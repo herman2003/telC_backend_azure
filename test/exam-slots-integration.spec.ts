@@ -69,6 +69,7 @@ async function makeCenter(over: Record<string, unknown> = {}) {
       name: `Slots Test ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
       subscription: { create: { plan: 'TRIAL' } },
       ...over,
     },

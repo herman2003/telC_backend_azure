@@ -49,8 +49,8 @@ async function wipe() {
 }
 
 /**
- * A center whose profile is complete: country, city and a manager with a
- * phone. That is what it takes to be charged, and the default here because
+ * A center whose profile is complete: country, city, logo and a manager with
+ * a phone. That is what it takes to be charged, and the default here because
  * most tests are about pricing rather than about onboarding.
  */
 async function makeCenter(over: Record<string, unknown> = {}) {
@@ -59,6 +59,7 @@ async function makeCenter(over: Record<string, unknown> = {}) {
       name: `Payments Test ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
       subscription: { create: { plan: 'TRIAL' } },
       ...over,
     },
@@ -538,7 +539,7 @@ describe('payments against real Postgres', () => {
       ).rejects.toMatchObject({
         response: expect.objectContaining({
           message: 'CENTER_PROFILE_INCOMPLETE',
-          missing: ['country', 'city', 'phone'],
+          missing: ['country', 'city', 'phone', 'logo'],
         }),
       });
     });
@@ -556,13 +557,14 @@ describe('payments against real Postgres', () => {
     });
 
     it('still refuses when only the manager phone is missing', async () => {
-      // Two of three is not complete. The phone is the one that matters most
-      // for chasing money, so it cannot be the one that gets waived.
+      // Location + logo present, phone absent: the phone is the one that
+      // matters most for chasing money, so it cannot be the one that gets waived.
       const center = await prisma.center.create({
         data: {
           name: `Payments Test Draft No Phone ${Date.now()}`,
           country_code: 'CM',
           city_id: 'douala',
+          logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
           subscription: { create: { plan: 'TRIAL' } },
         },
       });
