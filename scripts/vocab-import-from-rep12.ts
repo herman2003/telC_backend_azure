@@ -18,10 +18,14 @@ config({ path: resolve(process.cwd(), '.env') });
 const BASE =
   process.env.GERMAN_LANGUAGE_API_BASE_URL ??
   'https://german-language.onrender.com';
-const API_KEY = process.env.GERMAN_LANGUAGE_API_KEY;
-if (!API_KEY) {
-  throw new Error('GERMAN_LANGUAGE_API_KEY is required for vocab:import-rep12');
+function requireApiKey(): string {
+  const key = process.env.GERMAN_LANGUAGE_API_KEY?.trim();
+  if (!key) {
+    throw new Error('GERMAN_LANGUAGE_API_KEY is required for vocab:import-rep12');
+  }
+  return key;
 }
+const API_KEY = requireApiKey();
 const LEVELS = ['a1', 'a2', 'b1', 'b2', 'c1'] as const;
 const PAGE = 100;
 

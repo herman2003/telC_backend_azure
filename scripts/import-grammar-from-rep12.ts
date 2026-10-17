@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
 /**
  * Offline import: German Language API grammar → Postgres.
  *
@@ -51,7 +51,10 @@ async function main() {
   }
 
   const pool = new Pool({ connectionString });
-  const prisma = new PrismaClient({ adapter: new PrismaPg(pool) } as never);
+  // Adapter ctor typing is loose under Prisma 7 + `as never`; keep client untyped here.
+  const prisma: any = new PrismaClient({
+    adapter: new PrismaPg(pool),
+  } as never);
 
   let offset = 0;
   let created = 0;

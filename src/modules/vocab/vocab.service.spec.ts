@@ -1,20 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { MODELLTEST_PERIOD_EPOCH_MS } from '../modelltests/seven-day-period';
 import { VocabService } from './vocab.service';
 
 describe('VocabService', () => {
   const now = new Date(MODELLTEST_PERIOD_EPOCH_MS);
-  let prisma: {
-    modelltest: { findUnique: jest.Mock };
-    vocabOccurrence: { findMany: jest.Mock };
-    vocabEntry: { findUnique: jest.Mock; findMany: jest.Mock };
-    vocabProgress: {
-      findMany: jest.Mock;
-      count: jest.Mock;
-      upsert: jest.Mock;
-    };
-  };
+  let prisma: any;
   let trainingAccess: { weeklyModelltestNumber: jest.Mock };
   let service: VocabService;
 
