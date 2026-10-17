@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument */
 /**
- * Generate easy/medium/hard exercises from imported grammar examples.
+ * Generate realistic easy/medium/hard QCMs from imported grammar examples.
  *
  *   DATABASE_URL=... npx ts-node -r dotenv/config scripts/generate-grammar-exercises.ts
  *   ... --force  to replace existing exercises
@@ -11,7 +11,7 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import {
-  generateExercisesFromExample,
+  generateExercisesFromExamples,
   generateMinimalExercises,
 } from '../src/modules/grammar/grammar-exercise-templates';
 
@@ -40,6 +40,7 @@ async function main() {
       include: { examples: true, exercises: true },
       orderBy: [{ sort_order: 'asc' }, { slug: 'asc' }],
     });
+    const allTitlesDe = topics.map((t: { title_de: string }) => t.title_de);
 
     for (const topic of topics) {
       if (topic.exercises.length > 0 && !force) {
@@ -52,26 +53,36 @@ async function main() {
         });
       }
 
-      const example = topic.examples[0];
-      const generated = example
-        ? generateExercisesFromExample({
-            titleFr: topic.title_fr,
-            titleEn: topic.title_en,
-            titleDe: topic.title_de,
-            ruleFr: topic.rule_fr,
-            ruleEn: topic.rule_en,
-            ruleDe: topic.rule_de,
-            exampleDe: example.de,
-            exampleEn: example.en,
-          })
-        : generateMinimalExercises({
-            titleFr: topic.title_fr,
-            titleEn: topic.title_en,
-            titleDe: topic.title_de,
-            ruleFr: topic.rule_fr,
-            ruleEn: topic.rule_en,
-            ruleDe: topic.rule_de,
-          });
+      const otherTitlesDe = allTitlesDe.filter(
+        (t: string) => t !== topic.title_de,
+      );
+      const examples = (topic.examples as Array<{
+        de: string;
+        fr: string | null;
+        en: string | null;
+      }>).map((e) => ({ de: e.de, fr: e.fr, en: e.en }));
+
+      const generated =
+        examples.length > 0
+          ? generateExercisesFromExamples({
+              titleFr: topic.title_fr,
+              titleEn: topic.title_en,
+              titleDe: topic.title_de,
+              ruleFr: topic.rule_fr,
+              ruleEn: topic.rule_en,
+              ruleDe: topic.rule_de,
+              examples,
+              otherTitlesDe,
+            })
+          : generateMinimalExercises({
+              titleFr: topic.title_fr,
+              titleEn: topic.title_en,
+              titleDe: topic.title_de,
+              ruleFr: topic.rule_fr,
+              ruleEn: topic.rule_en,
+              ruleDe: topic.rule_de,
+              otherTitlesDe,
+            });
 
       for (const exo of generated) {
         await prisma.grammarExercise.create({

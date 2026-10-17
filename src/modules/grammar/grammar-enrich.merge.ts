@@ -95,9 +95,7 @@ export function mergeGrammarExamples(
   existing: ExistingGrammarExample[],
   incoming: GrammarEnrichExample[],
 ): GrammarExampleMergePlan {
-  const byDe = new Map(
-    existing.map((e) => [e.de.trim(), e] as const),
-  );
+  const byDe = new Map(existing.map((e) => [e.de.trim(), e] as const));
   const updates: GrammarExampleMergePlan['updates'] = [];
   const creates: GrammarEnrichExample[] = [];
 

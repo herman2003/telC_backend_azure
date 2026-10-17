@@ -29,6 +29,24 @@ export function sortGrammarExercises<T extends OrderedExercise>(
   return [...exercises].sort(compareGrammarExercises);
 }
 
+/**
+ * Of-the-day path keeps one step per difficulty (the primary sort_order),
+ * so expanding the practice pool to 10×3 does not lengthen the daily flow.
+ */
+export function pickOfTheDayExercises<T extends OrderedExercise>(
+  exercises: T[],
+): T[] {
+  const ordered = sortGrammarExercises(exercises);
+  const seen = new Set<string>();
+  const picked: T[] = [];
+  for (const exo of ordered) {
+    if (seen.has(exo.difficulty)) continue;
+    seen.add(exo.difficulty);
+    picked.push(exo);
+  }
+  return picked;
+}
+
 export type ExerciseStepStatus = 'locked' | 'unlocked' | 'completed';
 
 export function exerciseStatusAtIndex(

@@ -126,6 +126,20 @@ export class GrammarExerciseItemDto {
   @ApiPropertyOptional({ type: [String] })
   options?: string[] | null;
 
+  /** Correct answer — same ADR 0001 pattern as Sprachbausteine / Lesen / practice. */
+  @ApiProperty()
+  answer: string;
+
+  /** Localized explanation for the requested `lang` (fallback FR). */
+  @ApiPropertyOptional({ nullable: true })
+  explanation?: string | null;
+
+  /**
+   * @deprecated Prefer `explanation`. Same localized value for short FE compat.
+   */
+  @ApiPropertyOptional({ nullable: true })
+  explanationFr?: string | null;
+
   @ApiProperty({ enum: ['locked', 'unlocked', 'completed'] })
   status: string;
 }
@@ -240,8 +254,15 @@ export class GrammarPracticeLevelDto {
   @ApiProperty({ enum: ['easy', 'medium', 'hard'] })
   difficulty: string;
 
-  @ApiProperty({ example: 5 })
+  @ApiProperty({ example: 5, description: 'Client timer hint (minutes)' })
   durationMinutes: number;
+
+  @ApiProperty({
+    example: 10,
+    description:
+      'Fixed QCM count for this level (increases as difficulty rises: 10 / 15 / 20)',
+  })
+  questionCount: number;
 }
 
 export class GrammarPracticeLevelsDto {

@@ -79,6 +79,7 @@ model Student {
   grammar_topic_progress GrammarTopicProgress[]
   grammar_exercise_attempts GrammarExerciseAttempt[]
   grammar_practice_attempts GrammarPracticeAttempt[]
+  vocab_progress VocabProgress[]
 
   @@index([center_id])
   @@index([email])
@@ -984,6 +985,9 @@ model Modelltest {
   listeningExercises            ListeningExercise[]
   speakingExercises             SpeakingExercise[]
   examSessions                  ExamSession[]
+  vocab_occurrences             VocabOccurrence[]
+  vocab_exercises               VocabExercise[]
+  grammar_topic_links           GrammarTopicModelltest[]
 
   /// Kept out of the training catalogue, so an exam sitting can use material
   /// no student has seen. False for everything that exists today.
@@ -1585,7 +1589,7 @@ model Notification {
   @@map("notifications")
 }
 
-/// Grammar lesson (theme). Pool is global `published`; of-the-day picks one by dayIndex.
+/// Grammar lesson (theme). Of-the-day picks from topics linked to the weekly MT.
 model GrammarTopic {
   id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   slug         String   @unique
@@ -1606,12 +1610,28 @@ model GrammarTopic {
   created_at   DateTime @default(now()) @db.Timestamptz(6)
   updated_at   DateTime @default(now()) @updatedAt @db.Timestamptz(6)
 
-  examples  GrammarExample[]
-  exercises GrammarExercise[]
-  progress  GrammarTopicProgress[]
+  examples    GrammarExample[]
+  exercises   GrammarExercise[]
+  progress    GrammarTopicProgress[]
+  modelltests GrammarTopicModelltest[]
 
   @@index([published, sort_order])
   @@map("grammar_topics")
+}
+
+/// Weekly MT ↔ grammar topics (pool for of-the-day within the week).
+model GrammarTopicModelltest {
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  topic_id      String @db.Uuid
+  modelltest_id String @db.Uuid
+  sort_order    Int    @default(0)
+
+  topic      GrammarTopic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
+  modelltest Modelltest   @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
+
+  @@unique([topic_id, modelltest_id])
+  @@index([modelltest_id, sort_order])
+  @@map("grammar_topic_modelltests")
 }
 
 model GrammarExample {
@@ -1702,4 +1722,122 @@ model GrammarPracticeAttempt {
 
   @@index([student_id, created_at])
   @@map("grammar_practice_attempts")
+}
+
+/// Vocabulary lemma (substantiv, verb, adj, adv, prep, …).
+model VocabEntry {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lemma          String
+  /// Empty string when N/A (verbs, etc.) — keeps @@unique stable.
+  article        String   @default("")
+  gender         String?
+  plural         String?
+  /// noun | verb | adj | adv | prep | other
+  pos            String
+  cefr_level     String?
+  /// modelltest | cefr_list | goethe | telc | manual
+  source         String
+  frequency_rank Int?
+  dwds_frequency Int?
+  auxiliary      String?
+  separable      Boolean?
+  partizip_ii    String?
+  comparative    String?
+  superlative    String?
+  governs_case   String?
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  senses      VocabSense[]
+  verb_forms  VocabVerbForm[]
+  occurrences VocabOccurrence[]
+  progress    VocabProgress[]
+  exercises   VocabExercise[]
+
+  @@unique([lemma, article, pos])
+  @@index([pos, source])
+  @@map("vocab_entries")
+}
+
+model VocabSense {
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entry_id   String  @db.Uuid
+  sort_order Int     @default(0)
+  meaning_fr String
+  meaning_en String?
+  example_de String
+  example_fr String?
+  example_en String?
+  note_fr    String?
+  note_en    String?
+
+  entry VocabEntry @relation(fields: [entry_id], references: [id], onDelete: Cascade)
+
+  @@index([entry_id, sort_order])
+  @@map("vocab_senses")
+}
+
+/// German-only conjugation cells (no translations).
+model VocabVerbForm {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entry_id String @db.Uuid
+  tense    String
+  person   String
+  form_de  String
+
+  entry VocabEntry @relation(fields: [entry_id], references: [id], onDelete: Cascade)
+
+  @@unique([entry_id, tense, person])
+  @@map("vocab_verb_forms")
+}
+
+model VocabOccurrence {
+  id               String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  vocab_entry_id   String  @db.Uuid
+  modelltest_id    String  @db.Uuid
+  skill            String
+  content_revision String  @default("")
+  context_snippet  String?
+  in_weekly_pack   Boolean @default(false)
+
+  entry      VocabEntry @relation(fields: [vocab_entry_id], references: [id], onDelete: Cascade)
+  modelltest Modelltest @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
+
+  @@unique([vocab_entry_id, modelltest_id, skill, content_revision])
+  @@index([modelltest_id, in_weekly_pack])
+  @@map("vocab_occurrences")
+}
+
+model VocabProgress {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id     String
+  vocab_entry_id String   @db.Uuid
+  status         String
+  updated_at     DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  student Student    @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  entry   VocabEntry @relation(fields: [vocab_entry_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, vocab_entry_id])
+  @@map("vocab_progress")
+}
+
+model VocabExercise {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  modelltest_id  String  @db.Uuid
+  vocab_entry_id String? @db.Uuid
+  kind           String
+  prompt_fr      String
+  prompt_en      String?
+  prompt_de      String?
+  options_json   Json?
+  answer         String
+  explanation_fr String?
+  sort_order     Int     @default(0)
+
+  modelltest Modelltest  @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
+  entry      VocabEntry? @relation(fields: [vocab_entry_id], references: [id], onDelete: SetNull)
+
+  @@index([modelltest_id, sort_order])
+  @@map("vocab_exercises")
 }

@@ -10,6 +10,7 @@ import { submitOnce } from '../student-activity/submit-once';
 import { grammarDayBounds, topicOfTheDay } from './grammar-day';
 import {
   exerciseStatusAtIndex,
+  pickOfTheDayExercises,
   sortGrammarExercises,
 } from './grammar-exercise-order';
 import { grammarImageUrlForSlug } from './grammar-image-url';
@@ -23,6 +24,7 @@ import {
 import {
   GRAMMAR_PRACTICE_LEVELS,
   isGrammarPracticeDifficulty,
+  practiceQuestionCountFor,
 } from './grammar-practice-levels';
 import type {
   CompleteLessonResponseDto,
@@ -38,7 +40,7 @@ import type {
   SubmitGrammarPracticeResponseDto,
 } from './dto/grammar.dto';
 
-type GrammarAccessOpts = { isGuest?: boolean; lang?: GrammarLang | string };
+type GrammarAccessOpts = { isGuest?: boolean; lang?: GrammarLang };
 
 type GrammarProgressRow = {
   id: string;
@@ -63,11 +65,15 @@ export class GrammarService {
   ): Promise<GrammarOfTheDayDto> {
     const lang = parseGrammarLang(opts.lang ?? DEFAULT_GRAMMAR_LANG);
     const topic = await this.resolveTopicOfTheDay(now);
-    const [progress, exercisesTotal, modelltestNumber] = await Promise.all([
+    const [progress, dayExercises, modelltestNumber] = await Promise.all([
       this.getOrInitProgress(studentId, topic.id, opts),
-      this.prisma.grammarExercise.count({ where: { topic_id: topic.id } }),
+      this.prisma.grammarExercise.findMany({
+        where: { topic_id: topic.id },
+        select: { id: true, difficulty: true, sort_order: true },
+      }),
       this.safeWeeklyNumber(now),
     ]);
+    const exercisesTotal = pickOfTheDayExercises(dayExercises).length;
 
     return {
       modelltestNumber,
@@ -108,7 +114,10 @@ export class GrammarService {
 
     if (opts.isGuest === true) {
       progress.lesson_completed = true;
-      this.guestProgress.set(this.guestProgressKey(studentId, topic.id), progress);
+      this.guestProgress.set(
+        this.guestProgressKey(studentId, topic.id),
+        progress,
+      );
       return {
         lessonCompleted: true,
         nextExerciseIndex: progress.next_exercise_index,
@@ -143,7 +152,7 @@ export class GrammarService {
     const raw = await this.prisma.grammarExercise.findMany({
       where: { topic_id: topic.id },
     });
-    const ordered = sortGrammarExercises(raw);
+    const ordered = pickOfTheDayExercises(raw);
 
     return {
       topicId: topic.id,
@@ -161,6 +170,9 @@ export class GrammarService {
           options: Array.isArray(exo.options_json)
             ? (exo.options_json as string[])
             : null,
+          answer: exo.answer,
+          explanation: localized.explanation,
+          explanationFr: localized.explanation,
           status: exerciseStatusAtIndex(
             index,
             progress.lesson_completed,
@@ -177,13 +189,19 @@ export class GrammarService {
         id: level.id,
         difficulty: level.difficulty,
         durationMinutes: level.durationMinutes,
+        questionCount: level.questionCount,
       })),
     };
   }
 
+  /**
+   * Practice QCM for the current of-the-day topic only (not the full 365 pool).
+   * With `difficulty`, returns a fixed slice: easy=10, medium=15, hard=20.
+   */
   async getPracticeExercises(
     difficulty?: string,
     opts: GrammarAccessOpts = {},
+    now: Date = new Date(),
   ): Promise<GrammarPracticeExercisesDto> {
     const lang = parseGrammarLang(opts.lang ?? DEFAULT_GRAMMAR_LANG);
     const hasDifficulty =
@@ -192,13 +210,17 @@ export class GrammarService {
       throw new BadRequestException('GRAMMAR_DIFFICULTY_INVALID');
     }
 
+    const topic = await this.resolveTopicOfTheDay(now);
     const raw = await this.prisma.grammarExercise.findMany({
       where: {
-        topic: { published: true },
+        topic_id: topic.id,
         ...(hasDifficulty ? { difficulty } : {}),
       },
     });
-    const ordered = sortGrammarExercises(raw);
+    let ordered = sortGrammarExercises(raw);
+    if (hasDifficulty && isGrammarPracticeDifficulty(difficulty)) {
+      ordered = ordered.slice(0, practiceQuestionCountFor(difficulty));
+    }
 
     return {
       exercises: ordered.map((exo) => {
@@ -378,7 +400,7 @@ export class GrammarService {
     const raw = await this.prisma.grammarExercise.findMany({
       where: { topic_id: topic.id },
     });
-    const ordered = sortGrammarExercises(raw);
+    const ordered = pickOfTheDayExercises(raw);
     const index = ordered.findIndex((e) => e.id === exerciseId);
     if (index < 0) {
       throw new NotFoundException('GRAMMAR_EXERCISE_NOT_FOUND');
@@ -473,12 +495,34 @@ export class GrammarService {
     };
   }
 
+  /**
+   * Today's topic from the weekly Modelltest pool (not the global 365 catalogue).
+   */
   private async resolveTopicOfTheDay(now: Date) {
-    const pool = await this.prisma.grammarTopic.findMany({
-      where: { published: true },
-      include: { examples: true },
-      orderBy: [{ sort_order: 'asc' }, { slug: 'asc' }],
+    let weeklyNumber: number;
+    try {
+      weeklyNumber = await this.trainingAccess.weeklyModelltestNumber(now);
+    } catch {
+      throw new NotFoundException('GRAMMAR_POOL_EMPTY');
+    }
+
+    const mt = await this.prisma.modelltest.findUnique({
+      where: { number: weeklyNumber },
+      select: { id: true },
     });
+    if (!mt) {
+      throw new NotFoundException('GRAMMAR_POOL_EMPTY');
+    }
+
+    const links = await this.prisma.grammarTopicModelltest.findMany({
+      where: {
+        modelltest_id: mt.id,
+        topic: { published: true },
+      },
+      include: { topic: { include: { examples: true } } },
+      orderBy: [{ sort_order: 'asc' }, { topic: { slug: 'asc' } }],
+    });
+    const pool = links.map((link) => link.topic);
     if (pool.length === 0) {
       throw new NotFoundException('GRAMMAR_POOL_EMPTY');
     }

@@ -15,28 +15,36 @@ Author: drafted 2026-10-13 against branch `fix/listening-training-reissue-url` @
 | API Nest « directe » | Pas de `modelltest=` ni de `topic=` choisi par l’élève en V1 — résolution serveur |
 | **Contenu ≠ Exercices** | Surfaces séparées : apprendre vs pratiquer |
 | APIs externes | Import offline uniquement |
-| Vocabulaire | Pack **hebdo** (tous les mots du MT courant) |
-| Grammaire | **1 topic / jour** (rotation dans les topics liés au MT weekly) |
+| Vocabulaire | Pack **hebdo 100 mots clés** (algo score : MT + réputés ; ≥30 % hors MT) ; 5 natures |
+| Grammaire | **1 topic / jour** dans le pool **lié au MT weekly** (pas les 365 globaux) |
+
+Plan détail : `docs/superpowers/plans/2026-10-17-vocab-senses-conjugations-mt-scope.md`.
 
 ---
 
-## Assumptions (tranchées 2026-10-13)
+## Assumptions (tranchées 2026-10-13, mises à jour 2026-10-17)
 
 | # | Décision | Notes |
 |---|---|---|
-| 1 | ✅ **Guests** : vocab + grammar **accessibles** (même esprit que MT of-the-week / rotation demo) | Auth guest JWT OK |
-| 2 | ✅ UX vocab = **of-the-week** only ; pas de sélecteur MT / Prep Pass | — |
-| 3 | ✅ Vocab = occurrences liées aux MT (servi via weekly) | — |
+| 1 | ✅ **Guests** : vocab + grammar **accessibles** | Auth guest JWT OK |
+| 2 | ✅ UX vocab = **of-the-week** ; pas de sélecteur MT / Prep Pass | — |
+| 3 | ✅ Pack = **100** (36 subst. / 27 verbes / 17 adj / 10 adv / 10 prep) via algo ; **pas** tout le MT | Toujours ≥30 % hors MT |
+| 3b | ✅ Phase offline **analyse MT → extract** candidats avant enrich / pack | `npm run vocab:analyze-extract` |
+| 3c | ✅ Multi-sens `VocabSense[]` + conjugaison verbe DE-only en DB | Traduction au niveau des sens |
+| 3d | ✅ Search catalogue ; **pas** d’ajout manuel de mots V1 | — |
+| 3e | ⏳ Quiz vocab : answers dans GET (ADR 0001) + submit score | Levels helpers prêts ; endpoints HTTP **pas encore** exposés |
+| 3f | ⏳ Practice vocab = **3 niveaux** ; Q + chrono = grammar **× 2,5** (arrondi) | Easy 25 Q / 13 min · Medium 38 / 18 · Hard 50 / 25 — helpers `vocab-practice-levels` ; API practice **à venir** |
+| 3g | ✅ Vocab `?lang=fr\|en\|de` (défaut `fr`) comme grammar | Champs localisés `meaning` / `exampleGloss` / `note` (+ `lang` sur la réponse) ; `meaningFr`/`meaningEn` conservés |
 | 4 | ✅ Grammar = **thème du jour** ; thèmes **peuvent se répéter** | — |
-| 4b | ✅ Leçon → exos par difficulté, **linéaire** ; retour OK | — |
-| 4c | ✅ Déblocage exo suivant : **succès requis** (bonne réponse), pas une simple tentative | `409` si locked |
-| 4d | ✅ Liaison thèmes↔MT : **auto** en V1 (pas d’éditorial par MT — trop lourd pour un lancement sans IA) | Pool **global** `published` ; `dayIndex % N`. Méta weekly MT optionnelle dans la réponse pour contexte UI. Éditorial par MT = plus tard |
-| 5 | ✅ Homographes : **une fiche par lemma(+article)** ; `meaningFr` principal + `glossesFr[]` optionnel pour autres sens | Choix produit (quiz simple) |
-| 6 | ✅ **Tous les niveaux CEFR** dans le catalogue ; le fort peut **filtrer** selon ce qui existe / son niveau | Pas de blocage A1 |
-| 7 | ✅ Localisation fiches : **FR + EN** (règle courte aussi DE) | — |
-| 8 | ✅ Guards : `JwtAuthGuard` + `StudentSubscriptionGuard` ; pas PrepPass | — |
-| 9 | ✅ Branche depuis **`dev`** : `feat/vocab-grammar` | — |
-| 10 | ✅ Hors scope Prep Pass / `?modelltestNumber=` / picker thème | — |
+| 4b | ✅ Leçon → exos linéaire ; succès requis pour débloquer | — |
+| 4c | ✅ Déblocage exo suivant : **bonne réponse** | `409` si locked |
+| 4d | ✅ Pool grammar = topics **liés au MT weekly** (≥7 / MT) | `npm run grammar:link-modelltests` ; plus de pool global 365 |
+| 5 | ✅ Fiche = lemma(+article)+pos ; **N sens** avec exemple+trad | Remplace glossesFr[] seul |
+| 6 | ✅ Catalogue réputé **tous niveaux CEFR** | — |
+| 7 | ✅ Localisation fiches : **FR + EN** | Conjugaison = DE only |
+| 8 | ✅ Guards : JWT + StudentSubscription ; pas PrepPass | — |
+| 9 | ✅ Branche `feat/vocab-grammar` | — |
+| 10 | ✅ Hors scope Prep Pass / picker / add « mes mots » | — |
 
 ---
 
@@ -530,12 +538,12 @@ Thème (id UUID)
 /api/grammar/topics/:topicId                     GET   par UUID (préféré) — 404 si pas le thème du jour
 
 # —— EXERCICES grammar (quotidien, ordre forcé) ——
-/api/grammar/exercises/of-the-day                GET   liste ordonnée + flags locked/unlocked/done (sans answer)
+/api/grammar/exercises/of-the-day                GET   liste ordonnée + answer/explanation (ADR 0001) + flags locked/unlocked/done
 /api/grammar/exercises/:exerciseId/submit        POST  { answer } → correct ; refuse si step locked
 
 # —— PRACTICE grammar (libre, avec answers ; chrono client only) ——
-/api/grammar/levels                              GET   presets easy/medium/hard + durationMinutes 5/7/10
-/api/grammar/exercises/practice?difficulty=…     GET   pool topics published (mcq+cloze) ; difficulty optionnel
+/api/grammar/levels                              GET   presets easy/medium/hard + durationMinutes 5/7/10 + questionCount 10/15/20
+/api/grammar/exercises/practice?difficulty=…     GET   exos du thème **du jour** seulement ; difficulty → 10 / 15 / 20 QCM réalistes ; pas le catalogue 365
 /api/grammar/practice/submit                     POST  session QCM libre { answers, difficulty?, durationSeconds?, attemptId? } → score persisté
 /api/grammar/practice/sessions                   GET   historique sessions practice
 /api/grammar/practice/progress                   GET   résumé (count, moyenne, lastAttempt)
@@ -670,7 +678,7 @@ Pas de `lookup-external`, pas de proxy rep12/DWDS.
 ```
 
 `status` : `locked` | `unlocked` | `completed`.  
-Payload **sans** `answer`. Item `locked` : UI désactivée ; submit → `409 GRAMMAR_STEP_LOCKED`.
+Payload **avec** `answer` / `explanation` (ADR 0001 — comme les autres modules training). Item `locked` : UI désactivée ; submit → `409 GRAMMAR_STEP_LOCKED`.
 
 **`POST /api/grammar/of-the-day/lesson/complete`** → `{ "lessonCompleted": true, "nextExerciseIndex": 0 }`
 
@@ -993,4 +1001,4 @@ npm test && npm run test:e2e && npm run build && npm run lint
 
 ---
 
-*Ce document a été créé avec Cursor (IA).*
+*Ce document a été mis à jour avec Cursor (IA) — décisions vocab 2026-10-17.*

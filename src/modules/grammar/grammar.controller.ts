@@ -73,7 +73,8 @@ export class GrammarController {
 
   @Get('levels')
   @ApiOperation({
-    summary: 'Free-practice level presets (client timer hints only)',
+    summary:
+      'Free-practice level presets (timer hints + fixed questionCount 10/15/20)',
   })
   @ApiOkResponse({ type: GrammarPracticeLevelsDto })
   levels(): GrammarPracticeLevelsDto {
@@ -82,9 +83,10 @@ export class GrammarController {
 
   @Get('exercises/of-the-day')
   @ApiOperation({
-    summary: 'Today’s exercises (no answers); status locked|unlocked|completed',
+    summary:
+      'Today’s exercises with answers + explanation (ADR 0001); status locked|unlocked|completed',
     description:
-      'Pass optional `lang` (fr|en|de, default fr) to localize exercise prompts.',
+      'Pass optional `lang` (fr|en|de, default fr) to localize prompts and explanations. Answers are included like Sprachbausteine / Lesen / practice.',
   })
   @ApiOkResponse({ type: GrammarExercisesOfTheDayDto })
   exercisesOfTheDay(
@@ -100,9 +102,9 @@ export class GrammarController {
   @Get('exercises/practice')
   @ApiOperation({
     summary:
-      'Free-practice pool from published topics (includes answers); optional difficulty filter',
+      'Practice QCM for today’s grammar topic only (not the full catalogue); optional difficulty filter',
     description:
-      'Pass optional `lang` (fr|en|de, default fr) to localize prompt and explanation.',
+      'Returns today’s topic QCMs (with answers). Optional `difficulty` = easy|medium|hard → 10 / 15 / 20 questions. Pass `lang` (fr|en|de, default fr) to localize prompt and explanation.',
   })
   @ApiOkResponse({ type: GrammarPracticeExercisesDto })
   practiceExercises(

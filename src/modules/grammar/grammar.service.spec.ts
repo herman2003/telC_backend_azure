@@ -79,6 +79,12 @@ describe('GrammarService', () => {
       next_exercise_index: 0,
     };
     prisma = {
+      modelltest: {
+        findUnique: jest.fn().mockResolvedValue({ id: 'mt-2' }),
+      },
+      grammarTopicModelltest: {
+        findMany: jest.fn().mockResolvedValue([{ topic }]),
+      },
       grammarTopic: {
         findMany: jest.fn().mockResolvedValue([topic]),
       },
@@ -115,6 +121,25 @@ describe('GrammarService', () => {
     expect(dto.modelltestNumber).toBe(2);
     expect(dto.progress.lessonCompleted).toBe(false);
     expect(Object.prototype.hasOwnProperty.call(dto, 'exercises')).toBe(false);
+    expect(prisma.modelltest.findUnique).toHaveBeenCalledWith({
+      where: { number: 2 },
+      select: { id: true },
+    });
+    expect(prisma.grammarTopicModelltest.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          modelltest_id: 'mt-2',
+          topic: { published: true },
+        },
+      }),
+    );
+  });
+
+  it('throws GRAMMAR_POOL_EMPTY when weekly MT has no linked topics', async () => {
+    prisma.grammarTopicModelltest.findMany.mockResolvedValue([]);
+    await expect(service.getOfTheDay('student-1', now)).rejects.toBeInstanceOf(
+      NotFoundException,
+    );
   });
 
   it('localizes of-the-day topic to fr by default', async () => {
@@ -193,7 +218,7 @@ describe('GrammarService', () => {
     prisma.grammarTopicProgress.findUnique.mockResolvedValue(progressRow);
     const list = await service.getExercisesOfTheDay('student-1', now);
     expect(list.exercises.every((e) => e.status === 'locked')).toBe(true);
-    expect(list.exercises[0]).not.toHaveProperty('answer');
+    expect(list.exercises[0].answer).toBe('a');
     expect(list.exercises[0].prompt).toBe('Q0');
   });
 
@@ -203,7 +228,8 @@ describe('GrammarService', () => {
       lang: 'en',
     });
     expect(list.exercises[0].prompt).toBe('Q0 EN');
-    expect(list.exercises[0]).not.toHaveProperty('answer');
+    expect(list.exercises[0].answer).toBe('a');
+    expect(list.exercises[0].explanation).toBe('ok EN');
   });
 
   it('localizes of-the-day exercise prompts when lang=de', async () => {
@@ -264,18 +290,18 @@ describe('GrammarService', () => {
   });
 
   it('404 when pool empty', async () => {
-    prisma.grammarTopic.findMany.mockResolvedValue([]);
+    prisma.grammarTopicModelltest.findMany.mockResolvedValue([]);
     await expect(service.getOfTheDay('student-1', now)).rejects.toBeInstanceOf(
       NotFoundException,
     );
   });
 
-  it('getLevels returns 5/7/10 minute practice levels', () => {
+  it('getLevels returns 5/7/10 minute hints and 10/15/20 question counts', () => {
     const dto = service.getLevels();
     expect(dto.levels).toEqual([
-      { id: '1', difficulty: 'easy', durationMinutes: 5 },
-      { id: '2', difficulty: 'medium', durationMinutes: 7 },
-      { id: '3', difficulty: 'hard', durationMinutes: 10 },
+      { id: '1', difficulty: 'easy', durationMinutes: 5, questionCount: 10 },
+      { id: '2', difficulty: 'medium', durationMinutes: 7, questionCount: 15 },
+      { id: '3', difficulty: 'hard', durationMinutes: 10, questionCount: 20 },
     ]);
   });
 
@@ -318,7 +344,7 @@ describe('GrammarService', () => {
       difficulty: 'hard',
     });
     expect(prisma.grammarExercise.findMany).toHaveBeenCalledWith({
-      where: { topic: { published: true } },
+      where: { topic_id: 'topic-1' },
     });
   });
 
@@ -332,16 +358,41 @@ describe('GrammarService', () => {
     });
   });
 
-  it('getPracticeExercises filters by difficulty=easy', async () => {
-    prisma.grammarExercise.findMany.mockResolvedValue([exercises[0]]);
+  it('getPracticeExercises filters by difficulty=easy for today’s topic only', async () => {
+    const manyEasy = Array.from({ length: 14 }, (_, i) => ({
+      ...exercises[0],
+      id: `ex-easy-${i}`,
+      sort_order: i,
+    }));
+    prisma.grammarExercise.findMany.mockResolvedValue(manyEasy);
     const dto = await service.getPracticeExercises('easy');
     expect(dto.exercises.every((e) => e.difficulty === 'easy')).toBe(true);
-    expect(dto.exercises).toHaveLength(1);
-    expect(dto.exercises[0].id).toBe('ex-0');
-    expect(dto.exercises[0].answer).toBe('a');
+    expect(dto.exercises).toHaveLength(10);
+    expect(dto.exercises[0].id).toBe('ex-easy-0');
     expect(prisma.grammarExercise.findMany).toHaveBeenCalledWith({
-      where: { topic: { published: true }, difficulty: 'easy' },
+      where: { topic_id: 'topic-1', difficulty: 'easy' },
     });
+  });
+
+  it('getPracticeExercises caps medium at 15 and hard at 20', async () => {
+    const manyMedium = Array.from({ length: 20 }, (_, i) => ({
+      ...exercises[1],
+      id: `ex-m-${i}`,
+      sort_order: i,
+    }));
+    prisma.grammarExercise.findMany.mockResolvedValue(manyMedium);
+    const medium = await service.getPracticeExercises('medium');
+    expect(medium.exercises).toHaveLength(15);
+
+    const manyHard = Array.from({ length: 25 }, (_, i) => ({
+      ...exercises[1],
+      id: `ex-h-${i}`,
+      difficulty: 'hard',
+      sort_order: i,
+    }));
+    prisma.grammarExercise.findMany.mockResolvedValue(manyHard);
+    const hard = await service.getPracticeExercises('hard');
+    expect(hard.exercises).toHaveLength(20);
   });
 
   it('getPracticeExercises rejects invalid difficulty', async () => {
@@ -351,15 +402,33 @@ describe('GrammarService', () => {
     expect(prisma.grammarExercise.findMany).not.toHaveBeenCalled();
   });
 
-  it('of-the-day exercises still omit answer (non-regression)', async () => {
+  it('of-the-day exercises include answer and explanation like practice / ADR 0001', async () => {
     prisma.grammarTopicProgress.findUnique.mockResolvedValue(progressRow);
     const list = await service.getExercisesOfTheDay('student-1', now);
-    for (const exo of list.exercises) {
-      expect(exo).not.toHaveProperty('answer');
-      expect(exo).not.toHaveProperty('explanation');
-      expect(exo).not.toHaveProperty('explanationFr');
-      expect(exo.prompt).toBeDefined();
-    }
+    expect(list.exercises[0]).toMatchObject({
+      id: 'ex-0',
+      prompt: 'Q0',
+      answer: 'a',
+      explanation: 'ok',
+      explanationFr: 'ok',
+    });
+    expect(list.exercises[1]).toMatchObject({
+      answer: 'b',
+      explanation: 'ok',
+    });
+  });
+
+  it('of-the-day exercises localize explanation when lang=en', async () => {
+    prisma.grammarTopicProgress.findUnique.mockResolvedValue(progressRow);
+    const list = await service.getExercisesOfTheDay('student-1', now, {
+      lang: 'en',
+    });
+    expect(list.exercises[0]).toMatchObject({
+      prompt: 'Q0 EN',
+      answer: 'a',
+      explanation: 'ok EN',
+      explanationFr: 'ok EN',
+    });
   });
 
   describe('free practice submit / progress', () => {
@@ -439,7 +508,7 @@ describe('GrammarService', () => {
     it('submitPractice rejects unknown exercise ids', async () => {
       await expect(
         service.submitPractice('student-1', {
-          answers: { 'ex-0': 'a', 'missing': 'x' },
+          answers: { 'ex-0': 'a', missing: 'x' },
         }),
       ).rejects.toBeInstanceOf(BadRequestException);
     });

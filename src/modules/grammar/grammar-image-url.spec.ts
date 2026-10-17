@@ -9,7 +9,9 @@ describe('grammarImageUrlForSlug', () => {
   });
 
   it('returns null when public base URL is unset', () => {
-    expect(grammarImageUrlForSlug('nominativ-gram-a-001', undefined)).toBeNull();
+    expect(
+      grammarImageUrlForSlug('nominativ-gram-a-001', undefined),
+    ).toBeNull();
     expect(grammarImageUrlForSlug('nominativ-gram-a-001', '')).toBeNull();
     expect(grammarImageUrlForSlug('nominativ-gram-a-001', '   ')).toBeNull();
   });

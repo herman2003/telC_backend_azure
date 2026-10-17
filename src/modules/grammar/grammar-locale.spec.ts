@@ -98,10 +98,7 @@ describe('localizeGrammarTopic', () => {
   });
 
   it('falls back DE notes to FR when notes_de missing', () => {
-    const loc = localizeGrammarTopic(
-      { ...sample, notes_de: null },
-      'de',
-    );
+    const loc = localizeGrammarTopic({ ...sample, notes_de: null }, 'de');
     expect(loc.notes).toBe('Note FR');
   });
 });

@@ -83,8 +83,23 @@ describe('grammar of-the-day integration', () => {
       },
     });
 
+    const mt = await prisma.modelltest.findFirst({
+      where: { exam_only: false },
+      orderBy: { number: 'asc' },
+    });
+    if (!mt) {
+      throw new Error('Need at least one training Modelltest for integration');
+    }
+    await prisma.grammarTopicModelltest.create({
+      data: {
+        topic_id: topic.id,
+        modelltest_id: mt.id,
+        sort_order: 0,
+      },
+    });
+
     const trainingAccess = {
-      weeklyModelltestNumber: jest.fn().mockResolvedValue(1),
+      weeklyModelltestNumber: jest.fn().mockResolvedValue(mt.number),
     } as unknown as TrainingModelltestAccessService;
 
     const service = new GrammarService(prisma, trainingAccess);
