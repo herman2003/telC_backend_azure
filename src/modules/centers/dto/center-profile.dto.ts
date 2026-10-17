@@ -35,9 +35,9 @@ export class CenterOnboardingStateDto {
 
   @ApiProperty({
     type: [String],
-    example: ['country', 'city', 'phone'],
+    example: ['country', 'city', 'phone', 'logo'],
     description:
-      'Exactly the fields still needed, in a stable order so a checklist does not reshuffle between requests. Render the checklist from this rather than hard-coding the list.',
+      'Exactly the fields still needed, in a stable order so a checklist does not reshuffle between requests. Render the checklist from this rather than hard-coding the list. `logo` is required for the marketing partners strip.',
   })
   missing: string[];
 }
@@ -262,7 +262,7 @@ export class UpdateCenterDto {
   @ApiPropertyOptional({
     maxLength: 2048,
     description:
-      'An https URL to the school logo. Kept here until the upload route exists, so a center that already hosts its logo somewhere does not lose the ability to point at it.',
+      'HTTPS URL to the school logo (typically after R2 upload). Required to finish onboarding and to appear on the marketing partners strip.',
   })
   @Trim()
   @IsOptional()

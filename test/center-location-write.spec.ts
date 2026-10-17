@@ -282,6 +282,7 @@ describe('CenterProfileService location writes', () => {
           ...storedUser.center,
           country_code: 'CM',
           city_id: 'douala',
+          logo_url: 'https://cdn.lerniqo.tech/center-logos/a.png',
         },
       });
 
@@ -298,6 +299,7 @@ describe('CenterProfileService location writes', () => {
           country_code: 'CM',
           city_id: null,
           city_other: 'Kribi',
+          logo_url: 'https://cdn.lerniqo.tech/center-logos/a.png',
         },
       });
 

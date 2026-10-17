@@ -7,7 +7,7 @@
  * Written twice the two copies would drift, and the one that drifted would be
  * the one deciding whether an invoice can be raised.
  *
- * Pure: it takes the three values and returns a verdict. No database, no HTTP.
+ * Pure: it takes the values and returns a verdict. No database, no HTTP.
  */
 
 /**
@@ -16,15 +16,18 @@
  * `phone` is how an unpaid invoice gets chased, and WhatsApp is the channel
  * that actually reaches people in-market. `country` decides currency and tax
  * even though only XAF exists today. `city` is sales and support context.
+ * `logo` is required for the marketing partners strip on the vitrine.
  *
- * None of the three is needed to start a trial, which is why the gate sits at
+ * None of these is needed to start a trial, which is why the gate sits at
  * payment rather than at provisioning: a center can try the product on the
  * strength of an email address alone.
- *
- * The logo is deliberately absent — optional by decision, so a center
- * completes onboarding without one.
  */
-export const REQUIRED_PROFILE_FIELDS = ['country', 'city', 'phone'] as const;
+export const REQUIRED_PROFILE_FIELDS = [
+  'country',
+  'city',
+  'phone',
+  'logo',
+] as const;
 
 export type RequiredProfileField = (typeof REQUIRED_PROFILE_FIELDS)[number];
 
@@ -33,7 +36,7 @@ export interface OnboardingState {
   /**
    * Exactly the absent fields, in the order above. Reported so a dashboard
    * renders its checklist without holding a second copy of these rules: a
-   * fourth required field added here updates every checklist with no frontend
+   * fifth required field added here updates every checklist with no frontend
    * change.
    */
   missing: RequiredProfileField[];
@@ -72,6 +75,7 @@ export function deriveOnboardingState(supplied: {
   country: string | null;
   city: string | null;
   phone: string | null;
+  logo: string | null;
 }): OnboardingState {
   const missing = REQUIRED_PROFILE_FIELDS.filter(
     (field) => !isSupplied(supplied[field]),

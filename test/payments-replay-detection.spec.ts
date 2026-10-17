@@ -130,7 +130,12 @@ describe('recognising a replay', () => {
       centerUser: {
         findFirst: jest.fn().mockResolvedValue({
           phone: '+237690000000',
-          center: { country_code: 'CM', city_id: 'douala', city_other: null },
+          center: {
+            country_code: 'CM',
+            city_id: 'douala',
+            city_other: null,
+            logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
+          },
         }),
       },
       centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },

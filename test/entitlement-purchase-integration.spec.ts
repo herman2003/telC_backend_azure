@@ -36,7 +36,13 @@ async function makeCenter(complete = true) {
   const center = await prisma.center.create({
     data: {
       name: `Purchase Test ${Date.now()}-${Math.random()}`,
-      ...(complete ? { country_code: 'CM', city_id: 'douala' } : {}),
+      ...(complete
+        ? {
+            country_code: 'CM',
+            city_id: 'douala',
+            logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
+          }
+        : {}),
       subscription: { create: { plan: 'TRIAL' } },
     },
   });

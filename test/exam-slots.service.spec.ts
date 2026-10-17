@@ -22,7 +22,12 @@ describe('ExamSlotsService', () => {
    *  through them. */
   const completeManager = {
     phone: '+237600000000',
-    center: { country_code: 'CM', city_id: 'douala', city_other: null },
+    center: {
+      country_code: 'CM',
+      city_id: 'douala',
+      city_other: null,
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
+    },
   };
 
   let prisma: any;

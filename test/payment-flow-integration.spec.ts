@@ -78,6 +78,7 @@ async function makeTrialCenter() {
       name: `Flow Test ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
       subscription: { create: { plan: 'TRIAL' } },
       seats: { create: { quantity: 1, unit_price_xaf: 0 } },
     },

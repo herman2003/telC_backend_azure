@@ -25,7 +25,7 @@ describe('CenterProfileService', () => {
       region_id: 'littoral',
       city_id: 'douala',
       city_other: null,
-      logo_url: null,
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/a.png',
     },
   };
 
@@ -86,7 +86,7 @@ describe('CenterProfileService', () => {
         // Derived from the structured columns, the only ones stored.
         country: 'CM',
         city: 'Douala',
-        logoUrl: null,
+        logoUrl: 'https://cdn.lerniqo.tech/center-logos/a.png',
         countryCode: 'CM',
         regionId: 'littoral',
         cityId: 'douala',
@@ -96,7 +96,7 @@ describe('CenterProfileService', () => {
         street: null,
         houseNumber: null,
       },
-      // Derived on every read, never stored. This row has all three required
+      // Derived on every read, never stored. This row has all required
       // fields, so it is complete. The rules themselves are covered in
       // center-onboarding-state.spec.ts; this asserts the block belongs to the
       // response shape, so a future refactor cannot quietly drop it.
