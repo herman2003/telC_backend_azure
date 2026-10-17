@@ -557,13 +557,14 @@ describe('payments against real Postgres', () => {
     });
 
     it('still refuses when only the manager phone is missing', async () => {
-      // Two of three is not complete. The phone is the one that matters most
-      // for chasing money, so it cannot be the one that gets waived.
+      // Location + logo present, phone absent: the phone is the one that
+      // matters most for chasing money, so it cannot be the one that gets waived.
       const center = await prisma.center.create({
         data: {
           name: `Payments Test Draft No Phone ${Date.now()}`,
           country_code: 'CM',
           city_id: 'douala',
+          logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
           subscription: { create: { plan: 'TRIAL' } },
         },
       });
