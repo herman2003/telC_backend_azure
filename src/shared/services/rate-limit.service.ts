@@ -359,6 +359,21 @@ export class RateLimitService {
   }
 
   /**
+   * Landing partners strip (`GET /api/public/partner-centers`): read-only
+   * marketing logos. IP-only so scrapers cannot hammer the DB; loose enough
+   * that a real page load (one hit) never notices.
+   */
+  checkPartnerCentersLimit(ip: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:vitrine:partner-centers:ip:${ip}`,
+        max: 60,
+        ttlSeconds: 15 * 60,
+      },
+    ]);
+  }
+
+  /**
    * Caps guessing at activation codes, which are stored readable and so can
    * only be protected by how fast anyone may try them.
    *
