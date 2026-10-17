@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-d-104",
+  "titleFr": "Erreurs fréquentes : sie vs Sie",
+  "titleEn": "Common mistakes: sie vs Sie",
+  "titleDe": "Häufige Fehler — sie vs Sie",
+  "ruleFr": "## *sie* ou *Sie* ?\n\nTrois sens possibles pour la même suite de lettres :\n\n| Orthographe | Sens | Verbe typique |\n|---|---|---|\n| **sie** | elle | *sie **kommt*** (3e sg.) |\n| **sie** | ils / elles | *sie **kommen*** (3e pl.) |\n| **Sie** | vous (politesse) | *Sie **kommen*** (comme le pluriel) |\n\n### Comment distinguer\n1. **Majuscule** → vouvoiement (*Sie*).\n2. **Minuscule + verbe singulier** → elle (*sie kommt*).\n3. **Minuscule + verbe pluriel** → ils/elles (*sie kommen*).\n\n### Attention à l’écrit\nEn début de phrase, *Sie* et *Sie* (politesse) se ressemblent : le **contexte** décide.\n\n### Mini-entraînement\nPour chaque phrase, dites : elle / ils / vous ?",
+  "ruleEn": "## *sie* or *Sie*?\n\nThree meanings, one letter sequence:\n\n| Spelling | Meaning | Typical verb |\n|---|---|---|\n| **sie** | she | *sie **kommt*** (3rd sg.) |\n| **sie** | they | *sie **kommen*** (3rd pl.) |\n| **Sie** | formal you | *Sie **kommen*** (like plural) |\n\n### How to tell them apart\n1. **Capital S** → formal you (*Sie*).\n2. **Lowercase + singular verb** → she (*sie kommt*).\n3. **Lowercase + plural verb** → they (*sie kommen*).\n\n### Writing tip\nAt the start of a sentence, context decides whether *Sie* is “you” or “they/she”.\n\n### Mini practice\nFor each sentence: she / they / formal you?",
+  "ruleDe": "## *sie* oder *Sie*?\n\nDrei Bedeutungen:\n\n| Schreibweise | Bedeutung | Verb |\n|---|---|---|\n| **sie** | sie (Singular) | *sie **kommt*** |\n| **sie** | sie (Plural) | *sie **kommen*** |\n| **Sie** | Höflichkeitsform | *Sie **kommen*** |\n\n### Unterscheidung\n1. **Groß** → Anrede.\n2. **Klein + Singularverb** → Femininum Singular.\n3. **Klein + Pluralverb** → Plural.\n\n### Mini-Übung\nPro Satz: sie (Sg.) / sie (Pl.) / Sie (Anrede)?",
+  "notesFr": "Seuls la majuscule et la forme verbale permettent de distinguer !",
+  "notesEn": "Only capitalization and the verb form tell them apart!",
+  "notesDe": "Nur durch Großschreibung und Verbform unterscheidbar!",
+  "examples": [
+    {
+      "de": "Sie kommt aus Österreich.",
+      "fr": "Elle vient d’Autriche. (« sie » + verbe singulier.)",
+      "en": "She comes from Austria. (“sie” + singular verb.)"
+    },
+    {
+      "de": "Sie kommen aus Österreich.",
+      "fr": "Ils/elles viennent d’Autriche. (ou « vous venez » si majuscule en contexte formel.)",
+      "en": "They come from Austria. (or formal “you come” if capitalized as Sie.)"
+    },
+    {
+      "de": "Können Sie mir bitte den Weg zeigen?",
+      "fr": "Pouvez-vous me montrer le chemin ? (vouvoiement.)",
+      "en": "Could you please show me the way? (formal.)"
+    },
+    {
+      "de": "Wo wohnen sie?",
+      "fr": "Où habitent-ils/elles ?",
+      "en": "Where do they live?"
+    },
+    {
+      "de": "Wo wohnen Sie?",
+      "fr": "Où habitez-vous ?",
+      "en": "Where do you live? (formal.)"
+    }
+  ]
+}

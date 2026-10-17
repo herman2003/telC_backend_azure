@@ -1,0 +1,39 @@
+{
+  "slug": "derjenige-diejenige-dasjenige-gram-c-070",
+  "titleFr": "Derjenige / diejenige / dasjenige — celui qui…",
+  "titleEn": "Derjenige / diejenige / dasjenige — the one who…",
+  "titleDe": "derjenige/diejenige/dasjenige",
+  "ruleFr": "## Derjenige — renvoi précis (+ relative)\n\n**Derjenige / diejenige / dasjenige** désigne une personne ou chose **précise**, presque toujours suivi d’une **proposition relative**.\n\n### Sens\n*Derjenige, der das gesagt hat…* = Celui qui a dit cela…\n\nStyle **formel / écrit**. À l’oral : souvent *der, der…* / *die Person, die…*.\n\n### Nominatif\n| masculin | féminin | neutre | pluriel |\n|---|---|---|---|\n| **derjenige** | **diejenige** | **dasjenige** | **diejenigen** |\n\n### Structure typique\n**Derjenige** + **Relativsatz** (*der/die/das…*)\n\n### Mini-entraînement\nComplétez : *Derjenige, der … / Diejenige, die …*",
+  "ruleEn": "## Derjenige — specific reference (+ relative clause)\n\n**Derjenige / diejenige / dasjenige** points to a **specific** person/thing, almost always with a **relative clause**.\n\n### Meaning\n*Derjenige, der das gesagt hat…* = The one who said that…\n\n**Formal/written**. Speech: often *der, der…*.\n\n### Nominative\n**derjenige** · **diejenige** · **dasjenige** · **diejenigen**\n\n### Mini practice\nComplete: *Derjenige, der … / Diejenige, die …*",
+  "ruleDe": "## Derjenige — bestimmter Verweis (+ Relativsatz)\n\n**Derjenige** verweist auf eine bestimmte Person/Sache, meist mit Relativsatz.\n\n### Bedeutung\n*Derjenige, der das gesagt hat…*\n\nFormell/schriftlich. Mündlich oft *der, der…*.\n\n### Nominativ\n**derjenige** · **diejenige** · **dasjenige** · **diejenigen**\n\n### Mini-Übung\nErgänzen: *Derjenige, der … / Diejenige, die …*",
+  "notesFr": "Formel, surtout à l’écrit.",
+  "notesEn": "Formal, mostly in written language.",
+  "notesDe": "Formell, oft in schriftlicher Sprache.",
+  "examples": [
+    {
+      "de": "Derjenige, der das getan hat, soll sich melden.",
+      "fr": "Celui qui a fait cela doit se présenter.",
+      "en": "The one who did that should come forward."
+    },
+    {
+      "de": "Diejenige, die gewinnt, bekommt einen Preis.",
+      "fr": "Celle qui gagne reçoit un prix.",
+      "en": "The one (f.) who wins gets a prize."
+    },
+    {
+      "de": "Dasjenige Buch, das du suchst, liegt hier.",
+      "fr": "Le livre que tu cherches est ici.",
+      "en": "The book that you’re looking for is here."
+    },
+    {
+      "de": "Diejenigen, die kommen, sind willkommen.",
+      "fr": "Ceux qui viennent sont les bienvenus.",
+      "en": "Those who come are welcome."
+    },
+    {
+      "de": "Ich helfe demjenigen, der Hilfe braucht.",
+      "fr": "J’aide celui qui a besoin d’aide.",
+      "en": "I help the one who needs help."
+    }
+  ]
+}

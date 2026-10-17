@@ -1,0 +1,39 @@
+{
+  "slug": "es-wetter-unpersonlich-gram-aa-338",
+  "titleFr": "es — météo et constructions impersonnelles",
+  "titleEn": "es — weather & impersonal",
+  "titleDe": "es — Wetter & Unpersönlich",
+  "ruleFr": "## es — météo et impersonnel\n\n**es** peut être un **sujet grammatical** sans référent réel : météo, temps, état.\n\n### Règle centrale\nAvec beaucoup de verbes « météo » et d’expressions impersonnelles, **es** est obligatoire en position sujet.\n\n### Météo\n- *Es regnet.* / *Es schneit.* / *Es blitzt.* / *Es donnert.*\n- *Es ist kalt / warm / windig.*\n\n### Temps et moment\n- *Es ist spät.* / *Es ist drei Uhr.* / *Es wird dunkel.*\n\n### État / bien-être\n- *Es geht mir gut.* / *Es geht um …* / *Es gibt …* (voir leçon dédiée)\n\n### Note\nCe *es* n’a **pas de traduction** forte en français (*Il pleut* contient déjà un *il* impersonnel).\n\n### Mini-entraînement\n1. Décrivez la météo en 5 phrases avec *es*.\n2. Remplacez *heute* en tête : *Heute regnet es.*\n3. Formez : *Es ist …* (heure / température).",
+  "ruleEn": "## es — weather & impersonal\n\n**es** can be a **grammatical subject** with no real referent: weather, time, state.\n\n### Core rule\nWith many weather verbs and impersonal expressions, **es** is required as subject.\n\n### Weather\n- *Es regnet.* / *Es schneit.* / *Es blitzt.* / *Es donnert.*\n- *Es ist kalt / warm / windig.*\n\n### Time\n- *Es ist spät.* / *Es ist drei Uhr.* / *Es wird dunkel.*\n\n### State / well-being\n- *Es geht mir gut.* / *Es geht um …*\n\n### Note\nThis *es* has no strong English meaning — like dummy *it* in *It is raining.*\n\n### Mini practice\n1. Describe the weather in 5 sentences with *es*.\n2. Front *heute*: *Heute regnet es.*\n3. Form: *Es ist …* (time / temperature).",
+  "ruleDe": "## es — Wetter & Unpersönlich\n\n**es** kann **grammatisches Subjekt** ohne echte Bedeutung sein: Wetter, Zeit, Befinden.\n\n### Kernregel\nBei Wetterverben und unpersönlichen Ausdrücken steht **es** als Subjekt.\n\n### Wetter\n- *Es regnet.* / *Es schneit.* / *Es blitzt.* / *Es donnert.*\n- *Es ist kalt / warm / windig.*\n\n### Zeit\n- *Es ist spät.* / *Es ist drei Uhr.* / *Es wird dunkel.*\n\n### Befinden\n- *Es geht mir gut.* / *Es geht um …*\n\n### Mini-Übung\n1. Wetter in 5 Sätzen mit *es* beschreiben.\n2. *Heute* voranstellen: *Heute regnet es.*\n3. Bilden: *Es ist …* (Uhrzeit / Temperatur).",
+  "notesFr": "es = sujet grammatical sans vrai sens. Obligatoire pour la météo : Es regnet, Es ist kalt…",
+  "notesEn": "es = grammatical subject with no real meaning. Required for weather: Es regnet, Es ist kalt…",
+  "notesDe": "es = grammatisches Subjekt ohne echte Bedeutung. Pflicht beim Wetter: Es regnet, Es ist kalt…",
+  "examples": [
+    {
+      "de": "Es regnet seit Stunden.",
+      "fr": "Il pleut depuis des heures.",
+      "en": "It has been raining for hours."
+    },
+    {
+      "de": "Es ist heute sehr kalt.",
+      "fr": "Il fait très froid aujourd’hui.",
+      "en": "It is very cold today."
+    },
+    {
+      "de": "Es ist schon spät.",
+      "fr": "Il est déjà tard.",
+      "en": "It is already late."
+    },
+    {
+      "de": "Es geht mir gut, danke.",
+      "fr": "Ça va bien, merci.",
+      "en": "I’m fine, thank you."
+    },
+    {
+      "de": "Heute schneit es im Norden.",
+      "fr": "Aujourd’hui il neige dans le nord. (*es* après le verbe.)",
+      "en": "Today it is snowing in the north. (*es* after the verb.)"
+    }
+  ]
+}

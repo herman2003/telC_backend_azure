@@ -1,0 +1,39 @@
+{
+  "slug": "genus-grundlagen-gram-b-031",
+  "titleFr": "Au pluriel, l’article défini est die",
+  "titleEn": "In the plural, the definite article is die",
+  "titleDe": "Genus — Pluralartikel die",
+  "ruleFr": "## Pluriel : un seul article défini pour tous les genres\n\nAu **nominatif et à l’accusatif pluriel**, l’article défini est toujours **die** — qu’il s’agisse d’anciens *der-, die-* ou *das-*.\n\n### Tableau\n| Singulier | Pluriel (Nom./Akk.) |\n|---|---|\n| der Mann | **die** Männer |\n| die Frau | **die** Frauen |\n| das Kind | **die** Kinder |\n\n### Attention\nLe genre n’est pas « effacé » définitivement : au **singulier** il revient. Au datif/génitif pluriel, d’autres formes (*den / der*).\n\n### Erreurs fréquentes\n- Garder *der/das* au pluriel : ✗ *der Männer kommen*\n- Croire que *die* au pluriel signifie « féminin »\n\n### Mini-entraînement\n1. Passez 12 noms au pluriel avec *die*.\n2. Remettez-les au singulier avec le bon genre.\n3. Une phrase Nom. pl. et une Akk. pl.",
+  "ruleEn": "## Plural: one definite article for all genders\n\nIn **nominative and accusative plural**, the definite article is always **die** — whether the singular was *der*, *die* or *das*.\n\n### Chart\n| Singular | Plural (Nom./Akk.) |\n|---|---|\n| der Mann | **die** Männer |\n| die Frau | **die** Frauen |\n| das Kind | **die** Kinder |\n\n### Watch out\nGender is not gone forever: it returns in the **singular**. Dative/genitive plural use other forms (*den / der*).\n\n### Common mistakes\n- Keeping *der/das* in the plural: ✗ *der Männer kommen*\n- Thinking plural *die* means “feminine”\n\n### Mini practice\n1. Put 12 nouns into the plural with *die*.\n2. Put them back into the singular with the right gender.\n3. One Nom. pl. and one Akk. pl. sentence.",
+  "ruleDe": "## Plural: ein bestimmter Artikel für alle Genera\n\nIm **Nominativ und Akkusativ Plural** ist der bestimmte Artikel immer **die** — egal ob Singular *der*, *die* oder *das* war.\n\n### Tabelle\n| Singular | Plural (Nom./Akk.) |\n|---|---|\n| der Mann | **die** Männer |\n| die Frau | **die** Frauen |\n| das Kind | **die** Kinder |\n\n### Vorsicht\nDas Genus bleibt latent: im Singular kehrt es zurück. Im Dativ/Genitiv Plural andere Formen (*den / der*).\n\n### Häufige Fehler\n- *der/das* im Plural behalten\n- Plural-*die* mit Femininum gleichsetzen\n\n### Mini-Übung\n1. Zwölf Nomen mit *die* in den Plural.\n2. Zurück in den Singular mit richtigem Genus.\n3. Ein Nom.- und ein Akk.-Plural-Satz.",
+  "notesFr": "Au pluriel Nom./Akk., dites systématiquement *die* — puis réapprenez le genre dès le retour au singulier.",
+  "notesEn": "In plural Nom./Akk., systematically say *die* — then re-learn gender as soon as you return to singular.",
+  "notesDe": "Im Plural Nom./Akk. konsequent *die* sagen — Genus beim Singular sofort wieder mitlernen.",
+  "examples": [
+    {
+      "de": "Die Männer arbeiten im Garten.",
+      "fr": "Les hommes travaillent dans le jardin. (*die* pluriel < *der Mann*)",
+      "en": "The men are working in the garden. (*die* plural < *der Mann*)"
+    },
+    {
+      "de": "Die Frauen lesen die Zeitung.",
+      "fr": "Les femmes lisent le journal. (*die* < *die Frau*)",
+      "en": "The women are reading the newspaper. (*die* < *die Frau*)"
+    },
+    {
+      "de": "Die Kinder spielen draußen.",
+      "fr": "Les enfants jouent dehors. (*die* < *das Kind*)",
+      "en": "The children are playing outside. (*die* < *das Kind*)"
+    },
+    {
+      "de": "Ich sehe die Autos.",
+      "fr": "Je vois les voitures. (accusatif pluriel = *die*)",
+      "en": "I see the cars. (plural accusative = *die*)"
+    },
+    {
+      "de": "Singular wieder: der Mann, die Frau, das Kind.",
+      "fr": "Retour au singulier : *der Mann, die Frau, das Kind*.",
+      "en": "Back to singular: *der Mann, die Frau, das Kind*."
+    }
+  ]
+}

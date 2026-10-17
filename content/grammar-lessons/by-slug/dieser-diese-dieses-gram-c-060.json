@@ -1,0 +1,39 @@
+{
+  "slug": "dieser-diese-dieses-gram-c-060",
+  "titleFr": "Dieser — déclinaison au datif",
+  "titleEn": "Dieser — dative declension",
+  "titleDe": "dieser/diese/dieses",
+  "ruleFr": "## Dieser au datif (COI / après prépositions datif)\n\nAu datif, les terminaisons suivent encore l’article défini (*dem/der/dem/den*).\n\n### Tableau (datif)\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| | **diesem** | **dieser** | **diesem** | **diesen** |\n\nRappel : **-em, -er, -em, -en**.\n\n### Contextes typiques\n- Après *mit, von, zu, bei, nach, aus…* : *mit **diesem** Mann*\n- Objet indirect : *Ich gebe **dieser** Frau das Buch.*\n\n### Attention\nAu datif féminin : **dieser** (comme *der* femme) — ne pas confondre avec le nominatif masculin *dieser*.\n\n### Mini-entraînement\nComplétez : *mit ___ (dieser) Freund / Freundin / Kind / Freunden*.",
+  "ruleEn": "## Dieser in the dative\n\nDative endings again match the definite article (*dem/der/dem/den*).\n\n### Table (dative)\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| | **diesem** | **dieser** | **diesem** | **diesen** |\n\nEndings: **-em, -er, -em, -en**.\n\n### Typical contexts\n- After *mit, von, zu, bei…*: *mit **diesem** Mann*\n- Indirect object: *Ich gebe **dieser** Frau das Buch.*\n\n### Watch out\nFeminine dative **dieser** ≠ masculine nominative *dieser*.\n\n### Mini practice\nComplete: *mit ___ (dieser) Freund / Freundin / Kind / Freunden*.",
+  "ruleDe": "## Dieser im Dativ\n\nDativ-Endungen wie bestimmter Artikel (*dem/der/dem/den*).\n\n### Tabelle (Dativ)\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| | **diesem** | **dieser** | **diesem** | **diesen** |\n\nEndungen: **-em, -er, -em, -en**.\n\n### Mini-Übung\nErgänzen: *mit ___ Freund / Freundin / Kind / Freunden*.",
+  "notesFr": "Masculin/neutre : *-em* ; féminin : *-er* ; pluriel : *-en*.",
+  "notesEn": "Masculine/neuter: *-em*; feminine: *-er*; plural: *-en*.",
+  "notesDe": "Maskulinum/Neutrum: *-em*; Femininum: *-er*; Plural: *-en*.",
+  "examples": [
+    {
+      "de": "Ich spreche mit diesem Mann.",
+      "fr": "Je parle avec cet homme. (datif masculin.)",
+      "en": "I speak with this man. (masculine dative.)"
+    },
+    {
+      "de": "Das gehört dieser Frau.",
+      "fr": "Cela appartient à cette femme. (datif féminin.)",
+      "en": "That belongs to this woman. (feminine dative.)"
+    },
+    {
+      "de": "Wir helfen diesem Kind.",
+      "fr": "Nous aidons cet enfant. (datif neutre.)",
+      "en": "We help this child. (neuter dative.)"
+    },
+    {
+      "de": "Er fährt mit diesen Leuten.",
+      "fr": "Il part avec ces gens. (datif pluriel.)",
+      "en": "He is going with these people. (plural dative.)"
+    },
+    {
+      "de": "Zu diesem Thema habe ich eine Frage.",
+      "fr": "Sur ce sujet, j’ai une question.",
+      "en": "On this topic I have a question."
+    }
+  ]
+}

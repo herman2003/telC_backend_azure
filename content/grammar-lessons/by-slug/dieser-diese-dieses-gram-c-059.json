@@ -1,0 +1,39 @@
+{
+  "slug": "dieser-diese-dieses-gram-c-059",
+  "titleFr": "Dieser — déclinaison à l’accusatif",
+  "titleEn": "Dieser — accusative declension",
+  "titleDe": "dieser/diese/dieses",
+  "ruleFr": "## Dieser à l’accusatif (COD)\n\nÀ l’accusatif, **seul le masculin** change : *dieser* → **diesen** (comme *der* → *den*).\n\n### Tableau (accusatif)\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| | **diesen** | **diese** | **dieses** | **diese** |\n\n### Comparaison\n| cas | masculin |\n|---|---|\n| Nominatif | dieser Mann |\n| Accusatif | **diesen** Mann |\n\nFéminin, neutre, pluriel : **identiques** au nominatif.\n\n### Exemples\n- Ich sehe **diesen** Film. (m.)\n- Ich kaufe **diese** Tasche. (f.)\n- Ich lese **dieses** Buch. (n.)\n- Ich kenne **diese** Leute. (pl.)\n\n### Mini-entraînement\nTransformez 4 sujets (*dieser…*) en objets accusatifs après *sehen / kaufen / lesen*.",
+  "ruleEn": "## Dieser in the accusative (direct object)\n\nIn the accusative, **only masculine** changes: *dieser* → **diesen** (like *der* → *den*).\n\n### Table (accusative)\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| | **diesen** | **diese** | **dieses** | **diese** |\n\n### Compare\nNominative *dieser Mann* → Accusative **diesen** Mann.  \nFeminine, neuter, plural: **same** as nominative.\n\n### Mini practice\nTurn 4 subjects (*dieser…*) into accusative objects after *sehen / kaufen / lesen*.",
+  "ruleDe": "## Dieser im Akkusativ (direktes Objekt)\n\nIm Akkusativ ändert sich **nur Maskulinum**: *dieser* → **diesen** (wie *der* → *den*).\n\n### Tabelle (Akkusativ)\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| | **diesen** | **diese** | **dieses** | **diese** |\n\nFemininum, Neutrum, Plural: **gleich** wie Nominativ.\n\n### Mini-Übung\n4 Subjekte (*dieser…*) zu Akkusativ-Objekten nach *sehen / kaufen / lesen* machen.",
+  "notesFr": "Seul le masculin change : *dieser* → *diesen*.",
+  "notesEn": "Only masculine changes: *dieser* → *diesen*.",
+  "notesDe": "Nur Maskulinum ändert sich: *dieser* → *diesen*.",
+  "examples": [
+    {
+      "de": "Ich sehe diesen Film.",
+      "fr": "Je regarde ce film. (accusatif masculin.)",
+      "en": "I am watching this film. (masculine accusative.)"
+    },
+    {
+      "de": "Sie kauft diese Tasche.",
+      "fr": "Elle achète ce sac. (féminin = inchangé.)",
+      "en": "She buys this bag. (feminine unchanged.)"
+    },
+    {
+      "de": "Er liest dieses Buch.",
+      "fr": "Il lit ce livre. (neutre = inchangé.)",
+      "en": "He reads this book. (neuter unchanged.)"
+    },
+    {
+      "de": "Wir kennen diese Leute.",
+      "fr": "Nous connaissons ces gens. (pluriel = inchangé.)",
+      "en": "We know these people. (plural unchanged.)"
+    },
+    {
+      "de": "Kannst du diesen Brief lesen?",
+      "fr": "Peux-tu lire cette lettre ?",
+      "en": "Can you read this letter?"
+    }
+  ]
+}

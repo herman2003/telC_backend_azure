@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-seit-von-zu-gram-n-251",
+  "titleFr": "Datif — seit / von / zu",
+  "titleEn": "Dative — seit / von / zu",
+  "titleDe": "Dativ — seit/von/zu",
+  "ruleFr": "## *seit*, *von*, *zu* (+ datif)\n\n### *seit* = depuis (point de départ temporel)\n- **seit** Montag / **seit** einem Jahr / **seit** meiner Kindheit\n- Souvent avec le **présent** : Ich wohne **seit** 2020 hier.\n\n### *von* = de / de la part de\n- Origine : ein Brief **von** Anna\n- Intervalle : **von** Montag **bis** Freitag\n- Passif : Das Buch wurde **von** dem Autor geschrieben.\n\n### *zu* = vers / chez (personne, événement)\n- **zu** dem Arzt → **zum** Arzt\n- **zu** der Schule → **zur** Schule\n- **zu** Besuch, **zu** Fuß\n\n### Contractions\n*zu dem* = **zum**, *zu der* = **zur**\n\n### Mini-entraînement\n1. *seit* + 3 durées / dates.\n2. Transformez *zu dem / zu der* → *zum / zur*.\n3. Distinguez *von* (provenance) et *aus* (sortie / origine nationale).",
+  "ruleEn": "## *seit*, *von*, *zu* (+ dative)\n\n### *seit* = since / for (from a starting point)\n- **seit** Montag / **seit** einem Jahr\n- Often with **present**: Ich wohne **seit** 2020 hier.\n\n### *von* = from / of / by\n- Source: ein Brief **von** Anna\n- Range: **von** Montag **bis** Freitag\n- Passive agent: **von** dem Autor\n\n### *zu* = to (person, event, purpose)\n- **zu** dem Arzt → **zum** Arzt\n- **zu** der Schule → **zur** Schule\n- **zu** Besuch, **zu** Fuß\n\n### Contractions\n*zu dem* = **zum**, *zu der* = **zur**\n\n### Mini practice\n1. *seit* + 3 time spans.\n2. Contract *zu dem / zu der* → *zum / zur*.\n3. Contrast *von* and *aus*.",
+  "ruleDe": "## *seit*, *von*, *zu* (+ Dativ)\n\n### *seit* = seit\n- **seit** Montag / **seit** einem Jahr\n- Oft mit Präsens: Ich wohne **seit** 2020 hier.\n\n### *von* = von\n- Brief **von** Anna\n- **von** Montag **bis** Freitag\n- Passiv: **von** dem Autor\n\n### *zu* = zu\n- **zum** Arzt, **zur** Schule\n- **zu** Fuß\n\n### Verschmelzung\n*zu dem* = **zum**, *zu der* = **zur**\n\n### Mini-Übung\n1. *seit* + 3 Zeitangaben.\n2. *zum / zur* bilden.\n3. *von* vs. *aus*.",
+  "notesFr": "*zu dem* = *zum* ; *zu der* = *zur*.",
+  "notesEn": "*zu dem* = *zum*; *zu der* = *zur*.",
+  "notesDe": "zu + Artikel: zu dem = zum, zu der = zur.",
+  "examples": [
+    {
+      "de": "Ich lerne Deutsch seit einem Jahr.",
+      "fr": "J’apprends l’allemand depuis un an.",
+      "en": "I have been learning German for a year."
+    },
+    {
+      "de": "Das Geschenk ist von meiner Tante.",
+      "fr": "Le cadeau est de ma tante.",
+      "en": "The gift is from my aunt."
+    },
+    {
+      "de": "Ich gehe zum Arzt.",
+      "fr": "Je vais chez le médecin.",
+      "en": "I am going to the doctor."
+    },
+    {
+      "de": "Sie fährt zur Arbeit.",
+      "fr": "Elle va au travail.",
+      "en": "She is going to work."
+    },
+    {
+      "de": "Der Kurs dauert von Januar bis März.",
+      "fr": "Le cours dure de janvier à mars.",
+      "en": "The course runs from January to March."
+    }
+  ]
+}

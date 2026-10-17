@@ -1,0 +1,39 @@
+{
+  "slug": "uhrzeit-24-stunden-gram-e-122",
+  "titleFr": "Le système 24 heures",
+  "titleEn": "The 24-hour system",
+  "titleDe": "Uhrzeit — 24-Stunden",
+  "ruleFr": "## Le système 24 heures\n\nOfficiel (horaires, gares, médias) : on compte jusqu’à **24**.\n\n### Lecture\n- 14:30 = *vierzehn Uhr dreißig*\n- 20:00 = *zwanzig Uhr*\n- 00:15 = *null Uhr fünfzehn*\n\n### Quotidien vs officiel\nÀ l’oral familier : souvent 12 heures (*um acht* = 8:00 ou 20:00 selon le contexte). Les tableaux officiels évitent l’ambiguïté avec le 24 h.\n\n### Mini-entraînement\nLisez : 13:45, 17:00, 22:10.",
+  "ruleEn": "## The 24-hour clock\n\nOfficial (timetables, news): count to **24**.\n\n### Reading\n- 14:30 = *vierzehn Uhr dreißig*\n- 20:00 = *zwanzig Uhr*\n\n### Everyday vs official\nColloquially people often use 12-hour style (*um acht* may be 8 or 20). Official schedules use 24-hour time.\n\n### Mini practice\nRead: 13:45, 17:00, 22:10.",
+  "ruleDe": "## 24-Stunden-System\n\nOffiziell: *vierzehn Uhr dreißig*, *zwanzig Uhr*\nUmgangssprachlich oft 12-Stunden.\n\n### Mini-Übung\n13:45, 17:00, 22:10 vorlesen.",
+  "notesFr": "À l’oral : souvent 12 h (« um acht » = 8:00 ou 20:00).",
+  "notesEn": "Colloquially often 12-hour: “um acht” can be 8:00 or 20:00.",
+  "notesDe": "Umgangssprachlich oft 12-Stunden: „um acht“ kann 8:00 oder 20:00 sein.",
+  "examples": [
+    {
+      "de": "Der Zug fährt um 14:30 Uhr (vierzehn Uhr dreißig).",
+      "fr": "Le train part à 14 h 30.",
+      "en": "The train leaves at 14:30."
+    },
+    {
+      "de": "Das Konzert beginnt um 20:00 Uhr.",
+      "fr": "Le concert commence à 20 h.",
+      "en": "The concert begins at 20:00."
+    },
+    {
+      "de": "Die Sendung läuft um 18:15 Uhr.",
+      "fr": "L’émission passe à 18 h 15.",
+      "en": "The programme airs at 18:15."
+    },
+    {
+      "de": "Um 23:45 Uhr schließt die Bar.",
+      "fr": "À 23 h 45 le bar ferme.",
+      "en": "At 23:45 the bar closes."
+    },
+    {
+      "de": "Der Flug startet um 9:05 Uhr — oder 21:05?",
+      "fr": "Le vol décolle à 9 h 05 — ou 21 h 05 ? (ambiguïté 12 h)",
+      "en": "The flight departs at 9:05 — or 21:05? (12-hour ambiguity)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-verben-gram-a-014",
+  "titleFr": "Verbes qui régissent le datif",
+  "titleEn": "Verbs that take the dative",
+  "titleDe": "Dativ — Verben",
+  "ruleFr": "## Verbes à objet datif\n\nCertains verbes prennent **toujours** (ou principalement) un objet au **datif** — pas à l’accusatif.\n\n### Liste essentielle (A2–B1)\n*helfen, danken, gefallen, gehören, folgen, glauben, antworten, gratulieren, passen, schmecken, wehtun, verzeihen, widersprechen*\n\n### Schéma\nSujet (Nom.) + verbe + **objet (Dat.)**\n→ *Ich helfe **dir** / **dem Freund**.*\n\n### Attention\nBeaucoup d’apprenants « traduisent » comme en français et mettent l’accusatif :\n- ✗ *Ich helfe ihn.* → ✓ *Ich helfe **ihm**.*\n- ✗ *Das gehört mich.* → ✓ *Das gehört **mir**.*\n\n### Verbes à deux objets\n*geben, schenken, schicken, zeigen, erklären…* : personne au **datif**, chose à l’**accusatif**.\n\n### Mini-entraînement\n1. Apprenez 10 verbes + un pronom datif (*mir/dir/ihm/ihr/uns/euch/ihnen*).\n2. Corrigez 5 phrases fautives Akk.→Dat.\n3. Écrivez des mini-dialogues avec *danken* et *gefallen*.",
+  "ruleEn": "## Verbs with a dative object\n\nSome verbs **always** (or mainly) take a **dative** object — not accusative.\n\n### Essential list (A2–B1)\n*helfen, danken, gefallen, gehören, folgen, glauben, antworten, gratulieren, passen, schmecken, wehtun, verzeihen, widersprechen*\n\n### Pattern\nSubject (Nom.) + verb + **object (Dat.)**\n→ *Ich helfe **dir** / **dem Freund**.*\n\n### Watch out\nLearners often “translate” into accusative:\n- ✗ *Ich helfe ihn.* → ✓ *Ich helfe **ihm**.*\n- ✗ *Das gehört mich.* → ✓ *Das gehört **mir**.*\n\n### Two-object verbs\n*geben, schenken, schicken, zeigen, erklären…*: person in **dative**, thing in **accusative**.\n\n### Mini practice\n1. Learn 10 verbs + a dative pronoun (*mir/dir/ihm/ihr/uns/euch/ihnen*).\n2. Fix 5 wrong Akk.→Dat. sentences.\n3. Write mini-dialogues with *danken* and *gefallen*.",
+  "ruleDe": "## Verben mit Dativobjekt\n\nManche Verben verlangen **immer** (oder vor allem) ein **Dativobjekt** — keinen Akkusativ.\n\n### Essenzielle Liste (A2–B1)\n*helfen, danken, gefallen, gehören, folgen, glauben, antworten, gratulieren, passen, schmecken, wehtun, verzeihen, widersprechen*\n\n### Muster\nSubjekt (Nom.) + Verb + **Objekt (Dat.)**\n→ *Ich helfe **dir** / **dem Freund**.*\n\n### Vorsicht\nHäufiger Fehler: Akkusativ statt Dativ\n- ✗ *Ich helfe ihn.* → ✓ *Ich helfe **ihm**.*\n- ✗ *Das gehört mich.* → ✓ *Das gehört **mir**.*\n\n### Verben mit zwei Objekten\n*geben, schenken, schicken, zeigen, erklären…*: Person im **Dativ**, Sache im **Akkusativ**.\n\n### Mini-Übung\n1. Zehn Verben + Dativpronomen (*mir/dir/ihm/ihr/uns/euch/ihnen*).\n2. Fünf Fehler Akk.→Dat. korrigieren.\n3. Minidialoge mit *danken* und *gefallen*.",
+  "notesFr": "Carte mentale : *helfen / danken / gefallen / gehören* = datif obligatoire — apprenez-les comme des paires verbe+cas.",
+  "notesEn": "Mental card: *helfen / danken / gefallen / gehören* = compulsory dative — learn them as verb+case pairs.",
+  "notesDe": "Merkkarte: *helfen / danken / gefallen / gehören* = immer Dativ — als Verb+Kasus-Paar lernen.",
+  "examples": [
+    {
+      "de": "Kannst du mir bitte helfen?",
+      "fr": "Peux-tu m’aider s’il te plaît ? (*helfen* + datif)",
+      "en": "Can you please help me? (*helfen* + dative)"
+    },
+    {
+      "de": "Ich danke Ihnen für Ihre Hilfe.",
+      "fr": "Je vous remercie de votre aide. (*danken* + datif)",
+      "en": "I thank you for your help. (*danken* + dative)"
+    },
+    {
+      "de": "Das Buch gehört dem Lehrer.",
+      "fr": "Le livre appartient au professeur. (*gehören* + datif)",
+      "en": "The book belongs to the teacher. (*gehören* + dative)"
+    },
+    {
+      "de": "Die Musik gefällt den Gästen.",
+      "fr": "La musique plaît aux invités. (*gefallen* + datif)",
+      "en": "The guests like the music. (*gefallen* + dative)"
+    },
+    {
+      "de": "Wir gratulieren dir zum Geburtstag.",
+      "fr": "Nous te félicitons pour ton anniversaire. (*gratulieren* + datif)",
+      "en": "We congratulate you on your birthday. (*gratulieren* + dative)"
+    }
+  ]
+}

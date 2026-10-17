@@ -1,0 +1,39 @@
+{
+  "slug": "verbstruktur-grundlagen-gram-f-125",
+  "titleFr": "Structure du verbe — bases",
+  "titleEn": "Verb structure — basics",
+  "titleDe": "Verbstruktur — Grundlagen",
+  "ruleFr": "## Structure du verbe allemand\n\nUn verbe allemand = **radical (Stamm)** + **terminaison**.\n\n### Infinitif\nL’infinitif se termine presque toujours par **-en** ou **-n** :\n- *mach**en***, *spiel**en***, *geh**en***, *sein* (irrégulier)\n\n### Trouver le radical\n**Infinitif − -en / -n** = Stamm\n- *machen* → *mach-*\n- *arbeiten* → *arbeit-*\n- *wandern* → *wander-*\n\n### Ensuite\nOn ajoute les **terminaisons personnelles** (*ich -e, du -st…*) — voir la leçon suivante.\n\n### Mini-entraînement\nIsolez le radical de : *lernen, kommen, öffnen, sammeln*.",
+  "ruleEn": "## German verb structure\n\nA German verb = **stem (Stamm)** + **ending**.\n\n### Infinitive\nUsually ends in **-en** or **-n**: *machen, spielen, gehen*.\n\n### Finding the stem\n**Infinitive − -en/-n** = stem\n- *machen* → *mach-*\n- *arbeiten* → *arbeit-*\n\n### Next\nAdd **personal endings** (*ich -e, du -st…*).\n\n### Mini practice\nIsolate the stem of: *lernen, kommen, öffnen, sammeln*.",
+  "ruleDe": "## Verbstruktur — Grundlagen\n\nVerb = **Stamm** + **Endung**. Infinitiv auf *-en/-n*.\nStamm finden: Infinitiv minus *-en/-n*.\n\n### Mini-Übung\nStamm von *lernen, kommen, öffnen, sammeln*.",
+  "notesFr": "Pour trouver le radical : infinitif moins -en/-n.",
+  "notesEn": "To find the stem: infinitive minus -en/-n.",
+  "notesDe": "Um den Stamm zu finden: Infinitiv minus -en/-n.",
+  "examples": [
+    {
+      "de": "machen → Stamm: mach-",
+      "fr": "machen → radical : mach-",
+      "en": "machen → stem: mach-"
+    },
+    {
+      "de": "lernen → Stamm: lern-",
+      "fr": "lernen → radical : lern-",
+      "en": "lernen → stem: lern-"
+    },
+    {
+      "de": "gehen → Stamm: geh-",
+      "fr": "gehen → radical : geh-",
+      "en": "gehen → stem: geh-"
+    },
+    {
+      "de": "öffnen → Stamm: öffn-",
+      "fr": "öffnen → radical : öffn-",
+      "en": "öffnen → stem: öffn-"
+    },
+    {
+      "de": "Ich lerne Deutsch. (lern- + -e)",
+      "fr": "J’apprends l’allemand. (radical + terminaison.)",
+      "en": "I learn German. (stem + ending.)"
+    }
+  ]
+}

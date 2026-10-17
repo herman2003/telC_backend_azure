@@ -1,0 +1,39 @@
+{
+  "slug": "prasens-kein-progressive-gram-f-147",
+  "titleFr": "Présent — pas de progressive",
+  "titleEn": "Present — no progressive form",
+  "titleDe": "Präsens — kein Progressive",
+  "ruleFr": "## Pas de « present progressive » en allemand\n\nEn anglais : *I read* ≠ *I am reading*.  \nEn allemand : **une seule forme** — *Ich lese* couvre les deux sens.\n\n### Comment préciser « en train de » ?\n- **gerade** : *Ich lese gerade.* (= I am reading right now)\n- **jetzt** : *Was machst du jetzt?*\n- Contexte : *Was machst du? — Ich lese ein Buch.*\n\n### Formes à éviter (ou rares)\n- ✗ *Ich bin lesend* (calque de l’anglais)\n- *Ich bin am Lesen* existe à l’oral régional, mais n’est **pas** le standard à apprendre d’abord.\n\n### Mini-entraînement\nTraduisez : *I am cooking.* / *She is sleeping.* / *Are you working?*",
+  "ruleEn": "## No present progressive in German\n\nEnglish: *I read* ≠ *I am reading*.  \nGerman: **one form** — *Ich lese* covers both.\n\n### How to stress “right now”?\n- **gerade**: *Ich lese gerade.* (= I am reading right now)\n- **jetzt**: *Was machst du jetzt?*\n- Context: *Was machst du? — Ich lese ein Buch.*\n\n### Forms to avoid (or rare)\n- ✗ *Ich bin lesend* (English calque)\n- *Ich bin am Lesen* exists regionally in speech, but is **not** the standard to learn first.\n\n### Mini practice\nTranslate: *I am cooking.* / *She is sleeping.* / *Are you working?*",
+  "ruleDe": "## Kein Present Progressive im Deutschen\n\nEnglisch: *I read* ≠ *I am reading*.  \nDeutsch: **eine Form** — *Ich lese* bedeutet beides.\n\n### Wie betont man „gerade jetzt“?\n- **gerade**: *Ich lese gerade.*\n- **jetzt**: *Was machst du jetzt?*\n- Kontext: *Was machst du? — Ich lese ein Buch.*\n\n### Vermeiden (oder selten)\n- ✗ *Ich bin lesend* (Anglizismus)\n- *Ich bin am Lesen* gibt es umgangssprachlich, ist aber nicht die Standardform zum Lernen.\n\n### Mini-Übung\nÜbersetzen Sie: *I am cooking.* / *She is sleeping.* / *Are you working?*",
+  "notesFr": "Faux : *Ich bin lesend*. Correct et courant : *Ich lese (gerade)*.",
+  "notesEn": "Wrong: *Ich bin lesend*. Correct and natural: *Ich lese (gerade)*.",
+  "notesDe": "Falsch: *Ich bin lesend*. Richtig und üblich: *Ich lese (gerade)*.",
+  "examples": [
+    {
+      "de": "Was machst du? — Ich lese ein Buch.",
+      "fr": "Que fais-tu ? — Je lis un livre. (= I am reading.)",
+      "en": "What are you doing? — I am reading a book."
+    },
+    {
+      "de": "Ich koche gerade das Abendessen.",
+      "fr": "Je suis en train de préparer le dîner.",
+      "en": "I am cooking dinner right now."
+    },
+    {
+      "de": "Sie schläft noch.",
+      "fr": "Elle dort encore.",
+      "en": "She is still sleeping."
+    },
+    {
+      "de": "Arbeitest du jetzt?",
+      "fr": "Est-ce que tu travailles en ce moment ?",
+      "en": "Are you working now?"
+    },
+    {
+      "de": "Wir lernen Deutsch.",
+      "fr": "Nous apprenons l’allemand. (= we learn / we are learning.)",
+      "en": "We learn / are learning German."
+    }
+  ]
+}

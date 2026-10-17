@@ -1,0 +1,39 @@
+{
+  "slug": "futur-i-vs-prasens-gram-h-177",
+  "titleFr": "Futur I vs présent",
+  "titleEn": "Future I vs present",
+  "titleDe": "Futur I — vs. Präsens",
+  "ruleFr": "## Futur proche : présent + complément de temps\n\nEn allemand, pour un futur **proche et certain**, on utilise très souvent le **présent** + un marqueur de temps — plus naturel que le Futur I.\n\n| Plus naturel | Aussi correct |\n|---|---|\n| *Morgen **fahre** ich nach Berlin.* | *Morgen **werde** ich nach Berlin **fahren**.* |\n| *Nächste Woche **beginnt** der Kurs.* | *… **wird** der Kurs **beginnen**.* |\n\n### Quand préférer *werden* ?\nPromesse forte, futur lointain, style formel, ou pour éviter l’ambiguïté.\n\n### Mini-entraînement\nRéécrivez 4 phrases Futur I en présent + temps.",
+  "ruleEn": "## Near future: present + time expression\n\nIn German, for a **near, certain** future, the **present** + a time marker is very often more natural than Future I.\n\n| More natural | Also correct |\n|---|---|\n| *Morgen **fahre** ich nach Berlin.* | *Morgen **werde** ich nach Berlin **fahren**.* |\n| *Nächste Woche **beginnt** der Kurs.* | *… **wird** der Kurs **beginnen**.* |\n\n### When prefer *werden*?\nStrong promise, distant future, formal style, or to avoid ambiguity.\n\n### Mini practice\nRewrite 4 Future I sentences as present + time.",
+  "ruleDe": "## Nahe Zukunft: Präsens + Zeitangabe\n\nFür eine **nahe, sichere** Zukunft ist Präsens + Zeitangabe oft natürlicher als Futur I.\n\n| Natürlicher | Auch korrekt |\n|---|---|\n| *Morgen **fahre** ich nach Berlin.* | *Morgen **werde** ich … **fahren**.* |\n\n### Wann *werden*?\nStarkes Versprechen, ferne Zukunft, formeller Stil.\n\n### Mini-Übung\nSchreiben Sie 4 Futur-I-Sätze als Präsens + Zeitangabe um.",
+  "notesFr": "Le présent pour le futur est très courant en allemand !",
+  "notesEn": "Using the present for the future is very common in German!",
+  "notesDe": "Präsens für Zukunft ist im Deutschen sehr üblich!",
+  "examples": [
+    {
+      "de": "Morgen fahre ich nach Berlin.",
+      "fr": "Demain, je vais à Berlin. (présent = futur)",
+      "en": "Tomorrow I’m going to Berlin. (present = future)"
+    },
+    {
+      "de": "Nächste Woche beginnt der Kurs.",
+      "fr": "La semaine prochaine, le cours commence.",
+      "en": "The course starts next week."
+    },
+    {
+      "de": "Ich werde dir auf jeden Fall helfen.",
+      "fr": "Je t’aiderai absolument. (*werden* = promesse)",
+      "en": "I will definitely help you. (*werden* = promise)"
+    },
+    {
+      "de": "In zwei Jahren werde ich fertig sein.",
+      "fr": "Dans deux ans, j’aurai fini. (futur plus lointain)",
+      "en": "In two years I will be finished."
+    },
+    {
+      "de": "Am Freitag treffen wir uns.",
+      "fr": "Vendredi, on se retrouve.",
+      "en": "We’re meeting on Friday."
+    }
+  ]
+}

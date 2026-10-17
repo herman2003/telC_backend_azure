@@ -1,0 +1,39 @@
+{
+  "slug": "und-oder-aber-gram-q-277",
+  "titleFr": "und / oder / aber",
+  "titleEn": "und / oder / aber",
+  "titleDe": "und/oder/aber",
+  "ruleFr": "## und, oder, aber — conjonctions de coordination\n\nCes trois mots relient des mots, groupes ou phrases **de même niveau**. Ce sont des conjonctions **coordonnantes** : le verbe conjugué reste en **position 2** dans chaque proposition (pas de verbe à la fin).\n\n### und = et\nAddition, enchaînement sans opposition.\n- *Ich lerne Deutsch **und** ich arbeite in Berlin.*\n- *Tee **und** Kaffee*\n\n### oder = ou\nAlternative (choix).\n- *Trinkst du Tee **oder** Kaffee?*\n- *Wir fahren **oder** wir bleiben zu Hause.*\n\n### aber = mais (opposition)\nContraste, restriction — **sans** correction d’une négation (pour cela → *sondern*).\n- *Ich bin müde, **aber** ich arbeite weiter.*\n- *Das Wetter ist schlecht, **aber** wir gehen spazieren.*\n\n### Ordre des mots\nAprès *und / oder / aber*, la proposition suivante a encore **verbe en position 2** :\n- ✓ *…, aber **ich bleibe**.*\n- ✗ *…, aber **bleibe ich**.* (sauf si un autre élément est en position 1)\n\n### Ne pas confondre\n| Mot | Sens | Type |\n|---|---|---|\n| **aber** | mais (contraste) | coordination |\n| **sondern** | mais (correction après négation) | coordination |\n| **denn** | car | coordination |\n| **weil** | parce que | subordination (verbe à la fin) |\n\n### Mini-entraînement\n1. Reliez deux phrases avec *und*, puis avec *aber*.\n2. Formez une question avec *oder*.\n3. Vérifiez que le verbe reste en position 2 après la conjonction.",
+  "ruleEn": "## und, oder, aber — coordinating conjunctions\n\nThese three words link words, phrases or clauses **at the same level**. They are **coordinating** conjunctions: the conjugated verb stays in **position 2** in each clause (no verb-final order).\n\n### und = and\nAddition, sequence without contrast.\n- *Ich lerne Deutsch **und** ich arbeite in Berlin.*\n- *Tee **und** Kaffee*\n\n### oder = or\nAlternative (choice).\n- *Trinkst du Tee **oder** Kaffee?*\n- *Wir fahren **oder** wir bleiben zu Hause.*\n\n### aber = but (contrast)\nContrast or restriction — **not** correcting a negation (use *sondern* for that).\n- *Ich bin müde, **aber** ich arbeite weiter.*\n- *Das Wetter ist schlecht, **aber** wir gehen spazieren.*\n\n### Word order\nAfter *und / oder / aber*, the next clause still has **verb in position 2**:\n- ✓ *…, aber **ich bleibe**.*\n- ✗ *…, aber **bleibe ich**.* (unless something else fills position 1)\n\n### Don’t confuse\n| Word | Meaning | Type |\n|---|---|---|\n| **aber** | but (contrast) | coordinating |\n| **sondern** | but rather (after negation) | coordinating |\n| **denn** | because / for | coordinating |\n| **weil** | because | subordinating (verb at end) |\n\n### Mini practice\n1. Join two sentences with *und*, then with *aber*.\n2. Form a question with *oder*.\n3. Check that the verb stays in position 2 after the conjunction.",
+  "ruleDe": "## und, oder, aber — nebenordnende Konjunktionen\n\nDiese drei Wörter verbinden Wörter, Gruppen oder Sätze **auf derselben Ebene**. Sie sind **nebenordnend**: das konjugierte Verb bleibt in jedem Teilsatz an **Position 2** (kein Verb am Ende).\n\n### und = und\nAddition, Aneinanderreihung ohne Gegensatz.\n- *Ich lerne Deutsch **und** ich arbeite in Berlin.*\n- *Tee **und** Kaffee*\n\n### oder = oder\nAlternative (Wahl).\n- *Trinkst du Tee **oder** Kaffee?*\n- *Wir fahren **oder** wir bleiben zu Hause.*\n\n### aber = aber (Gegensatz)\nKontrast, Einschränkung — **keine** Korrektur nach Negation (dafür → *sondern*).\n- *Ich bin müde, **aber** ich arbeite weiter.*\n- *Das Wetter ist schlecht, **aber** wir gehen spazieren.*\n\n### Wortstellung\nNach *und / oder / aber* hat der folgende Satz noch **Verb an Position 2**:\n- ✓ *…, aber **ich bleibe**.*\n- ✗ *…, aber **bleibe ich**.* (außer wenn etwas anderes auf Position 1 steht)\n\n### Nicht verwechseln\n| Wort | Bedeutung | Typ |\n|---|---|---|\n| **aber** | Gegensatz | nebenordnend |\n| **sondern** | Korrektur nach Negation | nebenordnend |\n| **denn** | Begründung | nebenordnend |\n| **weil** | Begründung | unterordnend (Verb am Ende) |\n\n### Mini-Übung\n1. Verbinden Sie zwei Sätze mit *und*, dann mit *aber*.\n2. Bilden Sie eine Frage mit *oder*.\n3. Prüfen Sie: Verb bleibt nach der Konjunktion an Position 2.",
+  "notesFr": "Astuce : *aber* = contraste (« pourtant ») ; *sondern* = correction après *nicht/kein*.",
+  "notesEn": "Tip: *aber* = contrast (“however”); *sondern* = correction after *nicht/kein*.",
+  "notesDe": "Tipp: *aber* = Gegensatz; *sondern* = Korrektur nach *nicht/kein*.",
+  "examples": [
+    {
+      "de": "Ich trinke Kaffee und esse ein Brötchen.",
+      "fr": "Je bois du café et je mange un petit pain. (*und* = addition)",
+      "en": "I drink coffee and eat a roll. (*und* = addition)"
+    },
+    {
+      "de": "Kommst du heute oder morgen?",
+      "fr": "Tu viens aujourd’hui ou demain ? (*oder* = alternative)",
+      "en": "Are you coming today or tomorrow? (*oder* = alternative)"
+    },
+    {
+      "de": "Es regnet, aber wir gehen spazieren.",
+      "fr": "Il pleut, mais nous allons nous promener. (*aber* = contraste)",
+      "en": "It’s raining, but we’re going for a walk. (*aber* = contrast)"
+    },
+    {
+      "de": "Sie ist müde, aber sie arbeitet weiter.",
+      "fr": "Elle est fatiguée, mais elle continue de travailler.",
+      "en": "She is tired, but she keeps working."
+    },
+    {
+      "de": "Möchtest du Tee oder lieber Wasser?",
+      "fr": "Tu veux du thé ou plutôt de l’eau ?",
+      "en": "Would you like tea or rather water?"
+    }
+  ]
+}

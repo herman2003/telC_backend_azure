@@ -1,0 +1,39 @@
+{
+  "slug": "mathematik-gram-e-124",
+  "titleFr": "Le vocabulaire des opérations",
+  "titleEn": "Math operations vocabulary",
+  "titleDe": "Mathematik",
+  "ruleFr": "## Opérations arithmétiques\n\n| Symbole | Allemand |\n|---|---|\n| + | **plus** |\n| − | **minus** |\n| × | **mal** / *multipliziert mit* |\n| ÷ | **geteilt durch** |\n| = | **ist (gleich)** |\n\n### Exemples\n- *Zwei plus drei **ist** fünf.*\n- *Zehn minus vier ist sechs.*\n- *Drei mal sieben ist einundzwanzig.*\n- *Acht geteilt durch zwei ist vier.*\n\n### Accord\nOn utilise souvent ***ist*** (singulier) même pour un grand résultat : *Hundert plus fünfzig **ist** einhundertfünfzig.*\n\n### Mini-entraînement\nCalculez à voix haute : 6+7, 20−9, 4×5, 36÷6.",
+  "ruleEn": "## Arithmetic operations\n\n+ **plus** · − **minus** · × **mal** · ÷ **geteilt durch** · = **ist (gleich)**\n\n### Examples\n*Zwei plus drei ist fünf.* · *Drei mal sieben ist einundzwanzig.*\n\n### Agreement\nOften singular ***ist*** even for large results.\n\n### Mini practice\nSay aloud: 6+7, 20−9, 4×5, 36÷6.",
+  "ruleDe": "## Rechenoperationen\n\nplus, minus, mal, geteilt durch, ist (gleich)\nOft Singular: *Zwei plus drei **ist** fünf.*\n\n### Mini-Übung\n6+7, 20−9, 4×5, 36÷6 laut rechnen.",
+  "notesFr": "« ist » (singulier) même pour de grands résultats : Zwei plus drei IST fünf.",
+  "notesEn": "“ist” (singular) even for larger results: Zwei plus drei IST fünf.",
+  "notesDe": "„ist“ (Singular) auch bei größeren Ergebnissen: Zwei plus drei IST fünf.",
+  "examples": [
+    {
+      "de": "Zwei plus drei ist fünf.",
+      "fr": "Deux plus trois égalent cinq.",
+      "en": "Two plus three is five."
+    },
+    {
+      "de": "Zehn minus vier ist sechs.",
+      "fr": "Dix moins quatre égalent six.",
+      "en": "Ten minus four is six."
+    },
+    {
+      "de": "Drei mal sieben ist einundzwanzig.",
+      "fr": "Trois fois sept égalent vingt et un.",
+      "en": "Three times seven is twenty-one."
+    },
+    {
+      "de": "Acht geteilt durch zwei ist vier.",
+      "fr": "Huit divisé par deux égale quatre.",
+      "en": "Eight divided by two is four."
+    },
+    {
+      "de": "Was ist fünfzehn plus fünfundzwanzig?",
+      "fr": "Combien font quinze plus vingt-cinq ?",
+      "en": "What is fifteen plus twenty-five?"
+    }
+  ]
+}

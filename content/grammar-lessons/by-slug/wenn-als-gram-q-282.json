@@ -1,0 +1,39 @@
+{
+  "slug": "wenn-als-gram-q-282",
+  "titleFr": "wenn et als",
+  "titleEn": "wenn / als",
+  "titleDe": "wenn/als",
+  "ruleFr": "## wenn vs. als\n\nLes deux peuvent se traduire par *quand* / *lorsque*, mais le temps et la répétition comptent.\n\n### wenn\n- **Condition** : *si* → *Wenn ich Zeit habe, komme ich.*\n- **Présent / futur** : *quand* → *Wenn es regnet, bleibe ich zu Hause.*\n- **Passé répété** : *chaque fois que* → *Wenn ich Kind war, spielten wir oft draußen.* (répétition)\n\n### als\n- **Passé unique** : un événement ponctuel → *Als ich jung war, wohnte ich in Berlin.*\n- *Als der Zug ankam, war es schon dunkel.*\n\n### Règle mnémotechnique\n- **als** = une seule fois dans le passé\n- **wenn** = chaque fois / condition / présent-futur\n\n### Tableau\n| Cas | Mot |\n|---|---|\n| Si / condition | **wenn** |\n| Quand (présent/futur) | **wenn** |\n| Chaque fois (passé) | **wenn** |\n| Une fois (passé) | **als** |\n\n### Erreurs fréquentes\n- ✗ *Als ich Zeit habe, …* (présent) → ✓ *Wenn ich Zeit habe, …*\n- ✗ *Wenn ich gestern ankam, …* (unique) → ✓ *Als ich gestern ankam, …*\n\n### Mini-entraînement\n1. Une anecdote unique au passé → *als*.\n2. Une habitude → *wenn*.",
+  "ruleEn": "## wenn vs. als\n\nBoth can mean *when*, but time and repetition matter.\n\n### wenn\n- **Condition**: *if* → *Wenn ich Zeit habe, komme ich.*\n- **Present / future**: *when* → *Wenn es regnet, bleibe ich zu Hause.*\n- **Repeated past**: *whenever* → *Wenn ich Kind war, spielten wir oft draußen.*\n\n### als\n- **One-time past**: a single event → *Als ich jung war, wohnte ich in Berlin.*\n- *Als der Zug ankam, war es schon dunkel.*\n\n### Memory tip\n- **als** = once in the past\n- **wenn** = every time / condition / present-future\n\n### Table\n| Case | Word |\n|---|---|\n| If / condition | **wenn** |\n| When (present/future) | **wenn** |\n| Whenever (past) | **wenn** |\n| Once (past) | **als** |\n\n### Common mistakes\n- ✗ *Als ich Zeit habe, …* (present) → ✓ *Wenn ich Zeit habe, …*\n- ✗ *Wenn ich gestern ankam, …* (one-time) → ✓ *Als ich gestern ankam, …*\n\n### Mini practice\n1. One past anecdote → *als*.\n2. A habit → *wenn*.",
+  "ruleDe": "## wenn vs. als\n\nBeide können „wenn/als“ bedeuten, aber Zeit und Wiederholung zählen.\n\n### wenn\n- **Bedingung**: *Wenn ich Zeit habe, komme ich.*\n- **Gegenwart/Zukunft**: *Wenn es regnet, bleibe ich zu Hause.*\n- **Wiederholte Vergangenheit**: *Wenn ich Kind war, spielten wir oft draußen.*\n\n### als\n- **Einmalige Vergangenheit**: *Als ich jung war, wohnte ich in Berlin.*\n- *Als der Zug ankam, war es schon dunkel.*\n\n### Merkhilfe\n- **als** = einmal in der Vergangenheit\n- **wenn** = jedes Mal / Bedingung / Gegenwart-Zukunft\n\n### Tabelle\n| Fall | Wort |\n|---|---|\n| Bedingung | **wenn** |\n| Gegenwart/Zukunft | **wenn** |\n| Jedes Mal (Vergangenheit) | **wenn** |\n| Einmal (Vergangenheit) | **als** |\n\n### Häufige Fehler\n- ✗ *Als ich Zeit habe, …* → ✓ *Wenn ich Zeit habe, …*\n- ✗ *Wenn ich gestern ankam, …* → ✓ *Als ich gestern ankam, …*\n\n### Mini-Übung\n1. Einmalige Vergangenheit → *als*.\n2. Gewohnheit → *wenn*.",
+  "notesFr": "*als* = une fois dans le passé ; *wenn* = chaque fois / condition / futur.",
+  "notesEn": "*als* = once in the past; *wenn* = every time / condition / future.",
+  "notesDe": "*als* = einmal in der Vergangenheit; *wenn* = jedes Mal / Bedingung / Zukunft.",
+  "examples": [
+    {
+      "de": "Wenn ich Zeit habe, lese ich.",
+      "fr": "Quand j’ai le temps, je lis. (*wenn* présent)",
+      "en": "When I have time, I read. (*wenn* present)"
+    },
+    {
+      "de": "Als ich jung war, wohnte ich in Berlin.",
+      "fr": "Quand j’étais jeune, j’habitais à Berlin. (*als* passé unique)",
+      "en": "When I was young, I lived in Berlin. (*als* one-time past)"
+    },
+    {
+      "de": "Wenn es regnet, nehmen wir den Bus.",
+      "fr": "S’il pleut, nous prenons le bus. (condition)",
+      "en": "If it rains, we take the bus. (condition)"
+    },
+    {
+      "de": "Als der Film anfing, war das Kino voll.",
+      "fr": "Quand le film a commencé, le cinéma était plein.",
+      "en": "When the film started, the cinema was full."
+    },
+    {
+      "de": "Immer wenn er anruft, freue ich mich.",
+      "fr": "Chaque fois qu’il appelle, je suis content.",
+      "en": "Whenever he calls, I’m happy."
+    }
+  ]
+}

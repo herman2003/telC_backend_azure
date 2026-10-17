@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-akkusativ-gram-d-082",
+  "titleFr": "Pronoms personnels — accusatif pluriel",
+  "titleEn": "Personal pronouns — accusative plural",
+  "titleDe": "Personalpronomen — Akkusativ",
+  "ruleFr": "## Accusatif pluriel : uns, euch, sie, Sie\n\n| Nom. | Akk. |\n|---|---|\n| wir | **uns** |\n| ihr | **euch** |\n| sie (ils) | **sie** |\n| Sie (vous) | **Sie** |\n\n### Remarques\n- *uns* et *euch* servent aussi au **datif** (mêmes formes !).\n- *sie/Sie* : encore la majuscule pour le vouvoiement.\n\n### Exemples\n*Er sieht **uns**.* · *Ich höre **euch**.* · *Wir besuchen **sie**.* · *Darf ich **Sie** stören?*\n\n### Mini-entraînement\nRépondez : *Wen siehst du?* avec *uns/euch/sie/Sie*.",
+  "ruleEn": "## Accusative plural: uns, euch, sie, Sie\n\nwir→**uns** · ihr→**euch** · sie→**sie** · Sie→**Sie**\n\n### Notes\n- *uns/euch* also used in the **dative** (same forms!).\n- Capital **Sie** for polite you.\n\n### Mini practice\nAnswer *Wen siehst du?* with *uns/euch/sie/Sie*.",
+  "ruleDe": "## Akkusativ Plural\n\nwir→**uns** · ihr→**euch** · sie→**sie** · Sie→**Sie**\n\n### Hinweis\n*uns/euch* auch im Dativ identisch.\n\n### Mini-Übung\n*Wen siehst du?* mit *uns/euch/sie/Sie* antworten.",
+  "notesFr": "*sie* (eux) vs *Sie* (vous) — seule la majuscule !",
+  "notesEn": "*sie* (them) vs *Sie* (formal you) — only capitalization!",
+  "notesDe": "*sie* (them) vs *Sie* (höflich) — nur Großschreibung!",
+  "examples": [
+    {
+      "de": "Er sieht uns.",
+      "fr": "Il nous voit.",
+      "en": "He sees us."
+    },
+    {
+      "de": "Ich höre euch nicht.",
+      "fr": "Je ne vous (amis) entends pas.",
+      "en": "I can’t hear you (plural informal)."
+    },
+    {
+      "de": "Wir besuchen sie morgen.",
+      "fr": "Nous leur rendons visite demain. (sie = eux.)",
+      "en": "We’re visiting them tomorrow. (sie = they.)"
+    },
+    {
+      "de": "Darf ich Sie kurz stören?",
+      "fr": "Puis-je vous déranger un instant ?",
+      "en": "May I bother you for a moment?"
+    },
+    {
+      "de": "Der Lehrer lobt euch.",
+      "fr": "Le professeur vous félicite.",
+      "en": "The teacher praises you (pl.)."
+    }
+  ]
+}

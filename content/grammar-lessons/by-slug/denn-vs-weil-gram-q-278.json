@@ -1,0 +1,39 @@
+{
+  "slug": "denn-vs-weil-gram-q-278",
+  "titleFr": "denn ou weil",
+  "titleEn": "denn vs. weil",
+  "titleDe": "denn vs. weil",
+  "ruleFr": "## denn vs. weil — deux « parce que »\n\nLes deux introduisent une **cause**, mais l’ordre des mots change.\n\n### denn (coordination)\n*denn* = car / parce que. Proposition **indépendante** : verbe en **position 2**.\n- *Ich bleibe zu Hause, **denn** ich bin krank.*\n- Structure : …, denn + **Sujet + Verbe** + …\n\n### weil (subordination)\n*weil* = parce que. **Subordonnée** : verbe conjugué à la **fin**.\n- *Ich bleibe zu Hause, **weil** ich krank **bin**.*\n- Structure : …, weil + … + **Verbe**\n\n### Comparaison\n| | *denn* | *weil* |\n|---|---|---|\n| Type | coordonnant | subordonnant |\n| Verbe | position 2 | à la fin |\n| Virgule | oui | oui |\n| Sens | cause | cause |\n\n### Quand utiliser lequel ?\n- Même sens logique ; *weil* est plus fréquent à l’oral et à l’écrit moderne.\n- *denn* sonne un peu plus formel / littéraire, mais reste courant.\n- Après *weil*, si la subordonnée est en tête : *Weil ich krank bin, **bleibe** ich zu Hause.* (verbe du principal juste après la virgule)\n\n### Erreurs fréquentes\n- ✗ *…, denn ich krank bin.* → ✓ *…, denn ich **bin** krank.*\n- ✗ *…, weil ich bin krank.* → ✓ *…, weil ich krank **bin**.*\n\n### Mini-entraînement\n1. Réécrivez la même cause avec *denn* puis avec *weil*.\n2. Placez *weil*-phrase en tête et inversez le principal.",
+  "ruleEn": "## denn vs. weil — two ways to say “because”\n\nBoth introduce a **reason**, but word order differs.\n\n### denn (coordinating)\n*denn* = because / for. An **independent** clause: verb in **position 2**.\n- *Ich bleibe zu Hause, **denn** ich bin krank.*\n- Pattern: …, denn + **Subject + Verb** + …\n\n### weil (subordinating)\n*weil* = because. A **subordinate** clause: conjugated verb at the **end**.\n- *Ich bleibe zu Hause, **weil** ich krank **bin**.*\n- Pattern: …, weil + … + **Verb**\n\n### Comparison\n| | *denn* | *weil* |\n|---|---|---|\n| Type | coordinating | subordinating |\n| Verb | position 2 | at the end |\n| Comma | yes | yes |\n| Meaning | reason | reason |\n\n### Which to use?\n- Same logical meaning; *weil* is more common in modern speech and writing.\n- *denn* can sound slightly more formal, but is still used.\n- With *weil* first: *Weil ich krank bin, **bleibe** ich zu Hause.* (main-clause verb right after the comma)\n\n### Common mistakes\n- ✗ *…, denn ich krank bin.* → ✓ *…, denn ich **bin** krank.*\n- ✗ *…, weil ich bin krank.* → ✓ *…, weil ich krank **bin**.*\n\n### Mini practice\n1. Rewrite the same reason with *denn*, then with *weil*.\n2. Put the *weil*-clause first and invert the main clause.",
+  "ruleDe": "## denn vs. weil — zwei Begründungen\n\nBeide leiten eine **Ursache** ein, aber die Wortstellung ist anders.\n\n### denn (nebenordnend)\n*denn* = weil/denn. **Hauptsatz**: Verb an **Position 2**.\n- *Ich bleibe zu Hause, **denn** ich bin krank.*\n- Muster: …, denn + **Subjekt + Verb** + …\n\n### weil (unterordnend)\n*weil* = weil. **Nebensatz**: konjugiertes Verb am **Ende**.\n- *Ich bleibe zu Hause, **weil** ich krank **bin**.*\n- Muster: …, weil + … + **Verb**\n\n### Vergleich\n| | *denn* | *weil* |\n|---|---|---|\n| Typ | nebenordnend | unterordnend |\n| Verb | Position 2 | am Ende |\n| Komma | ja | ja |\n| Bedeutung | Begründung | Begründung |\n\n### Was nehmen?\n- Gleiche Logik; *weil* ist heute häufiger.\n- *denn* klingt etwas förmlicher, ist aber üblich.\n- *weil* vorne: *Weil ich krank bin, **bleibe** ich zu Hause.*\n\n### Häufige Fehler\n- ✗ *…, denn ich krank bin.* → ✓ *…, denn ich **bin** krank.*\n- ✗ *…, weil ich bin krank.* → ✓ *…, weil ich krank **bin**.*\n\n### Mini-Übung\n1. Dieselbe Begründung mit *denn* und mit *weil*.\n2. *weil*-Satz vorne, Hauptsatz umstellen.",
+  "notesFr": "Les deux = « parce que » ! *denn* → verbe 2 ; *weil* → verbe à la fin.",
+  "notesEn": "Both mean “because”! *denn* → verb 2; *weil* → verb at the end.",
+  "notesDe": "Beide = Begründung! *denn* → Verb 2; *weil* → Verb am Ende.",
+  "examples": [
+    {
+      "de": "Ich bleibe zu Hause, denn ich bin krank.",
+      "fr": "Je reste à la maison, car je suis malade. (*denn* : verbe en 2)",
+      "en": "I’m staying home, because I’m ill. (*denn*: verb in position 2)"
+    },
+    {
+      "de": "Ich bleibe zu Hause, weil ich krank bin.",
+      "fr": "Je reste à la maison parce que je suis malade. (*weil* : verbe à la fin)",
+      "en": "I’m staying home because I’m ill. (*weil*: verb at the end)"
+    },
+    {
+      "de": "Weil es regnet, nehmen wir den Bus.",
+      "fr": "Parce qu’il pleut, nous prenons le bus. (subordonnée en tête)",
+      "en": "Because it’s raining, we’re taking the bus. (*weil*-clause first)"
+    },
+    {
+      "de": "Er kommt nicht, denn er hat keine Zeit.",
+      "fr": "Il ne vient pas, car il n’a pas le temps.",
+      "en": "He’s not coming, because he has no time."
+    },
+    {
+      "de": "Sie lernt viel, weil sie die Prüfung bestehen will.",
+      "fr": "Elle étudie beaucoup parce qu’elle veut réussir l’examen.",
+      "en": "She studies a lot because she wants to pass the exam."
+    }
+  ]
+}

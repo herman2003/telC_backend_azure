@@ -1,0 +1,39 @@
+{
+  "slug": "uhrzeit-fragen-gram-e-118",
+  "titleFr": "Demander l’heure",
+  "titleEn": "Asking the time",
+  "titleDe": "Uhrzeit — Fragen",
+  "ruleFr": "## Demander l’heure\n\n### Deux questions équivalentes\n- ***Wie spät ist es?***\n- ***Wie viel Uhr ist es?***\n\nLes deux sont courantes et interchangeables.\n\n### Réponses de base\n- *Es ist **drei Uhr**.*\n- *Es ist **halb vier**.*\n- *Es ist **Viertel nach** zwei.*\n\n### Pour un rendez-vous\n*Um wie viel Uhr treffen wir uns?* → *Um fünf Uhr.*\n\n### Mini-entraînement\nDemandez l’heure à un partenaire et répondez de 3 façons.",
+  "ruleEn": "## Asking the time\n\n### Two equivalent questions\n- ***Wie spät ist es?***\n- ***Wie viel Uhr ist es?***\n\n### Basic answers\n- *Es ist **drei Uhr**.*\n- *Es ist **halb vier**.*\n- *Es ist **Viertel nach** zwei.*\n\n### For an appointment\n*Um wie viel Uhr treffen wir uns?* → *Um fünf Uhr.*\n\n### Mini practice\nAsk the time and answer three ways.",
+  "ruleDe": "## Nach der Uhrzeit fragen\n\n*Wie spät ist es?* / *Wie viel Uhr ist es?* — beide üblich.\n\n### Mini-Übung\nDrei verschiedene Antworten geben.",
+  "notesFr": "Les deux questions sont équivalentes et courantes.",
+  "notesEn": "Both questions are equivalent and common.",
+  "notesDe": "Beide Fragen sind gleichwertig und üblich.",
+  "examples": [
+    {
+      "de": "Wie spät ist es?",
+      "fr": "Quelle heure est-il ?",
+      "en": "What time is it?"
+    },
+    {
+      "de": "Wie viel Uhr ist es?",
+      "fr": "Quelle heure est-il ? (variante.)",
+      "en": "What time is it? (variant.)"
+    },
+    {
+      "de": "Es ist zehn Uhr.",
+      "fr": "Il est dix heures.",
+      "en": "It is ten o’clock."
+    },
+    {
+      "de": "Um wie viel Uhr beginnt der Kurs?",
+      "fr": "À quelle heure commence le cours ?",
+      "en": "What time does the course start?"
+    },
+    {
+      "de": "Entschuldigung, haben Sie die Uhrzeit?",
+      "fr": "Pardon, avez-vous l’heure ?",
+      "en": "Excuse me, do you have the time?"
+    }
+  ]
+}

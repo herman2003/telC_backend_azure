@@ -1,0 +1,39 @@
+{
+  "slug": "zeitadverbien-vergangenheit-gram-m-235",
+  "titleFr": "Adverbes de temps — passé",
+  "titleEn": "Time adverbs — past",
+  "titleDe": "Zeitadverbien — Vergangenheit",
+  "ruleFr": "## Adverbes de temps — passé\n\nIls situent l’action **dans le passé**.\n\n### Liste utile\n| Allemand | Sens |\n|---|---|\n| gestern | hier |\n| vorgestern | avant-hier |\n| früher | autrefois / avant |\n| damals | à l’époque |\n| neulich / kürzlich | récemment |\n| vorhin | tout à l’heure (passé proche) |\n| eben | juste à l’instant |\n\n### Emploi avec les temps\nSouvent avec **Perfekt** ou **Präteritum** :\n- Ich war **gestern** krank.\n- **Damals** lebten wir in Hamburg.\n- Ich habe ihn **vorhin** gesehen.\n\n### Nuances\n- *früher* = « avant, jadis » (habitude passée)\n- *damals* = moment précis du passé (« à ce moment-là »)\n- *eben / vorhin* = passé très récent\n\n### Mini-entraînement\n1. Remplacez une date par un adverbe (*gestern*, *neulich*).\n2. Écrivez 3 phrases au Perfekt avec *gestern / vorhin / damals*.\n3. Distinguez *früher* et *damals* dans deux phrases.",
+  "ruleEn": "## Time adverbs — past\n\nThey place the action **in the past**.\n\n### Useful list\n| German | Meaning |\n|---|---|\n| gestern | yesterday |\n| vorgestern | the day before yesterday |\n| früher | earlier / in the past |\n| damals | back then / at that time |\n| neulich / kürzlich | recently |\n| vorhin | a short while ago |\n| eben | just now |\n\n### Use with tenses\nOften with **Perfekt** or **Präteritum**:\n- Ich war **gestern** krank.\n- **Damals** lebten wir in Hamburg.\n- Ich habe ihn **vorhin** gesehen.\n\n### Nuances\n- *früher* = formerly / used to\n- *damals* = at that (specific) time\n- *eben / vorhin* = very recent past\n\n### Mini practice\n1. Replace a date with an adverb (*gestern*, *neulich*).\n2. Write 3 Perfekt sentences with *gestern / vorhin / damals*.\n3. Contrast *früher* and *damals* in two sentences.",
+  "ruleDe": "## Zeitadverbien — Vergangenheit\n\nSie verorten die Handlung **in der Vergangenheit**.\n\n### Nützliche Liste\n| Deutsch | Bedeutung |\n|---|---|\n| gestern | gestern |\n| vorgestern | vorgestern |\n| früher | früher / früher einmal |\n| damals | damals |\n| neulich / kürzlich | vor Kurzem |\n| vorhin | vorhin |\n| eben | gerade eben |\n\n### Gebrauch mit Tempora\nOft mit **Perfekt** oder **Präteritum**:\n- Ich war **gestern** krank.\n- **Damals** lebten wir in Hamburg.\n- Ich habe ihn **vorhin** gesehen.\n\n### Nuancen\n- *früher* = früher einmal / Gewohnheit\n- *damals* = zu einem bestimmten Zeitpunkt\n- *eben / vorhin* = sehr nahe Vergangenheit\n\n### Mini-Übung\n1. Datum durch Adverb ersetzen.\n2. 3 Perfekt-Sätze mit *gestern / vorhin / damals*.\n3. *früher* und *damals* kontrastieren.",
+  "notesFr": "Aussi : *vorhin* (il y a un instant), *eben* (juste maintenant).",
+  "notesEn": "Also: *vorhin* (a moment ago), *eben* (just now).",
+  "notesDe": "Auch: vorhin, eben.",
+  "examples": [
+    {
+      "de": "Gestern habe ich einen Film gesehen.",
+      "fr": "Hier, j’ai vu un film.",
+      "en": "Yesterday I watched a film."
+    },
+    {
+      "de": "Damals wohnte ich in München.",
+      "fr": "À l’époque, j’habitais à Munich.",
+      "en": "Back then I lived in Munich."
+    },
+    {
+      "de": "Früher habe ich viel Sport gemacht.",
+      "fr": "Autrefois, je faisais beaucoup de sport.",
+      "en": "I used to do a lot of sport."
+    },
+    {
+      "de": "Ich habe ihn vorhin getroffen.",
+      "fr": "Je l’ai rencontré tout à l’heure.",
+      "en": "I met him a short while ago."
+    },
+    {
+      "de": "Neulich war ich in Wien.",
+      "fr": "Récemment, j’étais à Vienne.",
+      "en": "I was in Vienna recently."
+    }
+  ]
+}

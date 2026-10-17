@@ -1,0 +1,39 @@
+{
+  "slug": "nominativ-gram-a-002",
+  "titleFr": "Le nominatif après sein, werden, bleiben",
+  "titleEn": "Nominative after sein, werden, bleiben",
+  "titleDe": "Nominativ nach sein, werden, bleiben",
+  "ruleFr": "## Nominatif après *sein*, *werden*, *bleiben*\n\nAprès les verbes **sein** (être), **werden** (devenir) et **bleiben** (rester), le complément n’est **pas** un accusatif : c’est un **prédicatif au nominatif** (égalité / identité avec le sujet).\n\n### Règle centrale\nSujet (Nom.) + *sein / werden / bleiben* + **prédicatif (Nom.)**\n\n- *Er ist **Lehrer**.*\n- *Sie wird **Ärztin**.*\n- *Das bleibt **ein Geheimnis**.*\n\n### Articles au nominatif (rappel)\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | der | die | das | die |\n| indéfini | ein | eine | ein | — |\n\n### Contraste important\n- ✓ *Er ist **der Chef**.* (prédicatif = Nom.)\n- ✓ *Er sieht **den Chef**.* (objet = Akk.)\n\n### Erreurs fréquentes\n- ✗ *Er ist den Lehrer.* → ✓ *Er ist **der** Lehrer.* / *Er ist Lehrer.*\n- Oublier l’accord en genre : *Sie ist **Ärztin***.\n\n### Mini-entraînement\n1. Complétez : *Mein Bruder ist ___ (Arzt).*\n2. Transformez : *Sie arbeitet als Lehrerin.* → *Sie ist ___ .*\n3. Contrastez : une phrase avec *sein* + Nom. et une avec *sehen* + Akk.",
+  "ruleEn": "## Nominative after *sein*, *werden*, *bleiben*\n\nAfter **sein** (to be), **werden** (to become) and **bleiben** (to remain), the complement is **not** accusative: it is a **predicate nominative**.\n\n### Core rule\nSubject (Nom.) + *sein / werden / bleiben* + **predicative (Nom.)**\n\n- *Er ist **Lehrer**.*\n- *Sie wird **Ärztin**.*\n- *Das bleibt **ein Geheimnis**.*\n\n### Nominative articles (reminder)\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | der | die | das | die |\n| indefinite | ein | eine | ein | — |\n\n### Important contrast\n- ✓ *Er ist **der Chef**.* (predicative = Nom.)\n- ✓ *Er sieht **den Chef**.* (object = Akk.)\n\n### Common mistakes\n- ✗ *Er ist den Lehrer.* → ✓ *Er ist **der** Lehrer.* / *Er ist Lehrer.*\n- Gender: *Sie ist **Ärztin***.\n\n### Mini practice\n1. Complete: *Mein Bruder ist ___ (Arzt).*\n2. Transform: *Sie arbeitet als Lehrerin.* → *Sie ist ___ .*\n3. Contrast *sein* + Nom. vs *sehen* + Akk.",
+  "ruleDe": "## Nominativ nach *sein*, *werden*, *bleiben*\n\nNach **sein**, **werden** und **bleiben** steht ein **Prädikativ im Nominativ**, kein Akkusativobjekt.\n\n### Kernregel\nSubjekt (Nom.) + *sein / werden / bleiben* + **Prädikativ (Nom.)**\n\n- *Er ist **Lehrer**.*\n- *Sie wird **Ärztin**.*\n- *Das bleibt **ein Geheimnis**.*\n\n### Artikel im Nominativ\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| bestimmt | der | die | das | die |\n| unbestimmt | ein | eine | ein | — |\n\n### Kontrast\n- ✓ *Er ist **der Chef**.* (Prädikativ = Nom.)\n- ✓ *Er sieht **den Chef**.* (Objekt = Akk.)\n\n### Häufige Fehler\n- ✗ *Er ist den Lehrer.* → ✓ *Er ist **der** Lehrer.*\n- Genus: *Sie ist **Ärztin***.\n\n### Mini-Übung\n1. Ergänzen: *Mein Bruder ist ___ (Arzt).*\n2. Umformen: *Sie arbeitet als Lehrerin.* → *Sie ist ___ .*\n3. Kontrast *sein* + Nom. vs *sehen* + Akk.",
+  "notesFr": "Astuce : si le deuxième nom « égale » le sujet (*il est X*), gardez le nominatif — jamais *den/einen* après *sein*.",
+  "notesEn": "Tip: if the second noun “equals” the subject (*he is X*), keep nominative — never *den/einen* after *sein*.",
+  "notesDe": "Tipp: Wenn das zweite Nomen das Subjekt „gleichsetzt“ (*er ist X*), bleibt Nominativ — nie *den/einen* nach *sein*.",
+  "examples": [
+    {
+      "de": "Mein Vater ist Arzt.",
+      "fr": "Mon père est médecin. (prédicatif au nominatif après *sein*)",
+      "en": "My father is a doctor. (predicate nominative after *sein*)"
+    },
+    {
+      "de": "Sie wird Lehrerin.",
+      "fr": "Elle devient enseignante. (*werden* + nominatif)",
+      "en": "She is becoming a teacher. (*werden* + nominative)"
+    },
+    {
+      "de": "Er bleibt mein Freund.",
+      "fr": "Il reste mon ami. (*bleiben* + nominatif)",
+      "en": "He remains my friend. (*bleiben* + nominative)"
+    },
+    {
+      "de": "Das ist ein Problem.",
+      "fr": "C’est un problème. (*ein Problem* = nominatif neutre)",
+      "en": "That is a problem. (*ein Problem* = neuter nominative)"
+    },
+    {
+      "de": "Die Kinder sind Schüler.",
+      "fr": "Les enfants sont des élèves. (pluriel au nominatif)",
+      "en": "The children are pupils. (plural nominative)"
+    }
+  ]
+}

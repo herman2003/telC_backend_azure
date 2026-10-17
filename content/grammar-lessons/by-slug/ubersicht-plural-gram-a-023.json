@@ -1,0 +1,39 @@
+{
+  "slug": "ubersicht-plural-gram-a-023",
+  "titleFr": "Tableau des articles au pluriel",
+  "titleEn": "Overview of plural article forms",
+  "titleDe": "Übersicht — Plural",
+  "ruleFr": "## Articles au pluriel (tous genres identiques)\n\nAu pluriel, le genre grammatical disparaît pour l’article défini :\n\n| Cas | pluriel |\n|---|---|\n| Nominatif | **die** |\n| Accusatif | **die** |\n| Datif | **den** (+ *-n* sur le nom si possible) |\n| Génitif | **der** |\n\n### Exemples\n- Nom./Akk. : **Die** Kinder spielen. / Ich sehe **die** Kinder.\n- Dat. : Ich helfe **den Kindern**.\n- Gen. : die Spiele **der** Kinder\n\n### Indéfini pluriel\nPas de *ein*. Options : zéro article, *keine*, *einige*, *viele*, *meine*…\n\n### Erreurs fréquentes\n- ✗ *den Kinder* → ✓ *den Kindern*\n- Garder un article de genre au pluriel : ✗ *der Kinder spielen* (si sujet)\n\n### Mini-entraînement\n1. Déclinez *die Freunde* aux 4 cas.\n2. Transformez 5 singuliers en pluriel + article.\n3. Faites une phrase datif pluriel avec *-n*.",
+  "ruleEn": "## Plural articles (all genders alike)\n\nIn the plural, grammatical gender disappears for the definite article:\n\n| Case | plural |\n|---|---|\n| Nominative | **die** |\n| Accusative | **die** |\n| Dative | **den** (+ *-n* on the noun if possible) |\n| Genitive | **der** |\n\n### Examples\n- Nom./Akk.: **Die** Kinder spielen. / Ich sehe **die** Kinder.\n- Dat.: Ich helfe **den Kindern**.\n- Gen.: die Spiele **der** Kinder\n\n### Indefinite plural\nNo *ein*. Options: zero article, *keine*, *einige*, *viele*, *meine*…\n\n### Common mistakes\n- ✗ *den Kinder* → ✓ *den Kindern*\n- Keeping a gender article in the plural subject: ✗ *der Kinder spielen*\n\n### Mini practice\n1. Decline *die Freunde* in 4 cases.\n2. Turn 5 singulars into plural + article.\n3. Make one dative-plural sentence with *-n*.",
+  "ruleDe": "## Artikel im Plural (alle Genera gleich)\n\nIm Plural fällt das Genus beim bestimmten Artikel weg:\n\n| Kasus | Plural |\n|---|---|\n| Nominativ | **die** |\n| Akkusativ | **die** |\n| Dativ | **den** (+ *-n* am Nomen wenn möglich) |\n| Genitiv | **der** |\n\n### Beispiele\n- Nom./Akk.: **Die** Kinder spielen. / Ich sehe **die** Kinder.\n- Dat.: Ich helfe **den Kindern**.\n- Gen.: die Spiele **der** Kinder\n\n### Unbestimmter Plural\nKein *ein*. Stattdessen: Nullartikel, *keine*, *einige*, *viele*, *meine*…\n\n### Häufige Fehler\n- ✗ *den Kinder* → ✓ *den Kindern*\n- Genusartikel im Plural-Subjekt: ✗ *der Kinder spielen*\n\n### Mini-Übung\n1. *die Freunde* in 4 Kasus.\n2. Fünf Singularformen → Plural + Artikel.\n3. Ein Dativ-Plural-Satz mit *-n*.",
+  "notesFr": "Au pluriel, retenez la série courte *die–die–den–der* et le *-n* du datif — c’est tout le système.",
+  "notesEn": "In the plural, remember the short series *die–die–den–der* and dative *-n* — that is the whole system.",
+  "notesDe": "Im Plural die kurze Reihe *die–die–den–der* und Dativ-*-n* merken — das ist das ganze System.",
+  "examples": [
+    {
+      "de": "Die Kinder spielen im Hof.",
+      "fr": "Les enfants jouent dans la cour. (*die* = nominatif pluriel)",
+      "en": "The children are playing in the yard. (*die* = plural nominative)"
+    },
+    {
+      "de": "Ich sehe die Kinder.",
+      "fr": "Je vois les enfants. (*die* = accusatif pluriel)",
+      "en": "I see the children. (*die* = plural accusative)"
+    },
+    {
+      "de": "Ich helfe den Kindern.",
+      "fr": "J’aide les enfants. (*den Kindern* = datif pluriel)",
+      "en": "I help the children. (*den Kindern* = plural dative)"
+    },
+    {
+      "de": "Die Spiele der Kinder sind laut.",
+      "fr": "Les jeux des enfants sont bruyants. (*der Kinder* = génitif pluriel)",
+      "en": "The children’s games are loud. (*der Kinder* = plural genitive)"
+    },
+    {
+      "de": "Viele Freunde kommen zur Party.",
+      "fr": "Beaucoup d’amis viennent à la fête. (pluriel sans *ein*)",
+      "en": "Many friends are coming to the party. (plural without *ein*)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "infinitiv-ohne-zu-gram-v-315",
+  "titleFr": "L’infinitif sans zu",
+  "titleEn": "Infinitive WITHOUT zu",
+  "titleDe": "Infinitiv OHNE zu",
+  "ruleFr": "## Infinitif **sans** *zu*\n\nCertains verbes exigent l’infinitif **sans** *zu*.\n\n### Liste essentielle\n| Groupe | Verbes |\n|---|---|\n| Modaux | können, müssen, wollen, sollen, dürfen, mögen |\n| Perception | sehen, hören, fühlen |\n| Autres | lassen, werden, gehen, bleiben, lernen (souvent) |\n\n### Exemples\n- *Ich **kann** schwimmen.* (pas *zu schwimmen*)\n- *Ich **sehe** ihn kommen.*\n- *Ich **höre** sie singen.*\n- *Ich **gehe** einkaufen.*\n- *Ich **lasse** das Auto reparieren.*\n\n### Erreur classique\n✗ *Ich kann zu schwimmen.* → ✓ *Ich kann schwimmen.*\n\n### Mini-entraînement\nFormez une phrase avec chaque groupe (modal / sehen / gehen).",
+  "ruleEn": "## Infinitive **without** *zu*\n\nSome verbs take a bare infinitive (**no** *zu*).\n\n### Essential list\n| Group | Verbs |\n|---|---|\n| Modals | können, müssen, wollen, sollen, dürfen, mögen |\n| Perception | sehen, hören, fühlen |\n| Others | lassen, werden, gehen, bleiben, lernen (often) |\n\n### Examples\n- *Ich **kann** schwimmen.*\n- *Ich **sehe** ihn kommen.*\n- *Ich **höre** sie singen.*\n- *Ich **gehe** einkaufen.*\n- *Ich **lasse** das Auto reparieren.*\n\n### Classic mistake\n✗ *Ich kann zu schwimmen.* → ✓ *Ich kann schwimmen.*\n\n### Mini practice\nOne sentence per group (modal / sehen / gehen).",
+  "ruleDe": "## Infinitiv OHNE *zu*\n\nNach Modalverben, sehen/hören, lassen, gehen… **kein** *zu*.\n\n### Beispiele\n- *Ich kann schwimmen.*\n- *Ich sehe ihn kommen.*\n- *Ich gehe einkaufen.*\n\n### Fehler\n✗ *Ich kann zu schwimmen.*\n\n### Mini-Übung\nJe eine Satzart: Modal / sehen / gehen.",
+  "notesFr": "FAUX : *Ich kann zu schwimmen.* VRAI : *Ich kann schwimmen.*",
+  "notesEn": "WRONG: *Ich kann zu schwimmen.* RIGHT: *Ich kann schwimmen.*",
+  "notesDe": "FALSCH: *Ich kann zu schwimmen.* RICHTIG: *Ich kann schwimmen.*",
+  "examples": [
+    {
+      "de": "Ich kann schwimmen.",
+      "fr": "Je sais nager. (sans *zu*)",
+      "en": "I can swim. (no *zu*)"
+    },
+    {
+      "de": "Ich sehe ihn kommen.",
+      "fr": "Je le vois venir.",
+      "en": "I see him coming."
+    },
+    {
+      "de": "Ich höre sie singen.",
+      "fr": "Je l’entends chanter.",
+      "en": "I hear her singing."
+    },
+    {
+      "de": "Ich gehe einkaufen.",
+      "fr": "Je vais faire les courses.",
+      "en": "I’m going shopping."
+    },
+    {
+      "de": "Ich lasse das Auto reparieren.",
+      "fr": "Je fais réparer la voiture.",
+      "en": "I’m having the car repaired."
+    }
+  ]
+}

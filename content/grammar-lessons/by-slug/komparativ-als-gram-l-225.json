@@ -1,0 +1,39 @@
+{
+  "slug": "komparativ-als-gram-l-225",
+  "titleFr": "Le comparatif avec als",
+  "titleEn": "The comparative with als",
+  "titleDe": "Komparativ — als",
+  "ruleFr": "## Comparatif — *als*\n\nPour comparer une inégalité, on utilise :\n**… + Komparativ + als …**\n\n- *Er ist größer **als** ich.*\n- *Berlin ist teurer **als** Leipzig.*\n\n### Ne pas confondre\n| Mot | Sens |\n|---|---|\n| **als** | inégalité (*plus … que*) |\n| **wie** | égalité (*aussi … que* : *so groß wie*) |\n\n- ✓ *größer **als***\n- ✗ *größer **wie*** (très fréquent chez les apprenants)\n\n### Mini-entraînement\nÉcrivez 5 comparaisons personnelles avec *als*.",
+  "ruleEn": "## Comparative — *als*\n\nFor unequal comparison, use:\n**… + comparative + als …**\n\n- *Er ist größer **als** ich.*\n- *Berlin ist teurer **als** Leipzig.*\n\n### Don’t confuse\n| Word | Meaning |\n|---|---|\n| **als** | inequality (*…er than*) |\n| **wie** | equality (*as … as*: *so groß wie*) |\n\n- ✓ *größer **als***\n- ✗ *größer **wie*** (very common learner error)\n\n### Mini practice\nWrite 5 personal comparisons with *als*.",
+  "ruleDe": "## Komparativ — *als*\n\nUngleichheit: **Komparativ + als**.\n\n### Nicht verwechseln\n- **als** = Ungleichheit\n- **wie** = Gleichheit (*so groß wie*)\n\n✗ *größer wie* → ✓ *größer als*\n\n### Mini-Übung\nSchreiben Sie 5 Vergleiche mit *als*.",
+  "notesFr": "als = than (PAS « wie » ! « wie » = égalité).",
+  "notesEn": "als = than (NOT ‘wie’! ‘wie’ = equality).",
+  "notesDe": "als = than (NICHT ‚wie‘! ‚wie‘ = gleich).",
+  "examples": [
+    {
+      "de": "Er ist größer als ich.",
+      "fr": "Il est plus grand que moi.",
+      "en": "He is taller than I am."
+    },
+    {
+      "de": "Berlin ist teurer als Leipzig.",
+      "fr": "Berlin est plus cher que Leipzig.",
+      "en": "Berlin is more expensive than Leipzig."
+    },
+    {
+      "de": "Heute ist es wärmer als gestern.",
+      "fr": "Aujourd’hui il fait plus chaud qu’hier.",
+      "en": "Today it is warmer than yesterday."
+    },
+    {
+      "de": "Dieses Buch ist besser als das andere.",
+      "fr": "Ce livre est meilleur que l’autre.",
+      "en": "This book is better than the other one."
+    },
+    {
+      "de": "Sie spricht Deutsch besser als Englisch.",
+      "fr": "Elle parle mieux allemand qu’anglais.",
+      "en": "She speaks German better than English."
+    }
+  ]
+}

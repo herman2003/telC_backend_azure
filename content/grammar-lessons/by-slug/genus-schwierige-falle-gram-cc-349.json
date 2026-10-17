@@ -1,0 +1,39 @@
+{
+  "slug": "genus-schwierige-falle-gram-cc-349",
+  "titleFr": "Genre — cas difficiles",
+  "titleEn": "Gender — tricky cases",
+  "titleDe": "Genus — Schwierige Fälle",
+  "ruleFr": "## Genre — cas difficiles\n\nCertains mots **contredisent l’intuition** (genre grammatical ≠ sexe naturel).\n\n### Cas célèbres\n| Mot | Genre | Astuce |\n|---|---|---|\n| *das Mädchen* | neutre | diminutif *-chen* |\n| *der Junge* | masculin | comme un nom faible |\n| *die Person* | **toujours** féminin | même pour un homme |\n| *das Kind* | neutre | enfant (sexe non marqué) |\n| *das Mitglied* | neutre | membre |\n| *die Wache* | féminin | garde / poste de garde |\n\n### Pronoms\nOn peut suivre le **sexe naturel** dans la reprise :\n- *Das Mädchen ist nett. **Sie** heißt Anna.* (possible)\n- Grammaire stricte : ***Es** heißt Anna.* (aussi correct, plus formel/écrit)\n\n### Homonymes de genre différent\n- *der See* (lac) / *die See* (mer)\n- *der Band* (volume) / *das Band* (ruban) / *die Band* (groupe)\n\n### Mini-entraînement\n1. Apprenez 15 « pièges » avec article.\n2. Écrivez 5 phrases *das Mädchen … sie/es*.\n3. Distinguez *See / Band* selon le sens.",
+  "ruleEn": "## Gender — tricky cases\n\nSome words **defy intuition** (grammatical gender ≠ natural sex).\n\n### Famous cases\n| Word | Gender | Tip |\n|---|---|---|\n| *das Mädchen* | neuter | diminutive *-chen* |\n| *der Junge* | masculine | weak noun |\n| *die Person* | **always** feminine | even for a man |\n| *das Kind* | neuter | child |\n| *das Mitglied* | neuter | member |\n\n### Pronouns\nYou may follow **natural gender** in continuation:\n- *Das Mädchen ist nett. **Sie** heißt Anna.* (common)\n- Strict grammar: ***Es** heißt Anna.* (also correct)\n\n### Gender doublets\n- *der See* (lake) / *die See* (sea)\n- *der Band* (volume) / *das Band* (ribbon) / *die Band* (band)\n\n### Mini practice\n1. Learn 15 traps with article.\n2. Write 5 *das Mädchen … sie/es* sentences.\n3. Distinguish *See / Band* by meaning.",
+  "ruleDe": "## Genus — Schwierige Fälle\n\nManche Wörter **widersprechen der Intuition**.\n\n### Klassiker\n| Wort | Genus | Tipp |\n|---|---|---|\n| *das Mädchen* | Neutrum | *-chen* |\n| *der Junge* | Maskulinum | schwaches Nomen |\n| *die Person* | **immer** Femininum | auch für Männer |\n| *das Kind* | Neutrum | — |\n| *das Mitglied* | Neutrum | — |\n\n### Pronomen\nNatürliches Geschlecht oft möglich: *Das Mädchen … **sie** …*\n\n### Doppelungen\n*der See* / *die See*; *der/das/die Band*\n\n### Mini-Übung\n1. 15 Fallen mit Artikel lernen.\n2. 5 Sätze *das Mädchen … sie/es*.\n3. *See / Band* nach Bedeutung unterscheiden.",
+  "notesFr": "Les pronoms peuvent suivre le sexe naturel : das Mädchen … sie. die Person = toujours féminin.",
+  "notesEn": "Pronouns may follow natural gender: das Mädchen … sie. die Person = always feminine.",
+  "notesDe": "Pronomen können dem natürlichen Geschlecht folgen: das Mädchen … sie. die Person = immer feminin.",
+  "examples": [
+    {
+      "de": "Das Mädchen heißt Anna. Sie ist nett.",
+      "fr": "La fille s’appelle Anna. Elle est gentille. (pronom = sexe naturel.)",
+      "en": "The girl’s name is Anna. She is nice. (pronoun = natural gender.)"
+    },
+    {
+      "de": "Der Junge spielt Fußball.",
+      "fr": "Le garçon joue au football.",
+      "en": "The boy is playing football."
+    },
+    {
+      "de": "Die Person an der Tür wartet.",
+      "fr": "La personne à la porte attend. (*die Person* toujours féminin.)",
+      "en": "The person at the door is waiting. (*die Person* always feminine.)"
+    },
+    {
+      "de": "Das Kind schläft schon.",
+      "fr": "L’enfant dort déjà.",
+      "en": "The child is already asleep."
+    },
+    {
+      "de": "Der See ist tief, die See ist stürmisch.",
+      "fr": "Le lac est profond ; la mer est agitée.",
+      "en": "The lake is deep; the sea is stormy."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "wechselprapositionen-akkusativ-wohin-gram-n-254",
+  "titleFr": "Prépositions mixtes — accusatif (Wohin?)",
+  "titleEn": "Two-way prepositions — accusative (Wohin?)",
+  "titleDe": "Wechselpräpositionen — Akkusativ (wohin?)",
+  "ruleFr": "## Wechselpräpositionen + accusatif = direction (Wohin?)\n\nQuand il y a un **mouvement vers** un lieu, on utilise l’**accusatif**.\n\n### Verbes typiques (mise en place / déplacement)\n*gehen, legen, setzen, stellen, hängen, fahren, kommen, bringen*\n\n### Exemples\n- Ich **lege** das Buch auf **den** Tisch.\n- Er **geht** vor **die** Tür.\n- Sie **setzt** sich neben **mich**.\n- Wir **fahren** in **die** Stadt.\n\n### Paire utile\n| État (Dat.) | Action (Akk.) |\n|---|---|\n| liegen | legen |\n| sitzen | setzen |\n| stehen | stellen |\n| hängen | hängen |\n\n### Mini-entraînement\n1. Transformez : *Das Buch liegt auf dem Tisch.* → *Ich lege das Buch auf den Tisch.*\n2. 5 phrases *Wohin?* avec accusatif.\n3. Vérifiez le verbe : mouvement ?",
+  "ruleEn": "## Two-way prepositions + accusative = direction (Wohin?)\n\nWhen there is **movement toward** a place, use the **accusative**.\n\n### Typical verbs (placement / motion)\n*gehen, legen, setzen, stellen, hängen, fahren, kommen, bringen*\n\n### Examples\n- Ich **lege** das Buch auf **den** Tisch.\n- Er **geht** vor **die** Tür.\n- Sie **setzt** sich neben **mich**.\n- Wir **fahren** in **die** Stadt.\n\n### Useful pairs\n| State (Dat.) | Action (Akk.) |\n|---|---|\n| liegen | legen |\n| sitzen | setzen |\n| stehen | stellen |\n| hängen | hängen |\n\n### Mini practice\n1. Transform: *Das Buch liegt auf dem Tisch.* → *Ich lege das Buch auf den Tisch.*\n2. Five *Wohin?* sentences with accusative.\n3. Check the verb: movement?",
+  "ruleDe": "## Wechselpräpositionen + Akkusativ = Richtung (Wohin?)\n\nBei **Bewegung zu** einem Ort → **Akkusativ**.\n\n### Typische Verben\n*gehen, legen, setzen, stellen, hängen, fahren, kommen, bringen*\n\n### Beispiele\n- Ich **lege** das Buch auf **den** Tisch.\n- Er **geht** vor **die** Tür.\n- Sie **setzt** sich neben **mich**.\n\n### Paare\nliegen/legen, sitzen/setzen, stehen/stellen\n\n### Mini-Übung\n1. Position → Bewegung umformen.\n2. 5 Wohin?-Sätze.\n3. Verb prüfen: Bewegung?",
+  "notesFr": "Verbes : *gehen, legen, setzen, stellen, hängen, fahren*.",
+  "notesEn": "Verbs: *gehen, legen, setzen, stellen, hängen, fahren*.",
+  "notesDe": "Verben: gehen, legen, setzen, stellen, hängen, fahren.",
+  "examples": [
+    {
+      "de": "Ich lege das Buch auf den Tisch.",
+      "fr": "Je mets le livre sur la table. (mouvement → akk.)",
+      "en": "I put the book on the table. (movement → acc.)"
+    },
+    {
+      "de": "Er geht vor die Tür.",
+      "fr": "Il va devant la porte.",
+      "en": "He goes in front of the door."
+    },
+    {
+      "de": "Sie setzt sich neben mich.",
+      "fr": "Elle s’assoit à côté de moi.",
+      "en": "She sits down next to me."
+    },
+    {
+      "de": "Wir fahren in die Stadt.",
+      "fr": "Nous allons en ville.",
+      "en": "We are driving into the city."
+    },
+    {
+      "de": "Bitte häng die Jacke an den Haken.",
+      "fr": "Accroche la veste au crochet s’il te plaît.",
+      "en": "Please hang the jacket on the hook."
+    }
+  ]
+}

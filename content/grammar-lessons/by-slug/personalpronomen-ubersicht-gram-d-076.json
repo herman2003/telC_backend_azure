@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-ubersicht-gram-d-076",
+  "titleFr": "Pronoms personnels — aperçu",
+  "titleEn": "Personal pronouns — overview",
+  "titleDe": "Personalpronomen — Übersicht",
+  "ruleFr": "## Les pronoms personnels remplacent un nom\n\nIls changent selon le **cas** : nominatif (sujet), accusatif (COD), datif (COI).\n\n### Carte mentale\n| fonction | question | exemple |\n|---|---|---|\n| Nominatif | Wer? | **ich** gehe |\n| Accusatif | Wen?/Was? | er sieht **mich** |\n| Datif | Wem? | sie hilft **mir** |\n\n### Personnes\n1re / 2e / 3e · singulier / pluriel · + **Sie** (vouvoiement)\n\n### Ce qu’il faut apprendre\nLes **trois** colonnes (Nom–Akk–Dat) pour chaque personne — pas seulement *ich/du/er*.\n\n### Mini-entraînement\nPour *er/sie/es/wir*, dites la forme Akk et Dat.",
+  "ruleEn": "## Personal pronouns replace nouns\n\nThey change by **case**: nominative (subject), accusative (direct object), dative (indirect object).\n\n### Mental map\n| function | question | example |\n|---|---|---|\n| Nominative | Wer? | **ich** gehe |\n| Accusative | Wen?/Was? | er sieht **mich** |\n| Dative | Wem? | sie hilft **mir** |\n\n### What to learn\nAll **three** columns (Nom–Acc–Dat) for each person — not only *ich/du/er*.\n\n### Mini practice\nFor *er/sie/es/wir*, say Acc and Dat forms.",
+  "ruleDe": "## Personalpronomen ersetzen Nomen\n\nSie ändern sich nach **Kasus**: Nominativ, Akkusativ, Dativ.\n\n### Orientierung\nNom: Wer? · Akk: Wen/Was? · Dat: Wem?\n\n### Lernen\nAlle **drei** Spalten — nicht nur *ich/du/er*.\n\n### Mini-Übung\nZu *er/sie/es/wir* Akk und Dat nennen.",
+  "notesFr": "Nominatif, accusatif, datif : les trois doivent être appris !",
+  "notesEn": "Nominative, accusative, dative — all three must be learned!",
+  "notesDe": "Nominativ, Akkusativ, Dativ — alle drei müssen gelernt werden!",
+  "examples": [
+    {
+      "de": "Ich gehe nach Hause.",
+      "fr": "Je rentre à la maison. (nominatif.)",
+      "en": "I am going home. (nominative.)"
+    },
+    {
+      "de": "Er sieht mich.",
+      "fr": "Il me voit. (accusatif.)",
+      "en": "He sees me. (accusative.)"
+    },
+    {
+      "de": "Sie hilft mir.",
+      "fr": "Elle m’aide. (datif.)",
+      "en": "She helps me. (dative.)"
+    },
+    {
+      "de": "Wir kennen ihn gut.",
+      "fr": "Nous le connaissons bien.",
+      "en": "We know him well."
+    },
+    {
+      "de": "Kannst du uns bitte helfen?",
+      "fr": "Peux-tu nous aider s’il te plaît ?",
+      "en": "Can you please help us?"
+    }
+  ]
+}

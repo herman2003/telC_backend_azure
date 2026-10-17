@@ -1,0 +1,39 @@
+{
+  "slug": "derselbe-dieselbe-dasselbe-gram-c-067",
+  "titleFr": "Derselbe / dieselbe / dasselbe — exactement le même",
+  "titleEn": "Derselbe / dieselbe / dasselbe — the very same",
+  "titleDe": "derselbe/dieselbe/dasselbe",
+  "ruleFr": "## Derselbe — identité stricte\n\n**Derselbe / dieselbe / dasselbe** = **exactement la même** personne ou chose (pas seulement « du même genre »).\n\n### Sens\n- *Wir haben **dasselbe** Buch.* = le **même exemplaire / le même titre** selon le contexte, mais l’idée est l’identité.\n- Plus précis vs *der gleiche* (voir leçon dédiée).\n\n### Orthographe\nOn écrit **en un seul mot** : *derselbe*, *dieselbe*, *dasselbe* (pas *der selbe*).\n\n### Nominatif\n| masculin | féminin | neutre | pluriel |\n|---|---|---|---|\n| **derselbe** | **dieselbe** | **dasselbe** | **dieselben** |\n\n### Mini-entraînement\nRemplacez *the same* / *le même* par *derselbe/dieselbe/dasselbe* dans 4 phrases.",
+  "ruleEn": "## Derselbe — strict identity\n\n**Derselbe / dieselbe / dasselbe** = the **very same** person or thing (not merely “of the same kind”).\n\n### Spelling\nWritten as **one word**: *derselbe*, *dieselbe*, *dasselbe* (not *der selbe*).\n\n### Nominative\n| masculine | feminine | neuter | plural |\n|---|---|---|---|\n| **derselbe** | **dieselbe** | **dasselbe** | **dieselben** |\n\n### Mini practice\nReplace “the same” with *derselbe/dieselbe/dasselbe* in 4 sentences.",
+  "ruleDe": "## Derselbe — echte Identität\n\n**Derselbe / dieselbe / dasselbe** = **identisch**, genau dieselbe Person/Sache.\n\n### Schreibweise\n**Ein Wort**: *derselbe*, *dieselbe*, *dasselbe*.\n\n### Nominativ\n**derselbe** · **dieselbe** · **dasselbe** · **dieselben**\n\n### Mini-Übung\n4 Sätze mit *derselbe/dieselbe/dasselbe*.",
+  "notesFr": "S’écrit en un seul mot : *derselbe*, *dieselbe*, *dasselbe*.",
+  "notesEn": "Written as one word: *derselbe*, *dieselbe*, *dasselbe*.",
+  "notesDe": "Als ein Wort geschrieben: *derselbe*, *dieselbe*, *dasselbe*.",
+  "examples": [
+    {
+      "de": "Wir lesen dasselbe Buch.",
+      "fr": "Nous lisons le même livre. (identité.)",
+      "en": "We are reading the same book. (identity.)"
+    },
+    {
+      "de": "Sie trägt dieselbe Jacke wie gestern.",
+      "fr": "Elle porte la même veste qu’hier.",
+      "en": "She is wearing the same jacket as yesterday."
+    },
+    {
+      "de": "Das ist derselbe Mann.",
+      "fr": "C’est le même homme.",
+      "en": "That is the same man."
+    },
+    {
+      "de": "Wir haben dieselben Probleme.",
+      "fr": "Nous avons les mêmes problèmes.",
+      "en": "We have the same problems."
+    },
+    {
+      "de": "Es ist dasselbe Hotel wie im letzten Jahr.",
+      "fr": "C’est le même hôtel que l’année dernière.",
+      "en": "It is the same hotel as last year."
+    }
+  ]
+}

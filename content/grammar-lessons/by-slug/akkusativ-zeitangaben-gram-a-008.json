@@ -1,0 +1,39 @@
+{
+  "slug": "akkusativ-zeitangaben-gram-a-008",
+  "titleFr": "Accusatif pour les indications de temps",
+  "titleEn": "Accusative for time expressions",
+  "titleDe": "Akkusativ — Zeitangaben",
+  "ruleFr": "## Accusatif pour la durée et les points temporels\n\nEn allemand, beaucoup d’**indications de temps sans préposition** se mettent à l’**accusatif**.\n\n### Usages typiques\n1. **Durée** : *den ganzen Tag*, *eine Stunde*, *zwei Wochen*\n2. **Fréquence / régularité** : *jeden Tag*, *jeden Montag*, *jedes Jahr*\n3. **Moment relatif** : *letzten Monat*, *nächste Woche*, *dieses Jahr*\n\n### Exemples\n- Ich bleibe **den ganzen Tag**.\n- Er wartet **jeden Montag**.\n- Wir fahren **nächste Woche**.\n\n### Contraste avec préposition\n- Accusatif « nu » : *Ich arbeite **den ganzen Tag**.*\n- Avec préposition (souvent datif) : *am Montag*, *im Januar*, *um acht Uhr*\n\n### Erreurs fréquentes\n- Mettre le datif sans préposition : ✗ *dem ganzen Tag* → ✓ *den ganzen Tag*\n- Oublier l’accusatif masculin : ✗ *jeder Tag* (comme sujet seul ok) mais objet temporel : ✓ *jeden Tag*\n\n### Mini-entraînement\n1. Complétez : Ich lerne ___ (der ganze Abend).\n2. Remplacez *am Montag* par une forme accusative de fréquence : *___ Montag*.\n3. Écrivez 3 phrases avec *letzten / nächsten / jeden*.",
+  "ruleEn": "## Accusative for time expressions\n\nIn German, many **time expressions without a preposition** take the **accusative**.\n\n### Typical uses\n1. **Duration**: *den ganzen Tag*, *eine Stunde*, *zwei Wochen*\n2. **Frequency**: *jeden Tag*, *jeden Montag*, *jedes Jahr*\n3. **Relative time**: *letzten Monat*, *nächste Woche*, *dieses Jahr*\n\n### Examples\n- Ich bleibe **den ganzen Tag**.\n- Er wartet **jeden Montag**.\n- Wir fahren **nächste Woche**.\n\n### Contrast with prepositions\n- Bare accusative: *Ich arbeite **den ganzen Tag**.*\n- With preposition (often dative): *am Montag*, *im Januar*, *um acht Uhr*\n\n### Common mistakes\n- Using dative with no preposition: ✗ *dem ganzen Tag* → ✓ *den ganzen Tag*\n- Forgetting masculine accusative: ✓ *jeden Tag*\n\n### Mini practice\n1. Complete: Ich lerne ___ (der ganze Abend).\n2. Replace *am Montag* with frequency accusative: *___ Montag*.\n3. Write 3 sentences with *letzten / nächsten / jeden*.",
+  "ruleDe": "## Akkusativ bei Zeitangaben\n\nViele **Zeitangaben ohne Präposition** stehen im **Akkusativ**.\n\n### Typische Fälle\n1. **Dauer**: *den ganzen Tag*, *eine Stunde*, *zwei Wochen*\n2. **Häufigkeit**: *jeden Tag*, *jeden Montag*, *jedes Jahr*\n3. **Relative Zeit**: *letzten Monat*, *nächste Woche*, *dieses Jahr*\n\n### Beispiele\n- Ich bleibe **den ganzen Tag**.\n- Er wartet **jeden Montag**.\n- Wir fahren **nächste Woche**.\n\n### Kontrast mit Präposition\n- Bloßer Akkusativ: *Ich arbeite **den ganzen Tag**.*\n- Mit Präposition (oft Dativ): *am Montag*, *im Januar*, *um acht Uhr*\n\n### Häufige Fehler\n- Dativ ohne Präposition: ✗ *dem ganzen Tag* → ✓ *den ganzen Tag*\n- Maskulinen Akkusativ vergessen: ✓ *jeden Tag*\n\n### Mini-Übung\n1. Ergänzen: Ich lerne ___ (der ganze Abend).\n2. *am Montag* → Häufigkeit: *___ Montag*.\n3. Drei Sätze mit *letzten / nächsten / jeden*.",
+  "notesFr": "Sans préposition, pensez accusatif pour la durée (*den ganzen Tag*) ; avec *an/in/um*, c’est un autre schéma.",
+  "notesEn": "With no preposition, think accusative for duration (*den ganzen Tag*); with *an/in/um*, a different pattern applies.",
+  "notesDe": "Ohne Präposition: Akkusativ bei Dauer (*den ganzen Tag*); mit *an/in/um* gilt ein anderes Muster.",
+  "examples": [
+    {
+      "de": "Ich bleibe den ganzen Tag zu Hause.",
+      "fr": "Je reste toute la journée à la maison. (*den ganzen Tag* = durée à l’accusatif)",
+      "en": "I am staying at home all day. (*den ganzen Tag* = duration in the accusative)"
+    },
+    {
+      "de": "Er wartet jeden Montag auf den Bus.",
+      "fr": "Il attend le bus chaque lundi. (*jeden Montag*)",
+      "en": "He waits for the bus every Monday. (*jeden Montag*)"
+    },
+    {
+      "de": "Wir fahren nächste Woche nach Berlin.",
+      "fr": "Nous partons à Berlin la semaine prochaine. (*nächste Woche*)",
+      "en": "We are going to Berlin next week. (*nächste Woche*)"
+    },
+    {
+      "de": "Letzten Monat habe ich viel gearbeitet.",
+      "fr": "Le mois dernier, j’ai beaucoup travaillé. (*letzten Monat*)",
+      "en": "Last month I worked a lot. (*letzten Monat*)"
+    },
+    {
+      "de": "Sie lernt zwei Stunden Deutsch.",
+      "fr": "Elle apprend l’allemand pendant deux heures. (*zwei Stunden* = durée)",
+      "en": "She studies German for two hours. (*zwei Stunden* = duration)"
+    }
+  ]
+}

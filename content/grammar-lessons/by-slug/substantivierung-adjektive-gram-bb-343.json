@@ -1,0 +1,39 @@
+{
+  "slug": "substantivierung-adjektive-gram-bb-343",
+  "titleFr": "Nominalisation — adjectifs",
+  "titleEn": "Nominalization — adjectives",
+  "titleDe": "Substantivierung — Adjektive",
+  "ruleFr": "## Nominalisation — adjectifs\n\nUn **adjectif** peut servir de **nom** : majuscule + **déclinaison d’adjectif**.\n\n### Règle centrale\n- Personne : *der / die Alte*, *der / die Kranke*\n- Abstrait / neutre : *das Gute*, *das Schöne*, *das Beste*\n\n### Déclinaison\nComme un adjectif épithète **sans nom** derrière :\n\n| | défini | indéfini |\n|---|---|---|\n| Nom. masc. | der Gute | ein Guter |\n| Nom. fém. | die Gute | eine Gute |\n| Nom. neutre | das Gute | ein Gutes |\n\n### Sens\nLe genre indique souvent :\n- *m/f* → personne (*der Verletzte*, *die Bekannte*)\n- *n* → idée / chose (*das Wichtige*)\n\n### Mini-entraînement\n1. Déclinez *gut* comme nom au nominatif (m/f/n).\n2. Écrivez 5 phrases avec *das Beste / das Schöne*.\n3. Transformez : *ein alter Mann* → *ein Alter*.",
+  "ruleEn": "## Nominalization — adjectives\n\nAn **adjective** can act as a **noun**: capital letter + **adjective declension**.\n\n### Core rule\n- Person: *der / die Alte*, *der / die Kranke*\n- Abstract / neuter: *das Gute*, *das Schöne*, *das Beste*\n\n### Declension\nLike an attributive adjective **with no noun after it**:\n\n| | definite | indefinite |\n|---|---|---|\n| Nom. masc. | der Gute | ein Guter |\n| Nom. fem. | die Gute | eine Gute |\n| Nom. neut. | das Gute | ein Gutes |\n\n### Meaning\nGender often shows:\n- *m/f* → person\n- *n* → idea / thing (*das Wichtige*)\n\n### Mini practice\n1. Decline *gut* as a noun in nominative (m/f/n).\n2. Write 5 sentences with *das Beste / das Schöne*.\n3. Transform: *ein alter Mann* → *ein Alter*.",
+  "ruleDe": "## Substantivierung — Adjektive\n\nEin **Adjektiv** kann als **Nomen** stehen: groß + **Adjektivdeklination**.\n\n### Kernregel\n- Person: *der / die Alte*, *der / die Kranke*\n- Abstrakt / Neutrum: *das Gute*, *das Schöne*, *das Beste*\n\n### Deklination\nWie Adjektiv **ohne folgendes Nomen**:\n\n| | bestimmt | unbestimmt |\n|---|---|---|\n| Nom. Mask. | der Gute | ein Guter |\n| Nom. Fem. | die Gute | eine Gute |\n| Nom. Neutr. | das Gute | ein Gutes |\n\n### Mini-Übung\n1. *gut* als Nomen im Nominativ (m/f/n) deklinieren.\n2. 5 Sätze mit *das Beste / das Schöne*.\n3. Umformen: *ein alter Mann* → *ein Alter*.",
+  "notesFr": "Le genre indique la personne (m/f) ou l’abstrait (n). Déclinaison comme un adjectif !",
+  "notesEn": "Gender shows person (m/f) or abstract (n). Declension like an adjective!",
+  "notesDe": "Genus zeigt Person (m/f) oder Abstraktum (n). Deklination wie Adjektiv!",
+  "examples": [
+    {
+      "de": "Das Gute daran ist die Lage.",
+      "fr": "Le bon côté, c’est l’emplacement. (*das Gute* = neutre abstrait.)",
+      "en": "The good thing about it is the location. (*das Gute* = neuter abstract.)"
+    },
+    {
+      "de": "Die Alte wohnt nebenan.",
+      "fr": "La vieille dame habite à côté. (*die Alte* = personne.)",
+      "en": "The old woman lives next door. (*die Alte* = person.)"
+    },
+    {
+      "de": "Ein Bekannter hat angerufen.",
+      "fr": "Une connaissance (un homme) a appelé. (*ein Bekannter*.)",
+      "en": "An acquaintance (male) called. (*ein Bekannter*.)"
+    },
+    {
+      "de": "Wir wünschen euch alles Gute.",
+      "fr": "Nous vous souhaitons tout le meilleur.",
+      "en": "We wish you all the best."
+    },
+    {
+      "de": "Das Schöne am Urlaub ist die Ruhe.",
+      "fr": "Le beau côté des vacances, c’est le calme.",
+      "en": "The nice thing about the holiday is the peace and quiet."
+    }
+  ]
+}

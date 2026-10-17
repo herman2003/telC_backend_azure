@@ -1,0 +1,39 @@
+{
+  "slug": "schwierige-falle-gram-b-051",
+  "titleFr": "Cas difficiles — genre grammatical ≠ sexe",
+  "titleEn": "Tricky cases — grammatical gender ≠ natural sex",
+  "titleDe": "Schwierige Fälle",
+  "ruleFr": "## Genre grammatical ≠ sexe naturel\n\n**Das Mädchen** et **das Fräulein** sont **neutres** à cause des suffixes **-chen** / **-lein**, même s’ils désignent une personne féminine.\n\n### Règle des diminutifs\nTout nom en **-chen** ou **-lein** → **das** (neutre), quel que soit le sens.\n\n- **das** Mädchen (← die Magd + -chen)\n- **das** Fräulein (← die Frau + -lein)\n- **das** Häuschen, **das** Büchlein\n\n### Pronoms : attention\nEn allemand soigné, on reprend souvent avec **es** :\n- *Das Mädchen liest. **Es** ist klug.*\n\nDans la langue parlée, on entend aussi **sie** (référence au sexe). Les deux existent ; au début, retenez **das** + **es**.\n\n### Ne pas confondre\n| grammatical | naturel |\n|---|---|\n| **das** Mädchen | personne féminine |\n| **der** Junge | personne masculine |\n| **die** Frau | personne féminine |\n\n### Mini-entraînement\nComplétez : *___ Mädchen / ___ Junge / ___ Frau* + une phrase.",
+  "ruleEn": "## Grammatical gender ≠ natural sex\n\n**Das Mädchen** and **das Fräulein** are **neuter** because of **-chen** / **-lein**, even though they refer to female persons.\n\n### Diminutive rule\nAny noun in **-chen** or **-lein** → **das** (neuter).\n\n- **das** Mädchen\n- **das** Fräulein\n- **das** Häuschen, **das** Büchlein\n\n### Pronouns\nCareful German often resumes with **es**:\n- *Das Mädchen liest. **Es** ist klug.*\n\nSpoken language may use **sie** (natural gender). Beginners: stick to **das** + **es**.\n\n### Don’t confuse\n| grammatical | natural |\n|---|---|\n| **das** Mädchen | female person |\n| **der** Junge | male person |\n\n### Mini practice\nFill: *___ Mädchen / ___ Junge / ___ Frau* + one sentence each.",
+  "ruleDe": "## Grammatisches Genus ≠ natürliches Geschlecht\n\n**Das Mädchen** und **das Fräulein** sind **Neutrum** wegen **-chen** / **-lein**, obwohl sie weibliche Personen bezeichnen.\n\n### Diminutivregel\nNomen auf **-chen** / **-lein** → immer **das**.\n\n- **das** Mädchen\n- **das** Fräulein\n- **das** Häuschen, **das** Büchlein\n\n### Pronomen\nGehoben oft **es**:\n- *Das Mädchen liest. **Es** ist klug.*\n\nUmgangssprachlich auch **sie**. Für Anfänger: **das** + **es**.\n\n### Mini-Übung\nErgänzen: *___ Mädchen / ___ Junge / ___ Frau* + Satz.",
+  "notesFr": "Rappel : genre grammatical ≠ sexe — *-chen/-lein* forcent le neutre (**das**).",
+  "notesEn": "Reminder: grammatical gender ≠ biological sex — *-chen/-lein* force neuter (**das**).",
+  "notesDe": "Merke: grammatisches Genus ≠ natürliches Geschlecht — *-chen/-lein* → **das**.",
+  "examples": [
+    {
+      "de": "Das Mädchen spielt im Hof.",
+      "fr": "La fille joue dans la cour. (« das » malgré le sexe féminin.)",
+      "en": "The girl plays in the yard. (“das” despite female reference.)"
+    },
+    {
+      "de": "Das Fräulein arbeitet hier. (veraltet)",
+      "fr": "La demoiselle travaille ici. (mot vieilli.)",
+      "en": "The young lady works here. (dated word.)"
+    },
+    {
+      "de": "Das Kind lacht.",
+      "fr": "L’enfant rit. (neutre, sexe indifférent.)",
+      "en": "The child laughs. (neuter, sex-neutral.)"
+    },
+    {
+      "de": "Das Häuschen steht am See.",
+      "fr": "La petite maison est au bord du lac. (-chen → das.)",
+      "en": "The little house stands by the lake. (-chen → das.)"
+    },
+    {
+      "de": "Das Mädchen liest. Es ist fleißig.",
+      "fr": "La fille lit. Elle (es) est studieuse.",
+      "en": "The girl reads. She (es) is hard-working."
+    }
+  ]
+}

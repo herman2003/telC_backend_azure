@@ -1,0 +1,39 @@
+{
+  "slug": "ubersicht-unbestimmter-artikel-gram-a-022",
+  "titleFr": "Tableau des articles indéfinis",
+  "titleEn": "Overview of the indefinite article",
+  "titleDe": "Übersicht — unbestimmter Artikel",
+  "ruleFr": "## Déclinaison de *ein / eine / ein*\n\n| Cas | masculin | féminin | neutre |\n|---|---|---|---|\n| Nominatif | **ein** | **eine** | **ein** |\n| Accusatif | **einen** | eine | ein |\n| Datif | **einem** | **einer** | **einem** |\n| Génitif | **eines** | **einer** | **eines** |\n\nPas de pluriel pour *ein*. Au pluriel : pas d’article, ou *keine / einige / viele…*.\n\n### Même schéma pour\n*kein, mein, dein, sein, ihr, unser, euer* (+ terminaisons identiques).\n\n### Exemple parallèle\n- Nom. : *mein Freund*\n- Akk. : *meinen Freund*\n- Dat. : *meinem Freund*\n- Gen. : *meines Freundes*\n\n### Erreurs fréquentes\n- Oublier *-en* à l’accusatif masculin.\n- Mettre *eine* au datif féminin au lieu de *einer*.\n\n### Mini-entraînement\n1. Déclinez *ein Hund / eine Katze / ein Pferd*.\n2. Remplacez *ein* par *mein* partout.\n3. Formez le négatif avec *kein-*.",
+  "ruleEn": "## Declension of *ein / eine / ein*\n\n| Case | masculine | feminine | neuter |\n|---|---|---|---|\n| Nominative | **ein** | **eine** | **ein** |\n| Accusative | **einen** | eine | ein |\n| Dative | **einem** | **einer** | **einem** |\n| Genitive | **eines** | **einer** | **eines** |\n\nNo plural for *ein*. In the plural: no article, or *keine / einige / viele…*.\n\n### Same pattern for\n*kein, mein, dein, sein, ihr, unser, euer* (identical endings).\n\n### Parallel example\n- Nom.: *mein Freund*\n- Akk.: *meinen Freund*\n- Dat.: *meinem Freund*\n- Gen.: *meines Freundes*\n\n### Common mistakes\n- Forgetting *-en* in masculine accusative.\n- Using *eine* instead of *einer* in feminine dative.\n\n### Mini practice\n1. Decline *ein Hund / eine Katze / ein Pferd*.\n2. Replace *ein* with *mein* everywhere.\n3. Form negatives with *kein-*.",
+  "ruleDe": "## Deklination von *ein / eine / ein*\n\n| Kasus | Maskulinum | Femininum | Neutrum |\n|---|---|---|---|\n| Nominativ | **ein** | **eine** | **ein** |\n| Akkusativ | **einen** | eine | ein |\n| Dativ | **einem** | **einer** | **einem** |\n| Genitiv | **eines** | **einer** | **eines** |\n\nKein Plural von *ein*. Im Plural: kein Artikel oder *keine / einige / viele…*.\n\n### Gleiches Muster bei\n*kein, mein, dein, sein, ihr, unser, euer*.\n\n### Parallelbeispiel\n- Nom.: *mein Freund*\n- Akk.: *meinen Freund*\n- Dat.: *meinem Freund*\n- Gen.: *meines Freundes*\n\n### Häufige Fehler\n- *-en* im maskulinen Akkusativ vergessen.\n- *eine* statt *einer* im femininen Dativ.\n\n### Mini-Übung\n1. *ein Hund / eine Katze / ein Pferd* deklinieren.\n2. *ein* durch *mein* ersetzen.\n3. Negation mit *kein-* bilden.",
+  "notesFr": "Une fois *ein-* maîtrisé, vous avez aussi *kein-* et tous les possessifs — c’est le même paradigme.",
+  "notesEn": "Once you master *ein-*, you also have *kein-* and all possessives — same paradigm.",
+  "notesDe": "Wer *ein-* kann, kann auch *kein-* und alle Possessiva — dasselbe Paradigma.",
+  "examples": [
+    {
+      "de": "Ein Freund besucht uns.",
+      "fr": "Un ami nous rend visite. (*ein* = nominatif)",
+      "en": "A friend is visiting us. (*ein* = nominative)"
+    },
+    {
+      "de": "Ich treffe einen Freund.",
+      "fr": "Je retrouve un ami. (*einen* = accusatif)",
+      "en": "I am meeting a friend. (*einen* = accusative)"
+    },
+    {
+      "de": "Ich helfe einem Freund.",
+      "fr": "J’aide un ami. (*einem* = datif)",
+      "en": "I help a friend. (*einem* = dative)"
+    },
+    {
+      "de": "Das ist das Fahrrad eines Freundes.",
+      "fr": "C’est le vélo d’un ami. (*eines* = génitif)",
+      "en": "That is a friend’s bike. (*eines* = genitive)"
+    },
+    {
+      "de": "Meine Schwester hat keine Zeit.",
+      "fr": "Ma sœur n’a pas le temps. (*kein-* comme *ein-*)",
+      "en": "My sister has no time. (*kein-* like *ein-*)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-nominativ-gram-d-079",
+  "titleFr": "Pronoms personnels — nominatif pluriel et Sie",
+  "titleEn": "Personal pronouns — nominative plural and Sie",
+  "titleDe": "Personalpronomen — Nominativ",
+  "ruleFr": "## Pluriel : wir, ihr, sie — et Sie\n\n| pronom | sens |\n|---|---|\n| **wir** | nous |\n| **ihr** | vous (tutoiement pluriel) |\n| **sie** | ils / elles |\n| **Sie** | vous (politesse, sg. ou pl.) |\n\n### Piège classique\n*sie* (ils) vs *Sie* (vous) : **seule la majuscule** distingue à l’écrit. À l’oral, le verbe et le contexte aident (*Sie sind* vs *sie sind* — même forme verbale !).\n\n### Verbe\n*ihr kommt* · *sie kommen* · *Sie kommen*\n\n### Mini-entraînement\nÉcrivez 4 phrases : *wir / ihr / sie / Sie* + *wohnen*.",
+  "ruleEn": "## Plural: wir, ihr, sie — and Sie\n\n| pronoun | meaning |\n|---|---|\n| **wir** | we |\n| **ihr** | you (plural informal) |\n| **sie** | they |\n| **Sie** | you (polite sg/pl) |\n\n### Classic trap\n*sie* (they) vs *Sie* (polite you): **only capitalization** differs in writing. Verb form is often identical (*sie sind / Sie sind*).\n\n### Mini practice\nWrite 4 sentences: *wir / ihr / sie / Sie* + *wohnen*.",
+  "ruleDe": "## Plural: wir, ihr, sie — und Sie\n\n**wir** · **ihr** · **sie** (sie) · **Sie** (höflich)\n\n### Falle\n*sie* vs *Sie* — nur Großschreibung. Verb oft gleich: *sie sind / Sie sind*.\n\n### Mini-Übung\n4 Sätze mit *wir/ihr/sie/Sie* + *wohnen*.",
+  "notesFr": "*sie* (ils) vs *Sie* (vous) — seule la majuscule distingue !",
+  "notesEn": "*sie* (they) vs *Sie* (formal you) — only capitalization differs!",
+  "notesDe": "*sie* (they) vs *Sie* (höflich) — nur Großschreibung unterscheidet!",
+  "examples": [
+    {
+      "de": "Wir lernen zusammen.",
+      "fr": "Nous apprenons ensemble.",
+      "en": "We learn together."
+    },
+    {
+      "de": "Ihr seid spät.",
+      "fr": "Vous (amis) êtes en retard.",
+      "en": "You (plural informal) are late."
+    },
+    {
+      "de": "Sie wohnen in München.",
+      "fr": "Ils/elles habitent à Munich. (ou vous poli — contexte.)",
+      "en": "They live in Munich. (or polite you — context.)"
+    },
+    {
+      "de": "Können Sie bitte wiederholen?",
+      "fr": "Pouvez-vous répéter, s’il vous plaît ?",
+      "en": "Could you please repeat?"
+    },
+    {
+      "de": "Sie und ich — wir schaffen das.",
+      "fr": "Toi/vous et moi — nous y arriverons.",
+      "en": "You and I — we’ll manage it."
+    }
+  ]
+}

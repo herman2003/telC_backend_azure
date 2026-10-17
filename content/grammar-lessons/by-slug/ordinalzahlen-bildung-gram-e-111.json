@@ -1,0 +1,39 @@
+{
+  "slug": "ordinalzahlen-bildung-gram-e-111",
+  "titleFr": "Les nombres ordinaux — formation",
+  "titleEn": "Ordinal numbers — formation",
+  "titleDe": "Ordinalzahlen — Bildung",
+  "ruleFr": "## Formation des ordinaux\n\nLes ordinaux (*premier, deuxième…*) se forment à partir des cardinaux + une terminaison, puis se déclinent **comme des adjectifs**.\n\n### Règles\n- **1–19** : nombre + **-te** → *vierte, fünfte, sechste, neunte…*\n- **20+** : nombre + **-ste** → *zwanzigste, hundertste, tausendste*\n\n### Exemples\n- *das **vierte** Kind*\n- *der **zwanzigste** Mai*\n- *die **hundertste** Seite*\n\n### Écriture\nSouvent avec point : *der 4.* = *der vierte*.\n\n### Mini-entraînement\nFormez l’ordinal de : 6, 11, 20, 100.",
+  "ruleEn": "## Forming ordinals\n\nOrdinals are built from cardinals + an ending, then decline **like adjectives**.\n\n### Rules\n- **1–19**: number + **-te** → *vierte, fünfte, sechste…*\n- **20+**: number + **-ste** → *zwanzigste, hundertste*\n\n### Examples\n- *das **vierte** Kind*\n- *der **zwanzigste** Mai*\n- *die **hundertste** Seite*\n\n### Writing\nOften with a period: *der 4.* = *der vierte*.\n\n### Mini practice\nForm ordinals for: 6, 11, 20, 100.",
+  "ruleDe": "## Bildung der Ordinalzahlen\n\n- **1–19**: Zahl + **-te**\n- **20+**: Zahl + **-ste**\n\nDann Deklination wie Adjektive.\n\n### Mini-Übung\nOrdinal von 6, 11, 20, 100 bilden.",
+  "notesFr": "Les ordinaux se déclinent comme des adjectifs !",
+  "notesEn": "Ordinals decline like adjectives!",
+  "notesDe": "Ordinalzahlen deklinieren wie Adjektive!",
+  "examples": [
+    {
+      "de": "Das ist das vierte Kind.",
+      "fr": "C’est le quatrième enfant.",
+      "en": "That is the fourth child."
+    },
+    {
+      "de": "Heute ist der zwanzigste Mai.",
+      "fr": "Aujourd’hui nous sommes le vingt mai.",
+      "en": "Today is the twentieth of May."
+    },
+    {
+      "de": "Bitte öffnen Sie die hundertste Seite.",
+      "fr": "Veuillez ouvrir la centième page.",
+      "en": "Please open the hundredth page."
+    },
+    {
+      "de": "Er wohnt im sechsten Stock.",
+      "fr": "Il habite au sixième étage.",
+      "en": "He lives on the sixth floor."
+    },
+    {
+      "de": "Das ist mein neunter Versuch.",
+      "fr": "C’est ma neuvième tentative.",
+      "en": "That is my ninth attempt."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "indirekte-rede-ersatzformen-gram-z-336",
+  "titleFr": "Discours indirect — formes de remplacement",
+  "titleEn": "Reported speech — replacement forms",
+  "titleDe": "Indirekte Rede — Ersatzformen",
+  "ruleFr": "## Discours indirect — formes de remplacement\n\nQuand le **Konjunktiv I** est **identique à l’indicatif**, on utilise une **forme de remplacement** : Konjunktiv II ou *würde*.\n\n### Règle centrale\nSi Konj. I = Indikativ → **Konjunktiv II** (ou *würde* + infinitif).\n\n- *Sie sagen, sie **haben** Zeit.* (Konj. I = Indikativ !)\n- → *Sie sagen, sie **hätten** Zeit.* (Konj. II)\n- → *Sie sagen, sie **würden** Zeit haben.*\n\n### Cas typiques\n| Problème | Remplacement |\n|---|---|\n| *wir/sie haben* | *hätten* |\n| *wir/sie kommen* | *kämen* / *würden kommen* |\n| *wir/sie sind* | *seien* est encore distinct ! | \n\nAttention : *sein* au pluriel (*seien*) reste reconnaissable.\n\n### En presse\nOn privilégie des formes **visibles** pour garder la distance du discours rapporté.\n\n### Mini-entraînement\n1. Remplacez les formes ambiguës dans 5 phrases.\n2. Transformez des pluriels en Konjunktiv II.\n3. Comparez *habe* (sg.) et *hätten* (pl.).",
+  "ruleEn": "## Reported speech — replacement forms\n\nWhen **Konjunktiv I** looks **identical to the indicative**, use a **replacement**: Konjunktiv II or *würde*.\n\n### Core rule\nIf Konj. I = indicative → **Konjunktiv II** (or *würde* + infinitive).\n\n- *Sie sagen, sie **haben** Zeit.* (ambiguous!)\n- → *Sie sagen, sie **hätten** Zeit.*\n- → *Sie sagen, sie **würden** Zeit haben.*\n\n### Typical cases\n| Problem | Replacement |\n|---|---|\n| *wir/sie haben* | *hätten* |\n| *wir/sie kommen* | *kämen* / *würden kommen* |\n| *wir/sie sind* | *seien* is still distinct |\n\n### In the press\nWriters prefer **visible** forms to keep reported-speech distance.\n\n### Mini practice\n1. Replace ambiguous forms in 5 sentences.\n2. Turn plurals into Konjunktiv II.\n3. Compare *habe* (sg.) and *hätten* (pl.).",
+  "ruleDe": "## Indirekte Rede — Ersatzformen\n\nWenn der **Konjunktiv I** wie der **Indikativ** aussieht, nimmt man eine **Ersatzform**: Konjunktiv II oder *würde*.\n\n### Kernregel\nKonj. I = Indikativ → **Konjunktiv II** (oder *würde* + Infinitiv).\n\n- *Sie sagen, sie **haben** Zeit.* (mehrdeutig!)\n- → *Sie sagen, sie **hätten** Zeit.*\n- → *Sie sagen, sie **würden** Zeit haben.*\n\n### Typische Fälle\n| Problem | Ersatz |\n|---|---|\n| *wir/sie haben* | *hätten* |\n| *wir/sie kommen* | *kämen* / *würden kommen* |\n| *wir/sie sind* | *seien* bleibt erkennbar |\n\n### Mini-Übung\n1. Mehrdeutige Formen in 5 Sätzen ersetzen.\n2. Plural ins Konjunktiv II setzen.\n3. *habe* (Sg.) und *hätten* (Pl.) vergleichen.",
+  "notesFr": "Au pluriel, souvent Konjunktiv II car Konj. I = Indikativ. Ex. : sie hätten (pas sie haben).",
+  "notesEn": "In the plural, often Konjunktiv II because Konj. I = indicative. E.g. sie hätten (not sie haben).",
+  "notesDe": "Plural oft mit Konjunktiv II, weil Konj. I = Indikativ. Z. B. sie hätten (nicht sie haben).",
+  "examples": [
+    {
+      "de": "Sie sagen, sie hätten Zeit.",
+      "fr": "Ils disent qu’ils ont le temps. (*hätten* remplace *haben* ambigu.)",
+      "en": "They say they have time. (*hätten* replaces ambiguous *haben*.)"
+    },
+    {
+      "de": "Er meint, sie kämen morgen.",
+      "fr": "Il pense qu’ils viendront demain.",
+      "en": "He thinks they would come tomorrow / are coming tomorrow."
+    },
+    {
+      "de": "Die Zeugen berichten, sie hätten nichts gesehen.",
+      "fr": "Les témoins rapportent qu’ils n’ont rien vu.",
+      "en": "The witnesses report they saw nothing."
+    },
+    {
+      "de": "Sie behaupten, sie würden das nie tun.",
+      "fr": "Ils affirment qu’ils ne feraient jamais cela.",
+      "en": "They claim they would never do that."
+    },
+    {
+      "de": "Man hört, die Verhandlungen seien schwierig.",
+      "fr": "On entend dire que les négociations sont difficiles. (*seien* encore distinct.)",
+      "en": "One hears that the negotiations are difficult. (*seien* still distinct.)"
+    }
+  ]
+}

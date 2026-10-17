@@ -1,0 +1,39 @@
+{
+  "slug": "ohne-zu-an-statt-zu-gram-v-317",
+  "titleFr": "ohne … zu et (an)statt … zu",
+  "titleEn": "ohne … zu / (an)statt … zu",
+  "titleDe": "ohne ... zu / (an)statt ... zu",
+  "ruleFr": "## *ohne … zu* et *(an)statt … zu*\n\nMême structure que *um … zu* : infinitif avec **zu** à la fin.\n\n### ohne … zu = sans faire\n- *Er geht, **ohne** zu grüßen.*\n- *Sie arbeitet, **ohne** Pause **zu** machen.*\n\n### (an)statt … zu = au lieu de faire\n- ***Statt** zu schlafen, lernt er.*\n- ***Anstatt** mit dem Auto **zu** fahren, nimmt sie den Bus.*\n\n### Rappels\n- Même sujet que dans le principal\n- *zu* entre préfixe et verbe si séparable : *ohne anzurufen*\n\n### Mini-entraînement\nTransformez : *Er grüßt nicht. Er geht.* → *ohne zu…*",
+  "ruleEn": "## *ohne … zu* and *(an)statt … zu*\n\nSame structure as *um … zu*: infinitive with **zu** at the end.\n\n### ohne … zu = without doing\n- *Er geht, **ohne** zu grüßen.*\n- *Sie arbeitet, **ohne** Pause **zu** machen.*\n\n### (an)statt … zu = instead of doing\n- ***Statt** zu schlafen, lernt er.*\n- ***Anstatt** mit dem Auto **zu** fahren, nimmt sie den Bus.*\n\n### Reminders\n- Same subject as in the main clause\n- *zu* inside separable verbs: *ohne anzurufen*\n\n### Mini practice\nTransform: *Er grüßt nicht. Er geht.* → *ohne zu…*",
+  "ruleDe": "## *ohne … zu* / *(an)statt … zu*\n\nWie *um … zu*: Infinitiv mit **zu** am Ende.\n\n### Beispiele\n- *Er geht, **ohne** zu grüßen.*\n- ***Statt** zu schlafen, lernt er.*\n\n### Mini-Übung\n*Er grüßt nicht. Er geht.* → *ohne zu…*",
+  "notesFr": "Même structure que *um … zu* : verbe à la fin avec *zu*.",
+  "notesEn": "Same structure as *um … zu*: verb at the end with *zu*.",
+  "notesDe": "Gleiche Struktur wie *um … zu*: Verb am Ende mit *zu*.",
+  "examples": [
+    {
+      "de": "Er geht, ohne zu grüßen.",
+      "fr": "Il part sans saluer.",
+      "en": "He leaves without saying hello."
+    },
+    {
+      "de": "Sie arbeitet, ohne Pause zu machen.",
+      "fr": "Elle travaille sans faire de pause.",
+      "en": "She works without taking a break."
+    },
+    {
+      "de": "Statt zu schlafen, lernt er.",
+      "fr": "Au lieu de dormir, il étudie.",
+      "en": "Instead of sleeping, he studies."
+    },
+    {
+      "de": "Anstatt mit dem Auto zu fahren, nimmt sie den Bus.",
+      "fr": "Au lieu d’aller en voiture, elle prend le bus.",
+      "en": "Instead of driving, she takes the bus."
+    },
+    {
+      "de": "Er verlässt das Haus, ohne den Schlüssel mitzunehmen.",
+      "fr": "Il quitte la maison sans emporter la clé.",
+      "en": "He leaves the house without taking the key."
+    }
+  ]
+}

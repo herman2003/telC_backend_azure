@@ -1,0 +1,39 @@
+{
+  "slug": "genitiv-ersatz-gram-a-020",
+  "titleFr": "Remplacer le génitif par von + datif",
+  "titleEn": "Replacing the genitive with von + dative",
+  "titleDe": "Genitiv — Ersatz mit von + Dativ",
+  "ruleFr": "## *von* + datif à la place du génitif\n\nÀ l’oral et dans un style courant, on remplace souvent le génitif par **von + datif**.\n\n### Équivalence\n| Style soigné | Style courant |\n|---|---|\n| das Auto **des** Mannes | das Auto **von dem** Mann (*vom Mann*) |\n| die Tasche **der** Frau | die Tasche **von der** Frau |\n| die Ideen **der** Kinder | die Ideen **von den** Kindern |\n\n### Les deux sont corrects — le registre change\n- Textes formels, presse, examens : préférez souvent le **génitif**.\n- Conversation : *von* + datif est naturel.\n\n### Cas où *von* est indispensable\nPronoms : *ein Freund **von mir*** (pas *meiners*…).\nNoms propres parfois : *die Straße **von** Berlin* vs génitif *Berlins*.\n\n### Erreurs fréquentes\n- Mélanger les deux : ✗ *das Auto von des Mannes*\n- Oublier le datif après *von* : ✗ *von der Mann* → ✓ *von **dem** Mann*\n\n### Mini-entraînement\n1. Passez 5 génitifs en *von* + datif.\n2. Repassez 5 *von*-structures en génitif.\n3. Dites à voix haute les deux versions.",
+  "ruleEn": "## *von* + dative instead of the genitive\n\nIn speech and everyday style, the genitive is often replaced by **von + dative**.\n\n### Equivalence\n| Careful style | Everyday style |\n|---|---|\n| das Auto **des** Mannes | das Auto **von dem** Mann (*vom Mann*) |\n| die Tasche **der** Frau | die Tasche **von der** Frau |\n| die Ideen **der** Kinder | die Ideen **von den** Kindern |\n\n### Both are correct — register changes\n- Formal texts, press, exams: often prefer the **genitive**.\n- Conversation: *von* + dative feels natural.\n\n### Where *von* is needed\nPronouns: *ein Freund **von mir***.\nSometimes proper names: *die Straße **von** Berlin* vs *Berlins*.\n\n### Common mistakes\n- Mixing both: ✗ *das Auto von des Mannes*\n- Wrong case after *von*: ✗ *von der Mann* → ✓ *von **dem** Mann*\n\n### Mini practice\n1. Turn 5 genitives into *von* + dative.\n2. Turn 5 *von*-structures back into genitive.\n3. Say both versions aloud.",
+  "ruleDe": "## *von* + Dativ statt Genitiv\n\nIn der gesprochenen Sprache ersetzt man den Genitiv oft durch **von + Dativ**.\n\n### Entsprechung\n| Gehoben | Alltäglich |\n|---|---|\n| das Auto **des** Mannes | das Auto **vom** Mann |\n| die Tasche **der** Frau | die Tasche **von der** Frau |\n| die Ideen **der** Kinder | die Ideen **von den** Kindern |\n\n### Beides korrekt — Register anders\n- Formelle Texte, Prüfungen: oft **Genitiv**.\n- Gespräch: *von* + Dativ wirkt natürlich.\n\n### Wo *von* nötig ist\nPronomen: *ein Freund **von mir***.\nManchmal Eigennamen: *die Straße **von** Berlin* vs *Berlins*.\n\n### Häufige Fehler\n- Mischung: ✗ *das Auto von des Mannes*\n- Falscher Kasus: ✗ *von der Mann* → ✓ *von **dem** Mann*\n\n### Mini-Übung\n1. Fünf Genitive → *von* + Dativ.\n2. Fünf *von*-Strukturen → Genitiv.\n3. Beide Versionen laut sprechen.",
+  "notesFr": "En conversation, *vom / von der / von den* est parfait ; gardez le génitif pour l’écrit soigné et les examens.",
+  "notesEn": "In conversation, *vom / von der / von den* is fine; keep the genitive for careful writing and exams.",
+  "notesDe": "Im Gespräch sind *vom / von der / von den* völlig okay; Genitiv für gehobene Schrift und Prüfungen behalten.",
+  "examples": [
+    {
+      "de": "Das ist das Auto von dem Mann.",
+      "fr": "C’est la voiture de l’homme. (remplace *des Mannes*)",
+      "en": "That is the man’s car. (replaces *des Mannes*)"
+    },
+    {
+      "de": "Die Tasche von der Frau ist neu.",
+      "fr": "Le sac de la femme est neuf. (*von der Frau*)",
+      "en": "The woman’s bag is new. (*von der Frau*)"
+    },
+    {
+      "de": "Ein Freund von mir wohnt in Köln.",
+      "fr": "Un ami à moi habite à Cologne. (*von mir* — forme naturelle)",
+      "en": "A friend of mine lives in Cologne. (*von mir* — natural form)"
+    },
+    {
+      "de": "Die Ideen von den Kindern sind kreativ.",
+      "fr": "Les idées des enfants sont créatives. (*von den Kindern*)",
+      "en": "The children’s ideas are creative. (*von den Kindern*)"
+    },
+    {
+      "de": "Formell sagt man: das Haus des Lehrers.",
+      "fr": "En style soigné on dit : *das Haus des Lehrers*.",
+      "en": "In careful style one says: *das Haus des Lehrers*."
+    }
+  ]
+}

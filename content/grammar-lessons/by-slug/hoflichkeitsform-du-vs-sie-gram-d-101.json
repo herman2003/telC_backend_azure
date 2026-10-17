@@ -1,0 +1,39 @@
+{
+  "slug": "hoflichkeitsform-du-vs-sie-gram-d-101",
+  "titleFr": "Tutoyer ou vouvoyer : du vs Sie",
+  "titleEn": "Informal vs formal: du vs Sie",
+  "titleDe": "Höflichkeitsform — du vs Sie",
+  "ruleFr": "## *du* ou *Sie* ?\n\n### Usage\n| | *du* | *Sie* |\n|---|---|---|\n| Quand | amis, famille, enfants, collègues proches, souvent jeunes | inconnus, clients, superiors, contexte pro / officiel |\n| Verbe | 2e personne : *du bist, du hast* | comme pluriel : *Sie sind, Sie haben* |\n| Possessif | *dein / deine* | *Ihr / Ihre* |\n| Datif | *dir* | *Ihnen* |\n\n### Règle de prudence\n**En cas de doute → *Sie*.** C’est l’autre personne qui peut proposer le *Du* (*Wir können uns duzen*).\n\n### Exemples contrastés\n- *Hallo Peter, wie geht es **dir**?*\n- *Guten Tag, Herr Müller, wie geht es **Ihnen**?*\n\n### Passage au *du*\nSouvent : *Darf ich du sagen?* / *Sollen wir uns duzen?*\n\n### Mini-entraînement\nClassez 6 situations : *du* ou *Sie* ?",
+  "ruleEn": "## *du* or *Sie*?\n\n### Usage\n| | *du* | *Sie* |\n|---|---|---|\n| When | friends, family, children, close colleagues, often young people | strangers, customers, superiors, professional settings |\n| Verb | 2nd person: *du bist, du hast* | like plural: *Sie sind, Sie haben* |\n| Possessive | *dein / deine* | *Ihr / Ihre* |\n| Dative | *dir* | *Ihnen* |\n\n### Safe rule\n**When in doubt → *Sie*.** The other person may offer *du* (*Wir können uns duzen*).\n\n### Contrast\n- *Hallo Peter, wie geht es **dir**?*\n- *Guten Tag, Herr Müller, wie geht es **Ihnen**?*\n\n### Switching to *du*\nOften: *Darf ich du sagen?* / *Sollen wir uns duzen?*\n\n### Mini practice\nSort 6 situations: *du* or *Sie*?",
+  "ruleDe": "## *du* oder *Sie*?\n\n### Gebrauch\n| | *du* | *Sie* |\n|---|---|---|\n| Wann | Freunde, Familie, Kinder, enge Kollegen | Fremde, Kunden, Vorgesetzte, formell |\n| Verb | *du bist, du hast* | *Sie sind, Sie haben* |\n| Possessiv | *dein* | *Ihr* |\n| Dativ | *dir* | *Ihnen* |\n\n### Merksatz\n**Im Zweifel: Sie!** Das *Du* kann angeboten werden.\n\n### Kontrast\n- *Hallo Peter, wie geht es **dir**?*\n- *Guten Tag, Herr Müller, wie geht es **Ihnen**?*\n\n### Mini-Übung\n6 Situationen: *du* oder *Sie*?",
+  "notesFr": "En cas de doute : utiliser Sie ! L’autre peut proposer le tutoiement.",
+  "notesEn": "When in doubt: use Sie! Someone can offer the informal “du”.",
+  "notesDe": "Im Zweifelsfall: Sie verwenden! Jemand kann das „Du“ anbieten.",
+  "examples": [
+    {
+      "de": "Hallo Peter, wie geht es dir?",
+      "fr": "Salut Peter, comment vas-tu ? (tutoiement.)",
+      "en": "Hi Peter, how are you? (informal.)"
+    },
+    {
+      "de": "Guten Tag, Herr Müller, wie geht es Ihnen?",
+      "fr": "Bonjour, Monsieur Müller, comment allez-vous ?",
+      "en": "Good day, Mr Müller, how are you?"
+    },
+    {
+      "de": "Kannst du mir bitte helfen?",
+      "fr": "Peux-tu m’aider, s’il te plaît ?",
+      "en": "Can you please help me? (informal.)"
+    },
+    {
+      "de": "Können Sie mir bitte helfen?",
+      "fr": "Pouvez-vous m’aider, s’il vous plaît ?",
+      "en": "Can you please help me? (formal.)"
+    },
+    {
+      "de": "Sollen wir uns duzen?",
+      "fr": "On se tutoie ?",
+      "en": "Shall we use “du” with each other?"
+    }
+  ]
+}

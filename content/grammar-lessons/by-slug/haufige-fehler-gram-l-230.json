@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-l-230",
+  "titleFr": "Erreur fréquente : terminaison après sein",
+  "titleEn": "Common mistake: endings after sein",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur fréquente — terminaison après *sein*\n\n### Erreur typique\nLes apprenants déclinent l’adjectif **après** *sein* :\n\n- ✗ *Der Mann ist groß**er**.* / ✗ *Das Auto ist neu**es**.*\n- ✓ *Der Mann ist groß.* / ✓ *Das Auto ist neu.*\n\n### Règle\n| Position | Terminaison ? |\n|---|---|\n| Avant le nom | oui : *der groß**e** Mann* |\n| Après *sein/werden/bleiben* | non : *Der Mann ist groß.* |\n\n### Autre piège\nAprès *sein*, le **comparatif** a *-er* de degré, mais **pas** de terminaison de cas :\n- ✓ *Er ist größ**er**.* (*-er* = comparatif)\n- ✗ *Er ist der größ**e**.* (incomplet sans nom ; ou alors : *Er ist der größte **Mann**.*)\n\n### Mini-entraînement\nCorrigez 8 phrases avec adjectifs après *sein*.",
+  "ruleEn": "## Common mistake — endings after *sein*\n\n### Typical error\nLearners decline the adjective **after** *sein*:\n\n- ✗ *Der Mann ist groß**er**.* / ✗ *Das Auto ist neu**es**.*\n- ✓ *Der Mann ist groß.* / ✓ *Das Auto ist neu.*\n\n### Rule\n| Position | Ending? |\n|---|---|\n| Before the noun | yes: *der groß**e** Mann* |\n| After *sein/werden/bleiben* | no: *Der Mann ist groß.* |\n\n### Another trap\nAfter *sein*, the **comparative** has degree *-er*, but **no** case ending:\n- ✓ *Er ist größ**er**.*\n- Need a noun for attributive superlative: *Er ist der größte **Mann**.*\n\n### Mini practice\nFix 8 sentences with adjectives after *sein*.",
+  "ruleDe": "## Häufiger Fehler — Endung nach *sein*\n\n### Typischer Fehler\n- ✗ *Der Mann ist großer.* → ✓ *Der Mann ist groß.*\n\n### Regel\nVor dem Nomen: Endung. Nach *sein/werden/bleiben*: keine Endung.\n\n### Mini-Übung\nKorrigieren Sie 8 Sätze.",
+  "notesFr": "Après sein/werden = pas de terminaison ! Seulement devant le nom.",
+  "notesEn": "After sein/werden = no ending! Only before a noun.",
+  "notesDe": "Nach sein/werden = keine Endung! Nur vor dem Nomen.",
+  "examples": [
+    {
+      "de": "Der Mann ist groß.",
+      "fr": "L’homme est grand. (pas de terminaison)",
+      "en": "The man is tall. (no ending)"
+    },
+    {
+      "de": "Das Auto ist neu.",
+      "fr": "La voiture est neuve.",
+      "en": "The car is new."
+    },
+    {
+      "de": "Die Idee ist gut.",
+      "fr": "L’idée est bonne.",
+      "en": "The idea is good."
+    },
+    {
+      "de": "Der große Mann ist hier.",
+      "fr": "Le grand homme est ici. (terminaison devant le nom)",
+      "en": "The tall man is here. (ending before the noun)"
+    },
+    {
+      "de": "Er ist größer als sein Bruder.",
+      "fr": "Il est plus grand que son frère. (-er = comparatif, pas cas)",
+      "en": "He is taller than his brother. (-er = comparative, not case)"
+    }
+  ]
+}

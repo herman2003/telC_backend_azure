@@ -1,0 +1,39 @@
+{
+  "slug": "hoflichkeitsform-sie-gram-d-100",
+  "titleFr": "La forme de politesse « Sie »",
+  "titleEn": "The formal “Sie”",
+  "titleDe": "Höflichkeitsform — Sie",
+  "ruleFr": "## La forme de politesse *Sie*\n\nEn allemand, on vouvoie avec **Sie** (toujours **majuscule**), quelle que soit la personne (homme, femme, un ou plusieurs interlocuteurs).\n\n### Formes (toujours majuscules)\n| Cas | Forme | Exemple |\n|---|---|---|\n| Nominatif | **Sie** | *Wie geht es **Ihnen**? — **Sie** sind Herr Müller.* |\n| Accusatif | **Sie** | *Ich kenne **Sie**.* |\n| Datif | **Ihnen** | *Kann ich **Ihnen** helfen?* |\n| Possessif | **Ihr** | ***Ihr** Buch liegt hier.* |\n\n### Conjugaison\n*Sie* se conjugue comme *sie* (3e personne pluriel) : *Sie **haben***, *Sie **sind***, *Sie **können***…\n\n### Important\n- *Sie* (vouvoiement) ≠ *sie* (elle / ils) : seule la **majuscule** (et le contexte) distingue.\n- Possessif : *Ihr Name*, *Ihre Adresse* (pas *dein*).\n\n### Mini-entraînement\nRéécrivez en vouvoiement : *Wie heißt du? Wo wohnst du?*",
+  "ruleEn": "## The formal *Sie*\n\nGerman uses **Sie** for formal “you” (always **capitalized**), for one or more people.\n\n### Forms (always capitalized)\n| Case | Form | Example |\n|---|---|---|\n| Nominative | **Sie** | ***Sie** sind Herr Müller.* |\n| Accusative | **Sie** | *Ich kenne **Sie**.* |\n| Dative | **Ihnen** | *Kann ich **Ihnen** helfen?* |\n| Possessive | **Ihr** | ***Ihr** Buch liegt hier.* |\n\n### Conjugation\n*Sie* takes the same verb forms as *sie* (3rd person plural): *Sie **haben***, *Sie **sind***, *Sie **können***…\n\n### Important\n- Formal *Sie* ≠ *sie* (she / they): only **capitalization** (and context) tells them apart.\n- Possessive: *Ihr Name*, *Ihre Adresse* (not *dein*).\n\n### Mini practice\nRewrite formally: *Wie heißt du? Wo wohnst du?*",
+  "ruleDe": "## Höflichkeitsform *Sie*\n\nDie formelle Anrede ist **Sie** — immer **großgeschrieben**, für eine oder mehrere Personen.\n\n### Formen (immer groß)\n| Kasus | Form | Beispiel |\n|---|---|---|\n| Nominativ | **Sie** | ***Sie** sind Herr Müller.* |\n| Akkusativ | **Sie** | *Ich kenne **Sie**.* |\n| Dativ | **Ihnen** | *Kann ich **Ihnen** helfen?* |\n| Possessiv | **Ihr** | ***Ihr** Buch liegt hier.* |\n\n### Konjugation\nWie 3. Person Plural: *Sie **haben***, *Sie **sind***, *Sie **können***…\n\n### Wichtig\n*Sie* (Anrede) ≠ *sie* (sie/Plural): nur die **Großschreibung** unterscheidet.\n\n### Mini-Übung\nFormell umschreiben: *Wie heißt du? Wo wohnst du?*",
+  "notesFr": "Sie / Ihnen / Ihr — toujours majuscules ! Aussi : Ihr Buch (votre livre, formel).",
+  "notesEn": "Sie / Ihnen / Ihr — all capitalized! Also: Ihr Buch (your book, formal).",
+  "notesDe": "Sie/Ihnen/Ihr — alle großgeschrieben! Auch: Ihr Buch (Ihr = formell).",
+  "examples": [
+    {
+      "de": "Guten Tag, wie geht es Ihnen?",
+      "fr": "Bonjour, comment allez-vous ? (« Ihnen » = datif de politesse.)",
+      "en": "Good day, how are you? (“Ihnen” = formal dative.)"
+    },
+    {
+      "de": "Kann ich Ihnen helfen?",
+      "fr": "Puis-je vous aider ?",
+      "en": "Can I help you?"
+    },
+    {
+      "de": "Ist das Ihr Pass?",
+      "fr": "Est-ce que c’est votre passeport ? (« Ihr » possessif formel.)",
+      "en": "Is that your passport? (“Ihr” formal possessive.)"
+    },
+    {
+      "de": "Ich habe Sie gestern gesehen.",
+      "fr": "Je vous ai vu hier. (« Sie » accusatif.)",
+      "en": "I saw you yesterday. (“Sie” accusative.)"
+    },
+    {
+      "de": "Nehmen Sie bitte Platz.",
+      "fr": "Prenez place, s’il vous plaît. (impératif de politesse.)",
+      "en": "Please take a seat. (formal imperative.)"
+    }
+  ]
+}

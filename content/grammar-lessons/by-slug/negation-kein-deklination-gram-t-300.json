@@ -1,0 +1,39 @@
+{
+  "slug": "negation-kein-deklination-gram-t-300",
+  "titleFr": "La déclinaison de kein",
+  "titleEn": "Negation — declension of kein",
+  "titleDe": "Negation — kein Deklination",
+  "ruleFr": "## Déclinaison de *kein*\n\n*kein* se décline **comme *ein*** (pas de terminaison au Nom./Akk. neutre et au Nom. masculin).\n\n### Tableau (essentiel)\n| | Mask. | Fem. | Neut. | Plur. |\n|---|---|---|---|---|\n| Nom. | kein | keine | kein | keine |\n| Akk. | keinen | keine | kein | keine |\n| Dat. | keinem | keiner | keinem | keinen |\n| Gen. | keines | keiner | keines | keiner |\n\n### Exemples par cas\n- Nom. : *Kein Mann / Keine Frau / Kein Kind ist da.*\n- Akk. : *Ich sehe **keinen** Mann / **keine** Frau / **kein** Kind.*\n- Dat. : *Mit **keinem** Freund / **keiner** Freundin.*\n- Plur. Dat. : *ohne → mit **keinen** Problemen?* Attention : datif pluriel = **keinen**.\n\n### Mini-entraînement\nComplétez : *Ich habe ___ Hund / ___ Katze / ___ Geld / ___ Freunde.*",
+  "ruleEn": "## Declension of *kein*\n\n*kein* declines **like *ein*** (no ending in Nom. masc. / Nom.+Akk. neuter).\n\n### Core table\n| | Masc. | Fem. | Neut. | Plur. |\n|---|---|---|---|---|\n| Nom. | kein | keine | kein | keine |\n| Akk. | keinen | keine | kein | keine |\n| Dat. | keinem | keiner | keinem | keinen |\n| Gen. | keines | keiner | keines | keiner |\n\n### Examples\n- Nom.: *Kein Mann / Keine Frau / Kein Kind ist da.*\n- Akk.: *Ich sehe **keinen** Mann / **keine** Frau / **kein** Kind.*\n- Dat.: *Mit **keinem** Freund / **keiner** Freundin.*\n- Plur. Dat.: **keinen**\n\n### Mini practice\nFill in: *Ich habe ___ Hund / ___ Katze / ___ Geld / ___ Freunde.*",
+  "ruleDe": "## Deklination von *kein*\n\nWie *ein*.\n\n### Tabelle\n| | Mask. | Fem. | Neut. | Plur. |\n|---|---|---|---|---|\n| Nom. | kein | keine | kein | keine |\n| Akk. | keinen | keine | kein | keine |\n| Dat. | keinem | keiner | keinem | keinen |\n| Gen. | keines | keiner | keines | keiner |\n\n### Mini-Übung\n*Ich habe ___ Hund / ___ Katze / ___ Geld / ___ Freunde.*",
+  "notesFr": "Pluriel : *keine* (tous les cas sauf datif : *keinen*).",
+  "notesEn": "Plural: *keine* (all cases except dative: *keinen*).",
+  "notesDe": "Plural: *keine* (alle Fälle außer Dativ: *keinen*).",
+  "examples": [
+    {
+      "de": "Kein Student war im Kurs.",
+      "fr": "Aucun étudiant n’était au cours. (Nom. masc.)",
+      "en": "No student was in the class. (Nom. masc.)"
+    },
+    {
+      "de": "Ich sehe keinen Fehler.",
+      "fr": "Je ne vois aucune erreur. (Akk. masc.)",
+      "en": "I see no mistake. (Akk. masc.)"
+    },
+    {
+      "de": "Sie spricht mit keiner Kollegin.",
+      "fr": "Elle ne parle à aucune collègue. (Dat. fém.)",
+      "en": "She speaks with no colleague. (Dat. fem.)"
+    },
+    {
+      "de": "Wir haben keine Fragen.",
+      "fr": "Nous n’avons pas de questions. (pluriel)",
+      "en": "We have no questions. (plural)"
+    },
+    {
+      "de": "Er hilft keinen Kindern.",
+      "fr": "Il n’aide aucun enfant. (Dat. pluriel : *keinen*)",
+      "en": "He helps no children. (plural dative: *keinen*)"
+    }
+  ]
+}

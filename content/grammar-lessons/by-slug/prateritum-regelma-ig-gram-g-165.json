@@ -1,0 +1,39 @@
+{
+  "slug": "prateritum-regelma-ig-gram-g-165",
+  "titleFr": "Prétérit — verbes réguliers",
+  "titleEn": "Simple past — regular verbs",
+  "titleDe": "Präteritum — regelmäßig",
+  "ruleFr": "## Präteritum régulier\n\n### Terminaisons\nradical + **-te, -test, -te, -ten, -tet, -ten**\n\n| Personne | *machen* |\n|---|---|\n| ich | **machte** |\n| du | **machtest** |\n| er/sie/es | **machte** |\n| wir | **machten** |\n| ihr | **machtet** |\n| sie/Sie | **machten** |\n\n### Particularité\n1ʳᵉ et 3ᵉ personne du singulier sont **identiques** : *ich machte* = *er machte*.\n\n### Si radical en -t/-d\n*-ete* : *ich arbeitete*, *er wartete*.\n\n### Mini-entraînement\nConjuguez *spielen* et *arbeiten* au Präteritum.",
+  "ruleEn": "## Regular simple past\n\n### Endings\nstem + **-te, -test, -te, -ten, -tet, -ten**\n\n| Person | *machen* |\n|---|---|\n| ich | **machte** |\n| du | **machtest** |\n| er/sie/es | **machte** |\n| wir | **machten** |\n| ihr | **machtet** |\n| sie/Sie | **machten** |\n\n### Special point\n1st and 3rd person singular are **identical**: *ich machte* = *er machte*.\n\n### Stem in -t/-d\n*-ete*: *ich arbeitete*, *er wartete*.\n\n### Mini practice\nConjugate *spielen* and *arbeiten* in the Präteritum.",
+  "ruleDe": "## Regelmäßiges Präteritum\n\n### Endungen\nStamm + **-te, -test, -te, -ten, -tet, -ten**\n\n| Person | *machen* |\n|---|---|\n| ich | **machte** |\n| du | **machtest** |\n| er/sie/es | **machte** |\n| wir | **machten** |\n| ihr | **machtet** |\n| sie/Sie | **machten** |\n\n### Besonderheit\n1. und 3. Person Singular sind **gleich**: *ich machte* = *er machte*.\n\n### Stamm auf -t/-d\n*-ete*: *ich arbeitete*, *er wartete*.\n\n### Mini-Übung\nKonjugieren Sie *spielen* und *arbeiten* im Präteritum.",
+  "notesFr": "1ʳᵉ et 3ᵉ personne du singulier sont égales (*ich machte* = *er machte*).",
+  "notesEn": "1st and 3rd person singular are the same (*ich machte* = *er machte*).",
+  "notesDe": "1. und 3. Person Singular sind gleich! (*ich machte* = *er machte*)",
+  "examples": [
+    {
+      "de": "Ich machte jeden Tag Sport.",
+      "fr": "Je faisais / fis du sport tous les jours.",
+      "en": "I did sport every day."
+    },
+    {
+      "de": "Du lerntest fleißig.",
+      "fr": "Tu apprenais / étudias avec zèle.",
+      "en": "You studied diligently."
+    },
+    {
+      "de": "Er arbeitete bis Mitternacht.",
+      "fr": "Il travailla jusqu’à minuit.",
+      "en": "He worked until midnight."
+    },
+    {
+      "de": "Wir spielten im Garten.",
+      "fr": "Nous jouions / jouâmes dans le jardin.",
+      "en": "We played in the garden."
+    },
+    {
+      "de": "Sie fragte den Lehrer.",
+      "fr": "Elle demanda au professeur.",
+      "en": "She asked the teacher."
+    }
+  ]
+}

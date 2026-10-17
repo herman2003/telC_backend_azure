@@ -1,0 +1,39 @@
+{
+  "slug": "nach-unbestimmtem-artikel-akkusativ-gram-l-219",
+  "titleFr": "Adjectifs après ein/eine — accusatif",
+  "titleEn": "Adjectives after ein/eine — accusative",
+  "titleDe": "Nach unbestimmtem Artikel — Akkusativ",
+  "ruleFr": "## Après *ein/eine* — accusatif\n\n| | Forme |\n|---|---|\n| masculin | einen groß**en** Mann |\n| féminin | eine klein**e** Frau |\n| neutre | ein neu**es** Auto |\n\n### Observation\n- Masculin : *-en* (comme après *den*)\n- Neutre : encore *-es* (car *ein* ne marque pas)\n- Féminin : *-e*\n\n### Exemples\n- *Ich sehe einen groß**en** Mann.*\n- *Ich sehe eine klein**e** Frau.*\n- *Ich sehe ein neu**es** Auto.*\n\n### Mini-entraînement\nMettez les groupes de la leçon nominatif à l’accusatif.",
+  "ruleEn": "## After *ein/eine* — accusative\n\n| | Form |\n|---|---|\n| masculine | einen groß**en** Mann |\n| feminine | eine klein**e** Frau |\n| neuter | ein neu**es** Auto |\n\n### Observation\n- Masculine: *-en* (like after *den*)\n- Neuter: still *-es* (because *ein* doesn’t mark)\n- Feminine: *-e*\n\n### Examples\n- *Ich sehe einen groß**en** Mann.*\n- *Ich sehe eine klein**e** Frau.*\n- *Ich sehe ein neu**es** Auto.*\n\n### Mini practice\nPut the nominative phrases into the accusative.",
+  "ruleDe": "## Nach *ein/eine* — Akkusativ\n\nMaskulin: *-en*; Feminin: *-e*; Neutrum: *-es*.\n\n### Beispiele\n*Ich sehe einen großen Mann / eine kleine Frau / ein neues Auto.*\n\n### Mini-Übung\nSetzen Sie Nominativgruppen in den Akkusativ.",
+  "notesFr": "Masculin : -en (comme après article défini).",
+  "notesEn": "Masculine: -en (like after the definite article).",
+  "notesDe": "Maskulin: -en (wie nach bestimmtem Artikel).",
+  "examples": [
+    {
+      "de": "Ich sehe einen großen Mann.",
+      "fr": "Je vois un grand homme.",
+      "en": "I see a tall man."
+    },
+    {
+      "de": "Ich sehe eine kleine Frau.",
+      "fr": "Je vois une petite femme.",
+      "en": "I see a small woman."
+    },
+    {
+      "de": "Ich sehe ein neues Auto.",
+      "fr": "Je vois une voiture neuve.",
+      "en": "I see a new car."
+    },
+    {
+      "de": "Sie kauft einen teuren Rock.",
+      "fr": "Elle achète une jupe chère.",
+      "en": "She buys an expensive skirt."
+    },
+    {
+      "de": "Er liest mein neues Buch.",
+      "fr": "Il lit mon nouveau livre.",
+      "en": "He is reading my new book."
+    }
+  ]
+}

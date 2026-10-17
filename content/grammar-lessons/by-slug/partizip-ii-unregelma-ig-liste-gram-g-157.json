@@ -1,0 +1,39 @@
+{
+  "slug": "partizip-ii-unregelma-ig-liste-gram-g-157",
+  "titleFr": "Participe II — liste irrégulière",
+  "titleEn": "Past participle — irregular list",
+  "titleDe": "Partizip II — unregelmäßig Liste",
+  "ruleFr": "## Liste de participes irréguliers essentiels\n\n| Infinitif | Participe II | Auxiliaire typique |\n|---|---|---|\n| essen | **gegessen** | haben |\n| trinken | **getrunken** | haben |\n| sehen | **gesehen** | haben |\n| nehmen | **genommen** | haben |\n| geben | **gegeben** | haben |\n| finden | **gefunden** | haben |\n| sprechen | **gesprochen** | haben |\n| helfen | **geholfen** | haben |\n| treffen | **getroffen** | haben |\n| kommen | **gekommen** | sein |\n\n### Stratégie\nApprenez-les par groupes de 5, toujours avec une phrase complète.\n\n### Mini-entraînement\nÉcrivez 5 phrases Perfekt avec des verbes de la liste.",
+  "ruleEn": "## Essential irregular participles\n\n| Infinitive | Past participle | Typical auxiliary |\n|---|---|---|\n| essen | **gegessen** | haben |\n| trinken | **getrunken** | haben |\n| sehen | **gesehen** | haben |\n| nehmen | **genommen** | haben |\n| geben | **gegeben** | haben |\n| finden | **gefunden** | haben |\n| sprechen | **gesprochen** | haben |\n| helfen | **geholfen** | haben |\n| treffen | **getroffen** | haben |\n| kommen | **gekommen** | sein |\n\n### Strategy\nLearn them in groups of 5, always with a full sentence.\n\n### Mini practice\nWrite 5 Perfekt sentences with verbs from the list.",
+  "ruleDe": "## Wichtige unregelmäßige Partizipien\n\n| Infinitiv | Partizip II | typisches Hilfsverb |\n|---|---|---|\n| essen | **gegessen** | haben |\n| trinken | **getrunken** | haben |\n| sehen | **gesehen** | haben |\n| nehmen | **genommen** | haben |\n| geben | **gegeben** | haben |\n| finden | **gefunden** | haben |\n| sprechen | **gesprochen** | haben |\n| helfen | **geholfen** | haben |\n| treffen | **getroffen** | haben |\n| kommen | **gekommen** | sein |\n\n### Strategie\nIn Fünfergruppen lernen, immer mit Ganzsatz.\n\n### Mini-Übung\nSchreiben Sie 5 Perfekt-Sätze mit Verben aus der Liste.",
+  "notesFr": "Aussi : *sprechen → gesprochen*, *helfen → geholfen*, *treffen → getroffen*.",
+  "notesEn": "Also: *sprechen → gesprochen*, *helfen → geholfen*, *treffen → getroffen*.",
+  "notesDe": "Auch: *sprechen → gesprochen*, *helfen → geholfen*, *treffen → getroffen*.",
+  "examples": [
+    {
+      "de": "Ich habe zu Mittag gegessen.",
+      "fr": "J’ai déjeuné / mangé à midi.",
+      "en": "I ate lunch."
+    },
+    {
+      "de": "Sie hat Wasser getrunken.",
+      "fr": "Elle a bu de l’eau.",
+      "en": "She drank water."
+    },
+    {
+      "de": "Hast du den Unfall gesehen?",
+      "fr": "As-tu vu l’accident ?",
+      "en": "Did you see the accident?"
+    },
+    {
+      "de": "Er hat das Geld genommen.",
+      "fr": "Il a pris l’argent.",
+      "en": "He took the money."
+    },
+    {
+      "de": "Wir haben uns gestern getroffen.",
+      "fr": "Nous nous sommes rencontrés hier.",
+      "en": "We met yesterday."
+    }
+  ]
+}

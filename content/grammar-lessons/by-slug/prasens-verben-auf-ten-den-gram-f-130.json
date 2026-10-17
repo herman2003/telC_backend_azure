@@ -1,0 +1,39 @@
+{
+  "slug": "prasens-verben-auf-ten-den-gram-f-130",
+  "titleFr": "Verbes en -ten / -den",
+  "titleEn": "Verbs ending in -ten / -den",
+  "titleDe": "Präsens — Verben auf -ten/-den",
+  "ruleFr": "## Verbes dont le radical finit par *-t* ou *-d*\n\nPour *du* et *er/ihr*, on **insère un -e-** devant *-st / -t*, sinon c’est imprononçable.\n\n### Règle\nStamm sur **-t/-d** → *du Stamm**e**st*, *er/ihr Stamm**e**t*\n\n### Exemples\n- *arbeiten* → du arbeit**e**st, er arbeit**e**t (pas *arbeitst*)\n- *finden* → du find**e**st, er find**e**t (pas *findt*)\n\n### Autres verbes\n*warten, antworten, reden, baden, bilden, melden…*\n\n### Mini-entraînement\nConjuguez *warten* : du / er / ihr.",
+  "ruleEn": "## Stems ending in *-t* or *-d*\n\nFor *du* and *er/ihr*, insert **-e-** before *-st / -t*.\n\n### Rule\nStem in **-t/-d** → *du stem**e**st*, *er/ihr stem**e**t*\n\n### Examples\n*arbeiten* → du arbeitest · *finden* → du findest\n\n### Mini practice\nConjugate *warten*: du / er / ihr.",
+  "ruleDe": "## Verben mit Stamm auf -t/-d\n\nVor *-st/-t* ein **-e-** einfügen: *du arbeitest*, *er findet*.\n\n### Mini-Übung\n*warten*: du / er / ihr.",
+  "notesFr": "Sans -e- ce serait imprononçable : arbeitst ? findt ?",
+  "notesEn": "Without -e- it would be unpronounceable: arbeitst? findt?",
+  "notesDe": "Ohne -e- wäre es unaussprechbar: arbeitst? findt?",
+  "examples": [
+    {
+      "de": "Du arbeitest zu viel.",
+      "fr": "Tu travailles trop. (arbeit + e + st)",
+      "en": "You work too much. (arbeit + e + st)"
+    },
+    {
+      "de": "Er wartet auf den Bus.",
+      "fr": "Il attend le bus. (wart + e + t)",
+      "en": "He is waiting for the bus."
+    },
+    {
+      "de": "Ihr redet zu laut.",
+      "fr": "Vous parlez trop fort. (red + e + t)",
+      "en": "You’re talking too loudly."
+    },
+    {
+      "de": "Sie findet den Schlüssel.",
+      "fr": "Elle trouve la clé.",
+      "en": "She finds the key."
+    },
+    {
+      "de": "Antwortest du mir?",
+      "fr": "Tu me réponds ?",
+      "en": "Are you answering me?"
+    }
+  ]
+}

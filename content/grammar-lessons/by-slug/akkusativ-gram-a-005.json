@@ -1,0 +1,39 @@
+{
+  "slug": "akkusativ-gram-a-005",
+  "titleFr": "L’accusatif",
+  "titleEn": "The accusative",
+  "titleDe": "Akkusativ",
+  "ruleFr": "## L’accusatif — le complément d’objet direct\n\nL’**accusatif** marque souvent l’objet direct : la personne ou la chose **touchée** par l’action.\n\n### Question clé\n**Wen?** ou **Was?** (Qui ? / Quoi ? — objet)\n\n- *Wen siehst du?* → Ich sehe **den Mann**.\n- *Was kauft sie?* → Sie kauft **das Buch**.\n\n### Articles définis à l’accusatif\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **den** | die | das | die |\n\nSeul le **masculin** change (*der* → *den*). Féminin, neutre et pluriel restent comme au nominatif.\n\n### Structure type\nSujet (Nom.) + verbe + **objet (Akk.)**\n→ *Die Frau liest **den Brief**.*\n\n### Contraste Nom. / Akk.\n- *Der Hund* (Nom.) *sieht **den Hund*** (Akk.).\n\n### Erreurs fréquentes\n- Oublier *den* pour le masculin : ✗ *Ich sehe der Mann.* → ✓ *Ich sehe **den** Mann.*\n- Changer inutilement *die/das* : ✗ *Ich lese den Buch.* → ✓ *Ich lese **das** Buch.*\n\n### Mini-entraînement\n1. Posez *Wen?/Was?* sur 5 phrases et soulignez l’objet.\n2. Transformez : *Der Mann* (sujet) → *___ Mann* (objet).\n3. Écrivez 3 phrases : *Ich kaufe den/die/das …*",
+  "ruleEn": "## The accusative — the direct object\n\nThe **accusative** often marks the direct object: who or what is **affected** by the action.\n\n### Key question\n**Wen?** or **Was?** (Whom? / What? — object)\n\n- *Wen siehst du?* → Ich sehe **den Mann**.\n- *Was kauft sie?* → Sie kauft **das Buch**.\n\n### Definite articles in the accusative\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **den** | die | das | die |\n\nOnly **masculine** changes (*der* → *den*). Feminine, neuter and plural stay like nominative.\n\n### Typical pattern\nSubject (Nom.) + verb + **object (Akk.)**\n→ *Die Frau liest **den Brief**.*\n\n### Nom. / Akk. contrast\n- *Der Hund* (Nom.) *sieht **den Hund*** (Akk.).\n\n### Common mistakes\n- Forgetting *den* for masculine: ✗ *Ich sehe der Mann.* → ✓ *Ich sehe **den** Mann.*\n- Unnecessarily changing *die/das*: ✗ *Ich lese den Buch.* → ✓ *Ich lese **das** Buch.*\n\n### Mini practice\n1. Ask *Wen?/Was?* on 5 sentences and underline the object.\n2. Transform: *Der Mann* (subject) → *___ Mann* (object).\n3. Write 3 sentences: *Ich kaufe den/die/das …*",
+  "ruleDe": "## Akkusativ — das direkte Objekt\n\nDer **Akkusativ** kennzeichnet oft das direkte Objekt: wen oder was die Handlung **betrifft**.\n\n### Schlüsselfrage\n**Wen?** oder **Was?**\n\n- *Wen siehst du?* → Ich sehe **den Mann**.\n- *Was kauft sie?* → Sie kauft **das Buch**.\n\n### Bestimmter Artikel im Akkusativ\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| bestimmt | **den** | die | das | die |\n\nNur das **Maskulinum** ändert sich (*der* → *den*). Femininum, Neutrum und Plural bleiben wie im Nominativ.\n\n### Typisches Muster\nSubjekt (Nom.) + Verb + **Objekt (Akk.)**\n→ *Die Frau liest **den Brief**.*\n\n### Kontrast Nom. / Akk.\n- *Der Hund* (Nom.) *sieht **den Hund*** (Akk.).\n\n### Häufige Fehler\n- *den* vergessen: ✗ *Ich sehe der Mann.* → ✓ *Ich sehe **den** Mann.*\n- *die/das* unnötig ändern: ✗ *Ich lese den Buch.* → ✓ *Ich lese **das** Buch.*\n\n### Mini-Übung\n1. *Wen?/Was?* zu 5 Sätzen stellen und Objekt unterstreichen.\n2. Umformen: *Der Mann* (Subjekt) → *___ Mann* (Objekt).\n3. Drei Sätze: *Ich kaufe den/die/das …*",
+  "notesFr": "Astuce : si seul le masculin « bouge » (*der*→*den*), vérifiez d’abord le genre avant de changer l’article.",
+  "notesEn": "Tip: if only masculine “moves” (*der*→*den*), check gender first before changing the article.",
+  "notesDe": "Tipp: Wenn sich nur Maskulinum ändert (*der*→*den*), zuerst das Genus prüfen, bevor Sie den Artikel ändern.",
+  "examples": [
+    {
+      "de": "Ich sehe den Mann.",
+      "fr": "Je vois l’homme. (*den Mann* = accusatif masculin)",
+      "en": "I see the man. (*den Mann* = masculine accusative)"
+    },
+    {
+      "de": "Sie liest das Buch.",
+      "fr": "Elle lit le livre. (*das Buch* = accusatif neutre, forme inchangée)",
+      "en": "She is reading the book. (*das Buch* = neuter accusative, unchanged form)"
+    },
+    {
+      "de": "Wir kaufen die Zeitung.",
+      "fr": "Nous achetons le journal. (*die Zeitung* = accusatif féminin)",
+      "en": "We are buying the newspaper. (*die Zeitung* = feminine accusative)"
+    },
+    {
+      "de": "Er hört die Kinder.",
+      "fr": "Il entend les enfants. (*die Kinder* = accusatif pluriel)",
+      "en": "He hears the children. (*die Kinder* = plural accusative)"
+    },
+    {
+      "de": "Der Hund jagt die Katze.",
+      "fr": "Le chien chasse le chat. (sujet Nom. + objet Akk.)",
+      "en": "The dog chases the cat. (subject Nom. + object Akk.)"
+    }
+  ]
+}

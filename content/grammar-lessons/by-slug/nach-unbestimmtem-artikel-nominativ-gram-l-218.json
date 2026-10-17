@@ -1,0 +1,39 @@
+{
+  "slug": "nach-unbestimmtem-artikel-nominativ-gram-l-218",
+  "titleFr": "Adjectifs après ein/eine — nominatif",
+  "titleEn": "Adjectives after ein/eine — nominative",
+  "titleDe": "Nach unbestimmtem Artikel — Nominativ",
+  "ruleFr": "## Après *ein/eine* — nominatif\n\nAu nominatif :\n| | Forme |\n|---|---|\n| masculin | ein groß**er** Mann |\n| féminin | eine klein**e** Frau |\n| neutre | ein neu**es** Auto |\n\n### Pourquoi *-er / -es* ?\nParce que *ein* ne marque pas le genre → l’adjectif le fait (comme *der/das*).\n\n### Mini-entraînement\nFormez 6 groupes : *ein/eine + adjectif + nom*.",
+  "ruleEn": "## After *ein/eine* — nominative\n\nIn the nominative:\n| | Form |\n|---|---|\n| masculine | ein groß**er** Mann |\n| feminine | eine klein**e** Frau |\n| neuter | ein neu**es** Auto |\n\n### Why *-er / -es*?\nBecause *ein* doesn’t mark gender → the adjective does (like *der/das*).\n\n### Mini practice\nForm 6 phrases: *ein/eine + adjective + noun*.",
+  "ruleDe": "## Nach *ein/eine* — Nominativ\n\n| | Form |\n|---|---|\n| Mask. | ein groß**er** Mann |\n| Fem. | eine klein**e** Frau |\n| Neut. | ein neu**es** Auto |\n\n### Warum?\n*ein* zeigt kein Genus → das Adjektiv zeigt es.\n\n### Mini-Übung\nBilden Sie 6 Gruppen mit *ein/eine*.",
+  "notesFr": "L’adjectif montre le genre parce que « ein » n’a pas de terminaison !",
+  "notesEn": "The adjective shows gender because ‘ein’ has no ending!",
+  "notesDe": "Adjektiv zeigt Genus, weil ‚ein‘ keine Endung hat!",
+  "examples": [
+    {
+      "de": "Ein großer Mann steht dort.",
+      "fr": "Un grand homme se tient là.",
+      "en": "A tall man is standing there."
+    },
+    {
+      "de": "Eine kleine Frau wartet.",
+      "fr": "Une petite femme attend.",
+      "en": "A small woman is waiting."
+    },
+    {
+      "de": "Ein neues Auto ist teuer.",
+      "fr": "Une voiture neuve est chère.",
+      "en": "A new car is expensive."
+    },
+    {
+      "de": "Mein guter Freund hilft mir.",
+      "fr": "Mon bon ami m’aide.",
+      "en": "My good friend helps me."
+    },
+    {
+      "de": "Kein altes Problem bleibt.",
+      "fr": "Aucun vieux problème ne reste.",
+      "en": "No old problem remains."
+    }
+  ]
+}

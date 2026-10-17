@@ -1,0 +1,39 @@
+{
+  "slug": "stammvokalanderung-e-ie-verben-gram-f-138",
+  "titleFr": "Verbes avec e→ie",
+  "titleEn": "Verbs with e→ie",
+  "titleDe": "Stammvokaländerung — e→ie Verben",
+  "ruleFr": "## Liste des verbes fréquents *e → ie*\n\n| Infinitif | du / er |\n|---|---|\n| sehen | s**ie**hst / s**ie**ht |\n| lesen | l**ie**st / l**ie**st |\n| empfehlen | empf**ie**hlst / empf**ie**hlt |\n| stehlen | st**ie**hlst / st**ie**hlt |\n| befehlen | bef**ie**hlst / bef**ie**hlt |\n| geschehen | es gesch**ie**ht |\n\n### Astuce\n*e → ie* allonge la voyelle (pensez à l’anglais *see*).\n\n### Mini-entraînement\nComplétez : *Er ___ (lesen) laut. Was ___ (geschehen)?*",
+  "ruleEn": "## Common *e → ie* verbs\n\nsehen → siehst/sieht · lesen → liest · empfehlen → empfiehlst/empfiehlt · stehlen → stiehlst/stiehlt · befehlen → befiehlst/befiehlt · geschehen → geschieht\n\n### Memory tip\n*e → ie* lengthens the vowel (think English *see*).\n\n### Mini practice\nFill: *Er ___ (lesen) laut. Was ___ (geschehen)?*",
+  "ruleDe": "## Wichtige e→ie-Verben\n\nsehen, lesen, empfehlen, stehlen, befehlen, geschehen\n\nMerkhilfe: e→ie macht den Vokal länger.\n\n### Mini-Übung\n*Er ___ laut. Was ___?*",
+  "notesFr": "Astuce : e→ie allonge la voyelle (comme l’anglais « see »).",
+  "notesEn": "Tip: e→ie lengthens the vowel (like English “see”).",
+  "notesDe": "Merkhilfe: e→ie macht den Vokal länger (wie im Englischen „see“).",
+  "examples": [
+    {
+      "de": "Er sieht den Unfall.",
+      "fr": "Il voit l’accident.",
+      "en": "He sees the accident."
+    },
+    {
+      "de": "Liest sie jeden Tag?",
+      "fr": "Lit-elle tous les jours ?",
+      "en": "Does she read every day?"
+    },
+    {
+      "de": "Der Arzt empfiehlt Sport.",
+      "fr": "Le médecin recommande le sport.",
+      "en": "The doctor recommends sport."
+    },
+    {
+      "de": "Wer stiehlt hier?",
+      "fr": "Qui vole ici ?",
+      "en": "Who is stealing here?"
+    },
+    {
+      "de": "Was geschieht jetzt?",
+      "fr": "Que se passe-t-il maintenant ?",
+      "en": "What is happening now?"
+    }
+  ]
+}

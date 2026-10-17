@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-akkusativ-gram-d-080",
+  "titleFr": "Pronoms personnels — accusatif (aperçu)",
+  "titleEn": "Personal pronouns — accusative (overview)",
+  "titleDe": "Personalpronomen — Akkusativ",
+  "ruleFr": "## Accusatif : complément d’objet direct\n\nQuestion : **Wen?** ou **Was?**\n\n### Formes\n| Nom. | Akk. |\n|---|---|\n| ich | **mich** |\n| du | **dich** |\n| er | **ihn** |\n| sie (f) | **sie** |\n| es | **es** |\n| wir | **uns** |\n| ihr | **euch** |\n| sie / Sie | **sie / Sie** |\n\n### Exemples types\n*Er liebt **mich**.* · *Ich sehe **dich**.* · *Wir kennen **ihn**.*\n\n### Mini-entraînement\nRemplacez le COD nominal par un pronom accusatif dans 5 phrases.",
+  "ruleEn": "## Accusative: direct object\n\nQuestion: **Wen?** or **Was?**\n\n### Forms\nich→**mich** · du→**dich** · er→**ihn** · sie→**sie** · es→**es** · wir→**uns** · ihr→**euch** · sie/Sie→**sie/Sie**\n\n### Mini practice\nReplace the nominal direct object with an accusative pronoun in 5 sentences.",
+  "ruleDe": "## Akkusativ: direktes Objekt\n\nFrage: **Wen?** / **Was?**\n\n### Formen\nich→**mich** · du→**dich** · er→**ihn** · sie→**sie** · es→**es** · wir→**uns** · ihr→**euch** · sie/Sie→**sie/Sie**\n\n### Mini-Übung\nAkkusativobjekt durch Pronomen ersetzen.",
+  "notesFr": "Question : *Wen?* ou *Was?*",
+  "notesEn": "Question: *Wen?* or *Was?*",
+  "notesDe": "Frage: *Wen?* oder *Was?*",
+  "examples": [
+    {
+      "de": "Er liebt mich.",
+      "fr": "Il m’aime. (mich.)",
+      "en": "He loves me. (mich.)"
+    },
+    {
+      "de": "Ich sehe dich.",
+      "fr": "Je te vois. (dich.)",
+      "en": "I see you. (dich.)"
+    },
+    {
+      "de": "Wir kennen ihn.",
+      "fr": "Nous le connaissons. (ihn ← er.)",
+      "en": "We know him. (ihn ← er.)"
+    },
+    {
+      "de": "Ich rufe sie an.",
+      "fr": "Je l’appelle. (sie — elle ou eux.)",
+      "en": "I am calling her/them. (sie.)"
+    },
+    {
+      "de": "Brauchst du es?",
+      "fr": "En as-tu besoin ? (es.)",
+      "en": "Do you need it? (es.)"
+    }
+  ]
+}

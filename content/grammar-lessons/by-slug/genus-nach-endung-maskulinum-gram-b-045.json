@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-endung-maskulinum-gram-b-045",
+  "titleFr": "Suffixe -er : souvent masculin (agents et appareils)",
+  "titleEn": "The suffix -er: often masculine (agents and devices)",
+  "titleDe": "Genus nach Endung — -er oft Maskulinum",
+  "ruleFr": "## *-er* → souvent **der** (personne qui fait / appareil)\n\nBeaucoup de noms en **-er** sont **masculins**, surtout :\n1. **Agents** (personne qui fait X) : *der Lehrer, der Fahrer, der Arbeiter, der Spieler*\n2. **Appareils / outils** : *der Computer, der Drucker, der Fernseher, der Wecker, der Kühlschrank?* → *der Kühlschrank*\n\n### Attention\nCe n’est **pas** une règle absolue : *die Butter, die Mutter, die Tochter, die Leiter* (échelle) existent.\nMais pour les métiers en *-er* et les appareils, *der* est une excellente hypothèse.\n\n### Féminin de métier\nSouvent *-erin* : *der Lehrer → die Lehrerin*.\n\n### Mini-entraînement\n1. Listez 10 métiers en *-er* avec *der*.\n2. Formez le féminin en *-erin*.\n3. 5 appareils : *der …*.",
+  "ruleEn": "## *-er* → often **der** (doer / device)\n\nMany nouns in **-er** are **masculine**, especially:\n1. **Agents** (person who does X): *der Lehrer, der Fahrer, der Arbeiter, der Spieler*\n2. **Devices / tools**: *der Computer, der Drucker, der Fernseher, der Wecker*\n\n### Caution\nNot absolute: *die Butter, die Mutter, die Tochter, die Leiter* (ladder) exist.\nBut for *-er* jobs and devices, *der* is an excellent default.\n\n### Feminine job form\nOften *-erin*: *der Lehrer → die Lehrerin*.\n\n### Mini practice\n1. List 10 *-er* jobs with *der*.\n2. Form feminine *-erin*.\n3. 5 devices: *der …*.",
+  "ruleDe": "## *-er* → oft **der** (Täter / Gerät)\n\nViele Nomen auf **-er** sind **maskulin**, besonders:\n1. **Personen**, die etwas tun: *der Lehrer, der Fahrer, der Arbeiter, der Spieler*\n2. **Geräte**: *der Computer, der Drucker, der Fernseher, der Wecker*\n\n### Vorsicht\nNicht absolut: *die Butter, die Mutter, die Tochter, die Leiter*.\nAber bei Berufen und Geräten ist *der* eine sehr gute Annahme.\n\n### Feminine Berufsform\nOft *-erin*: *der Lehrer → die Lehrerin*.\n\n### Mini-Übung\n1. Zehn Berufe auf *-er* mit *der*.\n2. Femininum auf *-erin*.\n3. Fünf Geräte: *der …*.",
+  "notesFr": "Pour un métier ou un appareil en *-er*, essayez d’abord *der* — puis vérifiez les exceptions (*die Butter*).",
+  "notesEn": "For a job or device in *-er*, try *der* first — then check exceptions (*die Butter*).",
+  "notesDe": "Bei Beruf oder Gerät auf *-er* zuerst *der* testen — dann Ausnahmen prüfen (*die Butter*).",
+  "examples": [
+    {
+      "de": "Der Lehrer schreibt an die Tafel.",
+      "fr": "Le professeur écrit au tableau. (*der Lehrer*)",
+      "en": "The teacher is writing on the board. (*der Lehrer*)"
+    },
+    {
+      "de": "Der Fahrer wartet vor dem Haus.",
+      "fr": "Le conducteur attend devant la maison. (*der Fahrer*)",
+      "en": "The driver is waiting in front of the house. (*der Fahrer*)"
+    },
+    {
+      "de": "Der Computer ist neu.",
+      "fr": "L’ordinateur est neuf. (*der Computer*)",
+      "en": "The computer is new. (*der Computer*)"
+    },
+    {
+      "de": "Der Wecker klingelt um sieben.",
+      "fr": "Le réveil sonne à sept heures. (*der Wecker*)",
+      "en": "The alarm clock rings at seven. (*der Wecker*)"
+    },
+    {
+      "de": "Die Lehrerin erklärt die Aufgabe.",
+      "fr": "La professeure explique l’exercice. (*die Lehrerin*)",
+      "en": "The (female) teacher explains the task. (*die Lehrerin*)"
+    }
+  ]
+}

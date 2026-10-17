@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-n-261",
+  "titleFr": "Erreurs fréquentes — nach / in (pays)",
+  "titleEn": "Common mistakes — nach / in (countries)",
+  "titleDe": "Häufige Fehler — nach/in (Länder)",
+  "ruleFr": "## Erreur fréquente : *nach* avec les pays à article\n\n### Règle\n- Pays / villes **sans article** → **nach** : *nach Deutschland*, *nach Paris*\n- Pays **avec article** → **in** + accusatif (mouvement) : *in die Schweiz*, *in die Türkei*, *in die USA*\n- Être dans un pays à article → **in** + datif : *in der Schweiz*\n\n### Exemples corrects\n✓ Ich fliege **nach** Spanien.\n✓ Ich fliege **in die** Türkei.\n✓ Ich wohne **in der** Türkei.\n✗ Ich fliege **nach der** Türkei.\n✗ Ich fliege **nach die** USA.\n\n### Mini-entraînement\n1. Classez 10 pays : avec / sans article.\n2. Formez phrases *fliegen nach / in die …*\n3. Corrigez : ✗ *nach der Schweiz*.",
+  "ruleEn": "## Common mistake: *nach* with article countries\n\n### Rule\n- Countries / cities **without article** → **nach**: *nach Deutschland*, *nach Paris*\n- Countries **with article** → **in** + accusative (motion): *in die Schweiz*, *in die Türkei*, *in die USA*\n- Being in an article country → **in** + dative: *in der Schweiz*\n\n### Correct examples\n✓ Ich fliege **nach** Spanien.\n✓ Ich fliege **in die** Türkei.\n✓ Ich wohne **in der** Türkei.\n✗ Ich fliege **nach der** Türkei.\n\n### Mini practice\n1. Sort 10 countries: with / without article.\n2. Form *fliegen nach / in die …* sentences.\n3. Correct: ✗ *nach der Schweiz*.",
+  "ruleDe": "## Häufiger Fehler: *nach* bei Artikelländern\n\n### Regel\n- Land/Stadt **ohne Artikel** → **nach**\n- Land **mit Artikel** → **in** + Akk. (Richtung) / Dat. (Ort)\n\n### Beispiele\n✓ **nach** Spanien\n✓ **in die** Türkei / **in der** Türkei\n✗ **nach der** Türkei\n\n### Mini-Übung\n1. 10 Länder sortieren.\n2. Sätze mit *nach* / *in die*.\n3. Korrigieren: ✗ *nach der Schweiz*.",
+  "notesFr": "*nach* + pays sans article ; *in die* + pays avec article (*Türkei, USA*).",
+  "notesEn": "*nach* + article-less country; *in die* + article country (*Türkei, USA*).",
+  "notesDe": "nach + Land ohne Artikel; in + Artikel-Land: in die Türkei, in die USA.",
+  "examples": [
+    {
+      "de": "Wir fliegen nach Deutschland.",
+      "fr": "Nous volons vers l’Allemagne. (sans article → *nach*)",
+      "en": "We are flying to Germany. (no article → *nach*)"
+    },
+    {
+      "de": "Wir fliegen in die Schweiz.",
+      "fr": "Nous volons en Suisse. (avec article → *in die*)",
+      "en": "We are flying to Switzerland. (with article → *in die*)"
+    },
+    {
+      "de": "Sie wohnt in der Türkei.",
+      "fr": "Elle habite en Turquie. (position → datif)",
+      "en": "She lives in Turkey. (location → dative)"
+    },
+    {
+      "de": "Er fährt in die USA.",
+      "fr": "Il part aux États-Unis.",
+      "en": "He is going to the USA."
+    },
+    {
+      "de": "Falsch: nach der Schweiz. — Richtig: in die Schweiz.",
+      "fr": "Ne pas dire *nach der Schweiz*.",
+      "en": "Do not say *nach der Schweiz*."
+    }
+  ]
+}

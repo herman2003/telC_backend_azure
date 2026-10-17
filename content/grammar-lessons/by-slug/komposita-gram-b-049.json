@@ -1,0 +1,39 @@
+{
+  "slug": "komposita-gram-b-049",
+  "titleFr": "Les mots composés — un seul mot écrit",
+  "titleEn": "Compound nouns — written as one word",
+  "titleDe": "Komposita",
+  "ruleFr": "## Komposita — on écrit **en un seul mot**\n\nContrairement à l’anglais (*phone cover*, *bus stop*), l’allemand **soude** les éléments : **die Handyhülle**, **die Bushaltestelle**.\n\n### Règle\nPlusieurs noms (parfois avec adjectif ou verbe) → **un seul mot**, sans espace ni tiret (sauf rares cas).\n\n| anglais (plusieurs mots) | allemand (un mot) |\n|---|---|\n| mobile phone case | **die Handyhülle** |\n| bus stop | **die Bushaltestelle** |\n| living room | **das Wohnzimmer** |\n| train station | **der Bahnhof** |\n\n### Conséquences pour l’apprentissage\n1. Cherchez le composé comme **un seul** lemma dans le dictionnaire.\n2. L’article dépend du **dernier** élément (voir leçon précédente).\n3. La majuscule : le composé est un **nom** → majuscule au début.\n\n### Erreurs fréquentes\n- ✗ *Handy Hülle* / *Handy-Hülle* (sauf style marketing)\n- ✓ **die Handyhülle**\n- ✗ *Bus Haltestelle*\n- ✓ **die Bushaltestelle**\n\n### Mini-entraînement\nÉcrivez 5 composés courants en un seul mot et ajoutez l’article.",
+  "ruleEn": "## Compounds — written as **one word**\n\nUnlike English (*phone cover*, *bus stop*), German **joins** the parts: **die Handyhülle**, **die Bushaltestelle**.\n\n### Rule\nSeveral nouns (sometimes with adjective/verb) → **one word**, no space (hyphens only in rare cases).\n\n| English (several words) | German (one word) |\n|---|---|\n| mobile phone case | **die Handyhülle** |\n| bus stop | **die Bushaltestelle** |\n| living room | **das Wohnzimmer** |\n| train station | **der Bahnhof** |\n\n### Learning consequences\n1. Look up the compound as **one** dictionary entry.\n2. Article follows the **last** element.\n3. Capitalize: compounds are nouns.\n\n### Common mistakes\n- ✗ *Handy Hülle* / *Handy-Hülle* (except marketing style)\n- ✓ **die Handyhülle**\n\n### Mini practice\nWrite 5 everyday compounds as one word and add the article.",
+  "ruleDe": "## Komposita — als **ein Wort** geschrieben\n\nAnders als im Englischen (*phone cover*, *bus stop*) schreibt man im Deutschen **zusammen**: **die Handyhülle**, **die Bushaltestelle**.\n\n### Regel\nMehrere Nomen (manchmal mit Adjektiv/Verb) → **ein Wort**, ohne Leerzeichen.\n\n| Englisch | Deutsch |\n|---|---|\n| mobile phone case | **die Handyhülle** |\n| bus stop | **die Bushaltestelle** |\n| living room | **das Wohnzimmer** |\n| train station | **der Bahnhof** |\n\n### Lernen\n1. Als **einen** Eintrag nachschlagen.\n2. Artikel vom **letzten** Element.\n3. Großschreibung am Anfang.\n\n### Häufige Fehler\n- ✗ *Handy Hülle*\n- ✓ **die Handyhülle**\n\n### Mini-Übung\nSchreiben Sie 5 Alltags-Komposita als ein Wort mit Artikel.",
+  "notesFr": "Contrairement à l’anglais : *Handy cover* → **die Handyhülle** (un seul mot).",
+  "notesEn": "Unlike English: *Handy cover* → **die Handyhülle** (one word).",
+  "notesDe": "Anders als im Englischen: Handy cover → **die Handyhülle** (ein Wort).",
+  "examples": [
+    {
+      "de": "Die Handyhülle ist kaputt.",
+      "fr": "La coque de téléphone est cassée. (un seul mot.)",
+      "en": "The phone case is broken. (one word.)"
+    },
+    {
+      "de": "Wir warten an der Bushaltestelle.",
+      "fr": "Nous attendons à l’arrêt de bus.",
+      "en": "We wait at the bus stop."
+    },
+    {
+      "de": "Das Wohnzimmer ist hell.",
+      "fr": "Le salon est lumineux.",
+      "en": "The living room is bright."
+    },
+    {
+      "de": "Der Bahnhof liegt in der Nähe.",
+      "fr": "La gare est à proximité.",
+      "en": "The station is nearby."
+    },
+    {
+      "de": "Die Straßenbahn kommt gleich.",
+      "fr": "Le tram arrive tout de suite.",
+      "en": "The tram is coming right away."
+    }
+  ]
+}

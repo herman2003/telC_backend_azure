@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-nominativ-gram-d-077",
+  "titleFr": "Pronoms personnels — nominatif (sujet)",
+  "titleEn": "Personal pronouns — nominative (subject)",
+  "titleDe": "Personalpronomen — Nominativ",
+  "ruleFr": "## Nominatif : le sujet\n\nFormes sujet (à connaître par cœur) :\n\n| | singulier | pluriel |\n|---|---|---|\n| 1re | **ich** | **wir** |\n| 2e | **du** | **ihr** |\n| 3e | **er / sie / es** | **sie** |\n| politesse | **Sie** | **Sie** |\n\n### Règles\n- **Sie** (vouvoiement) : toujours **majuscule**.\n- *sie* (elle) / *sie* (ils/elles) / *Sie* (vous) : le contexte + majuscule distinguent.\n\n### Emploi\nLe pronom nominatif **conjuge** le verbe : *ich gehe, du gehst, er geht…*\n\n### Mini-entraînement\nConjuguez *kommen* avec les 9 formes sujet.",
+  "ruleEn": "## Nominative: the subject\n\nSubject forms (memorize):\n\n| | singular | plural |\n|---|---|---|\n| 1st | **ich** | **wir** |\n| 2nd | **du** | **ihr** |\n| 3rd | **er / sie / es** | **sie** |\n| polite | **Sie** | **Sie** |\n\n### Rules\n- Polite **Sie** always capitalized.\n- *sie* / *Sie* distinguished by context + capital.\n\n### Mini practice\nConjugate *kommen* with all 9 subject forms.",
+  "ruleDe": "## Nominativ: das Subjekt\n\n| | Singular | Plural |\n|---|---|---|\n| 1. | **ich** | **wir** |\n| 2. | **du** | **ihr** |\n| 3. | **er/sie/es** | **sie** |\n| höflich | **Sie** | **Sie** |\n\n### Regel\n**Sie** (Höflichkeit) immer groß.\n\n### Mini-Übung\n*kommen* mit allen Subjektformen konjugieren.",
+  "notesFr": "*Sie* (vouvoiement) toujours avec majuscule !",
+  "notesEn": "Polite *Sie* always capitalized!",
+  "notesDe": "*Sie* (höflich) immer großgeschrieben!",
+  "examples": [
+    {
+      "de": "Ich lerne Deutsch.",
+      "fr": "J’apprends l’allemand.",
+      "en": "I am learning German."
+    },
+    {
+      "de": "Du wohnst in Berlin.",
+      "fr": "Tu habites à Berlin.",
+      "en": "You live in Berlin."
+    },
+    {
+      "de": "Er arbeitet viel.",
+      "fr": "Il travaille beaucoup.",
+      "en": "He works a lot."
+    },
+    {
+      "de": "Wir kommen morgen.",
+      "fr": "Nous venons demain.",
+      "en": "We are coming tomorrow."
+    },
+    {
+      "de": "Können Sie mir helfen?",
+      "fr": "Pouvez-vous m’aider ? (vouvoiement.)",
+      "en": "Can you help me? (polite.)"
+    }
+  ]
+}

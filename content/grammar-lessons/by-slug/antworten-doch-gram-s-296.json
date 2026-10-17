@@ -1,0 +1,39 @@
+{
+  "slug": "antworten-doch-gram-s-296",
+  "titleFr": "Répondre avec doch",
+  "titleEn": "Answering with doch",
+  "titleDe": "Antworten — doch",
+  "ruleFr": "## doch — répondre à une question négative\n\nQuand la question contient une **négation** et que vous répondez **positivement**, on dit **doch** (pas *ja*).\n\n### Pourquoi ?\n*ja* confirmerait la négation ; *doch* **contredit** l’attente négative.\n\n### Exemples\n- *Kommst du **nicht**?* — ***Doch**, ich komme!*\n- *Hast du **kein** Geld?* — ***Doch**, ich habe welches.*\n- *Ist das **nicht** dein Buch?* — ***Doch**.*\n\n### Tableau\n| Question | Réponse positive | Réponse négative |\n|---|---|---|\n| affirmative | **ja** | **nein** |\n| négative | **doch** | **nein** |\n\n### Mini-entraînement\nRépondez positivement à : *Kommst du nicht? / Magst du das nicht?*",
+  "ruleEn": "## doch — answering a negative question\n\nWhen the question contains a **negation** and you answer **positively**, use **doch** (not *ja*).\n\n### Why?\n*ja* would confirm the negation; *doch* **contradicts** the negative expectation.\n\n### Examples\n- *Kommst du **nicht**?* — ***Doch**, ich komme!*\n- *Hast du **kein** Geld?* — ***Doch**, ich habe welches.*\n- *Ist das **nicht** dein Buch?* — ***Doch**.*\n\n### Table\n| Question | Positive answer | Negative answer |\n|---|---|---|\n| affirmative | **ja** | **nein** |\n| negative | **doch** | **nein** |\n\n### Mini practice\nAnswer positively: *Kommst du nicht? / Magst du das nicht?*",
+  "ruleDe": "## doch — Antwort auf negative Fragen\n\nBei negativer Frage und **positiver** Antwort: **doch** (nicht *ja*).\n\n### Beispiele\n- *Kommst du **nicht**?* — ***Doch**, ich komme!*\n- *Hast du **kein** Geld?* — ***Doch**.*\n\n### Tabelle\n| Frage | positiv | negativ |\n|---|---|---|\n| positiv formuliert | **ja** | **nein** |\n| negativ formuliert | **doch** | **nein** |\n\n### Mini-Übung\nPositiv antworten auf: *Kommst du nicht?*",
+  "notesFr": "*doch* contredit l’attente négative. N’existe pas en anglais !",
+  "notesEn": "*doch* contradicts the negative expectation. No English equivalent!",
+  "notesDe": "*doch* = widerspricht der negativen Erwartung. Gibt es nicht im Englischen!",
+  "examples": [
+    {
+      "de": "Kommst du nicht? — Doch, ich komme!",
+      "fr": "Tu ne viens pas ? — Si, je viens !",
+      "en": "Aren’t you coming? — Yes I am! (*doch*)"
+    },
+    {
+      "de": "Hast du keine Zeit? — Doch, ich habe Zeit.",
+      "fr": "Tu n’as pas le temps ? — Si, j’ai le temps.",
+      "en": "Don’t you have time? — Yes, I do."
+    },
+    {
+      "de": "Ist das nicht teuer? — Doch, es ist teuer.",
+      "fr": "Ce n’est pas cher ? — Si, c’est cher.",
+      "en": "Isn’t that expensive? — Yes, it is."
+    },
+    {
+      "de": "Magst du Schokolade nicht? — Doch!",
+      "fr": "Tu n’aimes pas le chocolat ? — Si !",
+      "en": "Don’t you like chocolate? — Yes I do!"
+    },
+    {
+      "de": "Warst du nicht in Berlin? — Doch, ich war dort.",
+      "fr": "Tu n’étais pas à Berlin ? — Si, j’y étais.",
+      "en": "Weren’t you in Berlin? — Yes, I was."
+    }
+  ]
+}

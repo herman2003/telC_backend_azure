@@ -21,6 +21,8 @@ import { LocationsModule } from './modules/locations/locations.module';
 import { PlansModule } from './modules/plans/plans.module';
 import { VitrineModule } from './modules/vitrine/vitrine.module';
 import { PrepTipsModule } from './modules/prep-tips/prep-tips.module';
+import { GrammarModule } from './modules/grammar/grammar.module';
+import { VocabModule } from './modules/vocab/vocab.module';
 
 @Module({
   imports: [
@@ -60,6 +62,8 @@ import { PrepTipsModule } from './modules/prep-tips/prep-tips.module';
     PlansModule,
     VitrineModule,
     PrepTipsModule,
+    GrammarModule,
+    VocabModule,
   ],
   controllers: [AppController],
   providers: [AppService],

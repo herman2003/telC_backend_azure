@@ -1,0 +1,39 @@
+{
+  "slug": "unregelma-ige-steigerung-hoch-nah-gram-l-229",
+  "titleFr": "Degrés irréguliers : hoch et nah",
+  "titleEn": "Irregular comparison: hoch and nah",
+  "titleDe": "Unregelmäßige Steigerung — hoch/nah",
+  "ruleFr": "## Degrés irréguliers — *hoch* / *nah*\n\n### *hoch*\n| Positif | Comparatif | Superlatif |\n|---|---|---|\n| hoch | **höher** | **am höchsten** / **der höchste** |\n\nAttention orthographique :\n- attribut : *ein hoch**es** Haus* (le *c* disparaît devant voyelle de terminaison : *hohes*, pas *hoches*)\n- comparatif : ***höher*** (pas *hocher*)\n\n### *nah*\n| Positif | Comparatif | Superlatif |\n|---|---|---|\n| nah / nahe | **näher** | **am nächsten** / **der nächste** |\n\n### Mini-entraînement\nÉcrivez 4 phrases avec *höher / höchste* et *näher / nächste*.",
+  "ruleEn": "## Irregular comparison — *hoch* / *nah*\n\n### *hoch*\n| Positive | Comparative | Superlative |\n|---|---|---|\n| hoch | **höher** | **am höchsten** / **der höchste** |\n\nSpelling watch-outs:\n- attributive: *ein hoch**es** Haus* (*c* drops before a vowel ending: *hohes*, not *hoches*)\n- comparative: ***höher*** (not *hocher*)\n\n### *nah*\n| Positive | Comparative | Superlative |\n|---|---|---|\n| nah / nahe | **näher** | **am nächsten** / **der nächste** |\n\n### Mini practice\nWrite 4 sentences with *höher / höchste* and *näher / nächste*.",
+  "ruleDe": "## Unregelmäßige Steigerung — *hoch* / *nah*\n\n### *hoch*\n*hoch → höher → am höchsten / der höchste*\nAchtung: *ein hohes Haus* (nicht *hoches*), *höher* (nicht *hocher*).\n\n### *nah*\n*nah → näher → am nächsten / der nächste*\n\n### Mini-Übung\nSchreiben Sie 4 Sätze mit *höher/höchste* und *näher/nächste*.",
+  "notesFr": "ATTENTION : höher (pas hocher !), ein hohes Haus (pas hoches !).",
+  "notesEn": "WARNING: höher (not hocher!), ein hohes Haus (not hoches!).",
+  "notesDe": "ACHTUNG: höher (nicht ‚hocher‘!), ein hohes Haus (nicht ‚hoches‘!).",
+  "examples": [
+    {
+      "de": "Der Turm ist höher als das Haus.",
+      "fr": "La tour est plus haute que la maison.",
+      "en": "The tower is higher than the house."
+    },
+    {
+      "de": "Das ist das höchste Gebäude der Stadt.",
+      "fr": "C’est le plus haut bâtiment de la ville.",
+      "en": "That is the city’s tallest building."
+    },
+    {
+      "de": "ein hohes Haus",
+      "fr": "une haute maison (attention : hohes)",
+      "en": "a tall house (note: hohes)"
+    },
+    {
+      "de": "Die Schule ist näher als der Bahnhof.",
+      "fr": "L’école est plus proche que la gare.",
+      "en": "The school is closer than the station."
+    },
+    {
+      "de": "Am nächsten Wochenende fahren wir weg.",
+      "fr": "Le week-end prochain, nous partons. (nächste)",
+      "en": "Next weekend we’re going away. (nächste)"
+    }
+  ]
+}

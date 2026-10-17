@@ -1,0 +1,39 @@
+{
+  "slug": "komposita-haufige-fehler-gram-w-322",
+  "titleFr": "Erreur fréquente : espaces dans les composés",
+  "titleEn": "Compound words — common mistakes",
+  "titleDe": "Komposita — Häufige Fehler",
+  "ruleFr": "## Erreur : espaces dans les Komposita (« Deppenleerzeichen »)\n\nSous l’influence de l’anglais, on a tendance à **séparer** les composés. En allemand standard : **tout collé**.\n\n### Corrections\n- ✗ *Auto Versicherung* → ✓ *die Autoversicherung* / *die Kfz-Versicherung*\n- ✗ *Bahnhof Restaurant* → ✓ *das Bahnhofsrestaurant*\n- ✗ *Online Shop* → ✓ *der Onlineshop* (ou *Online-Shop* avec trait d’union si clarté)\n\n### Trait d’union\nPossible pour la lisibilité (*E-Mail, Kfz-Versicherung*), mais **pas** d’espace libre entre noms.\n\n### Mini-entraînement\nRéécrivez 5 « faux anglais » en un seul mot allemand.",
+  "ruleEn": "## Mistake: spaces in compounds (“Deppenleerzeichen”)\n\nUnder English influence, people tend to **split** compounds. In standard German: **write as one**.\n\n### Fixes\n- ✗ *Auto Versicherung* → ✓ *die Autoversicherung* / *die Kfz-Versicherung*\n- ✗ *Bahnhof Restaurant* → ✓ *das Bahnhofsrestaurant*\n- ✗ *Online Shop* → ✓ *der Onlineshop* (or *Online-Shop* with hyphen for clarity)\n\n### Hyphen\nAllowed for readability (*E-Mail, Kfz-Versicherung*), but **no** free space between nouns.\n\n### Mini practice\nRewrite 5 “English-style” splits as one German word.",
+  "ruleDe": "## Fehler: Leerzeichen in Komposita\n\nDeutsche Komposita = **zusammen**. Kein englisches Splitten.\n\n### Korrekturen\n- ✗ *Auto Versicherung* → ✓ *Autoversicherung*\n- ✗ *Bahnhof Restaurant* → ✓ *Bahnhofsrestaurant*\n\n### Mini-Übung\n5 Getrenntschreibungen zusammenschreiben.",
+  "notesFr": "Composés allemands = TOUJOURS collés ! Éviter l’influence de l’anglais.",
+  "notesEn": "German compounds = ALWAYS written together! Avoid English influence.",
+  "notesDe": "Deutsche Komposita = IMMER zusammen! Englischen Einfluss vermeiden.",
+  "examples": [
+    {
+      "de": "Die Autoversicherung ist teuer.",
+      "fr": "L’assurance auto est chère. (pas *Auto Versicherung*)",
+      "en": "Car insurance is expensive. (not *Auto Versicherung*)"
+    },
+    {
+      "de": "Wir essen im Bahnhofsrestaurant.",
+      "fr": "Nous mangeons au restaurant de la gare.",
+      "en": "We’re eating in the station restaurant."
+    },
+    {
+      "de": "Ich bestelle im Onlineshop.",
+      "fr": "Je commande dans la boutique en ligne.",
+      "en": "I order in the online shop."
+    },
+    {
+      "de": "Der Fahrplan hängt am Bahnhof.",
+      "fr": "L’horaire est affiché à la gare.",
+      "en": "The timetable is posted at the station."
+    },
+    {
+      "de": "Sie braucht eine Krankenversicherung.",
+      "fr": "Elle a besoin d’une assurance maladie.",
+      "en": "She needs health insurance."
+    }
+  ]
+}

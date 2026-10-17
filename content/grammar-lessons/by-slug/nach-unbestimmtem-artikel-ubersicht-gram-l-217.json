@@ -1,0 +1,39 @@
+{
+  "slug": "nach-unbestimmtem-artikel-ubersicht-gram-l-217",
+  "titleFr": "Adjectifs après article indéfini — aperçu",
+  "titleEn": "Adjectives after indefinite articles — overview",
+  "titleDe": "Nach unbestimmtem Artikel — Übersicht",
+  "ruleFr": "## Après article indéfini — aperçu\n\nAprès *ein / eine / kein / mein / dein / sein…*, on utilise la **déclinaison mixte**.\n\n### Idée clé\nLà où *ein* n’a **pas** de terminaison claire (Nom. m/n, Akk. n), l’adjectif **montre** le genre (*-er / -es*). Sinon, terminaisons faibles (*-en*, etc.).\n\n### Aperçu nominatif\n- *ein groß**er** Mann*\n- *eine klein**e** Frau*\n- *ein neu**es** Auto*\n\n### Mini-entraînement\nComparez *der große Mann* vs *ein großer Mann*.",
+  "ruleEn": "## After indefinite articles — overview\n\nAfter *ein / eine / kein / mein / dein / sein…*, use **mixed declension**.\n\n### Key idea\nWhere *ein* has **no** clear ending (Nom. m/n, Acc. n), the adjective **shows** gender (*-er / -es*). Otherwise, weak-type endings (*-en*, etc.).\n\n### Nominative snapshot\n- *ein groß**er** Mann*\n- *eine klein**e** Frau*\n- *ein neu**es** Auto*\n\n### Mini practice\nCompare *der große Mann* vs *ein großer Mann*.",
+  "ruleDe": "## Nach unbestimmtem Artikel — Übersicht\n\nNach *ein/eine/kein/mein…*: **gemischte Deklination**.\n\n### Idee\nWo *ein* keine Endung hat, zeigt das Adjektiv das Genus (*-er/-es*).\n\n### Nominativ\n*ein großer Mann, eine kleine Frau, ein neues Auto*\n\n### Mini-Übung\nVergleichen Sie *der große* vs. *ein großer*.",
+  "notesFr": "Là où l’article n’a pas de terminaison, l’adjectif montre le genre.",
+  "notesEn": "Where the article has no ending, the adjective shows gender.",
+  "notesDe": "Wo der Artikel keine Endung hat, zeigt das Adjektiv das Geschlecht.",
+  "examples": [
+    {
+      "de": "ein großer Mann",
+      "fr": "un grand homme",
+      "en": "a tall man"
+    },
+    {
+      "de": "eine kleine Frau",
+      "fr": "une petite femme",
+      "en": "a small woman"
+    },
+    {
+      "de": "ein neues Auto",
+      "fr": "une voiture neuve",
+      "en": "a new car"
+    },
+    {
+      "de": "mein alter Freund",
+      "fr": "mon vieil ami",
+      "en": "my old friend"
+    },
+    {
+      "de": "kein teures Ticket",
+      "fr": "pas de billet cher",
+      "en": "no expensive ticket"
+    }
+  ]
+}

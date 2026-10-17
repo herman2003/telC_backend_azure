@@ -1,0 +1,39 @@
+{
+  "slug": "haben-vs-sein-bewegung-gram-k-206",
+  "titleFr": "sein avec les verbes de mouvement",
+  "titleEn": "sein with verbs of motion",
+  "titleDe": "haben vs. sein — Bewegung",
+  "ruleFr": "## haben vs. sein — mouvement\n\nLes verbes de **mouvement avec direction / but** forment le Perfekt avec **sein**.\n\n### Typiques\n*gehen, fahren, fliegen, kommen, laufen, reisen, schwimmen, springen…* (+ but)\n\n- *Ich **bin** nach Hause **gegangen**.*\n- *Sie **ist** nach Paris **geflogen**.*\n\n### Attention : sans but / activité\nSi le mouvement est une **activité** sans destination, on trouve souvent **haben** :\n- *Ich **habe** den ganzen Tag **gefahren**.* (conduire comme activité)\n- *Ich **bin** zur Arbeit **gefahren**.* (but = zur Arbeit)\n\n### Test\nQuestion *Wohin?* → souvent **sein**.\n\n### Mini-entraînement\nAjoutez un but et passez à *sein* pour 5 verbes.",
+  "ruleEn": "## haben vs sein — motion\n\nVerbs of **motion with direction / goal** take **sein** in the perfect.\n\n### Typical\n*gehen, fahren, fliegen, kommen, laufen, reisen, schwimmen, springen…* (+ goal)\n\n- *Ich **bin** nach Hause **gegangen**.*\n- *Sie **ist** nach Paris **geflogen**.*\n\n### Careful: no goal / activity\nIf motion is an **activity** without destination, often **haben**:\n- *Ich **habe** den ganzen Tag **gefahren**.*\n- *Ich **bin** zur Arbeit **gefahren**.*\n\n### Test\nAsk *Wohin?* → often **sein**.\n\n### Mini practice\nAdd a goal and switch to *sein* for 5 verbs.",
+  "ruleDe": "## haben vs. sein — Bewegung\n\nBewegung **mit Richtung/Ziel** → Perfekt mit **sein**.\n\n### Typisch\n*gehen, fahren, fliegen, kommen, laufen…* (+ Ziel)\n\n### Ohne Ziel / Tätigkeit\nOft **haben**: *Ich habe den ganzen Tag gefahren.*\n\n### Testfrage\n*Wohin?* → oft **sein**.\n\n### Mini-Übung\nErgänzen Sie ein Ziel und bilden Sie Perfekt mit *sein*.",
+  "notesFr": "Question Wohin ? = sein. Mais : Ich habe Auto gefahren (sans but = haben).",
+  "notesEn": "Ask Wohin? = sein. BUT: Ich habe Auto gefahren (no goal = haben).",
+  "notesDe": "Frage: Wohin? = sein. ABER: Ich habe Auto gefahren (kein Ziel = haben).",
+  "examples": [
+    {
+      "de": "Ich bin nach Hause gegangen.",
+      "fr": "Je suis rentré(e) à la maison.",
+      "en": "I went home."
+    },
+    {
+      "de": "Sie ist nach Paris geflogen.",
+      "fr": "Elle est allée à Paris en avion.",
+      "en": "She flew to Paris."
+    },
+    {
+      "de": "Wir sind in die Stadt gelaufen.",
+      "fr": "Nous sommes allés en ville à pied / en courant.",
+      "en": "We ran/walked into the city."
+    },
+    {
+      "de": "Er ist früh gekommen.",
+      "fr": "Il est venu tôt.",
+      "en": "He came early."
+    },
+    {
+      "de": "Ich habe den ganzen Tag Auto gefahren.",
+      "fr": "J’ai conduit toute la journée. (activité sans but → haben)",
+      "en": "I drove all day. (activity, no goal → haben)"
+    }
+  ]
+}

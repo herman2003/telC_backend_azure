@@ -1,0 +1,39 @@
+{
+  "slug": "akkusativ-artikel-gram-a-007",
+  "titleFr": "Articles indéfinis à l’accusatif",
+  "titleEn": "Indefinite articles in the accusative",
+  "titleDe": "Akkusativ — unbestimmter Artikel",
+  "ruleFr": "## Articles indéfinis à l’accusatif\n\n| Cas | masculin | féminin | neutre |\n|---|---|---|---|\n| Nominatif | ein | eine | ein |\n| **Akkusatif** | **einen** | eine | ein |\n\n### Règle\nSeul le masculin ajoute **-en** : *ein* → **einen**. Féminin et neutre restent *eine* / *ein*.\n\n### Exemples\n- Ich kaufe **einen** Apfel. (m)\n- Ich kaufe **eine** Banane. (f)\n- Ich kaufe **ein** Brot. (n)\n\nMême schéma pour *kein* et les possessifs (*mein, dein…*) : *keinen Apfel*, *meine Tasche*.\n\n### Contraste\n- Nom. : *Ein Hund bellt.*\n- Akk. : *Ich sehe **einen** Hund.*\n\n### Erreurs fréquentes\n- ✗ *Ich habe ein Hund.* → ✓ *Ich habe **einen** Hund.*\n- Ajouter *-en* au neutre : ✗ *einen Buch* → ✓ *ein Buch*\n\n### Mini-entraînement\n1. Complétez : Ich brauche ___ (ein) Stift / ___ Tasche / ___ Ticket.\n2. Transformez 3 sujets *ein/eine/ein* en objets.\n3. Même exercice avec *kein*.",
+  "ruleEn": "## Indefinite articles in the accusative\n\n| Case | masculine | feminine | neuter |\n|---|---|---|---|\n| Nominative | ein | eine | ein |\n| **Accusative** | **einen** | eine | ein |\n\n### Rule\nOnly masculine adds **-en**: *ein* → **einen**. Feminine and neuter stay *eine* / *ein*.\n\n### Examples\n- Ich kaufe **einen** Apfel. (m)\n- Ich kaufe **eine** Banane. (f)\n- Ich kaufe **ein** Brot. (n)\n\nSame pattern for *kein* and possessives (*mein, dein…*): *keinen Apfel*, *meine Tasche*.\n\n### Contrast\n- Nom.: *Ein Hund bellt.*\n- Akk.: *Ich sehe **einen** Hund.*\n\n### Common mistakes\n- ✗ *Ich habe ein Hund.* → ✓ *Ich habe **einen** Hund.*\n- Adding *-en* to neuter: ✗ *einen Buch* → ✓ *ein Buch*\n\n### Mini practice\n1. Complete: Ich brauche ___ (ein) Stift / ___ Tasche / ___ Ticket.\n2. Turn 3 subjects *ein/eine/ein* into objects.\n3. Same drill with *kein*.",
+  "ruleDe": "## Unbestimmter Artikel im Akkusativ\n\n| Kasus | Maskulinum | Femininum | Neutrum |\n|---|---|---|---|\n| Nominativ | ein | eine | ein |\n| **Akkusativ** | **einen** | eine | ein |\n\n### Regel\nNur Maskulinum bekommt **-en**: *ein* → **einen**. Femininum und Neutrum bleiben *eine* / *ein*.\n\n### Beispiele\n- Ich kaufe **einen** Apfel. (m)\n- Ich kaufe **eine** Banane. (f)\n- Ich kaufe **ein** Brot. (n)\n\nGleiches Muster bei *kein* und Possessiva (*mein, dein…*): *keinen Apfel*, *meine Tasche*.\n\n### Kontrast\n- Nom.: *Ein Hund bellt.*\n- Akk.: *Ich sehe **einen** Hund.*\n\n### Häufige Fehler\n- ✗ *Ich habe ein Hund.* → ✓ *Ich habe **einen** Hund.*\n- *-en* beim Neutrum: ✗ *einen Buch* → ✓ *ein Buch*\n\n### Mini-Übung\n1. Ergänzen: Ich brauche ___ (ein) Stift / ___ Tasche / ___ Ticket.\n2. Drei Subjekte *ein/eine/ein* zu Objekten machen.\n3. Dasselbe mit *kein*.",
+  "notesFr": "Mémorisez le trio masculin : *ein* (Nom.) / *einen* (Akk.) / *einem* (Dat.) — c’est là que tout se joue.",
+  "notesEn": "Memorise the masculine trio: *ein* (Nom.) / *einen* (Akk.) / *einem* (Dat.) — that is where the action is.",
+  "notesDe": "Merken Sie das maskuline Trio: *ein* (Nom.) / *einen* (Akk.) / *einem* (Dat.) — dort passiert die Änderung.",
+  "examples": [
+    {
+      "de": "Ich kaufe einen Apfel.",
+      "fr": "J’achète une pomme. (*einen* = masculin accusatif)",
+      "en": "I am buying an apple. (*einen* = masculine accusative)"
+    },
+    {
+      "de": "Sie sucht eine Wohnung.",
+      "fr": "Elle cherche un appartement. (*eine* inchangé)",
+      "en": "She is looking for an apartment. (*eine* unchanged)"
+    },
+    {
+      "de": "Er braucht ein Taxi.",
+      "fr": "Il a besoin d’un taxi. (*ein* neutre inchangé)",
+      "en": "He needs a taxi. (*ein* neuter unchanged)"
+    },
+    {
+      "de": "Hast du einen Stift?",
+      "fr": "As-tu un stylo ? (*einen Stift*)",
+      "en": "Do you have a pen? (*einen Stift*)"
+    },
+    {
+      "de": "Wir haben kein Auto.",
+      "fr": "Nous n’avons pas de voiture. (*kein* suit le même schéma que *ein*)",
+      "en": "We don’t have a car. (*kein* follows the same pattern as *ein*)"
+    }
+  ]
+}

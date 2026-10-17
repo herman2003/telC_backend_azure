@@ -1,0 +1,39 @@
+{
+  "slug": "derjenige-diejenige-dasjenige-gram-c-071",
+  "titleFr": "Derjenige — déclinaison des deux parties",
+  "titleEn": "Derjenige — both parts decline",
+  "titleDe": "derjenige/diejenige/dasjenige",
+  "ruleFr": "## Comme derselbe : der- + -jenige\n\nLes deux morceaux se déclinent.\n\n### Masculin\n| cas | forme |\n|---|---|\n| Nom. | **derjenige** |\n| Akk. | **denjenigen** |\n| Dat. | **demjenigen** |\n| Gen. | **desjenigen** |\n\n### Pluriel (aperçu)\nNom/Akk. **diejenigen** · Dat. **denjenigen** · Gen. **derjenigen**\n\n### Alternative orale\n*Der, der das getan hat…* remplace souvent *derjenige, der…*.\n\n### Mini-entraînement\nDéclinez *diejenige Frau* au datif et à l’accusatif.",
+  "ruleEn": "## Like derselbe: der- + -jenige\n\nBoth parts decline.\n\n### Masculine\nNom. **derjenige** · Acc. **denjenigen** · Dat. **demjenigen** · Gen. **desjenigen**\n\n### Spoken alternative\n*Der, der das getan hat…* often replaces *derjenige, der…*.\n\n### Mini practice\nDecline *diejenige Frau* in dative and accusative.",
+  "ruleDe": "## Wie derselbe: der- + -jenige\n\n### Maskulinum\nNom **derjenige** · Akk **denjenigen** · Dat **demjenigen** · Gen **desjenigen**\n\n### Mündlich\nOft *der, der…* statt *derjenige, der…*.\n\n### Mini-Übung\n*diejenige Frau* in Dat/Akk.",
+  "notesFr": "À l’oral : souvent *der, der…* à la place de *derjenige, der…*.",
+  "notesEn": "In speech: often *der, der…* instead of *derjenige, der…*.",
+  "notesDe": "Umgangssprachlich oft *der, der…* statt *derjenige, der…*.",
+  "examples": [
+    {
+      "de": "Derjenige gewinnt.",
+      "fr": "Celui-là gagne. (nominatif.)",
+      "en": "That one wins. (nominative.)"
+    },
+    {
+      "de": "Ich suche denjenigen mit der roten Tasche.",
+      "fr": "Je cherche celui à la sacoche rouge. (accusatif.)",
+      "en": "I’m looking for the one with the red bag. (accusative.)"
+    },
+    {
+      "de": "Wir danken demjenigen, der geholfen hat.",
+      "fr": "Nous remercions celui qui a aidé. (datif.)",
+      "en": "We thank the one who helped. (dative.)"
+    },
+    {
+      "de": "Im Interesse desjenigen, der wartet…",
+      "fr": "Dans l’intérêt de celui qui attend… (génitif.)",
+      "en": "In the interest of the one who is waiting… (genitive.)"
+    },
+    {
+      "de": "Diejenigen ohne Ticket bitte hier warten.",
+      "fr": "Ceux sans billet, veuillez attendre ici.",
+      "en": "Those without a ticket please wait here."
+    }
+  ]
+}

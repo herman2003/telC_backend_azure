@@ -1,0 +1,39 @@
+{
+  "slug": "ortsadverbien-position-gram-m-237",
+  "titleFr": "Adverbes de lieu — position",
+  "titleEn": "Place adverbs — position",
+  "titleDe": "Ortsadverbien — Position",
+  "ruleFr": "## Adverbes de lieu — position (Wo?)\n\nIls répondent à **Wo?** (où ? — localisation, sans mouvement).\n\n### Liste utile\n| Allemand | Sens |\n|---|---|\n| hier | ici (près de moi) |\n| dort | là-bas (loin) |\n| da | là (neutre, ici ou là) |\n| oben / unten | en haut / en bas |\n| vorne / hinten | devant / derrière |\n| links / rechts | à gauche / à droite |\n| überall | partout |\n| drinnen / draußen | dedans / dehors |\n\n### Emploi\n- Das Buch liegt **hier**.\n- Die Toilette ist **links**.\n- Die Kinder spielen **draußen**.\n\n### Nuance hier / dort / da\n- *hier* = près du locuteur\n- *dort* = éloigné\n- *da* = démonstratif neutre (« là »)\n\n### Mini-entraînement\n1. Décrivez une pièce avec *oben, unten, links, rechts*.\n2. Remplacez une préposition+lieu par un adverbe (*im Garten* → *draußen*).\n3. Distinguez *hier* et *dort* dans un dialogue.",
+  "ruleEn": "## Place adverbs — position (Wo?)\n\nThey answer **Wo?** (where? — location, no movement).\n\n### Useful list\n| German | Meaning |\n|---|---|\n| hier | here (near me) |\n| dort | over there (far) |\n| da | there (neutral) |\n| oben / unten | up / down |\n| vorne / hinten | in front / at the back |\n| links / rechts | left / right |\n| überall | everywhere |\n| drinnen / draußen | indoors / outdoors |\n\n### Use\n- Das Buch liegt **hier**.\n- Die Toilette ist **links**.\n- Die Kinder spielen **draußen**.\n\n### Nuance hier / dort / da\n- *hier* = near the speaker\n- *dort* = far away\n- *da* = neutral “there”\n\n### Mini practice\n1. Describe a room with *oben, unten, links, rechts*.\n2. Replace a prepositional place with an adverb (*im Garten* → *draußen*).\n3. Contrast *hier* and *dort* in a short dialogue.",
+  "ruleDe": "## Ortsadverbien — Position (Wo?)\n\nSie antworten auf **Wo?** (Ort ohne Bewegung).\n\n### Nützliche Liste\n| Deutsch | Bedeutung |\n|---|---|\n| hier | hier (bei mir) |\n| dort | dort (weit weg) |\n| da | da (neutral) |\n| oben / unten | oben / unten |\n| vorne / hinten | vorne / hinten |\n| links / rechts | links / rechts |\n| überall | überall |\n| drinnen / draußen | drinnen / draußen |\n\n### Gebrauch\n- Das Buch liegt **hier**.\n- Die Toilette ist **links**.\n- Die Kinder spielen **draußen**.\n\n### Nuance hier / dort / da\n- *hier* = beim Sprecher\n- *dort* = weit weg\n- *da* = neutral\n\n### Mini-Übung\n1. Raum mit *oben, unten, links, rechts* beschreiben.\n2. Präpositionalangabe durch Adverb ersetzen.\n3. *hier* und *dort* im Dialog unterscheiden.",
+  "notesFr": "*hier* = près de moi ; *dort* = loin ; *da* = neutre.",
+  "notesEn": "*hier* = near me; *dort* = far; *da* = neutral.",
+  "notesDe": "hier = bei mir, dort = weit weg, da = neutral.",
+  "examples": [
+    {
+      "de": "Das Buch liegt hier auf dem Tisch.",
+      "fr": "Le livre est ici sur la table.",
+      "en": "The book is here on the table."
+    },
+    {
+      "de": "Die Schule ist dort drüben.",
+      "fr": "L’école est là-bas.",
+      "en": "The school is over there."
+    },
+    {
+      "de": "Die Kinder spielen draußen.",
+      "fr": "Les enfants jouent dehors.",
+      "en": "The children are playing outside."
+    },
+    {
+      "de": "Das Bad ist links, die Küche rechts.",
+      "fr": "La salle de bain est à gauche, la cuisine à droite.",
+      "en": "The bathroom is on the left, the kitchen on the right."
+    },
+    {
+      "de": "Meine Schlüssel sind überall verstreut.",
+      "fr": "Mes clés sont éparpillées partout.",
+      "en": "My keys are scattered everywhere."
+    }
+  ]
+}

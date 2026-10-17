@@ -1,0 +1,39 @@
+{
+  "slug": "nominativ-artikel-gram-a-003",
+  "titleFr": "Articles définis au nominatif",
+  "titleEn": "Definite articles in the nominative",
+  "titleDe": "Nominativ — bestimmter Artikel",
+  "ruleFr": "## Articles définis au nominatif (*der / die / das*)\n\nAu **nominatif singulier**, l’article défini marque le genre du sujet (ou du prédicatif).\n\n### Formes à mémoriser\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **der** | **die** | **das** | **die** |\n\n- **Der** Mann kommt. / **Die** Frau lacht. / **Das** Kind schläft. / **Die** Leute warten.\n\n### Quand l’utiliser ?\nQuand on parle d’une chose / personne **connue** ou **spécifique**.\n\n### Contraste\n- Défini : ***Der** Hund bellt.*\n- Indéfini : ***Ein** Hund bellt.*\n\n### Erreurs fréquentes\n- Confondre *die* (féminin) et *das* (neutre).\n- Au pluriel, **tous** les genres prennent **die**.\n\n### Mini-entraînement\n1. Ajoutez l’article : ___ Tisch, ___ Lampe, ___ Buch.\n2. Mettez au pluriel : *der Student* → *___ Studenten*.\n3. Posez *Wer?* / *Was?* et répondez avec *der/die/das*.",
+  "ruleEn": "## Definite articles in the nominative (*der / die / das*)\n\nIn the **nominative singular**, the definite article marks the gender of the subject (or predicative).\n\n### Forms to memorise\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **der** | **die** | **das** | **die** |\n\n- **Der** Mann kommt. / **Die** Frau lacht. / **Das** Kind schläft. / **Die** Leute warten.\n\n### When?\nWhen referring to something **known** or **specific**.\n\n### Contrast\n- Definite: ***Der** Hund bellt.*\n- Indefinite: ***Ein** Hund bellt.*\n\n### Common mistakes\n- Mixing *die* (feminine) and *das* (neuter).\n- In the plural, **all** genders take **die**.\n\n### Mini practice\n1. Add the article: ___ Tisch, ___ Lampe, ___ Buch.\n2. Pluralise: *der Student* → *___ Studenten*.\n3. Ask *Wer?* / *Was?* and answer with *der/die/das*.",
+  "ruleDe": "## Bestimmter Artikel im Nominativ (*der / die / das*)\n\nIm **Nominativ Singular** zeigt der bestimmte Artikel das Genus.\n\n### Formen merken\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| bestimmt | **der** | **die** | **das** | **die** |\n\n- **Der** Mann kommt. / **Die** Frau lacht. / **Das** Kind schläft. / **Die** Leute warten.\n\n### Wann?\nBei **bekanntem** oder **bestimmtem** Bezug.\n\n### Kontrast\n- Bestimmt: ***Der** Hund bellt.*\n- Unbestimmt: ***Ein** Hund bellt.*\n\n### Häufige Fehler\n- *die* und *das* verwechseln.\n- Im Plural gilt für alle Genera **die**.\n\n### Mini-Übung\n1. Artikel setzen: ___ Tisch, ___ Lampe, ___ Buch.\n2. Plural: *der Student* → *___ Studenten*.\n3. *Wer?* / *Was?* und mit *der/die/das* antworten.",
+  "notesFr": "Astuce pluriel : au nominatif (et accusatif), l’article défini est toujours *die* — le genre disparaît.",
+  "notesEn": "Plural tip: in nominative (and accusative), the definite article is always *die* — gender disappears.",
+  "notesDe": "Plural-Tipp: Im Nominativ (und Akkusativ) ist der bestimmte Artikel immer *die* — das Genus fällt weg.",
+  "examples": [
+    {
+      "de": "Der Lehrer erklärt die Aufgabe.",
+      "fr": "Le professeur explique l’exercice. (*der* = masculin nominatif)",
+      "en": "The teacher explains the task. (*der* = masculine nominative)"
+    },
+    {
+      "de": "Die Schule beginnt um acht.",
+      "fr": "L’école commence à huit heures. (*die* = féminin)",
+      "en": "School starts at eight. (*die* = feminine)"
+    },
+    {
+      "de": "Das Fenster ist offen.",
+      "fr": "La fenêtre est ouverte. (*das* = neutre)",
+      "en": "The window is open. (*das* = neuter)"
+    },
+    {
+      "de": "Die Kinder spielen draußen.",
+      "fr": "Les enfants jouent dehors. (*die* = pluriel)",
+      "en": "The children are playing outside. (*die* = plural)"
+    },
+    {
+      "de": "Der Kaffee ist heiß.",
+      "fr": "Le café est chaud. (*der Kaffee* = sujet masculin)",
+      "en": "The coffee is hot. (*der Kaffee* = masculine subject)"
+    }
+  ]
+}

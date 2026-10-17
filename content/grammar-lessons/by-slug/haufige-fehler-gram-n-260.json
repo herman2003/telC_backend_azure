@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-n-260",
+  "titleFr": "Erreurs fréquentes — prépositions mixtes",
+  "titleEn": "Common mistakes — two-way prepositions",
+  "titleDe": "Häufige Fehler — Wechselpräpositionen",
+  "ruleFr": "## Erreur fréquente : mauvais cas avec les prépositions mixtes\n\n### La confusion classique\n✗ *Ich gehe in dem Kino.* (datif alors qu’il y a mouvement)\n✓ *Ich gehe in das / ins Kino.*\n\n✗ *Ich bin in das Kino.* (accusatif alors que c’est une position)\n✓ *Ich bin in dem / im Kino.*\n\n### Méthode en 3 secondes\n1. Y a-t-il un **déplacement vers** un lieu ? → **Wohin?** → **accusatif**\n2. Sinon : **Wo?** → **datif**\n3. Regardez le verbe : *gehen/legen/stellen* vs *sein/liegen/stehen*\n\n### Autres pièges\n- Oublier la contraction (*im/ins*)\n- Mélanger *an* et *auf*\n- Utiliser *nach* + article (*nach dem Berlin* ✗)\n\n### Mini-entraînement\n1. Corrigez 5 paires Wo?/Wohin?.\n2. Pour chaque verbe, choisissez le cas.\n3. Écrivez : être au café / aller au café.",
+  "ruleEn": "## Common mistake: wrong case with two-way prepositions\n\n### Classic confusion\n✗ *Ich gehe in dem Kino.* (dative despite movement)\n✓ *Ich gehe in das / ins Kino.*\n\n✗ *Ich bin in das Kino.* (accusative despite location)\n✓ *Ich bin in dem / im Kino.*\n\n### 3-second method\n1. Movement **toward** a place? → **Wohin?** → **accusative**\n2. Otherwise: **Wo?** → **dative**\n3. Check the verb: *gehen/legen/stellen* vs *sein/liegen/stehen*\n\n### Other traps\n- Forgetting contractions (*im/ins*)\n- Mixing *an* and *auf*\n- *nach* + article (*nach dem Berlin* ✗)\n\n### Mini practice\n1. Fix 5 Wo?/Wohin? pairs.\n2. Pick the case from the verb.\n3. Write: be at the café / go to the café.",
+  "ruleDe": "## Häufiger Fehler: falscher Kasus bei Wechselpräpositionen\n\n### Klassiker\n✗ *Ich gehe in dem Kino.*\n✓ *Ich gehe ins Kino.*\n\n✗ *Ich bin in das Kino.*\n✓ *Ich bin im Kino.*\n\n### 3-Sekunden-Methode\n1. Bewegung **wohin**? → Akkusativ\n2. Sonst **wo**? → Dativ\n3. Verb prüfen\n\n### Mini-Übung\n1. 5 Paare korrigieren.\n2. Kasus am Verb erkennen.\n3. Im Café sein / ins Café gehen.",
+  "notesFr": "Où suis-je ? = datif. Où vais-je ? = accusatif.",
+  "notesEn": "Where am I? = dative. Where am I going? = accusative.",
+  "notesDe": "WO bin ich? = Dativ. WOHIN gehe ich? = Akkusativ.",
+  "examples": [
+    {
+      "de": "Falsch: Ich gehe in dem Kino. — Richtig: Ich gehe ins Kino.",
+      "fr": "Mouvement → accusatif (*ins*).",
+      "en": "Movement → accusative (*ins*)."
+    },
+    {
+      "de": "Falsch: Ich bin in das Kino. — Richtig: Ich bin im Kino.",
+      "fr": "Position → datif (*im*).",
+      "en": "Location → dative (*im*)."
+    },
+    {
+      "de": "Das Buch liegt auf dem Tisch.",
+      "fr": "Le livre est sur la table. (Wo?)",
+      "en": "The book is on the table. (Wo?)"
+    },
+    {
+      "de": "Ich lege das Buch auf den Tisch.",
+      "fr": "Je mets le livre sur la table. (Wohin?)",
+      "en": "I put the book on the table. (Wohin?)"
+    },
+    {
+      "de": "Sie stellt die Lampe neben das Bett.",
+      "fr": "Elle place la lampe à côté du lit. (mouvement)",
+      "en": "She puts the lamp next to the bed. (movement)"
+    }
+  ]
+}

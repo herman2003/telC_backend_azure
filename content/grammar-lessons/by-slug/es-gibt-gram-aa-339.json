@@ -1,0 +1,39 @@
+{
+  "slug": "es-gibt-gram-aa-339",
+  "titleFr": "es gibt — il y a",
+  "titleEn": "es gibt — there is/are",
+  "titleDe": "es gibt",
+  "ruleFr": "## es gibt — il y a\n\n**es gibt** + **accusatif** = *il y a* / *there is/are*. Très fréquent.\n\n### Règle centrale\nAprès *es gibt*, le nom est à l’**accusatif** (pas au nominatif !).\n\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **den** | **die** | **das** | **die** |\n| indéfini | **einen** | **eine** | **ein** | — |\n\n- *Es gibt **einen** Fehler.* (pas *ein Fehler* comme sujet)\n- *Es gibt **viele** Möglichkeiten.*\n\n### Pluriel\n*es gibt* reste singulier même avec un pluriel :\n- *Es gibt viele Leute.* (pas *geben*)\n\n### Ne pas confondre\n- *Es gibt* (existence) ≠ *Es ist* (identification / état)\n- ✗ *Es ist ein Problem hier.* (calque) → ✓ *Es gibt ein Problem hier.* / *Hier ist ein Problem.*\n\n### Mini-entraînement\n1. Mettez l’article à l’accusatif après *es gibt*.\n2. Décrivez votre ville en 5 *Es gibt…*\n3. Corrigez les nominatifs fautifs.",
+  "ruleEn": "## es gibt — there is/are\n\n**es gibt** + **accusative** = *there is/are*. Extremely common.\n\n### Core rule\nAfter *es gibt*, the noun is **accusative** (not nominative!).\n\n| | masc. | fem. | neut. | plural |\n|---|---|---|---|---|\n| definite | **den** | **die** | **das** | **die** |\n| indefinite | **einen** | **eine** | **ein** | — |\n\n- *Es gibt **einen** Fehler.*\n- *Es gibt **viele** Möglichkeiten.*\n\n### Plural\n*es gibt* stays singular even with plural nouns:\n- *Es gibt viele Leute.* (not *geben*)\n\n### Don’t confuse\n- *Es gibt* (existence) ≠ *Es ist* (identification / state)\n\n### Mini practice\n1. Put the article in the accusative after *es gibt*.\n2. Describe your city in 5 *Es gibt…* sentences.\n3. Fix wrong nominatives.",
+  "ruleDe": "## es gibt\n\n**es gibt** + **Akkusativ** = *there is/are*. Sehr häufig.\n\n### Kernregel\nNach *es gibt* steht der Akkusativ (nicht Nominativ!).\n\n| | Mask. | Fem. | Neutr. | Plural |\n|---|---|---|---|---|\n| bestimmt | **den** | **die** | **das** | **die** |\n| unbestimmt | **einen** | **eine** | **ein** | — |\n\n- *Es gibt **einen** Fehler.*\n- *Es gibt **viele** Möglichkeiten.*\n\n### Plural\n*es gibt* bleibt Singular:\n- *Es gibt viele Leute.* (nicht *geben*)\n\n### Nicht verwechseln\n- *Es gibt* ≠ *Es ist*\n\n### Mini-Übung\n1. Artikel nach *es gibt* in den Akkusativ setzen.\n2. Stadt in 5 *Es gibt…*-Sätzen beschreiben.\n3. Falsche Nominative korrigieren.",
+  "notesFr": "ACCUSATIF après es gibt ! Pas le nominatif. Es gibt einen Tisch (pas ein Tisch comme sujet).",
+  "notesEn": "ACCUSATIVE after es gibt! Not nominative. Es gibt einen Tisch (not ein Tisch as subject).",
+  "notesDe": "AKKUSATIV nach es gibt! NICHT Nominativ. Es gibt einen Tisch (nicht ein Tisch als Subjekt).",
+  "examples": [
+    {
+      "de": "Es gibt einen Park in der Nähe.",
+      "fr": "Il y a un parc à proximité. (*einen* = accusatif masculin.)",
+      "en": "There is a park nearby. (*einen* = masculine accusative.)"
+    },
+    {
+      "de": "Es gibt viele Gründe dafür.",
+      "fr": "Il y a beaucoup de raisons à cela.",
+      "en": "There are many reasons for that."
+    },
+    {
+      "de": "Gibt es hier ein Café?",
+      "fr": "Y a-t-il un café ici ? (*ein Café* = accusatif neutre.)",
+      "en": "Is there a café here? (*ein Café* = neuter accusative.)"
+    },
+    {
+      "de": "Es gibt keine Lösung.",
+      "fr": "Il n’y a pas de solution.",
+      "en": "There is no solution."
+    },
+    {
+      "de": "In Berlin gibt es tolle Museen.",
+      "fr": "À Berlin, il y a de superbes musées. (*es* après le verbe.)",
+      "en": "In Berlin there are great museums. (*es* after the verb.)"
+    }
+  ]
+}

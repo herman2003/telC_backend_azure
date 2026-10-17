@@ -1,0 +1,39 @@
+{
+  "slug": "plural-fremdworter-gram-cc-352",
+  "titleFr": "Pluriel — mots d’emprunt",
+  "titleEn": "Plural — loanwords",
+  "titleDe": "Plural — Fremdwörter",
+  "ruleFr": "## Pluriel — mots d’emprunt\n\nLes **emprunts** (surtout anglais / français) prennent souvent un pluriel en **-s**.\n\n### Règle pratique\n| Singular | Plural |\n|---|---|\n| *das Auto* | *die Autos* |\n| *das Hotel* | *die Hotels* |\n| *das Büro* | *die Büros* |\n| *das Kino* | *die Kinos* |\n| *das Taxi* | *die Taxis* |\n| *der Chef* | *die Chefs* |\n| *das Team* | *die Teams* |\n| *das Handy* | *die Handys* |\n\n### Autres pluriels d’emprunt\nCertains gardent un pluriel « savant » :\n- *das Thema → die Themen* (pas *Themas* en standard soigné)\n- *das Museum → die Museen*\n- *das Lexikon → die Lexika / Lexiken*\n\n### Mini-entraînement\n1. Formez le pluriel de 12 emprunts courants.\n2. Comparez *-s* vs pluriel latin/grec (*Museum*).\n3. Écrivez 5 phrases sur le travail / les loisirs avec *-s*.",
+  "ruleEn": "## Plural — loanwords\n\n**Loanwords** (especially English/French) often take plural **-s**.\n\n### Practical rule\n| Singular | Plural |\n|---|---|\n| *das Auto* | *die Autos* |\n| *das Hotel* | *die Hotels* |\n| *das Büro* | *die Büros* |\n| *das Kino* | *die Kinos* |\n| *das Taxi* | *die Taxis* |\n| *der Chef* | *die Chefs* |\n| *das Team* | *die Teams* |\n\n### Other loan plurals\nSome keep a “learned” plural:\n- *das Thema → die Themen*\n- *das Museum → die Museen*\n- *das Lexikon → die Lexika / Lexiken*\n\n### Mini practice\n1. Pluralize 12 common loanwords.\n2. Compare *-s* vs Latin/Greek plurals (*Museum*).\n3. Write 5 work/leisure sentences with *-s*.",
+  "ruleDe": "## Plural — Fremdwörter\n\n**Fremdwörter** (besonders aus dem Englischen/Französischen) bilden den Plural oft mit **-s**.\n\n### Praktische Regel\n| Singular | Plural |\n|---|---|\n| *das Auto* | *die Autos* |\n| *das Hotel* | *die Hotels* |\n| *das Büro* | *die Büros* |\n| *das Kino* | *die Kinos* |\n| *das Taxi* | *die Taxis* |\n| *der Chef* | *die Chefs* |\n| *das Team* | *die Teams* |\n\n### Andere Pluralformen\n- *das Thema → die Themen*\n- *das Museum → die Museen*\n\n### Mini-Übung\n1. Plural von 12 Fremdwörtern bilden.\n2. *-s* vs. lateinisch/griechisch vergleichen.\n3. 5 Sätze mit *-s*-Plural schreiben.",
+  "notesFr": "Emprunts anglais/français = souvent pluriel en -s. Mais : Museum → Museen, Thema → Themen.",
+  "notesEn": "English/French loans = often -s plural. But: Museum → Museen, Thema → Themen.",
+  "notesDe": "Englische/französische Lehnwörter = meist -s. Aber: Museum → Museen, Thema → Themen.",
+  "examples": [
+    {
+      "de": "Die Autos parken vor dem Haus.",
+      "fr": "Les voitures sont garées devant la maison.",
+      "en": "The cars are parked in front of the house."
+    },
+    {
+      "de": "Die Hotels sind ausgebucht.",
+      "fr": "Les hôtels sont complets.",
+      "en": "The hotels are fully booked."
+    },
+    {
+      "de": "Die Chefs sind im Meeting.",
+      "fr": "Les chefs / patrons sont en réunion.",
+      "en": "The bosses are in a meeting."
+    },
+    {
+      "de": "Unsere Teams arbeiten zusammen.",
+      "fr": "Nos équipes travaillent ensemble.",
+      "en": "Our teams work together."
+    },
+    {
+      "de": "Die Museen öffnen wieder.",
+      "fr": "Les musées rouvrent. (pluriel savant, pas *-s*.)",
+      "en": "The museums are opening again. (learned plural, not *-s*.)"
+    }
+  ]
+}

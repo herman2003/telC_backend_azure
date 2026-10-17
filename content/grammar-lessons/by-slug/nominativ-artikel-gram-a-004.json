@@ -1,0 +1,39 @@
+{
+  "slug": "nominativ-artikel-gram-a-004",
+  "titleFr": "Articles indéfinis au nominatif",
+  "titleEn": "Indefinite articles in the nominative",
+  "titleDe": "Nominativ — unbestimmter Artikel",
+  "ruleFr": "## Articles indéfinis au nominatif (*ein / eine / ein*)\n\nL’article indéfini présente quelque chose de **non encore spécifié**.\n\n### Formes au nominatif\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| indéfini | **ein** | **eine** | **ein** | — |\n\nPas d’article indéfini pluriel : *Kinder spielen* ou *einige / viele Kinder*.\n\n### Exemples\n- **Ein** Mann wartet. / **Eine** Frau ruft. / **Ein** Kind weint.\n\n### Contraste\n- *Ein Student kommt.* vs *Der Student kommt.*\n\n### Erreurs fréquentes\n- ✗ *eine Kind* → ✓ *ein Kind*\n- ✗ *eine Bücher* → ✓ *Bücher* / *einige Bücher*\n\n### Mini-entraînement\n1. Choisissez *ein / eine* : ___ Auto, ___ Tasche, ___ Apfel.\n2. Passez au défini : *Ein Hund bellt.* → *___ Hund bellt.*\n3. Écrivez 3 phrases : *Ein… / Eine… / Ein… + verbe.*",
+  "ruleEn": "## Indefinite articles in the nominative (*ein / eine / ein*)\n\nThe indefinite article introduces something **not yet specified**.\n\n### Nominative forms\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| indefinite | **ein** | **eine** | **ein** | — |\n\nNo indefinite plural article: *Kinder spielen* or *einige / viele Kinder*.\n\n### Examples\n- **Ein** Mann wartet. / **Eine** Frau ruft. / **Ein** Kind weint.\n\n### Contrast\n- *Ein Student kommt.* vs *Der Student kommt.*\n\n### Common mistakes\n- ✗ *eine Kind* → ✓ *ein Kind*\n- ✗ *eine Bücher* → ✓ *Bücher* / *einige Bücher*\n\n### Mini practice\n1. Choose *ein / eine*: ___ Auto, ___ Tasche, ___ Apfel.\n2. Make definite: *Ein Hund bellt.* → *___ Hund bellt.*\n3. Write 3 sentences: *Ein… / Eine… / Ein… + verb.*",
+  "ruleDe": "## Unbestimmter Artikel im Nominativ (*ein / eine / ein*)\n\nDer unbestimmte Artikel führt etwas **noch nicht Spezifiziertes** ein.\n\n### Formen\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| unbestimmt | **ein** | **eine** | **ein** | — |\n\nKein unbestimmter Pluralartikel: *Kinder spielen* oder *einige / viele Kinder*.\n\n### Beispiele\n- **Ein** Mann wartet. / **Eine** Frau ruft. / **Ein** Kind weint.\n\n### Kontrast\n- *Ein Student kommt.* vs *Der Student kommt.*\n\n### Häufige Fehler\n- ✗ *eine Kind* → ✓ *ein Kind*\n- ✗ *eine Bücher* → ✓ *Bücher* / *einige Bücher*\n\n### Mini-Übung\n1. *ein / eine*: ___ Auto, ___ Tasche, ___ Apfel.\n2. Bestimmt: *Ein Hund bellt.* → *___ Hund bellt.*\n3. Drei Sätze: *Ein… / Eine… / Ein… + Verb.*",
+  "notesFr": "Masculin et neutre se ressemblent au nominatif (*ein*) : seul le féminin a *eine* — apprenez le genre avec le nom.",
+  "notesEn": "Masculine and neuter look alike in nominative (*ein*): only feminine has *eine* — learn gender with the noun.",
+  "notesDe": "Maskulinum und Neutrum sehen im Nominativ gleich aus (*ein*): nur Femininum hat *eine* — Genus mitlernen!",
+  "examples": [
+    {
+      "de": "Ein Mann, eine Frau und ein Kind kommen.",
+      "fr": "Un homme, une femme et un enfant arrivent. (*ein / eine / ein*)",
+      "en": "A man, a woman and a child are coming. (*ein / eine / ein*)"
+    },
+    {
+      "de": "Eine Katze sitzt auf dem Sofa.",
+      "fr": "Un chat est assis sur le canapé. (*eine* = féminin)",
+      "en": "A cat is sitting on the sofa. (*eine* = feminine)"
+    },
+    {
+      "de": "Ein Auto steht vor dem Haus.",
+      "fr": "Une voiture est devant la maison. (*ein Auto* = neutre)",
+      "en": "A car is standing in front of the house. (*ein Auto* = neuter)"
+    },
+    {
+      "de": "Studenten lernen oft abends.",
+      "fr": "Les étudiants apprennent souvent le soir. (pluriel sans article indéfini)",
+      "en": "Students often study in the evening. (plural with no indefinite article)"
+    },
+    {
+      "de": "Einige Freunde besuchen uns.",
+      "fr": "Quelques amis nous rendent visite. (*einige* remplace un indéfini pluriel)",
+      "en": "Some friends are visiting us. (*einige* instead of an indefinite plural)"
+    }
+  ]
+}

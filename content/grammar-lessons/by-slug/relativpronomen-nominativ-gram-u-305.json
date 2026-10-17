@@ -1,0 +1,39 @@
+{
+  "slug": "relativpronomen-nominativ-gram-u-305",
+  "titleFr": "Pronom relatif au nominatif",
+  "titleEn": "Relative pronouns — nominative",
+  "titleDe": "Relativpronomen — Nominativ",
+  "ruleFr": "## Relatif au nominatif — sujet de la relative\n\nSi le pronom relatif est le **sujet** de la relative → **nominatif**.\n\n### Formes\n| Mask. | Fem. | Neut. | Plur. |\n|---|---|---|---|\n| **der** | **die** | **das** | **die** |\n\n### Test\nDans la relative, posez *Wer?* / *Was?* → la réponse est le relatif.\n- *der Mann, **der** hier arbeitet* → *Wer arbeitet?* → *der*\n\n### Exemples\n- *Die Frau, **die** anruft, ist meine Chefin.*\n- *Das Kind, **das** spielt, ist mein Sohn.*\n- *Die Studenten, **die** lernen, sind motiviert.*\n\n### Mini-entraînement\nComplétez : *der Lehrer, ___ … / die Stadt, ___ … / das Auto, ___ …*",
+  "ruleEn": "## Nominative relative pronoun — subject of the relative clause\n\nIf the relative pronoun is the **subject** of the relative clause → **nominative**.\n\n### Forms\n| Masc. | Fem. | Neut. | Plur. |\n|---|---|---|---|\n| **der** | **die** | **das** | **die** |\n\n### Test\nIn the relative clause, ask *Wer?* / *Was?* → the answer is the relative.\n- *der Mann, **der** hier arbeitet* → *Wer arbeitet?* → *der*\n\n### Examples\n- *Die Frau, **die** anruft, ist meine Chefin.*\n- *Das Kind, **das** spielt, ist mein Sohn.*\n- *Die Studenten, **die** lernen, sind motiviert.*\n\n### Mini practice\nComplete: *der Lehrer, ___ … / die Stadt, ___ … / das Auto, ___ …*",
+  "ruleDe": "## Relativpronomen Nominativ — Subjekt\n\nWenn das Relativpronomen **Subjekt** im Relativsatz ist → Nominativ: **der/die/das/die**.\n\n### Test\n*Wer?/Was?* im Relativsatz.\n\n### Mini-Übung\nErgänzen: *der Lehrer, ___ …*",
+  "notesFr": "*der/die/das* = sujet dans la relative.",
+  "notesEn": "*der/die/das* = subject in the relative clause.",
+  "notesDe": "*der/die/das* = Subjekt im Relativsatz.",
+  "examples": [
+    {
+      "de": "Der Mann, der dort steht, ist mein Vater.",
+      "fr": "L’homme qui se tient là est mon père.",
+      "en": "The man who is standing there is my father."
+    },
+    {
+      "de": "Die Frau, die anruft, ist meine Chefin.",
+      "fr": "La femme qui appelle est ma patronne.",
+      "en": "The woman who is calling is my boss."
+    },
+    {
+      "de": "Das Kind, das lacht, ist sehr fröhlich.",
+      "fr": "L’enfant qui rit est très joyeux.",
+      "en": "The child who is laughing is very cheerful."
+    },
+    {
+      "de": "Die Bücher, die auf dem Tisch liegen, gehören mir.",
+      "fr": "Les livres qui sont sur la table m’appartiennent.",
+      "en": "The books that are on the table belong to me."
+    },
+    {
+      "de": "Kennst du den Lehrer, der Geschichte unterrichtet?",
+      "fr": "Connais-tu le professeur qui enseigne l’histoire ?",
+      "en": "Do you know the teacher who teaches history?"
+    }
+  ]
+}

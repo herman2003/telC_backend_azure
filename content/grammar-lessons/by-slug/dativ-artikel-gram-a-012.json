@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-artikel-gram-a-012",
+  "titleFr": "Articles indéfinis au datif",
+  "titleEn": "Indefinite articles in the dative",
+  "titleDe": "Dativ — unbestimmter Artikel",
+  "ruleFr": "## Articles indéfinis au datif\n\n| Cas | masculin | féminin | neutre |\n|---|---|---|---|\n| Nominatif | ein | eine | ein |\n| **Datif** | **einem** | **einer** | **einem** |\n\n### Règle\n- m/n : *ein* → **einem**\n- f : *eine* → **einer**\n\nMême schéma pour *kein*, *mein*, *dein*, *sein*… : *keinem Freund*, *meiner Mutter*.\n\n### Exemples\n- Ich helfe **einem** Kollegen.\n- Das gehört **einer** Freundin.\n- Er spricht mit **einem** Kind.\n\n### Contraste Akk. / Dat.\n- Akk. : *einen Freund* (m)\n- Dat. : *einem Freund* (m)\n\n### Erreurs fréquentes\n- ✗ *mit ein Freund* → ✓ *mit **einem** Freund*\n- Confondre *einer* (Dat. f) et *eine* (Nom./Akk. f)\n\n### Mini-entraînement\n1. Transformez : ein Mann / eine Frau / ein Kind → datif.\n2. Phrases avec *helfen*, *danken*, *gehören*.\n3. Remplacez par *mein-* correctement décliné.",
+  "ruleEn": "## Indefinite articles in the dative\n\n| Case | masculine | feminine | neuter |\n|---|---|---|---|\n| Nominative | ein | eine | ein |\n| **Dative** | **einem** | **einer** | **einem** |\n\n### Rule\n- m/n: *ein* → **einem**\n- f: *eine* → **einer**\n\nSame pattern for *kein*, *mein*, *dein*, *sein…*: *keinem Freund*, *meiner Mutter*.\n\n### Examples\n- Ich helfe **einem** Kollegen.\n- Das gehört **einer** Freundin.\n- Er spricht mit **einem** Kind.\n\n### Akk. / Dat. contrast\n- Akk.: *einen Freund* (m)\n- Dat.: *einem Freund* (m)\n\n### Common mistakes\n- ✗ *mit ein Freund* → ✓ *mit **einem** Freund*\n- Mixing *einer* (Dat. f) and *eine* (Nom./Akk. f)\n\n### Mini practice\n1. Transform: ein Mann / eine Frau / ein Kind → dative.\n2. Sentences with *helfen*, *danken*, *gehören*.\n3. Replace with correctly declined *mein-*.",
+  "ruleDe": "## Unbestimmter Artikel im Dativ\n\n| Kasus | Maskulinum | Femininum | Neutrum |\n|---|---|---|---|\n| Nominativ | ein | eine | ein |\n| **Dativ** | **einem** | **einer** | **einem** |\n\n### Regel\n- m/n: *ein* → **einem**\n- f: *eine* → **einer**\n\nGleiches Muster bei *kein*, *mein*, *dein*, *sein…*: *keinem Freund*, *meiner Mutter*.\n\n### Beispiele\n- Ich helfe **einem** Kollegen.\n- Das gehört **einer** Freundin.\n- Er spricht mit **einem** Kind.\n\n### Kontrast Akk. / Dat.\n- Akk.: *einen Freund* (m)\n- Dat.: *einem Freund* (m)\n\n### Häufige Fehler\n- ✗ *mit ein Freund* → ✓ *mit **einem** Freund*\n- *einer* (Dat. f) vs *eine* (Nom./Akk. f)\n\n### Mini-Übung\n1. ein Mann / eine Frau / ein Kind → Dativ.\n2. Sätze mit *helfen*, *danken*, *gehören*.\n3. Mit *mein-* richtig deklinieren.",
+  "notesFr": "Chaîne masculine à mémoriser : *ein → einen → einem → eines* (Nom./Akk./Dat./Gen.).",
+  "notesEn": "Masculine chain to memorise: *ein → einen → einem → eines* (Nom./Akk./Dat./Gen.).",
+  "notesDe": "Maskuline Kette merken: *ein → einen → einem → eines* (Nom./Akk./Dat./Gen.).",
+  "examples": [
+    {
+      "de": "Ich helfe einem Freund.",
+      "fr": "J’aide un ami. (*einem* = datif masculin indéfini)",
+      "en": "I help a friend. (*einem* = indefinite masculine dative)"
+    },
+    {
+      "de": "Das gehört einer Kollegin.",
+      "fr": "Cela appartient à une collègue. (*einer*)",
+      "en": "That belongs to a colleague. (*einer*)"
+    },
+    {
+      "de": "Sie spricht mit einem Kind.",
+      "fr": "Elle parle avec un enfant. (*einem Kind*)",
+      "en": "She is talking to a child. (*einem Kind*)"
+    },
+    {
+      "de": "Er dankt einer Nachbarin.",
+      "fr": "Il remercie une voisine. (*danken* + datif)",
+      "en": "He thanks a neighbour. (*danken* + dative)"
+    },
+    {
+      "de": "Wir wohnen bei einem Arzt.",
+      "fr": "Nous habitons chez un médecin. (*bei* + datif)",
+      "en": "We live at a doctor’s. (*bei* + dative)"
+    }
+  ]
+}

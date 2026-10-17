@@ -1,0 +1,39 @@
+{
+  "slug": "derselbe-dieselbe-dasselbe-gram-c-068",
+  "titleFr": "Derselbe — les deux parties se déclinent",
+  "titleEn": "Derselbe — both parts decline",
+  "titleDe": "derselbe/dieselbe/dasselbe",
+  "ruleFr": "## Deux parties : der- + -selbe\n\n*Derselbe* = article **der-** + adjectif **-selbe**. **Les deux** changent selon le cas !\n\n### Masculin\n| cas | forme |\n|---|---|\n| Nom. | **derselbe** |\n| Akk. | **denselben** |\n| Dat. | **demselben** |\n| Gen. | **desselben** |\n\n### Féminin / neutre (aperçu)\n- f. : dieselbe → dieselbe → **derselben** → **derselben**\n- n. : dasselbe → dasselbe → **demselben** → **desselben**\n\n### Erreur fréquente\nNe décliner qu’une moitié : ✗ *dem selbe* → ✓ **demselben**.\n\n### Mini-entraînement\nMettez *derselbe Tag* aux 4 cas.",
+  "ruleEn": "## Two parts: der- + -selbe\n\n*Derselbe* = article **der-** + adjective **-selbe**. **Both** change by case!\n\n### Masculine\n| case | form |\n|---|---|\n| Nom. | **derselbe** |\n| Acc. | **denselben** |\n| Dat. | **demselben** |\n| Gen. | **desselben** |\n\n### Common mistake\nInflecting only half: ✗ *dem selbe* → ✓ **demselben**.\n\n### Mini practice\nPut *derselbe Tag* into all four cases.",
+  "ruleDe": "## Zwei Teile: der- + -selbe\n\nBeide Teile ändern sich!\n\n### Maskulinum\nNom **derselbe** · Akk **denselben** · Dat **demselben** · Gen **desselben**\n\n### Fehler\nNur eine Hälfte beugen: ✗ *dem selbe* → ✓ **demselben**.\n\n### Mini-Übung\n*derselbe Tag* in allen Kasus.",
+  "notesFr": "Les deux parties changent : *der→den→dem→des* et *-selbe→-selben*.",
+  "notesEn": "Both parts change: *der→den→dem→des* and *-selbe→-selben*.",
+  "notesDe": "Beide Teile ändern sich: *der→den→dem→des* und *-selbe→-selben*.",
+  "examples": [
+    {
+      "de": "Derselbe Tag war anstrengend.",
+      "fr": "Le même jour était fatigant. (nominatif.)",
+      "en": "The same day was exhausting. (nominative.)"
+    },
+    {
+      "de": "Wir nutzen denselben Tag für das Treffen.",
+      "fr": "Nous utilisons le même jour pour la réunion. (accusatif.)",
+      "en": "We use the same day for the meeting. (accusative.)"
+    },
+    {
+      "de": "An demselben Tag rief er an.",
+      "fr": "Le même jour, il a appelé. (datif.)",
+      "en": "On the same day he called. (dative.)"
+    },
+    {
+      "de": "Am Anfang desselben Tages war alles ruhig.",
+      "fr": "Au début du même jour, tout était calme. (génitif.)",
+      "en": "At the start of the same day everything was calm. (genitive.)"
+    },
+    {
+      "de": "Ich spreche mit demselben Lehrer.",
+      "fr": "Je parle avec le même professeur.",
+      "en": "I speak with the same teacher."
+    }
+  ]
+}

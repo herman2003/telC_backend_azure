@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-akkusativ-wortstellung-gram-p-273",
+  "titleFr": "Datif + accusatif — ordre des mots",
+  "titleEn": "Dative + accusative — word order",
+  "titleDe": "Dativ + Akkusativ — Wortstellung",
+  "ruleFr": "## Ordre des compléments : datif et accusatif\n\n### Règle 1 — deux noms\n**Datif avant accusatif**\n- Ich gebe **dem Mann** **das Buch**.\n\n### Règle 2 — deux pronoms\n**Accusatif avant datif**\n- Ich gebe **es ihm**. (pas *ihm es*)\n\n### Règle 3 — nom + pronom\nLe **pronom** passe devant :\n- Ich gebe **es** dem Mann.\n- Ich gebe **ihm** das Buch.\n\n### Tableau résumé\n| Combinaison | Ordre |\n|---|---|\n| 2 noms | Dat – Akk |\n| 2 pronoms | Akk – Dat |\n| mixte | pronom d’abord |\n\n### Mini-entraînement\n1. Transformez *Ich gebe dem Mann das Buch* avec tous les remplacements pronominaux.\n2. Écoutez : *Gib es mir!* / *Gib mir das Buch!*\n3. Corrigez : ✗ *Ich gebe ihm es.*",
+  "ruleEn": "## Object order: dative and accusative\n\n### Rule 1 — two nouns\n**Dative before accusative**\n- Ich gebe **dem Mann** **das Buch**.\n\n### Rule 2 — two pronouns\n**Accusative before dative**\n- Ich gebe **es ihm**. (not *ihm es*)\n\n### Rule 3 — noun + pronoun\nThe **pronoun** comes first:\n- Ich gebe **es** dem Mann.\n- Ich gebe **ihm** das Buch.\n\n### Summary\n| Combination | Order |\n|---|---|\n| 2 nouns | Dat – Acc |\n| 2 pronouns | Acc – Dat |\n| mixed | pronoun first |\n\n### Mini practice\n1. Pronoun replacements for *Ich gebe dem Mann das Buch*.\n2. Notice: *Gib es mir!* / *Gib mir das Buch!*\n3. Correct: ✗ *Ich gebe ihm es.*",
+  "ruleDe": "## Wortstellung: Dativ und Akkusativ\n\n### Regel 1 — zwei Nomen\n**Dativ vor Akkusativ**\n- Ich gebe **dem Mann** **das Buch**.\n\n### Regel 2 — zwei Pronomen\n**Akkusativ vor Dativ**\n- Ich gebe **es ihm**.\n\n### Regel 3 — gemischt\nPronomen zuerst:\n- Ich gebe **es** dem Mann.\n- Ich gebe **ihm** das Buch.\n\n### Mini-Übung\n1. Alle Pronomenersetzungen üben.\n2. *Gib es mir!* hören/sagen.\n3. Korrigieren: ✗ *Ich gebe ihm es.*",
+  "notesFr": "2 noms : Dat-Akk. 2 pronoms : Akk-Dat. Mixte : pronom d’abord.",
+  "notesEn": "2 nouns: Dat-Acc. 2 pronouns: Acc-Dat. Mixed: pronoun first.",
+  "notesDe": "2 Nomen: Dat-Akk. 2 Pronomen: Akk-Dat. Nomen+Pronomen: Pronomen zuerst.",
+  "examples": [
+    {
+      "de": "Ich gebe dem Mann das Buch.",
+      "fr": "Je donne le livre à l’homme. (2 noms : dat. puis akk.)",
+      "en": "I give the man the book. (2 nouns: dat. then acc.)"
+    },
+    {
+      "de": "Ich gebe es ihm.",
+      "fr": "Je le lui donne. (2 pronoms : akk. puis dat.)",
+      "en": "I give it to him. (2 pronouns: acc. then dat.)"
+    },
+    {
+      "de": "Ich gebe es dem Mann.",
+      "fr": "Je le donne à l’homme. (pronom avant nom)",
+      "en": "I give it to the man. (pronoun before noun)"
+    },
+    {
+      "de": "Ich gebe ihm das Buch.",
+      "fr": "Je lui donne le livre.",
+      "en": "I give him the book."
+    },
+    {
+      "de": "Bitte schick sie mir!",
+      "fr": "Envoie-les-moi s’il te plaît ! (akk. *sie* avant dat. *mir*)",
+      "en": "Please send them to me! (acc. *sie* before dat. *mir*)"
+    }
+  ]
+}

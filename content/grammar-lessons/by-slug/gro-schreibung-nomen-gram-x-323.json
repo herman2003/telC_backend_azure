@@ -1,0 +1,39 @@
+{
+  "slug": "gro-schreibung-nomen-gram-x-323",
+  "titleFr": "Majuscules — les noms",
+  "titleEn": "Capitalization — nouns",
+  "titleDe": "Großschreibung — Nomen",
+  "ruleFr": "## Majuscules — les noms\n\nEn allemand, **tous les noms** (substantifs) s’écrivent avec une **majuscule**, pas seulement les noms propres.\n\n### Règle centrale\nChaque mot qui désigne une personne, une chose, une idée, un lieu… est un nom → **majuscule**.\n\n- *der Tisch*, *die Freiheit*, *das Glück*, *die Liebe*\n- Aussi les noms abstraits : *die Hoffnung*, *der Ärger*\n\n### Comment reconnaître un nom\n1. Il a (ou pourrait avoir) un article : *der / die / das / ein…*\n2. Il peut être sujet ou complément.\n3. Les infinitifs nominalisés aussi : *das Lesen*, *das Schwimmen*.\n\n### Différence avec le français / l’anglais\n| Français / anglais | Allemand |\n|---|---|\n| la liberté / freedom | **die Freiheit** |\n| le pain / bread | **das Brot** |\n| j’aime lire / I like reading | Ich mag **das Lesen**. |\n\n### Ne pas confondre\n- Adjectif : *schön* (minuscule) vs nom : *das Schöne*\n- Verbe : *arbeiten* vs nom : *die Arbeit*\n\n### Erreurs fréquentes\n- Écrire les noms communs en minuscules (calque de l’anglais).\n- Oublier la majuscule après un article : ✗ *der tisch* → ✓ *der Tisch*\n\n### Mini-entraînement\n1. Soulignez tous les noms dans 5 phrases.\n2. Réécrivez 5 mots anglais en allemand avec majuscule + article.\n3. Transformez 3 verbes en noms : *lesen → das Lesen*.",
+  "ruleEn": "## Capitalization — nouns\n\nIn German, **every noun** is capitalized — not only proper names.\n\n### Core rule\nAnything that names a person, thing, idea, or place is a noun → **capital letter**.\n\n- *der Tisch*, *die Freiheit*, *das Glück*, *die Liebe*\n- Abstract nouns too: *die Hoffnung*, *der Ärger*\n\n### How to spot a noun\n1. It takes (or could take) an article: *der / die / das / ein…*\n2. It can be subject or object.\n3. Nominalized infinitives count: *das Lesen*, *das Schwimmen*.\n\n### Unlike English / French\n| English / French | German |\n|---|---|\n| freedom / la liberté | **die Freiheit** |\n| bread / le pain | **das Brot** |\n| I like reading | Ich mag **das Lesen**. |\n\n### Don’t confuse\n- Adjective: *schön* (lowercase) vs noun: *das Schöne*\n- Verb: *arbeiten* vs noun: *die Arbeit*\n\n### Common mistakes\n- Writing common nouns in lowercase (English habit).\n- Forgetting the capital after an article: ✗ *der tisch* → ✓ *der Tisch*\n\n### Mini practice\n1. Underline all nouns in 5 sentences.\n2. Rewrite 5 English words in German with capital + article.\n3. Turn 3 verbs into nouns: *lesen → das Lesen*.",
+  "ruleDe": "## Großschreibung — Nomen\n\nIm Deutschen schreibt man **alle Nomen** (Substantive) **groß** — nicht nur Eigennamen.\n\n### Kernregel\nAlles, was eine Person, Sache, Idee oder einen Ort bezeichnet, ist ein Nomen → **Großbuchstabe**.\n\n- *der Tisch*, *die Freiheit*, *das Glück*, *die Liebe*\n- Auch abstrakte Nomen: *die Hoffnung*, *der Ärger*\n\n### So erkennen Sie ein Nomen\n1. Es hat (oder könnte) einen Artikel: *der / die / das / ein…*\n2. Es kann Subjekt oder Objekt sein.\n3. Auch nominalisierte Infinitive: *das Lesen*, *das Schwimmen*.\n\n### Anders als im Englischen / Französischen\n| Englisch / Französisch | Deutsch |\n|---|---|\n| freedom / la liberté | **die Freiheit** |\n| bread / le pain | **das Brot** |\n| I like reading | Ich mag **das Lesen**. |\n\n### Nicht verwechseln\n- Adjektiv: *schön* (klein) vs. Nomen: *das Schöne*\n- Verb: *arbeiten* vs. Nomen: *die Arbeit*\n\n### Häufige Fehler\n- Nomen klein schreiben (englische Gewohnheit).\n- Großschreibung nach Artikel vergessen: ✗ *der tisch* → ✓ *der Tisch*\n\n### Mini-Übung\n1. Unterstreichen Sie alle Nomen in 5 Sätzen.\n2. Schreiben Sie 5 englische Wörter auf Deutsch mit Großbuchstabe + Artikel.\n3. Bilden Sie 3 Nomen aus Verben: *lesen → das Lesen*.",
+  "notesFr": "Astuce : si vous pouvez mettre der/die/das devant, c’est un nom → majuscule. Y compris les notions abstraites (*die Liebe*, *das Glück*).",
+  "notesEn": "Tip: if you can put der/die/das in front, it’s a noun → capitalize it. Including abstracts (*die Liebe*, *das Glück*).",
+  "notesDe": "Tipp: Wenn der/die/das davorpasst, ist es ein Nomen → großschreiben. Auch Abstrakta (*die Liebe*, *das Glück*).",
+  "examples": [
+    {
+      "de": "Der Tisch steht in der Küche.",
+      "fr": "La table est dans la cuisine. (« Tisch », « Küche » = noms → majuscules.)",
+      "en": "The table is in the kitchen. (“Tisch”, “Küche” = nouns → capitals.)"
+    },
+    {
+      "de": "Die Freiheit ist wichtig.",
+      "fr": "La liberté est importante. (Nom abstrait : majuscule obligatoire.)",
+      "en": "Freedom is important. (Abstract noun: must be capitalized.)"
+    },
+    {
+      "de": "Ich mag das Lesen am Abend.",
+      "fr": "J’aime la lecture le soir. (Infinitif nominalisé : das Lesen.)",
+      "en": "I like reading in the evening. (Nominalized infinitive: das Lesen.)"
+    },
+    {
+      "de": "Das Glück kommt oft unerwartet.",
+      "fr": "Le bonheur arrive souvent à l’improviste.",
+      "en": "Happiness often comes unexpectedly."
+    },
+    {
+      "de": "Die Arbeit beginnt um acht Uhr.",
+      "fr": "Le travail commence à huit heures.",
+      "en": "Work starts at eight o’clock."
+    }
+  ]
+}

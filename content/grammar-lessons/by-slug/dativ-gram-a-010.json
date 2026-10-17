@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-gram-a-010",
+  "titleFr": "Le datif",
+  "titleEn": "The dative",
+  "titleDe": "Dativ",
+  "ruleFr": "## Le datif — le complément d’objet indirect\n\nLe **datif** marque souvent le **destinataire** / la personne **concernée** (à qui ?).\n\n### Question clé\n**Wem?** (À qui ?)\n\n- *Wem gibst du das Buch?* → Ich gebe **dem Mann** das Buch.\n\n### Articles définis au datif\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **dem** | **der** | **dem** | **den** (+ *-n* sur le nom si possible) |\n\n### Structure avec deux objets\nSouvent : **datif (personne)** puis **accusatif (chose)**\n→ *Ich gebe **der Frau** **den Brief**.*\n\n### Contraste\n- Akk. : *Ich sehe **den** Mann.* (Wen?)\n- Dat. : *Ich helfe **dem** Mann.* (Wem?)\n\n### Erreurs fréquentes\n- Confondre *dem* et *den*.\n- Oublier que le féminin devient *der* au datif (comme le génitif !).\n\n### Mini-entraînement\n1. Posez *Wem?* sur 5 phrases.\n2. Transformez : *der Mann / die Frau / das Kind* → datif.\n3. Écrivez : *Ich schenke ___ (personne) ___ (chose).*",
+  "ruleEn": "## The dative — the indirect object\n\nThe **dative** often marks the **recipient** / the person **affected** (to whom?).\n\n### Key question\n**Wem?** (To whom?)\n\n- *Wem gibst du das Buch?* → Ich gebe **dem Mann** das Buch.\n\n### Definite articles in the dative\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **dem** | **der** | **dem** | **den** (+ *-n* on the noun if possible) |\n\n### Two-object pattern\nOften: **dative (person)** then **accusative (thing)**\n→ *Ich gebe **der Frau** **den Brief**.*\n\n### Contrast\n- Akk.: *Ich sehe **den** Mann.* (Wen?)\n- Dat.: *Ich helfe **dem** Mann.* (Wem?)\n\n### Common mistakes\n- Mixing up *dem* and *den*.\n- Forgetting feminine becomes *der* in the dative.\n\n### Mini practice\n1. Ask *Wem?* on 5 sentences.\n2. Transform: *der Mann / die Frau / das Kind* → dative.\n3. Write: *Ich schenke ___ (person) ___ (thing).*",
+  "ruleDe": "## Dativ — das indirekte Objekt\n\nDer **Dativ** kennzeichnet oft den **Empfänger** / die betroffene Person (**Wem?**).\n\n### Schlüsselfrage\n**Wem?**\n\n- *Wem gibst du das Buch?* → Ich gebe **dem Mann** das Buch.\n\n### Bestimmter Artikel im Dativ\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| bestimmt | **dem** | **der** | **dem** | **den** (+ *-n* am Nomen wenn möglich) |\n\n### Zwei Objekte\nOft: **Dativ (Person)** dann **Akkusativ (Sache)**\n→ *Ich gebe **der Frau** **den Brief**.*\n\n### Kontrast\n- Akk.: *Ich sehe **den** Mann.* (Wen?)\n- Dat.: *Ich helfe **dem** Mann.* (Wem?)\n\n### Häufige Fehler\n- *dem* und *den* verwechseln.\n- Femininum im Dativ: *der* (nicht *die*).\n\n### Mini-Übung\n1. *Wem?* zu 5 Sätzen.\n2. *der Mann / die Frau / das Kind* → Dativ.\n3. Schreiben: *Ich schenke ___ (Person) ___ (Sache).*",
+  "notesFr": "Question magique : *Wem?* Si la réponse est une personne qui reçoit / est aidée, c’est presque toujours le datif.",
+  "notesEn": "Magic question: *Wem?* If the answer is a person who receives / is helped, it is almost always dative.",
+  "notesDe": "Zauberfrage: *Wem?* Ist die Antwort eine Person, die etwas bekommt / der geholfen wird, ist es fast immer Dativ.",
+  "examples": [
+    {
+      "de": "Ich gebe dem Mann das Buch.",
+      "fr": "Je donne le livre à l’homme. (*dem Mann* = datif, destinataire)",
+      "en": "I give the man the book. (*dem Mann* = dative recipient)"
+    },
+    {
+      "de": "Sie schreibt der Freundin eine E-Mail.",
+      "fr": "Elle écrit un e-mail à son amie. (*der Freundin*)",
+      "en": "She is writing her friend an email. (*der Freundin*)"
+    },
+    {
+      "de": "Wir helfen dem Kind.",
+      "fr": "Nous aidons l’enfant. (*helfen* + datif)",
+      "en": "We help the child. (*helfen* + dative)"
+    },
+    {
+      "de": "Das gehört der Frau.",
+      "fr": "Cela appartient à la femme. (*gehören* + datif)",
+      "en": "That belongs to the woman. (*gehören* + dative)"
+    },
+    {
+      "de": "Er dankt den Eltern.",
+      "fr": "Il remercie ses parents. (*den Eltern* = datif pluriel)",
+      "en": "He thanks his parents. (*den Eltern* = plural dative)"
+    }
+  ]
+}

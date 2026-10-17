@@ -1,0 +1,1831 @@
+{
+  "count": 365,
+  "generatedAt": "2026-10-13T18:58:03.771Z",
+  "items": [
+    {
+      "day": 1,
+      "slug": "nominativ-gram-a-001",
+      "filename": "001_nominativ-gram-a-001.jpg"
+    },
+    {
+      "day": 2,
+      "slug": "nominativ-gram-a-002",
+      "filename": "002_nominativ-gram-a-002.jpg"
+    },
+    {
+      "day": 3,
+      "slug": "nominativ-artikel-gram-a-003",
+      "filename": "003_nominativ-artikel-gram-a-003.jpg"
+    },
+    {
+      "day": 4,
+      "slug": "nominativ-artikel-gram-a-004",
+      "filename": "004_nominativ-artikel-gram-a-004.jpg"
+    },
+    {
+      "day": 5,
+      "slug": "akkusativ-gram-a-005",
+      "filename": "005_akkusativ-gram-a-005.jpg"
+    },
+    {
+      "day": 6,
+      "slug": "akkusativ-artikel-gram-a-006",
+      "filename": "006_akkusativ-artikel-gram-a-006.jpg"
+    },
+    {
+      "day": 7,
+      "slug": "akkusativ-artikel-gram-a-007",
+      "filename": "007_akkusativ-artikel-gram-a-007.jpg"
+    },
+    {
+      "day": 8,
+      "slug": "akkusativ-zeitangaben-gram-a-008",
+      "filename": "008_akkusativ-zeitangaben-gram-a-008.jpg"
+    },
+    {
+      "day": 9,
+      "slug": "akkusativ-verben-gram-a-009",
+      "filename": "009_akkusativ-verben-gram-a-009.jpg"
+    },
+    {
+      "day": 10,
+      "slug": "dativ-gram-a-010",
+      "filename": "010_dativ-gram-a-010.jpg"
+    },
+    {
+      "day": 11,
+      "slug": "dativ-artikel-gram-a-011",
+      "filename": "011_dativ-artikel-gram-a-011.jpg"
+    },
+    {
+      "day": 12,
+      "slug": "dativ-artikel-gram-a-012",
+      "filename": "012_dativ-artikel-gram-a-012.jpg"
+    },
+    {
+      "day": 13,
+      "slug": "dativ-plural-gram-a-013",
+      "filename": "013_dativ-plural-gram-a-013.jpg"
+    },
+    {
+      "day": 14,
+      "slug": "dativ-verben-gram-a-014",
+      "filename": "014_dativ-verben-gram-a-014.jpg"
+    },
+    {
+      "day": 15,
+      "slug": "genitiv-gram-a-015",
+      "filename": "015_genitiv-gram-a-015.jpg"
+    },
+    {
+      "day": 16,
+      "slug": "genitiv-artikel-gram-a-016",
+      "filename": "016_genitiv-artikel-gram-a-016.jpg"
+    },
+    {
+      "day": 17,
+      "slug": "genitiv-artikel-gram-a-017",
+      "filename": "017_genitiv-artikel-gram-a-017.jpg"
+    },
+    {
+      "day": 18,
+      "slug": "genitiv-plural-gram-a-018",
+      "filename": "018_genitiv-plural-gram-a-018.jpg"
+    },
+    {
+      "day": 19,
+      "slug": "genitiv-verwendung-gram-a-019",
+      "filename": "019_genitiv-verwendung-gram-a-019.jpg"
+    },
+    {
+      "day": 20,
+      "slug": "genitiv-ersatz-gram-a-020",
+      "filename": "020_genitiv-ersatz-gram-a-020.jpg"
+    },
+    {
+      "day": 21,
+      "slug": "ubersicht-bestimmter-artikel-gram-a-021",
+      "filename": "021_ubersicht-bestimmter-artikel-gram-a-021.jpg"
+    },
+    {
+      "day": 22,
+      "slug": "ubersicht-unbestimmter-artikel-gram-a-022",
+      "filename": "022_ubersicht-unbestimmter-artikel-gram-a-022.jpg"
+    },
+    {
+      "day": 23,
+      "slug": "ubersicht-plural-gram-a-023",
+      "filename": "023_ubersicht-plural-gram-a-023.jpg"
+    },
+    {
+      "day": 24,
+      "slug": "fragen-zur-fallbestimmung-gram-a-024",
+      "filename": "024_fragen-zur-fallbestimmung-gram-a-024.jpg"
+    },
+    {
+      "day": 25,
+      "slug": "haufige-fehler-gram-a-025",
+      "filename": "025_haufige-fehler-gram-a-025.jpg"
+    },
+    {
+      "day": 26,
+      "slug": "haufige-fehler-gram-a-026",
+      "filename": "026_haufige-fehler-gram-a-026.jpg"
+    },
+    {
+      "day": 27,
+      "slug": "satzstellung-gram-a-027",
+      "filename": "027_satzstellung-gram-a-027.jpg"
+    },
+    {
+      "day": 28,
+      "slug": "satzstellung-gram-a-028",
+      "filename": "028_satzstellung-gram-a-028.jpg"
+    },
+    {
+      "day": 29,
+      "slug": "genus-grundlagen-gram-b-029",
+      "filename": "029_genus-grundlagen-gram-b-029.jpg"
+    },
+    {
+      "day": 30,
+      "slug": "genus-grundlagen-gram-b-030",
+      "filename": "030_genus-grundlagen-gram-b-030.jpg"
+    },
+    {
+      "day": 31,
+      "slug": "genus-grundlagen-gram-b-031",
+      "filename": "031_genus-grundlagen-gram-b-031.jpg"
+    },
+    {
+      "day": 32,
+      "slug": "genus-nach-bedeutung-gram-b-032",
+      "filename": "032_genus-nach-bedeutung-gram-b-032.jpg"
+    },
+    {
+      "day": 33,
+      "slug": "genus-nach-bedeutung-gram-b-033",
+      "filename": "033_genus-nach-bedeutung-gram-b-033.jpg"
+    },
+    {
+      "day": 34,
+      "slug": "genus-nach-bedeutung-gram-b-034",
+      "filename": "034_genus-nach-bedeutung-gram-b-034.jpg"
+    },
+    {
+      "day": 35,
+      "slug": "genus-nach-bedeutung-gram-b-035",
+      "filename": "035_genus-nach-bedeutung-gram-b-035.jpg"
+    },
+    {
+      "day": 36,
+      "slug": "genus-nach-bedeutung-gram-b-036",
+      "filename": "036_genus-nach-bedeutung-gram-b-036.jpg"
+    },
+    {
+      "day": 37,
+      "slug": "genus-nach-endung-femininum-gram-b-037",
+      "filename": "037_genus-nach-endung-femininum-gram-b-037.jpg"
+    },
+    {
+      "day": 38,
+      "slug": "genus-nach-endung-femininum-gram-b-038",
+      "filename": "038_genus-nach-endung-femininum-gram-b-038.jpg"
+    },
+    {
+      "day": 39,
+      "slug": "genus-nach-endung-femininum-gram-b-039",
+      "filename": "039_genus-nach-endung-femininum-gram-b-039.jpg"
+    },
+    {
+      "day": 40,
+      "slug": "genus-nach-endung-femininum-gram-b-040",
+      "filename": "040_genus-nach-endung-femininum-gram-b-040.jpg"
+    },
+    {
+      "day": 41,
+      "slug": "genus-nach-endung-femininum-gram-b-041",
+      "filename": "041_genus-nach-endung-femininum-gram-b-041.jpg"
+    },
+    {
+      "day": 42,
+      "slug": "genus-nach-endung-neutrum-gram-b-042",
+      "filename": "042_genus-nach-endung-neutrum-gram-b-042.jpg"
+    },
+    {
+      "day": 43,
+      "slug": "genus-nach-endung-neutrum-gram-b-043",
+      "filename": "043_genus-nach-endung-neutrum-gram-b-043.jpg"
+    },
+    {
+      "day": 44,
+      "slug": "genus-nach-endung-neutrum-gram-b-044",
+      "filename": "044_genus-nach-endung-neutrum-gram-b-044.jpg"
+    },
+    {
+      "day": 45,
+      "slug": "genus-nach-endung-maskulinum-gram-b-045",
+      "filename": "045_genus-nach-endung-maskulinum-gram-b-045.jpg"
+    },
+    {
+      "day": 46,
+      "slug": "genus-nach-endung-maskulinum-gram-b-046",
+      "filename": "046_genus-nach-endung-maskulinum-gram-b-046.jpg"
+    },
+    {
+      "day": 47,
+      "slug": "genus-nach-endung-maskulinum-gram-b-047",
+      "filename": "047_genus-nach-endung-maskulinum-gram-b-047.jpg"
+    },
+    {
+      "day": 48,
+      "slug": "komposita-gram-b-048",
+      "filename": "048_komposita-gram-b-048.jpg"
+    },
+    {
+      "day": 49,
+      "slug": "komposita-gram-b-049",
+      "filename": "049_komposita-gram-b-049.jpg"
+    },
+    {
+      "day": 50,
+      "slug": "komposita-gram-b-050",
+      "filename": "050_komposita-gram-b-050.jpg"
+    },
+    {
+      "day": 51,
+      "slug": "schwierige-falle-gram-b-051",
+      "filename": "051_schwierige-falle-gram-b-051.jpg"
+    },
+    {
+      "day": 52,
+      "slug": "schwierige-falle-gram-b-052",
+      "filename": "052_schwierige-falle-gram-b-052.jpg"
+    },
+    {
+      "day": 53,
+      "slug": "schwierige-falle-gram-b-053",
+      "filename": "053_schwierige-falle-gram-b-053.jpg"
+    },
+    {
+      "day": 54,
+      "slug": "schwierige-falle-gram-b-054",
+      "filename": "054_schwierige-falle-gram-b-054.jpg"
+    },
+    {
+      "day": 55,
+      "slug": "lerntipps-gram-b-055",
+      "filename": "055_lerntipps-gram-b-055.jpg"
+    },
+    {
+      "day": 56,
+      "slug": "lerntipps-gram-b-056",
+      "filename": "056_lerntipps-gram-b-056.jpg"
+    },
+    {
+      "day": 57,
+      "slug": "dieser-diese-dieses-gram-c-057",
+      "filename": "057_dieser-diese-dieses-gram-c-057.jpg"
+    },
+    {
+      "day": 58,
+      "slug": "dieser-diese-dieses-gram-c-058",
+      "filename": "058_dieser-diese-dieses-gram-c-058.jpg"
+    },
+    {
+      "day": 59,
+      "slug": "dieser-diese-dieses-gram-c-059",
+      "filename": "059_dieser-diese-dieses-gram-c-059.jpg"
+    },
+    {
+      "day": 60,
+      "slug": "dieser-diese-dieses-gram-c-060",
+      "filename": "060_dieser-diese-dieses-gram-c-060.jpg"
+    },
+    {
+      "day": 61,
+      "slug": "dieser-diese-dieses-gram-c-061",
+      "filename": "061_dieser-diese-dieses-gram-c-061.jpg"
+    },
+    {
+      "day": 62,
+      "slug": "jener-jene-jenes-gram-c-062",
+      "filename": "062_jener-jene-jenes-gram-c-062.jpg"
+    },
+    {
+      "day": 63,
+      "slug": "jener-jene-jenes-gram-c-063",
+      "filename": "063_jener-jene-jenes-gram-c-063.jpg"
+    },
+    {
+      "day": 64,
+      "slug": "jener-jene-jenes-gram-c-064",
+      "filename": "064_jener-jene-jenes-gram-c-064.jpg"
+    },
+    {
+      "day": 65,
+      "slug": "solcher-solche-solches-gram-c-065",
+      "filename": "065_solcher-solche-solches-gram-c-065.jpg"
+    },
+    {
+      "day": 66,
+      "slug": "solcher-solche-solches-gram-c-066",
+      "filename": "066_solcher-solche-solches-gram-c-066.jpg"
+    },
+    {
+      "day": 67,
+      "slug": "derselbe-dieselbe-dasselbe-gram-c-067",
+      "filename": "067_derselbe-dieselbe-dasselbe-gram-c-067.jpg"
+    },
+    {
+      "day": 68,
+      "slug": "derselbe-dieselbe-dasselbe-gram-c-068",
+      "filename": "068_derselbe-dieselbe-dasselbe-gram-c-068.jpg"
+    },
+    {
+      "day": 69,
+      "slug": "derselbe-dieselbe-dasselbe-gram-c-069",
+      "filename": "069_derselbe-dieselbe-dasselbe-gram-c-069.jpg"
+    },
+    {
+      "day": 70,
+      "slug": "derjenige-diejenige-dasjenige-gram-c-070",
+      "filename": "070_derjenige-diejenige-dasjenige-gram-c-070.jpg"
+    },
+    {
+      "day": 71,
+      "slug": "derjenige-diejenige-dasjenige-gram-c-071",
+      "filename": "071_derjenige-diejenige-dasjenige-gram-c-071.jpg"
+    },
+    {
+      "day": 72,
+      "slug": "welcher-welche-welches-gram-c-072",
+      "filename": "072_welcher-welche-welches-gram-c-072.jpg"
+    },
+    {
+      "day": 73,
+      "slug": "welcher-welche-welches-gram-c-073",
+      "filename": "073_welcher-welche-welches-gram-c-073.jpg"
+    },
+    {
+      "day": 74,
+      "slug": "welcher-welche-welches-gram-c-074",
+      "filename": "074_welcher-welche-welches-gram-c-074.jpg"
+    },
+    {
+      "day": 75,
+      "slug": "ubersicht-deklination-gram-c-075",
+      "filename": "075_ubersicht-deklination-gram-c-075.jpg"
+    },
+    {
+      "day": 76,
+      "slug": "personalpronomen-ubersicht-gram-d-076",
+      "filename": "076_personalpronomen-ubersicht-gram-d-076.jpg"
+    },
+    {
+      "day": 77,
+      "slug": "personalpronomen-nominativ-gram-d-077",
+      "filename": "077_personalpronomen-nominativ-gram-d-077.jpg"
+    },
+    {
+      "day": 78,
+      "slug": "personalpronomen-nominativ-gram-d-078",
+      "filename": "078_personalpronomen-nominativ-gram-d-078.jpg"
+    },
+    {
+      "day": 79,
+      "slug": "personalpronomen-nominativ-gram-d-079",
+      "filename": "079_personalpronomen-nominativ-gram-d-079.jpg"
+    },
+    {
+      "day": 80,
+      "slug": "personalpronomen-akkusativ-gram-d-080",
+      "filename": "080_personalpronomen-akkusativ-gram-d-080.jpg"
+    },
+    {
+      "day": 81,
+      "slug": "personalpronomen-akkusativ-gram-d-081",
+      "filename": "081_personalpronomen-akkusativ-gram-d-081.jpg"
+    },
+    {
+      "day": 82,
+      "slug": "personalpronomen-akkusativ-gram-d-082",
+      "filename": "082_personalpronomen-akkusativ-gram-d-082.jpg"
+    },
+    {
+      "day": 83,
+      "slug": "personalpronomen-dativ-gram-d-083",
+      "filename": "083_personalpronomen-dativ-gram-d-083.jpg"
+    },
+    {
+      "day": 84,
+      "slug": "personalpronomen-dativ-gram-d-084",
+      "filename": "084_personalpronomen-dativ-gram-d-084.jpg"
+    },
+    {
+      "day": 85,
+      "slug": "personalpronomen-dativ-gram-d-085",
+      "filename": "085_personalpronomen-dativ-gram-d-085.jpg"
+    },
+    {
+      "day": 86,
+      "slug": "personalpronomen-tabelle-gram-d-086",
+      "filename": "086_personalpronomen-tabelle-gram-d-086.jpg"
+    },
+    {
+      "day": 87,
+      "slug": "personalpronomen-tabelle-gram-d-087",
+      "filename": "087_personalpronomen-tabelle-gram-d-087.jpg"
+    },
+    {
+      "day": 88,
+      "slug": "possessivpronomen-ubersicht-gram-d-088",
+      "filename": "088_possessivpronomen-ubersicht-gram-d-088.jpg"
+    },
+    {
+      "day": 89,
+      "slug": "possessivpronomen-zuordnung-gram-d-089",
+      "filename": "089_possessivpronomen-zuordnung-gram-d-089.jpg"
+    },
+    {
+      "day": 90,
+      "slug": "possessivpronomen-deklination-gram-d-090",
+      "filename": "090_possessivpronomen-deklination-gram-d-090.jpg"
+    },
+    {
+      "day": 91,
+      "slug": "possessivpronomen-deklination-gram-d-091",
+      "filename": "091_possessivpronomen-deklination-gram-d-091.jpg"
+    },
+    {
+      "day": 92,
+      "slug": "possessivpronomen-deklination-gram-d-092",
+      "filename": "092_possessivpronomen-deklination-gram-d-092.jpg"
+    },
+    {
+      "day": 93,
+      "slug": "possessivpronomen-deklination-gram-d-093",
+      "filename": "093_possessivpronomen-deklination-gram-d-093.jpg"
+    },
+    {
+      "day": 94,
+      "slug": "possessivpronomen-euer-gram-d-094",
+      "filename": "094_possessivpronomen-euer-gram-d-094.jpg"
+    },
+    {
+      "day": 95,
+      "slug": "reflexivpronomen-ubersicht-gram-d-095",
+      "filename": "095_reflexivpronomen-ubersicht-gram-d-095.jpg"
+    },
+    {
+      "day": 96,
+      "slug": "reflexivpronomen-akkusativ-gram-d-096",
+      "filename": "096_reflexivpronomen-akkusativ-gram-d-096.jpg"
+    },
+    {
+      "day": 97,
+      "slug": "reflexivpronomen-dativ-gram-d-097",
+      "filename": "097_reflexivpronomen-dativ-gram-d-097.jpg"
+    },
+    {
+      "day": 98,
+      "slug": "reflexivpronomen-tabelle-gram-d-098",
+      "filename": "098_reflexivpronomen-tabelle-gram-d-098.jpg"
+    },
+    {
+      "day": 99,
+      "slug": "reflexivpronomen-akk-vs-dat-gram-d-099",
+      "filename": "099_reflexivpronomen-akk-vs-dat-gram-d-099.jpg"
+    },
+    {
+      "day": 100,
+      "slug": "hoflichkeitsform-sie-gram-d-100",
+      "filename": "100_hoflichkeitsform-sie-gram-d-100.jpg"
+    },
+    {
+      "day": 101,
+      "slug": "hoflichkeitsform-du-vs-sie-gram-d-101",
+      "filename": "101_hoflichkeitsform-du-vs-sie-gram-d-101.jpg"
+    },
+    {
+      "day": 102,
+      "slug": "haufige-fehler-gram-d-102",
+      "filename": "102_haufige-fehler-gram-d-102.jpg"
+    },
+    {
+      "day": 103,
+      "slug": "haufige-fehler-gram-d-103",
+      "filename": "103_haufige-fehler-gram-d-103.jpg"
+    },
+    {
+      "day": 104,
+      "slug": "haufige-fehler-gram-d-104",
+      "filename": "104_haufige-fehler-gram-d-104.jpg"
+    },
+    {
+      "day": 105,
+      "slug": "kardinalzahlen-grundlagen-gram-e-105",
+      "filename": "105_kardinalzahlen-grundlagen-gram-e-105.jpg"
+    },
+    {
+      "day": 106,
+      "slug": "kardinalzahlen-13-19-gram-e-106",
+      "filename": "106_kardinalzahlen-13-19-gram-e-106.jpg"
+    },
+    {
+      "day": 107,
+      "slug": "kardinalzahlen-21-99-gram-e-107",
+      "filename": "107_kardinalzahlen-21-99-gram-e-107.jpg"
+    },
+    {
+      "day": 108,
+      "slug": "kardinalzahlen-zehner-gram-e-108",
+      "filename": "108_kardinalzahlen-zehner-gram-e-108.jpg"
+    },
+    {
+      "day": 109,
+      "slug": "kardinalzahlen-gro-e-zahlen-gram-e-109",
+      "filename": "109_kardinalzahlen-gro-e-zahlen-gram-e-109.jpg"
+    },
+    {
+      "day": 110,
+      "slug": "kardinalzahlen-eins-vs-ein-gram-e-110",
+      "filename": "110_kardinalzahlen-eins-vs-ein-gram-e-110.jpg"
+    },
+    {
+      "day": 111,
+      "slug": "ordinalzahlen-bildung-gram-e-111",
+      "filename": "111_ordinalzahlen-bildung-gram-e-111.jpg"
+    },
+    {
+      "day": 112,
+      "slug": "ordinalzahlen-unregelma-ige-gram-e-112",
+      "filename": "112_ordinalzahlen-unregelma-ige-gram-e-112.jpg"
+    },
+    {
+      "day": 113,
+      "slug": "ordinalzahlen-deklination-gram-e-113",
+      "filename": "113_ordinalzahlen-deklination-gram-e-113.jpg"
+    },
+    {
+      "day": 114,
+      "slug": "datum-fragen-gram-e-114",
+      "filename": "114_datum-fragen-gram-e-114.jpg"
+    },
+    {
+      "day": 115,
+      "slug": "datum-angaben-gram-e-115",
+      "filename": "115_datum-angaben-gram-e-115.jpg"
+    },
+    {
+      "day": 116,
+      "slug": "datum-jahre-gram-e-116",
+      "filename": "116_datum-jahre-gram-e-116.jpg"
+    },
+    {
+      "day": 117,
+      "slug": "datum-monate-gram-e-117",
+      "filename": "117_datum-monate-gram-e-117.jpg"
+    },
+    {
+      "day": 118,
+      "slug": "uhrzeit-fragen-gram-e-118",
+      "filename": "118_uhrzeit-fragen-gram-e-118.jpg"
+    },
+    {
+      "day": 119,
+      "slug": "uhrzeit-volle-stunden-gram-e-119",
+      "filename": "119_uhrzeit-volle-stunden-gram-e-119.jpg"
+    },
+    {
+      "day": 120,
+      "slug": "uhrzeit-halb-gram-e-120",
+      "filename": "120_uhrzeit-halb-gram-e-120.jpg"
+    },
+    {
+      "day": 121,
+      "slug": "uhrzeit-viertel-gram-e-121",
+      "filename": "121_uhrzeit-viertel-gram-e-121.jpg"
+    },
+    {
+      "day": 122,
+      "slug": "uhrzeit-24-stunden-gram-e-122",
+      "filename": "122_uhrzeit-24-stunden-gram-e-122.jpg"
+    },
+    {
+      "day": 123,
+      "slug": "bruchzahlen-gram-e-123",
+      "filename": "123_bruchzahlen-gram-e-123.jpg"
+    },
+    {
+      "day": 124,
+      "slug": "mathematik-gram-e-124",
+      "filename": "124_mathematik-gram-e-124.jpg"
+    },
+    {
+      "day": 125,
+      "slug": "verbstruktur-grundlagen-gram-f-125",
+      "filename": "125_verbstruktur-grundlagen-gram-f-125.jpg"
+    },
+    {
+      "day": 126,
+      "slug": "verbstruktur-grundlagen-gram-f-126",
+      "filename": "126_verbstruktur-grundlagen-gram-f-126.jpg"
+    },
+    {
+      "day": 127,
+      "slug": "prasens-endungen-gram-f-127",
+      "filename": "127_prasens-endungen-gram-f-127.jpg"
+    },
+    {
+      "day": 128,
+      "slug": "prasens-beispiel-machen-gram-f-128",
+      "filename": "128_prasens-beispiel-machen-gram-f-128.jpg"
+    },
+    {
+      "day": 129,
+      "slug": "prasens-beispiel-spielen-gram-f-129",
+      "filename": "129_prasens-beispiel-spielen-gram-f-129.jpg"
+    },
+    {
+      "day": 130,
+      "slug": "prasens-verben-auf-ten-den-gram-f-130",
+      "filename": "130_prasens-verben-auf-ten-den-gram-f-130.jpg"
+    },
+    {
+      "day": 131,
+      "slug": "prasens-beispiel-arbeiten-gram-f-131",
+      "filename": "131_prasens-beispiel-arbeiten-gram-f-131.jpg"
+    },
+    {
+      "day": 132,
+      "slug": "prasens-beispiel-finden-gram-f-132",
+      "filename": "132_prasens-beispiel-finden-gram-f-132.jpg"
+    },
+    {
+      "day": 133,
+      "slug": "prasens-verben-auf-eln-gram-f-133",
+      "filename": "133_prasens-verben-auf-eln-gram-f-133.jpg"
+    },
+    {
+      "day": 134,
+      "slug": "prasens-verben-auf-ern-gram-f-134",
+      "filename": "134_prasens-verben-auf-ern-gram-f-134.jpg"
+    },
+    {
+      "day": 135,
+      "slug": "stammvokalanderung-e-i-gram-f-135",
+      "filename": "135_stammvokalanderung-e-i-gram-f-135.jpg"
+    },
+    {
+      "day": 136,
+      "slug": "stammvokalanderung-e-i-verben-gram-f-136",
+      "filename": "136_stammvokalanderung-e-i-verben-gram-f-136.jpg"
+    },
+    {
+      "day": 137,
+      "slug": "stammvokalanderung-e-ie-gram-f-137",
+      "filename": "137_stammvokalanderung-e-ie-gram-f-137.jpg"
+    },
+    {
+      "day": 138,
+      "slug": "stammvokalanderung-e-ie-verben-gram-f-138",
+      "filename": "138_stammvokalanderung-e-ie-verben-gram-f-138.jpg"
+    },
+    {
+      "day": 139,
+      "slug": "stammvokalanderung-a-a-gram-f-139",
+      "filename": "139_stammvokalanderung-a-a-gram-f-139.jpg"
+    },
+    {
+      "day": 140,
+      "slug": "stammvokalanderung-a-a-verben-gram-f-140",
+      "filename": "140_stammvokalanderung-a-a-verben-gram-f-140.jpg"
+    },
+    {
+      "day": 141,
+      "slug": "stammvokalanderung-ubersicht-gram-f-141",
+      "filename": "141_stammvokalanderung-ubersicht-gram-f-141.jpg"
+    },
+    {
+      "day": 142,
+      "slug": "prasens-verben-auf-s-x-z-gram-f-142",
+      "filename": "142_prasens-verben-auf-s-x-z-gram-f-142.jpg"
+    },
+    {
+      "day": 143,
+      "slug": "haufige-fehler-gram-f-143",
+      "filename": "143_haufige-fehler-gram-f-143.jpg"
+    },
+    {
+      "day": 144,
+      "slug": "haufige-fehler-gram-f-144",
+      "filename": "144_haufige-fehler-gram-f-144.jpg"
+    },
+    {
+      "day": 145,
+      "slug": "haufige-fehler-gram-f-145",
+      "filename": "145_haufige-fehler-gram-f-145.jpg"
+    },
+    {
+      "day": 146,
+      "slug": "prasens-verwendung-gram-f-146",
+      "filename": "146_prasens-verwendung-gram-f-146.jpg"
+    },
+    {
+      "day": 147,
+      "slug": "prasens-kein-progressive-gram-f-147",
+      "filename": "147_prasens-kein-progressive-gram-f-147.jpg"
+    },
+    {
+      "day": 148,
+      "slug": "perfekt-struktur-gram-g-148",
+      "filename": "148_perfekt-struktur-gram-g-148.jpg"
+    },
+    {
+      "day": 149,
+      "slug": "perfekt-struktur-gram-g-149",
+      "filename": "149_perfekt-struktur-gram-g-149.jpg"
+    },
+    {
+      "day": 150,
+      "slug": "perfekt-haben-gram-g-150",
+      "filename": "150_perfekt-haben-gram-g-150.jpg"
+    },
+    {
+      "day": 151,
+      "slug": "perfekt-sein-gram-g-151",
+      "filename": "151_perfekt-sein-gram-g-151.jpg"
+    },
+    {
+      "day": 152,
+      "slug": "perfekt-sein-verben-gram-g-152",
+      "filename": "152_perfekt-sein-verben-gram-g-152.jpg"
+    },
+    {
+      "day": 153,
+      "slug": "perfekt-sein-ausnahmen-gram-g-153",
+      "filename": "153_perfekt-sein-ausnahmen-gram-g-153.jpg"
+    },
+    {
+      "day": 154,
+      "slug": "partizip-ii-regelma-ig-gram-g-154",
+      "filename": "154_partizip-ii-regelma-ig-gram-g-154.jpg"
+    },
+    {
+      "day": 155,
+      "slug": "partizip-ii-regelma-ig-tet-gram-g-155",
+      "filename": "155_partizip-ii-regelma-ig-tet-gram-g-155.jpg"
+    },
+    {
+      "day": 156,
+      "slug": "partizip-ii-unregelma-ig-gram-g-156",
+      "filename": "156_partizip-ii-unregelma-ig-gram-g-156.jpg"
+    },
+    {
+      "day": 157,
+      "slug": "partizip-ii-unregelma-ig-liste-gram-g-157",
+      "filename": "157_partizip-ii-unregelma-ig-liste-gram-g-157.jpg"
+    },
+    {
+      "day": 158,
+      "slug": "partizip-ii-trennbar-gram-g-158",
+      "filename": "158_partizip-ii-trennbar-gram-g-158.jpg"
+    },
+    {
+      "day": 159,
+      "slug": "partizip-ii-trennbar-beispiele-gram-g-159",
+      "filename": "159_partizip-ii-trennbar-beispiele-gram-g-159.jpg"
+    },
+    {
+      "day": 160,
+      "slug": "partizip-ii-untrennbar-gram-g-160",
+      "filename": "160_partizip-ii-untrennbar-gram-g-160.jpg"
+    },
+    {
+      "day": 161,
+      "slug": "partizip-ii-untrennbar-merkhilfe-gram-g-161",
+      "filename": "161_partizip-ii-untrennbar-merkhilfe-gram-g-161.jpg"
+    },
+    {
+      "day": 162,
+      "slug": "partizip-ii-verben-auf-ieren-gram-g-162",
+      "filename": "162_partizip-ii-verben-auf-ieren-gram-g-162.jpg"
+    },
+    {
+      "day": 163,
+      "slug": "partizip-ii-ieren-liste-gram-g-163",
+      "filename": "163_partizip-ii-ieren-liste-gram-g-163.jpg"
+    },
+    {
+      "day": 164,
+      "slug": "prateritum-grundlagen-gram-g-164",
+      "filename": "164_prateritum-grundlagen-gram-g-164.jpg"
+    },
+    {
+      "day": 165,
+      "slug": "prateritum-regelma-ig-gram-g-165",
+      "filename": "165_prateritum-regelma-ig-gram-g-165.jpg"
+    },
+    {
+      "day": 166,
+      "slug": "prateritum-unregelma-ig-gram-g-166",
+      "filename": "166_prateritum-unregelma-ig-gram-g-166.jpg"
+    },
+    {
+      "day": 167,
+      "slug": "prateritum-sein-gram-g-167",
+      "filename": "167_prateritum-sein-gram-g-167.jpg"
+    },
+    {
+      "day": 168,
+      "slug": "prateritum-haben-gram-g-168",
+      "filename": "168_prateritum-haben-gram-g-168.jpg"
+    },
+    {
+      "day": 169,
+      "slug": "perfekt-vs-prateritum-gram-g-169",
+      "filename": "169_perfekt-vs-prateritum-gram-g-169.jpg"
+    },
+    {
+      "day": 170,
+      "slug": "perfekt-vs-prateritum-ausnahmen-gram-g-170",
+      "filename": "170_perfekt-vs-prateritum-ausnahmen-gram-g-170.jpg"
+    },
+    {
+      "day": 171,
+      "slug": "haufige-fehler-gram-g-171",
+      "filename": "171_haufige-fehler-gram-g-171.jpg"
+    },
+    {
+      "day": 172,
+      "slug": "haufige-fehler-gram-g-172",
+      "filename": "172_haufige-fehler-gram-g-172.jpg"
+    },
+    {
+      "day": 173,
+      "slug": "haufige-fehler-gram-g-173",
+      "filename": "173_haufige-fehler-gram-g-173.jpg"
+    },
+    {
+      "day": 174,
+      "slug": "futur-i-struktur-gram-h-174",
+      "filename": "174_futur-i-struktur-gram-h-174.jpg"
+    },
+    {
+      "day": 175,
+      "slug": "futur-i-werden-konjugation-gram-h-175",
+      "filename": "175_futur-i-werden-konjugation-gram-h-175.jpg"
+    },
+    {
+      "day": 176,
+      "slug": "futur-i-verwendung-gram-h-176",
+      "filename": "176_futur-i-verwendung-gram-h-176.jpg"
+    },
+    {
+      "day": 177,
+      "slug": "futur-i-vs-prasens-gram-h-177",
+      "filename": "177_futur-i-vs-prasens-gram-h-177.jpg"
+    },
+    {
+      "day": 178,
+      "slug": "futur-ii-struktur-gram-h-178",
+      "filename": "178_futur-ii-struktur-gram-h-178.jpg"
+    },
+    {
+      "day": 179,
+      "slug": "futur-ii-verwendung-gram-h-179",
+      "filename": "179_futur-ii-verwendung-gram-h-179.jpg"
+    },
+    {
+      "day": 180,
+      "slug": "konjunktiv-ii-grundlagen-gram-h-180",
+      "filename": "180_konjunktiv-ii-grundlagen-gram-h-180.jpg"
+    },
+    {
+      "day": 181,
+      "slug": "konjunktiv-ii-wurde-infinitiv-gram-h-181",
+      "filename": "181_konjunktiv-ii-wurde-infinitiv-gram-h-181.jpg"
+    },
+    {
+      "day": 182,
+      "slug": "konjunktiv-ii-sein-gram-h-182",
+      "filename": "182_konjunktiv-ii-sein-gram-h-182.jpg"
+    },
+    {
+      "day": 183,
+      "slug": "konjunktiv-ii-haben-gram-h-183",
+      "filename": "183_konjunktiv-ii-haben-gram-h-183.jpg"
+    },
+    {
+      "day": 184,
+      "slug": "konjunktiv-ii-modalverben-gram-h-184",
+      "filename": "184_konjunktiv-ii-modalverben-gram-h-184.jpg"
+    },
+    {
+      "day": 185,
+      "slug": "konjunktiv-ii-wenn-satze-gram-h-185",
+      "filename": "185_konjunktiv-ii-wenn-satze-gram-h-185.jpg"
+    },
+    {
+      "day": 186,
+      "slug": "konjunktiv-ii-wenn-satze-beispiele-gram-h-186",
+      "filename": "186_konjunktiv-ii-wenn-satze-beispiele-gram-h-186.jpg"
+    },
+    {
+      "day": 187,
+      "slug": "konjunktiv-ii-vergangenheit-gram-h-187",
+      "filename": "187_konjunktiv-ii-vergangenheit-gram-h-187.jpg"
+    },
+    {
+      "day": 188,
+      "slug": "konjunktiv-ii-hoflichkeit-gram-h-188",
+      "filename": "188_konjunktiv-ii-hoflichkeit-gram-h-188.jpg"
+    },
+    {
+      "day": 189,
+      "slug": "konjunktiv-ii-hofliche-formen-gram-h-189",
+      "filename": "189_konjunktiv-ii-hofliche-formen-gram-h-189.jpg"
+    },
+    {
+      "day": 190,
+      "slug": "konjunktiv-ii-wunsche-gram-h-190",
+      "filename": "190_konjunktiv-ii-wunsche-gram-h-190.jpg"
+    },
+    {
+      "day": 191,
+      "slug": "haufige-fehler-gram-h-191",
+      "filename": "191_haufige-fehler-gram-h-191.jpg"
+    },
+    {
+      "day": 192,
+      "slug": "haufige-fehler-gram-h-192",
+      "filename": "192_haufige-fehler-gram-h-192.jpg"
+    },
+    {
+      "day": 193,
+      "slug": "vorgangspassiv-struktur-gram-i-193",
+      "filename": "193_vorgangspassiv-struktur-gram-i-193.jpg"
+    },
+    {
+      "day": 194,
+      "slug": "vorgangspassiv-prasens-gram-i-194",
+      "filename": "194_vorgangspassiv-prasens-gram-i-194.jpg"
+    },
+    {
+      "day": 195,
+      "slug": "vorgangspassiv-prateritum-gram-i-195",
+      "filename": "195_vorgangspassiv-prateritum-gram-i-195.jpg"
+    },
+    {
+      "day": 196,
+      "slug": "vorgangspassiv-perfekt-gram-i-196",
+      "filename": "196_vorgangspassiv-perfekt-gram-i-196.jpg"
+    },
+    {
+      "day": 197,
+      "slug": "zustandspassiv-struktur-gram-i-197",
+      "filename": "197_zustandspassiv-struktur-gram-i-197.jpg"
+    },
+    {
+      "day": 198,
+      "slug": "vorgangs-vs-zustandspassiv-gram-i-198",
+      "filename": "198_vorgangs-vs-zustandspassiv-gram-i-198.jpg"
+    },
+    {
+      "day": 199,
+      "slug": "passiv-von-dativ-gram-i-199",
+      "filename": "199_passiv-von-dativ-gram-i-199.jpg"
+    },
+    {
+      "day": 200,
+      "slug": "passiv-durch-akkusativ-gram-i-200",
+      "filename": "200_passiv-durch-akkusativ-gram-i-200.jpg"
+    },
+    {
+      "day": 201,
+      "slug": "passiv-unpersonlich-gram-i-201",
+      "filename": "201_passiv-unpersonlich-gram-i-201.jpg"
+    },
+    {
+      "day": 202,
+      "slug": "subjekt-verb-kongruenz-gram-j-202",
+      "filename": "202_subjekt-verb-kongruenz-gram-j-202.jpg"
+    },
+    {
+      "day": 203,
+      "slug": "kongruenz-kollektive-gram-j-203",
+      "filename": "203_kongruenz-kollektive-gram-j-203.jpg"
+    },
+    {
+      "day": 204,
+      "slug": "kongruenz-es-gibt-gram-j-204",
+      "filename": "204_kongruenz-es-gibt-gram-j-204.jpg"
+    },
+    {
+      "day": 205,
+      "slug": "haben-vs-sein-ubersicht-gram-k-205",
+      "filename": "205_haben-vs-sein-ubersicht-gram-k-205.jpg"
+    },
+    {
+      "day": 206,
+      "slug": "haben-vs-sein-bewegung-gram-k-206",
+      "filename": "206_haben-vs-sein-bewegung-gram-k-206.jpg"
+    },
+    {
+      "day": 207,
+      "slug": "haben-vs-sein-zustandsanderung-gram-k-207",
+      "filename": "207_haben-vs-sein-zustandsanderung-gram-k-207.jpg"
+    },
+    {
+      "day": 208,
+      "slug": "haben-vs-sein-sein-bleiben-gram-k-208",
+      "filename": "208_haben-vs-sein-sein-bleiben-gram-k-208.jpg"
+    },
+    {
+      "day": 209,
+      "slug": "haufige-fehler-gram-k-209",
+      "filename": "209_haufige-fehler-gram-k-209.jpg"
+    },
+    {
+      "day": 210,
+      "slug": "haufige-fehler-gram-k-210",
+      "filename": "210_haufige-fehler-gram-k-210.jpg"
+    },
+    {
+      "day": 211,
+      "slug": "adjektive-grundlagen-gram-l-211",
+      "filename": "211_adjektive-grundlagen-gram-l-211.jpg"
+    },
+    {
+      "day": 212,
+      "slug": "nach-bestimmtem-artikel-ubersicht-gram-l-212",
+      "filename": "212_nach-bestimmtem-artikel-ubersicht-gram-l-212.jpg"
+    },
+    {
+      "day": 213,
+      "slug": "nach-bestimmtem-artikel-nominativ-gram-l-213",
+      "filename": "213_nach-bestimmtem-artikel-nominativ-gram-l-213.jpg"
+    },
+    {
+      "day": 214,
+      "slug": "nach-bestimmtem-artikel-akkusativ-gram-l-214",
+      "filename": "214_nach-bestimmtem-artikel-akkusativ-gram-l-214.jpg"
+    },
+    {
+      "day": 215,
+      "slug": "nach-bestimmtem-artikel-dativ-gram-l-215",
+      "filename": "215_nach-bestimmtem-artikel-dativ-gram-l-215.jpg"
+    },
+    {
+      "day": 216,
+      "slug": "nach-bestimmtem-artikel-genitiv-gram-l-216",
+      "filename": "216_nach-bestimmtem-artikel-genitiv-gram-l-216.jpg"
+    },
+    {
+      "day": 217,
+      "slug": "nach-unbestimmtem-artikel-ubersicht-gram-l-217",
+      "filename": "217_nach-unbestimmtem-artikel-ubersicht-gram-l-217.jpg"
+    },
+    {
+      "day": 218,
+      "slug": "nach-unbestimmtem-artikel-nominativ-gram-l-218",
+      "filename": "218_nach-unbestimmtem-artikel-nominativ-gram-l-218.jpg"
+    },
+    {
+      "day": 219,
+      "slug": "nach-unbestimmtem-artikel-akkusativ-gram-l-219",
+      "filename": "219_nach-unbestimmtem-artikel-akkusativ-gram-l-219.jpg"
+    },
+    {
+      "day": 220,
+      "slug": "nach-unbestimmtem-artikel-dativ-genitiv-gram-l-220",
+      "filename": "220_nach-unbestimmtem-artikel-dativ-genitiv-gram-l-220.jpg"
+    },
+    {
+      "day": 221,
+      "slug": "ohne-artikel-ubersicht-gram-l-221",
+      "filename": "221_ohne-artikel-ubersicht-gram-l-221.jpg"
+    },
+    {
+      "day": 222,
+      "slug": "ohne-artikel-starke-endungen-gram-l-222",
+      "filename": "222_ohne-artikel-starke-endungen-gram-l-222.jpg"
+    },
+    {
+      "day": 223,
+      "slug": "komparativ-bildung-gram-l-223",
+      "filename": "223_komparativ-bildung-gram-l-223.jpg"
+    },
+    {
+      "day": 224,
+      "slug": "komparativ-deklination-gram-l-224",
+      "filename": "224_komparativ-deklination-gram-l-224.jpg"
+    },
+    {
+      "day": 225,
+      "slug": "komparativ-als-gram-l-225",
+      "filename": "225_komparativ-als-gram-l-225.jpg"
+    },
+    {
+      "day": 226,
+      "slug": "superlativ-am-sten-gram-l-226",
+      "filename": "226_superlativ-am-sten-gram-l-226.jpg"
+    },
+    {
+      "day": 227,
+      "slug": "superlativ-der-die-das-ste-gram-l-227",
+      "filename": "227_superlativ-der-die-das-ste-gram-l-227.jpg"
+    },
+    {
+      "day": 228,
+      "slug": "unregelma-ige-steigerung-gram-l-228",
+      "filename": "228_unregelma-ige-steigerung-gram-l-228.jpg"
+    },
+    {
+      "day": 229,
+      "slug": "unregelma-ige-steigerung-hoch-nah-gram-l-229",
+      "filename": "229_unregelma-ige-steigerung-hoch-nah-gram-l-229.jpg"
+    },
+    {
+      "day": 230,
+      "slug": "haufige-fehler-gram-l-230",
+      "filename": "230_haufige-fehler-gram-l-230.jpg"
+    },
+    {
+      "day": 231,
+      "slug": "haufige-fehler-gram-l-231",
+      "filename": "231_haufige-fehler-gram-l-231.jpg"
+    },
+    {
+      "day": 232,
+      "slug": "adverbien-grundlagen-gram-m-232",
+      "filename": "232_adverbien-grundlagen-gram-m-232.jpg"
+    },
+    {
+      "day": 233,
+      "slug": "adverb-vs-adjektiv-gram-m-233",
+      "filename": "233_adverb-vs-adjektiv-gram-m-233.jpg"
+    },
+    {
+      "day": 234,
+      "slug": "zeitadverbien-gegenwart-zukunft-gram-m-234",
+      "filename": "234_zeitadverbien-gegenwart-zukunft-gram-m-234.jpg"
+    },
+    {
+      "day": 235,
+      "slug": "zeitadverbien-vergangenheit-gram-m-235",
+      "filename": "235_zeitadverbien-vergangenheit-gram-m-235.jpg"
+    },
+    {
+      "day": 236,
+      "slug": "zeitadverbien-frequenz-gram-m-236",
+      "filename": "236_zeitadverbien-frequenz-gram-m-236.jpg"
+    },
+    {
+      "day": 237,
+      "slug": "ortsadverbien-position-gram-m-237",
+      "filename": "237_ortsadverbien-position-gram-m-237.jpg"
+    },
+    {
+      "day": 238,
+      "slug": "ortsadverbien-richtung-gram-m-238",
+      "filename": "238_ortsadverbien-richtung-gram-m-238.jpg"
+    },
+    {
+      "day": 239,
+      "slug": "modaladverbien-bewertung-gram-m-239",
+      "filename": "239_modaladverbien-bewertung-gram-m-239.jpg"
+    },
+    {
+      "day": 240,
+      "slug": "modaladverbien-sicherheit-gram-m-240",
+      "filename": "240_modaladverbien-sicherheit-gram-m-240.jpg"
+    },
+    {
+      "day": 241,
+      "slug": "kausaladverbien-gram-m-241",
+      "filename": "241_kausaladverbien-gram-m-241.jpg"
+    },
+    {
+      "day": 242,
+      "slug": "steigerung-regelma-ig-gram-m-242",
+      "filename": "242_steigerung-regelma-ig-gram-m-242.jpg"
+    },
+    {
+      "day": 243,
+      "slug": "steigerung-unregelma-ig-gram-m-243",
+      "filename": "243_steigerung-unregelma-ig-gram-m-243.jpg"
+    },
+    {
+      "day": 244,
+      "slug": "haufige-fehler-gram-m-244",
+      "filename": "244_haufige-fehler-gram-m-244.jpg"
+    },
+    {
+      "day": 245,
+      "slug": "akkusativ-prapositionen-gram-n-245",
+      "filename": "245_akkusativ-prapositionen-gram-n-245.jpg"
+    },
+    {
+      "day": 246,
+      "slug": "akkusativ-fur-gram-n-246",
+      "filename": "246_akkusativ-fur-gram-n-246.jpg"
+    },
+    {
+      "day": 247,
+      "slug": "akkusativ-durch-gegen-ohne-um-gram-n-247",
+      "filename": "247_akkusativ-durch-gegen-ohne-um-gram-n-247.jpg"
+    },
+    {
+      "day": 248,
+      "slug": "dativ-prapositionen-gram-n-248",
+      "filename": "248_dativ-prapositionen-gram-n-248.jpg"
+    },
+    {
+      "day": 249,
+      "slug": "dativ-aus-bei-gram-n-249",
+      "filename": "249_dativ-aus-bei-gram-n-249.jpg"
+    },
+    {
+      "day": 250,
+      "slug": "dativ-mit-nach-gram-n-250",
+      "filename": "250_dativ-mit-nach-gram-n-250.jpg"
+    },
+    {
+      "day": 251,
+      "slug": "dativ-seit-von-zu-gram-n-251",
+      "filename": "251_dativ-seit-von-zu-gram-n-251.jpg"
+    },
+    {
+      "day": 252,
+      "slug": "wechselprapositionen-ubersicht-gram-n-252",
+      "filename": "252_wechselprapositionen-ubersicht-gram-n-252.jpg"
+    },
+    {
+      "day": 253,
+      "slug": "wechselprapositionen-dativ-wo-gram-n-253",
+      "filename": "253_wechselprapositionen-dativ-wo-gram-n-253.jpg"
+    },
+    {
+      "day": 254,
+      "slug": "wechselprapositionen-akkusativ-wohin-gram-n-254",
+      "filename": "254_wechselprapositionen-akkusativ-wohin-gram-n-254.jpg"
+    },
+    {
+      "day": 255,
+      "slug": "wechselprapositionen-in-gram-n-255",
+      "filename": "255_wechselprapositionen-in-gram-n-255.jpg"
+    },
+    {
+      "day": 256,
+      "slug": "wechselprapositionen-an-auf-gram-n-256",
+      "filename": "256_wechselprapositionen-an-auf-gram-n-256.jpg"
+    },
+    {
+      "day": 257,
+      "slug": "genitiv-prapositionen-gram-n-257",
+      "filename": "257_genitiv-prapositionen-gram-n-257.jpg"
+    },
+    {
+      "day": 258,
+      "slug": "genitiv-wegen-trotz-gram-n-258",
+      "filename": "258_genitiv-wegen-trotz-gram-n-258.jpg"
+    },
+    {
+      "day": 259,
+      "slug": "verschmelzungen-gram-n-259",
+      "filename": "259_verschmelzungen-gram-n-259.jpg"
+    },
+    {
+      "day": 260,
+      "slug": "haufige-fehler-gram-n-260",
+      "filename": "260_haufige-fehler-gram-n-260.jpg"
+    },
+    {
+      "day": 261,
+      "slug": "haufige-fehler-gram-n-261",
+      "filename": "261_haufige-fehler-gram-n-261.jpg"
+    },
+    {
+      "day": 262,
+      "slug": "verben-mit-auf-akkusativ-gram-o-262",
+      "filename": "262_verben-mit-auf-akkusativ-gram-o-262.jpg"
+    },
+    {
+      "day": 263,
+      "slug": "verben-mit-an-akkusativ-gram-o-263",
+      "filename": "263_verben-mit-an-akkusativ-gram-o-263.jpg"
+    },
+    {
+      "day": 264,
+      "slug": "verben-mit-uber-akkusativ-gram-o-264",
+      "filename": "264_verben-mit-uber-akkusativ-gram-o-264.jpg"
+    },
+    {
+      "day": 265,
+      "slug": "verben-mit-fur-akkusativ-gram-o-265",
+      "filename": "265_verben-mit-fur-akkusativ-gram-o-265.jpg"
+    },
+    {
+      "day": 266,
+      "slug": "verben-mit-mit-von-dativ-gram-o-266",
+      "filename": "266_verben-mit-mit-von-dativ-gram-o-266.jpg"
+    },
+    {
+      "day": 267,
+      "slug": "reflexive-verben-mit-prapositionen-gram-o-267",
+      "filename": "267_reflexive-verben-mit-prapositionen-gram-o-267.jpg"
+    },
+    {
+      "day": 268,
+      "slug": "dativ-verben-ubersicht-gram-p-268",
+      "filename": "268_dativ-verben-ubersicht-gram-p-268.jpg"
+    },
+    {
+      "day": 269,
+      "slug": "dativ-verben-helfen-danken-gram-p-269",
+      "filename": "269_dativ-verben-helfen-danken-gram-p-269.jpg"
+    },
+    {
+      "day": 270,
+      "slug": "dativ-verben-gefallen-gehoren-gram-p-270",
+      "filename": "270_dativ-verben-gefallen-gehoren-gram-p-270.jpg"
+    },
+    {
+      "day": 271,
+      "slug": "dativ-verben-schmecken-fehlen-passen-gram-p-271",
+      "filename": "271_dativ-verben-schmecken-fehlen-passen-gram-p-271.jpg"
+    },
+    {
+      "day": 272,
+      "slug": "verben-mit-dativ-akkusativ-gram-p-272",
+      "filename": "272_verben-mit-dativ-akkusativ-gram-p-272.jpg"
+    },
+    {
+      "day": 273,
+      "slug": "dativ-akkusativ-wortstellung-gram-p-273",
+      "filename": "273_dativ-akkusativ-wortstellung-gram-p-273.jpg"
+    },
+    {
+      "day": 274,
+      "slug": "haufige-fehler-gram-p-274",
+      "filename": "274_haufige-fehler-gram-p-274.jpg"
+    },
+    {
+      "day": 275,
+      "slug": "haufige-fehler-gram-p-275",
+      "filename": "275_haufige-fehler-gram-p-275.jpg"
+    },
+    {
+      "day": 276,
+      "slug": "koordinierende-konjunktionen-gram-q-276",
+      "filename": "276_koordinierende-konjunktionen-gram-q-276.jpg"
+    },
+    {
+      "day": 277,
+      "slug": "und-oder-aber-gram-q-277",
+      "filename": "277_und-oder-aber-gram-q-277.jpg"
+    },
+    {
+      "day": 278,
+      "slug": "denn-vs-weil-gram-q-278",
+      "filename": "278_denn-vs-weil-gram-q-278.jpg"
+    },
+    {
+      "day": 279,
+      "slug": "aber-vs-sondern-gram-q-279",
+      "filename": "279_aber-vs-sondern-gram-q-279.jpg"
+    },
+    {
+      "day": 280,
+      "slug": "subordinierende-konjunktionen-gram-q-280",
+      "filename": "280_subordinierende-konjunktionen-gram-q-280.jpg"
+    },
+    {
+      "day": 281,
+      "slug": "dass-ob-gram-q-281",
+      "filename": "281_dass-ob-gram-q-281.jpg"
+    },
+    {
+      "day": 282,
+      "slug": "wenn-als-gram-q-282",
+      "filename": "282_wenn-als-gram-q-282.jpg"
+    },
+    {
+      "day": 283,
+      "slug": "obwohl-bevor-nachdem-gram-q-283",
+      "filename": "283_obwohl-bevor-nachdem-gram-q-283.jpg"
+    },
+    {
+      "day": 284,
+      "slug": "adverbiale-konjunktionen-gram-q-284",
+      "filename": "284_adverbiale-konjunktionen-gram-q-284.jpg"
+    },
+    {
+      "day": 285,
+      "slug": "wortstellung-v2-regel-gram-r-285",
+      "filename": "285_wortstellung-v2-regel-gram-r-285.jpg"
+    },
+    {
+      "day": 286,
+      "slug": "wortstellung-nebensatz-gram-r-286",
+      "filename": "286_wortstellung-nebensatz-gram-r-286.jpg"
+    },
+    {
+      "day": 287,
+      "slug": "wortstellung-tekamolo-gram-r-287",
+      "filename": "287_wortstellung-tekamolo-gram-r-287.jpg"
+    },
+    {
+      "day": 288,
+      "slug": "wortstellung-klammer-gram-r-288",
+      "filename": "288_wortstellung-klammer-gram-r-288.jpg"
+    },
+    {
+      "day": 289,
+      "slug": "haufige-fehler-gram-r-289",
+      "filename": "289_haufige-fehler-gram-r-289.jpg"
+    },
+    {
+      "day": 290,
+      "slug": "haufige-fehler-gram-r-290",
+      "filename": "290_haufige-fehler-gram-r-290.jpg"
+    },
+    {
+      "day": 291,
+      "slug": "w-fragen-ubersicht-gram-s-291",
+      "filename": "291_w-fragen-ubersicht-gram-s-291.jpg"
+    },
+    {
+      "day": 292,
+      "slug": "w-fragen-wer-was-gram-s-292",
+      "filename": "292_w-fragen-wer-was-gram-s-292.jpg"
+    },
+    {
+      "day": 293,
+      "slug": "w-fragen-wo-wohin-woher-gram-s-293",
+      "filename": "293_w-fragen-wo-wohin-woher-gram-s-293.jpg"
+    },
+    {
+      "day": 294,
+      "slug": "w-fragen-wie-welcher-gram-s-294",
+      "filename": "294_w-fragen-wie-welcher-gram-s-294.jpg"
+    },
+    {
+      "day": 295,
+      "slug": "ja-nein-fragen-gram-s-295",
+      "filename": "295_ja-nein-fragen-gram-s-295.jpg"
+    },
+    {
+      "day": 296,
+      "slug": "antworten-doch-gram-s-296",
+      "filename": "296_antworten-doch-gram-s-296.jpg"
+    },
+    {
+      "day": 297,
+      "slug": "negation-nicht-position-gram-t-297",
+      "filename": "297_negation-nicht-position-gram-t-297.jpg"
+    },
+    {
+      "day": 298,
+      "slug": "negation-nicht-vor-pradikat-gram-t-298",
+      "filename": "298_negation-nicht-vor-pradikat-gram-t-298.jpg"
+    },
+    {
+      "day": 299,
+      "slug": "negation-kein-gram-t-299",
+      "filename": "299_negation-kein-gram-t-299.jpg"
+    },
+    {
+      "day": 300,
+      "slug": "negation-kein-deklination-gram-t-300",
+      "filename": "300_negation-kein-deklination-gram-t-300.jpg"
+    },
+    {
+      "day": 301,
+      "slug": "negation-niemand-nichts-nie-gram-t-301",
+      "filename": "301_negation-niemand-nichts-nie-gram-t-301.jpg"
+    },
+    {
+      "day": 302,
+      "slug": "haufige-fehler-gram-t-302",
+      "filename": "302_haufige-fehler-gram-t-302.jpg"
+    },
+    {
+      "day": 303,
+      "slug": "haufige-fehler-gram-t-303",
+      "filename": "303_haufige-fehler-gram-t-303.jpg"
+    },
+    {
+      "day": 304,
+      "slug": "relativsatze-ubersicht-gram-u-304",
+      "filename": "304_relativsatze-ubersicht-gram-u-304.jpg"
+    },
+    {
+      "day": 305,
+      "slug": "relativpronomen-nominativ-gram-u-305",
+      "filename": "305_relativpronomen-nominativ-gram-u-305.jpg"
+    },
+    {
+      "day": 306,
+      "slug": "relativpronomen-akkusativ-gram-u-306",
+      "filename": "306_relativpronomen-akkusativ-gram-u-306.jpg"
+    },
+    {
+      "day": 307,
+      "slug": "relativpronomen-dativ-gram-u-307",
+      "filename": "307_relativpronomen-dativ-gram-u-307.jpg"
+    },
+    {
+      "day": 308,
+      "slug": "relativpronomen-genitiv-gram-u-308",
+      "filename": "308_relativpronomen-genitiv-gram-u-308.jpg"
+    },
+    {
+      "day": 309,
+      "slug": "relativsatze-mit-praposition-gram-u-309",
+      "filename": "309_relativsatze-mit-praposition-gram-u-309.jpg"
+    },
+    {
+      "day": 310,
+      "slug": "relativsatze-wo-wohin-woher-gram-u-310",
+      "filename": "310_relativsatze-wo-wohin-woher-gram-u-310.jpg"
+    },
+    {
+      "day": 311,
+      "slug": "relativsatze-was-gram-u-311",
+      "filename": "311_relativsatze-was-gram-u-311.jpg"
+    },
+    {
+      "day": 312,
+      "slug": "haufige-fehler-gram-u-312",
+      "filename": "312_haufige-fehler-gram-u-312.jpg"
+    },
+    {
+      "day": 313,
+      "slug": "infinitiv-mit-zu-grundregel-gram-v-313",
+      "filename": "313_infinitiv-mit-zu-grundregel-gram-v-313.jpg"
+    },
+    {
+      "day": 314,
+      "slug": "infinitiv-mit-zu-trennbare-verben-gram-v-314",
+      "filename": "314_infinitiv-mit-zu-trennbare-verben-gram-v-314.jpg"
+    },
+    {
+      "day": 315,
+      "slug": "infinitiv-ohne-zu-gram-v-315",
+      "filename": "315_infinitiv-ohne-zu-gram-v-315.jpg"
+    },
+    {
+      "day": 316,
+      "slug": "um-zu-zweck-gram-v-316",
+      "filename": "316_um-zu-zweck-gram-v-316.jpg"
+    },
+    {
+      "day": 317,
+      "slug": "ohne-zu-an-statt-zu-gram-v-317",
+      "filename": "317_ohne-zu-an-statt-zu-gram-v-317.jpg"
+    },
+    {
+      "day": 318,
+      "slug": "haufige-fehler-gram-v-318",
+      "filename": "318_haufige-fehler-gram-v-318.jpg"
+    },
+    {
+      "day": 319,
+      "slug": "komposita-grundregel-gram-w-319",
+      "filename": "319_komposita-grundregel-gram-w-319.jpg"
+    },
+    {
+      "day": 320,
+      "slug": "komposita-fugenlaute-gram-w-320",
+      "filename": "320_komposita-fugenlaute-gram-w-320.jpg"
+    },
+    {
+      "day": 321,
+      "slug": "komposita-lange-worter-gram-w-321",
+      "filename": "321_komposita-lange-worter-gram-w-321.jpg"
+    },
+    {
+      "day": 322,
+      "slug": "komposita-haufige-fehler-gram-w-322",
+      "filename": "322_komposita-haufige-fehler-gram-w-322.jpg"
+    },
+    {
+      "day": 323,
+      "slug": "gro-schreibung-nomen-gram-x-323",
+      "filename": "323_gro-schreibung-nomen-gram-x-323.jpg"
+    },
+    {
+      "day": 324,
+      "slug": "gro-schreibung-satzanfang-gram-x-324",
+      "filename": "324_gro-schreibung-satzanfang-gram-x-324.jpg"
+    },
+    {
+      "day": 325,
+      "slug": "gro-schreibung-sie-hoflichkeit-gram-x-325",
+      "filename": "325_gro-schreibung-sie-hoflichkeit-gram-x-325.jpg"
+    },
+    {
+      "day": 326,
+      "slug": "und-ss-gram-x-326",
+      "filename": "326_und-ss-gram-x-326.jpg"
+    },
+    {
+      "day": 327,
+      "slug": "umlaute-a-o-u-gram-x-327",
+      "filename": "327_umlaute-a-o-u-gram-x-327.jpg"
+    },
+    {
+      "day": 328,
+      "slug": "getrennt-und-zusammenschreibung-gram-x-328",
+      "filename": "328_getrennt-und-zusammenschreibung-gram-x-328.jpg"
+    },
+    {
+      "day": 329,
+      "slug": "haufige-rechtschreibfehler-gram-x-329",
+      "filename": "329_haufige-rechtschreibfehler-gram-x-329.jpg"
+    },
+    {
+      "day": 330,
+      "slug": "lassen-grundbedeutungen-gram-y-330",
+      "filename": "330_lassen-grundbedeutungen-gram-y-330.jpg"
+    },
+    {
+      "day": 331,
+      "slug": "lassen-kausativ-gram-y-331",
+      "filename": "331_lassen-kausativ-gram-y-331.jpg"
+    },
+    {
+      "day": 332,
+      "slug": "lassen-sich-lassen-gram-y-332",
+      "filename": "332_lassen-sich-lassen-gram-y-332.jpg"
+    },
+    {
+      "day": 333,
+      "slug": "lassen-perfekt-gram-y-333",
+      "filename": "333_lassen-perfekt-gram-y-333.jpg"
+    },
+    {
+      "day": 334,
+      "slug": "indirekte-rede-konjunktiv-i-gram-z-334",
+      "filename": "334_indirekte-rede-konjunktiv-i-gram-z-334.jpg"
+    },
+    {
+      "day": 335,
+      "slug": "konjunktiv-i-bildung-gram-z-335",
+      "filename": "335_konjunktiv-i-bildung-gram-z-335.jpg"
+    },
+    {
+      "day": 336,
+      "slug": "indirekte-rede-ersatzformen-gram-z-336",
+      "filename": "336_indirekte-rede-ersatzformen-gram-z-336.jpg"
+    },
+    {
+      "day": 337,
+      "slug": "indirekte-rede-umgangssprache-gram-z-337",
+      "filename": "337_indirekte-rede-umgangssprache-gram-z-337.jpg"
+    },
+    {
+      "day": 338,
+      "slug": "es-wetter-unpersonlich-gram-aa-338",
+      "filename": "338_es-wetter-unpersonlich-gram-aa-338.jpg"
+    },
+    {
+      "day": 339,
+      "slug": "es-gibt-gram-aa-339",
+      "filename": "339_es-gibt-gram-aa-339.jpg"
+    },
+    {
+      "day": 340,
+      "slug": "es-platzhalter-gram-aa-340",
+      "filename": "340_es-platzhalter-gram-aa-340.jpg"
+    },
+    {
+      "day": 341,
+      "slug": "es-korrelat-gram-aa-341",
+      "filename": "341_es-korrelat-gram-aa-341.jpg"
+    },
+    {
+      "day": 342,
+      "slug": "substantivierung-verben-gram-bb-342",
+      "filename": "342_substantivierung-verben-gram-bb-342.jpg"
+    },
+    {
+      "day": 343,
+      "slug": "substantivierung-adjektive-gram-bb-343",
+      "filename": "343_substantivierung-adjektive-gram-bb-343.jpg"
+    },
+    {
+      "day": 344,
+      "slug": "substantivierung-etwas-nichts-alles-gram-bb-344",
+      "filename": "344_substantivierung-etwas-nichts-alles-gram-bb-344.jpg"
+    },
+    {
+      "day": 345,
+      "slug": "substantivierung-partizipien-gram-bb-345",
+      "filename": "345_substantivierung-partizipien-gram-bb-345.jpg"
+    },
+    {
+      "day": 346,
+      "slug": "genus-maskulin-endungen-gram-cc-346",
+      "filename": "346_genus-maskulin-endungen-gram-cc-346.jpg"
+    },
+    {
+      "day": 347,
+      "slug": "genus-feminin-endungen-gram-cc-347",
+      "filename": "347_genus-feminin-endungen-gram-cc-347.jpg"
+    },
+    {
+      "day": 348,
+      "slug": "genus-neutrum-endungen-gram-cc-348",
+      "filename": "348_genus-neutrum-endungen-gram-cc-348.jpg"
+    },
+    {
+      "day": 349,
+      "slug": "genus-schwierige-falle-gram-cc-349",
+      "filename": "349_genus-schwierige-falle-gram-cc-349.jpg"
+    },
+    {
+      "day": 350,
+      "slug": "plural-ubersicht-gram-cc-350",
+      "filename": "350_plural-ubersicht-gram-cc-350.jpg"
+    },
+    {
+      "day": 351,
+      "slug": "plural-umlaut-gram-cc-351",
+      "filename": "351_plural-umlaut-gram-cc-351.jpg"
+    },
+    {
+      "day": 352,
+      "slug": "plural-fremdworter-gram-cc-352",
+      "filename": "352_plural-fremdworter-gram-cc-352.jpg"
+    },
+    {
+      "day": 353,
+      "slug": "modalpartikeln-ubersicht-gram-dd-353",
+      "filename": "353_modalpartikeln-ubersicht-gram-dd-353.jpg"
+    },
+    {
+      "day": 354,
+      "slug": "doch-partikel-gram-dd-354",
+      "filename": "354_doch-partikel-gram-dd-354.jpg"
+    },
+    {
+      "day": 355,
+      "slug": "mal-partikel-gram-dd-355",
+      "filename": "355_mal-partikel-gram-dd-355.jpg"
+    },
+    {
+      "day": 356,
+      "slug": "ja-partikel-gram-dd-356",
+      "filename": "356_ja-partikel-gram-dd-356.jpg"
+    },
+    {
+      "day": 357,
+      "slug": "halt-eben-partikeln-gram-dd-357",
+      "filename": "357_halt-eben-partikeln-gram-dd-357.jpg"
+    },
+    {
+      "day": 358,
+      "slug": "eigentlich-wohl-partikeln-gram-dd-358",
+      "filename": "358_eigentlich-wohl-partikeln-gram-dd-358.jpg"
+    },
+    {
+      "day": 359,
+      "slug": "komma-nebensatze-gram-ee-359",
+      "filename": "359_komma-nebensatze-gram-ee-359.jpg"
+    },
+    {
+      "day": 360,
+      "slug": "komma-relativsatze-gram-ee-360",
+      "filename": "360_komma-relativsatze-gram-ee-360.jpg"
+    },
+    {
+      "day": 361,
+      "slug": "komma-infinitivsatze-gram-ee-361",
+      "filename": "361_komma-infinitivsatze-gram-ee-361.jpg"
+    },
+    {
+      "day": 362,
+      "slug": "komma-und-oder-gram-ee-362",
+      "filename": "362_komma-und-oder-gram-ee-362.jpg"
+    },
+    {
+      "day": 363,
+      "slug": "anfuhrungszeichen-gram-ee-363",
+      "filename": "363_anfuhrungszeichen-gram-ee-363.jpg"
+    },
+    {
+      "day": 364,
+      "slug": "zahlen-dezimalkomma-gram-ee-364",
+      "filename": "364_zahlen-dezimalkomma-gram-ee-364.jpg"
+    },
+    {
+      "day": 365,
+      "slug": "datum-uhrzeit-gram-ee-365",
+      "filename": "365_datum-uhrzeit-gram-ee-365.jpg"
+    }
+  ]
+}

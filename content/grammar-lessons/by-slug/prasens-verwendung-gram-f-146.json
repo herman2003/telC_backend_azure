@@ -1,0 +1,39 @@
+{
+  "slug": "prasens-verwendung-gram-f-146",
+  "titleFr": "Présent — emplois",
+  "titleEn": "Present tense — uses",
+  "titleDe": "Präsens — Verwendung",
+  "ruleFr": "## Le présent allemand — à quoi il sert\n\nLe **Präsens** exprime :\n1. **le moment présent** : *Ich arbeite jetzt.*\n2. **les habitudes** : *Ich trinke jeden Morgen Kaffee.*\n3. **la vérité générale** : *Wasser kocht bei 100 Grad.*\n4. **le futur proche** (avec un marqueur de temps) : *Morgen fahre ich nach Berlin.*\n\n### Pas de « present progressive »\nL’anglais distingue *I learn* / *I am learning*. L’allemand n’a **qu’une** forme : *Ich lerne* = les deux.\n\n### Signaux temporels utiles\n*jetzt, gerade, oft, immer, jeden Tag, morgen, nächste Woche…*\n\n### Erreurs fréquentes\n- Traduire *I am learning* par ✗ *Ich bin lernend* → ✓ *Ich lerne*.\n- Oublier qu’un présent + *morgen* suffit pour le futur.\n\n### Mini-entraînement\nÉcrivez 1 phrase pour chaque emploi (présent, habitude, futur proche).",
+  "ruleEn": "## German present tense — what it is for\n\nThe **Präsens** expresses:\n1. **the present moment**: *Ich arbeite jetzt.*\n2. **habits**: *Ich trinke jeden Morgen Kaffee.*\n3. **general truths**: *Wasser kocht bei 100 Grad.*\n4. **near future** (with a time marker): *Morgen fahre ich nach Berlin.*\n\n### No present progressive\nEnglish has *I learn* / *I am learning*. German has **one** form: *Ich lerne* = both.\n\n### Useful time signals\n*jetzt, gerade, oft, immer, jeden Tag, morgen, nächste Woche…*\n\n### Common mistakes\n- Rendering *I am learning* as ✗ *Ich bin lernend* → ✓ *Ich lerne*.\n- Forgetting that present + *morgen* is enough for the future.\n\n### Mini practice\nWrite 1 sentence for each use (now, habit, near future).",
+  "ruleDe": "## Präsens — Verwendung\n\nDas **Präsens** drückt aus:\n1. **Gegenwart**: *Ich arbeite jetzt.*\n2. **Gewohnheit**: *Ich trinke jeden Morgen Kaffee.*\n3. **allgemeine Wahrheit**: *Wasser kocht bei 100 Grad.*\n4. **nahe Zukunft** (mit Zeitangabe): *Morgen fahre ich nach Berlin.*\n\n### Kein Progressive\nEnglisch: *I learn* / *I am learning*. Deutsch: **eine** Form — *Ich lerne* = beides.\n\n### Typische Zeitangaben\n*jetzt, gerade, oft, immer, jeden Tag, morgen, nächste Woche…*\n\n### Häufige Fehler\n- ✗ *Ich bin lernend* → ✓ *Ich lerne*.\n- Präsens + *morgen* reicht für die Zukunft.\n\n### Mini-Übung\nSchreiben Sie je 1 Satz für Gegenwart, Gewohnheit und nahe Zukunft.",
+  "notesFr": "L’allemand n’a pas de present progressive : *Ich lerne* = I learn / I am learning.",
+  "notesEn": "German has no present progressive: *Ich lerne* = I learn / I am learning.",
+  "notesDe": "Deutsch hat kein Present Progressive: *Ich lerne* = I learn / I am learning.",
+  "examples": [
+    {
+      "de": "Ich arbeite gerade.",
+      "fr": "Je travaille en ce moment.",
+      "en": "I am working right now."
+    },
+    {
+      "de": "Jeden Sonntag gehe ich joggen.",
+      "fr": "Tous les dimanches, je vais courir.",
+      "en": "Every Sunday I go jogging."
+    },
+    {
+      "de": "Die Erde dreht sich um die Sonne.",
+      "fr": "La Terre tourne autour du Soleil.",
+      "en": "The Earth revolves around the Sun."
+    },
+    {
+      "de": "Morgen besuche ich meine Eltern.",
+      "fr": "Demain, je rends visite à mes parents. (présent = futur proche.)",
+      "en": "Tomorrow I visit my parents. (present = near future.)"
+    },
+    {
+      "de": "Er liest oft Krimis.",
+      "fr": "Il lit souvent des polars.",
+      "en": "He often reads crime novels."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "komma-relativsatze-gram-ee-360",
+  "titleFr": "Virgule — propositions relatives",
+  "titleEn": "Comma — relative clauses",
+  "titleDe": "Komma — Relativsätze",
+  "ruleFr": "## Virgule — propositions relatives\n\nLes **propositions relatives** sont **toujours** séparées par des virgules en allemand.\n\n### Règle centrale\nVirgules autour du relatif (*der, die, das, welcher…*) :\n\n- *Der Mann**,** der dort steht**,** ist mein Vater.*\n- *Das Buch**,** das ich lese**,** ist gut.*\n\n### Différence avec l’anglais\nEn anglais, les relatives « restrictives » n’ont souvent **pas** de virgules.  \nEn allemand : **toujours** des virgules — pas de distinction restrictive / non restrictive pour la ponctuation.\n\n### Relative en fin de phrase\n- *Ich kenne die Frau, die nebenan wohnt.*\n\n### Mini-entraînement\n1. Encadrez 8 relatives avec des virgules.\n2. Réécrivez des phrases anglaises sans virgule → allemand avec virgules.\n3. Combinez deux phrases avec *der/die/das*.",
+  "ruleEn": "## Comma — relative clauses\n\n**Relative clauses** are **always** set off by commas in German.\n\n### Core rule\nCommas around the relative (*der, die, das, welcher…*):\n\n- *Der Mann**,** der dort steht**,** ist mein Vater.*\n- *Das Buch**,** das ich lese**,** ist gut.*\n\n### Unlike English\nEnglish often omits commas for restrictive relatives.  \nGerman: **always** commas — no restrictive/non-restrictive punctuation split.\n\n### Mini practice\n1. Comma-wrap 8 relative clauses.\n2. Rewrite English no-comma relatives into German.\n3. Join two sentences with *der/die/das*.",
+  "ruleDe": "## Komma — Relativsätze\n\n**Relativsätze** werden im Deutschen **immer** durch Kommas abgetrennt.\n\n### Kernregel\n- *Der Mann**,** der dort steht**,** ist mein Vater.*\n- *Das Buch**,** das ich lese**,** ist gut.*\n\n### Anders als im Englischen\nKeine Unterscheidung restrictive/non-restrictive bei der Zeichensetzung — **immer** Komma.\n\n### Mini-Übung\n1. 8 Relativsätze mit Kommas versehen.\n2. Englische Sätze ohne Komma → Deutsch mit Komma.\n3. Zwei Sätze mit *der/die/das* verbinden.",
+  "notesFr": "Contrairement à l’anglais : TOUJOURS une virgule autour des relatives, sans exception de ponctuation.",
+  "notesEn": "Unlike English: ALWAYS commas around relatives — no restrictive exception.",
+  "notesDe": "Anders als im Englischen: IMMER Komma! Keine restrictive/non-restrictive Unterscheidung.",
+  "examples": [
+    {
+      "de": "Der Mann, der dort steht, ist mein Vater.",
+      "fr": "L’homme qui se tient là est mon père.",
+      "en": "The man who is standing there is my father."
+    },
+    {
+      "de": "Das Buch, das ich lese, ist spannend.",
+      "fr": "Le livre que je lis est captivant.",
+      "en": "The book that I am reading is exciting."
+    },
+    {
+      "de": "Ich kenne die Frau, die nebenan wohnt.",
+      "fr": "Je connais la femme qui habite à côté.",
+      "en": "I know the woman who lives next door."
+    },
+    {
+      "de": "Die Stadt, in der ich wohne, ist groß.",
+      "fr": "La ville dans laquelle j’habite est grande.",
+      "en": "The city in which I live is big."
+    },
+    {
+      "de": "Hast du den Film gesehen, den ich empfohlen habe?",
+      "fr": "As-tu vu le film que j’ai recommandé ?",
+      "en": "Did you see the film that I recommended?"
+    }
+  ]
+}

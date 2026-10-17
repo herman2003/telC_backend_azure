@@ -1,0 +1,39 @@
+{
+  "slug": "umlaute-a-o-u-gram-x-327",
+  "titleFr": "Umlauts ä, ö, ü",
+  "titleEn": "Umlauts ä, ö, ü",
+  "titleDe": "Umlaute ä, ö, ü",
+  "ruleFr": "## Umlauts ä, ö, ü\n\nLes **umlauts** (*ä*, *ö*, *ü*) sont des **lettres à part entière** en allemand, pas de simples décorations.\n\n### Règle centrale\n| Umlaut | Prononciation (approx.) | Remplacement si clavier sans umlaut |\n|---|---|---|\n| **ä** | entre a et è | **ae** |\n| **ö** | entre o et eu (fr. *peu*) | **oe** |\n| **ü** | u français (*lune*) | **ue** |\n\n### Où les trouve-t-on ?\n1. **Pluriels** : *der Vater → die Väter*, *das Buch → die Bücher*\n2. **Comparatif** : *groß → größer*, *jung → jünger*\n3. **Conjugaison** : *ich fahre → du fährst*, *ich spreche → er spricht* (ici i, pas umlaut)\n4. **Dérivation** : *Haus → Häuschen*, *Kauf → Verkäufer*\n\n### Ordre alphabétique\nEn général *ä* ≈ *a*, *ö* ≈ *o*, *ü* ≈ *u* (selon dictionnaire / pays).\n\n### Ne pas confondre\n- *schön* ≠ *schon* (déjà)\n- *für* ≠ *fur* (inexistant)\n- *ä* ≠ *ae* en orthographe normale (ae seulement faute de clavier)\n\n### Erreurs fréquentes\n- Oublier l’umlaut au pluriel : ✗ *die Vater* → ✓ *die Väter*\n- Écrire *ue* dans un texte soigné alors que *ü* est disponible.\n\n### Mini-entraînement\n1. Lisez à voix haute : *Käse, Köln, Tür, Bücher, Mädchen*.\n2. Formez 5 pluriels avec umlaut.\n3. Remplacez *ae/oe/ue* par les vrais umlauts dans un texte.",
+  "ruleEn": "## Umlauts ä, ö, ü\n\n**Umlauts** (*ä*, *ö*, *ü*) are **letters in their own right** in German, not decoration.\n\n### Core rule\n| Umlaut | Approx. sound | Keyboard fallback |\n|---|---|---|\n| **ä** | between a and e | **ae** |\n| **ö** | like French *peu* / British *bird* | **oe** |\n| **ü** | like French *u* in *lune* | **ue** |\n\n### Where they appear\n1. **Plurals**: *der Vater → die Väter*, *das Buch → die Bücher*\n2. **Comparatives**: *groß → größer*, *jung → jünger*\n3. **Conjugation**: *ich fahre → du fährst*\n4. **Derivation**: *Haus → Häuschen*, *Kauf → Verkäufer*\n\n### Alphabetical order\nUsually *ä* ≈ *a*, *ö* ≈ *o*, *ü* ≈ *u* (varies by dictionary/country).\n\n### Don’t confuse\n- *schön* ≠ *schon* (already)\n- *für* ≠ *fur*\n- *ä* ≠ *ae* in normal spelling (ae only when umlauts unavailable)\n\n### Common mistakes\n- Missing plural umlaut: ✗ *die Vater* → ✓ *die Väter*\n- Writing *ue* in polished text when *ü* is available.\n\n### Mini practice\n1. Read aloud: *Käse, Köln, Tür, Bücher, Mädchen*.\n2. Form 5 plurals with umlaut.\n3. Replace *ae/oe/ue* with real umlauts in a text.",
+  "ruleDe": "## Umlaute ä, ö, ü\n\n**Umlaute** (*ä*, *ö*, *ü*) sind im Deutschen **eigene Buchstaben**, keine bloße Dekoration.\n\n### Kernregel\n| Umlaut | ungefähre Aussprache | Ersatz ohne Umlaut-Taste |\n|---|---|---|\n| **ä** | zwischen a und e | **ae** |\n| **ö** | wie in *schön* | **oe** |\n| **ü** | wie in *Tür* | **ue** |\n\n### Wo kommen sie vor?\n1. **Plural**: *der Vater → die Väter*, *das Buch → die Bücher*\n2. **Komparativ**: *groß → größer*, *jung → jünger*\n3. **Konjugation**: *ich fahre → du fährst*\n4. **Ableitung**: *Haus → Häuschen*, *Kauf → Verkäufer*\n\n### Alphabetische Ordnung\nMeist *ä* ≈ *a*, *ö* ≈ *o*, *ü* ≈ *u* (je nach Wörterbuch/Land).\n\n### Nicht verwechseln\n- *schön* ≠ *schon*\n- *für* ≠ *fur*\n- *ä* ≠ *ae* in normaler Schreibweise (ae nur ohne Umlaut-Taste)\n\n### Häufige Fehler\n- Umlaut im Plural vergessen: ✗ *die Vater* → ✓ *die Väter*\n- *ue* schreiben, obwohl *ü* verfügbar ist.\n\n### Mini-Übung\n1. Laut lesen: *Käse, Köln, Tür, Bücher, Mädchen*.\n2. 5 Pluralformen mit Umlaut bilden.\n3. *ae/oe/ue* durch echte Umlaute ersetzen.",
+  "notesFr": "ae/oe/ue seulement si les umlauts ne sont pas disponibles. Alphabétiquement : ä≈a, ö≈o, ü≈u. Attention : *schon* ≠ *schön*.",
+  "notesEn": "Use ae/oe/ue only when umlauts aren’t available. Alphabetically: ä≈a, ö≈o, ü≈u. Note: *schon* ≠ *schön*.",
+  "notesDe": "ae/oe/ue nur, wenn Umlaute fehlen. Alphabetisch: ä≈a, ö≈o, ü≈u. Achtung: *schon* ≠ *schön*.",
+  "examples": [
+    {
+      "de": "Der Käse schmeckt gut.",
+      "fr": "Le fromage a bon goût. (ä = umlaut sur a.)",
+      "en": "The cheese tastes good. (ä = umlaut on a.)"
+    },
+    {
+      "de": "Köln liegt am Rhein.",
+      "fr": "Cologne est sur le Rhin. (ö.)",
+      "en": "Cologne is on the Rhine. (ö.)"
+    },
+    {
+      "de": "Die Tür ist offen.",
+      "fr": "La porte est ouverte. (ü.)",
+      "en": "The door is open. (ü.)"
+    },
+    {
+      "de": "Die Väter spielen mit den Kindern.",
+      "fr": "Les pères jouent avec les enfants. (Umlaut au pluriel : Vater → Väter.)",
+      "en": "The fathers play with the children. (Plural umlaut: Vater → Väter.)"
+    },
+    {
+      "de": "Mein Bruder ist größer als ich.",
+      "fr": "Mon frère est plus grand que moi. (Comparatif : groß → größer.)",
+      "en": "My brother is taller than I am. (Comparative: groß → größer.)"
+    }
+  ]
+}

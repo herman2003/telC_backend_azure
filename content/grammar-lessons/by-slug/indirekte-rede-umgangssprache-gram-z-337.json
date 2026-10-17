@@ -1,0 +1,39 @@
+{
+  "slug": "indirekte-rede-umgangssprache-gram-z-337",
+  "titleFr": "Discours indirect — langue parlée",
+  "titleEn": "Reported speech — colloquial usage",
+  "titleDe": "Indirekte Rede — Umgangssprache",
+  "ruleFr": "## Discours indirect — langue parlée\n\nÀ l’oral et dans l’écrit informel, on rapporte souvent les paroles à l’**indicatif**, sans Konjunktiv I.\n\n### Règle pratique\n| Registre | Forme |\n|---|---|\n| Formel / presse / écrit soigné | **Konjunktiv I** (+ Ersatz) |\n| Oral / chat / familier | **Indikativ** |\n\n- Formel : *Er sagt, er **sei** krank.*\n- Familier : *Er sagt, er **ist** krank.*\n\n### Autres stratégies orales\n1. Citation directe : *Er so: „Ich bin krank.“*\n2. *dass* + indicatif : *Sie hat gesagt, dass sie kommt.*\n3. Verbe de parole + infinitif (rare) / reformulation libre.\n\n### Quand garder le Konjunktiv ?\nExamens, rédaction, articles, comptes rendus officiels → **oui**.\n\n### Mini-entraînement\n1. Réécrivez 5 phrases formelles en version orale.\n2. Et inversement (oral → formel).\n3. Identifiez le registre dans 5 exemples.",
+  "ruleEn": "## Reported speech — colloquial usage\n\nIn speech and informal writing, people often report words in the **indicative**, without Konjunktiv I.\n\n### Practical rule\n| Register | Form |\n|---|---|\n| Formal / press / careful writing | **Konjunktiv I** (+ replacements) |\n| Spoken / chat / casual | **Indicative** |\n\n- Formal: *Er sagt, er **sei** krank.*\n- Casual: *Er sagt, er **ist** krank.*\n\n### Other spoken strategies\n1. Direct quote: *Er so: „Ich bin krank.“*\n2. *dass* + indicative: *Sie hat gesagt, dass sie kommt.*\n3. Free paraphrase.\n\n### When keep Konjunktiv?\nExams, essays, articles, official reports → **yes**.\n\n### Mini practice\n1. Rewrite 5 formal sentences in spoken style.\n2. And reverse (spoken → formal).\n3. Identify the register in 5 examples.",
+  "ruleDe": "## Indirekte Rede — Umgangssprache\n\nMündlich und in informellen Texten steht oft der **Indikativ**, ohne Konjunktiv I.\n\n### Praktische Regel\n| Register | Form |\n|---|---|\n| Formell / Presse / gepflegte Schrift | **Konjunktiv I** (+ Ersatz) |\n| Mündlich / Chat / locker | **Indikativ** |\n\n- Formell: *Er sagt, er **sei** krank.*\n- Locker: *Er sagt, er **ist** krank.*\n\n### Weitere Strategien\n1. Direkte Rede: *Er so: „Ich bin krank.“*\n2. *dass* + Indikativ: *Sie hat gesagt, dass sie kommt.*\n3. Freie Umschreibung.\n\n### Wann Konjunktiv behalten?\nPrüfung, Aufsatz, Artikel, Bericht → **ja**.\n\n### Mini-Übung\n1. 5 formelle Sätze mündlich umschreiben.\n2. Und umgekehrt.\n3. Register in 5 Beispielen erkennen.",
+  "notesFr": "Konjunktiv I = formel/écrit. Indicatif = oral/informel. Les deux existent ; adaptez au registre.",
+  "notesEn": "Konjunktiv I = formal/written. Indicative = spoken/informal. Both exist; match the register.",
+  "notesDe": "Konjunktiv I = formal/schriftlich. Indikativ = mündlich/informell. Beides gibt es; Register beachten.",
+  "examples": [
+    {
+      "de": "Er sagt, er ist krank.",
+      "fr": "Il dit qu’il est malade. (oral : indicatif.)",
+      "en": "He says he’s ill. (spoken: indicative.)"
+    },
+    {
+      "de": "Sie hat gesagt, dass sie später kommt.",
+      "fr": "Elle a dit qu’elle vient plus tard.",
+      "en": "She said that she’s coming later."
+    },
+    {
+      "de": "Der Lehrer meint, das ist zu schwer.",
+      "fr": "Le prof trouve que c’est trop difficile. (familier.)",
+      "en": "The teacher thinks that’s too hard. (casual.)"
+    },
+    {
+      "de": "Er sagt: „Ich habe keine Lust.“",
+      "fr": "Il dit : « Je n’ai pas envie. » (citation directe.)",
+      "en": "He says, “I don’t feel like it.” (direct quote.)"
+    },
+    {
+      "de": "Im Bericht heißt es, er sei unschuldig.",
+      "fr": "Dans le rapport, on lit qu’il est innocent. (écrit formel : Konj. I.)",
+      "en": "The report states that he is innocent. (formal writing: Konj. I.)"
+    }
+  ]
+}

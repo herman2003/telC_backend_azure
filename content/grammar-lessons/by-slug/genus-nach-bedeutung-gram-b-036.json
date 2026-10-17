@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-bedeutung-gram-b-036",
+  "titleFr": "Boissons alcoolisées : souvent masculines",
+  "titleEn": "Alcoholic drinks: mostly masculine",
+  "titleDe": "Genus nach Bedeutung — alkoholische Getränke",
+  "ruleFr": "## Alcools → souvent *der*\n\nBeaucoup de boissons alcoolisées sont **masculines** :\n- *der Wein, der Sekt, der Champagner, der Cognac, der Whisky, der Rum, der Likör*\n\n### Exception très fréquente\n- ***das Bier*** (neutre !)\n\n### Autres boissons (pour contraste)\n- *der Kaffee, der Tee* (souvent masc.)\n- *die Milch, die Limonade* (fém.)\n- *das Wasser, das Saft?* → attention : ***der Saft***\n\n### Mini-entraînement\n1. Commandez au restaurant 5 boissons avec le bon article.\n2. Phrase contraste : *ein Bier* vs *einen Wein*.\n3. Mémorisez *das Bier* comme exception prioritaire.",
+  "ruleEn": "## Alcoholic drinks → often *der*\n\nMany alcoholic drinks are **masculine**:\n- *der Wein, der Sekt, der Champagner, der Cognac, der Whisky, der Rum, der Likör*\n\n### Very common exception\n- ***das Bier*** (neuter!)\n\n### Other drinks (for contrast)\n- *der Kaffee, der Tee* (often masc.)\n- *die Milch, die Limonade* (fem.)\n- juice: ***der Saft***\n\n### Mini practice\n1. Order 5 drinks in a restaurant with the right article.\n2. Contrast sentence: *ein Bier* vs *einen Wein*.\n3. Memorise *das Bier* as a priority exception.",
+  "ruleDe": "## Alkoholische Getränke → oft *der*\n\nViele alkoholische Getränke sind **maskulin**:\n- *der Wein, der Sekt, der Champagner, der Cognac, der Whisky, der Rum, der Likör*\n\n### Sehr häufige Ausnahme\n- ***das Bier*** (Neutrum!)\n\n### Andere Getränke zum Kontrast\n- *der Kaffee, der Tee*\n- *die Milch, die Limonade*\n- ***der Saft***\n\n### Mini-Übung\n1. Fünf Getränke mit Artikel bestellen.\n2. Kontrast: *ein Bier* vs *einen Wein*.\n3. *das Bier* als Prioritätsausnahme merken.",
+  "notesFr": "En terrasse : *einen Wein* mais *ein Bier* — l’exception *das Bier* évite une faute très visible.",
+  "notesEn": "At the café: *einen Wein* but *ein Bier* — the exception *das Bier* prevents a very visible mistake.",
+  "notesDe": "Im Café: *einen Wein*, aber *ein Bier* — die Ausnahme *das Bier* verhindert einen sehr sichtbaren Fehler.",
+  "examples": [
+    {
+      "de": "Ich trinke gerne einen Wein.",
+      "fr": "J’aime bien boire un vin. (*einen Wein* = masculin)",
+      "en": "I like to drink a wine. (*einen Wein* = masculine)"
+    },
+    {
+      "de": "Zum Essen bestellen wir einen Sekt.",
+      "fr": "Pour le repas, nous commandons un mousseux. (*der Sekt*)",
+      "en": "With the meal we order sparkling wine. (*der Sekt*)"
+    },
+    {
+      "de": "Das Bier ist kalt.",
+      "fr": "La bière est froide. (exception neutre)",
+      "en": "The beer is cold. (neuter exception)"
+    },
+    {
+      "de": "Möchtest du ein Bier oder einen Wein?",
+      "fr": "Tu veux une bière ou un vin ? (*ein* vs *einen*)",
+      "en": "Would you like a beer or a wine? (*ein* vs *einen*)"
+    },
+    {
+      "de": "Der Whisky kommt aus Schottland.",
+      "fr": "Le whisky vient d’Écosse. (*der Whisky*)",
+      "en": "The whisky comes from Scotland. (*der Whisky*)"
+    }
+  ]
+}

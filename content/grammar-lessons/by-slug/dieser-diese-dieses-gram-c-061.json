@@ -1,0 +1,39 @@
+{
+  "slug": "dieser-diese-dieses-gram-c-061",
+  "titleFr": "Dieser — déclinaison au génitif",
+  "titleEn": "Dieser — genitive declension",
+  "titleDe": "dieser/diese/dieses",
+  "ruleFr": "## Dieser au génitif (possession)\n\nLe génitif de *dieser* marque l’appartenance : « de ce / de cette ».\n\n### Tableau (génitif)\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| | **dieses** | **dieser** | **dieses** | **dieser** |\n\nTerminaisons : **-es** (m/n), **-er** (f/pl) — comme *des / der*.\n\n### Exemples\n- Das Auto **dieses** Mannes. (m.)\n- Die Tasche **dieser** Frau. (f.)\n- Die Farbe **dieses** Hauses. (n.)\n- Die Meinung **dieser** Leute. (pl.)\n\n### Note\nÀ l’oral, on remplace souvent le génitif par *von* + datif : *das Auto von diesem Mann*. Le génitif reste important à l’écrit.\n\n### Mini-entraînement\nFormez 4 génitifs : *das Buch + dieser Lehrer / diese Lehrerin / dieses Kind / diese Studenten*.",
+  "ruleEn": "## Dieser in the genitive (possession)\n\nGenitive *dieser* marks belonging: “of this…”.\n\n### Table (genitive)\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| | **dieses** | **dieser** | **dieses** | **dieser** |\n\nEndings: **-es** (m/n), **-er** (f/pl) — like *des / der*.\n\n### Note\nSpeech often uses *von* + dative instead. Genitive remains important in writing.\n\n### Mini practice\nForm 4 genitives with *das Buch + dieser Lehrer / diese Lehrerin / dieses Kind / diese Studenten*.",
+  "ruleDe": "## Dieser im Genitiv (Besitz)\n\n### Tabelle (Genitiv)\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| | **dieses** | **dieser** | **dieses** | **dieser** |\n\nEndungen: **-es** (m/n), **-er** (f/pl).\n\n### Hinweis\nMündlich oft *von* + Dativ. Schriftlich bleibt Genitiv wichtig.\n\n### Mini-Übung\n4 Genitive mit *das Buch + dieser Lehrer / diese Lehrerin / dieses Kind / diese Studenten*.",
+  "notesFr": "Masculin/neutre : *-es* ; féminin/pluriel : *-er*.",
+  "notesEn": "Masculine/neuter: *-es*; feminine/plural: *-er*.",
+  "notesDe": "Maskulinum/Neutrum: *-es*; Femininum/Plural: *-er*.",
+  "examples": [
+    {
+      "de": "Das Auto dieses Mannes ist rot.",
+      "fr": "La voiture de cet homme est rouge.",
+      "en": "This man’s car is red."
+    },
+    {
+      "de": "Die Tasche dieser Frau ist schwer.",
+      "fr": "Le sac de cette femme est lourd.",
+      "en": "This woman’s bag is heavy."
+    },
+    {
+      "de": "Die Farbe dieses Hauses gefällt mir.",
+      "fr": "La couleur de cette maison me plaît.",
+      "en": "I like the colour of this house."
+    },
+    {
+      "de": "Die Meinung dieser Leute zählt.",
+      "fr": "L’avis de ces gens compte.",
+      "en": "These people’s opinion counts."
+    },
+    {
+      "de": "Am Ende dieses Tages bin ich müde.",
+      "fr": "À la fin de cette journée, je suis fatigué.",
+      "en": "At the end of this day I am tired."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-p-275",
+  "titleFr": "Erreurs fréquentes — prépositions des verbes",
+  "titleEn": "Common mistakes — verb prepositions",
+  "titleDe": "Häufige Fehler — Verbpräpositionen",
+  "ruleFr": "## Erreur fréquente : mauvaise préposition après un verbe\n\nLes prépositions des verbes se **mémorisent** ; on ne peut pas les traduire mot à mot.\n\n### Confusions classiques\n| Faux (calque) | Correct |\n|---|---|\n| *warten **für*** | *warten **auf*** (+ Akk.) |\n| *denken **über*** (pour « penser à quelqu’un ») | *denken **an*** (+ Akk.) |\n| *sich interessieren **in*** | *sich interessieren **für*** |\n| *sich freuen **für*** le futur | *sich freuen **auf*** |\n| *sprechen **zu*** quelqu’un (souvent) | *sprechen **mit*** |\n\n### Méthode\nApprenez des **chunks** : *warten auf etwas*, *denken an jemanden*, *sich freuen auf das Wochenende*.\n\n### Mini-entraînement\n1. Fiches : verbe + préposition + exemple.\n2. Traduisez sans calquer le français.\n3. Testez-vous : trouvez la préposition manquante.",
+  "ruleEn": "## Common mistake: wrong preposition after a verb\n\nVerb prepositions must be **memorized**; they rarely translate word for word.\n\n### Classic confusions\n| Wrong (calque) | Correct |\n|---|---|\n| *warten **für*** | *warten **auf*** (+ acc.) |\n| *denken **über*** (for “think of someone”) | *denken **an*** (+ acc.) |\n| *sich interessieren **in*** | *sich interessieren **für*** |\n| *sich freuen **für*** the future | *sich freuen **auf*** |\n| *sprechen **zu*** someone (often) | *sprechen **mit*** |\n\n### Method\nLearn **chunks**: *warten auf etwas*, *denken an jemanden*.\n\n### Mini practice\n1. Flashcards: verb + preposition + example.\n2. Translate without calquing.\n3. Quiz yourself on missing prepositions.",
+  "ruleDe": "## Häufiger Fehler: falsche Präposition bei Verben\n\nPräpositionen zu Verben muss man **auswendig** lernen.\n\n### Klassiker\n| Falsch | Richtig |\n|---|---|\n| *warten für* | *warten auf* |\n| *interessieren in* | *interessieren für* |\n| *freuen für* (Zukunft) | *freuen auf* |\n\n### Methode\nChunks lernen: *warten auf etwas*, *denken an jemanden*.\n\n### Mini-Übung\n1. Karteikarten.\n2. Nicht wörtlich übersetzen.\n3. Präposition ergänzen.",
+  "notesFr": "*warten auf*, *denken an*, *sich interessieren für* — à apprendre par cœur !",
+  "notesEn": "*warten auf*, *denken an*, *sich interessieren für* — memorize!",
+  "notesDe": "warten AUF, denken AN, sich interessieren FÜR — auswendig lernen!",
+  "examples": [
+    {
+      "de": "Falsch: Ich warte für den Bus. — Richtig: Ich warte auf den Bus.",
+      "fr": "Attendre = *warten auf*, pas *für*.",
+      "en": "Wait = *warten auf*, not *für*."
+    },
+    {
+      "de": "Falsch: Ich interessiere mich in Sport. — Richtig: … für Sport.",
+      "fr": "*sich interessieren für*.",
+      "en": "*sich interessieren für*."
+    },
+    {
+      "de": "Ich denke an meine Familie.",
+      "fr": "Je pense à ma famille. (*an*, pas *über*)",
+      "en": "I think of my family. (*an*, not *über*)"
+    },
+    {
+      "de": "Wir freuen uns auf morgen.",
+      "fr": "Nous nous réjouissons de demain. (*auf*)",
+      "en": "We are looking forward to tomorrow. (*auf*)"
+    },
+    {
+      "de": "Sie spricht mit dem Arzt über das Problem.",
+      "fr": "Elle parle avec le médecin du problème.",
+      "en": "She speaks with the doctor about the problem."
+    }
+  ]
+}
