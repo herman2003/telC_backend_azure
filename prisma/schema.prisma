@@ -59,8 +59,9 @@ model Student {
   /// afterwards.
   grandfathered_access Boolean @default(false)
 
-  /// The student's current German level (D38). Declared by the student,
-  /// editable by their center. Null until either sets it.
+  /// The student's current German level (D38). May be declared at register,
+  /// set from an activation code's level at redemption, or edited by the
+  /// center. Null until one of those sets it.
   level CefrLevel?
 
   center          Center?                  @relation(fields: [center_id], references: [id], onDelete: SetNull)
@@ -289,6 +290,10 @@ model ActivationCode {
   /// paid code does (D4: all codes of a school end with its pack). Only the
   /// trial code carries a date.
   expires_at DateTime?
+
+  /// CEFR level for this seat, set by the center before handout (optional).
+  /// Copied onto the student at redemption when non-null. Survives reset.
+  level CefrLevel?
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt

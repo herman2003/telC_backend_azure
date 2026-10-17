@@ -7,6 +7,7 @@ import {
 import {
   ActivationCodeStatus,
   type ActivationCode,
+  type CefrLevel,
   type Prisma,
 } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
@@ -242,6 +243,41 @@ export class CenterActivationCodesService {
       throw new ConflictException('CODE_HAS_NO_STUDENT');
     }
     return this.move(identity, codeId, REACTIVATE);
+  }
+
+  /**
+   * Sets or clears the CEFR level on an unused seat before handout.
+   *
+   * Only `ACTIVATED` codes: once a student is on the seat, correct their
+   * level via the students route. Reset keeps whatever level is here.
+   */
+  async setLevel(
+    identity: SignedCenterIdentity,
+    codeId: string,
+    level: CefrLevel | null,
+  ): Promise<ActivationCodeView> {
+    await this.requireFinalized(identity);
+
+    const current = await this.loadOwnedCode(identity, codeId);
+
+    if (current.status !== ActivationCodeStatus.ACTIVATED) {
+      throw new ConflictException('INVALID_CODE_TRANSITION');
+    }
+
+    const updated = await this.prisma.activationCode.updateMany({
+      where: {
+        id: codeId,
+        center_id: identity.centerId,
+        status: ActivationCodeStatus.ACTIVATED,
+      },
+      data: { level },
+    });
+
+    if (updated.count !== 1) {
+      throw new ConflictException('INVALID_CODE_TRANSITION');
+    }
+
+    return toActivationCodeView(await this.loadOwnedCode(identity, codeId));
   }
 
   /**

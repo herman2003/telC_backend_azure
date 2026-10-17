@@ -43,6 +43,7 @@ describe('CenterTrialService.start', () => {
           linked_name: null,
           linked_email: null,
           connected_at: null,
+          level: null,
           created_at: new Date(),
           ...data,
         })),

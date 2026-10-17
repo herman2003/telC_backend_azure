@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsIn, IsOptional } from 'class-validator';
+import { CefrLevel } from '@prisma/client';
+import { IsEnum, IsIn, IsOptional, ValidateIf } from 'class-validator';
 
 /**
  * Filters for the Users page. Each takes one value or `all`, which is what the
@@ -74,6 +75,28 @@ export class ActivationCodeDto {
       'When the seat stops working. A trial code ends with the trial. Null means the code follows the center subscription rather than a date of its own.',
   })
   expiresAt: Date | null;
+
+  @ApiProperty({
+    enum: CefrLevel,
+    nullable: true,
+    example: CefrLevel.A2,
+    description:
+      'CEFR level for this seat, set by the center before handout. Copied onto the student at redemption when set. Null until the center sets it.',
+  })
+  level: CefrLevel | null;
+}
+
+/** Body for PATCH /activation-codes/:id — set or clear the seat level. */
+export class SetActivationCodeLevelDto {
+  @ApiProperty({
+    enum: CefrLevel,
+    nullable: true,
+    example: CefrLevel.A2,
+    description: 'CEFR level for this seat. Pass null to clear.',
+  })
+  @ValidateIf((_, value) => value !== null)
+  @IsEnum(CefrLevel)
+  level: CefrLevel | null;
 }
 
 export class TrialStartedDto {

@@ -35,6 +35,7 @@ describe('CodeRedemptionService.redeem', () => {
     status: 'ACTIVATED',
     student_id: null,
     expires_at: new Date(Date.now() + 13 * DAY_MS),
+    level: null,
     center: { name: 'Institut Goethe Douala', subscription: activeTrial() },
     ...over,
   });
@@ -96,6 +97,29 @@ describe('CodeRedemptionService.redeem', () => {
         centerName: 'Institut Goethe Douala',
       }),
     );
+  });
+
+  it('copies the code level onto the student when the center set one', async () => {
+    prisma.activationCode.findUnique
+      .mockResolvedValueOnce(codeRow({ level: 'A2' }))
+      // Re-read inside the transaction after the claim.
+      .mockResolvedValueOnce({ level: 'A2' });
+
+    await service.redeem(student, 'LQ-7K2P-94QX', ip);
+
+    expect(prisma.student.update).toHaveBeenCalledWith({
+      where: { id: 'student-1' },
+      data: { center_id: 'center-1', level: 'A2' },
+    });
+  });
+
+  it('leaves the student level alone when the code has no level', async () => {
+    await service.redeem(student, 'LQ-7K2P-94QX', ip);
+
+    expect(prisma.student.update).toHaveBeenCalledWith({
+      where: { id: 'student-1' },
+      data: { center_id: 'center-1' },
+    });
   });
 
   it('claims the code with a predicate, so two students cannot both win it', async () => {
