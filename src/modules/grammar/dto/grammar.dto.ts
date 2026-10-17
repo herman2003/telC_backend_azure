@@ -30,7 +30,7 @@ export class GrammarLangQueryDto {
   @IsOptional()
   @IsString()
   @IsIn(['fr', 'en', 'de'], { message: 'lang must be fr, en, or de' })
-  lang?: string;
+  lang?: 'fr' | 'en' | 'de';
 }
 
 export class GrammarExampleDto {
