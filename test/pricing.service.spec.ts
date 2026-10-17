@@ -38,6 +38,11 @@ describe('PricingService', () => {
         unitPriceXaf: START_PRICE_XAF,
         // HT 45_000 → TTC with 18% VAT (provider amount).
         totalXaf: amountWithVatXaf(10 * START_PRICE_XAF),
+        billableSeats: 10,
+        billingKind: 'full_pack',
+        daysLeft: null,
+        daysInPeriod: null,
+        amountHtXaf: 45_000,
       });
     });
 
@@ -50,7 +55,63 @@ describe('PricingService', () => {
       expect(grandfathered).toMatchObject({
         unitPriceXaf: 4_000,
         totalXaf: amountWithVatXaf(48_000),
+        billingKind: 'full_pack',
+        amountHtXaf: 48_000,
       });
+    });
+
+    it('quotes a mid-period addition at day prorata, not full delta months', () => {
+      const quoted = pricing.quote(
+        16,
+        context({
+          stampedPriceXaf: 4_500,
+          paidSeats: 10,
+          paidUntil: new Date('2026-02-01T00:00:00+01:00'),
+          anchorDay: 1,
+          now: new Date('2026-01-05T00:00:00+01:00'),
+        }),
+      );
+
+      expect(quoted).toMatchObject({
+        seats: 16,
+        billableSeats: 6,
+        billingKind: 'mid_period_addition',
+        daysLeft: 27,
+        daysInPeriod: 31,
+        amountHtXaf: 23_600,
+        totalXaf: amountWithVatXaf(23_600),
+      });
+    });
+
+    it('refuses quoting the same seat total mid-period as NOTHING_TO_PAY', () => {
+      expect(() =>
+        pricing.quote(
+          10,
+          context({
+            stampedPriceXaf: 4_500,
+            paidSeats: 10,
+            paidUntil: new Date('2026-02-01T00:00:00+01:00'),
+            anchorDay: 1,
+            now: new Date('2026-01-05T00:00:00+01:00'),
+          }),
+        ),
+      ).toThrow(BadRequestException);
+      try {
+        pricing.quote(
+          10,
+          context({
+            stampedPriceXaf: 4_500,
+            paidSeats: 10,
+            paidUntil: new Date('2026-02-01T00:00:00+01:00'),
+            anchorDay: 1,
+            now: new Date('2026-01-05T00:00:00+01:00'),
+          }),
+        );
+      } catch (error) {
+        expect((error as BadRequestException).getResponse()).toMatchObject({
+          message: 'NOTHING_TO_PAY',
+        });
+      }
     });
 
     it('charges the list price to a center whose seats were free', () => {

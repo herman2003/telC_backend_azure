@@ -1,0 +1,34 @@
+meta {
+  name: 03 Assign Elena credits to seat
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/codes/{{codeId}}/entitlements/AI_SPEAKING_CREDIT
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "cap": 10
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  Moves Elena (AI speaking) credits from the school pool onto a seat.
+  `cap` = how many credits that seat holds (absolute).
+
+  Use after purchase + webhook ACTIVATED.
+  codeId = connected student seat (e.g. 3b4982f4-...).
+}

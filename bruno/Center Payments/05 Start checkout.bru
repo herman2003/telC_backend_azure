@@ -17,7 +17,7 @@ headers {
 
 body:json {
   {
-    "provider": "notchpay"
+    "provider": "fapshi"
   }
 }
 
@@ -33,10 +33,13 @@ docs {
   `02 Create payment` first — it captures `{{paymentId}}`.
 
   Body (required):
-  - `"provider": "notchpay"` — Mobile Money (Orange / MTN via Notch)
+  - `"provider": "fapshi"` — Mobile Money (Orange / MTN via Fapshi)
   - `"provider": "stripe"` — card
 
   Both methods can be configured on the server at once; the body picks which.
+  Local smoke with fake provider: use `06 Simulate provider webhook` after
+  checkout (or skip checkout and webhook a PENDING payment created under
+  PAYMENT_PROVIDER=fake).
 
   ## The server must have that method configured
 

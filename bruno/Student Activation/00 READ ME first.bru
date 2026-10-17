@@ -1,0 +1,22 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 0
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+docs {
+  OLD FLOW (broken): POST /api/student-activations — deleted from the API.
+
+  NEW FLOW (use these requests in order):
+  1. 01 Register student
+  2. Verify student email (token from inbox → POST /api/auth/verify-email)
+  3. 02 Redeem school code (uses {{activationKey}} from Start trial)
+
+  Keep {{activationKey}} = LQ-QRZD-EGKN (or whatever Start trial returned).
+}

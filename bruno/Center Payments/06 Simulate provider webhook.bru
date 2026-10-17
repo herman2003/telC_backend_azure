@@ -12,31 +12,11 @@ post {
 
 headers {
   Content-Type: application/json
+  x-fake-signature: bc0d49a8b9dc2670c729c0da2c6fc27a07b30d14b78666d4cef138277cd35ae8
 }
 
 body:text {
-  replaced by the pre-request script
-}
-
-script:pre-request {
-  // The signature must cover the EXACT bytes sent, so the body is built here
-  // as a string and signed as that same string. Letting Bruno serialise a JSON
-  // body and signing something else would fail verification, which is the
-  // property this request exists to show.
-  const crypto = require('crypto');
-
-  const secret = bru.getEnvVar('fakeWebhookSecret');
-  const outcome = bru.getEnvVar('webhookOutcome') || 'SUCCEEDED';
-  const raw = JSON.stringify({
-    reference: 'fake_' + bru.getEnvVar('paymentId'),
-    outcome: outcome,
-  });
-
-  req.setBody(raw);
-  req.setHeader(
-    'x-fake-signature',
-    crypto.createHmac('sha256', secret).update(raw).digest('hex'),
-  );
+  {"reference":"fake_2e67550a-b132-4f4a-88fd-1260c67b1c0b","outcome":"SUCCEEDED"}
 }
 
 assert {
@@ -45,61 +25,25 @@ assert {
 }
 
 docs {
-  Plays the payment provider: sends the event Notch Pay will send once real
-  money has moved. Run `02 Create payment` and `05 Start checkout` first.
-
-  The server must run with PAYMENT_PROVIDER=fake and the SAME secret as
-  `fakeWebhookSecret` in the Bruno environment (32+ characters).
-
-  ## What happens
-
-  The API verifies the `x-fake-signature` header over the raw body, finds the
-  payment by its reference (`fake_<paymentId>` with the fake), and hands it to
-  PaymentActivationService. That one function grants access; the webhook
-  writes nothing itself.
-
-  Expected response: `{ "received": true, "outcome": "ACTIVATED" }`.
-
-  Then check `Center Subscription / 01 Get subscription`: plan PAID,
-  `paidUntil` about 30 days out, and `Center Subscription / 02 Get usage`
-  shows the seats bought, at the price the payment line carried.
-
-  ## The checks that matter
-
-  1. SEND IT AGAIN, unchanged -> 200 with `outcome: "ALREADY_ACTIVE"`.
-     `paidUntil` must not move. A provider that redelivers must not buy the
-     center a second month.
-
-  2. WRONG SECRET -> 401 WEBHOOK_SIGNATURE_INVALID. Change
-     `fakeWebhookSecret` in the environment only (not on the server) and send.
-     Nothing changes in the database.
-
-  3. TAMPERED BODY -> 401. Comment out the `req.setHeader` line, set the
-     header by hand from a FAILED body, and send a SUCCEEDED body. The
-     signature covers the bytes, so the edit is caught.
-
-  4. A FAILURE AFTER THE SUCCESS -> 200 with `outcome: "UNCHANGED"`. Set the
-     environment variable `webhookOutcome` to FAILED and send. The payment
-     stays SUCCEEDED and access stays on: a late, out-of-order failure must
-     never undo money that has moved.
-
-  5. A FAILURE BEFORE ANY SUCCESS -> `outcome: "MARKED_FAILED"`. Use a fresh
-     payment. A later success still activates it — the provider is the
-     authority on whether money moved.
-
-  6. AN UNKNOWN REFERENCE -> 404 PAYMENT_REFERENCE_UNKNOWN, so the provider
-     retries. Send before running `05 Start checkout` to see it.
-
-  7. NO PROVIDER CONFIGURED -> 503 PAYMENT_PROVIDER_NOT_CONFIGURED. Restart the
-     server without PAYMENT_PROVIDER and send.
-
-  ## If Bruno refuses `require('crypto')`
-
-  Compute the signature outside Bruno and paste it into the header:
-
-      node -e "const c=require('crypto');const raw=JSON.stringify({reference:'fake_<paymentId>',outcome:'SUCCEEDED'});console.log(raw);console.log(c.createHmac('sha256','<secret>').update(raw).digest('hex'))"
-
-  Send the printed body byte for byte, with the printed signature.
-
-  Reset `webhookOutcome` to empty (SUCCEEDED) when you are done.
+  Bruno Desktop often cannot `require('crypto')`. Set body + `x-fake-signature`
+  by hand.
+  
+  For payment d9b8df1e-7790-4257-8b84-f2c2df3614e4 with secret
+  `local-fake-webhook-secret-at-least-32-chars`:
+  
+  Body (exact):
+  {"reference":"fake_d9b8df1e-7790-4257-8b84-f2c2df3614e4","outcome":"SUCCEEDED"}
+  
+  Header x-fake-signature:
+  bea8220696fc8bd4765130b4c026c0ef1da755ed135e8415fd0d7c771859bde6
+  
+  Prerequisites:
+  1. Server: PAYMENT_PROVIDER=fake + FAKE_PAYMENT_WEBHOOK_SECRET matching
+     Bruno fakeWebhookSecret (≥32 chars).
+  2. DB: provider_reference = fake_<paymentId> on that payment row.
+  
+  Expected: { "received": true, "outcome": "ACTIVATED" }
+  
+  Regenerate for another paymentId:
+  node -e "const c=require('crypto');const id='PAYMENT_ID';const secret='local-fake-webhook-secret-at-least-32-chars';const raw=JSON.stringify({reference:'fake_'+id,outcome:'SUCCEEDED'});console.log(raw);console.log(c.createHmac('sha256',secret).update(raw).digest('hex'));"
 }

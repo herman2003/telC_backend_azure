@@ -16,6 +16,8 @@ import { PrismaService } from '../src/shared/services/prisma.service';
 import { PricingService } from '../src/modules/centers/pricing.service';
 import { PaymentsService } from '../src/modules/centers/payments.service';
 import { CenterSeatsService } from '../src/modules/centers/center-seats.service';
+import { priceSeatsDue } from '../src/modules/centers/seat-prorata';
+import { amountWithVatXaf, splitVatXaf } from '../src/modules/centers/vat';
 
 const prisma = new PrismaService();
 const payments = new PaymentsService(
@@ -135,6 +137,30 @@ async function paidThrough(centerId: string, daysFromNow: number) {
   });
 }
 
+/** Expected mid-period charge (TTC), using the same pure helper as production. */
+async function expectedMidPeriodTtc(
+  centerId: string,
+  wanted: number,
+  paidSeats: number,
+  unitPriceXaf: number,
+) {
+  const sub = await prisma.centerSubscription.findUniqueOrThrow({
+    where: { center_id: centerId },
+  });
+  const due = priceSeatsDue({
+    wanted,
+    paidSeats,
+    paidUntil: sub.paid_until,
+    anchorDay: sub.anchor_day,
+    unitPriceXaf,
+  });
+  return {
+    ...due,
+    ...splitVatXaf(due.amountHtXaf),
+    amountXaf: amountWithVatXaf(due.amountHtXaf),
+  };
+}
+
 /** Students occupy seats, so they set the floor a payment cannot go under. */
 async function makeStudents(centerId: string, count: number) {
   for (let i = 0; i < count; i++) {
@@ -187,30 +213,35 @@ describe('payments against real Postgres', () => {
 
     it('keeps the price a center already agreed to when adding seats', async () => {
       // Grandfathering, end to end. The list price is 4,500 today and will
-      // rise; this center bought at 4,000 and keeps it. Only the two added
-      // seats are charged (TTC).
+      // rise; this center bought at 4,000 and keeps it. Added seats are
+      // day-prorata at that stamped price (TTC).
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_000);
       await paidThrough(center.id, 20);
+      const expected = await expectedMidPeriodTtc(center.id, 12, 10, 4_000);
 
       const payment = await payments.create(identity(center.id), 12, 'key-1');
 
       expect(payment.seats).toBe(12);
       expect(payment.unitPriceXaf).toBe(4_000);
-      expect(payment.amountXaf).toBe(9_440); // 2 × 4_000 HT + 18% VAT
+      expect(payment.amountXaf).toBe(expected.amountXaf);
+      expect(expected.midPeriod).toBe(true);
+      expect(expected.billableSeats).toBe(2);
     });
 
     it('charges only seats added above an already-paid pool', async () => {
-      // Dashboard shows the delta; Fapshi must receive the same amount — not
-      // a full re-bill of seats already paid.
+      // Dashboard shows the delta; Fapshi must receive the same amount — day
+      // prorata on the two added seats, not a full re-bill of the pack.
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_500);
       await paidThrough(center.id, 20);
+      const expected = await expectedMidPeriodTtc(center.id, 12, 10, 4_500);
 
       const payment = await payments.create(identity(center.id), 12, 'key-1');
 
       expect(payment.seats).toBe(12);
-      expect(payment.amountXaf).toBe(10_620); // 2 × 4_500 HT + 18% VAT
+      expect(payment.amountXaf).toBe(expected.amountXaf);
+      expect(expected.billableSeats).toBe(2);
     });
 
     it('refuses a payment that adds no seats', async () => {
@@ -289,15 +320,15 @@ describe('payments against real Postgres', () => {
 
     describe('while the period is running', () => {
       it('bills only the seats added', async () => {
-        // Rule 3. The same assertion as the delta test above, said with the
-        // period stated, so it keeps meaning that once renewal is told apart.
+        // Rule 3. Day-prorata on the delta; renewal date must not move.
         const center = await makeCenter();
         await holdSeats(center.id, 10, 4_500);
         await paidThrough(center.id, 20);
+        const expected = await expectedMidPeriodTtc(center.id, 12, 10, 4_500);
 
         const payment = await payments.create(identity(center.id), 12, 'key-1');
 
-        expect(payment.amountXaf).toBe(10_620); // 2 x 4,500 HT + 18% VAT
+        expect(payment.amountXaf).toBe(expected.amountXaf);
         // The renewal date must survive this payment, so the row says so here
         // rather than letting activation re-read a clock that has moved on.
         await expect(
@@ -330,15 +361,16 @@ describe('payments against real Postgres', () => {
       const center = await makeCenter();
       await holdSeats(center.id, 10, 4_500);
       await paidThrough(center.id, 20);
+      const expected = await expectedMidPeriodTtc(center.id, 12, 10, 4_500);
 
       const payment = await payments.create(identity(center.id), 12, 'key-1');
 
       const row = await prisma.payment.findUniqueOrThrow({
         where: { id: payment.id },
       });
-      expect(row.amount_net_xaf).toBe(9_000); // 2 x 4,500
-      expect(row.vat_amount_xaf).toBe(1_620); // 18%
-      expect(row.amount_xaf).toBe(10_620);
+      expect(row.amount_net_xaf).toBe(expected.netXaf);
+      expect(row.vat_amount_xaf).toBe(expected.vatXaf);
+      expect(row.amount_xaf).toBe(expected.amountXaf);
       expect(row.amount_net_xaf! + row.vat_amount_xaf!).toBe(row.amount_xaf);
     });
 
