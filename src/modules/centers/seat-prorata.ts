@@ -30,7 +30,7 @@ export interface MidPeriodProrataInput {
 }
 
 export interface MidPeriodProrata {
-  /** HT amount to charge now (after ceil-to-100 and min floor). */
+  /** HT amount to charge now (after ceil-to-100, min floor, full-pack ceiling). */
   amountHtXaf: number;
   daysLeft: number;
   daysInPeriod: number;
@@ -109,7 +109,9 @@ export function priceSeatsDue(args: {
  * HT for seats added mid-period (D4 rule 3).
  *
  * `ceil(added × price × daysLeft / daysInPeriod)` to the next 100 XAF, then at
- * least {@link MIN_PRO_RATA_CHARGE_XAF}. Caller applies VAT via `splitVatXaf`.
+ * least {@link MIN_PRO_RATA_CHARGE_XAF}, and at most a full pack for the seats
+ * added (`added × unitPrice`) so bad dates never bill more than a month.
+ * Caller applies VAT via `splitVatXaf`.
  */
 export function midPeriodAdditionHt(
   input: MidPeriodProrataInput,
@@ -131,11 +133,13 @@ export function midPeriodAdditionHt(
 
   // A payment on the last instant still owes the minimum, not zero.
   const effectiveDaysLeft = Math.max(daysLeft, 1);
+  const fullPackHt = input.addedSeats * input.unitPriceXaf;
   const exact =
-    (input.addedSeats * input.unitPriceXaf * effectiveDaysLeft) /
-    daysInPeriod;
+    (fullPackHt * effectiveDaysLeft) / daysInPeriod;
   const roundedUp = Math.ceil(exact / 100) * 100;
-  const amountHtXaf = Math.max(roundedUp, MIN_PRO_RATA_CHARGE_XAF);
+  const floored = Math.max(roundedUp, MIN_PRO_RATA_CHARGE_XAF);
+  // Ceiling wins over floor if they ever conflict (catalogue pack < min fee).
+  const amountHtXaf = Math.min(floored, fullPackHt);
 
   return {
     amountHtXaf,

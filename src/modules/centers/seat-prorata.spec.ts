@@ -76,6 +76,23 @@ describe('midPeriodAdditionHt', () => {
 
     expect(result.amountHtXaf).toBe(MIN_PRO_RATA_CHARGE_XAF);
   });
+
+  it('never charges more HT than a full pack for the seats added', () => {
+    // Mismatched anchor: period is 15 Jan→1 Feb (17 days) but "today" is
+    // 5 Jan → 27 days left. Without a ceiling that would bill above 6×4500.
+    const result = midPeriodAdditionHt({
+      addedSeats: 6,
+      unitPriceXaf: 4_500,
+      paidUntil: doualaMidnight('2026-02-01'),
+      now: doualaMidnight('2026-01-05'),
+      anchorDay: 15,
+    });
+
+    // 6 × 4500 × 27 / 17 ≈ 42_882 → ceil 100 = 42_900 → cap at 27_000
+    expect(result.daysLeft).toBe(27);
+    expect(result.daysInPeriod).toBe(17);
+    expect(result.amountHtXaf).toBe(6 * 4_500);
+  });
 });
 
 describe('priceSeatsDue', () => {

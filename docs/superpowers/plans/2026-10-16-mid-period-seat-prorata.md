@@ -10,7 +10,7 @@
 
 ## Assumptions (agreed intent)
 
-1. Formula: `ceil(added × unitPrice × daysLeft ÷ daysInPeriod)`, then `max(..., MIN_PRO_RATA = 1000 HT)`.
+1. Formula: `ceil(added × unitPrice × daysLeft ÷ daysInPeriod)`, then `max(..., MIN_PRO_RATA = 1000 HT)`, then `min(..., added × unitPrice)` so prorata never exceeds a full pack.
 2. `daysLeft` = Douala calendar days from today inclusive through day before `paid_until` (midnight Douala boundary).
 3. `daysInPeriod` = Douala days from previous period start inclusive to `paid_until` exclusive.
 4. Adds only; no mid-period refunds; shrink still refused.
