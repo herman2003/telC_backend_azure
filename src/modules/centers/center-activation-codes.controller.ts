@@ -1,10 +1,12 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
   UseFilters,
@@ -29,6 +31,7 @@ import {
   ListActivationCodesQueryDto,
   ListedActivationCodeDto,
   SeatSummaryDto,
+  SetActivationCodeLevelDto,
 } from './dto/activation-code.dto';
 import { CenterErrorResponseDto } from './dto/center-error-response.dto';
 import { CenterAuthGuard } from './guards/center-auth.guard';
@@ -71,6 +74,33 @@ export class CenterActivationCodesController {
     @CurrentCenterUser() centerUser: CenterAccessTokenPayload,
   ): Promise<SeatSummaryDto> {
     return this.codes.seats(centerUser);
+  }
+
+  @Patch('activation-codes/:id')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(CenterSubscriptionGuard)
+  @ApiOperation({
+    summary: 'Set or clear the CEFR level on an unused seat',
+    description:
+      'Only while `activated` (before a student redeems). Pass `level: null` to clear. On redeem, a non-null level is copied onto the student. After connection, correct level via the students route. Reset keeps the level.',
+  })
+  @ApiOkResponse({ type: ActivationCodeDto })
+  @ApiConflictResponse({
+    type: CenterErrorResponseDto,
+    description: 'INVALID_CODE_TRANSITION (code is not activated).',
+  })
+  @ApiForbiddenResponse({
+    type: CenterErrorResponseDto,
+    description: 'ACCOUNT_NOT_FINALIZED or SUBSCRIPTION_INACTIVE.',
+  })
+  @ApiNotFoundResponse({ type: CenterErrorResponseDto })
+  @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })
+  async setLevel(
+    @CurrentCenterUser() centerUser: CenterAccessTokenPayload,
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() dto: SetActivationCodeLevelDto,
+  ): Promise<ActivationCodeDto> {
+    return this.codes.setLevel(centerUser, id, dto.level);
   }
 
   @Post('activation-codes/:id/deactivate')

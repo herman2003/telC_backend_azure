@@ -45,6 +45,7 @@ describe('CenterActivationCodesService', () => {
     connected_at: null,
     connected_ip: null,
     expires_at: null,
+    level: null,
     created_at: new Date('2027-01-01T00:00:00.000Z'),
     ...over,
   });
@@ -169,6 +170,70 @@ describe('CenterActivationCodesService', () => {
           where: { center_id: 'center-1', status: 'CONNECTED' },
         }),
       );
+    });
+  });
+
+  describe('setLevel', () => {
+    it('sets the level on an activated code owned by the center', async () => {
+      prisma.activationCode.findFirst
+        .mockResolvedValueOnce(codeRow())
+        .mockResolvedValueOnce(codeRow({ level: 'A2' }));
+
+      const code = await service.setLevel(identity, 'code-1', 'A2');
+
+      expect(prisma.activationCode.updateMany).toHaveBeenCalledWith({
+        where: {
+          id: 'code-1',
+          center_id: 'center-1',
+          status: 'ACTIVATED',
+        },
+        data: { level: 'A2' },
+      });
+      expect(code.level).toBe('A2');
+    });
+
+    it('clears the level when null is passed', async () => {
+      prisma.activationCode.findFirst
+        .mockResolvedValueOnce(codeRow({ level: 'B1' }))
+        .mockResolvedValueOnce(codeRow({ level: null }));
+
+      const code = await service.setLevel(identity, 'code-1', null);
+
+      expect(prisma.activationCode.updateMany).toHaveBeenCalledWith(
+        expect.objectContaining({ data: { level: null } }),
+      );
+      expect(code.level).toBeNull();
+    });
+
+    it('refuses setLevel on a connected code', async () => {
+      prisma.activationCode.findFirst.mockResolvedValue(
+        codeRow({ status: 'CONNECTED', student_id: 'student-1' }),
+      );
+
+      await expect(
+        service.setLevel(identity, 'code-1', 'A2'),
+      ).rejects.toMatchObject({ message: 'INVALID_CODE_TRANSITION' });
+      expect(prisma.activationCode.updateMany).not.toHaveBeenCalled();
+    });
+
+    it('answers CODE_NOT_FOUND for another center code', async () => {
+      prisma.activationCode.findFirst.mockResolvedValue(null);
+
+      await expect(
+        service.setLevel(identity, 'code-1', 'A2'),
+      ).rejects.toBeInstanceOf(NotFoundException);
+    });
+
+    it('refuses setLevel on suspended and deactivated codes', async () => {
+      for (const status of ['SUSPENDED', 'DEACTIVATED'] as const) {
+        prisma.activationCode.findFirst.mockResolvedValue(codeRow({ status }));
+        prisma.activationCode.updateMany.mockClear();
+
+        await expect(
+          service.setLevel(identity, 'code-1', 'A2'),
+        ).rejects.toMatchObject({ message: 'INVALID_CODE_TRANSITION' });
+        expect(prisma.activationCode.updateMany).not.toHaveBeenCalled();
+      }
     });
   });
 
@@ -368,8 +433,24 @@ describe('CenterActivationCodesService', () => {
         connected_at: null,
         connected_ip: null,
       });
+      // Level is a seat attribute for the class: reset must not clear it.
+      expect(write.data).not.toHaveProperty('level');
       expect(write.data.code).not.toBe('LQ-7K2P-94QX');
       expect(code.status).toBe('activated');
+    });
+
+    it('keeps the seat level across a reset', async () => {
+      prisma.activationCode.findFirst
+        .mockReset()
+        .mockResolvedValueOnce({ ...connectedToAmina(), level: 'A2' })
+        .mockResolvedValueOnce(
+          codeRow({ code: 'LQ-NEW2-VALU', level: 'A2' }),
+        );
+
+      const code = await service.reset(identity, 'code-1');
+
+      expect(resetWrite().data).not.toHaveProperty('level');
+      expect(code.level).toBe('A2');
     });
 
     it('deletes the student work on the seat immediately', async () => {

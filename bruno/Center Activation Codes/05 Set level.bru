@@ -1,0 +1,25 @@
+meta {
+  name: 05 Set level
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/centers/me/activation-codes/{{codeId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "level": "A2"
+  }
+}
+
+docs {
+  ACTIVATED only. Sets CEFR level before handout. Pass null to clear. Applied to student on redeem.
+}
