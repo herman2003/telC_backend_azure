@@ -30,6 +30,7 @@ describe('CenterActivationCodesController contract', () => {
     codes = {
       list: jest.fn().mockResolvedValue([]),
       seats: jest.fn().mockResolvedValue({}),
+      setLevel: jest.fn().mockResolvedValue({ id: codeId, level: 'A2' }),
       deactivate: jest.fn().mockResolvedValue({ id: codeId }),
       reactivate: jest.fn().mockResolvedValue({ id: codeId }),
       reset: jest.fn().mockResolvedValue({ id: codeId }),
@@ -104,6 +105,44 @@ describe('CenterActivationCodesController contract', () => {
       .post(`/api/centers/me/activation-codes/${codeId}/deactivate`)
       .expect(403);
     expect(codes.deactivate).not.toHaveBeenCalled();
+  });
+
+  it('sets the level on a code for the signed center', async () => {
+    await request(app.getHttpServer())
+      .patch(`/api/centers/me/activation-codes/${codeId}`)
+      .send({ level: 'A2' })
+      .expect(200);
+
+    expect(codes.setLevel).toHaveBeenCalledWith(signedIdentity, codeId, 'A2');
+  });
+
+  it('accepts null to clear the level', async () => {
+    await request(app.getHttpServer())
+      .patch(`/api/centers/me/activation-codes/${codeId}`)
+      .send({ level: null })
+      .expect(200);
+
+    expect(codes.setLevel).toHaveBeenCalledWith(signedIdentity, codeId, null);
+  });
+
+  it('refuses an unknown CEFR level', async () => {
+    await request(app.getHttpServer())
+      .patch(`/api/centers/me/activation-codes/${codeId}`)
+      .send({ level: 'C1' })
+      .expect(400);
+
+    expect(codes.setLevel).not.toHaveBeenCalled();
+  });
+
+  it('stops a blocked center from setting a level', async () => {
+    blocked = true;
+
+    await request(app.getHttpServer())
+      .patch(`/api/centers/me/activation-codes/${codeId}`)
+      .send({ level: 'A2' })
+      .expect(403);
+
+    expect(codes.setLevel).not.toHaveBeenCalled();
   });
 
   // Reset replaced it (D39): activate put the same value back in the pool,

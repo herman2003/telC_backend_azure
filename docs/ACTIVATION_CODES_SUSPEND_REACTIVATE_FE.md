@@ -17,9 +17,12 @@
 |--------|------|--------|
 | GET | `/api/centers/me/activation-codes` | List (+ `reset` allowance) |
 | GET | `/api/centers/me/seats` | bought / used |
+| PATCH | `/api/centers/me/activation-codes/:id` | Set/clear `level` (CEFR) on **activated** only |
 | POST | `/api/centers/me/activation-codes/:id/deactivate` | Pause connected → suspended |
 | POST | `/api/centers/me/activation-codes/:id/reactivate` | Resume suspended → connected |
-| POST | `/api/centers/me/activation-codes/:id/reset` | New code; **wipe data now** |
+| POST | `/api/centers/me/activation-codes/:id/reset` | New code; **wipe data now** (keeps `level`) |
+
+`ActivationCodeDto.level`: `A1` \| `A2` \| `B1` \| `B2` \| `null`. Body for PATCH: `{ "level": "A2" }` or `{ "level": null }`. On redeem, a non-null code level is copied onto the student.
 
 There is **no** `activate` / reactivate-of-deactivated route.
 

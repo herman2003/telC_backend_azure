@@ -9,11 +9,18 @@ describe('toActivationCodeView', () => {
     connected_at: null as Date | null,
     created_at: new Date('2026-10-01T00:00:00.000Z'),
     expires_at: null as Date | null,
+    level: null as 'A1' | 'A2' | 'B1' | 'B2' | null,
   };
 
   it('maps SUSPENDED to suspended', () => {
     expect(toActivationCodeView({ ...base, status: 'SUSPENDED' }).status).toBe(
       'suspended',
     );
+  });
+
+  it('passes the seat level through', () => {
+    expect(
+      toActivationCodeView({ ...base, status: 'ACTIVATED', level: 'A2' }).level,
+    ).toBe('A2');
   });
 });
