@@ -1,0 +1,39 @@
+{
+  "slug": "relativpronomen-akkusativ-gram-u-306",
+  "titleFr": "Pronom relatif à l’accusatif",
+  "titleEn": "Relative pronouns — accusative",
+  "titleDe": "Relativpronomen — Akkusativ",
+  "ruleFr": "## Relatif à l’accusatif — COD de la relative\n\nSi le relatif est le **complément d’objet direct** → **accusatif**.\n\n### Formes\n| Mask. | Fem. | Neut. | Plur. |\n|---|---|---|---|\n| **den** | **die** | **das** | **die** |\n\n### Attention\nSeul le **masculin** change nettement : *der* → ***den***.\n\n### Test\n*Wen?* / *Was?* dans la relative.\n- *der Film, **den** ich gesehen habe* → *Wen/Was habe ich gesehen?* → *den Film*\n\n### Exemples\n- *Die Stadt, **die** ich liebe, heißt Hamburg.*\n- *Das Buch, **das** du suchst, liegt hier.*\n\n### Mini-entraînement\nTransformez : *Ich kenne den Mann.* → *der Mann, den…*",
+  "ruleEn": "## Accusative relative pronoun — direct object\n\nIf the relative is the **direct object** → **accusative**.\n\n### Forms\n| Masc. | Fem. | Neut. | Plur. |\n|---|---|---|---|\n| **den** | **die** | **das** | **die** |\n\n### Watch out\nOnly **masculine** clearly changes: *der* → ***den***.\n\n### Test\n*Wen?* / *Was?* in the relative clause.\n- *der Film, **den** ich gesehen habe*\n\n### Mini practice\nTransform: *Ich kenne den Mann.* → *der Mann, den…*",
+  "ruleDe": "## Relativpronomen Akkusativ — direktes Objekt\n\nFormen: **den/die/das/die**. Maskulin: *der* → ***den***.\n\n### Test\n*Wen?/Was?* im Relativsatz.\n\n### Mini-Übung\n*Ich kenne den Mann.* → *der Mann, den…*",
+  "notesFr": "Au masculin, ça change : *der* → *den* !",
+  "notesEn": "In masculine it changes: *der* → *den*!",
+  "notesDe": "Maskulin ändert sich! *der* → *den*",
+  "examples": [
+    {
+      "de": "Der Film, den ich gesehen habe, war spannend.",
+      "fr": "Le film que j’ai vu était passionnant. (*den*)",
+      "en": "The film that I saw was exciting. (*den*)"
+    },
+    {
+      "de": "Die Stadt, die ich liebe, heißt Hamburg.",
+      "fr": "La ville que j’aime s’appelle Hambourg.",
+      "en": "The city that I love is called Hamburg."
+    },
+    {
+      "de": "Das Buch, das du suchst, liegt hier.",
+      "fr": "Le livre que tu cherches est ici.",
+      "en": "The book that you’re looking for is here."
+    },
+    {
+      "de": "Die Freunde, die wir eingeladen haben, kommen später.",
+      "fr": "Les amis que nous avons invités viennent plus tard.",
+      "en": "The friends we invited are coming later."
+    },
+    {
+      "de": "Wo ist der Schlüssel, den ich brauche?",
+      "fr": "Où est la clé dont j’ai besoin ?",
+      "en": "Where is the key that I need?"
+    }
+  ]
+}

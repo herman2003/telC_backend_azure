@@ -1,0 +1,39 @@
+{
+  "slug": "komma-und-oder-gram-ee-362",
+  "titleFr": "Virgule — und / oder",
+  "titleEn": "Comma — und / oder",
+  "titleDe": "Komma — und/oder",
+  "ruleFr": "## Virgule — und / oder\n\nDevant **und** / **oder** dans une **énumération**, l’allemand **ne met pas** de virgule (pas d’« Oxford comma »).\n\n### Règle centrale\n- ✓ *Ich kaufe Brot, Milch und Käse.*  \n  (virgule entre les éléments, **pas** devant *und*)\n- ✓ *Willst du Tee oder Kaffee?*\n\n### Quand il y a quand même une virgule\nSi *und/oder* relie deux **propositions** avec changement de sujet / structure lourde — parfois virgule pour clarifier, mais **ce n’est pas** le cas de l’énumération simple.\n\nVirgule obligatoire si un **nebensatz** suit :\n- *Ich komme, und **zwar** morgen.* (cas particuliers)\n- Devant subordonnée : *…, weil …* (autre règle)\n\n### Différence avec l’anglais\nAnglais : *A, B, and C* (virgule optionnelle/souvent avant *and*).  \nAllemand : *A, B und C* — **pas** de virgule avant *und*.\n\n### Mini-entraînement\n1. Corrigez les Oxford commas fautifs.\n2. Écrivez 5 listes : *A, B und C*.\n3. Distinguez liste vs deux phrases liées.",
+  "ruleEn": "## Comma — und / oder\n\nBefore **und** / **oder** in a **list**, German does **not** use a comma (no Oxford comma).\n\n### Core rule\n- ✓ *Ich kaufe Brot, Milch und Käse.*  \n  (commas between items, **none** before *und*)\n- ✓ *Willst du Tee oder Kaffee?*\n\n### Unlike English\nEnglish: *A, B, and C* (comma before *and* often used).  \nGerman: *A, B und C* — **no** comma before *und*.\n\n### Mini practice\n1. Remove wrong Oxford commas.\n2. Write 5 lists: *A, B und C*.\n3. Distinguish lists vs linked clauses.",
+  "ruleDe": "## Komma — und/oder\n\nVor **und** / **oder** in Aufzählungen steht **kein** Komma (kein Oxford-Komma).\n\n### Kernregel\n- ✓ *Ich kaufe Brot, Milch und Käse.*\n- ✓ *Willst du Tee oder Kaffee?*\n\n### Anders als im Englischen\nEnglisch oft Komma vor *and* — Deutsch **nicht** vor *und*.\n\n### Mini-Übung\n1. Falsche Oxford-Kommas streichen.\n2. 5 Listen: *A, B und C*.\n3. Aufzählung vs. Satzverbindung unterscheiden.",
+  "notesFr": "Pas d’Oxford comma en allemand ! Ich kaufe Brot, Milch und Käse (pas de virgule avant und).",
+  "notesEn": "No Oxford comma in German! Ich kaufe Brot, Milch und Käse (no comma before und).",
+  "notesDe": "Kein Oxford-Komma im Deutschen! Ich kaufe Brot, Milch und Käse.",
+  "examples": [
+    {
+      "de": "Ich kaufe Brot, Milch und Käse.",
+      "fr": "J’achète du pain, du lait et du fromage. (pas de virgule avant *und*.)",
+      "en": "I’m buying bread, milk and cheese. (no comma before *und*.)"
+    },
+    {
+      "de": "Kommst du heute oder morgen?",
+      "fr": "Tu viens aujourd’hui ou demain ?",
+      "en": "Are you coming today or tomorrow?"
+    },
+    {
+      "de": "Wir brauchen Stifte, Papier und einen Ordner.",
+      "fr": "Nous avons besoin de stylos, de papier et d’un classeur.",
+      "en": "We need pens, paper and a folder."
+    },
+    {
+      "de": "Rot, blau oder grün — was magst du?",
+      "fr": "Rouge, bleu ou vert — qu’est-ce que tu préfères ?",
+      "en": "Red, blue or green — which do you like?"
+    },
+    {
+      "de": "Er spricht Deutsch, Englisch und Französisch.",
+      "fr": "Il parle allemand, anglais et français.",
+      "en": "He speaks German, English and French."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "passiv-unpersonlich-gram-i-201",
+  "titleFr": "Le passif impersonnel",
+  "titleEn": "The impersonal passive",
+  "titleDe": "Passiv — unpersönlich",
+  "ruleFr": "## Passif impersonnel\n\nL’allemand peut former un passif **sans sujet logique**, souvent avec **es** ou sans *es* si un autre élément occupe la position 1.\n\n### Structure\n**Es wird** + Partizip II (+ …)\nou : complément / adverbe en tête + **wird** + Partizip II\n\n- *Es wird getanzt.*\n- *Hier wird nicht geraucht.*\n- *Morgen wird gearbeitet.*\n\n### Particularité\nFonctionne aussi avec des **verbes intransitifs** (sans COD) — typiquement allemand.\n\n### Sens\n« On danse / On ne fume pas ici » — action générale, agent non important.\n\n### Mini-entraînement\nFormez 5 interdictions / usages avec passif impersonnel.",
+  "ruleEn": "## Impersonal passive\n\nGerman can form a passive **without a logical subject**, often with **es**, or without *es* if something else fills first position.\n\n### Pattern\n**Es wird** + participle (+ …)\nor: adverbial first + **wird** + participle\n\n- *Es wird getanzt.*\n- *Hier wird nicht geraucht.*\n- *Morgen wird gearbeitet.*\n\n### Special feature\nAlso works with **intransitive verbs** — typically German.\n\n### Meaning\n“People are dancing / No smoking here” — general action, agent unimportant.\n\n### Mini practice\nForm 5 rules/habits with impersonal passive.",
+  "ruleDe": "## Passiv — unpersönlich\n\nPassiv **ohne logisches Subjekt**, oft mit **es**.\n\n### Muster\n**Es wird** + Partizip II\noder: Adverbiale zuerst + **wird** + Partizip II\n\n- *Es wird getanzt.*\n- *Hier wird nicht geraucht.*\n\n### Besonderheit\nAuch mit **intransitiven Verben** möglich — typisch deutsch.\n\n### Mini-Übung\nBilden Sie 5 Regeln/Gewohnheiten im unpersönlichen Passiv.",
+  "notesFr": "Typiquement allemand ! Marche aussi avec des verbes intransitifs.",
+  "notesEn": "Typically German! Also works with intransitive verbs.",
+  "notesDe": "Typisch deutsch! Funktioniert auch mit intransitiven Verben.",
+  "examples": [
+    {
+      "de": "Es wird getanzt.",
+      "fr": "On danse. / Il y a de la danse.",
+      "en": "People are dancing. / There is dancing."
+    },
+    {
+      "de": "Hier wird nicht geraucht.",
+      "fr": "On ne fume pas ici.",
+      "en": "No smoking here. / People don’t smoke here."
+    },
+    {
+      "de": "Morgen wird gearbeitet.",
+      "fr": "Demain, on travaille.",
+      "en": "Work will be done tomorrow. / People will work tomorrow."
+    },
+    {
+      "de": "In der Bibliothek wird geflüstert.",
+      "fr": "À la bibliothèque, on chuchote.",
+      "en": "People whisper in the library."
+    },
+    {
+      "de": "Auf der Party wurde viel gelacht.",
+      "fr": "À la fête, on a beaucoup ri.",
+      "en": "There was a lot of laughing at the party."
+    }
+  ]
+}

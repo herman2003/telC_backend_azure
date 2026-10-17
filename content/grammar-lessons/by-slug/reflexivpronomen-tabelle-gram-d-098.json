@@ -1,0 +1,39 @@
+{
+  "slug": "reflexivpronomen-tabelle-gram-d-098",
+  "titleFr": "Tableau des pronoms réfléchis",
+  "titleEn": "Reflexive pronoun table",
+  "titleDe": "Reflexivpronomen — Tabelle",
+  "ruleFr": "## Tableau des pronoms réfléchis\n\nMémorisez le tableau complet : la différence Akkusativ / Dativ n’apparaît qu’à la **1re et 2e personne du singulier**.\n\n### Tableau complet\n| | Akkusativ | Dativ |\n|---|---|---|\n| ich | mich | mir |\n| du | dich | dir |\n| er / sie / es | **sich** | **sich** |\n| wir | uns | uns |\n| ihr | euch | euch |\n| sie / Sie | **sich** | **sich** |\n\n### Ce qu’il faut retenir\n- *uns*, *euch*, *sich* : **identiques** aux deux cas.\n- Seuls *mich≠mir* et *dich≠dir* changent.\n\n### Astuce mémoire\n« Au pluriel et à la 3e personne, une seule forme ; au singulier *ich/du*, deux formes. »\n\n### Mini-entraînement\nRemplissez le tableau de mémoire, puis vérifiez.",
+  "ruleEn": "## Reflexive pronoun table\n\nLearn the full grid: the Accusative / Dative difference only shows in **1st and 2nd person singular**.\n\n### Full table\n| | Accusative | Dative |\n|---|---|---|\n| ich | mich | mir |\n| du | dich | dir |\n| er / sie / es | **sich** | **sich** |\n| wir | uns | uns |\n| ihr | euch | euch |\n| sie / Sie | **sich** | **sich** |\n\n### Key takeaway\n- *uns*, *euch*, *sich* are **the same** in both cases.\n- Only *mich≠mir* and *dich≠dir* change.\n\n### Memory tip\n“Plural and 3rd person: one form; singular *ich/du*: two forms.”\n\n### Mini practice\nFill the table from memory, then check.",
+  "ruleDe": "## Reflexivpronomen — Tabelle\n\nLernen Sie die volle Tabelle: der Unterschied Akkusativ / Dativ zeigt sich nur in der **1. und 2. Person Singular**.\n\n### Vollständige Tabelle\n| | Akkusativ | Dativ |\n|---|---|---|\n| ich | mich | mir |\n| du | dich | dir |\n| er / sie / es | **sich** | **sich** |\n| wir | uns | uns |\n| ihr | euch | euch |\n| sie / Sie | **sich** | **sich** |\n\n### Merksatz\n- *uns*, *euch*, *sich*: in beiden Kasus **gleich**.\n- Nur *mich≠mir* und *dich≠dir* unterscheiden sich.\n\n### Mini-Übung\nTabelle auswendig ausfüllen, dann prüfen.",
+  "notesFr": "Différence seulement à la 1re et 2e personne du singulier ! 3e personne & pluriel : sich / uns / euch.",
+  "notesEn": "Difference only in 1st and 2nd person singular! 3rd person & plural: sich / uns / euch.",
+  "notesDe": "Unterschied nur bei 1. und 2. Person Singular! 3. Person & Plural: immer „sich“ / „uns“ / „euch“.",
+  "examples": [
+    {
+      "de": "Ich freue mich. — Ich kaufe mir ein Buch.",
+      "fr": "Je me réjouis. — Je m’achète un livre. (mich ≠ mir.)",
+      "en": "I’m glad. — I buy myself a book. (mich ≠ mir.)"
+    },
+    {
+      "de": "Du wäschst dich. — Du wäschst dir die Hände.",
+      "fr": "Tu te laves. — Tu te laves les mains. (dich ≠ dir.)",
+      "en": "You wash yourself. — You wash your hands. (dich ≠ dir.)"
+    },
+    {
+      "de": "Er setzt sich. — Er kauft sich ein Ticket.",
+      "fr": "Il s’assoit. — Il s’achète un billet. (« sich » dans les deux cas.)",
+      "en": "He sits down. — He buys himself a ticket. (“sich” in both cases.)"
+    },
+    {
+      "de": "Wir duschen uns. — Wir wünschen uns Glück.",
+      "fr": "Nous nous douchons. — Nous nous souhaitons bonne chance. (« uns » identique.)",
+      "en": "We shower. — We wish ourselves luck. (“uns” identical.)"
+    },
+    {
+      "de": "Ihr zieht euch an. — Ihr stellt euch vor.",
+      "fr": "Vous vous habillez. — Vous vous présentez. (« euch » identique.)",
+      "en": "You get dressed. — You introduce yourselves. (“euch” identical.)"
+    }
+  ]
+}

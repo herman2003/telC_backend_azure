@@ -1,0 +1,39 @@
+{
+  "slug": "welcher-welche-welches-gram-c-072",
+  "titleFr": "Welcher / welche / welches — quelle option ?",
+  "titleEn": "Welcher / welche / welches — which one?",
+  "titleDe": "welcher/welche/welches",
+  "ruleFr": "## Welcher — question de choix\n\n**Welcher / welche / welches** demande **lequel / laquelle** parmi plusieurs options.\n\n### Emploi\n- *Welcher Zug fährt nach Berlin?*\n- *Welche Farbe möchtest du?*\n- *Welches Buch liest du?*\n\n### Nominatif\n| masculin | féminin | neutre | pluriel |\n|---|---|---|---|\n| **welcher** | **welche** | **welches** | **welche** |\n\n### Différence avec *was*\n- *Was ist das?* → chose inconnue / catégorie ouverte\n- *Welches ist dein Auto?* → choix dans un ensemble\n\n### Mini-entraînement\nPosez 5 questions *welcher/welche/welches* sur des objets dans la pièce.",
+  "ruleEn": "## Welcher — choice question\n\n**Welcher / welche / welches** asks **which** among several options.\n\n### Use\n- *Welcher Zug fährt nach Berlin?*\n- *Welche Farbe möchtest du?*\n- *Welches Buch liest du?*\n\n### Nominative\n**welcher** · **welche** · **welches** · **welche**\n\n### vs *was*\n- *Was ist das?* → open/unknown\n- *Welches ist dein Auto?* → choice set\n\n### Mini practice\nAsk 5 *welcher/welche/welches* questions about things in the room.",
+  "ruleDe": "## Welcher — Auswahlfrage\n\n**Welcher** fragt nach einer Option unter mehreren.\n\n### Gebrauch\n*Welcher Zug…? Welche Farbe…? Welches Buch…?*\n\n### Nominativ\n**welcher** · **welche** · **welches** · **welche**\n\n### Mini-Übung\n5 Fragen *welcher/welche/welches* im Raum stellen.",
+  "notesFr": "Utilisé quand il y a plusieurs options : *welcher von diesen?*",
+  "notesEn": "Used when there are several options: *welcher von diesen?*",
+  "notesDe": "Bei mehreren Optionen: *welcher von diesen?*",
+  "examples": [
+    {
+      "de": "Welcher Zug fährt nach Berlin?",
+      "fr": "Quel train part pour Berlin ?",
+      "en": "Which train goes to Berlin?"
+    },
+    {
+      "de": "Welche Farbe möchtest du?",
+      "fr": "Quelle couleur veux-tu ?",
+      "en": "Which colour would you like?"
+    },
+    {
+      "de": "Welches Buch liest du gerade?",
+      "fr": "Quel livre lis-tu en ce moment ?",
+      "en": "Which book are you reading right now?"
+    },
+    {
+      "de": "Welche Schuhe passen besser?",
+      "fr": "Quelles chaussures vont mieux ?",
+      "en": "Which shoes fit better?"
+    },
+    {
+      "de": "Welcher von diesen Wegen ist kürzer?",
+      "fr": "Lequel de ces chemins est plus court ?",
+      "en": "Which of these paths is shorter?"
+    }
+  ]
+}

@@ -59,8 +59,9 @@ model Student {
   /// afterwards.
   grandfathered_access Boolean @default(false)
 
-  /// The student's current German level (D38). Declared by the student,
-  /// editable by their center. Null until either sets it.
+  /// The student's current German level (D38). May be declared at register,
+  /// set from an activation code's level at redemption, or edited by the
+  /// center. Null until one of those sets it.
   level CefrLevel?
 
   center          Center?                  @relation(fields: [center_id], references: [id], onDelete: SetNull)
@@ -71,6 +72,15 @@ model Student {
   notifications   Notification[]
   activities      StudentActivity[]
   training_audio_plays TrainingAudioPlay[]
+  writing_attempts         WritingAttempt[]
+  listening_attempts       ListeningAttempt[]
+  sprachbausteine_attempts SprachbausteineAttempt[]
+  lesen_attempts           LesenAttempt[]
+  speaking_attempts        SpeakingAttempt[]
+  grammar_topic_progress GrammarTopicProgress[]
+  grammar_exercise_attempts GrammarExerciseAttempt[]
+  grammar_practice_attempts GrammarPracticeAttempt[]
+  vocab_progress VocabProgress[]
 
   @@index([center_id])
   @@index([email])
@@ -284,6 +294,10 @@ model ActivationCode {
   /// paid code does (D4: all codes of a school end with its pack). Only the
   /// trial code carries a date.
   expires_at DateTime?
+
+  /// CEFR level for this seat, set by the center before handout (optional).
+  /// Copied onto the student at redemption when non-null. Survives reset.
+  level CefrLevel?
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -643,6 +657,9 @@ model WritingAttempt {
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id])
   @@index([erasure_id])
   @@map("writing_attempts")
 }
@@ -668,7 +685,6 @@ model ListeningAttempt {
   /// every training row written before this stays as it was.
   answers Json?
 
-  // Column only, no relation — matches WritingAttempt and SprachbausteineAttempt.
   // Nullable on purpose: Hoeren content is not yet in the database, so an
   // attempt whose content_revision names no Modelltest (e.g. the historic
   // mock-horen-* rows) genuinely belongs to no exam.
@@ -684,6 +700,9 @@ model ListeningAttempt {
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id])
   @@index([listening_exercise_id])
   @@index([erasure_id])
   @@map("listening_attempts")
@@ -715,39 +734,11 @@ model SprachbausteineAttempt {
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
   @@index([student_id, teil_id])
   @@index([erasure_id])
   @@map("sprachbausteine_attempts")
-}
-
-model LesenPassage {
-  id         String    @id @default(uuid())
-  title      String
-  content    String
-  cefr_level String    @default("B1")
-  topic      String?
-  word_count Int?
-  created_at DateTime? @default(now())
-
-  questions LesenQuestion[]
-
-  @@map("lesen_passages")
-}
-
-model LesenQuestion {
-  id             String    @id @default(uuid())
-  passage_id     String
-  question_text  String
-  question_type  String
-  options        Json
-  correct_answer String
-  explanation    String?
-  difficulty     Int?
-  created_at     DateTime? @default(now())
-
-  passage LesenPassage @relation(fields: [passage_id], references: [id])
-
-  @@map("lesen_questions")
 }
 
 model LesenTeil2Exercise {
@@ -999,6 +990,9 @@ model Modelltest {
   listeningExercises            ListeningExercise[]
   speakingExercises             SpeakingExercise[]
   examSessions                  ExamSession[]
+  vocab_occurrences             VocabOccurrence[]
+  vocab_exercises               VocabExercise[]
+  grammar_topic_links           GrammarTopicModelltest[]
 
   /// Kept out of the training catalogue, so an exam sitting can use material
   /// no student has seen. False for everything that exists today.
@@ -1225,6 +1219,8 @@ model LesenAttempt {
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
   @@index([student_id, teil_id])
   @@index([erasure_id])
   @@map("lesen_attempts")
@@ -1252,6 +1248,8 @@ model SpeakingAttempt {
   /// being null, or a candidate would find their exam transcript in their
   /// own practice history before the center released anything.
   exam_attempt_id String?
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
   @@index([student_id, teil_number])
   @@index([erasure_id])
@@ -1594,4 +1592,257 @@ model Notification {
   /// The unread list, newest first, is the only query this table serves.
   @@index([student_id, read_at, created_at])
   @@map("notifications")
+}
+
+/// Grammar lesson (theme). Of-the-day picks from topics linked to the weekly MT.
+model GrammarTopic {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug         String   @unique
+  category     String
+  title_de     String
+  title_fr     String
+  title_en     String?
+  cefr_levels  String[] @default([])
+  rule_de      String
+  rule_fr      String
+  rule_en      String?
+  notes_fr     String?
+  notes_en     String?
+  notes_de     String?
+  external_id  String?  @unique
+  sort_order   Int      @default(0)
+  published    Boolean  @default(false)
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  examples    GrammarExample[]
+  exercises   GrammarExercise[]
+  progress    GrammarTopicProgress[]
+  modelltests GrammarTopicModelltest[]
+
+  @@index([published, sort_order])
+  @@map("grammar_topics")
+}
+
+/// Weekly MT ↔ grammar topics (pool for of-the-day within the week).
+model GrammarTopicModelltest {
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  topic_id      String @db.Uuid
+  modelltest_id String @db.Uuid
+  sort_order    Int    @default(0)
+
+  topic      GrammarTopic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
+  modelltest Modelltest   @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
+
+  @@unique([topic_id, modelltest_id])
+  @@index([modelltest_id, sort_order])
+  @@map("grammar_topic_modelltests")
+}
+
+model GrammarExample {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  topic_id String @db.Uuid
+  de       String
+  fr       String?
+  en       String?
+
+  topic GrammarTopic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
+
+  @@index([topic_id])
+  @@map("grammar_examples")
+}
+
+model GrammarExercise {
+  id             String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  topic_id       String @db.Uuid
+  kind           String
+  /// easy | medium | hard
+  difficulty     String
+  sort_order     Int    @default(0)
+  /// Localized UI prompt (DE). Also used historically as cloze stem — regenerate to align.
+  prompt_de      String?
+  prompt_fr      String
+  prompt_en      String?
+  options_json   Json?
+  answer         String
+  explanation_fr String?
+  explanation_en String?
+  explanation_de String?
+
+  topic    GrammarTopic              @relation(fields: [topic_id], references: [id], onDelete: Cascade)
+  attempts GrammarExerciseAttempt[]
+
+  @@index([topic_id, difficulty, sort_order])
+  @@map("grammar_exercises")
+}
+
+model GrammarTopicProgress {
+  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id          String
+  topic_id            String   @db.Uuid
+  lesson_completed    Boolean  @default(false)
+  next_exercise_index Int      @default(0)
+  updated_at          DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  student Student      @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  topic   GrammarTopic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, topic_id])
+  @@map("grammar_topic_progress")
+}
+
+model GrammarExerciseAttempt {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id  String
+  exercise_id String   @db.Uuid
+  answer      String
+  correct     Boolean
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  student  Student         @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  exercise GrammarExercise @relation(fields: [exercise_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id, exercise_id])
+  @@map("grammar_exercise_attempts")
+}
+
+/// Free-practice QCM session (timer client-side). Not of-the-day; does not
+/// touch GrammarTopicProgress or StudentActivity readiness.
+model GrammarPracticeAttempt {
+  attempt_id       String    @id @default(uuid())
+  student_id       String
+  status           String    @default("completed")
+  /// 0–100, ratio of correct submitted answers.
+  score            Int
+  correct_count    Int
+  total            Int
+  /// easy | medium | hard when the client picked a level; null otherwise.
+  difficulty       String?
+  duration_seconds Int?
+  answers          Json
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  completed_at     DateTime? @db.Timestamptz(6)
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id, created_at])
+  @@map("grammar_practice_attempts")
+}
+
+/// Vocabulary lemma (substantiv, verb, adj, adv, prep, …).
+model VocabEntry {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lemma          String
+  /// Empty string when N/A (verbs, etc.) — keeps @@unique stable.
+  article        String   @default("")
+  gender         String?
+  plural         String?
+  /// noun | verb | adj | adv | prep | other
+  pos            String
+  cefr_level     String?
+  /// modelltest | cefr_list | goethe | telc | manual
+  source         String
+  frequency_rank Int?
+  dwds_frequency Int?
+  auxiliary      String?
+  separable      Boolean?
+  partizip_ii    String?
+  comparative    String?
+  superlative    String?
+  governs_case   String?
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  senses      VocabSense[]
+  verb_forms  VocabVerbForm[]
+  occurrences VocabOccurrence[]
+  progress    VocabProgress[]
+  exercises   VocabExercise[]
+
+  @@unique([lemma, article, pos])
+  @@index([pos, source])
+  @@map("vocab_entries")
+}
+
+model VocabSense {
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entry_id   String  @db.Uuid
+  sort_order Int     @default(0)
+  meaning_fr String
+  meaning_en String?
+  example_de String
+  example_fr String?
+  example_en String?
+  note_fr    String?
+  note_en    String?
+
+  entry VocabEntry @relation(fields: [entry_id], references: [id], onDelete: Cascade)
+
+  @@index([entry_id, sort_order])
+  @@map("vocab_senses")
+}
+
+/// German-only conjugation cells (no translations).
+model VocabVerbForm {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entry_id String @db.Uuid
+  tense    String
+  person   String
+  form_de  String
+
+  entry VocabEntry @relation(fields: [entry_id], references: [id], onDelete: Cascade)
+
+  @@unique([entry_id, tense, person])
+  @@map("vocab_verb_forms")
+}
+
+model VocabOccurrence {
+  id               String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  vocab_entry_id   String  @db.Uuid
+  modelltest_id    String  @db.Uuid
+  skill            String
+  content_revision String  @default("")
+  context_snippet  String?
+  in_weekly_pack   Boolean @default(false)
+
+  entry      VocabEntry @relation(fields: [vocab_entry_id], references: [id], onDelete: Cascade)
+  modelltest Modelltest @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
+
+  @@unique([vocab_entry_id, modelltest_id, skill, content_revision])
+  @@index([modelltest_id, in_weekly_pack])
+  @@map("vocab_occurrences")
+}
+
+model VocabProgress {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id     String
+  vocab_entry_id String   @db.Uuid
+  status         String
+  updated_at     DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  student Student    @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  entry   VocabEntry @relation(fields: [vocab_entry_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, vocab_entry_id])
+  @@map("vocab_progress")
+}
+
+model VocabExercise {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  modelltest_id  String  @db.Uuid
+  vocab_entry_id String? @db.Uuid
+  kind           String
+  prompt_fr      String
+  prompt_en      String?
+  prompt_de      String?
+  options_json   Json?
+  answer         String
+  explanation_fr String?
+  sort_order     Int     @default(0)
+
+  modelltest Modelltest  @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
+  entry      VocabEntry? @relation(fields: [vocab_entry_id], references: [id], onDelete: SetNull)
+
+  @@index([modelltest_id, sort_order])
+  @@map("vocab_exercises")
 }

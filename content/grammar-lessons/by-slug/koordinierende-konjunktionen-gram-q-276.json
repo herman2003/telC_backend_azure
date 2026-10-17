@@ -1,0 +1,39 @@
+{
+  "slug": "koordinierende-konjunktionen-gram-q-276",
+  "titleFr": "Conjonctions de coordination",
+  "titleEn": "Coordinating conjunctions",
+  "titleDe": "Koordinierende Konjunktionen",
+  "ruleFr": "## Conjonctions de coordination\n\nElles relient des mots ou des phrases **sans** envoyer le verbe à la fin.\n\n### Liste principale\n**und, oder, aber, denn, sondern**\n\n### Effet sur l’ordre des mots\nCes conjonctions sont en **position 0** : elles ne comptent pas ; le verbe reste en **position 2** dans la proposition qui suit.\n- Ich bleibe zu Hause, **denn** ich **bin** krank.\n- Er kommt nicht mit, **sondern** er **bleibt** hier.\n\n### Nuances\n| Mot | Sens | Note |\n|---|---|---|\n| und | et | addition |\n| oder | ou | alternative |\n| aber | mais | opposition (après affirmation) |\n| denn | car | cause (verbe en pos. 2) |\n| sondern | mais (au contraire) | après une négation |\n\n*nicht … sondern* : Ich trinke **nicht** Tee, **sondern** Kaffee.\n\n### Mini-entraînement\n1. Reliez 5 paires de phrases avec chaque conjonction.\n2. Distinguez *aber* et *sondern*.\n3. Vérifiez : verbe toujours en position 2 après *denn*.",
+  "ruleEn": "## Coordinating conjunctions\n\nThey connect words or clauses **without** sending the verb to the end.\n\n### Main list\n**und, oder, aber, denn, sondern**\n\n### Effect on word order\nThese conjunctions are in **position 0**: they don’t count; the verb stays in **position 2** in the following clause.\n- Ich bleibe zu Hause, **denn** ich **bin** krank.\n- Er kommt nicht mit, **sondern** er **bleibt** hier.\n\n### Nuances\n| Word | Meaning | Note |\n|---|---|---|\n| und | and | addition |\n| oder | or | alternative |\n| aber | but | contrast after a positive |\n| denn | because / for | cause (verb in pos. 2) |\n| sondern | but rather | after a negation |\n\n*nicht … sondern*: Ich trinke **nicht** Tee, **sondern** Kaffee.\n\n### Mini practice\n1. Link 5 sentence pairs with each conjunction.\n2. Contrast *aber* and *sondern*.\n3. Check: verb still in position 2 after *denn*.",
+  "ruleDe": "## Koordinierende Konjunktionen\n\nSie verbinden Satzteile **ohne** Verb-Endstellung.\n\n### Hauptliste\n**und, oder, aber, denn, sondern**\n\n### Wortstellung\nPosition **0** → Verb bleibt auf Position **2**:\n- …, **denn** ich **bin** krank.\n- …, **sondern** er **bleibt** hier.\n\n### Nuancen\n- *aber* nach positivem Satz\n- *sondern* nach Verneinung (*nicht … sondern*)\n\n### Mini-Übung\n1. Je einen Satz mit jeder Konjunktion.\n2. *aber* vs. *sondern*.\n3. Verbposition nach *denn* prüfen.",
+  "notesFr": "Position 0 : ne compte pas. Le verbe reste en position 2.",
+  "notesEn": "Position 0: doesn’t count. Verb stays in position 2.",
+  "notesDe": "Position 0 = zählt nicht als Position. Verb bleibt an Position 2.",
+  "examples": [
+    {
+      "de": "Ich trinke Kaffee und esse ein Brötchen.",
+      "fr": "Je bois du café et mange un petit pain.",
+      "en": "I drink coffee and eat a roll."
+    },
+    {
+      "de": "Kommst du mit oder bleibst du zu Hause?",
+      "fr": "Tu viens ou tu restes à la maison ?",
+      "en": "Are you coming along or staying home?"
+    },
+    {
+      "de": "Ich bin müde, aber ich arbeite weiter.",
+      "fr": "Je suis fatigué, mais je continue à travailler.",
+      "en": "I am tired, but I keep working."
+    },
+    {
+      "de": "Ich bleibe zu Hause, denn ich bin krank.",
+      "fr": "Je reste à la maison car je suis malade. (verbe en pos. 2)",
+      "en": "I stay home because I am ill. (verb in pos. 2)"
+    },
+    {
+      "de": "Ich trinke nicht Tee, sondern Kaffee.",
+      "fr": "Je ne bois pas de thé, mais du café. (*sondern* après négation)",
+      "en": "I don’t drink tea but coffee. (*sondern* after negation)"
+    }
+  ]
+}

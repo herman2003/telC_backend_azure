@@ -1,0 +1,39 @@
+{
+  "slug": "doch-partikel-gram-dd-354",
+  "titleFr": "doch (particule)",
+  "titleEn": "doch (particle)",
+  "titleDe": "doch (Partikel)",
+  "ruleFr": "## doch (particule)\n\n**doch** est une des particules les plus riches : renforcement, contradiction, invitation…\n\n### Emplois principaux\n1. **Contredire un négatif** (réponse)  \n   *Kommst du nicht?* — ***Doch!*** (= Si !)\n2. **Adoucir / encourager un impératif**  \n   *Komm **doch** her!* · *Setz dich **doch**!*\n3. **Rappeler une évidence**  \n   *Du weißt **doch**, dass…*\n4. **Renforcer une affirmation**  \n   *Das ist **doch** klar!*\n\n### Ne pas confondre\n- Particule *doch* (inaccentuée, au milieu)\n- Réponse *Doch!* (accentuée, seule)\n- Conjonction *doch* ≈ *aber* : *Er ist müde, doch er kommt.*\n\n### Mini-entraînement\n1. Répondez à 5 questions négatives par *Doch!*\n2. Adoucissez 5 impératifs avec *doch*.\n3. Distinguez particule / conjonction / réponse.",
+  "ruleEn": "## doch (particle)\n\n**doch** is one of the richest particles: emphasis, contradiction, coaxing…\n\n### Main uses\n1. **Contradict a negative** (as a reply)  \n   *Kommst du nicht?* — ***Doch!*** (= Yes I am/do!)\n2. **Soften / coax an imperative**  \n   *Komm **doch** her!*\n3. **Appeal to shared knowledge**  \n   *Du weißt **doch**, dass…*\n4. **Strengthen a statement**  \n   *Das ist **doch** klar!*\n\n### Don’t confuse\n- Particle *doch* (unstressed, mid-sentence)\n- Reply *Doch!* (stressed, alone)\n- Conjunction *doch* ≈ *but*\n\n### Mini practice\n1. Answer 5 negative questions with *Doch!*\n2. Soften 5 imperatives with *doch*.\n3. Distinguish particle / conjunction / reply.",
+  "ruleDe": "## doch (Partikel)\n\n**doch** ist sehr vielseitig: Verstärkung, Widerspruch, Aufforderung…\n\n### Hauptverwendungen\n1. **Widerspruch zu Negativem**  \n   *Kommst du nicht?* — ***Doch!***\n2. **Aufforderung freundlicher**  \n   *Komm **doch** her!*\n3. **Bekanntes Wissen**  \n   *Du weißt **doch**, dass…*\n4. **Verstärkung**  \n   *Das ist **doch** klar!*\n\n### Nicht verwechseln\n- Partikel / Antwort *Doch!* / Konjunktion *doch* ≈ *aber*\n\n### Mini-Übung\n1. Auf 5 Negativfragen mit *Doch!* antworten.\n2. 5 Imperative mit *doch* abmildern.\n3. Partikel / Konjunktion / Antwort unterscheiden.",
+  "notesFr": "Comme réponse : doch contredit une question négative. Tu ne viens pas ? — Doch ! (Si !)",
+  "notesEn": "As a reply: doch contradicts a negative question. Aren’t you coming? — Doch! (Yes I am!)",
+  "notesDe": "Als Antwort: doch widerspricht einer negativen Frage. Kommst du nicht? — Doch!",
+  "examples": [
+    {
+      "de": "Kommst du nicht mit? — Doch!",
+      "fr": "Tu ne viens pas ? — Si !",
+      "en": "Aren’t you coming? — Yes I am!"
+    },
+    {
+      "de": "Setz dich doch!",
+      "fr": "Assieds-toi donc !",
+      "en": "Do sit down!"
+    },
+    {
+      "de": "Du weißt doch, dass ich arbeite.",
+      "fr": "Tu sais bien que je travaille.",
+      "en": "You know (perfectly well) that I’m working."
+    },
+    {
+      "de": "Das ist doch nicht möglich!",
+      "fr": "Ce n’est pas possible, tout de même !",
+      "en": "That’s just not possible!"
+    },
+    {
+      "de": "Nimm doch noch ein Stück Kuchen!",
+      "fr": "Prends donc encore un morceau de gâteau !",
+      "en": "Do have another piece of cake!"
+    }
+  ]
+}

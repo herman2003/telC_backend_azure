@@ -1,0 +1,39 @@
+{
+  "slug": "relativsatze-ubersicht-gram-u-304",
+  "titleFr": "Les propositions relatives — aperçu",
+  "titleEn": "Relative clauses — overview",
+  "titleDe": "Relativsätze — Übersicht",
+  "ruleFr": "## Les Relativsätze — aperçu\n\nUne **relative** précise un nom. Elle commence par un **pronom relatif** (*der, die, das…*) et le verbe conjugué va à la **fin**.\n\n### Structure\n*Nomen, Relativpronomen + … + Verb*\n- *Das ist der Mann, **der** nebenan **wohnt**.*\n- *Ich lese das Buch, **das** du mir **empfohlen hast**.*\n\n### Pronoms = comme l’article défini (souvent)\n| | Mask. | Fem. | Neut. | Plur. |\n|---|---|---|---|---|\n| Nom. | der | die | das | die |\n| Akk. | den | die | das | die |\n| Dat. | dem | der | dem | denen |\n| Gen. | dessen | deren | dessen | deren |\n\n### Règles d’or\n1. Virgule avant (et souvent après) la relative\n2. Verbe à la **fin**\n3. Le **cas** dépend de la fonction **dans la relative**, pas dans le principal\n\n### Mini-entraînement\nAjoutez une relative à : *der Mann / die Frau / das Kind*.",
+  "ruleEn": "## Relative clauses — overview\n\nA **relative clause** specifies a noun. It starts with a **relative pronoun** (*der, die, das…*) and the conjugated verb goes to the **end**.\n\n### Structure\n*Noun, relative pronoun + … + Verb*\n- *Das ist der Mann, **der** nebenan **wohnt**.*\n- *Ich lese das Buch, **das** du mir **empfohlen hast**.*\n\n### Pronouns ≈ definite article\n| | Masc. | Fem. | Neut. | Plur. |\n|---|---|---|---|---|\n| Nom. | der | die | das | die |\n| Akk. | den | die | das | die |\n| Dat. | dem | der | dem | denen |\n| Gen. | dessen | deren | dessen | deren |\n\n### Golden rules\n1. Comma before (and often after) the relative clause\n2. Verb at the **end**\n3. **Case** depends on the role **inside** the relative clause\n\n### Mini practice\nAdd a relative clause to: *der Mann / die Frau / das Kind*.",
+  "ruleDe": "## Relativsätze — Übersicht\n\nEin Relativsatz bestimmt ein Nomen näher. Relativpronomen + Verb am **Ende**.\n\n### Struktur\n*Nomen, Relativpronomen + … + Verb*\n- *Das ist der Mann, **der** nebenan **wohnt**.*\n\n### Merken\n1. Komma vor dem Relativsatz\n2. Verb am Ende\n3. Kasus = Funktion **im Relativsatz**\n\n### Mini-Übung\nRelativsatz zu *der Mann / die Frau / das Kind*.",
+  "notesFr": "Verbe à la FIN de la relative ! Virgule avant (et après).",
+  "notesEn": "Verb at the END of the relative clause! Comma before (and after).",
+  "notesDe": "Verb am ENDE des Relativsatzes! Komma vor und nach dem Relativsatz.",
+  "examples": [
+    {
+      "de": "Das ist der Mann, der nebenan wohnt.",
+      "fr": "C’est l’homme qui habite à côté.",
+      "en": "That’s the man who lives next door."
+    },
+    {
+      "de": "Ich kenne die Frau, die dort arbeitet.",
+      "fr": "Je connais la femme qui travaille là-bas.",
+      "en": "I know the woman who works there."
+    },
+    {
+      "de": "Das Buch, das ich lese, ist spannend.",
+      "fr": "Le livre que je lis est passionnant.",
+      "en": "The book that I’m reading is exciting."
+    },
+    {
+      "de": "Die Leute, mit denen wir sprechen, sind nett.",
+      "fr": "Les gens avec qui nous parlons sont gentils.",
+      "en": "The people we speak with are nice."
+    },
+    {
+      "de": "Hast du den Film gesehen, den ich empfohlen habe?",
+      "fr": "As-tu vu le film que j’ai recommandé ?",
+      "en": "Have you seen the film I recommended?"
+    }
+  ]
+}

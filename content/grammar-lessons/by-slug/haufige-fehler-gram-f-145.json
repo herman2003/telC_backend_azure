@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-f-145",
+  "titleFr": "Erreurs fréquentes — terminaisons du vs er",
+  "titleEn": "Common mistakes — du vs er endings",
+  "titleDe": "Häufige Fehler — du- vs. er-Endung",
+  "ruleFr": "## Erreur fréquente : mettre la terminaison de *du* pour *er/sie/es*\n\nAu présent : **du = -st**, **er/sie/es = -t** (sans *s*).\n\n### Tableau\n| Personne | Terminaison | Exemple |\n|---|---|---|\n| du | **-st** | du **machst**, du **kommst** |\n| er/sie/es | **-t** | er **macht**, sie **kommt** |\n\n### Cas particuliers (même forme)\nAprès *-s/-ß/-x/-z* : *du sitzt* = *er sitzt* (les deux en *-t*).\n\n### Erreurs fréquentes\n- ✗ *er machst* → ✓ *er **macht***\n- ✗ *sie kommst* → ✓ *sie **kommt***\n- ✗ *du macht* → ✓ *du **machst***\n\n### Mini-entraînement\nComplétez : *Du ___ (lernen). Er ___ (lernen). Sie ___ (wohnen).*",
+  "ruleEn": "## Common mistake: using the *du* ending for *er/sie/es*\n\nIn the present: **du = -st**, **er/sie/es = -t** (no *s*).\n\n### Table\n| Person | Ending | Example |\n|---|---|---|\n| du | **-st** | du **machst**, du **kommst** |\n| er/sie/es | **-t** | er **macht**, sie **kommt** |\n\n### Special case (same form)\nAfter *-s/-ß/-x/-z*: *du sitzt* = *er sitzt* (both *-t*).\n\n### Common mistakes\n- ✗ *er machst* → ✓ *er **macht***\n- ✗ *sie kommst* → ✓ *sie **kommt***\n- ✗ *du macht* → ✓ *du **machst***\n\n### Mini practice\nFill in: *Du ___ (lernen). Er ___ (lernen). Sie ___ (wohnen).*",
+  "ruleDe": "## Häufiger Fehler: *du*-Endung bei *er/sie/es*\n\nIm Präsens: **du = -st**, **er/sie/es = -t** (ohne *s*).\n\n### Tabelle\n| Person | Endung | Beispiel |\n|---|---|---|\n| du | **-st** | du **machst**, du **kommst** |\n| er/sie/es | **-t** | er **macht**, sie **kommt** |\n\n### Sonderfall (gleiche Form)\nNach *-s/-ß/-x/-z*: *du sitzt* = *er sitzt* (beide *-t*).\n\n### Häufige Fehler\n- ✗ *er machst* → ✓ *er **macht***\n- ✗ *sie kommst* → ✓ *sie **kommt***\n- ✗ *du macht* → ✓ *du **machst***\n\n### Mini-Übung\nErgänzen Sie: *Du ___ (lernen). Er ___ (lernen). Sie ___ (wohnen).*",
+  "notesFr": "*du* = *-st*, *er/sie/es* = *-t* (sans s !).",
+  "notesEn": "*du* = *-st*, *er/sie/es* = *-t* (no s!).",
+  "notesDe": "*du* = *-st*, *er/sie/es* = *-t* (ohne s!).",
+  "examples": [
+    {
+      "de": "Du lernst Deutsch.",
+      "fr": "Tu apprends l’allemand. (*-st*)",
+      "en": "You learn German. (*-st*)"
+    },
+    {
+      "de": "Er lernt Deutsch.",
+      "fr": "Il apprend l’allemand. (*-t*, pas *-st*.)",
+      "en": "He learns German. (*-t*, not *-st*.)"
+    },
+    {
+      "de": "Sie kommt aus Frankreich.",
+      "fr": "Elle vient de France.",
+      "en": "She comes from France."
+    },
+    {
+      "de": "Du kommst aus Frankreich.",
+      "fr": "Tu viens de France.",
+      "en": "You come from France."
+    },
+    {
+      "de": "Es regnet stark.",
+      "fr": "Il pleut fort. (*regnet* = *-t*.)",
+      "en": "It is raining heavily. (*regnet* = *-t*.)"
+    }
+  ]
+}

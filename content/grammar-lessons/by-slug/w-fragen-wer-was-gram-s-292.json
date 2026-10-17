@@ -1,0 +1,39 @@
+{
+  "slug": "w-fragen-wer-was-gram-s-292",
+  "titleFr": "wer et was",
+  "titleEn": "W-questions — wer / was",
+  "titleDe": "W-Fragen — wer/was",
+  "ruleFr": "## wer et was\n\n### wer = qui (personne)\n*wer* se décline selon le cas :\n| Cas | Forme | Question |\n|---|---|---|\n| Nominatif | **wer** | Qui ? |\n| Accusatif | **wen** | Qui (COD) ? |\n| Datif | **wem** | À qui ? |\n| Génitif | **wessen** | De qui ? |\n\nExemples :\n- ***Wer** kommt?* (Nom.)\n- ***Wen** siehst du?* (Akk.)\n- ***Wem** hilfst du?* (Dat.)\n- ***Wessen** Buch ist das?* (Gen.)\n\n### was = quoi (chose)\n*was* : surtout nominatif et accusatif (pas de formes *wen/wem* pour les choses).\n- ***Was** liegt auf dem Tisch?*\n- ***Was** siehst du?*\n\n### Mini-entraînement\nTransformez : *Der Mann hilft der Frau.* → questions avec *wer / wem*.",
+  "ruleEn": "## wer and was\n\n### wer = who (person)\n*wer* declines by case:\n| Case | Form | Question |\n|---|---|---|\n| Nominative | **wer** | Who? |\n| Accusative | **wen** | Whom? |\n| Dative | **wem** | To whom? |\n| Genitive | **wessen** | Whose? |\n\nExamples:\n- ***Wer** kommt?*\n- ***Wen** siehst du?*\n- ***Wem** hilfst du?*\n- ***Wessen** Buch ist das?*\n\n### was = what (thing)\n*was*: mainly nominative and accusative.\n- ***Was** liegt auf dem Tisch?*\n- ***Was** siehst du?*\n\n### Mini practice\nTransform: *Der Mann hilft der Frau.* → questions with *wer / wem*.",
+  "ruleDe": "## wer und was\n\n### wer = Person\n| Kasus | Form |\n|---|---|\n| Nom. | **wer** |\n| Akk. | **wen** |\n| Dat. | **wem** |\n| Gen. | **wessen** |\n\n### was = Sache\nVor allem Nom./Akk.\n- ***Was** liegt auf dem Tisch?*\n- ***Was** siehst du?*\n\n### Mini-Übung\n*Der Mann hilft der Frau.* → Fragen mit *wer / wem*.",
+  "notesFr": "*wer* (Nom) → *wen* (Akk) → *wem* (Dat) → *wessen* (Gen). *was* n’a que Nom/Akk.",
+  "notesEn": "*wer* (Nom) → *wen* (Akk) → *wem* (Dat) → *wessen* (Gen). *was* only Nom/Akk.",
+  "notesDe": "*wer* (Nom) → *wen* (Akk) → *wem* (Dat) → *wessen* (Gen). *was* hat nur Nom/Akk.",
+  "examples": [
+    {
+      "de": "Wer kommt heute?",
+      "fr": "Qui vient aujourd’hui ? (nominatif)",
+      "en": "Who is coming today? (nominative)"
+    },
+    {
+      "de": "Wen siehst du dort?",
+      "fr": "Qui vois-tu là-bas ? (accusatif)",
+      "en": "Whom do you see there? (accusative)"
+    },
+    {
+      "de": "Wem hilfst du?",
+      "fr": "À qui aides-tu ? (datif)",
+      "en": "Whom are you helping? (dative)"
+    },
+    {
+      "de": "Was liegt auf dem Tisch?",
+      "fr": "Qu’y a-t-il sur la table ?",
+      "en": "What is lying on the table?"
+    },
+    {
+      "de": "Wessen Tasche ist das?",
+      "fr": "À qui est ce sac ?",
+      "en": "Whose bag is that?"
+    }
+  ]
+}

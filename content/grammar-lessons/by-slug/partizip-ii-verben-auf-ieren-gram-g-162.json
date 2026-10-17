@@ -1,0 +1,39 @@
+{
+  "slug": "partizip-ii-verben-auf-ieren-gram-g-162",
+  "titleFr": "Participe II — verbes en -ieren",
+  "titleEn": "Past participle — verbs in -ieren",
+  "titleDe": "Partizip II — Verben auf -ieren",
+  "ruleFr": "## Verbes en *-ieren* : pas de *ge-*\n\nLes verbes en **-ieren** (souvent d’origine française/latine) forment le participe **sans ge-** :\n\n### Formule\nradical (*studier-*) + **-t** → **studiert**\n\n| Infinitif | Participe II |\n|---|---|\n| studieren | **studiert** |\n| telefonieren | **telefoniert** |\n| reservieren | **reserviert** |\n| organisieren | **organisiert** |\n\n### Dans le Perfekt\n*Ich habe Medizin **studiert**.*  \n*Er hat **telefoniert**.*\n\n### Erreurs fréquentes\n- ✗ *gestudiert* → ✓ *studiert*\n\n### Mini-entraînement\nParticipe de : *diskutieren, präsentieren, informieren*.",
+  "ruleEn": "## Verbs in *-ieren*: no *ge-*\n\nVerbs in **-ieren** (often from French/Latin) form the participle **without ge-**:\n\n### Formula\nstem (*studier-*) + **-t** → **studiert**\n\n| Infinitive | Past participle |\n|---|---|\n| studieren | **studiert** |\n| telefonieren | **telefoniert** |\n| reservieren | **reserviert** |\n| organisieren | **organisiert** |\n\n### In the perfect\n*Ich habe Medizin **studiert**.*  \n*Er hat **telefoniert**.*\n\n### Common mistakes\n- ✗ *gestudiert* → ✓ *studiert*\n\n### Mini practice\nParticiple of: *diskutieren, präsentieren, informieren*.",
+  "ruleDe": "## Verben auf *-ieren*: kein *ge-*\n\nVerben auf **-ieren** (oft aus dem Französischen/Lateinischen) bilden das Partizip **ohne ge-**:\n\n### Formel\nStamm (*studier-*) + **-t** → **studiert**\n\n| Infinitiv | Partizip II |\n|---|---|\n| studieren | **studiert** |\n| telefonieren | **telefoniert** |\n| reservieren | **reserviert** |\n| organisieren | **organisiert** |\n\n### Im Perfekt\n*Ich habe Medizin **studiert**.*\n\n### Häufige Fehler\n- ✗ *gestudiert* → ✓ *studiert*\n\n### Mini-Übung\nPartizip von: *diskutieren, präsentieren, informieren*.",
+  "notesFr": "Ces verbes viennent souvent du français/latin — pas de *ge-* !",
+  "notesEn": "These verbs often come from French/Latin — no *ge-*!",
+  "notesDe": "Diese Verben kommen oft aus dem Französischen/Lateinischen — kein *ge-*!",
+  "examples": [
+    {
+      "de": "Ich habe Medizin studiert.",
+      "fr": "J’ai étudié la médecine. (*studiert*, pas *gestudiert*.)",
+      "en": "I studied medicine. (*studiert*, not *gestudiert*.)"
+    },
+    {
+      "de": "Er hat gestern telefoniert.",
+      "fr": "Il a téléphoné hier.",
+      "en": "He phoned yesterday."
+    },
+    {
+      "de": "Sie hat einen Tisch reserviert.",
+      "fr": "Elle a réservé une table.",
+      "en": "She reserved a table."
+    },
+    {
+      "de": "Wir haben die Party organisiert.",
+      "fr": "Nous avons organisé la fête.",
+      "en": "We organized the party."
+    },
+    {
+      "de": "Hast du dich informiert?",
+      "fr": "T’es-tu informé(e) ?",
+      "en": "Did you get information / find out?"
+    }
+  ]
+}

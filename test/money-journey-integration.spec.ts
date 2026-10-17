@@ -70,6 +70,7 @@ async function makeSchool() {
       name: `Journey Test ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
       subscription: { create: { plan: 'TRIAL' } },
     },
   });

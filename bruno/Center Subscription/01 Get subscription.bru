@@ -30,9 +30,10 @@ docs {
   `02 Get usage`.
 
   A freshly registered center sits at TRIAL_PENDING with `studentsMayLearn`
-  false. The trial clock starts at the first student activation (Phase 4), not
-  at registration, so a center that never provisions anyone never burns its 30
-  days. That is why this is the expected state and not TRIAL.
+  false. The trial clock starts at `03 Start trial` (`POST …/trial`), not at
+  registration and not at first student activation — so a center that never
+  clicks Start trial never burns its 14 days. That is why this is the expected
+  state and not TRIAL.
 
   Checks worth doing by hand:
 

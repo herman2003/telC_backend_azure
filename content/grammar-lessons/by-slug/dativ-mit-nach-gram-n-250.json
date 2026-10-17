@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-mit-nach-gram-n-250",
+  "titleFr": "Datif — mit / nach",
+  "titleEn": "Dative — mit / nach",
+  "titleDe": "Dativ — mit/nach",
+  "ruleFr": "## *mit* et *nach* (+ datif)\n\n### *mit* = avec (compagnie / moyen)\n- Compagnie : Ich fahre **mit** meiner Schwester.\n- Moyen : **mit dem** Zug / **mit dem** Auto / **mit** dem Fahrrad\n\n### *nach* = après / vers (villes & pays sans article)\n- Temps : **nach** dem Essen, **nach** der Schule\n- Direction : **nach** Paris, **nach** Italien, **nach** Hause\n- Suite : **nach** meiner Meinung\n\n### Règle d’or pour les lieux\n- *nach* + ville / pays **sans article** : *nach Berlin*, *nach Spanien*\n- Mais : *in die Schweiz*, *in die Türkei*, *in die USA* (pays avec article → *in* + accusatif pour le mouvement)\n\n### Mini-entraînement\n1. 3 phrases *mit* (personne + moyen).\n2. 3 phrases *nach* (temps + ville + *nach Hause*).\n3. Corrigez : ✗ *nach der Paris*.",
+  "ruleEn": "## *mit* and *nach* (+ dative)\n\n### *mit* = with (company / means)\n- Company: Ich fahre **mit** meiner Schwester.\n- Means: **mit dem** Zug / **mit dem** Auto\n\n### *nach* = after / to (cities & article-less countries)\n- Time: **nach** dem Essen, **nach** der Schule\n- Direction: **nach** Paris, **nach** Italien, **nach** Hause\n- Opinion: **nach** meiner Meinung\n\n### Golden rule for places\n- *nach* + city / country **without article**: *nach Berlin*, *nach Spanien*\n- But: *in die Schweiz*, *in die Türkei*, *in die USA* (countries with article)\n\n### Mini practice\n1. Three *mit* sentences (person + means).\n2. Three *nach* sentences (time + city + *nach Hause*).\n3. Correct: ✗ *nach der Paris*.",
+  "ruleDe": "## *mit* und *nach* (+ Dativ)\n\n### *mit* = mit (Begleitung / Mittel)\n- Begleitung: Ich fahre **mit** meiner Schwester.\n- Mittel: **mit dem** Zug / Auto\n\n### *nach* = nach (Zeit / Richtung)\n- Zeit: **nach** dem Essen\n- Richtung: **nach** Paris, **nach** Hause\n- Meinung: **nach** meiner Meinung\n\n### Ortsregel\n- *nach* + Stadt/Land **ohne Artikel**\n- Aber: *in die Schweiz / Türkei / USA*\n\n### Mini-Übung\n1. 3 Sätze mit *mit*.\n2. 3 Sätze mit *nach*.\n3. Korrigieren: ✗ *nach der Paris*.",
+  "notesFr": "*nach* + ville/pays sans article : *nach Paris*, *nach Italien*.",
+  "notesEn": "*nach* + city/country without article: *nach Paris*, *nach Italien*.",
+  "notesDe": "nach + Stadt/Land (ohne Artikel): nach Paris, nach Italien.",
+  "examples": [
+    {
+      "de": "Ich fahre mit dem Zug.",
+      "fr": "Je prends le train.",
+      "en": "I go by train."
+    },
+    {
+      "de": "Kommst du mit uns?",
+      "fr": "Tu viens avec nous ?",
+      "en": "Are you coming with us?"
+    },
+    {
+      "de": "Nach dem Unterricht gehe ich nach Hause.",
+      "fr": "Après le cours, je rentre à la maison.",
+      "en": "After class I go home."
+    },
+    {
+      "de": "Wir fliegen nach Italien.",
+      "fr": "Nous volons vers l’Italie.",
+      "en": "We are flying to Italy."
+    },
+    {
+      "de": "Nach meiner Meinung ist das richtig.",
+      "fr": "À mon avis, c’est correct.",
+      "en": "In my opinion that is correct."
+    }
+  ]
+}

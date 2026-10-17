@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-rechtschreibfehler-gram-x-329",
+  "titleFr": "Erreurs d’orthographe fréquentes",
+  "titleEn": "Common spelling mistakes",
+  "titleDe": "Häufige Rechtschreibfehler",
+  "ruleFr": "## Erreurs d’orthographe fréquentes\n\nCertaines fautes reviennent sans cesse chez les apprenants — et chez les germanophones.\n\n### 1. *das* vs *dass*\n| *das* | *dass* |\n|---|---|\n| Article / pronom relatif / démonstratif | Conjonction (= that) |\n| *Das Buch ist gut.* | *Ich weiß, dass er kommt.* |\n| Test : remplacer par *dieses/welches* → *das* | Impossible → *dass* |\n\n### 2. Majuscules oubliées\n✗ *ich gehe zur schule* → ✓ *Ich gehe zur Schule.*\n\n### 3. Virgules devant subordonnées\nToujours une virgule avant *dass, weil, wenn, obwohl…*\n\n### 4. Autres classiques\n| Faux | Correct |\n|---|---|\n| *standart* | *Standard* |\n| *Asprache* | *Aussprache* |\n| *wiederspiegeln* | *widerspiegeln* |\n| *imstande* / *im Stande* | *imstande* (soudé) ou *imstande sein* |\n| *seit* / *seid* | *seit* = depuis ; *seid* = vous êtes |\n| *tod* / *tot* | *der Tod* (nom) ; *tot* (adjectif) |\n\n### Mini-entraînement\n1. Remplacez *das/dass* dans 10 phrases.\n2. Corrigez un paragraphe avec 8 fautes typiques.\n3. Listez vos 5 erreurs personnelles et révisez-les.",
+  "ruleEn": "## Common spelling mistakes\n\nSome errors keep coming back — for learners and native speakers alike.\n\n### 1. *das* vs *dass*\n| *das* | *dass* |\n|---|---|\n| Article / relative / demonstrative | Conjunction (= that) |\n| *Das Buch ist gut.* | *Ich weiß, dass er kommt.* |\n| Test: replace with *dieses/welches* → *das* | Can’t → *dass* |\n\n### 2. Missing capitals\n✗ *ich gehe zur schule* → ✓ *Ich gehe zur Schule.*\n\n### 3. Commas before subordinate clauses\nAlways a comma before *dass, weil, wenn, obwohl…*\n\n### 4. Other classics\n| Wrong | Right |\n|---|---|\n| *standart* | *Standard* |\n| *Asprache* | *Aussprache* |\n| *wiederspiegeln* | *widerspiegeln* |\n| *seit* / *seid* | *seit* = since; *seid* = you (pl.) are |\n| *tod* / *tot* | *der Tod* (noun); *tot* (adjective) |\n\n### Mini practice\n1. Fill *das/dass* in 10 sentences.\n2. Correct a paragraph with 8 typical errors.\n3. List your personal top 5 mistakes and revise them.",
+  "ruleDe": "## Häufige Rechtschreibfehler\n\nManche Fehler kommen immer wieder — bei Lernenden und Muttersprachlern.\n\n### 1. *das* vs. *dass*\n| *das* | *dass* |\n|---|---|\n| Artikel / Relativpronomen / Demonstrativ | Konjunktion |\n| *Das Buch ist gut.* | *Ich weiß, dass er kommt.* |\n| Test: durch *dieses/welches* ersetzbar → *das* | nicht ersetzbar → *dass* |\n\n### 2. Fehlende Großschreibung\n✗ *ich gehe zur schule* → ✓ *Ich gehe zur Schule.*\n\n### 3. Kommas vor Nebensätzen\nImmer Komma vor *dass, weil, wenn, obwohl…*\n\n### 4. Weitere Klassiker\n| Falsch | Richtig |\n|---|---|\n| *standart* | *Standard* |\n| *Asprache* | *Aussprache* |\n| *wiederspiegeln* | *widerspiegeln* |\n| *seit* / *seid* | *seit* = seitdem; *seid* = 2. Pl. von *sein* |\n| *tod* / *tot* | *der Tod*; *tot* |\n\n### Mini-Übung\n1. *das/dass* in 10 Sätzen einsetzen.\n2. Einen Absatz mit 8 typischen Fehlern korrigieren.\n3. Die eigenen Top-5-Fehler notieren und üben.",
+  "notesFr": "Test *das/dass* : si on peut dire *dieses/welches*, c’est *das* ; sinon *dass*. Autres pièges : majuscules, virgules, *seit/seid*.",
+  "notesEn": "Test *das/dass*: if you can say *dieses/welches*, use *das*; otherwise *dass*. Also watch capitals, commas, *seit/seid*.",
+  "notesDe": "Test *das/dass*: durch *dieses/welches* ersetzbar → *das*; sonst *dass*. Auch: Großschreibung, Kommas, *seit/seid*.",
+  "examples": [
+    {
+      "de": "Das Haus ist neu.",
+      "fr": "La maison est neuve. (*Das* = article, pas conjonction.)",
+      "en": "The house is new. (*Das* = article, not a conjunction.)"
+    },
+    {
+      "de": "Ich hoffe, dass du Zeit hast.",
+      "fr": "J’espère que tu as le temps. (*dass* = conjonction.)",
+      "en": "I hope that you have time. (*dass* = conjunction.)"
+    },
+    {
+      "de": "Seit wann wohnst du hier?",
+      "fr": "Depuis quand habites-tu ici ? (*seit* = depuis.)",
+      "en": "Since when have you lived here? (*seit* = since.)"
+    },
+    {
+      "de": "Seid ihr fertig?",
+      "fr": "Êtes-vous prêts ? (*seid* = forme de *sein*.)",
+      "en": "Are you (plural) ready? (*seid* = form of *sein*.)"
+    },
+    {
+      "de": "Der Standard ist hoch.",
+      "fr": "Le standard est élevé. (pas *standart*.)",
+      "en": "The standard is high. (not *standart*.)"
+    }
+  ]
+}

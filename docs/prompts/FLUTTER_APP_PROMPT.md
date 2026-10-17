@@ -181,6 +181,16 @@ All query parameters are optional.
   from comparing the shown numbers (an oral score shown as 60 can be 59.7).
 - `weeklyChange`: readiness now minus a week ago, or null.
 - `level`, `attempts`, `lastActivityAt`, `alerts`.
+- `sessionOfDay` (D7 home CTA) — always present:
+  `{ moduleId, teil, durationMinutes, mode, maxListens, weaknessPercent }`.
+  - `moduleId`: `hoeren | lesen | sprachbausteine | schreiben | sprechen`
+    (same ids as `skills`, not `horen`).
+  - `mode`: `training` when the Teil exact score is under 60, else `exam`.
+  - `maxListens`: Hörverstehen only (`2` exam / `3` training); **`null`**
+    elsewhere — do not invent a number.
+  - `weaknessPercent`: rounded Teil score (0 if never attempted).
+  - Stable for the **UTC** calendar day for a given activity snapshot; open
+    that module+Teil (do not expect an exercise UUID here).
 - The target is always **telc B1+ Beruf**: a fixed label.
 
 Replace the on-device calculation (`averageLatestTeilProgress`,

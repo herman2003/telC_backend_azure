@@ -1,0 +1,39 @@
+{
+  "slug": "schwierige-falle-gram-b-052",
+  "titleFr": "Cas difficiles — un mot, deux genres, deux sens",
+  "titleEn": "Tricky cases — one word, two genders, two meanings",
+  "titleDe": "Schwierige Fälle",
+  "ruleFr": "## Même forme, genres (et sens) différents\n\nCertains noms changent de **sens** selon l’article.\n\n### Paires classiques\n| masculin | féminin / autre |\n|---|---|\n| **der** Band (volume d’un livre) | **die** Band (groupe de musique) |\n| **der** Leiter (chef / directeur) | **die** Leiter (échelle) |\n| **der** Kiefer (mâchoire) | **die** Kiefer (pin) |\n| **der** See (lac) | **die** See (mer) |\n| **der** Tor (idiot, familier) | **das** Tor (portail / but) |\n\n### Stratégie\n1. Apprenez **article + nom + sens** comme un trio.\n2. Le contexte (phrase) tranche presque toujours.\n3. Faites des flashcards séparées pour chaque sens.\n\n### Erreur fréquente\nTraduire *Band* sans regarder l’article → confusion livre / groupe.\n\n### Mini-entraînement\nPour chaque paire, inventez **deux** phrases (une par sens).",
+  "ruleEn": "## Same form, different genders (and meanings)\n\nSome nouns change **meaning** with the article.\n\n### Classic pairs\n| masculine | feminine / other |\n|---|---|\n| **der** Band (book volume) | **die** Band (music band) |\n| **der** Leiter (leader) | **die** Leiter (ladder) |\n| **der** Kiefer (jaw) | **die** Kiefer (pine tree) |\n| **der** See (lake) | **die** See (sea) |\n| **der** Tor (fool, colloquial) | **das** Tor (gate / goal) |\n\n### Strategy\n1. Learn **article + noun + meaning** as a trio.\n2. Context almost always decides.\n3. Separate flashcards per sense.\n\n### Mini practice\nFor each pair, invent **two** sentences (one per meaning).",
+  "ruleDe": "## Gleiche Form, anderes Genus — andere Bedeutung\n\nManche Nomen ändern die **Bedeutung** mit dem Artikel.\n\n### Klassische Paare\n| Maskulinum | Femininum / anderes |\n|---|---|\n| **der** Band (Buchband) | **die** Band (Musikgruppe) |\n| **der** Leiter (Chef) | **die** Leiter (Steighilfe) |\n| **der** Kiefer (Knochen) | **die** Kiefer (Baum) |\n| **der** See (Gewässer) | **die** See (Meer) |\n| **der** Tor (Dummkopf) | **das** Tor (Pforte / Tor im Sport) |\n\n### Strategie\n1. **Artikel + Nomen + Sinn** als Trio lernen.\n2. Kontext entscheidet.\n3. Getrennte Karteikarten.\n\n### Mini-Übung\nPro Paar **zwei** Sätze (je eine Bedeutung).",
+  "notesFr": "Autres paires utiles : *der Leiter / die Leiter*, *der Kiefer / die Kiefer*.",
+  "notesEn": "More useful pairs: *der Leiter / die Leiter*, *der Kiefer / die Kiefer*.",
+  "notesDe": "Weitere Paare: *der Leiter / die Leiter*, *der Kiefer / die Kiefer*.",
+  "examples": [
+    {
+      "de": "Der Band kostet zwanzig Euro.",
+      "fr": "Le tome coûte vingt euros. (livre.)",
+      "en": "The volume costs twenty euros. (book.)"
+    },
+    {
+      "de": "Die Band spielt heute Abend.",
+      "fr": "Le groupe joue ce soir. (musique.)",
+      "en": "The band is playing tonight. (music.)"
+    },
+    {
+      "de": "Der Leiter kommt um zehn.",
+      "fr": "Le responsable vient à dix heures.",
+      "en": "The manager is coming at ten."
+    },
+    {
+      "de": "Die Leiter steht an der Wand.",
+      "fr": "L’échelle est contre le mur.",
+      "en": "The ladder is against the wall."
+    },
+    {
+      "de": "Der See ist ruhig, die See ist stürmisch.",
+      "fr": "Le lac est calme ; la mer est agitée.",
+      "en": "The lake is calm; the sea is stormy."
+    }
+  ]
+}

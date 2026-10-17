@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-endung-neutrum-gram-b-042",
+  "titleFr": "Diminutifs -chen et -lein : toujours neutres",
+  "titleEn": "Diminutives -chen and -lein: always neuter",
+  "titleDe": "Genus nach Endung — -chen und -lein immer Neutrum",
+  "ruleFr": "## *-chen / -lein* = **das** (sans exception)\n\nTous les diminutifs en **-chen** et **-lein** sont **neutres**, même si la personne est féminine ou masculine.\n\n### Exemples\n*das Mädchen, das Häuschen, das Büchlein, das Tischchen, das Brötchen, das Fräulein*\n\n### Conséquences\n- Article : **das**\n- Pronom soigné : souvent **es**\n- Adjectif : *ein kleines Mädchen*\n\n### Erreur classique\n✗ *die Mädchen* (singulier) → ✓ *das Mädchen*  \n(pluriel : *die Mädchen* — forme identique, article pluriel !)\n\n### Mini-entraînement\n1. Formez 8 diminutifs et donnez *das*.\n2. Expliquez *das Mädchen* à quelqu’un.\n3. Phrase : *Das Brötchen schmeckt gut.*",
+  "ruleEn": "## *-chen / -lein* = **das** (no exceptions)\n\nAll diminutives in **-chen** and **-lein** are **neuter**, even if the person is female or male.\n\n### Examples\n*das Mädchen, das Häuschen, das Büchlein, das Tischchen, das Brötchen, das Fräulein*\n\n### Consequences\n- Article: **das**\n- Careful pronoun: often **es**\n- Adjective: *ein kleines Mädchen*\n\n### Classic mistake\n✗ *die Mädchen* (singular) → ✓ *das Mädchen*  \n(plural: *die Mädchen* — same form, plural article!)\n\n### Mini practice\n1. Form 8 diminutives with *das*.\n2. Explain *das Mädchen* to someone.\n3. Sentence: *Das Brötchen schmeckt gut.*",
+  "ruleDe": "## *-chen / -lein* = **das** (keine Ausnahme)\n\nAlle Diminutive auf **-chen** und **-lein** sind **Neutrum**, auch bei weiblichen/männlichen Personen.\n\n### Beispiele\n*das Mädchen, das Häuschen, das Büchlein, das Tischchen, das Brötchen, das Fräulein*\n\n### Folgen\n- Artikel: **das**\n- Pronomen oft: **es**\n- Adjektiv: *ein kleines Mädchen*\n\n### Klassischer Fehler\n✗ *die Mädchen* (Singular) → ✓ *das Mädchen*  \n(Plural: *die Mädchen*)\n\n### Mini-Übung\n1. Acht Diminutive mit *das*.\n2. *das Mädchen* erklären.\n3. Satz: *Das Brötchen schmeckt gut.*",
+  "notesFr": "Règle absolue : *-chen/-lein* → *das* — c’est pourquoi on dit *das Mädchen*.",
+  "notesEn": "Absolute rule: *-chen/-lein* → *das* — that is why we say *das Mädchen*.",
+  "notesDe": "Absolute Regel: *-chen/-lein* → *das* — deshalb heißt es *das Mädchen*.",
+  "examples": [
+    {
+      "de": "Das Mädchen liest ein Buch.",
+      "fr": "La fille lit un livre. (*das Mädchen* = neutre)",
+      "en": "The girl is reading a book. (*das Mädchen* = neuter)"
+    },
+    {
+      "de": "Das Brötchen kostet einen Euro.",
+      "fr": "Le petit pain coûte un euro. (*das Brötchen*)",
+      "en": "The bread roll costs one euro. (*das Brötchen*)"
+    },
+    {
+      "de": "Wir wohnen in einem Häuschen.",
+      "fr": "Nous habitons dans une petite maison. (*einem Häuschen*)",
+      "en": "We live in a little house. (*einem Häuschen*)"
+    },
+    {
+      "de": "Das Büchlein ist für Kinder.",
+      "fr": "Le petit livre est pour les enfants. (*das Büchlein*)",
+      "en": "The little book is for children. (*das Büchlein*)"
+    },
+    {
+      "de": "Wo ist das Mädchen? Es spielt draußen.",
+      "fr": "Où est la fille ? Elle joue dehors. (*es*)",
+      "en": "Where is the girl? She is playing outside. (*es*)"
+    }
+  ]
+}

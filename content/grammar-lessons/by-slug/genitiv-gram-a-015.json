@@ -1,0 +1,39 @@
+{
+  "slug": "genitiv-gram-a-015",
+  "titleFr": "Le génitif",
+  "titleEn": "The genitive",
+  "titleDe": "Genitiv",
+  "ruleFr": "## Le génitif — possession et appartenance\n\nLe **génitif** exprime surtout **à qui appartient** quelque chose (dont / de…).\n\n### Question clé\n**Wessen?** (De qui ? / À qui ?)\n\n- *Wessen Auto ist das?* → Das ist **das Auto des Nachbarn**.\n\n### Formes de base (défini)\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **des** + *(e)s* | **der** | **des** + *(e)s* | **der** |\n\n- das Buch **des** Mann**es**\n- die Tasche **der** Frau\n- das Dach **des** Haus**es**\n- die Spiele **der** Kinder\n\n### Contraste avec *von* + datif\n- Formel / écrit : *das Haus **des** Lehrers*\n- Oral / courant : *das Haus **von dem** Lehrer* (*vom Lehrer*)\n\n### Erreurs fréquentes\n- Oublier *-s/-es* sur masculin/neutre : ✗ *des Mann* → ✓ *des Mannes*\n- Utiliser *die* au génitif féminin : ✗ *der Tasche die Frau* → ✓ *die Tasche **der** Frau*\n\n### Mini-entraînement\n1. Transformez : der Lehrer / die Schule / das Kind → génitif.\n2. Posez *Wessen?* et répondez.\n3. Réécrivez 3 génitifs avec *von* + datif.",
+  "ruleEn": "## The genitive — possession and belonging\n\nThe **genitive** mainly expresses **whose** something is (of / ’s).\n\n### Key question\n**Wessen?** (Whose?)\n\n- *Wessen Auto ist das?* → Das ist **das Auto des Nachbarn**.\n\n### Basic definite forms\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **des** + *(e)s* | **der** | **des** + *(e)s* | **der** |\n\n- das Buch **des** Mann**es**\n- die Tasche **der** Frau\n- das Dach **des** Haus**es**\n- die Spiele **der** Kinder\n\n### Contrast with *von* + dative\n- Formal / written: *das Haus **des** Lehrers*\n- Spoken / everyday: *das Haus **von dem** Lehrer* (*vom Lehrer*)\n\n### Common mistakes\n- Forgetting *-s/-es* on masculine/neuter: ✗ *des Mann* → ✓ *des Mannes*\n- Using *die* for feminine genitive: ✓ *die Tasche **der** Frau*\n\n### Mini practice\n1. Transform: der Lehrer / die Schule / das Kind → genitive.\n2. Ask *Wessen?* and answer.\n3. Rewrite 3 genitives with *von* + dative.",
+  "ruleDe": "## Genitiv — Besitz und Zugehörigkeit\n\nDer **Genitiv** drückt vor allem aus, **wem etwas gehört** (**Wessen?**).\n\n### Schlüsselfrage\n**Wessen?**\n\n- *Wessen Auto ist das?* → Das ist **das Auto des Nachbarn**.\n\n### Bestimmte Formen\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| bestimmt | **des** + *(e)s* | **der** | **des** + *(e)s* | **der** |\n\n- das Buch **des** Mann**es**\n- die Tasche **der** Frau\n- das Dach **des** Haus**es**\n- die Spiele **der** Kinder\n\n### Kontrast zu *von* + Dativ\n- Formell / schriftlich: *das Haus **des** Lehrers*\n- Mündlich: *das Haus **vom** Lehrer*\n\n### Häufige Fehler\n- *-s/-es* vergessen: ✗ *des Mann* → ✓ *des Mannes*\n- Falscher Artikel beim Femininum: ✓ *die Tasche **der** Frau*\n\n### Mini-Übung\n1. der Lehrer / die Schule / das Kind → Genitiv.\n2. *Wessen?* fragen und antworten.\n3. Drei Genitive mit *von* + Dativ umschreiben.",
+  "notesFr": "Apprenez le génitif avec la question *Wessen?* et le duo *des + -(e)s* (m/n) vs *der* (f/pl).",
+  "notesEn": "Learn the genitive with the question *Wessen?* and the pair *des + -(e)s* (m/n) vs *der* (f/pl).",
+  "notesDe": "Genitiv mit *Wessen?* lernen und das Paar *des + -(e)s* (m/n) vs *der* (f/pl).",
+  "examples": [
+    {
+      "de": "Das ist das Auto des Nachbarn.",
+      "fr": "C’est la voiture du voisin. (*des Nachbarn* = génitif)",
+      "en": "That is the neighbour’s car. (*des Nachbarn* = genitive)"
+    },
+    {
+      "de": "Die Farbe der Tür gefällt mir.",
+      "fr": "La couleur de la porte me plaît. (*der Tür*)",
+      "en": "I like the colour of the door. (*der Tür*)"
+    },
+    {
+      "de": "Wir besuchen die Eltern des Kindes.",
+      "fr": "Nous rendons visite aux parents de l’enfant. (*des Kindes*)",
+      "en": "We are visiting the child’s parents. (*des Kindes*)"
+    },
+    {
+      "de": "Am Ende des Tages sind wir müde.",
+      "fr": "À la fin de la journée, nous sommes fatigués. (*des Tages*)",
+      "en": "At the end of the day we are tired. (*des Tages*)"
+    },
+    {
+      "de": "Die Meinung der Experten ist klar.",
+      "fr": "L’avis des experts est clair. (*der Experten* = génitif pluriel)",
+      "en": "The experts’ opinion is clear. (*der Experten* = plural genitive)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "welcher-welche-welches-gram-c-074",
+  "titleFr": "Welcher — pronom relatif (style soutenu)",
+  "titleEn": "Welcher — relative pronoun (formal style)",
+  "titleDe": "welcher/welche/welches",
+  "ruleFr": "## Welcher comme relatif\n\nÀ côté de *der/die/das*, on trouve **welcher/welche/welches** comme **pronom relatif**, surtout dans un style **soutenu / littéraire**.\n\n### Exemple\n- Courant : *Das Buch, **das** ich lese…*\n- Soutenu : *Das Buch, **welches** ich lese…*\n\n### Quand l’utiliser ?\n- Textes administratifs, littérature, pour éviter une répétition de *der*\n- Pas nécessaire au quotidien : *der/die/das* suffit\n\n### Déclinaison\nComme interrogatif / *dieser*.\n\n### Mini-entraînement\nRéécrivez 3 relatives avec *welcher* à la place de *der/die/das*.",
+  "ruleEn": "## Welcher as a relative pronoun\n\nBesides *der/die/das*, **welcher/welche/welches** can be a **relative pronoun**, mainly in **formal/literary** style.\n\n### Example\n- Everyday: *Das Buch, **das** ich lese…*\n- Formal: *Das Buch, **welches** ich lese…*\n\n### When?\nAdmin/literary texts, or to avoid repeating *der*. Everyday: *der/die/das* is enough.\n\n### Mini practice\nRewrite 3 relative clauses with *welcher* instead of *der/die/das*.",
+  "ruleDe": "## Welcher als Relativpronomen\n\nNeben *der/die/das* — besonders formell/literarisch.\n\n### Beispiel\nAlltag: *das Buch, das…*  \nFormell: *das Buch, welches…*\n\n### Mini-Übung\n3 Relativsätze mit *welcher* statt *der/die/das*.",
+  "notesFr": "*Welcher* comme relatif est plus formel / littéraire que *der/die/das*.",
+  "notesEn": "Relative *welcher* is more formal/literary than *der/die/das*.",
+  "notesDe": "*Welcher* als Relativpronomen ist formeller/literarischer als *der/die/das*.",
+  "examples": [
+    {
+      "de": "Das Buch, welches ich lese, ist spannend.",
+      "fr": "Le livre que je lis est passionnant. (relatif soutenu.)",
+      "en": "The book which I am reading is exciting. (formal relative.)"
+    },
+    {
+      "de": "Die Frau, welche dort steht, ist Ärztin.",
+      "fr": "La femme qui se tient là est médecin.",
+      "en": "The woman who is standing there is a doctor."
+    },
+    {
+      "de": "Der Mann, welcher angerufen hat, wartet.",
+      "fr": "L’homme qui a appelé attend.",
+      "en": "The man who called is waiting."
+    },
+    {
+      "de": "Die Fragen, welche Sie stellen, sind gut.",
+      "fr": "Les questions que vous posez sont bonnes.",
+      "en": "The questions which you ask are good."
+    },
+    {
+      "de": "Alles, welches er sagte, war falsch. (selten/veraltet wirkend)",
+      "fr": "Tout ce qu’il a dit était faux. (tournure rare / datée.)",
+      "en": "Everything which he said was wrong. (rare/dated feel.)"
+    }
+  ]
+}

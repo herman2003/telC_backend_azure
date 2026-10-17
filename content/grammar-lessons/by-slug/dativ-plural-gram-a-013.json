@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-plural-gram-a-013",
+  "titleFr": "Le datif pluriel",
+  "titleEn": "The dative plural",
+  "titleDe": "Dativ — Plural",
+  "ruleFr": "## Datif pluriel : *den* + nom en *-n*\n\nAu **datif pluriel**, l’article défini est **den**, et le nom reçoit souvent un **-n** final (s’il n’en a pas déjà).\n\n### Règle\n**den** + Substantiv + **-n** (si possible)\n\n- die Kinder → **den Kindern**\n- die Frauen → **den Frauen** (déjà *-n*)\n- die Autos → **den Autos** (pas de *-n* après *-s*)\n\n### Quand on n’ajoute pas *-n*\n- Pluriels en *-s* : *den Hotels*, *den Taxis*\n- Formes déjà en *-n* / *-en* : *den Studenten*, *den Menschen*\n\n### Exemples\n- Ich helfe **den Kindern**.\n- Wir sprechen mit **den Kollegen**.\n- Das gefällt **den Gästen**.\n\n### Erreurs fréquentes\n- Oublier *-n* : ✗ *den Kinder* → ✓ *den Kindern*\n- Utiliser *die* au datif pluriel : ✗ *mit die Kinder* → ✓ *mit **den** Kindern*\n\n### Mini-entraînement\n1. die Freunde / die Bücher / die Städte → datif.\n2. Trois phrases avec *helfen* + pluriel.\n3. Repérez les pluriels en *-s* (pas de *-n*).",
+  "ruleEn": "## Dative plural: *den* + noun with *-n*\n\nIn the **dative plural**, the definite article is **den**, and the noun often gains a final **-n** (if it does not already have one).\n\n### Rule\n**den** + noun + **-n** (if possible)\n\n- die Kinder → **den Kindern**\n- die Frauen → **den Frauen** (already *-n*)\n- die Autos → **den Autos** (no *-n* after *-s*)\n\n### When not to add *-n*\n- Plurals in *-s*: *den Hotels*, *den Taxis*\n- Forms already ending in *-n* / *-en*: *den Studenten*, *den Menschen*\n\n### Examples\n- Ich helfe **den Kindern**.\n- Wir sprechen mit **den Kollegen**.\n- Das gefällt **den Gästen**.\n\n### Common mistakes\n- Missing *-n*: ✗ *den Kinder* → ✓ *den Kindern*\n- Using *die* in dative plural: ✗ *mit die Kinder* → ✓ *mit **den** Kindern*\n\n### Mini practice\n1. die Freunde / die Bücher / die Städte → dative.\n2. Three sentences with *helfen* + plural.\n3. Spot *-s* plurals (no extra *-n*).",
+  "ruleDe": "## Dativ Plural: *den* + Nomen auf *-n*\n\nIm **Dativ Plural** steht der bestimmte Artikel **den**, und das Nomen bekommt oft ein **-n** (falls noch keines da ist).\n\n### Regel\n**den** + Substantiv + **-n** (wenn möglich)\n\n- die Kinder → **den Kindern**\n- die Frauen → **den Frauen** (schon *-n*)\n- die Autos → **den Autos** (kein *-n* nach *-s*)\n\n### Wann kein *-n*?\n- Plural auf *-s*: *den Hotels*, *den Taxis*\n- Schon *-n* / *-en*: *den Studenten*, *den Menschen*\n\n### Beispiele\n- Ich helfe **den Kindern**.\n- Wir sprechen mit **den Kollegen**.\n- Das gefällt **den Gästen**.\n\n### Häufige Fehler\n- *-n* vergessen: ✗ *den Kinder* → ✓ *den Kindern*\n- *die* im Dativ Plural: ✗ *mit die Kinder* → ✓ *mit **den** Kindern*\n\n### Mini-Übung\n1. die Freunde / die Bücher / die Städte → Dativ.\n2. Drei Sätze mit *helfen* + Plural.\n3. *-s*-Plurale erkennen (kein Extra-*-n*).",
+  "notesFr": "Réflexe : après *den* au pluriel, vérifiez si le nom peut prendre *-n* — *Kindern*, *Freunden*, *Tagen*.",
+  "notesEn": "Reflex: after plural *den*, check whether the noun can take *-n* — *Kindern*, *Freunden*, *Tagen*.",
+  "notesDe": "Reflex: Nach Plural-*den* prüfen, ob das Nomen *-n* bekommen kann — *Kindern*, *Freunden*, *Tagen*.",
+  "examples": [
+    {
+      "de": "Ich helfe den Kindern bei den Hausaufgaben.",
+      "fr": "J’aide les enfants avec les devoirs. (*den Kindern*)",
+      "en": "I help the children with their homework. (*den Kindern*)"
+    },
+    {
+      "de": "Wir danken den Freunden für die Einladung.",
+      "fr": "Nous remercions les amis pour l’invitation. (*den Freunden*)",
+      "en": "We thank our friends for the invitation. (*den Freunden*)"
+    },
+    {
+      "de": "Das gehört den Nachbarn.",
+      "fr": "Cela appartient aux voisins. (*den Nachbarn*)",
+      "en": "That belongs to the neighbours. (*den Nachbarn*)"
+    },
+    {
+      "de": "Sie spricht mit den Kollegen.",
+      "fr": "Elle parle avec les collègues. (*den Kollegen*)",
+      "en": "She is talking to the colleagues. (*den Kollegen*)"
+    },
+    {
+      "de": "In den Hotels gibt es WLAN.",
+      "fr": "Dans les hôtels, il y a le Wi-Fi. (*den Hotels* — pas de *-n* après *-s*)",
+      "en": "There is Wi-Fi in the hotels. (*den Hotels* — no *-n* after *-s*)"
+    }
+  ]
+}

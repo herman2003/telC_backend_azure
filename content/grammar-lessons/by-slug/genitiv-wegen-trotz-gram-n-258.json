@@ -1,0 +1,39 @@
+{
+  "slug": "genitiv-wegen-trotz-gram-n-258",
+  "titleFr": "Génitif — wegen / trotz",
+  "titleEn": "Genitive — wegen / trotz",
+  "titleDe": "Genitiv — wegen/trotz",
+  "ruleFr": "## *wegen* et *trotz* (+ génitif)\n\n### Sens\n- **wegen** = à cause de\n- **trotz** = malgré / en dépit de\n\n### Formes\n- wegen **des** Staus / wegen **der** Verspätung / wegen **des** Wetters\n- trotz **des** Regens / trotz **aller** Probleme\n\nAvec pronom : *meinetwegen, deinetwegen, seinetwegen* ; *trotzdem* (adverbe).\n\n### Attention\n✗ confondre *wegen* (cause) et *trotz* (opposition)\n✗ *wegen dem* à l’écrit formel → préférez *wegen des*\n\n### Mini-entraînement\n1. Cause → *wegen* ; obstacle → *trotz*.\n2. Déclinez : *wegen ___ Prüfung* (die).\n3. Reformulez *trotzdem* en *trotz* + nom.",
+  "ruleEn": "## *wegen* and *trotz* (+ genitive)\n\n### Meaning\n- **wegen** = because of\n- **trotz** = despite / in spite of\n\n### Forms\n- wegen **des** Staus / wegen **der** Verspätung\n- trotz **des** Regens / trotz **aller** Probleme\n\nWith pronouns: *meinetwegen, deinetwegen*; adverb *trotzdem*.\n\n### Watch out\n✗ mixing *wegen* (cause) and *trotz* (concession)\n✗ *wegen dem* in formal writing → prefer *wegen des*\n\n### Mini practice\n1. Cause → *wegen*; obstacle → *trotz*.\n2. Decline: *wegen ___ Prüfung* (die).\n3. Rephrase *trotzdem* as *trotz* + noun.",
+  "ruleDe": "## *wegen* und *trotz* (+ Genitiv)\n\n### Bedeutung\n- **wegen** = wegen / aufgrund\n- **trotz** = trotz\n\n### Formen\n- wegen **des** Staus / wegen **der** Verspätung\n- trotz **des** Regens\n\n### Achtung\nNicht verwechseln: Ursache (*wegen*) vs. Gegensatz (*trotz*).\n\n### Mini-Übung\n1. Ursache → *wegen*; Gegensatz → *trotz*.\n2. *wegen der Prüfung*.\n3. *trotzdem* → *trotz* + Nomen.",
+  "notesFr": "À l’oral aussi datif : *wegen dem Stau* — l’écrit préfère le génitif.",
+  "notesEn": "Spoken also dative: *wegen dem Stau* — writing prefers genitive.",
+  "notesDe": "Umgangssprachlich auch mit Dativ: wegen dem Stau.",
+  "examples": [
+    {
+      "de": "Wegen des Staus komme ich zu spät.",
+      "fr": "À cause des embouteillages, j’arrive en retard.",
+      "en": "Because of the traffic jam I am late."
+    },
+    {
+      "de": "Trotz des Regens spielen die Kinder draußen.",
+      "fr": "Malgré la pluie, les enfants jouent dehors.",
+      "en": "Despite the rain the children play outside."
+    },
+    {
+      "de": "Wegen der Prüfung lerne ich jeden Tag.",
+      "fr": "À cause de l’examen, j’étudie chaque jour.",
+      "en": "Because of the exam I study every day."
+    },
+    {
+      "de": "Trotz aller Probleme bleibt sie ruhig.",
+      "fr": "Malgré tous les problèmes, elle reste calme.",
+      "en": "Despite all problems she stays calm."
+    },
+    {
+      "de": "Meinetwegen kannst du früher gehen.",
+      "fr": "Pour moi / de mon côté, tu peux partir plus tôt.",
+      "en": "As far as I’m concerned you can leave earlier."
+    }
+  ]
+}

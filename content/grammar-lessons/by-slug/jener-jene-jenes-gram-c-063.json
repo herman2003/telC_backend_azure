@@ -1,0 +1,39 @@
+{
+  "slug": "jener-jene-jenes-gram-c-063",
+  "titleFr": "Jener — même déclinaison que dieser",
+  "titleEn": "Jener — same declension as dieser",
+  "titleDe": "jener/jene/jenes",
+  "ruleFr": "## Jener se décline comme dieser\n\nMêmes terminaisons que *dieser* / article défini.\n\n### Aperçu des cas (masculin)\n| cas | forme |\n|---|---|\n| Nominatif | **jener** Mann |\n| Accusatif | **jenen** Mann |\n| Datif | **jenem** Mann |\n| Génitif | **jenes** Mannes |\n\n### Nominatif (tous genres)\n**jener** (m) · **jene** (f) · **jenes** (n) · **jene** (pl)\n\n### Terminaisons à retenir\n*-er, -e, -es, -en, -em* — identiques à *dieser*.\n\n### Mini-entraînement\nDéclinez *jene Frau* et *jenes Kind* aux 4 cas.",
+  "ruleEn": "## Jener declines like dieser\n\nSame endings as *dieser* / the definite article.\n\n### Masculine overview\n| case | form |\n|---|---|\n| Nominative | **jener** Mann |\n| Accusative | **jenen** Mann |\n| Dative | **jenem** Mann |\n| Genitive | **jenes** Mannes |\n\n### Nominative (all genders)\n**jener** (m) · **jene** (f) · **jenes** (n) · **jene** (pl)\n\n### Mini practice\nDecline *jene Frau* and *jenes Kind* in all four cases.",
+  "ruleDe": "## Jener dekliniert wie dieser\n\nGleiche Endungen wie *dieser* / bestimmter Artikel.\n\n### Maskulinum\nNom **jener** · Akk **jenen** · Dat **jenem** · Gen **jenes**\n\n### Nominativ\n**jener** (m) · **jene** (f) · **jenes** (n) · **jene** (pl)\n\n### Mini-Übung\n*jene Frau* und *jenes Kind* in allen Kasus deklinieren.",
+  "notesFr": "Mêmes terminaisons que *dieser* : *-er, -e, -es, -en, -em*.",
+  "notesEn": "Same endings as *dieser*: *-er, -e, -es, -en, -em*.",
+  "notesDe": "Gleiche Endungen wie *dieser*: *-er, -e, -es, -en, -em*.",
+  "examples": [
+    {
+      "de": "Jener Weg ist steil.",
+      "fr": "Ce chemin-là est raide. (nominatif.)",
+      "en": "That path is steep. (nominative.)"
+    },
+    {
+      "de": "Ich kenne jenen Weg nicht.",
+      "fr": "Je ne connais pas ce chemin-là. (accusatif.)",
+      "en": "I don’t know that path. (accusative.)"
+    },
+    {
+      "de": "Wir folgen jenem Weg.",
+      "fr": "Nous suivons ce chemin-là. (datif.)",
+      "en": "We follow that path. (dative.)"
+    },
+    {
+      "de": "Am Ende jenes Weges steht ein Baum.",
+      "fr": "Au bout de ce chemin-là se trouve un arbre. (génitif.)",
+      "en": "At the end of that path stands a tree. (genitive.)"
+    },
+    {
+      "de": "Jene Frauen arbeiten dort.",
+      "fr": "Ces femmes-là travaillent là-bas.",
+      "en": "Those women work over there."
+    }
+  ]
+}

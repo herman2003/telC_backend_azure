@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-g-171",
+  "titleFr": "Erreurs fréquentes — haben au lieu de sein",
+  "titleEn": "Common mistakes — haben instead of sein",
+  "titleDe": "Häufige Fehler — haben statt sein",
+  "ruleFr": "## Erreur : *haben* au lieu de *sein* (mouvement)\n\nLes verbes de **mouvement avec destination** prennent **sein**, pas *haben*.\n\n### Corrections\n| ✗ Faux | ✓ Correct |\n|---|---|\n| Ich **habe** nach Hause gegangen. | Ich **bin** nach Hause gegangen. |\n| Sie **hat** nach Berlin gefahren. | Sie **ist** nach Berlin gefahren. |\n| Wir **haben** angekommen. | Wir **sind** angekommen. |\n\n### Astuce\n*Wohin?* → souvent **sein** : *gehen, fahren, fliegen, kommen, laufen…*\n\n### Mini-entraînement\nCorrigez 5 phrases avec le mauvais auxiliaire.",
+  "ruleEn": "## Mistake: *haben* instead of *sein* (motion)\n\n**Motion verbs with a destination** take **sein**, not *haben*.\n\n### Corrections\n| ✗ Wrong | ✓ Correct |\n|---|---|\n| Ich **habe** nach Hause gegangen. | Ich **bin** nach Hause gegangen. |\n| Sie **hat** nach Berlin gefahren. | Sie **ist** nach Berlin gefahren. |\n| Wir **haben** angekommen. | Wir **sind** angekommen. |\n\n### Tip\n*Wohin?* → often **sein**: *gehen, fahren, fliegen, kommen, laufen…*\n\n### Mini practice\nCorrect 5 sentences with the wrong auxiliary.",
+  "ruleDe": "## Fehler: *haben* statt *sein* (Bewegung)\n\n**Bewegungsverben mit Ziel** brauchen **sein**, nicht *haben*.\n\n### Korrekturen\n| ✗ Falsch | ✓ Richtig |\n|---|---|\n| Ich **habe** nach Hause gegangen. | Ich **bin** nach Hause gegangen. |\n| Sie **hat** nach Berlin gefahren. | Sie **ist** nach Berlin gefahren. |\n| Wir **haben** angekommen. | Wir **sind** angekommen. |\n\n### Merkhilfe\n*Wohin?* → oft **sein**.\n\n### Mini-Übung\nKorrigieren Sie 5 Sätze mit falschem Hilfsverb.",
+  "notesFr": "Mouvement avec but = *sein* ! *fahren, gehen, fliegen, kommen, laufen*.",
+  "notesEn": "Motion with a goal = *sein*! *fahren, gehen, fliegen, kommen, laufen*.",
+  "notesDe": "Bewegung mit Ziel = *sein*! *fahren, gehen, fliegen, kommen, laufen*.",
+  "examples": [
+    {
+      "de": "Ich bin nach Hause gegangen. (nicht: habe … gegangen)",
+      "fr": "Je suis rentré(e). (pas : *habe gegangen*)",
+      "en": "I went home. (not: *habe gegangen*)"
+    },
+    {
+      "de": "Sie ist nach Berlin gefahren.",
+      "fr": "Elle est allée à Berlin (en véhicule).",
+      "en": "She drove / went to Berlin."
+    },
+    {
+      "de": "Wann seid ihr angekommen?",
+      "fr": "Quand êtes-vous arrivés ?",
+      "en": "When did you arrive?"
+    },
+    {
+      "de": "Er ist nach Paris geflogen.",
+      "fr": "Il est parti en avion à Paris.",
+      "en": "He flew to Paris."
+    },
+    {
+      "de": "Wir sind zum Bahnhof gelaufen.",
+      "fr": "Nous avons couru jusqu’à la gare.",
+      "en": "We ran to the station."
+    }
+  ]
+}

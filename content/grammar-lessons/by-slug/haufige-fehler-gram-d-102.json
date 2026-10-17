@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-d-102",
+  "titleFr": "Erreurs fréquentes : verbes à datif",
+  "titleEn": "Common mistakes: dative verbs",
+  "titleDe": "Häufige Fehler — Dativverben",
+  "ruleFr": "## Erreur fréquente : accusatif au lieu du datif\n\nCertains verbes allemands exigent un complément au **datif** — alors que le français / l’anglais suggèrent souvent un « objet direct ».\n\n### Verbes à datif (à mémoriser)\n*helfen, danken, gefallen, gehören, folgen, glauben, antworten, gratulieren, verzeihen, schmecken*\n\n### Pattern\n**Sujet + verbe + datif**\n→ *Ich helfe **dir**.* (pas *dich*)\n→ *Das Buch gehört **mir**.*\n\n### Contrastes\n| Faux | Correct |\n|---|---|\n| *Ich helfe dich.* | *Ich helfe **dir**.* |\n| *Ich danke dich.* | *Ich danke **dir**.* |\n| *Das gefällt mich.* | *Das gefällt **mir**.* |\n\n### Mini-entraînement\nCorrigez 5 phrases avec *helfen / danken / gefallen*.",
+  "ruleEn": "## Common mistake: accusative instead of dative\n\nSome German verbs take a **dative** object — even when English feels like a “direct object”.\n\n### Dative verbs (memorize)\n*helfen, danken, gefallen, gehören, folgen, glauben, antworten, gratulieren, verzeihen, schmecken*\n\n### Pattern\n**Subject + verb + dative**\n→ *Ich helfe **dir**.* (not *dich*)\n→ *Das Buch gehört **mir**.*\n\n### Contrasts\n| Wrong | Correct |\n|---|---|\n| *Ich helfe dich.* | *Ich helfe **dir**.* |\n| *Ich danke dich.* | *Ich danke **dir**.* |\n| *Das gefällt mich.* | *Das gefällt **mir**.* |\n\n### Mini practice\nCorrect 5 sentences with *helfen / danken / gefallen*.",
+  "ruleDe": "## Häufiger Fehler: Akkusativ statt Dativ\n\nManche Verben verlangen ein **Dativobjekt** — auch wenn andere Sprachen ein « direktes Objekt » nahelegen.\n\n### Dativverben (merken!)\n*helfen, danken, gefallen, gehören, folgen, glauben, antworten, gratulieren, verzeihen, schmecken*\n\n### Muster\n**Subjekt + Verb + Dativ**\n→ *Ich helfe **dir**.* (nicht *dich*)\n\n### Kontraste\n| Falsch | Richtig |\n|---|---|\n| *Ich helfe dich.* | *Ich helfe **dir**.* |\n| *Das gefällt mich.* | *Das gefällt **mir**.* |\n\n### Mini-Übung\n5 Sätze mit *helfen / danken / gefallen* korrigieren.",
+  "notesFr": "Verbes à datif : helfen, danken, gefallen, gehören, folgen, glauben…",
+  "notesEn": "Dative verbs: helfen, danken, gefallen, gehören, folgen, glauben…",
+  "notesDe": "Verben mit Dativ: helfen, danken, gefallen, gehören, folgen, glauben…",
+  "examples": [
+    {
+      "de": "Ich helfe dir gerne.",
+      "fr": "Je t’aide volontiers. (« dir » = datif ; pas « dich ».)",
+      "en": "I’m happy to help you. (“dir” = dative; not “dich”.)"
+    },
+    {
+      "de": "Ich danke Ihnen für Ihre Hilfe.",
+      "fr": "Je vous remercie de votre aide.",
+      "en": "Thank you for your help."
+    },
+    {
+      "de": "Das Konzert hat mir sehr gefallen.",
+      "fr": "Le concert m’a beaucoup plu. (« mir » avec gefallen.)",
+      "en": "I really liked the concert. (“mir” with gefallen.)"
+    },
+    {
+      "de": "Das Fahrrad gehört meinem Bruder.",
+      "fr": "Le vélo appartient à mon frère.",
+      "en": "The bike belongs to my brother."
+    },
+    {
+      "de": "Glaubst du mir?",
+      "fr": "Tu me crois ? (« mir » = datif.)",
+      "en": "Do you believe me? (“mir” = dative.)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "possessivpronomen-deklination-gram-d-090",
+  "titleFr": "Déterminants possessifs — déclinaison (nominatif)",
+  "titleEn": "Possessive determiners — declension (nominative)",
+  "titleDe": "Possessivpronomen — Deklination",
+  "ruleFr": "## Comme *ein* : nominatif\n\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| | **mein** Vater | **meine** Mutter | **mein** Kind | **meine** Eltern |\n\nPas de *-e* / *-es* au masculin et neutre nominatif (contrairement à *dieser*).\n\n### Autres Ein-Wörter\n*mein, dein, sein, ihr, unser, euer, kein* — même schéma.\n\n### Mini-entraînement\nComplétez : *___ (mein) Bruder / Schwester / Auto / Freunde*.",
+  "ruleEn": "## Like *ein*: nominative\n\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| | **mein** Vater | **meine** Mutter | **mein** Kind | **meine** Eltern |\n\nNo *-e/-es* on masculine/neuter nominative (unlike *dieser*).\n\n### Mini practice\nComplete: *___ (mein) Bruder / Schwester / Auto / Freunde*.",
+  "ruleDe": "## Wie *ein*: Nominativ\n\n**mein** Vater · **meine** Mutter · **mein** Kind · **meine** Eltern\n\nKeine Endung bei m/n im Nominativ.\n\n### Mini-Übung\n*___ Bruder/Schwester/Auto/Freunde* (mein).",
+  "notesFr": "Ein-Wörter : *mein, dein, sein, ihr, unser, euer, kein*.",
+  "notesEn": "Ein-words: *mein, dein, sein, ihr, unser, euer, kein*.",
+  "notesDe": "Ein-Wörter: *mein, dein, sein, ihr, unser, euer, kein*.",
+  "examples": [
+    {
+      "de": "Mein Vater arbeitet hier.",
+      "fr": "Mon père travaille ici. (masculin, sans -e.)",
+      "en": "My father works here. (masculine, no -e.)"
+    },
+    {
+      "de": "Meine Mutter kocht.",
+      "fr": "Ma mère cuisine. (féminin : -e.)",
+      "en": "My mother is cooking. (feminine: -e.)"
+    },
+    {
+      "de": "Mein Kind schläft.",
+      "fr": "Mon enfant dort. (neutre, sans -e.)",
+      "en": "My child is sleeping. (neuter, no -e.)"
+    },
+    {
+      "de": "Meine Eltern sind nett.",
+      "fr": "Mes parents sont gentils. (pluriel : -e.)",
+      "en": "My parents are nice. (plural: -e.)"
+    },
+    {
+      "de": "Unser Haus steht leer.",
+      "fr": "Notre maison est vide.",
+      "en": "Our house stands empty."
+    }
+  ]
+}

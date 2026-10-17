@@ -1,0 +1,39 @@
+{
+  "slug": "adverbiale-konjunktionen-gram-q-284",
+  "titleFr": "Les adverbes de liaison",
+  "titleEn": "Conjunctive adverbs",
+  "titleDe": "Adverbiale Konjunktionen",
+  "ruleFr": "## Adverbes de liaison (*deshalb, trotzdem…*)\n\nCe ne sont **pas** des conjonctions subordonnantes. Ce sont des **adverbes** qui relient des idées : s’ils sont en **position 1**, le verbe conjugué reste en **position 2** (inversion du sujet).\n\n### Les plus utiles\n| Mot | Sens |\n|---|---|\n| **deshalb / darum / daher** | c’est pourquoi |\n| **trotzdem** | quand même / malgré cela |\n| **dann** | alors / ensuite |\n| **danach** | ensuite / après |\n| **außerdem** | en outre |\n\n### Ordre des mots\n- *Ich bin müde, **deshalb gehe** ich ins Bett.* (deshalb = pos. 1 → verbe → sujet)\n- *Es regnet, **trotzdem gehe** ich spazieren.*\n\n### Différence avec *weil / obwohl*\n- *weil / obwohl* → verbe à la **fin** de la subordonnée\n- *deshalb / trotzdem* → **nouveau** principal, verbe en **2**\n\n### Mini-entraînement\n1. *Ich habe Hunger.* → *Deshalb…*\n2. *Es regnet. Ich gehe raus.* → *Trotzdem…*",
+  "ruleEn": "## Conjunctive adverbs (*deshalb, trotzdem…*)\n\nThese are **not** subordinating conjunctions. They are **adverbs** that link ideas: if they fill **position 1**, the conjugated verb stays in **position 2** (subject inversion).\n\n### The most useful\n| Word | Meaning |\n|---|---|\n| **deshalb / darum / daher** | that’s why |\n| **trotzdem** | nevertheless |\n| **dann** | then |\n| **danach** | after that |\n| **außerdem** | besides |\n\n### Word order\n- *Ich bin müde, **deshalb gehe** ich ins Bett.*\n- *Es regnet, **trotzdem gehe** ich spazieren.*\n\n### Difference from *weil / obwohl*\n- *weil / obwohl* → verb at the **end** of the subordinate clause\n- *deshalb / trotzdem* → **new** main clause, verb in **2**\n\n### Mini practice\n1. *I’m hungry.* → *Deshalb…*\n2. *It’s raining. I go out.* → *Trotzdem…*",
+  "ruleDe": "## Adverbiale Konjunktionen (Konjunktionaladverbien)\n\nDas sind **keine** Subjunktionen. Es sind **Adverbien**: stehen sie auf **Position 1**, bleibt das Verb auf **Position 2** (Inversion).\n\n### Die wichtigsten\n| Wort | Bedeutung |\n|---|---|\n| **deshalb / darum / daher** | deshalb |\n| **trotzdem** | trotzdem |\n| **dann** | dann |\n| **danach** | danach |\n| **außerdem** | außerdem |\n\n### Wortstellung\n- *Ich bin müde, **deshalb gehe** ich ins Bett.*\n- *Es regnet, **trotzdem gehe** ich spazieren.*\n\n### Unterschied zu *weil / obwohl*\n- *weil / obwohl* → Verb am **Ende**\n- *deshalb / trotzdem* → neuer Hauptsatz, Verb auf **2**\n\n### Mini-Übung\n1. *Ich habe Hunger.* → *Deshalb…*\n2. *Es regnet. Ich gehe raus.* → *Trotzdem…*",
+  "notesFr": "Ces mots prennent la position 1 → sujet après le verbe (inversion) !",
+  "notesEn": "These words take position 1 → subject after the verb (inversion)!",
+  "notesDe": "Diese Wörter nehmen Position 1 → Subjekt nach dem Verb (Inversion)!",
+  "examples": [
+    {
+      "de": "Ich bin müde, deshalb gehe ich ins Bett.",
+      "fr": "Je suis fatigué, c’est pourquoi je vais au lit.",
+      "en": "I’m tired, so I’m going to bed."
+    },
+    {
+      "de": "Es regnet, trotzdem gehe ich spazieren.",
+      "fr": "Il pleut, pourtant je vais me promener.",
+      "en": "It’s raining; nevertheless I’m going for a walk."
+    },
+    {
+      "de": "Zuerst lernen wir, dann machen wir eine Pause.",
+      "fr": "D’abord nous apprenons, ensuite nous faisons une pause.",
+      "en": "First we study, then we take a break."
+    },
+    {
+      "de": "Er hat keine Zeit, außerdem ist er krank.",
+      "fr": "Il n’a pas le temps ; en outre il est malade.",
+      "en": "He has no time; besides, he’s ill."
+    },
+    {
+      "de": "Wir essen zu Mittag, danach gehen wir einkaufen.",
+      "fr": "Nous déjeunons, ensuite nous allons faire les courses.",
+      "en": "We have lunch; after that we go shopping."
+    }
+  ]
+}

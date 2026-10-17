@@ -1,0 +1,39 @@
+{
+  "slug": "nach-bestimmtem-artikel-genitiv-gram-l-216",
+  "titleFr": "Adjectifs après article défini — génitif",
+  "titleEn": "Adjectives after definite articles — genitive",
+  "titleDe": "Nach bestimmtem Artikel — Genitiv",
+  "ruleFr": "## Après article défini — génitif\n\nAu **génitif** après *des / der / des / der*, l’adjectif prend **toujours -en** (comme au datif).\n\n### Tableau\n| | m | f | n | pl |\n|---|---|---|---|---|\n| | des groß**en** Mannes | der klein**en** Frau | des neu**en** Autos | der alt**en** Bücher |\n\n### Exemples\n- *trotz des schlecht**en** Wetters*\n- *während der lang**en** Reise*\n- *die Farbe des neu**en** Autos*\n\n### Mini-entraînement\nFormez 4 groupes génitifs avec adjectif.",
+  "ruleEn": "## After definite articles — genitive\n\nIn the **genitive** after *des / der / des / der*, the adjective **always** takes **-en** (like dative).\n\n### Chart\n| | m | f | n | pl |\n|---|---|---|---|---|\n| | des groß**en** Mannes | der klein**en** Frau | des neu**en** Autos | der alt**en** Bücher |\n\n### Examples\n- *trotz des schlecht**en** Wetters*\n- *während der lang**en** Reise*\n- *die Farbe des neu**en** Autos*\n\n### Mini practice\nForm 4 genitive noun phrases with an adjective.",
+  "ruleDe": "## Nach bestimmtem Artikel — Genitiv\n\nGenitiv: Adjektiv **immer -en** (wie Dativ).\n\n### Beispiele\n*trotz des schlechten Wetters, während der langen Reise*\n\n### Mini-Übung\nBilden Sie 4 Genitivgruppen mit Adjektiv.",
+  "notesFr": "Génitif = toujours -en (comme le datif).",
+  "notesEn": "Genitive = always -en (like dative).",
+  "notesDe": "Genitiv = immer -en (wie Dativ).",
+  "examples": [
+    {
+      "de": "trotz des schlechten Wetters",
+      "fr": "malgré le mauvais temps",
+      "en": "despite the bad weather"
+    },
+    {
+      "de": "während der langen Reise",
+      "fr": "pendant le long voyage",
+      "en": "during the long journey"
+    },
+    {
+      "de": "die Farbe des neuen Autos",
+      "fr": "la couleur de la voiture neuve",
+      "en": "the color of the new car"
+    },
+    {
+      "de": "die Meinung der alten Lehrerin",
+      "fr": "l’avis de la vieille professeure",
+      "en": "the old teacher’s opinion"
+    },
+    {
+      "de": "wegen der teuren Tickets",
+      "fr": "à cause des billets chers",
+      "en": "because of the expensive tickets"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "um-zu-zweck-gram-v-316",
+  "titleFr": "um … zu (le but)",
+  "titleEn": "um … zu (purpose)",
+  "titleDe": "um ... zu (Zweck)",
+  "ruleFr": "## *um … zu* — exprimer le but\n\n***um … zu* + infinitif** = « pour » / « afin de ». Le **sujet** de l’action principale et de l’infinitif doit être **le même**.\n\n### Structure\n*…, um … zu + Infinitiv*\n- *Ich lerne Deutsch, **um** in Deutschland **zu** arbeiten.*\n- *Er spart, **um** ein Auto **zu** kaufen.*\n\n### Sujets différents → *damit*\n- ✓ *Ich erkläre es langsam, **damit** die Kinder es verstehen.*\n- ✗ *…, um die Kinder es zu verstehen.* (sujets différents)\n\n### Mini-entraînement\n1. Même sujet → *um … zu*\n2. Sujets différents → *damit*",
+  "ruleEn": "## *um … zu* — expressing purpose\n\n***um … zu* + infinitive** = “in order to”. The **subject** of the main action and the infinitive must be the **same**.\n\n### Structure\n*…, um … zu + Infinitive*\n- *Ich lerne Deutsch, **um** in Deutschland **zu** arbeiten.*\n- *Er spart, **um** ein Auto **zu** kaufen.*\n\n### Different subjects → *damit*\n- ✓ *Ich erkläre es langsam, **damit** die Kinder es verstehen.*\n- ✗ *…, um die Kinder es zu verstehen.*\n\n### Mini practice\n1. Same subject → *um … zu*\n2. Different subjects → *damit*",
+  "ruleDe": "## *um … zu* — Zweck\n\nGleicher Subjekt nötig.\n- *Ich lerne Deutsch, **um** in Deutschland **zu** arbeiten.*\n\n### Verschiedene Subjekte → *damit*\n- *…, **damit** die Kinder es verstehen.*\n\n### Mini-Übung\nGleicher Subjekt / verschiedene Subjekte.",
+  "notesFr": "Si les sujets sont différents : *damit* + subordonnée (pas *um … zu*).",
+  "notesEn": "If subjects differ: *damit* + subordinate clause (not *um … zu*).",
+  "notesDe": "Wenn Subjekte verschieden: *damit* + Nebensatz statt *um … zu*.",
+  "examples": [
+    {
+      "de": "Ich lerne Deutsch, um in Deutschland zu arbeiten.",
+      "fr": "J’apprends l’allemand pour travailler en Allemagne.",
+      "en": "I’m learning German in order to work in Germany."
+    },
+    {
+      "de": "Er spart, um ein Auto zu kaufen.",
+      "fr": "Il économise pour acheter une voiture.",
+      "en": "He’s saving in order to buy a car."
+    },
+    {
+      "de": "Wir gehen früh, um den Zug zu bekommen.",
+      "fr": "Nous partons tôt pour attraper le train.",
+      "en": "We’re leaving early to catch the train."
+    },
+    {
+      "de": "Sie trainiert, um fit zu bleiben.",
+      "fr": "Elle s’entraîne pour rester en forme.",
+      "en": "She trains in order to stay fit."
+    },
+    {
+      "de": "Ich erkläre es langsam, damit die Kinder es verstehen.",
+      "fr": "Je l’explique lentement pour que les enfants comprennent. (*damit*)",
+      "en": "I explain it slowly so that the children understand. (*damit*)"
+    }
+  ]
+}

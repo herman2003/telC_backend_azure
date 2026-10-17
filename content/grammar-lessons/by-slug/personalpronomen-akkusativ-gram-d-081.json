@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-akkusativ-gram-d-081",
+  "titleFr": "Pronoms personnels — accusatif singulier",
+  "titleEn": "Personal pronouns — accusative singular",
+  "titleDe": "Personalpronomen — Akkusativ",
+  "ruleFr": "## Accusatif singulier : mich, dich, ihn, sie, es\n\n### Changements clés\n| Nom. | Akk. | remarque |\n|---|---|---|\n| ich | **mich** | change |\n| du | **dich** | change |\n| er | **ihn** | change |\n| sie | **sie** | **identique** |\n| es | **es** | **identique** |\n\n### Exemples\n*Sie ruft **mich** an.* · *Ich verstehe **dich**.* · *Der Hund beißt **ihn**.* · *Ich liebe **sie**.* · *Ich brauche **es**.*\n\n### Mini-entraînement\nTransformez : *Ich sehe den Mann / die Frau / das Kind* → pronoms.",
+  "ruleEn": "## Accusative singular: mich, dich, ihn, sie, es\n\n### Key changes\nich→**mich** · du→**dich** · er→**ihn** · sie→**sie** (same) · es→**es** (same)\n\n### Mini practice\nTransform: *Ich sehe den Mann / die Frau / das Kind* → pronouns.",
+  "ruleDe": "## Akkusativ Singular\n\nich→**mich** · du→**dich** · er→**ihn** · sie→**sie** · es→**es**\n\n### Mini-Übung\n*Ich sehe den Mann/die Frau/das Kind* → Pronomen.",
+  "notesFr": "*ihn* (er→ihn) ; *sie* et *es* restent *sie* / *es*.",
+  "notesEn": "*ihn* (er→ihn); *sie* and *es* stay *sie* / *es*.",
+  "notesDe": "*ihn* (er→ihn); *sie* und *es* bleiben *sie* / *es*.",
+  "examples": [
+    {
+      "de": "Sie ruft mich an.",
+      "fr": "Elle m’appelle.",
+      "en": "She is calling me."
+    },
+    {
+      "de": "Ich verstehe dich.",
+      "fr": "Je te comprends.",
+      "en": "I understand you."
+    },
+    {
+      "de": "Der Hund beißt ihn.",
+      "fr": "Le chien le mord. (ihn.)",
+      "en": "The dog bites him. (ihn.)"
+    },
+    {
+      "de": "Ich liebe sie.",
+      "fr": "Je l’aime. (sie.)",
+      "en": "I love her. (sie.)"
+    },
+    {
+      "de": "Ich brauche es sofort.",
+      "fr": "J’en ai besoin tout de suite. (es.)",
+      "en": "I need it immediately. (es.)"
+    }
+  ]
+}

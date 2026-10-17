@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-dativ-gram-d-084",
+  "titleFr": "Pronoms personnels — datif singulier",
+  "titleEn": "Personal pronouns — dative singular",
+  "titleDe": "Personalpronomen — Dativ",
+  "ruleFr": "## Datif singulier : mir, dir, ihm, ihr, ihm\n\n### Tableau\n| Nom. | Dat. |\n|---|---|\n| ich | **mir** |\n| du | **dir** |\n| er | **ihm** |\n| sie | **ihr** |\n| es | **ihm** |\n\n### Point crucial\nLe neutre **es** devient aussi **ihm** (comme *er*) !\n\n- Das Kind? Ich helfe **ihm**.\n- Der Mann? Ich helfe **ihm**.\n- Die Frau? Ich helfe **ihr**.\n\n### Mini-entraînement\n*helfen* + *mir/dir/ihm/ihr/ihm* dans 5 phrases.",
+  "ruleEn": "## Dative singular: mir, dir, ihm, ihr, ihm\n\n### Key point\nNeuter **es** also becomes **ihm** (like *er*)!\n\n- Das Kind? Ich helfe **ihm**.\n\n### Mini practice\n*helfen* + *mir/dir/ihm/ihr/ihm* in 5 sentences.",
+  "ruleDe": "## Dativ Singular\n\nich→**mir** · du→**dir** · er→**ihm** · sie→**ihr** · es→**ihm**\n\n### Wichtig\nNeutrum **es** → ebenfalls **ihm**!\n\n### Mini-Übung\n*helfen* + alle Singularformen.",
+  "notesFr": "*er→ihm*, *sie→ihr*, *es→ihm* (le neutre aussi *ihm* !).",
+  "notesEn": "*er→ihm*, *sie→ihr*, *es→ihm* (neuter also *ihm*!).",
+  "notesDe": "*er→ihm*, *sie→ihr*, *es→ihm* (Neutrum auch *ihm*!).",
+  "examples": [
+    {
+      "de": "Das gefällt mir.",
+      "fr": "Cela me plaît.",
+      "en": "I like that."
+    },
+    {
+      "de": "Ich schreibe dir eine Nachricht.",
+      "fr": "Je t’écris un message.",
+      "en": "I’m writing you a message."
+    },
+    {
+      "de": "Wir helfen ihm.",
+      "fr": "Nous l’aidons. (ihm ← er ou es.)",
+      "en": "We help him/it. (ihm ← er or es.)"
+    },
+    {
+      "de": "Das Kind weint. Ich gebe ihm Wasser.",
+      "fr": "L’enfant pleure. Je lui donne de l’eau. (ihm ← es.)",
+      "en": "The child cries. I give it water. (ihm ← es.)"
+    },
+    {
+      "de": "Die Frau ist da. Ich zeige ihr den Weg.",
+      "fr": "La femme est là. Je lui montre le chemin. (ihr.)",
+      "en": "The woman is here. I show her the way. (ihr.)"
+    }
+  ]
+}

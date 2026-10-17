@@ -1,0 +1,39 @@
+{
+  "slug": "infinitiv-mit-zu-grundregel-gram-v-313",
+  "titleFr": "L’infinitif avec zu",
+  "titleEn": "Infinitive with zu — basic rule",
+  "titleDe": "Infinitiv mit zu — Grundregel",
+  "ruleFr": "## Infinitif avec *zu* — règle de base\n\nBeaucoup de verbes se construisent avec **zu + infinitif** en fin de groupe.\n\n### Structure\n*…, zu + Infinitiv*\n- *Ich versuche, das **zu** verstehen.*\n- *Ich hoffe, dich bald **zu** sehen.*\n- *Es ist wichtig, pünktlich **zu** sein.*\n\n### Verbes fréquents + *zu*\nversuchen, hoffen, planen, vergessen, beginnen, aufhören, scheinen, bitten…\n\n### Virgule\nSouvent une virgule avant le groupe infinitif (surtout s’il est long).\n\n### Ne pas confondre\nAprès les **modaux** → **sans** *zu* : *Ich kann schwimmen.* (pas *zu schwimmen*)\n\n### Mini-entraînement\nComplétez : *Ich versuche, … / Ich hoffe, …*",
+  "ruleEn": "## Infinitive with *zu* — basic rule\n\nMany verbs take **zu + infinitive** at the end of the phrase.\n\n### Structure\n*…, zu + Infinitive*\n- *Ich versuche, das **zu** verstehen.*\n- *Ich hoffe, dich bald **zu** sehen.*\n- *Es ist wichtig, pünktlich **zu** sein.*\n\n### Common verbs + *zu*\nversuchen, hoffen, planen, vergessen, beginnen, aufhören, scheinen, bitten…\n\n### Comma\nOften a comma before the infinitive group (especially if long).\n\n### Don’t confuse\nAfter **modals** → **no** *zu*: *Ich kann schwimmen.*\n\n### Mini practice\nComplete: *Ich versuche, … / Ich hoffe, …*",
+  "ruleDe": "## Infinitiv mit *zu* — Grundregel\n\nViele Verben: **zu + Infinitiv** am Ende.\n- *Ich versuche, das **zu** verstehen.*\n- *Ich hoffe, dich bald **zu** sehen.*\n\n### Nicht nach Modalverben\n*Ich kann schwimmen.* (ohne *zu*)\n\n### Mini-Übung\n*Ich versuche, … / Ich hoffe, …*",
+  "notesFr": "Virgule souvent avant le groupe infinitif (sauf phrases très courtes).",
+  "notesEn": "Comma often before the infinitive group (except very short phrases).",
+  "notesDe": "Komma VOR dem Infinitivsatz (außer bei kurzen Sätzen).",
+  "examples": [
+    {
+      "de": "Ich versuche, das zu verstehen.",
+      "fr": "J’essaie de comprendre cela.",
+      "en": "I try to understand that."
+    },
+    {
+      "de": "Ich hoffe, dich bald zu sehen.",
+      "fr": "J’espère te voir bientôt.",
+      "en": "I hope to see you soon."
+    },
+    {
+      "de": "Es ist wichtig, pünktlich zu sein.",
+      "fr": "Il est important d’être à l’heure.",
+      "en": "It’s important to be on time."
+    },
+    {
+      "de": "Sie hat vergessen, die Tür zuzumachen.",
+      "fr": "Elle a oublié de fermer la porte.",
+      "en": "She forgot to close the door."
+    },
+    {
+      "de": "Wir planen, im Sommer zu verreisen.",
+      "fr": "Nous prévoyons de partir en voyage en été.",
+      "en": "We’re planning to travel in summer."
+    }
+  ]
+}

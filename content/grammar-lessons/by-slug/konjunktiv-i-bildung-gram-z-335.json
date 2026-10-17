@@ -1,0 +1,39 @@
+{
+  "slug": "konjunktiv-i-bildung-gram-z-335",
+  "titleFr": "Konjunktiv I — formation",
+  "titleEn": "Konjunktiv I — formation",
+  "titleDe": "Konjunktiv I — Bildung",
+  "ruleFr": "## Konjunktiv I — formation\n\nLe **Konjunktiv I** se forme sur le **radical du présent** + terminaisons en **-e**.\n\n### Schéma (verbes réguliers)\n| Personne | Endung | kommen | gehen |\n|---|---|---|---|\n| ich | -e | komme | gehe |\n| du | -est | kommest | gehest |\n| er/sie/es | -e | komme | gehe |\n| wir | -en | kommen | gehen |\n| ihr | -et | kommet | gehet |\n| sie/Sie | -en | kommen | gehen |\n\n### Verbes fréquents à retenir\n| Infinitif | er/sie/es (Konj. I) |\n|---|---|\n| sein | **sei** |\n| haben | **habe** |\n| werden | **werde** |\n| können | **könne** |\n| müssen | **müsse** |\n| wissen | **wisse** |\n\n### Point crucial\nSouvent, Konjunktiv I = **indicatif** (*wir kommen*). Seule la **3e personne du singulier** est clairement distincte (*er komme* vs *er kommt*).\n\n→ C’est pourquoi on utilise souvent des **formes de remplacement** (Konjunktiv II / würde) au pluriel.\n\n### Mini-entraînement\n1. Conjuguez *sein, haben, kommen* au Konjunktiv I.\n2. Formez la 3e pers. sg. de 8 verbes.\n3. Repérez où Konj. I = Indikativ.",
+  "ruleEn": "## Konjunktiv I — formation\n\n**Konjunktiv I** is built from the **present stem** + **-e** endings.\n\n### Pattern (regular verbs)\n| Person | Ending | kommen | gehen |\n|---|---|---|---|\n| ich | -e | komme | gehe |\n| du | -est | kommest | gehest |\n| er/sie/es | -e | komme | gehe |\n| wir | -en | kommen | gehen |\n| ihr | -et | kommet | gehet |\n| sie/Sie | -en | kommen | gehen |\n\n### Key verbs\n| Infinitive | er/sie/es (Konj. I) |\n|---|---|\n| sein | **sei** |\n| haben | **habe** |\n| werden | **werde** |\n| können | **könne** |\n| müssen | **müsse** |\n| wissen | **wisse** |\n\n### Crucial point\nOften Konjunktiv I = **indicative** (*wir kommen*). Only **3rd person singular** is clearly distinct (*er komme* vs *er kommt*).\n\n→ That’s why **replacement forms** (Konjunktiv II / würde) are common in the plural.\n\n### Mini practice\n1. Conjugate *sein, haben, kommen* in Konjunktiv I.\n2. Form 3rd sg. of 8 verbs.\n3. Spot where Konj. I = indicative.",
+  "ruleDe": "## Konjunktiv I — Bildung\n\nDer **Konjunktiv I** wird vom **Präsensstamm** + Endungen auf **-e** gebildet.\n\n### Schema\n| Person | Endung | kommen | gehen |\n|---|---|---|---|\n| ich | -e | komme | gehe |\n| du | -est | kommest | gehest |\n| er/sie/es | -e | komme | gehe |\n| wir | -en | kommen | gehen |\n| ihr | -et | kommet | gehet |\n| sie/Sie | -en | kommen | gehen |\n\n### Wichtige Verben\n| Infinitiv | er/sie/es |\n|---|---|\n| sein | **sei** |\n| haben | **habe** |\n| werden | **werde** |\n| können | **könne** |\n| müssen | **müsse** |\n| wissen | **wisse** |\n\n### Wichtig\nOft Konjunktiv I = **Indikativ**. Nur die **3. Person Singular** ist klar anders (*er komme* vs. *er kommt*).\n\n→ Deshalb Plural oft mit **Ersatzformen**.\n\n### Mini-Übung\n1. *sein, haben, kommen* im Konjunktiv I konjugieren.\n2. 3. Sg. von 8 Verben bilden.\n3. Stellen finden, wo Konj. I = Indikativ.",
+  "notesFr": "Seule la 3e personne du singulier est clairement différente de l’indicatif ! Au pluriel → formes de remplacement.",
+  "notesEn": "Only 3rd person singular is clearly different from the indicative! Plural → replacement forms.",
+  "notesDe": "Nur die 3. Person Singular ist eindeutig anders als der Indikativ! Plural → Ersatzformen.",
+  "examples": [
+    {
+      "de": "Er sagt, er sei müde.",
+      "fr": "Il dit qu’il est fatigué. (*sei* ≠ *ist*.)",
+      "en": "He says he is tired. (*sei* ≠ *ist*.)"
+    },
+    {
+      "de": "Sie behauptet, sie habe recht.",
+      "fr": "Elle affirme qu’elle a raison. (*habe* ≠ *hat*.)",
+      "en": "She claims she is right. (*habe* ≠ *hat*.)"
+    },
+    {
+      "de": "Er meint, sie komme morgen.",
+      "fr": "Il pense qu’elle viendra demain. (*komme* ≠ *kommt*.)",
+      "en": "He thinks she is coming tomorrow. (*komme* ≠ *kommt*.)"
+    },
+    {
+      "de": "Man sagt, er wisse Bescheid.",
+      "fr": "On dit qu’il est au courant. (*wisse*.)",
+      "en": "People say he knows about it. (*wisse*.)"
+    },
+    {
+      "de": "Sie erklärt, das werde sich ändern.",
+      "fr": "Elle explique que cela va changer. (*werde*.)",
+      "en": "She explains that that will change. (*werde*.)"
+    }
+  ]
+}

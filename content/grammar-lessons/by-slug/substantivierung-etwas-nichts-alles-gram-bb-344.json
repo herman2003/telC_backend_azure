@@ -1,0 +1,39 @@
+{
+  "slug": "substantivierung-etwas-nichts-alles-gram-bb-344",
+  "titleFr": "Nominalisation après etwas/nichts/alles",
+  "titleEn": "Nominalization after etwas/nichts/alles",
+  "titleDe": "Substantivierung — etwas/nichts/alles",
+  "ruleFr": "## Après etwas / nichts / alles\n\nAprès **etwas, nichts, alles, viel, wenig**, l’adjectif devient un **nom neutre** : majuscule + terminaison forte.\n\n### Règle centrale\n**etwas / nichts / alles / viel / wenig** + Adjectif **majuscule** + **-es** (nominatif/accusatif)\n\n- *etwas Gutes*\n- *nichts Neues*\n- *alles Schöne*\n- *viel Interessantes*\n- *wenig Wichtiges*\n\n### Déclinaison\nForte, neutre : souvent **-es** (Nom./Akk.), **-em** (Dat.)\n\n- *mit etwas Gutem*\n- *von nichts Neuem*\n\n### Erreurs fréquentes\n- Minuscule : ✗ *etwas gutes* → ✓ *etwas Gutes*\n- Mauvaise terminaison : ✗ *etwas Gute* → ✓ *etwas Gutes*\n\n### Mini-entraînement\n1. Complétez : *nichts ___* (neu, wichtig, falsch).\n2. Mettez au datif : *mit etwas…*\n3. Écrivez 5 mini-dialogues avec *alles / etwas / nichts*.",
+  "ruleEn": "## After etwas / nichts / alles\n\nAfter **etwas, nichts, alles, viel, wenig**, the adjective becomes a **neuter noun**: capital + strong ending.\n\n### Core rule\n**etwas / nichts / alles / viel / wenig** + **capital** adjective + **-es** (nom./acc.)\n\n- *etwas Gutes*\n- *nichts Neues*\n- *alles Schöne*\n- *viel Interessantes*\n- *wenig Wichtiges*\n\n### Declension\nStrong neuter: often **-es** (Nom./Akk.), **-em** (Dat.)\n\n- *mit etwas Gutem*\n\n### Common mistakes\n- Lowercase: ✗ *etwas gutes* → ✓ *etwas Gutes*\n- Wrong ending: ✗ *etwas Gute* → ✓ *etwas Gutes*\n\n### Mini practice\n1. Complete: *nichts ___* (neu, wichtig, falsch).\n2. Put in dative: *mit etwas…*\n3. Write 5 mini-dialogues with *alles / etwas / nichts*.",
+  "ruleDe": "## Substantivierung — etwas/nichts/alles\n\nNach **etwas, nichts, alles, viel, wenig** wird das Adjektiv zum **Neutrum**: groß + starke Endung.\n\n### Kernregel\n**etwas / nichts / alles / viel / wenig** + Adjektiv **groß** + **-es**\n\n- *etwas Gutes*\n- *nichts Neues*\n- *alles Schöne*\n- *viel Interessantes*\n- *wenig Wichtiges*\n\n### Deklination\nStark Neutrum: **-es** (Nom./Akk.), **-em** (Dat.)\n\n### Häufige Fehler\n- Klein: ✗ *etwas gutes* → ✓ *etwas Gutes*\n- Falsche Endung: ✗ *etwas Gute* → ✓ *etwas Gutes*\n\n### Mini-Übung\n1. Ergänzen: *nichts ___*\n2. Dativ: *mit etwas…*\n3. 5 Dialoge mit *alles / etwas / nichts*.",
+  "notesFr": "Toujours neutre + déclinaison forte après ces mots ! etwas Gutes, nichts Neues, alles Schöne.",
+  "notesEn": "Always neuter + strong declension after these words! etwas Gutes, nichts Neues, alles Schöne.",
+  "notesDe": "Immer Neutrum + starke Deklination nach diesen Wörtern! etwas Gutes, nichts Neues, alles Schöne.",
+  "examples": [
+    {
+      "de": "Ich wünsche dir etwas Gutes.",
+      "fr": "Je te souhaite quelque chose de bon.",
+      "en": "I wish you something good."
+    },
+    {
+      "de": "Es gibt nichts Neues.",
+      "fr": "Il n’y a rien de nouveau.",
+      "en": "There is nothing new."
+    },
+    {
+      "de": "Alles Schöne hat ein Ende.",
+      "fr": "Tout ce qui est beau a une fin.",
+      "en": "All beautiful things come to an end."
+    },
+    {
+      "de": "Wir haben viel Interessantes gesehen.",
+      "fr": "Nous avons vu beaucoup de choses intéressantes.",
+      "en": "We saw a lot of interesting things."
+    },
+    {
+      "de": "Von nichts Neuem habe ich gehört.",
+      "fr": "Je n’ai rien entendu de nouveau. (datif : *Neuem*.)",
+      "en": "I’ve heard nothing new. (dative: *Neuem*.)"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+meta {
+  name: 02b Learn with Prep Pass
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=1
+  body: none
+  auth: none
+}
+
+params:query {
+  modelltest: 1
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  Modelltest 1 is NOT of-the-week (week is MT 2). Without Prep Pass →
+  PREP_PASS_REQUIRED. After assigning Prep Pass to the seat → 200.
+
+  If 401, student-login / re-verify to refresh studentAccessToken.
+}

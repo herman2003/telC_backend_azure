@@ -1,0 +1,39 @@
+{
+  "slug": "stammvokalanderung-a-a-verben-gram-f-140",
+  "titleFr": "Verbes avec a→ä",
+  "titleEn": "Verbs with a→ä",
+  "titleDe": "Stammvokaländerung — a→ä Verben",
+  "ruleFr": "## Verbes importants avec a→ä\n\nVoici les verbes courants qui passent de **a** à **ä** (ou **au** à **äu**) aux 2ᵉ/3ᵉ personnes du singulier.\n\n### Liste à mémoriser\n| Infinitif | du | er/sie/es |\n|---|---|---|\n| fahren | du **fährst** | er **fährt** |\n| schlafen | du **schläfst** | er **schläft** |\n| tragen | du **trägst** | er **trägt** |\n| waschen | du **wäschst** | er **wäscht** |\n| fallen | du **fällst** | er **fällt** |\n| halten | du **hältst** | er **hält** |\n| fangen | du **fängst** | er **fängt** |\n| lassen | du **lässt** | er **lässt** |\n| **laufen** | du **läufst** | er **läuft** |\n\n### Attention : laufen\n*laufen* a **au → äu** (pas a→ä) : *du läufst*, *er läuft*.\n\n### Erreurs fréquentes\n- ✗ *du laufst* → ✓ *du **läufst***\n- ✗ *er halt* → ✓ *er **hält***\n\n### Mini-entraînement\nApprenez 5 verbes de la liste ; écrivez une phrase *du …* et une phrase *er …* pour chacun.",
+  "ruleEn": "## Important verbs with a→ä\n\nCommon verbs that change **a** to **ä** (or **au** to **äu**) in the 2nd/3rd person singular.\n\n### List to memorize\n| Infinitive | du | er/sie/es |\n|---|---|---|\n| fahren | du **fährst** | er **fährt** |\n| schlafen | du **schläfst** | er **schläft** |\n| tragen | du **trägst** | er **trägt** |\n| waschen | du **wäschst** | er **wäscht** |\n| fallen | du **fällst** | er **fällt** |\n| halten | du **hältst** | er **hält** |\n| fangen | du **fängst** | er **fängt** |\n| lassen | du **lässt** | er **lässt** |\n| **laufen** | du **läufst** | er **läuft** |\n\n### Watch out: laufen\n*laufen* has **au → äu** (not a→ä): *du läufst*, *er läuft*.\n\n### Common mistakes\n- ✗ *du laufst* → ✓ *du **läufst***\n- ✗ *er halt* → ✓ *er **hält***\n\n### Mini practice\nMemorize 5 verbs; write one *du …* and one *er …* sentence for each.",
+  "ruleDe": "## Wichtige Verben mit a→ä\n\nHäufige Verben mit **a→ä** (oder **au→äu**) in der 2./3. Person Singular.\n\n### Merkliste\n| Infinitiv | du | er/sie/es |\n|---|---|---|\n| fahren | du **fährst** | er **fährt** |\n| schlafen | du **schläfst** | er **schläft** |\n| tragen | du **trägst** | er **trägt** |\n| waschen | du **wäschst** | er **wäscht** |\n| fallen | du **fällst** | er **fällt** |\n| halten | du **hältst** | er **hält** |\n| fangen | du **fängst** | er **fängt** |\n| lassen | du **lässt** | er **lässt** |\n| **laufen** | du **läufst** | er **läuft** |\n\n### Achtung: laufen\n*laufen* hat **au → äu**: *du läufst*, *er läuft*.\n\n### Häufige Fehler\n- ✗ *du laufst* → ✓ *du **läufst***\n- ✗ *er halt* → ✓ *er **hält***\n\n### Mini-Übung\nLernen Sie 5 Verben; schreiben Sie je einen *du-*- und einen *er-*-Satz.",
+  "notesFr": "Attention : *laufen* fait au→äu (*du läufst*, *er läuft*), pas a→ä.",
+  "notesEn": "Note: *laufen* takes au→äu (*du läufst*, *er läuft*), not a→ä.",
+  "notesDe": "ACHTUNG: *laufen* hat au→äu: *du läufst*, *er läuft*.",
+  "examples": [
+    {
+      "de": "Wohin fährst du am Wochenende?",
+      "fr": "Où vas-tu ce week-end ?",
+      "en": "Where are you going this weekend?"
+    },
+    {
+      "de": "Das Kind fällt oft hin.",
+      "fr": "L’enfant tombe souvent.",
+      "en": "The child often falls down."
+    },
+    {
+      "de": "Er wäscht das Auto.",
+      "fr": "Il lave la voiture.",
+      "en": "He washes the car."
+    },
+    {
+      "de": "Du läufst sehr schnell.",
+      "fr": "Tu cours très vite. (*läufst* = au→äu.)",
+      "en": "You run very fast. (*läufst* = au→äu.)"
+    },
+    {
+      "de": "Sie lässt die Tür offen.",
+      "fr": "Elle laisse la porte ouverte.",
+      "en": "She leaves the door open."
+    }
+  ]
+}

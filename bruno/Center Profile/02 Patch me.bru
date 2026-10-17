@@ -16,23 +16,28 @@ headers {
 
 body:json {
   {
-    "city": "Yaounde",
-    "centerName": "Goethe Yaounde"
+    "countryCode": "CM",
+    "cityId": "douala",
+    "district": "Akwa"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.center.city: eq Yaounde
 }
 
 docs {
-  Only the allowlist is writable: firstName, lastName, phone, centerName,
-  country, city, logoUrl.
-
+  PATCH /api/centers/me updates the SCHOOL only.
+  Use: countryCode, cityId (or cityOther), name, district, …
+  
+  Phone is on the MANAGER: PATCH /api/centers/me/manager
+  with { "phone": "+237600000000" }.
+  
+  Old fields city / centerName / phone on this route → VALIDATION_ERROR.
+  
   Each of these must return 400 VALIDATION_ERROR, rejected before the handler
   runs. Try them one at a time:
-
+  
       { "role": "OWNER" }
       { "emailVerified": true }
       { "centerId": "some-other-center" }
@@ -40,10 +45,10 @@ docs {
       { "email": "attacker@example.com" }
       { "password": "new-password" }
       { "logoUrl": "http://cdn.example.com/x.png" }   non-HTTPS
-
+  
   An empty body `{}` returns 400 NO_PROFILE_FIELDS_SUPPLIED rather than a
   no-op write.
-
+  
   There is no route that names another center. Identity comes from the signed
   token only, which is what makes this endpoint IDOR-resistant by construction.
 }

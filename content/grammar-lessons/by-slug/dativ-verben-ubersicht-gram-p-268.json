@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-verben-ubersicht-gram-p-268",
+  "titleFr": "Verbes au datif — aperçu",
+  "titleEn": "Dative verbs — overview",
+  "titleDe": "Dativ-Verben — Übersicht",
+  "ruleFr": "## Verbes qui régissent le datif\n\nCertains verbes demandent un complément au **datif** (personne), **pas** à l’accusatif.\n\n### Liste essentielle\n**helfen, danken, gefallen, gehören, passen, schmecken, fehlen**  \nAussi : *antworten, glauben, verzeihen, gratulieren, zuhören*…\n\n### Conséquence\n- Ich helfe **dir**. (pas *dich*)\n- Das Buch gehört **mir**.\n- Die Musik gefällt **ihm**.\n\n### Questions\n- **Wem?** (à qui ?) → datif\n- Pas *Wen?* pour ces verbes\n\n### Mini-entraînement\n1. Apprenez la liste « helfen-danken-gefallen-gehören ».\n2. Remplacez les noms par des pronoms datifs.\n3. Corrigez : ✗ *Ich helfe dich.*",
+  "ruleEn": "## Verbs that take the dative\n\nSome verbs take a **dative** object (usually a person), **not** accusative.\n\n### Essential list\n**helfen, danken, gefallen, gehören, passen, schmecken, fehlen**  \nAlso: *antworten, glauben, verzeihen, gratulieren, zuhören*…\n\n### Consequence\n- Ich helfe **dir**. (not *dich*)\n- Das Buch gehört **mir**.\n- Die Musik gefällt **ihm**.\n\n### Questions\n- **Wem?** (to whom?) → dative\n\n### Mini practice\n1. Learn “helfen-danken-gefallen-gehören”.\n2. Replace nouns with dative pronouns.\n3. Correct: ✗ *Ich helfe dich.*",
+  "ruleDe": "## Dativ-Verben — Übersicht\n\nManche Verben brauchen **Dativ** (nicht Akkusativ!).\n\n### Merkliste\n**helfen, danken, gefallen, gehören, passen, schmecken, fehlen**\n\n### Folge\n- Ich helfe **dir**.\n- Das Buch gehört **mir**.\n\n### Frage\n**Wem?** → Dativ\n\n### Mini-Übung\n1. Liste lernen.\n2. Pronomen im Dativ.\n3. Korrigieren: ✗ *Ich helfe dich.*",
+  "notesFr": "Aide-mémoire : Helfen-Danken-Gefallen-Gehören = datif !",
+  "notesEn": "Mnemonic: Helfen-Danken-Gefallen-Gehören = dative!",
+  "notesDe": "Merkhilfe: 'Helfen-Danken-Gefallen-Gehören' = Dativ!",
+  "examples": [
+    {
+      "de": "Kannst du mir helfen?",
+      "fr": "Peux-tu m’aider ? (*mir* = datif)",
+      "en": "Can you help me? (*mir* = dative)"
+    },
+    {
+      "de": "Ich danke Ihnen für die Einladung.",
+      "fr": "Je vous remercie pour l’invitation.",
+      "en": "I thank you for the invitation."
+    },
+    {
+      "de": "Das Kleid gefällt mir.",
+      "fr": "Cette robe me plaît.",
+      "en": "I like the dress. / The dress pleases me."
+    },
+    {
+      "de": "Wem gehört dieser Schlüssel?",
+      "fr": "À qui est cette clé ?",
+      "en": "Who does this key belong to?"
+    },
+    {
+      "de": "Die Schuhe passen mir nicht.",
+      "fr": "Les chaussures ne me vont pas.",
+      "en": "The shoes don’t fit me."
+    }
+  ]
+}

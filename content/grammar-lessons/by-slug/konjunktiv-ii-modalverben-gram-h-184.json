@@ -1,0 +1,39 @@
+{
+  "slug": "konjunktiv-ii-modalverben-gram-h-184",
+  "titleFr": "Konjunktiv II — verbes de modalité",
+  "titleEn": "Subjunctive II — modal verbs",
+  "titleDe": "Konjunktiv II — Modalverben",
+  "ruleFr": "## Modaux au Konjunktiv II\n\n| Infinitif | Konjunktiv II (ich/er) | Sens typique |\n|---|---|---|\n| können | **könnte** | pourrait / pourrais |\n| müssen | **müsste** | devrait (nécessité) |\n| sollen | **sollte** | devrait (conseil) |\n| wollen | **wollte** | voudrait (souvent récit) |\n| dürfen | **dürfte** | aurait le droit / probablement |\n\n### Formes très fréquentes\n- *Könnten Sie…?* (politesse)\n- *Du solltest…* (conseil)\n- *Ich müsste eigentlich…*\n\n### Évitez\n✗ *würde können* → ✓ ***könnte***\n\n### Mini-entraînement\n3 demandes polies avec *könnten* + 2 conseils avec *solltest*.",
+  "ruleEn": "## Modals in Konjunktiv II\n\n| Infinitive | Konjunktiv II (ich/er) | Typical meaning |\n|---|---|---|\n| können | **könnte** | could / would be able to |\n| müssen | **müsste** | would have to |\n| sollen | **sollte** | should |\n| wollen | **wollte** | would want (often narrative) |\n| dürfen | **dürfte** | would be allowed / might |\n\n### Very frequent forms\n- *Könnten Sie…?* (politeness)\n- *Du solltest…* (advice)\n- *Ich müsste eigentlich…*\n\n### Avoid\n✗ *würde können* → ✓ ***könnte***\n\n### Mini practice\n3 polite requests with *könnten* + 2 pieces of advice with *solltest*.",
+  "ruleDe": "## Modalverben im Konjunktiv II\n\n| Infinitiv | Konjunktiv II (ich/er) | typische Bedeutung |\n|---|---|---|\n| können | **könnte** | könnte |\n| müssen | **müsste** | müsste |\n| sollen | **sollte** | sollte |\n| wollen | **wollte** | wollte |\n| dürfen | **dürfte** | dürfte |\n\n### Sehr häufig\n- *Könnten Sie…?*\n- *Du solltest…*\n\n### Vermeiden\n✗ *würde können* → ✓ ***könnte***\n\n### Mini-Übung\n3 höfliche Bitten mit *könnten* + 2 Ratschläge mit *solltest*.",
+  "notesFr": "Ces formes sont très fréquentes ! Pas *würde können*, etc.",
+  "notesEn": "These forms are very common! Not *würde können*, etc.",
+  "notesDe": "Diese Formen sind sehr häufig! Nicht *würde können* usw.",
+  "examples": [
+    {
+      "de": "Könnten Sie mir bitte helfen?",
+      "fr": "Pourriez-vous m’aider, s’il vous plaît ?",
+      "en": "Could you please help me?"
+    },
+    {
+      "de": "Du solltest mehr schlafen.",
+      "fr": "Tu devrais dormir davantage.",
+      "en": "You should sleep more."
+    },
+    {
+      "de": "Ich müsste eigentlich lernen.",
+      "fr": "Je devrais en principe apprendre / réviser.",
+      "en": "I really ought to study."
+    },
+    {
+      "de": "Dürfte ich Sie etwas fragen?",
+      "fr": "Pourrais-je vous demander quelque chose ?",
+      "en": "Might I ask you something?"
+    },
+    {
+      "de": "Er wollte gerne mitkommen.",
+      "fr": "Il aurait voulu / voulait bien venir avec.",
+      "en": "He would have liked to come along."
+    }
+  ]
+}

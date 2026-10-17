@@ -1,0 +1,39 @@
+{
+  "slug": "es-platzhalter-gram-aa-340",
+  "titleFr": "es — pronom de place (Platzhalter)",
+  "titleEn": "es — placeholder",
+  "titleDe": "es — Platzhalter",
+  "ruleFr": "## es — pronom de place (Platzhalter)\n\nParfois **es** occupe seulement la **position 1** du verbe (V2), sans être le vrai sujet sémantique.\n\n### Règle centrale\nSi le vrai sujet est **au pluriel** ou **plus long**, on peut mettre *es* en tête :\n\n- *Es kommen viele Gäste.* (= *Viele Gäste kommen.*)\n- *Es tanzen alle Kinder.*\n- *Es wurde viel gelacht.*\n\n### Quand *es* disparaît\nDès qu’un autre élément est en tête, *es* **tombe** :\n\n- *Viele Gäste kommen.* (pas *Es viele Gäste kommen.*)\n- *Gestern kamen viele Gäste.*\n\n### Différence avec *es* météo\n| Platzhalter | Météo / impersonnel |\n|---|---|\n| Remplaçable / omisible si autre élément en tête | Souvent obligatoire (*Es regnet.*) |\n| Vrai sujet existe ailleurs | Pas de vrai sujet |\n\n### Mini-entraînement\n1. Réécrivez avec et sans *es* en tête.\n2. Placez *gestern / hier / viele Leute* en position 1.\n3. Distinguez Platzhalter vs météo dans 5 phrases.",
+  "ruleEn": "## es — placeholder\n\nSometimes **es** only fills **position 1** (V2 rule) and is not the semantic subject.\n\n### Core rule\nIf the real subject is **plural** or **long**, you can put *es* first:\n\n- *Es kommen viele Gäste.* (= *Viele Gäste kommen.*)\n- *Es tanzen alle Kinder.*\n- *Es wurde viel gelacht.*\n\n### When *es* drops\nAs soon as another element is fronted, *es* **disappears**:\n\n- *Viele Gäste kommen.*\n- *Gestern kamen viele Gäste.*\n\n### vs weather *es*\n| Placeholder | Weather / impersonal |\n|---|---|\n| Optional if something else is fronted | Often obligatory (*Es regnet.*) |\n| Real subject exists elsewhere | No real subject |\n\n### Mini practice\n1. Rewrite with and without fronted *es*.\n2. Front *gestern / hier / viele Leute*.\n3. Distinguish placeholder vs weather in 5 sentences.",
+  "ruleDe": "## es — Platzhalter\n\nManchmal füllt **es** nur die **Position 1** (V2), ohne semantisches Subjekt zu sein.\n\n### Kernregel\nWenn das echte Subjekt **Plural** oder **lang** ist, kann *es* vorne stehen:\n\n- *Es kommen viele Gäste.*\n- *Es tanzen alle Kinder.*\n- *Es wurde viel gelacht.*\n\n### Wann *es* wegfällt\nSteht etwas anderes vorne, fällt *es* **weg**:\n\n- *Viele Gäste kommen.*\n- *Gestern kamen viele Gäste.*\n\n### Mini-Übung\n1. Mit und ohne *es* umschreiben.\n2. *gestern / hier / viele Leute* voranstellen.\n3. Platzhalter vs. Wetter unterscheiden.",
+  "notesFr": "es tombe si un autre élément est en tête : Viele Gäste kommen (pas Es viele…).",
+  "notesEn": "es drops if another element is fronted: Viele Gäste kommen (not Es viele…).",
+  "notesDe": "es fällt weg, wenn anderes Element vorne steht: Viele Gäste kommen.",
+  "examples": [
+    {
+      "de": "Es kommen viele Gäste.",
+      "fr": "Il vient beaucoup d’invités. / Beaucoup d’invités viennent.",
+      "en": "Many guests are coming."
+    },
+    {
+      "de": "Es tanzen alle Kinder im Garten.",
+      "fr": "Tous les enfants dansent dans le jardin.",
+      "en": "All the children are dancing in the garden."
+    },
+    {
+      "de": "Viele Gäste kommen.",
+      "fr": "Beaucoup d’invités viennent. (*es* omis : sujet en tête.)",
+      "en": "Many guests are coming. (*es* omitted: subject fronted.)"
+    },
+    {
+      "de": "Gestern kamen viele Gäste.",
+      "fr": "Hier, beaucoup d’invités sont venus.",
+      "en": "Yesterday many guests came."
+    },
+    {
+      "de": "Es wurde den ganzen Abend gelacht.",
+      "fr": "On a ri toute la soirée. (passif impersonnel.)",
+      "en": "There was laughter all evening. (impersonal passive.)"
+    }
+  ]
+}

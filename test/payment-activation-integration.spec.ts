@@ -49,6 +49,7 @@ async function makeCenter(paidUntil: Date | null = null) {
       name: `Activation Test ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
       subscription: {
         create: { plan: paidUntil ? 'PAID' : 'TRIAL', paid_until: paidUntil },
       },

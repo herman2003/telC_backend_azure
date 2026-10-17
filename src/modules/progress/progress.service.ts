@@ -14,6 +14,10 @@ import {
   type SkillScores,
   type TeilScore,
 } from './progress-formula';
+import {
+  sessionOfDay,
+  type SessionOfDay,
+} from './session-of-day';
 
 const WEEK_MS = 7 * 86_400_000;
 
@@ -72,13 +76,18 @@ export class ProgressService {
 
   /**
    * The signed-in student's numbers, with the weekly change: readiness now
-   * minus readiness on the activity up to 7 days ago (D38).
+   * minus readiness on the activity up to 7 days ago (D38), plus today's
+   * home-screen session (D7).
    */
   async forStudent(
     studentId: string,
     now = new Date(),
   ): Promise<
-    StudentProgress & { weeklyChange: number | null; level: CefrLevel | null }
+    StudentProgress & {
+      weeklyChange: number | null;
+      level: CefrLevel | null;
+      sessionOfDay: SessionOfDay;
+    }
   > {
     const weekAgo = new Date(now.getTime() - WEEK_MS);
     const [current, before, student] = await Promise.all([
@@ -90,13 +99,22 @@ export class ProgressService {
         select: { level: true },
       }),
     ]);
-    const progress = this.progressOf(current.get(studentId), now);
+    const activity = current.get(studentId);
+    const progress = this.progressOf(activity, now);
     const earlier = this.progressOf(before.get(studentId), weekAgo);
     const weeklyChange =
       progress.readiness.score !== null && earlier.readiness.score !== null
         ? progress.readiness.score - earlier.readiness.score
         : null;
-    return { ...progress, weeklyChange, level: student?.level ?? null };
+    return {
+      ...progress,
+      weeklyChange,
+      level: student?.level ?? null,
+      sessionOfDay: sessionOfDay(activity?.teils ?? [], {
+        studentId,
+        now,
+      }),
+    };
   }
 
   /** The dashboard's headline numbers, over every student of the center. */

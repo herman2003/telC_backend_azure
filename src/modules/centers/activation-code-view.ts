@@ -1,4 +1,4 @@
-import type { ActivationCodeStatus } from '@prisma/client';
+import type { ActivationCodeStatus, CefrLevel } from '@prisma/client';
 import { PLAN_ID, type PlanId } from '../../shared/plan-id';
 
 /**
@@ -22,6 +22,8 @@ export interface ActivationCodeView {
   connectedAt: Date | null;
   createdAt: Date;
   expiresAt: Date | null;
+  /** Seat level set by the center; applied to the student on redeem when set. */
+  level: CefrLevel | null;
 }
 
 const STATUS_VIEW: Record<ActivationCodeStatus, ActivationCodeView['status']> =
@@ -41,6 +43,7 @@ export function toActivationCodeView(row: {
   connected_at: Date | null;
   created_at: Date;
   expires_at: Date | null;
+  level: CefrLevel | null;
 }): ActivationCodeView {
   return {
     id: row.id,
@@ -53,5 +56,6 @@ export function toActivationCodeView(row: {
     connectedAt: row.connected_at,
     createdAt: row.created_at,
     expiresAt: row.expires_at,
+    level: row.level,
   };
 }

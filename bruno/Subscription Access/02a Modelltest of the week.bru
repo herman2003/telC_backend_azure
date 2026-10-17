@@ -1,0 +1,28 @@
+meta {
+  name: 02a Modelltest of the week
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/modelltests/of-the-week
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  Start / trial includes only the Modelltest of the week (not the full pool).
+
+  Run this BEFORE "02 Learn". Note the weekly number in the response, then
+  set Learn to that modelltest (not a random 1).
+
+  Prep Pass is what unlocks other Modelltests.
+}

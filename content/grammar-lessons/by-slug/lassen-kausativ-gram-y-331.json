@@ -1,0 +1,39 @@
+{
+  "slug": "lassen-kausativ-gram-y-331",
+  "titleFr": "lassen — causatif (faire faire)",
+  "titleEn": "lassen — causative",
+  "titleDe": "lassen — Kausativ",
+  "ruleFr": "## lassen — causatif (faire faire)\n\nLe **causatif** avec *lassen* signifie : **faire en sorte que quelqu’un d’autre fasse l’action**.\n\n### Structure\n**Sujet + lassen + objet (accusatif) + infinitif**\n\n- *Ich lasse den Mechaniker das Auto reparieren.*\n- *Wir lassen uns die Haare schneiden.* (*sich* = pour soi)\n\n### Qui fait l’action ?\n| Élément | Rôle |\n|---|---|\n| Sujet | **ordonne / paie / demande** |\n| Objet (+ personne) | **exécute** (parfois sous-entendu) |\n| Infinitif | l’action réelle |\n\n- *Ich lasse mein Auto reparieren.* → Ce n’est **pas** moi qui répare.\n\n### Avec ou sans personne\n- Avec personne : *Ich lasse meinen Bruder helfen.*\n- Sans personne (souvent) : *Ich lasse die Wohnung putzen.*\n\n### Erreurs fréquentes\n- Penser que le sujet fait l’action.\n- Mettre le complément au datif par calque du français *faire faire à*.\n\n### Mini-entraînement\n1. Transformez : *Der Arzt untersucht mich.* → *Ich lasse mich …*\n2. Écrivez 5 phrases « faire faire ».\n3. Identifiez qui agit dans 5 exemples.",
+  "ruleEn": "## lassen — causative\n\nThe **causative** with *lassen* means: **have someone else do the action**.\n\n### Structure\n**Subject + lassen + object (accusative) + infinitive**\n\n- *Ich lasse den Mechaniker das Auto reparieren.*\n- *Wir lassen uns die Haare schneiden.* (*sich* = for oneself)\n\n### Who does the action?\n| Element | Role |\n|---|---|\n| Subject | **orders / pays / requests** |\n| Object (person) | **performs** (sometimes omitted) |\n| Infinitive | the real action |\n\n- *Ich lasse mein Auto reparieren.* → **I** am not the one repairing.\n\n### With or without a person\n- With person: *Ich lasse meinen Bruder helfen.*\n- Without (often): *Ich lasse die Wohnung putzen.*\n\n### Common mistakes\n- Thinking the subject performs the action.\n- Using dative by analogy with “have X do Y for me” calques.\n\n### Mini practice\n1. Transform: *Der Arzt untersucht mich.* → *Ich lasse mich …*\n2. Write 5 “have something done” sentences.\n3. Identify who acts in 5 examples.",
+  "ruleDe": "## lassen — Kausativ\n\nDer **Kausativ** mit *lassen* bedeutet: **veranlassen, dass jemand anderes die Handlung ausführt**.\n\n### Struktur\n**Subjekt + lassen + Objekt (Akkusativ) + Infinitiv**\n\n- *Ich lasse den Mechaniker das Auto reparieren.*\n- *Wir lassen uns die Haare schneiden.*\n\n### Wer handelt?\n| Element | Rolle |\n|---|---|\n| Subjekt | **veranlasst / bezahlt / bittet** |\n| Objekt (Person) | **führt aus** (manchmal weggelassen) |\n| Infinitiv | die eigentliche Handlung |\n\n- *Ich lasse mein Auto reparieren.* → **Ich** repariere nicht selbst.\n\n### Mit oder ohne Person\n- Mit Person: *Ich lasse meinen Bruder helfen.*\n- Ohne (oft): *Ich lasse die Wohnung putzen.*\n\n### Häufige Fehler\n- Das Subjekt für den Handelnden halten.\n- Fälschlich Dativ setzen.\n\n### Mini-Übung\n1. Umformen: *Der Arzt untersucht mich.* → *Ich lasse mich …*\n2. 5 Kausativsätze schreiben.\n3. In 5 Beispielen den Handelnden markieren.",
+  "notesFr": "Qui fait l’action ? Pas le sujet ! Objet au accusatif + infinitif sans zu.",
+  "notesEn": "Who does the action? Not the subject! Accusative object + infinitive without zu.",
+  "notesDe": "Wer macht die Handlung? Nicht das Subjekt! Objekt im Akkusativ + Infinitiv ohne zu.",
+  "examples": [
+    {
+      "de": "Ich lasse mein Auto in der Werkstatt reparieren.",
+      "fr": "Je fais réparer ma voiture au garage. (Je ne répare pas moi-même.)",
+      "en": "I’m having my car repaired at the garage. (I’m not repairing it myself.)"
+    },
+    {
+      "de": "Sie lässt sich die Haare schneiden.",
+      "fr": "Elle se fait couper les cheveux.",
+      "en": "She’s having her hair cut."
+    },
+    {
+      "de": "Wir lassen die Kinder den Tisch decken.",
+      "fr": "Nous faisons mettre la table par les enfants.",
+      "en": "We’re having the children set the table."
+    },
+    {
+      "de": "Er lässt sich einen Anzug machen.",
+      "fr": "Il se fait faire un costume.",
+      "en": "He’s having a suit made."
+    },
+    {
+      "de": "Lass den Arzt das entscheiden.",
+      "fr": "Laisse le médecin décider de cela.",
+      "en": "Let the doctor decide that."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-verben-helfen-danken-gram-p-269",
+  "titleFr": "Verbes au datif — helfen / danken",
+  "titleEn": "Dative verbs — helfen / danken",
+  "titleDe": "Dativ-Verben — helfen/danken",
+  "ruleFr": "## *helfen* et *danken* (+ datif)\n\n### *helfen* = aider quelqu’un\n- Ich helfe **dir**. / Kannst du **mir** helfen?\n- Er hilft **seinem** Freund. / Sie hilft **der** Frau.\n\n✗ *Ich helfe dich.* → ✓ *Ich helfe dir.*\n\n### *danken* = remercier quelqu’un\n- Ich danke **dir**. / Wir danken **Ihnen**.\n- Souvent + *für* + accusatif (la chose) : Ich danke dir **für** die Hilfe.\n\n### Pronoms datifs (rappel)\nmir, dir, ihm, ihr, uns, euch, ihnen / Ihnen\n\n### Mini-entraînement\n1. Conjuguez *helfen* avec tous les pronoms datifs.\n2. Remerciements formels et informels.\n3. Corrigez 3 phrases avec *dich* au lieu de *dir*.",
+  "ruleEn": "## *helfen* and *danken* (+ dative)\n\n### *helfen* = help someone\n- Ich helfe **dir**. / Kannst du **mir** helfen?\n- Er hilft **seinem** Freund.\n\n✗ *Ich helfe dich.* → ✓ *Ich helfe dir.*\n\n### *danken* = thank someone\n- Ich danke **dir**. / Wir danken **Ihnen**.\n- Often + *für* + accusative (the thing): Ich danke dir **für** die Hilfe.\n\n### Dative pronouns (reminder)\nmir, dir, ihm, ihr, uns, euch, ihnen / Ihnen\n\n### Mini practice\n1. Conjugate *helfen* with all dative pronouns.\n2. Formal and informal thanks.\n3. Fix 3 sentences that wrongly use *dich*.",
+  "ruleDe": "## *helfen* und *danken* (+ Dativ)\n\n### *helfen*\n- Ich helfe **dir**.\n✗ *Ich helfe dich.* → ✓ *Ich helfe dir.*\n\n### *danken*\n- Ich danke **dir**.\n- Oft + *für* + Akk.: danke dir **für** die Hilfe.\n\n### Mini-Übung\n1. *helfen* mit allen Dativpronomen.\n2. Formell/informell danken.\n3. *dich* → *dir* korrigieren.",
+  "notesFr": "Faux : *Ich helfe dich*. Correct : *Ich helfe dir*.",
+  "notesEn": "Wrong: *Ich helfe dich*. Correct: *Ich helfe dir*.",
+  "notesDe": "FALSCH: 'Ich helfe dich'. RICHTIG: 'Ich helfe dir'.",
+  "examples": [
+    {
+      "de": "Kannst du mir bitte helfen?",
+      "fr": "Peux-tu m’aider s’il te plaît ?",
+      "en": "Can you please help me?"
+    },
+    {
+      "de": "Sie hilft ihrem Bruder bei den Hausaufgaben.",
+      "fr": "Elle aide son frère pour les devoirs.",
+      "en": "She helps her brother with the homework."
+    },
+    {
+      "de": "Ich danke dir für alles.",
+      "fr": "Je te remercie pour tout.",
+      "en": "I thank you for everything."
+    },
+    {
+      "de": "Wir danken Ihnen herzlich.",
+      "fr": "Nous vous remercions chaleureusement.",
+      "en": "We thank you sincerely."
+    },
+    {
+      "de": "Falsch: Ich helfe dich. — Richtig: Ich helfe dir.",
+      "fr": "Toujours datif avec *helfen*.",
+      "en": "Always dative with *helfen*."
+    }
+  ]
+}

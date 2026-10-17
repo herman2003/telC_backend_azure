@@ -1,0 +1,39 @@
+{
+  "slug": "dieser-diese-dieses-gram-c-058",
+  "titleFr": "Dieser — déclinaison au nominatif",
+  "titleEn": "Dieser — nominative declension",
+  "titleDe": "dieser/diese/dieses",
+  "ruleFr": "## Dieser au nominatif (sujet)\n\nAu nominatif, les terminaisons de *dieser* suivent le **même schéma** que l’article défini (*der/die/das/die*).\n\n### Tableau (nominatif)\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| démonstratif | **dieser** | **diese** | **dieses** | **diese** |\n| article défini | der | die | das | die |\n\nTerminaisons : **-er, -e, -es, -e**.\n\n### Emploi\n*Dieser / diese / dieses* + nom = sujet de la phrase.\n\n- **Dieser** Hund bellt.\n- **Diese** Katze schläft.\n- **Dieses** Auto ist teuer.\n- **Diese** Kinder spielen.\n\n### Mini-entraînement\nRemplacez *der/die/das/die* par *dieser/diese/dieses* dans 5 phrases.",
+  "ruleEn": "## Dieser in the nominative (subject)\n\nIn the nominative, *dieser* endings follow the **same pattern** as the definite article (*der/die/das/die*).\n\n### Table (nominative)\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| demonstrative | **dieser** | **diese** | **dieses** | **diese** |\n| definite article | der | die | das | die |\n\nEndings: **-er, -e, -es, -e**.\n\n### Use\n*Dieser / diese / dieses* + noun = sentence subject.\n\n### Mini practice\nReplace *der/die/das/die* with *dieser/diese/dieses* in 5 sentences.",
+  "ruleDe": "## Dieser im Nominativ (Subjekt)\n\nIm Nominativ folgen die Endungen dem **bestimmten Artikel**.\n\n### Tabelle (Nominativ)\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| Demonstrativ | **dieser** | **diese** | **dieses** | **diese** |\n| bestimmter Artikel | der | die | das | die |\n\nEndungen: **-er, -e, -es, -e**.\n\n### Mini-Übung\nErsetzen Sie *der/die/das/die* durch *dieser/diese/dieses* in 5 Sätzen.",
+  "notesFr": "Terminaisons comme l’article défini : *-er, -e, -es, -e*.",
+  "notesEn": "Endings like the definite article: *-er, -e, -es, -e*.",
+  "notesDe": "Endungen wie bestimmter Artikel: *-er, -e, -es, -e*.",
+  "examples": [
+    {
+      "de": "Dieser Hund bellt laut.",
+      "fr": "Ce chien aboie fort. (nominatif masculin.)",
+      "en": "This dog barks loudly. (masculine nominative.)"
+    },
+    {
+      "de": "Diese Katze schläft.",
+      "fr": "Ce chat dort. (nominatif féminin.)",
+      "en": "This cat is sleeping. (feminine nominative.)"
+    },
+    {
+      "de": "Dieses Auto ist neu.",
+      "fr": "Cette voiture est neuve. (nominatif neutre.)",
+      "en": "This car is new. (neuter nominative.)"
+    },
+    {
+      "de": "Diese Kinder lernen Deutsch.",
+      "fr": "Ces enfants apprennent l’allemand. (nominatif pluriel.)",
+      "en": "These children learn German. (plural nominative.)"
+    },
+    {
+      "de": "Dieser Tee schmeckt gut.",
+      "fr": "Ce thé a bon goût.",
+      "en": "This tea tastes good."
+    }
+  ]
+}

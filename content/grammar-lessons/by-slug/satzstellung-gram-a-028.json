@@ -1,0 +1,39 @@
+{
+  "slug": "satzstellung-gram-a-028",
+  "titleFr": "Ordre des pronoms : accusatif avant datif",
+  "titleEn": "Pronoun order: accusative before dative",
+  "titleDe": "Satzstellung — Akkusativ vor Dativ bei Pronomen",
+  "ruleFr": "## Deux pronoms : accusatif puis datif\n\nQuand **les deux objets sont des pronoms**, l’ordre neutre s’inverse par rapport aux noms :\n\n**Accusatif (chose) → Datif (personne)**\n\n→ *Ich gebe **es ihr**.*\n→ *Er schickt **ihn mir**.*\n\n### Comparaison\n| Type d’objets | Ordre |\n|---|---|\n| deux noms | Dat. → Akk. — *der Frau das Buch* |\n| deux pronoms | Akk. → Dat. — *es ihr* |\n| mixte (pronom + nom) | pronom souvent avant le nom — *Ich gebe **es** der Frau.* / *Ich gebe **ihr** das Buch.* |\n\n### Formes utiles\nAkk. : *mich, dich, ihn, sie, es, uns, euch, sie*\nDat. : *mir, dir, ihm, ihr, uns, euch, ihnen*\n\n### Erreurs fréquentes\n- Garder l’ordre des noms avec des pronoms : ✗ *Ich gebe ihr es.* (sonne lourd / non neutre)\n- Confondre *ihr* (Dat. « à elle ») et *sie* (Akk. « elle »)\n\n### Mini-entraînement\n1. Remplacez les noms par des pronoms : *Ich gebe der Frau das Buch.*\n2. Transformez 5 phrases noms → pronoms.\n3. Répétez à voix haute : *gib es mir / schick sie ihm*.",
+  "ruleEn": "## Two pronouns: accusative then dative\n\nWhen **both objects are pronouns**, the neutral order reverses compared with nouns:\n\n**Accusative (thing) → Dative (person)**\n\n→ *Ich gebe **es ihr**.*\n→ *Er schickt **ihn mir**.*\n\n### Comparison\n| Object types | Order |\n|---|---|\n| two nouns | Dat. → Akk. — *der Frau das Buch* |\n| two pronouns | Akk. → Dat. — *es ihr* |\n| mixed | pronoun often before noun — *Ich gebe **es** der Frau.* / *Ich gebe **ihr** das Buch.* |\n\n### Useful forms\nAkk.: *mich, dich, ihn, sie, es, uns, euch, sie*\nDat.: *mir, dir, ihm, ihr, uns, euch, ihnen*\n\n### Common mistakes\n- Keeping noun order with pronouns: ✗ *Ich gebe ihr es.* (marked / unnatural as default)\n- Mixing up *ihr* (Dat. “to her”) and *sie* (Akk. “her”)\n\n### Mini practice\n1. Replace nouns with pronouns: *Ich gebe der Frau das Buch.*\n2. Transform 5 noun sentences → pronouns.\n3. Say aloud: *gib es mir / schick sie ihm*.",
+  "ruleDe": "## Zwei Pronomen: Akkusativ vor Dativ\n\nSind **beide Objekte Pronomen**, ist die Normalstellung umgekehrt zu Nomen:\n\n**Akkusativ (Sache) → Dativ (Person)**\n\n→ *Ich gebe **es ihr**.*\n→ *Er schickt **ihn mir**.*\n\n### Vergleich\n| Objekttypen | Reihenfolge |\n|---|---|\n| zwei Nomen | Dat. → Akk. — *der Frau das Buch* |\n| zwei Pronomen | Akk. → Dat. — *es ihr* |\n| gemischt | Pronomen oft vor Nomen — *Ich gebe **es** der Frau.* / *Ich gebe **ihr** das Buch.* |\n\n### Formen\nAkk.: *mich, dich, ihn, sie, es, uns, euch, sie*\nDat.: *mir, dir, ihm, ihr, uns, euch, ihnen*\n\n### Häufige Fehler\n- Nomen-Reihenfolge bei Pronomen: ✗ *Ich gebe ihr es.* (nicht neutral)\n- *ihr* (Dat.) und *sie* (Akk.) verwechseln\n\n### Mini-Übung\n1. Nomen durch Pronomen: *Ich gebe der Frau das Buch.*\n2. Fünf Sätze umformen.\n3. Laut: *gib es mir / schick sie ihm*.",
+  "notesFr": "Mnémo : noms = Dat→Akk ; pronoms = Akk→Dat — *der Frau das Buch* vs *es ihr*.",
+  "notesEn": "Mnemonic: nouns = Dat→Akk; pronouns = Akk→Dat — *der Frau das Buch* vs *es ihr*.",
+  "notesDe": "Merkhilfe: Nomen = Dat→Akk; Pronomen = Akk→Dat — *der Frau das Buch* vs *es ihr*.",
+  "examples": [
+    {
+      "de": "Ich gebe es ihr.",
+      "fr": "Je le lui donne. (Akk. *es* puis Dat. *ihr*)",
+      "en": "I give it to her. (Akk. *es* then Dat. *ihr*)"
+    },
+    {
+      "de": "Kannst du ihn mir schicken?",
+      "fr": "Peux-tu me l’envoyer ? (*ihn mir*)",
+      "en": "Can you send him/it to me? (*ihn mir*)"
+    },
+    {
+      "de": "Er erklärt es uns.",
+      "fr": "Il nous l’explique. (*es uns*)",
+      "en": "He explains it to us. (*es uns*)"
+    },
+    {
+      "de": "Bitte gib sie ihm.",
+      "fr": "S’il te plaît, donne-les-lui. (*sie ihm*)",
+      "en": "Please give them to him. (*sie ihm*)"
+    },
+    {
+      "de": "Mit Nomen wäre es: Ich gebe der Frau das Buch.",
+      "fr": "Avec des noms ce serait : *Ich gebe der Frau das Buch.*",
+      "en": "With nouns it would be: *Ich gebe der Frau das Buch.*"
+    }
+  ]
+}

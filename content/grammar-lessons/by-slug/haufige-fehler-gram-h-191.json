@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-h-191",
+  "titleFr": "Erreurs fréquentes : wäre / hätte (pas würde sein / haben)",
+  "titleEn": "Common mistakes: wäre / hätte (not würde sein / haben)",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreurs fréquentes — Konjunktiv II de *sein* et *haben*\n\n### Erreur typique\nLes apprenants forment souvent :\n- ✗ *würde sein* → ✓ ***wäre***\n- ✗ *würde haben* → ✓ ***hätte***\n\n### Pourquoi\n*sein* et *haben* ont des formes Konjunktiv II **propres et très fréquentes**. *würde* + infinitif est rare / incorrect dans ces cas en allemand standard.\n\n### Aussi pour les modaux\n- *können* → ***könnte*** (pas *würde können* en style soigné)\n- *müssen* → ***müsste***\n- *wollen* → ***wollte***\n- *dürfen* → ***dürfte***\n- *sollen* → ***sollte***\n- *mögen* → ***möchte***\n\n### Mini-entraînement\nCorrigez : *Wenn ich reich würde sein…* → *Wenn ich reich wäre…*",
+  "ruleEn": "## Common mistakes — Konjunktiv II of *sein* and *haben*\n\n### Typical error\nLearners often produce:\n- ✗ *würde sein* → ✓ ***wäre***\n- ✗ *würde haben* → ✓ ***hätte***\n\n### Why\n*sein* and *haben* have their **own very common** Konjunktiv II forms. *würde* + infinitive is rare/wrong here in standard German.\n\n### Also for modals\n- *können* → ***könnte***\n- *müssen* → ***müsste***\n- *wollen* → ***wollte***\n- *dürfen* → ***dürfte***\n- *sollen* → ***sollte***\n- *mögen* → ***möchte***\n\n### Mini practice\nFix: *Wenn ich reich würde sein…* → *Wenn ich reich wäre…*",
+  "ruleDe": "## Häufige Fehler — Konjunktiv II von *sein* und *haben*\n\n### Typischer Fehler\n- ✗ *würde sein* → ✓ ***wäre***\n- ✗ *würde haben* → ✓ ***hätte***\n\n### Warum\n*sein* und *haben* haben eigene, sehr häufige Konjunktiv-II-Formen.\n\n### Auch Modalverben\n*könnte, müsste, wollte, dürfte, sollte, möchte* — nicht *würde können* usw. (in gepflegter Sprache).\n\n### Mini-Übung\nKorrigieren Sie: *Wenn ich reich würde sein…* → *Wenn ich reich wäre…*",
+  "notesFr": "sein → wäre, haben → hätte, modaux → könnte / müsste etc.",
+  "notesEn": "sein → wäre, haben → hätte, modals → könnte / müsste etc.",
+  "notesDe": "sein → wäre, haben → hätte, Modalverben → könnte/müsste usw.",
+  "examples": [
+    {
+      "de": "Wenn ich reich wäre, würde ich reisen.",
+      "fr": "Si j’étais riche, je voyagerais. (pas : würde sein)",
+      "en": "If I were rich, I would travel. (not: würde sein)"
+    },
+    {
+      "de": "Ich hätte mehr Zeit, wenn ich weniger arbeitete.",
+      "fr": "J’aurais plus de temps si je travaillais moins. (pas : würde haben)",
+      "en": "I would have more time if I worked less. (not: würde haben)"
+    },
+    {
+      "de": "Könntest du mir helfen?",
+      "fr": "Pourrais-tu m’aider ? (pas : würdest du können)",
+      "en": "Could you help me? (not: würdest du können)"
+    },
+    {
+      "de": "Er müsste früher aufstehen.",
+      "fr": "Il devrait se lever plus tôt.",
+      "en": "He would have to / ought to get up earlier."
+    },
+    {
+      "de": "Ich möchte einen Tee.",
+      "fr": "Je voudrais un thé. (möchte = Konjunktiv II de mögen)",
+      "en": "I would like a tea. (möchte = Konjunktiv II of mögen)"
+    }
+  ]
+}

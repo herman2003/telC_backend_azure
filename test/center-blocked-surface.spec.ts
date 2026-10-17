@@ -163,6 +163,8 @@ describe('what a blocked center can and cannot do', () => {
         findUnique: jest.fn().mockResolvedValue({ _count: { students: 0 } }),
       },
       centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
+      // Quote reads paidUntil / anchor for mid-period prorata; a draft has none.
+      centerSubscription: { findUnique: jest.fn().mockResolvedValue(null) },
       student: { groupBy: jest.fn().mockResolvedValue([]) },
       payment: { findUnique: jest.fn() },
       $transaction: jest.fn((run: (tx: unknown) => unknown) =>
@@ -197,7 +199,7 @@ describe('what a blocked center can and cannot do', () => {
       ).rejects.toMatchObject({
         response: expect.objectContaining({
           message: 'CENTER_PROFILE_INCOMPLETE',
-          missing: ['country', 'city', 'phone'],
+          missing: ['country', 'city', 'phone', 'logo'],
         }),
       });
     });

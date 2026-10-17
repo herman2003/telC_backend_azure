@@ -1,0 +1,39 @@
+{
+  "slug": "perfekt-haben-gram-g-150",
+  "titleFr": "Perfekt avec haben",
+  "titleEn": "Perfect with haben",
+  "titleDe": "Perfekt — haben",
+  "ruleFr": "## Perfekt avec *haben*\n\nLa **plupart** des verbes forment le Perfekt avec **haben**.\n\n### Qui prend *haben* ?\n- Verbes **transitifs** (avec COD accusatif) : *lesen, machen, kaufen, sehen…*\n- Verbes **réfléchis** : *sich waschen, sich freuen…*\n- Verbes d’état sans déplacement : *schlafen, warten, arbeiten…*\n- Modalités en général : *können, müssen…* (souvent au Präteritum à l’oral)\n\n### Schéma\n*Ich **habe** ein Auto **gekauft**.*  \n*Sie **hat** lange **geschlafen**.*\n\n### Erreurs fréquentes\nMettre *sein* avec un transitif : ✗ *Ich bin das Buch gelesen* → ✓ *Ich **habe** das Buch **gelesen***.\n\n### Mini-entraînement\n5 phrases Perfekt avec *haben* + objet accusatif.",
+  "ruleEn": "## Perfect with *haben*\n\n**Most** verbs form the Perfekt with **haben**.\n\n### Who takes *haben*?\n- **Transitive** verbs (with accusative object): *lesen, machen, kaufen, sehen…*\n- **Reflexive** verbs: *sich waschen, sich freuen…*\n- State verbs without change of place: *schlafen, warten, arbeiten…*\n- Modals in general: *können, müssen…* (often simple past in speech)\n\n### Pattern\n*Ich **habe** ein Auto **gekauft**.*  \n*Sie **hat** lange **geschlafen**.*\n\n### Common mistakes\nUsing *sein* with a transitive: ✗ *Ich bin das Buch gelesen* → ✓ *Ich **habe** das Buch **gelesen***.\n\n### Mini practice\n5 Perfekt sentences with *haben* + accusative object.",
+  "ruleDe": "## Perfekt mit *haben*\n\nDie **meisten** Verben bilden das Perfekt mit **haben**.\n\n### Wer nimmt *haben*?\n- **transitive** Verben (mit Akkusativobjekt): *lesen, machen, kaufen, sehen…*\n- **reflexive** Verben: *sich waschen, sich freuen…*\n- Zustandsverben ohne Ortswechsel: *schlafen, warten, arbeiten…*\n- Modalverben oft: *können, müssen…* (mündlich oft Präteritum)\n\n### Muster\n*Ich **habe** ein Auto **gekauft**.*  \n*Sie **hat** lange **geschlafen**.*\n\n### Häufige Fehler\n*sein* bei Transitiv: ✗ *Ich bin das Buch gelesen* → ✓ *Ich **habe** das Buch **gelesen***.\n\n### Mini-Übung\n5 Perfekt-Sätze mit *haben* + Akkusativobjekt.",
+  "notesFr": "Verbes transitifs (avec COD) : toujours *haben*.",
+  "notesEn": "Transitive verbs (with a direct object): always *haben*.",
+  "notesDe": "Transitive Verben (mit Akkusativobjekt) immer mit *haben*.",
+  "examples": [
+    {
+      "de": "Ich habe einen Brief geschrieben.",
+      "fr": "J’ai écrit une lettre.",
+      "en": "I wrote a letter."
+    },
+    {
+      "de": "Hast du das Fenster geschlossen?",
+      "fr": "As-tu fermé la fenêtre ?",
+      "en": "Did you close the window?"
+    },
+    {
+      "de": "Wir haben Pizza gegessen.",
+      "fr": "Nous avons mangé de la pizza.",
+      "en": "We ate pizza."
+    },
+    {
+      "de": "Sie hat sich gefreut.",
+      "fr": "Elle s’est réjouie.",
+      "en": "She was pleased."
+    },
+    {
+      "de": "Er hat den ganzen Tag gearbeitet.",
+      "fr": "Il a travaillé toute la journée.",
+      "en": "He worked all day."
+    }
+  ]
+}

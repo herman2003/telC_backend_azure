@@ -1,0 +1,39 @@
+{
+  "slug": "prasens-beispiel-finden-gram-f-132",
+  "titleFr": "Présent de « finden »",
+  "titleEn": "Present tense of “finden”",
+  "titleDe": "Präsens — Beispiel: finden",
+  "ruleFr": "## *finden* — modèle en *-d*\n\nRadical **find-** → **-e-** devant *-st / -t*.\n\n| | |\n|---|---|\n| ich finde | wir finden |\n| du find**e**st | ihr find**e**t |\n| er/sie/es find**e**t | sie/Sie finden |\n\n### Même famille\n*reden, baden, bilden, melden, schneiden* (attention : *schneiden* est fort au passé, mais au présent suit ce schéma pour *du/er*).\n\n### Mini-entraînement\n*reden* : du / er / ihr.",
+  "ruleEn": "## *finden* — model *-d* stem\n\nich finde · du find**e**st · er find**e**t · wir finden · ihr find**e**t · sie finden\n\n### Same family\n*reden, baden, bilden, melden…*\n\n### Mini practice\n*reden*: du / er / ihr.",
+  "ruleDe": "## *finden* — Modell mit -d\n\ndu findest, er/ihr findet.\nAuch: reden, baden, bilden, melden\n\n### Mini-Übung\n*reden*: du / er / ihr.",
+  "notesFr": "Même type : reden, baden, bilden, melden, schneiden.",
+  "notesEn": "Same type: reden, baden, bilden, melden, schneiden.",
+  "notesDe": "Auch: reden, baden, bilden, melden, schneiden.",
+  "examples": [
+    {
+      "de": "Ich finde den Film gut.",
+      "fr": "Je trouve le film bien.",
+      "en": "I think the film is good."
+    },
+    {
+      "de": "Findest du meinen Hut?",
+      "fr": "Tu trouves mon chapeau ?",
+      "en": "Can you find my hat?"
+    },
+    {
+      "de": "Er findet keine Lösung.",
+      "fr": "Il ne trouve pas de solution.",
+      "en": "He finds no solution."
+    },
+    {
+      "de": "Wir finden uns am Bahnhof.",
+      "fr": "Nous nous retrouvons à la gare.",
+      "en": "We’ll meet at the station."
+    },
+    {
+      "de": "Findet ihr das fair?",
+      "fr": "Trouvez-vous cela juste ?",
+      "en": "Do you find that fair?"
+    }
+  ]
+}

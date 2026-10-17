@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-g-172",
+  "titleFr": "Erreurs fréquentes — ge- en trop",
+  "titleEn": "Common mistakes — extra ge-",
+  "titleDe": "Häufige Fehler — ge- zu viel",
+  "ruleFr": "## Erreur : ajouter *ge-* aux verbes inséparables / *-ieren*\n\n### Jamais de *ge-* avec\n- préfixes **be-, ver-, er-, ent-, emp-, ge-, miss-, zer-**\n- verbes en **-ieren**\n\n| ✗ Faux | ✓ Correct |\n|---|---|\n| *gebesucht* | **besucht** |\n| *geverloren* | **verloren** |\n| *gestudiert* | **studiert** |\n| *georganisiert* | **organisiert** |\n\n### Mini-entraînement\nCorrigez : *Ich habe das gebesucht. / Sie hat gestudiert.*",
+  "ruleEn": "## Mistake: adding *ge-* to inseparable / *-ieren* verbs\n\n### Never use *ge-* with\n- prefixes **be-, ver-, er-, ent-, emp-, ge-, miss-, zer-**\n- verbs in **-ieren**\n\n| ✗ Wrong | ✓ Correct |\n|---|---|\n| *gebesucht* | **besucht** |\n| *geverloren* | **verloren** |\n| *gestudiert* | **studiert** |\n| *georganisiert* | **organisiert** |\n\n### Mini practice\nCorrect: *Ich habe das gebesucht. / Sie hat gestudiert.*",
+  "ruleDe": "## Fehler: *ge-* bei untrennbaren / *-ieren*-Verben\n\n### Nie *ge-* bei\n- Präfixen **be-, ver-, er-, ent-, emp-, ge-, miss-, zer-**\n- Verben auf **-ieren**\n\n| ✗ Falsch | ✓ Richtig |\n|---|---|\n| *gebesucht* | **besucht** |\n| *geverloren* | **verloren** |\n| *gestudiert* | **studiert** |\n\n### Mini-Übung\nKorrigieren Sie: *Ich habe das gebesucht. / Sie hat gestudiert.*",
+  "notesFr": "*be-, ver-, er-, -ieren* etc. → JAMAIS de *ge-* !",
+  "notesEn": "*be-, ver-, er-, -ieren* etc. → NEVER *ge-*!",
+  "notesDe": "*be-, ver-, er-, -ieren* usw. → NIEMALS *ge-*!",
+  "examples": [
+    {
+      "de": "Ich habe meine Oma besucht. (nicht: gebesucht)",
+      "fr": "J’ai rendu visite à ma grand-mère.",
+      "en": "I visited my grandma."
+    },
+    {
+      "de": "Er hat seinen Pass verloren.",
+      "fr": "Il a perdu son passeport.",
+      "en": "He lost his passport."
+    },
+    {
+      "de": "Sie hat Jura studiert.",
+      "fr": "Elle a étudié le droit.",
+      "en": "She studied law."
+    },
+    {
+      "de": "Wir haben alles organisiert.",
+      "fr": "Nous avons tout organisé.",
+      "en": "We organized everything."
+    },
+    {
+      "de": "Hast du die Regel erklärt?",
+      "fr": "As-tu expliqué la règle ?",
+      "en": "Did you explain the rule?"
+    }
+  ]
+}

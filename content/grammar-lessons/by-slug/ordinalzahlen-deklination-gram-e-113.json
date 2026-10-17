@@ -1,0 +1,39 @@
+{
+  "slug": "ordinalzahlen-deklination-gram-e-113",
+  "titleFr": "Déclinaison des ordinaux",
+  "titleEn": "Declension of ordinals",
+  "titleDe": "Ordinalzahlen — Deklination",
+  "ruleFr": "## Déclinaison des ordinaux\n\nAprès l’article défini, les ordinaux suivent la **déclinaison faible** des adjectifs :\n\n| Cas | Singulier (ex.) | Pluriel |\n|---|---|---|\n| Nom. | der/die/das **vierte** | die **vierten** |\n| Akk. | den **vierten** / die **vierte** / das **vierte** | die **vierten** |\n| Dat. | dem/der/dem **vierten** | den **vierten** |\n| Gén. | des/der/des **vierten** | der **vierten** |\n\n### En bref\n- Nominatif sg. : souvent **-e**\n- Autres cas : souvent **-en**\n\n### Mini-entraînement\nDéclinez *der zweite Tag* aux quatre cas.",
+  "ruleEn": "## Declining ordinals\n\nAfter the definite article, ordinals follow **weak adjective** declension:\n\n- Nominative sg.: often **-e** (*der vierte*)\n- Other cases: often **-en** (*dem vierten, den vierten*)\n\n### Mini practice\nDecline *der zweite Tag* in all four cases.",
+  "ruleDe": "## Deklination der Ordinalzahlen\n\nNach bestimmtem Artikel: **schwache** Adjektivdeklination.\nNominativ Sg. oft **-e**, sonst oft **-en**.\n\n### Mini-Übung\n*der zweite Tag* in allen Kasus.",
+  "notesFr": "Déclinaison faible : -e au nominatif, -en aux autres cas.",
+  "notesEn": "Weak declension: -e in nominative, -en elsewhere.",
+  "notesDe": "Schwache Deklination: -e im Nom, -en in allen anderen Fällen.",
+  "examples": [
+    {
+      "de": "Der erste Gast ist angekommen.",
+      "fr": "Le premier invité est arrivé. (nominatif -e.)",
+      "en": "The first guest has arrived. (nominative -e.)"
+    },
+    {
+      "de": "Ich treffe den zweiten Kollegen.",
+      "fr": "Je rencontre le deuxième collègue. (accusatif -en.)",
+      "en": "I’m meeting the second colleague. (accusative -en.)"
+    },
+    {
+      "de": "Wir sprechen mit der dritten Lehrerin.",
+      "fr": "Nous parlons avec la troisième professeure. (datif.)",
+      "en": "We’re speaking with the third teacher. (dative.)"
+    },
+    {
+      "de": "Am vierten Dezember fahren wir weg.",
+      "fr": "Le 4 décembre nous partons. (datif après am.)",
+      "en": "On the fourth of December we’re leaving."
+    },
+    {
+      "de": "Die ersten Tage waren schwer.",
+      "fr": "Les premiers jours ont été difficiles. (pluriel -en.)",
+      "en": "The first days were hard. (plural -en.)"
+    }
+  ]
+}

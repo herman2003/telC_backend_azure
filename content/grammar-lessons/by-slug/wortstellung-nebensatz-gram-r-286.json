@@ -1,0 +1,39 @@
+{
+  "slug": "wortstellung-nebensatz-gram-r-286",
+  "titleFr": "L’ordre des mots dans la subordonnée",
+  "titleEn": "Word order — subordinate clauses",
+  "titleDe": "Wortstellung — Nebensatz",
+  "ruleFr": "## Ordre des mots dans le Nebensatz\n\nDans une **subordonnée**, le verbe conjugué se place à la **fin**.\n\n### Structure\n*Konjunktion + … + Verb*\n- *…, **weil** ich müde **bin**.*\n- *…, **dass** er morgen **kommt**.*\n- *…, **wenn** du Zeit **hast**.*\n\n### Subordonnée en tête\nSi la subordonnée occupe la position 1 du principal, le verbe du **Hauptsatz** suit immédiatement :\n- ***Weil** ich müde bin, **gehe** ich schlafen.*\n→ On voit souvent « Verb, Verb » autour de la virgule.\n\n### Subordonnée à la fin\n- *Ich gehe schlafen, **weil** ich müde **bin**.*\n\n### Rappels\n- *weil, dass, wenn, ob, obwohl, als, bevor, nachdem…* → verbe à la fin\n- Pas de V2 à l’intérieur de la subordonnée\n\n### Mini-entraînement\n1. Transformez 3 phrases principales en subordonnées avec *weil / dass / wenn*.\n2. Placez-les en tête et vérifiez l’inversion.",
+  "ruleEn": "## Word order in subordinate clauses\n\nIn a **subordinate clause**, the conjugated verb goes to the **end**.\n\n### Structure\n*Conjunction + … + Verb*\n- *…, **weil** ich müde **bin**.*\n- *…, **dass** er morgen **kommt**.*\n- *…, **wenn** du Zeit **hast**.*\n\n### Subordinate clause first\nIf the subordinate clause fills position 1 of the main clause, the **main** verb follows at once:\n- ***Weil** ich müde bin, **gehe** ich schlafen.*\n→ You often see “verb, verb” around the comma.\n\n### Subordinate clause last\n- *Ich gehe schlafen, **weil** ich müde **bin**.*\n\n### Reminders\n- *weil, dass, wenn, ob, obwohl, als, bevor, nachdem…* → verb at the end\n- No V2 inside the subordinate clause\n\n### Mini practice\n1. Turn 3 main clauses into subordinates with *weil / dass / wenn*.\n2. Put them first and check inversion.",
+  "ruleDe": "## Wortstellung im Nebensatz\n\nIm **Nebensatz** steht das finite Verb am **Ende**.\n\n### Struktur\n*Konjunktion + … + Verb*\n- *…, **weil** ich müde **bin**.*\n- *…, **dass** er morgen **kommt**.*\n- *…, **wenn** du Zeit **hast**.*\n\n### Nebensatz vorne\nSteht der Nebensatz auf Position 1, folgt das **Hauptsatz**-Verb direkt:\n- ***Weil** ich müde bin, **gehe** ich schlafen.*\n\n### Nebensatz hinten\n- *Ich gehe schlafen, **weil** ich müde **bin**.*\n\n### Merken\n- *weil, dass, wenn, ob…* → Verb am Ende\n- Kein V2 im Nebensatz\n\n### Mini-Übung\n1. 3 Hauptsätze mit *weil / dass / wenn* umformen.\n2. Vorne stellen und Inversion prüfen.",
+  "notesFr": "Subordonnée en tête → verbe du principal juste après ! (verbe-verbe)",
+  "notesEn": "Subordinate clause first → main verb right after! (verb-verb)",
+  "notesDe": "Nebensatz vorne → Hauptsatz-Verb direkt danach! (Verb-Verb)",
+  "examples": [
+    {
+      "de": "Ich bleibe zu Hause, weil ich krank bin.",
+      "fr": "Je reste à la maison parce que je suis malade.",
+      "en": "I’m staying home because I’m ill."
+    },
+    {
+      "de": "Weil ich krank bin, bleibe ich zu Hause.",
+      "fr": "Parce que je suis malade, je reste à la maison.",
+      "en": "Because I’m ill, I’m staying home."
+    },
+    {
+      "de": "Er sagt, dass er keine Zeit hat.",
+      "fr": "Il dit qu’il n’a pas le temps.",
+      "en": "He says that he has no time."
+    },
+    {
+      "de": "Wenn du Hilfe brauchst, rufst du mich an.",
+      "fr": "Si tu as besoin d’aide, tu m’appelles.",
+      "en": "If you need help, you call me."
+    },
+    {
+      "de": "Obwohl wir müde waren, haben wir weitergearbeitet.",
+      "fr": "Bien que nous fussions fatigués, nous avons continué.",
+      "en": "Although we were tired, we kept working."
+    }
+  ]
+}

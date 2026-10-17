@@ -1,0 +1,39 @@
+{
+  "slug": "genitiv-artikel-gram-a-017",
+  "titleFr": "Articles indéfinis au génitif",
+  "titleEn": "Indefinite articles in the genitive",
+  "titleDe": "Genitiv — unbestimmter Artikel",
+  "ruleFr": "## Articles indéfinis au génitif\n\n| | masculin | féminin | neutre |\n|---|---|---|---|\n| génitif | **eines** + *(e)s* | **einer** | **eines** + *(e)s* |\n\n### Exemples\n- die Idee **eines** Kollege**n** / Lehrer**s**\n- die Meinung **einer** Expertin\n- das Ende **eines** Film**s**\n\nMême schéma : *keines, meines, deines…* + *(e)s* au masculin/neutre.\n\n### Contraste\n- Défini : *des Mannes*\n- Indéfini : *eines Mannes*\n\n### Erreurs fréquentes\n- ✗ *eines Mann* → ✓ *eines Mannes*\n- ✗ *eine Frau* resté inchangé dans un contexte génitif → ✓ *einer Frau*\n\n### Mini-entraînement\n1. Transformez : ein Freund / eine Freundin / ein Kind → génitif.\n2. Formez : *trotz ___ (ein Problem)*.\n3. Remplacez *des/der* par *eines/einer* dans 3 phrases.",
+  "ruleEn": "## Indefinite articles in the genitive\n\n| | masculine | feminine | neuter |\n|---|---|---|---|\n| genitive | **eines** + *(e)s* | **einer** | **eines** + *(e)s* |\n\n### Examples\n- die Idee **eines** Kollege**n** / Lehrer**s**\n- die Meinung **einer** Expertin\n- das Ende **eines** Film**s**\n\nSame pattern: *keines, meines, deines…* + *(e)s* for masculine/neuter.\n\n### Contrast\n- Definite: *des Mannes*\n- Indefinite: *eines Mannes*\n\n### Common mistakes\n- ✗ *eines Mann* → ✓ *eines Mannes*\n- Leaving *eine Frau* unchanged in a genitive slot → ✓ *einer Frau*\n\n### Mini practice\n1. Transform: ein Freund / eine Freundin / ein Kind → genitive.\n2. Form: *trotz ___ (ein Problem)*.\n3. Replace *des/der* with *eines/einer* in 3 sentences.",
+  "ruleDe": "## Unbestimmter Artikel im Genitiv\n\n| | Maskulinum | Femininum | Neutrum |\n|---|---|---|---|\n| Genitiv | **eines** + *(e)s* | **einer** | **eines** + *(e)s* |\n\n### Beispiele\n- die Idee **eines** Kollege**n** / Lehrer**s**\n- die Meinung **einer** Expertin\n- das Ende **eines** Film**s**\n\nGleiches Muster: *keines, meines, deines…* + *(e)s* bei Maskulinum/Neutrum.\n\n### Kontrast\n- Bestimmt: *des Mannes*\n- Unbestimmt: *eines Mannes*\n\n### Häufige Fehler\n- ✗ *eines Mann* → ✓ *eines Mannes*\n- *eine Frau* im Genitiv belassen → ✓ *einer Frau*\n\n### Mini-Übung\n1. ein Freund / eine Freundin / ein Kind → Genitiv.\n2. Bilden: *trotz ___ (ein Problem)*.\n3. *des/der* durch *eines/einer* ersetzen.",
+  "notesFr": "Indéfini génitif = *eines/einer* + même *-s* sur le nom qu’avec *des* — ne changez pas seulement l’article.",
+  "notesEn": "Indefinite genitive = *eines/einer* + the same noun *-s* as with *des* — do not change only the article.",
+  "notesDe": "Unbestimmter Genitiv = *eines/einer* + dieselbe Nomen-*-s*-Endung wie bei *des* — nicht nur den Artikel ändern.",
+  "examples": [
+    {
+      "de": "Das ist die Meinung eines Experten.",
+      "fr": "C’est l’avis d’un expert. (*eines Experten*)",
+      "en": "That is an expert’s opinion. (*eines Experten*)"
+    },
+    {
+      "de": "Wir brauchen die Hilfe einer Ärztin.",
+      "fr": "Nous avons besoin de l’aide d’une médecin. (*einer Ärztin*)",
+      "en": "We need a (female) doctor’s help. (*einer Ärztin*)"
+    },
+    {
+      "de": "Am Ende eines langen Tages trinke ich Tee.",
+      "fr": "À la fin d’une longue journée, je bois du thé. (*eines … Tages*)",
+      "en": "At the end of a long day I drink tea. (*eines … Tages*)"
+    },
+    {
+      "de": "Trotz eines Problems bleiben wir ruhig.",
+      "fr": "Malgré un problème, nous restons calmes. (*eines Problems*)",
+      "en": "Despite a problem we stay calm. (*eines Problems*)"
+    },
+    {
+      "de": "Das ist das Fahrrad eines Freundes.",
+      "fr": "C’est le vélo d’un ami. (*eines Freundes*)",
+      "en": "That is a friend’s bike. (*eines Freundes*)"
+    }
+  ]
+}

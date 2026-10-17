@@ -1,0 +1,39 @@
+{
+  "slug": "gro-schreibung-sie-hoflichkeit-gram-x-325",
+  "titleFr": "Majuscules — Sie (vouvoiement)",
+  "titleEn": "Capitalization — Sie (formal address)",
+  "titleDe": "Großschreibung — Sie (Höflichkeit)",
+  "ruleFr": "## Majuscules — Sie (vouvoiement)\n\nLe **vouvoiement** allemand s’écrit toujours avec une **majuscule** : **Sie**, **Ihr**, **Ihnen**, **Ihre**.\n\n### Règle centrale\nFormes de politesse → **toujours majuscule**, même au milieu de la phrase.\n\n| Formel (vouvoiement) | Informel (tutoiement) |\n|---|---|\n| **Sie** kommen | du kommst / ihr kommt |\n| **Ihr** Auto | dein / euer Auto |\n| Ich danke **Ihnen**. | Ich danke dir / euch. |\n| **Ihre** Frage | deine / eure Frage |\n\n### Pourquoi ?\nLa majuscule marque le **respect**. Sans majuscule, *sie* = elles/ils (3e personne).\n\n- *Sie sind Lehrer.* = Vous êtes enseignant. (vouvoiement)\n- *sie sind Lehrer.* = Elles/ils sont enseignants.\n\n### Ne pas confondre\n- **Sie** (vous, poli) ≠ **sie** (elle / elles / ils)\n- **Ihr** (votre, poli) ≠ **ihr** (vous-informel pluriel / leur)\n- Tutoiement : *du*, *dein*, *dir*, *ihr*, *euer* → **minuscules**\n\n### Erreurs fréquentes\n- Écrire *sie* pour vouvoyer : ambigu et incorrect en écrit formel.\n- Majuscule sur *du* : ✗ *Du bist nett.* (en lettre formelle on évite le tutoiement ; en chat *du* reste minuscule sauf début de phrase).\n\n### Mini-entraînement\n1. Réécrivez 5 phrases informelles en vouvoiement avec majuscules.\n2. Distinguez *Sie* / *sie* dans 5 phrases.\n3. Écrivez un e-mail court avec *Sie / Ihr / Ihnen*.",
+  "ruleEn": "## Capitalization — Sie (formal address)\n\nGerman **formal you** is always **capitalized**: **Sie**, **Ihr**, **Ihnen**, **Ihre**.\n\n### Core rule\nPolite forms → **always capital**, even mid-sentence.\n\n| Formal (Sie) | Informal (du/ihr) |\n|---|---|\n| **Sie** kommen | du kommst / ihr kommt |\n| **Ihr** Auto | dein / euer Auto |\n| Ich danke **Ihnen**. | Ich danke dir / euch. |\n| **Ihre** Frage | deine / eure Frage |\n\n### Why?\nThe capital marks **respect**. Without it, *sie* = they/she.\n\n- *Sie sind Lehrer.* = You are a teacher. (formal)\n- *sie sind Lehrer.* = They are teachers.\n\n### Don’t confuse\n- **Sie** (formal you) ≠ **sie** (she / they)\n- **Ihr** (your, formal) ≠ **ihr** (informal plural you / their)\n- Informal: *du*, *dein*, *dir*, *ihr*, *euer* → **lowercase**\n\n### Common mistakes\n- Writing *sie* for formal address: ambiguous and wrong in formal writing.\n- Capitalizing *du* unnecessarily in mid-sentence.\n\n### Mini practice\n1. Rewrite 5 informal sentences with formal Sie + capitals.\n2. Distinguish *Sie* / *sie* in 5 sentences.\n3. Write a short email using *Sie / Ihr / Ihnen*.",
+  "ruleDe": "## Großschreibung — Sie (Höflichkeit)\n\nDie **höfliche Anrede** wird immer **großgeschrieben**: **Sie**, **Ihr**, **Ihnen**, **Ihre**.\n\n### Kernregel\nHöflichkeitsformen → **immer groß**, auch mitten im Satz.\n\n| Formell (Sie) | Informell (du/ihr) |\n|---|---|\n| **Sie** kommen | du kommst / ihr kommt |\n| **Ihr** Auto | dein / euer Auto |\n| Ich danke **Ihnen**. | Ich danke dir / euch. |\n| **Ihre** Frage | deine / eure Frage |\n\n### Warum?\nDie Großschreibung zeigt **Respekt**. Ohne Großbuchstabe heißt *sie* = sie/sie (3. Person).\n\n- *Sie sind Lehrer.* = höfliche Anrede\n- *sie sind Lehrer.* = 3. Person Plural\n\n### Nicht verwechseln\n- **Sie** (höflich) ≠ **sie** (sie/Plural)\n- **Ihr** (Possessiv höflich) ≠ **ihr** (Plural du / Possessiv 3. Person)\n- Informell: *du*, *dein*, *dir*, *ihr*, *euer* → **klein**\n\n### Häufige Fehler\n- *sie* statt *Sie* in formellen Texten.\n- Unnötige Großschreibung von *du* mitten im Satz.\n\n### Mini-Übung\n1. Schreiben Sie 5 Sätze von du auf Sie um.\n2. Unterscheiden Sie *Sie* / *sie* in 5 Sätzen.\n3. Schreiben Sie eine kurze E-Mail mit *Sie / Ihr / Ihnen*.",
+  "notesFr": "Rappel : *du/ihr* (familier) = minuscule ; *Sie/Ihr/Ihnen* (poli) = TOUJOURS majuscule. En contexte, la majuscule évite la confusion avec « elle/ils ».",
+  "notesEn": "Remember: *du/ihr* (informal) = lowercase; *Sie/Ihr/Ihnen* (formal) = ALWAYS capital. The capital prevents confusion with “she/they”.",
+  "notesDe": "Merken: *du/ihr* (informell) = klein; *Sie/Ihr/Ihnen* (formell) = IMMER groß. So vermeidet man Verwechslung mit der 3. Person.",
+  "examples": [
+    {
+      "de": "Können Sie mir bitte helfen?",
+      "fr": "Pouvez-vous m’aider, s’il vous plaît ? (« Sie » = vouvoiement → majuscule.)",
+      "en": "Can you please help me? (“Sie” = formal you → capital.)"
+    },
+    {
+      "de": "Ist das Ihr Mantel?",
+      "fr": "Est-ce votre manteau ? (« Ihr » possessif de politesse.)",
+      "en": "Is that your coat? (“Ihr” = formal possessive.)"
+    },
+    {
+      "de": "Ich danke Ihnen für Ihre Hilfe.",
+      "fr": "Je vous remercie pour votre aide.",
+      "en": "Thank you for your help."
+    },
+    {
+      "de": "Sie sind herzlich eingeladen.",
+      "fr": "Vous êtes cordialement invité(e).",
+      "en": "You are warmly invited."
+    },
+    {
+      "de": "Wann haben Sie Zeit?",
+      "fr": "Quand avez-vous le temps ?",
+      "en": "When do you have time?"
+    }
+  ]
+}

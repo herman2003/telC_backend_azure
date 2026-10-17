@@ -1,0 +1,39 @@
+{
+  "slug": "datum-angaben-gram-e-115",
+  "titleFr": "Indiquer une date (am…)",
+  "titleEn": "Giving a date (am…)",
+  "titleDe": "Datum — Angaben",
+  "ruleFr": "## Indiquer une date avec *am*\n\nPour dire « le … » (jour précis) : **am + ordinal au datif**.\n\n### Formule\n***am*** + Ordinal + **-en** (+ Monat)\n- *am **ersten** Januar*\n- *am **zwanzigsten** März*\n- *am **dritten** Oktober*\n\n### Pourquoi *-en* ?\nParce que *am* = *an dem* → datif masculin (*der Tag* sous-entendu).\n\n### Ne pas confondre\n- *Heute ist der erste Mai.* (constat)\n- *Wir fahren **am** ersten Mai.* (complément de temps)\n\n### Mini-entraînement\nTransformez : *der 5. Juli* → *am …*.",
+  "ruleEn": "## Giving a date with *am*\n\nFor “on the …” (specific day): **am + ordinal in the dative**.\n\n### Formula\n***am*** + ordinal + **-en** (+ month)\n- *am **ersten** Januar*\n- *am **zwanzigsten** März*\n\n### Why *-en*?\n*am* = *an dem* → masculine dative.\n\n### Contrast\n- *Heute ist der erste Mai.* (statement)\n- *Wir fahren **am** ersten Mai.* (time phrase)\n\n### Mini practice\nConvert: *der 5. Juli* → *am …*.",
+  "ruleDe": "## Datumsangaben mit *am*\n\n***am*** + Ordinalzahl + **-en** (+ Monat)\n= *an dem* → Dativ.\n\n### Mini-Übung\n*der 5. Juli* → *am …*.",
+  "notesFr": "am + ordinal + -en (datif !) : am ersten, am zweiten, am dritten.",
+  "notesEn": "am + ordinal + -en (dative!): am ersten, am zweiten, am dritten.",
+  "notesDe": "am + Ordinalzahl + -en (Dativ!): am ersten, am zweiten, am dritten.",
+  "examples": [
+    {
+      "de": "Am ersten Januar haben wir frei.",
+      "fr": "Le 1er janvier nous sommes en congé.",
+      "en": "On the first of January we have time off."
+    },
+    {
+      "de": "Die Prüfung ist am zwanzigsten März.",
+      "fr": "L’examen est le 20 mars.",
+      "en": "The exam is on the twentieth of March."
+    },
+    {
+      "de": "Am dritten Oktober ist Feiertag.",
+      "fr": "Le 3 octobre est un jour férié.",
+      "en": "The third of October is a public holiday."
+    },
+    {
+      "de": "Wir heiraten am siebten Juni.",
+      "fr": "Nous nous marions le 7 juin.",
+      "en": "We’re getting married on the seventh of June."
+    },
+    {
+      "de": "Am achten Mai war schönes Wetter.",
+      "fr": "Le 8 mai il faisait beau.",
+      "en": "On the eighth of May the weather was nice."
+    }
+  ]
+}

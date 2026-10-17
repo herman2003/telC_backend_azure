@@ -1,0 +1,39 @@
+{
+  "slug": "stammvokalanderung-ubersicht-gram-f-141",
+  "titleFr": "Vue d’ensemble des changements de voyelle",
+  "titleEn": "Overview of stem vowel changes",
+  "titleDe": "Stammvokaländerung — Übersicht",
+  "ruleFr": "## Vue d’ensemble — changements de voyelle au présent\n\nTrois types de changements touchent **uniquement** *du* et *er/sie/es* :\n\n| Type | Exemple | du | er/sie/es |\n|---|---|---|---|\n| **e → i** | geben | du **gibst** | er **gibt** |\n| **e → ie** | sehen | du **siehst** | er **sieht** |\n| **a → ä** | fahren | du **fährst** | er **fährt** |\n\n### Règle d’or\n**Jamais** de changement pour *ich*, *wir*, *ihr*, *sie* (pluriel) !\n\n### Mini-tableau récap\n- e→i : *geben, sprechen, helfen, nehmen, essen…*\n- e→ie : *sehen, lesen, empfehlen…*\n- a→ä : *fahren, schlafen, tragen, halten…*\n\n### Ne pas confondre\n*lesen* fait e→**ie** (*du liest*), pas e→i.\n\n### Erreurs fréquentes\n- ✗ *ich gibt* → ✓ *ich **gebe***\n- ✗ *wir fähren* → ✓ *wir **fahren***\n\n### Mini-entraînement\nClassez 9 verbes dans les trois colonnes e→i / e→ie / a→ä.",
+  "ruleEn": "## Overview — present stem vowel changes\n\nThree change types affect **only** *du* and *er/sie/es*:\n\n| Type | Example | du | er/sie/es |\n|---|---|---|---|\n| **e → i** | geben | du **gibst** | er **gibt** |\n| **e → ie** | sehen | du **siehst** | er **sieht** |\n| **a → ä** | fahren | du **fährst** | er **fährt** |\n\n### Golden rule\n**Never** a change for *ich*, *wir*, *ihr*, *sie* (plural)!\n\n### Quick recap\n- e→i: *geben, sprechen, helfen, nehmen, essen…*\n- e→ie: *sehen, lesen, empfehlen…*\n- a→ä: *fahren, schlafen, tragen, halten…*\n\n### Don’t confuse\n*lesen* takes e→**ie** (*du liest*), not e→i.\n\n### Common mistakes\n- ✗ *ich gibt* → ✓ *ich **gebe***\n- ✗ *wir fähren* → ✓ *wir **fahren***\n\n### Mini practice\nSort 9 verbs into the three columns e→i / e→ie / a→ä.",
+  "ruleDe": "## Übersicht — Stammvokaländerungen im Präsens\n\nDrei Typen betreffen **nur** *du* und *er/sie/es*:\n\n| Typ | Beispiel | du | er/sie/es |\n|---|---|---|---|\n| **e → i** | geben | du **gibst** | er **gibt** |\n| **e → ie** | sehen | du **siehst** | er **sieht** |\n| **a → ä** | fahren | du **fährst** | er **fährt** |\n\n### Goldene Regel\n**Nie** Änderung bei *ich*, *wir*, *ihr*, *sie* (Plural)!\n\n### Kurzüberblick\n- e→i: *geben, sprechen, helfen, nehmen, essen…*\n- e→ie: *sehen, lesen, empfehlen…*\n- a→ä: *fahren, schlafen, tragen, halten…*\n\n### Nicht verwechseln\n*lesen* macht e→**ie** (*du liest*), nicht e→i.\n\n### Häufige Fehler\n- ✗ *ich gibt* → ✓ *ich **gebe***\n- ✗ *wir fähren* → ✓ *wir **fahren***\n\n### Mini-Übung\nOrdnen Sie 9 Verben in die drei Spalten e→i / e→ie / a→ä.",
+  "notesFr": "Mémo : e→i (*geben*), e→ie (*sehen*), a→ä (*fahren*) — seulement du et er/sie/es.",
+  "notesEn": "Memo: e→i (*geben*), e→ie (*sehen*), a→ä (*fahren*) — only du and er/sie/es.",
+  "notesDe": "Merken: e→i (*geben*), e→ie (*sehen*), a→ä (*fahren*) — nur du und er/sie/es.",
+  "examples": [
+    {
+      "de": "Du gibst mir das Buch.",
+      "fr": "Tu me donnes le livre. (e→i)",
+      "en": "You give me the book. (e→i)"
+    },
+    {
+      "de": "Er sieht den Film.",
+      "fr": "Il regarde le film. (e→ie)",
+      "en": "He watches the film. (e→ie)"
+    },
+    {
+      "de": "Sie fährt nach Hause.",
+      "fr": "Elle rentre à la maison. (a→ä)",
+      "en": "She drives home. (a→ä)"
+    },
+    {
+      "de": "Ich gebe dir das Buch.",
+      "fr": "Je te donne le livre. (*ich* : pas de changement.)",
+      "en": "I give you the book. (*ich*: no change.)"
+    },
+    {
+      "de": "Wir sehen den Film.",
+      "fr": "Nous regardons le film. (pluriel : pas de changement.)",
+      "en": "We watch the film. (plural: no change.)"
+    }
+  ]
+}

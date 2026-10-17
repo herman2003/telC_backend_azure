@@ -1,0 +1,39 @@
+{
+  "slug": "fragen-zur-fallbestimmung-gram-a-024",
+  "titleFr": "Questions pour trouver le cas",
+  "titleEn": "Questions for identifying case",
+  "titleDe": "Fragen zur Fallbestimmung",
+  "ruleFr": "## Questions pour identifier le cas\n\nPour choisir le bon article, posez la **question de cas** sur le verbe / le contexte.\n\n| Question | Cas | Rôle typique |\n|---|---|---|\n| **Wer? / Was?** | Nominatif | sujet |\n| **Wen? / Was?** | Accusatif | objet direct |\n| **Wem?** | Datif | destinataire / concerné |\n| **Wessen?** | Génitif | possesseur |\n\n### Méthode en 3 étapes\n1. Trouvez le verbe conjugué.\n2. Posez les questions (*Wer? Wen? Wem? Wessen?*).\n3. La réponse = le groupe au bon cas.\n\n### Exemple guidé\n*Die Frau gibt dem Kind den Ball.*\n- Wer gibt? → **Die Frau** (Nom.)\n- Wem gibt sie? → **dem Kind** (Dat.)\n- Wen/Was gibt sie? → **den Ball** (Akk.)\n\n### Piège *Was?*\n*Was?* peut être Nom. **ou** Akk. : regardez la fonction (sujet vs objet).\n\n### Mini-entraînement\n1. Pour 5 phrases, écrivez les 4 questions et les réponses.\n2. Inventez une phrase à 3 cas (Nom.+Dat.+Akk.).\n3. Expliquez pourquoi *Was?* n’est pas suffisant seul.",
+  "ruleEn": "## Questions for identifying case\n\nTo choose the right article, ask the **case question** about the verb / context.\n\n| Question | Case | Typical role |\n|---|---|---|\n| **Wer? / Was?** | Nominative | subject |\n| **Wen? / Was?** | Accusative | direct object |\n| **Wem?** | Dative | recipient / affected person |\n| **Wessen?** | Genitive | possessor |\n\n### 3-step method\n1. Find the conjugated verb.\n2. Ask the questions (*Wer? Wen? Wem? Wessen?*).\n3. The answer = the phrase in the right case.\n\n### Guided example\n*Die Frau gibt dem Kind den Ball.*\n- Wer gibt? → **Die Frau** (Nom.)\n- Wem gibt sie? → **dem Kind** (Dat.)\n- Wen/Was gibt sie? → **den Ball** (Akk.)\n\n### Trap with *Was?*\n*Was?* can be Nom. **or** Akk.: check the function (subject vs object).\n\n### Mini practice\n1. For 5 sentences, write all 4 questions and answers.\n2. Invent a sentence with 3 cases (Nom.+Dat.+Akk.).\n3. Explain why *Was?* alone is not enough.",
+  "ruleDe": "## Fragen zur Fallbestimmung\n\nUm den richtigen Artikel zu wählen, stellen Sie die **Kasusfrage**.\n\n| Frage | Kasus | Typische Rolle |\n|---|---|---|\n| **Wer? / Was?** | Nominativ | Subjekt |\n| **Wen? / Was?** | Akkusativ | direktes Objekt |\n| **Wem?** | Dativ | Empfänger / Betroffene(r) |\n| **Wessen?** | Genitiv | Besitzer |\n\n### 3 Schritte\n1. Konjugiertes Verb finden.\n2. Fragen stellen (*Wer? Wen? Wem? Wessen?*).\n3. Antwort = Gruppe im richtigen Kasus.\n\n### Beispiel\n*Die Frau gibt dem Kind den Ball.*\n- Wer gibt? → **Die Frau** (Nom.)\n- Wem gibt sie? → **dem Kind** (Dat.)\n- Wen/Was gibt sie? → **den Ball** (Akk.)\n\n### Falle *Was?*\n*Was?* kann Nom. **oder** Akk. sein — Funktion prüfen.\n\n### Mini-Übung\n1. Fünf Sätze: alle Fragen + Antworten.\n2. Ein Satz mit Nom.+Dat.+Akk.\n3. Warum reicht *Was?* allein nicht?",
+  "notesFr": "Si vous hésitez entre *den* et *dem*, posez *Wen?* vs *Wem?* à voix haute — la bonne question débloque souvent l’article.",
+  "notesEn": "If you hesitate between *den* and *dem*, ask *Wen?* vs *Wem?* aloud — the right question often unlocks the article.",
+  "notesDe": "Bei Unsicherheit zwischen *den* und *dem* laut *Wen?* vs *Wem?* fragen — die richtige Frage öffnet oft den Artikel.",
+  "examples": [
+    {
+      "de": "Wer liest? — Der Schüler liest.",
+      "fr": "Qui lit ? — L’élève lit. (*Wer?* → nominatif)",
+      "en": "Who is reading? — The pupil is reading. (*Wer?* → nominative)"
+    },
+    {
+      "de": "Wen siehst du? — Ich sehe den Lehrer.",
+      "fr": "Qui vois-tu ? — Je vois le professeur. (*Wen?* → accusatif)",
+      "en": "Whom do you see? — I see the teacher. (*Wen?* → accusative)"
+    },
+    {
+      "de": "Wem hilfst du? — Ich helfe der Nachbarin.",
+      "fr": "À qui aides-tu ? — J’aide la voisine. (*Wem?* → datif)",
+      "en": "Whom are you helping? — I help the neighbour. (*Wem?* → dative)"
+    },
+    {
+      "de": "Wessen Buch ist das? — Das Buch des Professors.",
+      "fr": "À qui est ce livre ? — Le livre du professeur. (*Wessen?* → génitif)",
+      "en": "Whose book is that? — The professor’s book. (*Wessen?* → genitive)"
+    },
+    {
+      "de": "Die Frau gibt dem Kind den Ball.",
+      "fr": "La femme donne le ballon à l’enfant. (Nom. + Dat. + Akk.)",
+      "en": "The woman gives the child the ball. (Nom. + Dat. + Akk.)"
+    }
+  ]
+}

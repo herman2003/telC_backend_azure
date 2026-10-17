@@ -1,0 +1,39 @@
+{
+  "slug": "modalpartikeln-ubersicht-gram-dd-353",
+  "titleFr": "Particules modales — aperçu",
+  "titleEn": "Modal particles — overview",
+  "titleDe": "Modalpartikeln — Übersicht",
+  "ruleFr": "## Particules modales — aperçu\n\nLes **particules modales** (*doch, mal, ja, halt, eben, eigentlich, wohl…*) colorent l’attitude du locuteur **sans changer le contenu** de la phrase.\n\n### Caractéristiques\n- **Inaccentuées** (pas d’accent fort)\n- Place typique : **au milieu** de la phrase (après le verbe conjugué / le pronom)\n- Difficiles à traduire mot à mot\n\n### Les plus fréquentes\n| Particule | Nuance approximative |\n|---|---|\n| *doch* | renforcement, contradiction, invitation |\n| *mal* | adoucit un ordre / invitation |\n| *ja* | évidence, surprise, avertissement |\n| *halt / eben* | « c’est comme ça », résignation |\n| *eigentlich* | « en fait », question sincère |\n| *wohl* | probablement, je suppose |\n\n### Exemple contrasté\n- *Komm!* (ordre sec)\n- *Komm **mal**!* / *Komm **doch**!* (plus naturel / encourageant)\n\n### Mini-entraînement\n1. Ajoutez une particule à 8 phrases sèches.\n2. Écoutez un dialogue et notez *doch/mal/ja*.\n3. Expliquez la nuance (pas la traduction littérale).",
+  "ruleEn": "## Modal particles — overview\n\n**Modal particles** (*doch, mal, ja, halt, eben, eigentlich, wohl…*) colour the speaker’s attitude **without changing the propositional content**.\n\n### Features\n- **Unstressed**\n- Typical place: **mid-field** (after finite verb / pronoun)\n- Hard to translate word-for-word\n\n### The most common\n| Particle | Approx. nuance |\n|---|---|\n| *doch* | emphasis, contradiction, coaxing |\n| *mal* | softens a request/command |\n| *ja* | known info, surprise, warning |\n| *halt / eben* | “that’s just how it is” |\n| *eigentlich* | “actually”, genuine interest |\n| *wohl* | probably, I suppose |\n\n### Contrast\n- *Komm!* (blunt)\n- *Komm **mal**!* / *Komm **doch**!* (more natural)\n\n### Mini practice\n1. Add a particle to 8 bare sentences.\n2. Listen and note *doch/mal/ja*.\n3. Explain the nuance (not a literal translation).",
+  "ruleDe": "## Modalpartikeln — Übersicht\n\n**Modalpartikeln** (*doch, mal, ja, halt, eben, eigentlich, wohl…*) färben die Haltung des Sprechers, **ohne den Inhalt zu ändern**.\n\n### Merkmale\n- **unbetont**\n- typisch in der **Satzmitte**\n- schwer wörtlich zu übersetzen\n\n### Die häufigsten\n| Partikel | ungefähre Nuance |\n|---|---|\n| *doch* | Verstärkung, Widerspruch, Aufforderung |\n| *mal* | macht Aufforderungen freundlicher |\n| *ja* | Bekanntes, Überraschung, Warnung |\n| *halt / eben* | „so ist es eben“ |\n| *eigentlich* | eigentlich / echtes Interesse |\n| *wohl* | vermutlich |\n\n### Mini-Übung\n1. Partikel in 8 Sätze einfügen.\n2. Dialog hören und *doch/mal/ja* notieren.\n3. Nuance erklären (nicht wörtlich übersetzen).",
+  "notesFr": "Difficiles à traduire ! Elles montrent l’attitude du locuteur. Toujours inaccentuées.",
+  "notesEn": "Hard to translate! They show the speaker’s attitude. Always unstressed.",
+  "notesDe": "Schwer zu übersetzen! Zeigen die Einstellung des Sprechers. Unbetont!",
+  "examples": [
+    {
+      "de": "Komm doch mit!",
+      "fr": "Allez, viens avec nous ! (*doch* = encouragement.)",
+      "en": "Do come along! (*doch* = coaxing.)"
+    },
+    {
+      "de": "Schau mal!",
+      "fr": "Regarde un peu ! (*mal* adoucit.)",
+      "en": "Just look! (*mal* softens.)"
+    },
+    {
+      "de": "Das ist ja toll!",
+      "fr": "Ça alors, c’est génial ! (*ja* = surprise.)",
+      "en": "Well, that’s great! (*ja* = surprise.)"
+    },
+    {
+      "de": "Das ist halt so.",
+      "fr": "C’est comme ça, voilà tout. (*halt* = résignation.)",
+      "en": "That’s just how it is. (*halt* = resignation.)"
+    },
+    {
+      "de": "Was machst du eigentlich beruflich?",
+      "fr": "Tu fais quoi comme travail, au juste ? (*eigentlich*.)",
+      "en": "What do you actually do for a living? (*eigentlich*.)"
+    }
+  ]
+}

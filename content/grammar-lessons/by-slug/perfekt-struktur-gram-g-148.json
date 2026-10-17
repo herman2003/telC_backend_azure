@@ -1,0 +1,39 @@
+{
+  "slug": "perfekt-struktur-gram-g-148",
+  "titleFr": "Perfekt — structure",
+  "titleEn": "Perfect tense — structure",
+  "titleDe": "Perfekt — Struktur",
+  "ruleFr": "## Le Perfekt — structure de base\n\nLe **Perfekt** est la forme de passé la plus courante à l’**oral**.\n\n### Formule\n**haben** ou **sein** (conjugué) + **Partizip II** (à la fin)\n\n| Auxiliaire | Participe | Exemple |\n|---|---|---|\n| ich **habe** | gemacht | Ich **habe** das **gemacht**. |\n| sie **ist** | gegangen | Sie **ist** nach Hause **gegangen**. |\n\n### Position\nPhrase principale : auxiliaire en position 2, participe **à la fin**.\n→ *Gestern **habe** ich einen Film **gesehen**.*\n\n### Pourquoi c’est important\nÀ l’oral, on dit presque toujours *Ich habe … gemacht*, rarement le Präteritum (*ich machte*).\n\n### Erreurs fréquentes\n- ✗ *Ich gemacht habe das.* → ✓ *Ich **habe** das **gemacht**.*\n- Oublier le participe à la fin.\n\n### Mini-entraînement\nTransformez 5 phrases au présent en Perfekt.",
+  "ruleEn": "## The perfect — basic structure\n\nThe **Perfekt** is the most common past form in **spoken** German.\n\n### Formula\n**haben** or **sein** (conjugated) + **past participle** (at the end)\n\n| Auxiliary | Participle | Example |\n|---|---|---|\n| ich **habe** | gemacht | Ich **habe** das **gemacht**. |\n| sie **ist** | gegangen | Sie **ist** nach Hause **gegangen**. |\n\n### Word order\nMain clause: auxiliary in position 2, participle **at the end**.\n→ *Gestern **habe** ich einen Film **gesehen**.*\n\n### Why it matters\nIn speech you almost always say *Ich habe … gemacht*, rarely the simple past (*ich machte*).\n\n### Common mistakes\n- ✗ *Ich gemacht habe das.* → ✓ *Ich **habe** das **gemacht**.*\n- Forgetting the participle at the end.\n\n### Mini practice\nTurn 5 present-tense sentences into Perfekt.",
+  "ruleDe": "## Perfekt — Grundstruktur\n\nDas **Perfekt** ist die häufigste Vergangenheitsform in der **gesprochenen** Sprache.\n\n### Formel\n**haben** oder **sein** (konjugiert) + **Partizip II** (am Ende)\n\n| Hilfsverb | Partizip | Beispiel |\n|---|---|---|\n| ich **habe** | gemacht | Ich **habe** das **gemacht**. |\n| sie **ist** | gegangen | Sie **ist** nach Hause **gegangen**. |\n\n### Stellung\nHauptsatz: Hilfsverb auf Position 2, Partizip **am Ende**.\n→ *Gestern **habe** ich einen Film **gesehen**.*\n\n### Warum wichtig?\nMündlich sagt man fast immer *Ich habe … gemacht*, selten Präteritum (*ich machte*).\n\n### Häufige Fehler\n- ✗ *Ich gemacht habe das.* → ✓ *Ich **habe** das **gemacht**.*\n- Partizip nicht am Ende.\n\n### Mini-Übung\nVerwandeln Sie 5 Präsens-Sätze ins Perfekt.",
+  "notesFr": "Le Perfekt est la forme de passé la plus fréquente à l’oral allemand.",
+  "notesEn": "Perfekt is the most common past form in spoken German.",
+  "notesDe": "Perfekt ist die häufigste Vergangenheitsform im gesprochenen Deutsch!",
+  "examples": [
+    {
+      "de": "Ich habe das Buch gelesen.",
+      "fr": "J’ai lu le livre. (*habe* + *gelesen*.)",
+      "en": "I have read / read the book. (*habe* + *gelesen*.)"
+    },
+    {
+      "de": "Sie hat gut geschlafen.",
+      "fr": "Elle a bien dormi.",
+      "en": "She slept well."
+    },
+    {
+      "de": "Wir sind nach Hause gegangen.",
+      "fr": "Nous sommes rentrés à la maison. (*sein* + mouvement.)",
+      "en": "We went home. (*sein* + motion.)"
+    },
+    {
+      "de": "Gestern habe ich Pizza gegessen.",
+      "fr": "Hier, j’ai mangé de la pizza.",
+      "en": "Yesterday I ate pizza."
+    },
+    {
+      "de": "Hast du den Film gesehen?",
+      "fr": "As-tu vu le film ?",
+      "en": "Did you see the film?"
+    }
+  ]
+}

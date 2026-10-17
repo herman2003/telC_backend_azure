@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-verben-schmecken-fehlen-passen-gram-p-271",
+  "titleFr": "Verbes au datif — schmecken / fehlen / passen",
+  "titleEn": "Dative verbs — schmecken / fehlen / passen",
+  "titleDe": "Dativ-Verben — schmecken/fehlen/passen",
+  "ruleFr": "## *schmecken*, *fehlen*, *passen* (+ datif)\n\n### *schmecken* = avoir bon goût / plaire (nourriture)\n- Die Suppe schmeckt **mir**.\n- Schmeckt **dir** der Kuchen?\n\n### *fehlen* = manquer (à quelqu’un)\n- Du fehlst **mir**. = Tu me manques. (*du* = sujet, *mir* = datif)\n- Mir fehlt Geld. / Es fehlt **ihm** an Zeit.\n\n### *passen* = aller / convenir\n- Die Hose passt **mir** nicht.\n- Der Termin passt **uns**.\n\n### Structure commune\n**Chose (sujet) + verbe + personne (datif)**  \nSauf *fehlen* avec personne sujet : *Du fehlst mir.*\n\n### Mini-entraînement\n1. 3 phrases repas avec *schmecken*.\n2. *Du fehlst mir* / *Mir fehlt …*\n3. Vêtements : *passen* + datif.",
+  "ruleEn": "## *schmecken*, *fehlen*, *passen* (+ dative)\n\n### *schmecken* = taste (good) / like (food)\n- Die Suppe schmeckt **mir**.\n- Schmeckt **dir** der Kuchen?\n\n### *fehlen* = be missing / to miss someone\n- Du fehlst **mir**. = I miss you. (*du* = subject, *mir* = dative)\n- Mir fehlt Geld.\n\n### *passen* = fit / suit\n- Die Hose passt **mir** nicht.\n- Der Termin passt **uns**.\n\n### Common pattern\n**Thing (subject) + verb + person (dative)**  \nExcept person-as-subject with *fehlen*: *Du fehlst mir.*\n\n### Mini practice\n1. Three food sentences with *schmecken*.\n2. *Du fehlst mir* / *Mir fehlt …*\n3. Clothes with *passen*.",
+  "ruleDe": "## *schmecken*, *fehlen*, *passen* (+ Dativ)\n\n### *schmecken*\nDie Suppe schmeckt **mir**.\n\n### *fehlen*\nDu fehlst **mir**. (= Du bist weg, ich vermisse dich.)\nMir fehlt Geld.\n\n### *passen*\nDie Hose passt **mir** nicht.\n\n### Mini-Übung\n1. 3 Essenssätze.\n2. *fehlen* üben.\n3. Kleidung + *passen*.",
+  "notesFr": "*Du fehlst mir* = tu me manques (*du* = sujet, *mir* = datif).",
+  "notesEn": "*Du fehlst mir* = I miss you (*du* = subject, *mir* = dative).",
+  "notesDe": "Du fehlst mir = I miss you (du = Subjekt, mir = Dativ!).",
+  "examples": [
+    {
+      "de": "Die Suppe schmeckt mir.",
+      "fr": "La soupe me plaît / a bon goût pour moi.",
+      "en": "I like the soup. / The soup tastes good to me."
+    },
+    {
+      "de": "Du fehlst mir!",
+      "fr": "Tu me manques !",
+      "en": "I miss you!"
+    },
+    {
+      "de": "Mir fehlt noch ein Euro.",
+      "fr": "Il me manque encore un euro.",
+      "en": "I am still one euro short."
+    },
+    {
+      "de": "Die Hose passt mir nicht.",
+      "fr": "Le pantalon ne me va pas.",
+      "en": "The trousers don’t fit me."
+    },
+    {
+      "de": "Der Termin passt uns gut.",
+      "fr": "Le rendez-vous nous convient bien.",
+      "en": "The appointment suits us well."
+    }
+  ]
+}

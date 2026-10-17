@@ -1,0 +1,39 @@
+{
+  "slug": "vorgangs-vs-zustandspassiv-gram-i-198",
+  "titleFr": "Vorgangspassiv vs Zustandspassiv",
+  "titleEn": "Process vs state passive",
+  "titleDe": "Vorgangs- vs. Zustandspassiv",
+  "ruleFr": "## Vorgangs- vs. Zustandspassiv\n\n### Règle simple\n| Passif | Auxiliaire | Sens |\n|---|---|---|\n| **Vorgang** | **werden** | action / processus |\n| **Zustand** | **sein** | résultat / état |\n\n### Exemples contrastés\n- *Die Tür **wird** geöffnet.* → quelqu’un l’ouvre maintenant.\n- *Die Tür **ist** geöffnet.* → elle est ouverte (état).\n\n### Test\nDemandez : « Est-ce qu’on voit l’action, ou seulement le résultat ? »\n\n### Mini-entraînement\nPour chaque paire, expliquez la différence de sens.",
+  "ruleEn": "## Process vs state passive\n\n### Simple rule\n| Passive | Auxiliary | Meaning |\n|---|---|---|\n| **Process** | **werden** | action / process |\n| **State** | **sein** | result / state |\n\n### Contrasted examples\n- *Die Tür **wird** geöffnet.* → someone is opening it now.\n- *Die Tür **ist** geöffnet.* → it is open (state).\n\n### Test\nAsk: “Do I see the action, or only the result?”\n\n### Mini practice\nFor each pair, explain the meaning difference.",
+  "ruleDe": "## Vorgangs- vs. Zustandspassiv\n\n### Einfache Regel\n| Passiv | Hilfsverb | Sinn |\n|---|---|---|\n| **Vorgang** | **werden** | Aktion/Prozess |\n| **Zustand** | **sein** | Ergebnis/Zustand |\n\n### Kontrast\n- *Die Tür **wird** geöffnet.* → Prozess\n- *Die Tür **ist** geöffnet.* → Zustand\n\n### Testfrage\nSehe ich die Aktion oder nur das Ergebnis?\n\n### Mini-Übung\nErklären Sie bei Paaren den Bedeutungsunterschied.",
+  "notesFr": "werden = processus ; sein = état déjà atteint",
+  "notesEn": "werden = process; sein = finished state",
+  "notesDe": "werden = Prozess, sein = fertiger Zustand",
+  "examples": [
+    {
+      "de": "Die Tür wird geöffnet.",
+      "fr": "On ouvre la porte / La porte est en train d’être ouverte.",
+      "en": "The door is being opened."
+    },
+    {
+      "de": "Die Tür ist geöffnet.",
+      "fr": "La porte est ouverte (état).",
+      "en": "The door is open (state)."
+    },
+    {
+      "de": "Das Essen wird gekocht.",
+      "fr": "Le repas est en cours de préparation.",
+      "en": "The food is being cooked."
+    },
+    {
+      "de": "Das Essen ist gekocht.",
+      "fr": "Le repas est cuit / prêt.",
+      "en": "The food is cooked / ready."
+    },
+    {
+      "de": "Das Fenster wurde geschlossen. / Das Fenster ist geschlossen.",
+      "fr": "On a fermé la fenêtre (processus passé) / La fenêtre est fermée (état).",
+      "en": "The window was closed (process) / The window is closed (state)."
+    }
+  ]
+}

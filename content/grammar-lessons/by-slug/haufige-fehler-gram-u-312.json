@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-u-312",
+  "titleFr": "Erreurs fréquentes dans les relatives",
+  "titleEn": "Common mistakes in relative clauses",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur fréquente : mauvais cas du relatif\n\nLe cas du pronom relatif dépend de sa fonction **dans la relative**, pas du nom dans le principal.\n\n### Le piège\nLe nom antécédent peut être nominatif alors que le relatif est accusatif/datif :\n- *Der Mann (Nom. dans le principal) , **den** ich sehe (Akk. dans la relative)*\n- ✗ *Der Mann, der ich sehe* → ✓ *Der Mann, **den** ich sehe*\n\n### Autres erreurs\n- Verbe pas à la fin : ✗ *…, der wohnt nebenan.* → ✓ *…, der nebenan **wohnt**.*\n- Pluriel datif : ✗ *die Leute, die ich helfe* → ✓ *…, **denen** ich helfe*\n- *etwas, das* → ✓ *etwas, **was***\n\n### Mini-entraînement\nPour chaque relative, posez *Wer/Wen/Wem?* dans la relative seulement.",
+  "ruleEn": "## Common mistake: wrong case of the relative\n\nThe relative pronoun’s case depends on its role **inside the relative clause**, not on the noun in the main clause.\n\n### The trap\nThe antecedent may be nominative while the relative is accusative/dative:\n- *Der Mann (Nom. in main), **den** ich sehe (Akk. in relative)*\n- ✗ *Der Mann, der ich sehe* → ✓ *Der Mann, **den** ich sehe*\n\n### Other mistakes\n- Verb not final: ✗ *…, der wohnt nebenan.* → ✓ *…, der nebenan **wohnt**.*\n- Plural dative: ✗ *die Leute, die ich helfe* → ✓ *…, **denen** ich helfe*\n- *etwas, das* → ✓ *etwas, **was***\n\n### Mini practice\nFor each relative, ask *Wer/Wen/Wem?* inside the relative only.",
+  "ruleDe": "## Häufiger Fehler: falscher Kasus\n\nKasus = Funktion **im Relativsatz**, nicht im Hauptsatz.\n\n### Falle\n- ✗ *Der Mann, der ich sehe* → ✓ *Der Mann, **den** ich sehe*\n- ✗ *die Leute, die ich helfe* → ✓ *…, **denen** ich helfe*\n\n### Mini-Übung\nIm Relativsatz *Wer/Wen/Wem?* fragen.",
+  "notesFr": "Le cas dépend de la fonction DANS la relative, pas du principal !",
+  "notesEn": "Case depends on the role INSIDE the relative clause, not the main clause!",
+  "notesDe": "Kasus hängt von der Funktion im RELATIVSATZ ab, nicht vom Hauptsatz!",
+  "examples": [
+    {
+      "de": "Der Mann, den ich sehe, ist mein Lehrer.",
+      "fr": "L’homme que je vois est mon professeur. (*den*, pas *der*)",
+      "en": "The man I see is my teacher. (*den*, not *der*)"
+    },
+    {
+      "de": "Die Leute, denen wir helfen, danken uns.",
+      "fr": "Les gens à qui nous aidons nous remercient. (*denen*)",
+      "en": "The people we help thank us. (*denen*)"
+    },
+    {
+      "de": "Das ist etwas, was ich erklären möchte.",
+      "fr": "C’est quelque chose que je voudrais expliquer. (*was*)",
+      "en": "That’s something I’d like to explain. (*was*)"
+    },
+    {
+      "de": "Die Frau, die nebenan wohnt, ist Ärztin.",
+      "fr": "La femme qui habite à côté est médecin. (verbe à la fin)",
+      "en": "The woman who lives next door is a doctor. (verb at end)"
+    },
+    {
+      "de": "Kennst du den Film, über den alle sprechen?",
+      "fr": "Connais-tu le film dont tout le monde parle ?",
+      "en": "Do you know the film everyone’s talking about?"
+    }
+  ]
+}

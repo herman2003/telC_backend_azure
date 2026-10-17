@@ -1,0 +1,39 @@
+{
+  "slug": "genus-grundlagen-gram-b-029",
+  "titleFr": "Le genre grammatical : les bases",
+  "titleEn": "Grammatical gender: the basics",
+  "titleDe": "Genus — Grundlagen",
+  "ruleFr": "## Chaque nom allemand a un genre\n\nEn allemand, **chaque substantif** a un genre grammatical : **masculin (*der*)**, **féminin (*die*)** ou **neutre (*das*)**.\n\n### Ce n’est pas (toujours) le sexe\n- *der Tisch* (table — objet)\n- *die Sonne* (soleil)\n- *das Mädchen* (fille — neutre à cause de *-chen* !)\n\n### Pourquoi c’est crucial\nLe genre décide de :\n- l’article (*der/die/das*)\n- les adjectifs (*ein guter Wein / eine gute Idee*)\n- les pronoms (*er / sie / es*)\n\n### Comment apprendre\nToujours mémoriser **article + nom** : pas *Hund*, mais ***der** Hund*.\n\n### Erreurs fréquentes\n- Deviner d’après le français : *la table* ≠ *der Tisch*\n- Oublier le genre au pluriel (l’article devient *die*, mais le genre « latent » revient au singulier)\n\n### Mini-entraînement\n1. Apprenez 15 noms avec article.\n2. Classez-les en 3 colonnes *der/die/das*.\n3. Remplacez chaque nom par *er/sie/es*.",
+  "ruleEn": "## Every German noun has a gender\n\nIn German, **every noun** has a grammatical gender: **masculine (*der*)**, **feminine (*die*)** or **neuter (*das*)**.\n\n### It is not (always) biological sex\n- *der Tisch* (table — object)\n- *die Sonne* (sun)\n- *das Mädchen* (girl — neuter because of *-chen*!)\n\n### Why it matters\nGender controls:\n- articles (*der/die/das*)\n- adjectives (*ein guter Wein / eine gute Idee*)\n- pronouns (*er / sie / es*)\n\n### How to learn\nAlways memorise **article + noun**: not *Hund*, but ***der** Hund*.\n\n### Common mistakes\n- Guessing from English/French: *table* ≠ automatically feminine\n- Forgetting gender returns in the singular even if plural article is *die*\n\n### Mini practice\n1. Learn 15 nouns with article.\n2. Sort into 3 columns *der/die/das*.\n3. Replace each noun with *er/sie/es*.",
+  "ruleDe": "## Jedes deutsche Substantiv hat ein Genus\n\nJedes Substantiv ist **Maskulinum (*der*)**, **Femininum (*die*)** oder **Neutrum (*das*)**.\n\n### Nicht immer natürliches Geschlecht\n- *der Tisch*\n- *die Sonne*\n- *das Mädchen* (Neutrum wegen *-chen*!)\n\n### Warum wichtig?\nGenus steuert Artikel, Adjektive und Pronomen (*er / sie / es*).\n\n### Lernen\nImmer **Artikel + Nomen** merken: nicht *Hund*, sondern ***der** Hund*.\n\n### Häufige Fehler\n- Vom Französischen/Englisch raten.\n- Im Plural *die* sehen und Genus „vergessen“.\n\n### Mini-Übung\n1. 15 Nomen mit Artikel lernen.\n2. Drei Spalten *der/die/das*.\n3. Durch *er/sie/es* ersetzen.",
+  "notesFr": "Jamais un nom sans son article dans le carnet de vocabulaire — *der/die/das* fait partie du mot.",
+  "notesEn": "Never store a noun without its article in your vocab list — *der/die/das* is part of the word.",
+  "notesDe": "Nie ein Nomen ohne Artikel in der Vokabelliste — *der/die/das* gehört zum Wort.",
+  "examples": [
+    {
+      "de": "Der Tisch steht im Zimmer.",
+      "fr": "La table est dans la pièce. (*der Tisch* = masculin)",
+      "en": "The table is in the room. (*der Tisch* = masculine)"
+    },
+    {
+      "de": "Die Lampe ist neu.",
+      "fr": "La lampe est neuve. (*die Lampe* = féminin)",
+      "en": "The lamp is new. (*die Lampe* = feminine)"
+    },
+    {
+      "de": "Das Fenster ist offen.",
+      "fr": "La fenêtre est ouverte. (*das Fenster* = neutre)",
+      "en": "The window is open. (*das Fenster* = neuter)"
+    },
+    {
+      "de": "Das Mädchen heißt Anna.",
+      "fr": "La fille s’appelle Anna. (*das Mädchen* = neutre malgré le sens)",
+      "en": "The girl is called Anna. (*das Mädchen* = neuter despite the meaning)"
+    },
+    {
+      "de": "Ich lerne: der Hund, die Katze, das Pferd.",
+      "fr": "J’apprends : *der Hund, die Katze, das Pferd*.",
+      "en": "I am learning: *der Hund, die Katze, das Pferd*."
+    }
+  ]
+}

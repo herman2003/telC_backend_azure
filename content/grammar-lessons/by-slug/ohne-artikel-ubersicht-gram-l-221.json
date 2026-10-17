@@ -1,0 +1,39 @@
+{
+  "slug": "ohne-artikel-ubersicht-gram-l-221",
+  "titleFr": "Adjectifs sans article — aperçu",
+  "titleEn": "Adjectives without articles — overview",
+  "titleDe": "Ohne Artikel — Übersicht",
+  "ruleFr": "## Sans article — aperçu\n\nSans article devant le nom, l’adjectif prend la **déclinaison forte** : il « remplace » l’article et montre genre + cas.\n\n### Contextes typiques\n- pluriel indéfini : *frisch**e** Brötchen*\n- quantités : *viel gut**er** Wein* (selon construction)\n- titres / intitulés : *gut**es** Essen*\n- après certains mots (*etwas, viel, wenig, mehr…*)\n\n### Idée\nAdjectif ≈ article + adjectif → terminaisons de type *der/die/das*.\n\n### Mini-entraînement\nTransformez *das frische Brot* → *frisches Brot* et expliquez la terminaison.",
+  "ruleEn": "## Without articles — overview\n\nWith no article before the noun, the adjective uses **strong declension**: it “replaces” the article and shows gender + case.\n\n### Typical contexts\n- indefinite plural: *frisch**e** Brötchen*\n- quantities / labels: *gut**es** Essen*\n- after words like *etwas, viel, wenig, mehr…*\n\n### Idea\nAdjective ≈ article + adjective → endings like *der/die/das*.\n\n### Mini practice\nChange *das frische Brot* → *frisches Brot* and explain the ending.",
+  "ruleDe": "## Ohne Artikel — Übersicht\n\nOhne Artikel: **starke Deklination** — das Adjektiv übernimmt die Artikelrolle.\n\n### Typische Kontexte\n*frische Brötchen, gutes Essen, etwas Neues…*\n\n### Idee\nAdjektiv-Endung ≈ Artikel-Endung.\n\n### Mini-Übung\nWandeln Sie *das frische Brot* → *frisches Brot* um.",
+  "notesFr": "L’adjectif reprend le rôle de l’article !",
+  "notesEn": "The adjective takes over the article’s role!",
+  "notesDe": "Adjektiv übernimmt die Rolle des Artikels!",
+  "examples": [
+    {
+      "de": "frische Brötchen",
+      "fr": "des petits pains frais",
+      "en": "fresh rolls"
+    },
+    {
+      "de": "gutes Essen",
+      "fr": "de la bonne nourriture / un bon repas",
+      "en": "good food"
+    },
+    {
+      "de": "kaltes Wasser",
+      "fr": "de l’eau froide",
+      "en": "cold water"
+    },
+    {
+      "de": "bei schönem Wetter",
+      "fr": "par beau temps",
+      "en": "in nice weather"
+    },
+    {
+      "de": "trotz starken Regens",
+      "fr": "malgré une forte pluie",
+      "en": "despite heavy rain"
+    }
+  ]
+}

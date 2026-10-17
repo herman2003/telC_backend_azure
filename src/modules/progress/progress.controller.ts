@@ -26,9 +26,9 @@ export class ProgressController {
    */
   @Get('me')
   @ApiOperation({
-    summary: 'My skill scores, exam readiness and weekly change',
+    summary: 'My skill scores, exam readiness, weekly change and session of the day',
     description:
-      'The same numbers the school sees on its dashboard (D38), computed by the backend from every completed attempt.',
+      'The same numbers the school sees on its dashboard (D38), plus the home CTA sessionOfDay (D7: weakest skill/Teil).',
   })
   @ApiOkResponse({ type: MyProgressDto })
   @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })

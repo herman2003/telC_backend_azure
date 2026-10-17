@@ -1,0 +1,39 @@
+{
+  "slug": "wechselprapositionen-dativ-wo-gram-n-253",
+  "titleFr": "Prépositions mixtes — datif (Wo?)",
+  "titleEn": "Two-way prepositions — dative (Wo?)",
+  "titleDe": "Wechselpräpositionen — Dativ (wo?)",
+  "ruleFr": "## Wechselpräpositionen + datif = position (Wo?)\n\nQuand on décrit **où quelque chose se trouve** (sans déplacement), on utilise le **datif**.\n\n### Verbes typiques (état / position)\n*sein, liegen, sitzen, stehen, hängen, wohnen, bleiben*\n\n### Exemples\n- Ich **bin** in **dem** Zimmer. → **im** Zimmer\n- Das Buch **liegt** auf **dem** Tisch.\n- Sie **wohnt** neben **der** Schule.\n- Der Mantel **hängt** an **der** Tür.\n\n### Articles au datif (rappel)\ndem / der / dem / den\n\n### Mini-entraînement\n1. Décrivez 5 objets dans une pièce (*Wo?* + datif).\n2. Associez verbe d’état + préposition mixte.\n3. Contrôle : pas de mouvement → pas d’accusatif.",
+  "ruleEn": "## Two-way prepositions + dative = location (Wo?)\n\nWhen you describe **where something is** (no movement), use the **dative**.\n\n### Typical verbs (state / position)\n*sein, liegen, sitzen, stehen, hängen, wohnen, bleiben*\n\n### Examples\n- Ich **bin** in **dem** Zimmer. → **im** Zimmer\n- Das Buch **liegt** auf **dem** Tisch.\n- Sie **wohnt** neben **der** Schule.\n- Der Mantel **hängt** an **der** Tür.\n\n### Dative articles (reminder)\ndem / der / dem / den\n\n### Mini practice\n1. Describe 5 objects in a room (*Wo?* + dative).\n2. Pair a state verb with a two-way preposition.\n3. Check: no movement → no accusative.",
+  "ruleDe": "## Wechselpräpositionen + Dativ = Position (Wo?)\n\nWenn etwas **irgendwo ist** (ohne Bewegung) → **Dativ**.\n\n### Typische Verben\n*sein, liegen, sitzen, stehen, hängen, wohnen, bleiben*\n\n### Beispiele\n- Ich **bin** **im** Zimmer.\n- Das Buch **liegt** auf **dem** Tisch.\n- Sie **wohnt** neben **der** Schule.\n\n### Mini-Übung\n1. 5 Dinge im Raum beschreiben.\n2. Positionsverb + Wechselpräposition.\n3. Keine Bewegung → kein Akkusativ.",
+  "notesFr": "Verbes : *sein, liegen, sitzen, stehen, hängen, wohnen*.",
+  "notesEn": "Verbs: *sein, liegen, sitzen, stehen, hängen, wohnen*.",
+  "notesDe": "Verben: sein, liegen, sitzen, stehen, hängen, wohnen.",
+  "examples": [
+    {
+      "de": "Das Buch liegt auf dem Tisch.",
+      "fr": "Le livre est sur la table. (position → datif)",
+      "en": "The book is lying on the table. (position → dative)"
+    },
+    {
+      "de": "Die Kinder sitzen im Garten.",
+      "fr": "Les enfants sont assis dans le jardin.",
+      "en": "The children are sitting in the garden."
+    },
+    {
+      "de": "Das Bild hängt an der Wand.",
+      "fr": "Le tableau est accroché au mur.",
+      "en": "The picture is hanging on the wall."
+    },
+    {
+      "de": "Wir wohnen neben der Schule.",
+      "fr": "Nous habitons à côté de l’école.",
+      "en": "We live next to the school."
+    },
+    {
+      "de": "Der Hund schläft unter dem Bett.",
+      "fr": "Le chien dort sous le lit.",
+      "en": "The dog is sleeping under the bed."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+meta {
+  name: 04 Quote nothing to pay
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/subscription/quote
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "seats": 16
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
+docs {
+  After a successful mid-period pay to 16, quoting 16 again → `NOTHING_TO_PAY`.
+}

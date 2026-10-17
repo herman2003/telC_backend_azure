@@ -1,0 +1,39 @@
+{
+  "slug": "ohne-artikel-starke-endungen-gram-l-222",
+  "titleFr": "Déclinaison forte — terminaisons",
+  "titleEn": "Strong declension — endings",
+  "titleDe": "Ohne Artikel — Starke Endungen",
+  "ruleFr": "## Sans article — terminaisons fortes\n\n### Nominatif (à mémoriser)\n| m | f | n | pl |\n|---|---|---|---|\n| groß**er** | klein**e** | neu**es** | alt**e** |\n\n### Aide-mémoire\nTerminaison ≈ terminaison de l’article :\n- *der* → **-er**\n- *die* → **-e**\n- *das* → **-es**\n- *die* (pl) → **-e**\n\n### Autres cas (aperçu)\n- Akk. m : **-en** (*guten Wein*)\n- Dat. : **-em / -er / -em / -en**\n- Gén. : souvent **-en** (+ *-s* sur le nom m/n)\n\n### Mini-entraînement\nDéclinez *kalt* + *Wasser / Tee / Milch* au nominatif et datif.",
+  "ruleEn": "## Without articles — strong endings\n\n### Nominative (memorize)\n| m | f | n | pl |\n|---|---|---|---|\n| groß**er** | klein**e** | neu**es** | alt**e** |\n\n### Memory aid\nEnding ≈ article ending:\n- *der* → **-er**\n- *die* → **-e**\n- *das* → **-es**\n- *die* (pl) → **-e**\n\n### Other cases (snapshot)\n- Acc. m: **-en** (*guten Wein*)\n- Dat.: **-em / -er / -em / -en**\n- Gen.: often **-en** (+ *-s* on m/n nouns)\n\n### Mini practice\nDecline *kalt* + *Wasser / Tee / Milch* in nominative and dative.",
+  "ruleDe": "## Ohne Artikel — starke Endungen\n\n### Nominativ\ngrößer / kleine / neues / alte — wie Artikel-Endungen (*der→-er, die→-e, das→-es*).\n\n### Andere Kasus\nAkk. Mask. *-en*; Dativ *-em/-er/-em/-en*.\n\n### Mini-Übung\nDeklinieren Sie *kalt* + *Wasser/Tee/Milch*.",
+  "notesFr": "Aide-mémoire : terminaison = terminaison de l’article (der→-er, die→-e, das→-es).",
+  "notesEn": "Memory aid: ending = article ending (der→-er, die→-e, das→-es).",
+  "notesDe": "Merkhilfe: Endung = Artikel-Endung (der→-er, die→-e, das→-es).",
+  "examples": [
+    {
+      "de": "großer Erfolg",
+      "fr": "un grand succès",
+      "en": "great success"
+    },
+    {
+      "de": "gute Idee",
+      "fr": "une bonne idée",
+      "en": "good idea"
+    },
+    {
+      "de": "neues Leben",
+      "fr": "une nouvelle vie",
+      "en": "new life"
+    },
+    {
+      "de": "mit kaltem Wasser",
+      "fr": "avec de l’eau froide",
+      "en": "with cold water"
+    },
+    {
+      "de": "trotz starken Windes",
+      "fr": "malgré un vent fort",
+      "en": "despite strong wind"
+    }
+  ]
+}

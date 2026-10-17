@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-g-173",
+  "titleFr": "Erreurs fréquentes — -en vs -t au participe",
+  "titleEn": "Common mistakes — -en vs -t in participles",
+  "titleDe": "Häufige Fehler — -en statt -t",
+  "ruleFr": "## Erreur : *-en* pour un verbe régulier (ou l’inverse)\n\n### Règle\n| Type | Suffixe du participe | Exemple |\n|---|---|---|\n| **régulier** | **-t** | machen → **gemacht** |\n| **irrégulier** | **-en** | gehen → **gegangen** |\n\n### Corrections\n| ✗ Faux | ✓ Correct |\n|---|---|\n| *gemachen* | **gemacht** |\n| *gegeht* | **gegangen** |\n| *geschreibt* | **geschrieben** |\n\n### Mini-entraînement\nClassez 10 verbes : participe en *-t* ou *-en* ?",
+  "ruleEn": "## Mistake: *-en* on a regular verb (or the reverse)\n\n### Rule\n| Type | Participle ending | Example |\n|---|---|---|\n| **regular** | **-t** | machen → **gemacht** |\n| **irregular** | **-en** | gehen → **gegangen** |\n\n### Corrections\n| ✗ Wrong | ✓ Correct |\n|---|---|\n| *gemachen* | **gemacht** |\n| *gegeht* | **gegangen** |\n| *geschreibt* | **geschrieben** |\n\n### Mini practice\nSort 10 verbs: participle in *-t* or *-en*?",
+  "ruleDe": "## Fehler: *-en* bei regelmäßigen Verben (oder umgekehrt)\n\n### Regel\n| Typ | Partizip-Endung | Beispiel |\n|---|---|---|\n| **regelmäßig** | **-t** | machen → **gemacht** |\n| **unregelmäßig** | **-en** | gehen → **gegangen** |\n\n### Korrekturen\n| ✗ Falsch | ✓ Richtig |\n|---|---|\n| *gemachen* | **gemacht** |\n| *gegeht* | **gegangen** |\n\n### Mini-Übung\nOrdnen Sie 10 Verben: Partizip auf *-t* oder *-en*?",
+  "notesFr": "Régulier = *-t* (*gemacht*). Irrégulier = *-en* (*gegangen*).",
+  "notesEn": "Regular = *-t* (*gemacht*). Irregular = *-en* (*gegangen*).",
+  "notesDe": "Regelmäßig = *-t* (*gemacht*). Unregelmäßig = *-en* (*gegangen*).",
+  "examples": [
+    {
+      "de": "Ich habe das gemacht. (nicht: gemachen)",
+      "fr": "Je l’ai fait. (pas : *gemachen*)",
+      "en": "I did that. (not: *gemachen*)"
+    },
+    {
+      "de": "Sie ist gegangen. (nicht: gegeht)",
+      "fr": "Elle est partie. (pas : *gegeht*)",
+      "en": "She went. (not: *gegeht*)"
+    },
+    {
+      "de": "Er hat einen Brief geschrieben.",
+      "fr": "Il a écrit une lettre. (*geschrieben*, pas *geschreibt*)",
+      "en": "He wrote a letter. (*geschrieben*, not *geschreibt*)"
+    },
+    {
+      "de": "Wir haben gelernt.",
+      "fr": "Nous avons appris / révisé.",
+      "en": "We studied / learned."
+    },
+    {
+      "de": "Hast du gegessen?",
+      "fr": "As-tu mangé ?",
+      "en": "Have you eaten?"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "zeitadverbien-frequenz-gram-m-236",
+  "titleFr": "Adverbes de temps — fréquence",
+  "titleEn": "Time adverbs — frequency",
+  "titleDe": "Zeitadverbien — Frequenz",
+  "ruleFr": "## Adverbes de fréquence\n\nIls indiquent **à quelle fréquence** une action a lieu.\n\n### Échelle (du plus fréquent au plus rare)\n**immer** > **meistens** > **oft** > **manchmal** > **selten** > **nie**\n\nAutres utiles : *normalerweise*, *regelmäßig*, *ab und zu*, *häufig*.\n\n### Place typique\nSouvent **devant** le complément ou juste après le verbe :\n- Ich stehe **immer** früh auf.\n- Wir gehen **manchmal** ins Theater.\n- Er kommt **nie** zu spät.\n\n### Attention\n- *nie* = jamais (négation) → pas besoin de *nicht*\n- ✗ *Ich komme nicht nie.* → ✓ *Ich komme nie.*\n\n### Mini-entraînement\n1. Ordonnez l’échelle de fréquence.\n2. Remplacez *jeden Tag* par *immer* / *meistens*.\n3. Écrivez votre routine avec 5 adverbes de fréquence.",
+  "ruleEn": "## Frequency adverbs\n\nThey say **how often** something happens.\n\n### Scale (most → least frequent)\n**immer** > **meistens** > **oft** > **manchmal** > **selten** > **nie**\n\nAlso useful: *normalerweise*, *regelmäßig*, *ab und zu*, *häufig*.\n\n### Typical position\nOften **before** the object or right after the verb:\n- Ich stehe **immer** früh auf.\n- Wir gehen **manchmal** ins Theater.\n- Er kommt **nie** zu spät.\n\n### Watch out\n- *nie* = never (already negative) → no extra *nicht*\n- ✗ *Ich komme nicht nie.* → ✓ *Ich komme nie.*\n\n### Mini practice\n1. Order the frequency scale.\n2. Replace *jeden Tag* with *immer* / *meistens*.\n3. Describe your routine with 5 frequency adverbs.",
+  "ruleDe": "## Zeitadverbien — Frequenz\n\nSie sagen, **wie oft** etwas geschieht.\n\n### Skala (häufig → selten)\n**immer** > **meistens** > **oft** > **manchmal** > **selten** > **nie**\n\nAuch: *normalerweise*, *regelmäßig*, *ab und zu*, *häufig*.\n\n### Typische Stellung\nOft vor dem Objekt oder direkt nach dem Verb:\n- Ich stehe **immer** früh auf.\n- Wir gehen **manchmal** ins Theater.\n- Er kommt **nie** zu spät.\n\n### Achtung\n- *nie* ist schon negativ → kein zusätzliches *nicht*\n- ✗ *Ich komme nicht nie.* → ✓ *Ich komme nie.*\n\n### Mini-Übung\n1. Frequenzskala ordnen.\n2. *jeden Tag* durch *immer* / *meistens* ersetzen.\n3. Tagesablauf mit 5 Frequenzadverbien.",
+  "notesFr": "Ordre : immer > meistens > oft > manchmal > selten > nie.",
+  "notesEn": "Order: immer > meistens > oft > manchmal > selten > nie.",
+  "notesDe": "Reihenfolge: immer > meistens > oft > manchmal > selten > nie.",
+  "examples": [
+    {
+      "de": "Ich trinke immer Kaffee am Morgen.",
+      "fr": "Je bois toujours du café le matin.",
+      "en": "I always drink coffee in the morning."
+    },
+    {
+      "de": "Wir gehen oft spazieren.",
+      "fr": "Nous allons souvent nous promener.",
+      "en": "We often go for a walk."
+    },
+    {
+      "de": "Manchmal lese ich im Bett.",
+      "fr": "Parfois, je lis au lit.",
+      "en": "Sometimes I read in bed."
+    },
+    {
+      "de": "Er kommt selten zu spät.",
+      "fr": "Il arrive rarement en retard.",
+      "en": "He rarely arrives late."
+    },
+    {
+      "de": "Ich esse nie Fleisch.",
+      "fr": "Je ne mange jamais de viande.",
+      "en": "I never eat meat."
+    }
+  ]
+}

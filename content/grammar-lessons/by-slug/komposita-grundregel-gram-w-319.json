@@ -1,0 +1,39 @@
+{
+  "slug": "komposita-grundregel-gram-w-319",
+  "titleFr": "Les mots composés — règle de base",
+  "titleEn": "Compound words — basic rule",
+  "titleDe": "Komposita — Grundregel",
+  "ruleFr": "## Komposita — règle de base\n\nEn allemand, on lit un composé **de droite à gauche** pour le **genre** et le **sens principal**.\n\n### Règle d’or\n1. Le **dernier** élément = nom principal → fixe le **genre** (*der/die/das*)\n2. Les éléments de gauche = précision\n3. **Un seul mot** (pas d’espaces)\n\n### Exemples\n- *die **Haustür*** = la porte (*Tür* = fém.) de la maison\n- *der **Apfelbaum*** = l’arbre (*Baum* = masc.) à pommes\n- *das **Schulbuch*** = le livre (*Buch* = neutre) d’école\n\n### Mini-entraînement\nTrouvez le genre de : *Bahnhof / Haltestelle / Wörterbuch*.",
+  "ruleEn": "## Compounds — basic rule\n\nIn German, read a compound **from right to left** for **gender** and **core meaning**.\n\n### Golden rule\n1. The **last** element = main noun → sets **gender** (*der/die/das*)\n2. Left elements = specification\n3. **One word** (no spaces)\n\n### Examples\n- *die **Haustür*** = the door (*Tür* = fem.) of the house\n- *der **Apfelbaum*** = the apple tree (*Baum* = masc.)\n- *das **Schulbuch*** = the school book (*Buch* = neuter)\n\n### Mini practice\nFind the gender of: *Bahnhof / Haltestelle / Wörterbuch*.",
+  "ruleDe": "## Komposita — Grundregel\n\nVon rechts nach links lesen: letztes Wort = Genus + Kernbedeutung. Alles **ein** Wort.\n\n### Beispiele\n- *die **Haustür***\n- *der **Apfelbaum***\n- *das **Schulbuch***\n\n### Mini-Übung\nGenus von *Bahnhof / Haltestelle / Wörterbuch*.",
+  "notesFr": "Genre = genre du dernier mot. Pas d’espaces !",
+  "notesEn": "Gender = gender of the last word. No spaces!",
+  "notesDe": "Genus = Genus des letzten Wortes. Keine Leerzeichen!",
+  "examples": [
+    {
+      "de": "Die Haustür ist offen.",
+      "fr": "La porte d’entrée est ouverte. (*Tür* → féminin)",
+      "en": "The front door is open. (*Tür* → feminine)"
+    },
+    {
+      "de": "Der Apfelbaum blüht im Frühling.",
+      "fr": "Le pommier fleurit au printemps. (*Baum* → masculin)",
+      "en": "The apple tree blooms in spring. (*Baum* → masculine)"
+    },
+    {
+      "de": "Das Schulbuch liegt auf dem Tisch.",
+      "fr": "Le manuel scolaire est sur la table. (*Buch* → neutre)",
+      "en": "The schoolbook is on the table. (*Buch* → neuter)"
+    },
+    {
+      "de": "Wir treffen uns am Bahnhof.",
+      "fr": "Nous nous retrouvons à la gare. (*Hof* → masculin)",
+      "en": "We’re meeting at the station. (*Hof* → masculine)"
+    },
+    {
+      "de": "Ich brauche ein Wörterbuch.",
+      "fr": "J’ai besoin d’un dictionnaire. (*Buch* → neutre)",
+      "en": "I need a dictionary. (*Buch* → neuter)"
+    }
+  ]
+}

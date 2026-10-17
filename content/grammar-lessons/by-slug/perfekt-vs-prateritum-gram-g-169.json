@@ -1,0 +1,39 @@
+{
+  "slug": "perfekt-vs-prateritum-gram-g-169",
+  "titleFr": "Perfekt vs prétérit",
+  "titleEn": "Perfect vs simple past",
+  "titleDe": "Perfekt vs Präteritum",
+  "ruleFr": "## Perfekt ou Präteritum ?\n\n### Règle pratique\n| Situation | Temps préféré |\n|---|---|\n| Conversation, e-mails informels | **Perfekt** |\n| Récits écrits, presse, romans | **Präteritum** |\n| *sein*, *haben*, modaux à l’oral | souvent **Präteritum** |\n\n### Exemples\n- Oral : *Was **hast** du gestern **gemacht**?*\n- Écrit : *Er **öffnete** die Tür und **ging** hinein.*\n- Oral naturel : *Ich **war** müde.* / *Ich **hatte** Hunger.*\n\n### Mini-entraînement\nReformulez 3 phrases Perfekt en Präteritum (et inversement).",
+  "ruleEn": "## Perfect or simple past?\n\n### Practical rule\n| Situation | Preferred tense |\n|---|---|\n| Conversation, informal emails | **Perfekt** |\n| Written narratives, press, novels | **Präteritum** |\n| *sein*, *haben*, modals in speech | often **Präteritum** |\n\n### Examples\n- Spoken: *Was **hast** du gestern **gemacht**?*\n- Written: *Er **öffnete** die Tür und **ging** hinein.*\n- Natural speech: *Ich **war** müde.* / *Ich **hatte** Hunger.*\n\n### Mini practice\nRewrite 3 Perfekt sentences as Präteritum (and vice versa).",
+  "ruleDe": "## Perfekt oder Präteritum?\n\n### Faustregel\n| Situation | bevorzugtes Tempus |\n|---|---|\n| Gespräch, lockere E-Mails | **Perfekt** |\n| Erzähltexte, Presse, Romane | **Präteritum** |\n| *sein*, *haben*, Modalverben mündlich | oft **Präteritum** |\n\n### Beispiele\n- Mündlich: *Was **hast** du gestern **gemacht**?*\n- Schriftlich: *Er **öffnete** die Tür und **ging** hinein.*\n\n### Mini-Übung\nFormulieren Sie 3 Perfekt-Sätze ins Präteritum um (und umgekehrt).",
+  "notesFr": "Exception : *sein*, *haben*, modaux → Präteritum aussi à l’oral !",
+  "notesEn": "Exception: *sein*, *haben*, modals → Präteritum even in speech!",
+  "notesDe": "Ausnahme: *sein*, *haben*, Modalverben → Präteritum auch im Gespräch!",
+  "examples": [
+    {
+      "de": "Was hast du gestern gemacht?",
+      "fr": "Qu’as-tu fait hier ? (oral : Perfekt)",
+      "en": "What did you do yesterday? (spoken: Perfekt)"
+    },
+    {
+      "de": "Er öffnete die Tür.",
+      "fr": "Il ouvrit la porte. (écrit : Präteritum)",
+      "en": "He opened the door. (written: Präteritum)"
+    },
+    {
+      "de": "Ich war sehr müde.",
+      "fr": "J’étais très fatigué(e). (oral naturel)",
+      "en": "I was very tired. (natural speech)"
+    },
+    {
+      "de": "Wir haben den Film gesehen.",
+      "fr": "Nous avons vu le film.",
+      "en": "We watched the film."
+    },
+    {
+      "de": "Sie gingen langsam nach Hause.",
+      "fr": "Ils rentrèrent lentement. (narratif)",
+      "en": "They walked home slowly. (narrative)"
+    }
+  ]
+}

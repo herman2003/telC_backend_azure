@@ -1,0 +1,39 @@
+{
+  "slug": "kardinalzahlen-zehner-gram-e-108",
+  "titleFr": "Les dizaines",
+  "titleEn": "The tens",
+  "titleDe": "Kardinalzahlen — Zehner",
+  "ruleFr": "## Les dizaines\n\n### Liste à mémoriser\n| | |\n|---|---|\n| 20 | zwanzig |\n| 30 | drei**ß**ig (avec ß) |\n| 40 | vierzig |\n| 50 | fünfzig |\n| 60 | **sech**zig (pas *sechszig*) |\n| 70 | **sieb**zig (pas *siebenzig*) |\n| 80 | achtzig |\n| 90 | neunzig |\n\n### Attention orthographe\n- *dreißig* : **ß**, pas *ss* en orthographe standard.\n- *sechzig / siebzig* : comme *sechzehn / siebzehn*.\n\n### Mini-entraînement\nÉcrivez les dizaines de 20 à 90.",
+  "ruleEn": "## The tens\n\n### Memorize\n20 zwanzig · 30 drei**ß**ig · 40 vierzig · 50 fünfzig · 60 **sech**zig · 70 **sieb**zig · 80 achtzig · 90 neunzig\n\n### Spelling traps\n- *dreißig* uses **ß**.\n- *sechzig / siebzig* — not *sechszig / siebenzig*.\n\n### Mini practice\nWrite the tens from 20 to 90.",
+  "ruleDe": "## Die Zehner\n\nzwanzig, dreißig, vierzig, fünfzig, sechzig, siebzig, achtzig, neunzig\n\n### Achtung\n*dreißig* mit **ß**; *sechzig / siebzig* ohne *s* bzw. *-en*.\n\n### Mini-Übung\nZehner von 20 bis 90 schreiben.",
+  "notesFr": "ATTENTION : dreißig (avec ß), sechzig (pas « sechszig »), siebzig (pas « siebenzig »).",
+  "notesEn": "WARNING: dreißig (with ß), sechzig (not “sechszig”), siebzig (not “siebenzig”).",
+  "notesDe": "ACHTUNG: dreißig (mit ß), sechzig (nicht „sechszig“), siebzig (nicht „siebenzig“).",
+  "examples": [
+    {
+      "de": "Das kostet dreißig Euro.",
+      "fr": "Cela coûte trente euros.",
+      "en": "That costs thirty euros."
+    },
+    {
+      "de": "Sie ist vierzig Jahre alt.",
+      "fr": "Elle a quarante ans.",
+      "en": "She is forty years old."
+    },
+    {
+      "de": "Der Bus kommt in zwanzig Minuten.",
+      "fr": "Le bus arrive dans vingt minutes.",
+      "en": "The bus comes in twenty minutes."
+    },
+    {
+      "de": "Wir haben sechzig Gäste eingeladen.",
+      "fr": "Nous avons invité soixante invités.",
+      "en": "We invited sixty guests."
+    },
+    {
+      "de": "Er ist siebzig geworden.",
+      "fr": "Il a eu soixante-dix ans.",
+      "en": "He turned seventy."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "bruchzahlen-gram-e-123",
+  "titleFr": "Les fractions",
+  "titleEn": "Fractions",
+  "titleDe": "Bruchzahlen",
+  "ruleFr": "## Les fractions\n\n### Formes de base\n| Fraction | Allemand |\n|---|---|\n| 1/2 | **halb** / ein Halb |\n| 1/3 | (ein) **Drittel** |\n| 1/4 | (ein) **Viertel** |\n| 1/5 | (ein) **Fünftel** |\n| 2/3 | zwei Drittel |\n\n### Genre\nLes fractions en *-tel* sont **neutres** : *das Drittel, das Viertel*.\n\n### Emplois\n- *eine **halbe** Stunde*\n- *drei **Viertel** der Schüler*\n- *ein **Drittel** Milch*\n\n### Mini-entraînement\nDites : 1/2, 1/4, 3/4, une demi-heure.",
+  "ruleEn": "## Fractions\n\n### Basics\n1/2 **halb** · 1/3 **Drittel** · 1/4 **Viertel** · 1/5 **Fünftel** · 2/3 zwei Drittel\n\n### Gender\n*-tel* fractions are **neuter**: *das Drittel, das Viertel*.\n\n### Mini practice\nSay: 1/2, 1/4, 3/4, half an hour.",
+  "ruleDe": "## Bruchzahlen\n\nhalb, Drittel, Viertel, Fünftel… — *-tel* = Neutrum.\n\n### Mini-Übung\n1/2, 1/4, 3/4, eine halbe Stunde.",
+  "notesFr": "Les fractions en -tel sont neutres : das Drittel, das Viertel.",
+  "notesEn": "Fractions with -tel are neuter: das Drittel, das Viertel.",
+  "notesDe": "Bruchzahlen mit -tel sind Neutrum: das Drittel, das Viertel.",
+  "examples": [
+    {
+      "de": "Ich warte eine halbe Stunde.",
+      "fr": "J’attends une demi-heure.",
+      "en": "I’m waiting half an hour."
+    },
+    {
+      "de": "Ein Drittel der Klasse fehlt.",
+      "fr": "Un tiers de la classe est absent.",
+      "en": "One third of the class is absent."
+    },
+    {
+      "de": "Drei Viertel der Arbeit sind fertig.",
+      "fr": "Les trois quarts du travail sont finis.",
+      "en": "Three quarters of the work are done."
+    },
+    {
+      "de": "Nimm ein Viertel Pfund Butter.",
+      "fr": "Prends un quart de livre de beurre.",
+      "en": "Take a quarter pound of butter."
+    },
+    {
+      "de": "Die Flasche ist halb voll.",
+      "fr": "La bouteille est à moitié pleine.",
+      "en": "The bottle is half full."
+    }
+  ]
+}

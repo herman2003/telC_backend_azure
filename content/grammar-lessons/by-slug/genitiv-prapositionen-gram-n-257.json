@@ -1,0 +1,39 @@
+{
+  "slug": "genitiv-prapositionen-gram-n-257",
+  "titleFr": "Prépositions au génitif",
+  "titleEn": "Genitive prepositions",
+  "titleDe": "Genitiv-Präpositionen",
+  "ruleFr": "## Prépositions au génitif\n\nCertaines prépositions (surtout à l’écrit) exigent le **génitif**.\n\n### Liste fréquente\n**wegen, trotz, während, statt / anstatt, außerhalb, innerhalb**  \nAussi : *aufgrund, infolge, mittels, ungeachtet*…\n\n### Articles au génitif (rappel)\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **des** (+ *-s/-es* au nom) | **der** | **des** | **der** |\n\nExemples :\n- **wegen des** Regens\n- **trotz der** Kälte\n- **während des** Unterrichts\n- **statt eines** Autos\n\n### Oral vs écrit\nÀ l’oral, on entend souvent le **datif** (*wegen dem Wetter*), mais à l’écrit standard → **génitif**.\n\n### Mini-entraînement\n1. Formez *wegen* + der Regen / die Arbeit / das Wetter.\n2. Remplacez *statt* + nom.\n3. Préférez le génitif dans 3 phrases écrites.",
+  "ruleEn": "## Genitive prepositions\n\nSome prepositions (especially in writing) take the **genitive**.\n\n### Common list\n**wegen, trotz, während, statt / anstatt, außerhalb, innerhalb**  \nAlso: *aufgrund, infolge, mittels*…\n\n### Genitive articles (reminder)\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **des** (+ *-s/-es* on noun) | **der** | **des** | **der** |\n\nExamples:\n- **wegen des** Regens\n- **trotz der** Kälte\n- **während des** Unterrichts\n- **statt eines** Autos\n\n### Spoken vs written\nSpoken German often uses **dative** (*wegen dem Wetter*); formal writing prefers **genitive**.\n\n### Mini practice\n1. Form *wegen* + der Regen / die Arbeit / das Wetter.\n2. Replace with *statt* + noun.\n3. Prefer genitive in 3 written sentences.",
+  "ruleDe": "## Genitiv-Präpositionen\n\nManche Präpositionen verlangen **Genitiv** (besonders schriftlich).\n\n### Häufige Liste\n**wegen, trotz, während, statt/anstatt, außerhalb, innerhalb**\n\n### Artikel im Genitiv\n| | Mask. | Fem. | Neutr. | Plural |\n|---|---|---|---|---|\n| best. | **des** | **der** | **des** | **der** |\n\nBeispiele:\n- **wegen des** Regens\n- **trotz der** Kälte\n- **während des** Unterrichts\n\n### Umgangssprache\nOft Dativ (*wegen dem Wetter*), schriftlich besser Genitiv.\n\n### Mini-Übung\n1. *wegen* + Regen/Arbeit/Wetter.\n2. *statt* + Nomen.\n3. 3 schriftliche Sätze mit Genitiv.",
+  "notesFr": "À l’oral souvent datif (*wegen dem Wetter*) ; à l’écrit = génitif.",
+  "notesEn": "Spoken often dative (*wegen dem Wetter*); written = genitive.",
+  "notesDe": "Umgangssprache: oft mit Dativ; schriftlich = Genitiv!",
+  "examples": [
+    {
+      "de": "Wegen des Regens bleiben wir zu Hause.",
+      "fr": "À cause de la pluie, nous restons à la maison.",
+      "en": "Because of the rain we are staying home."
+    },
+    {
+      "de": "Trotz der Kälte gehen wir spazieren.",
+      "fr": "Malgré le froid, nous nous promenons.",
+      "en": "Despite the cold we go for a walk."
+    },
+    {
+      "de": "Während des Films hat sie geschlafen.",
+      "fr": "Pendant le film, elle a dormi.",
+      "en": "During the film she slept."
+    },
+    {
+      "de": "Statt eines Taxis nehmen wir den Bus.",
+      "fr": "Au lieu d’un taxi, nous prenons le bus.",
+      "en": "Instead of a taxi we take the bus."
+    },
+    {
+      "de": "Innerhalb der Stadt ist das Parken teuer.",
+      "fr": "À l’intérieur de la ville, le stationnement est cher.",
+      "en": "Inside the city parking is expensive."
+    }
+  ]
+}

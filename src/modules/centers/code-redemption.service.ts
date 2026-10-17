@@ -261,12 +261,25 @@ export class CodeRedemptionService {
           throw new ConflictException('CODE_ALREADY_USED');
         }
 
+        // Re-read level inside the transaction: a manager may PATCH it between
+        // the outer lookup and this claim.
+        const claimedRow = await tx.activationCode.findUnique({
+          where: { id: code.id },
+          select: { level: true },
+        });
+        const seatLevel = claimedRow?.level ?? null;
+
         // What access is read from on every request. Set in the same
         // transaction as the claim, so a code can never be taken without the
         // student actually getting the seat.
         await tx.student.update({
           where: { id: student.studentId },
-          data: { center_id: code.center_id },
+          data: {
+            center_id: code.center_id,
+            // Seat level set by the center before handout wins over whatever
+            // the student declared at register (D38 via code).
+            ...(seatLevel != null ? { level: seatLevel } : {}),
+          },
         });
 
         await tx.activationCodeEvent.create({

@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-d-103",
+  "titleFr": "Erreurs fréquentes : mir vs mich",
+  "titleEn": "Common mistakes: mir vs mich",
+  "titleDe": "Häufige Fehler — mir vs mich",
+  "ruleFr": "## *mir* ou *mich* ?\n\nConfusion classique entre **datif** (*mir*) et **accusatif** (*mich*).\n\n### Rappel rapide\n| | Forme | Rôle |\n|---|---|---|\n| Accusatif | **mich** | objet direct / réfléchi sans autre objet |\n| Datif | **mir** | objet indirect / verbes à datif / réfléchi + objet |\n\n### Questions\n- *Wen?* → **mich** (*Sieht er **mich**?*)\n- *Wem?* → **mir** (*Gibt er **mir** das Buch?*)\n\n### Paires à retenir\n| Accusatif | Datif |\n|---|---|\n| *Er sieht mich.* | *Er hilft mir.* |\n| *Ich wasche mich.* | *Ich wasche mir die Hände.* |\n| *Das freut mich.* | *Das gefällt mir.* |\n\n### Mini-entraînement\nComplétez : *Kannst du ___ bitte anrufen?* / *Kannst du ___ bitte helfen?*",
+  "ruleEn": "## *mir* or *mich*?\n\nClassic mix-up between **dative** (*mir*) and **accusative** (*mich*).\n\n### Quick reminder\n| | Form | Role |\n|---|---|---|\n| Accusative | **mich** | direct object / reflexive alone |\n| Dative | **mir** | indirect object / dative verbs / reflexive + object |\n\n### Questions\n- *Wen?* → **mich** (*Sieht er **mich**?*)\n- *Wem?* → **mir** (*Gibt er **mir** das Buch?*)\n\n### Pairs to learn\n| Accusative | Dative |\n|---|---|\n| *Er sieht mich.* | *Er hilft mir.* |\n| *Ich wasche mich.* | *Ich wasche mir die Hände.* |\n| *Das freut mich.* | *Das gefällt mir.* |\n\n### Mini practice\nFill: *Kannst du ___ bitte anrufen?* / *Kannst du ___ bitte helfen?*",
+  "ruleDe": "## *mir* oder *mich*?\n\nKlassische Verwechslung von **Dativ** (*mir*) und **Akkusativ** (*mich*).\n\n### Kurz\n| | Form | Rolle |\n|---|---|---|\n| Akkusativ | **mich** | direktes Objekt / Reflexiv allein |\n| Dativ | **mir** | indirektes Objekt / Dativverben |\n\n### Fragen\n- *Wen?* → **mich**\n- *Wem?* → **mir**\n\n### Paare\n| Akkusativ | Dativ |\n|---|---|\n| *Er sieht mich.* | *Er hilft mir.* |\n| *Das freut mich.* | *Das gefällt mir.* |\n\n### Mini-Übung\n*Kannst du ___ bitte anrufen?* / *Kannst du ___ bitte helfen?*",
+  "notesFr": "mich = objet direct ; mir = objet indirect / verbes à datif.",
+  "notesEn": "mich = direct object; mir = indirect object / dative verbs.",
+  "notesDe": "mich = direktes Objekt, mir = indirektes Objekt / Dativ-Verben.",
+  "examples": [
+    {
+      "de": "Sieht du mich?",
+      "fr": "Tu me vois ? (« mich » = accusatif, Wen?) ",
+      "en": "Do you see me? (“mich” = accusative, Wen?)"
+    },
+    {
+      "de": "Gibst du mir das Salz?",
+      "fr": "Tu me passes le sel ? (« mir » = datif, Wem?)",
+      "en": "Will you give me the salt? (“mir” = dative, Wem?)"
+    },
+    {
+      "de": "Das freut mich sehr.",
+      "fr": "Cela me fait très plaisir. (« mich » avec freuen.)",
+      "en": "That makes me very happy. (“mich” with freuen.)"
+    },
+    {
+      "de": "Das schmeckt mir gut.",
+      "fr": "Ça me plaît / c’est bon. (« mir » avec schmecken.)",
+      "en": "I like the taste. (“mir” with schmecken.)"
+    },
+    {
+      "de": "Ruf mich bitte an! — Hilf mir bitte!",
+      "fr": "Appelle-moi ! — Aide-moi ! (mich vs mir.)",
+      "en": "Please call me! — Please help me! (mich vs mir.)"
+    }
+  ]
+}

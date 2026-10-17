@@ -1,0 +1,39 @@
+{
+  "slug": "partizip-ii-untrennbar-merkhilfe-gram-g-161",
+  "titleFr": "Participe II — moyen mnémotechnique inséparables",
+  "titleEn": "Past participle — inseparable memory aid",
+  "titleDe": "Partizip II — untrennbar Merkhilfe",
+  "ruleFr": "## Moyen mnémotechnique : préfixes sans *ge-*\n\nRetenez la chaîne : **Be-Ge-Er-Ver-Zer-Ent-Emp-Miss**\n\n| Préfixe | Exemple | Participe |\n|---|---|---|\n| be- | besuchen | **besucht** |\n| ge- | gehören | **gehört** |\n| er- | erzählen | **erzählt** |\n| ver- | verkaufen | **verkauft** |\n| zer- | zerstören | **zerstört** |\n| ent- | entscheiden | **entschieden** |\n| emp- | empfehlen | **empfohlen** |\n| miss- | missverstehen | **missverstanden** |\n\n### Règle d’accent\nPréfixe **inaccentué** = inséparable = **pas de ge-**.\n\n### Mini-entraînement\nRécitez la chaîne, puis donnez le participe de 5 verbes.",
+  "ruleEn": "## Memory aid: prefixes without *ge-*\n\nRemember the chain: **Be-Ge-Er-Ver-Zer-Ent-Emp-Miss**\n\n| Prefix | Example | Participle |\n|---|---|---|\n| be- | besuchen | **besucht** |\n| ge- | gehören | **gehört** |\n| er- | erzählen | **erzählt** |\n| ver- | verkaufen | **verkauft** |\n| zer- | zerstören | **zerstört** |\n| ent- | entscheiden | **entschieden** |\n| emp- | empfehlen | **empfohlen** |\n| miss- | missverstehen | **missverstanden** |\n\n### Stress rule\n**Unstressed** prefix = inseparable = **no ge-**.\n\n### Mini practice\nRecite the chain, then give the participle of 5 verbs.",
+  "ruleDe": "## Merkhilfe: Präfixe ohne *ge-*\n\nMerken Sie die Kette: **Be-Ge-Er-Ver-Zer-Ent-Emp-Miss**\n\n| Präfix | Beispiel | Partizip |\n|---|---|---|\n| be- | besuchen | **besucht** |\n| ge- | gehören | **gehört** |\n| er- | erzählen | **erzählt** |\n| ver- | verkaufen | **verkauft** |\n| zer- | zerstören | **zerstört** |\n| ent- | entscheiden | **entschieden** |\n| emp- | empfehlen | **empfohlen** |\n| miss- | missverstehen | **missverstanden** |\n\n### Betonungsregel\n**Unbetonte** Vorsilbe = untrennbar = **kein ge-**.\n\n### Mini-Übung\nKette aufsagen, dann 5 Partizipien bilden.",
+  "notesFr": "Préfixe inaccentué = inséparable = pas de *ge-*.",
+  "notesEn": "Unstressed prefix = inseparable = no *ge-*.",
+  "notesDe": "Unbetonte Vorsilbe = untrennbar = kein *ge-*.",
+  "examples": [
+    {
+      "de": "Ich habe das Buch verkauft.",
+      "fr": "J’ai vendu le livre. (*verkauft*.)",
+      "en": "I sold the book. (*verkauft*.)"
+    },
+    {
+      "de": "Sie hat eine Geschichte erzählt.",
+      "fr": "Elle a raconté une histoire.",
+      "en": "She told a story."
+    },
+    {
+      "de": "Wir haben uns entschieden.",
+      "fr": "Nous avons décidé.",
+      "en": "We decided / made up our minds."
+    },
+    {
+      "de": "Er hat das Hotel empfohlen.",
+      "fr": "Il a recommandé l’hôtel.",
+      "en": "He recommended the hotel."
+    },
+    {
+      "de": "Das gehört mir nicht.",
+      "fr": "Cela ne m’appartient pas. (présent ; participe : *gehört*)",
+      "en": "That doesn’t belong to me. (present; participle: *gehört*)"
+    }
+  ]
+}

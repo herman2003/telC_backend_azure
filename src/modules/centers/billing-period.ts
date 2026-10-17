@@ -78,6 +78,44 @@ function daysInMonth(year: number, month: number): number {
 }
 
 /**
+ * Midnight Douala that opened the period ending at `paidUntil`.
+ *
+ * `paidUntil` is itself a period boundary (midnight Douala on the anchor day).
+ * The current period started on the previous month's boundary — same clamp
+ * rules as `periodEndAfter`.
+ */
+export function periodStartBefore(paidUntil: Date, anchorDay: number): Date {
+  const { year, month } = doualaParts(paidUntil);
+
+  return month === 1
+    ? boundaryOf(year - 1, 12, anchorDay)
+    : boundaryOf(year, month - 1, anchorDay);
+}
+
+/**
+ * Whole Douala calendar days from `from` (that day inclusive) until
+ * `untilExclusive` (that Douala day exclusive).
+ *
+ * Pro rata counts days, not hours: paying on 5 Jan with `paid_until` = 1 Feb
+ * midnight Douala leaves 27 days (5–31 Jan), matching D4's worked example.
+ */
+export function wholeDaysRemaining(from: Date, untilExclusive: Date): number {
+  const start = startOfDoualaDay(from);
+  const end = startOfDoualaDay(untilExclusive);
+  const ms = end.getTime() - start.getTime();
+  if (ms <= 0) return 0;
+  return Math.round(ms / 86_400_000);
+}
+
+/** Length of the open period ending at `paidUntil`, in whole Douala days. */
+export function daysInPeriodEnding(
+  paidUntil: Date,
+  anchorDay: number,
+): number {
+  return wholeDaysRemaining(periodStartBefore(paidUntil, anchorDay), paidUntil);
+}
+
+/**
  * The calendar date in Douala, as numbers.
  *
  * Shifting the instant by the offset and reading it in UTC, rather than
@@ -93,4 +131,9 @@ function doualaParts(at: Date): { year: number; month: number; day: number } {
     month: shifted.getUTCMonth() + 1,
     day: shifted.getUTCDate(),
   };
+}
+
+function startOfDoualaDay(at: Date): Date {
+  const { year, month, day } = doualaParts(at);
+  return new Date(Date.UTC(year, month - 1, day) - DOUALA_OFFSET_MS);
 }

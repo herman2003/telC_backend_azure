@@ -1,0 +1,39 @@
+{
+  "slug": "w-fragen-ubersicht-gram-s-291",
+  "titleFr": "Les questions en W — aperçu",
+  "titleEn": "W-questions — overview",
+  "titleDe": "W-Fragen — Übersicht",
+  "ruleFr": "## Les W-Fragen — aperçu\n\nUne **W-Frage** commence par un mot interrogatif (*wer, was, wo…*). Ordre : **W-Wort (pos. 1) + verbe conjugué (pos. 2) + reste**.\n\n### Mots interrogatifs essentiels\n| Mot | Sens |\n|---|---|\n| **wer** | qui |\n| **was** | quoi / que |\n| **wo** | où (lieu) |\n| **wohin** | où (direction) |\n| **woher** | d’où |\n| **wann** | quand |\n| **warum / wieso** | pourquoi |\n| **wie** | comment |\n| **welcher/welche/welches** | lequel / quelle |\n| **wessen** | à qui (génitif) |\n\n### Structure\n- ***Wo** wohnst du?*\n- ***Wann** beginnt der Kurs?*\n- ***Warum** lernst du Deutsch?*\n\n### Différence avec Ja/Nein-Fragen\n- W-Frage : W-Wort en 1, verbe en 2\n- Ja/Nein : verbe en **1** → *Wohnst du in Berlin?*\n\n### Mini-entraînement\nPosez 5 questions avec *wer / was / wo / wann / warum*.",
+  "ruleEn": "## W-questions — overview\n\nA **W-question** starts with a question word (*wer, was, wo…*). Order: **W-word (pos. 1) + conjugated verb (pos. 2) + rest**.\n\n### Essential question words\n| Word | Meaning |\n|---|---|\n| **wer** | who |\n| **was** | what |\n| **wo** | where (location) |\n| **wohin** | where to |\n| **woher** | where from |\n| **wann** | when |\n| **warum / wieso** | why |\n| **wie** | how |\n| **welcher/welche/welches** | which |\n| **wessen** | whose |\n\n### Structure\n- ***Wo** wohnst du?*\n- ***Wann** beginnt der Kurs?*\n- ***Warum** lernst du Deutsch?*\n\n### Difference from yes/no questions\n- W-question: W-word in 1, verb in 2\n- Yes/no: verb in **1** → *Wohnst du in Berlin?*\n\n### Mini practice\nAsk 5 questions with *wer / was / wo / wann / warum*.",
+  "ruleDe": "## W-Fragen — Übersicht\n\nEine **W-Frage** beginnt mit einem Fragewort. Reihenfolge: **W-Wort (Pos. 1) + Verb (Pos. 2) + Rest**.\n\n### Wichtige Fragewörter\n| Wort | Bedeutung |\n|---|---|\n| **wer** | wer |\n| **was** | was |\n| **wo** | wo |\n| **wohin** | wohin |\n| **woher** | woher |\n| **wann** | wann |\n| **warum / wieso** | warum |\n| **wie** | wie |\n| **welcher…** | welcher |\n| **wessen** | wessen |\n\n### Struktur\n- ***Wo** wohnst du?*\n- ***Wann** beginnt der Kurs?*\n\n### Mini-Übung\n5 Fragen mit *wer / was / wo / wann / warum*.",
+  "notesFr": "Mot en W en position 1, verbe en position 2 !",
+  "notesEn": "W-word in position 1, verb in position 2!",
+  "notesDe": "W-Wort an Position 1, Verb an Position 2!",
+  "examples": [
+    {
+      "de": "Wo wohnst du?",
+      "fr": "Où habites-tu ?",
+      "en": "Where do you live?"
+    },
+    {
+      "de": "Wann beginnt der Kurs?",
+      "fr": "Quand commence le cours ?",
+      "en": "When does the course start?"
+    },
+    {
+      "de": "Warum lernst du Deutsch?",
+      "fr": "Pourquoi apprends-tu l’allemand ?",
+      "en": "Why are you learning German?"
+    },
+    {
+      "de": "Wie heißt du?",
+      "fr": "Comment t’appelles-tu ?",
+      "en": "What is your name?"
+    },
+    {
+      "de": "Was machst du am Wochenende?",
+      "fr": "Que fais-tu le week-end ?",
+      "en": "What are you doing on the weekend?"
+    }
+  ]
+}

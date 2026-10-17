@@ -1,0 +1,39 @@
+{
+  "slug": "wortstellung-v2-regel-gram-r-285",
+  "titleFr": "La règle V2 (verbe en 2e position)",
+  "titleEn": "Word order — the V2 rule",
+  "titleDe": "Wortstellung — V2-Regel",
+  "ruleFr": "## La règle V2 — verbe en position 2\n\nDans un **Hauptsatz** (phrase principale déclarative), le verbe conjugué est **toujours en position 2**.\n\n### Qu’est-ce qu’une « position » ?\nCe n’est pas le 2e *mot*, mais le 2e **constituant** :\n1. Position 1 = un élément (sujet, complément, adverbe, subordonnée…)\n2. Position 2 = **verbe conjugué**\n3. Suite = reste de la phrase\n\n### Exemples\n- ***Ich** lerne Deutsch.* (sujet en 1)\n- ***Heute** lerne ich Deutsch.* (adverbe en 1 → sujet après le verbe)\n- ***Deutsch** lerne ich heute.* (objet en 1 = mise en relief)\n\n### Ce qui peut être en position 1\nSujet, objet, complément de temps/lieu, adverbe, même une subordonnée entière.\n\n### Erreurs fréquentes\n- ✗ *Heute ich lerne Deutsch.* → ✓ *Heute **lerne** ich Deutsch.*\n- Ne pas confondre avec les questions oui/non (verbe en position 1).\n\n### Mini-entraînement\n1. Déplacez *heute / gestern / in Berlin* en tête.\n2. Vérifiez : verbe toujours en 2.",
+  "ruleEn": "## The V2 rule — verb in position 2\n\nIn a declarative **main clause**, the conjugated verb is **always in position 2**.\n\n### What is a “position”?\nNot the 2nd *word*, but the 2nd **constituent**:\n1. Position 1 = one element (subject, object, adverb, subordinate clause…)\n2. Position 2 = **conjugated verb**\n3. Rest = the remainder\n\n### Examples\n- ***Ich** lerne Deutsch.* (subject in 1)\n- ***Heute** lerne ich Deutsch.* (adverb in 1 → subject after verb)\n- ***Deutsch** lerne ich heute.* (object in 1 = focus)\n\n### What can be in position 1\nSubject, object, time/place phrase, adverb, even a whole subordinate clause.\n\n### Common mistakes\n- ✗ *Heute ich lerne Deutsch.* → ✓ *Heute **lerne** ich Deutsch.*\n- Don’t confuse with yes/no questions (verb in position 1).\n\n### Mini practice\n1. Move *heute / gestern / in Berlin* to the front.\n2. Check: verb always in 2.",
+  "ruleDe": "## V2-Regel — Verb an Position 2\n\nIm deklarativen **Hauptsatz** steht das konjugierte Verb **immer an Position 2**.\n\n### Was ist eine „Position“?\nNicht das 2. *Wort*, sondern der 2. **Satzteil**:\n1. Position 1 = ein Element\n2. Position 2 = **finites Verb**\n3. Rest = Mittelfeld/Nachfeld\n\n### Beispiele\n- ***Ich** lerne Deutsch.*\n- ***Heute** lerne ich Deutsch.*\n- ***Deutsch** lerne ich heute.*\n\n### Was kann auf Position 1 stehen?\nSubjekt, Objekt, Zeit/Ort, Adverb, sogar ein ganzer Nebensatz.\n\n### Häufige Fehler\n- ✗ *Heute ich lerne Deutsch.* → ✓ *Heute **lerne** ich Deutsch.*\n\n### Mini-Übung\n1. *heute / gestern / in Berlin* nach vorne.\n2. Prüfen: Verb immer auf 2.",
+  "notesFr": "Ce qui est devant le verbe est mis en relief ! Le verbe = ancre en position 2.",
+  "notesEn": "Whatever stands before the verb is emphasized! The verb anchors position 2.",
+  "notesDe": "Was vor dem Verb steht, ist betont! Verb = Anker an Position 2.",
+  "examples": [
+    {
+      "de": "Ich lerne heute Deutsch.",
+      "fr": "J’apprends l’allemand aujourd’hui. (sujet en 1)",
+      "en": "I’m learning German today. (subject in 1)"
+    },
+    {
+      "de": "Heute lerne ich Deutsch.",
+      "fr": "Aujourd’hui, j’apprends l’allemand. (*Heute* en 1 → inversion)",
+      "en": "Today I’m learning German. (*Heute* in 1 → inversion)"
+    },
+    {
+      "de": "In Berlin wohne ich seit zwei Jahren.",
+      "fr": "À Berlin, j’habite depuis deux ans.",
+      "en": "In Berlin I’ve been living for two years."
+    },
+    {
+      "de": "Gestern hat er den Film gesehen.",
+      "fr": "Hier, il a vu le film. (auxiliaire en 2)",
+      "en": "Yesterday he saw the film. (auxiliary in 2)"
+    },
+    {
+      "de": "Das Buch lese ich gerne.",
+      "fr": "Ce livre, je le lis volontiers. (objet en tête)",
+      "en": "This book I like reading. (object first)"
+    }
+  ]
+}
