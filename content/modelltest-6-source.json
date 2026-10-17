@@ -1,0 +1,1131 @@
+{
+  "modelltest": {
+    "number": 6,
+    "title": "Modelltest 6"
+  },
+  "sections": {
+    "lesenTeil1": {
+      "contentRevision": "modelltest-6-lesen-teil1-v1",
+      "label": "Leseverstehen Teil 1",
+      "instruction": "Lesen Sie die Überschriften a–j und die Texte 1–5. Finden Sie für jeden Text die passende Überschrift. Sie können jede Überschrift nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 1–5 auf dem Antwortbogen.",
+      "titles": [
+        {
+          "key": "a",
+          "content": "Immer mehr Urlauber reisen mit dem Zug",
+          "sortOrder": 0
+        },
+        {
+          "key": "b",
+          "content": "Hotels bieten Gästen kostenlose Fahrräder",
+          "sortOrder": 1
+        },
+        {
+          "key": "c",
+          "content": "Urlaub zu Hause wird immer beliebter",
+          "sortOrder": 2
+        },
+        {
+          "key": "d",
+          "content": "Junge Reisende buchen Unterkünfte besonders kurzfristig",
+          "sortOrder": 3
+        },
+        {
+          "key": "e",
+          "content": "Flugreisen werden in Europa günstiger",
+          "sortOrder": 4
+        },
+        {
+          "key": "f",
+          "content": "Immer mehr Menschen reisen allein",
+          "sortOrder": 5
+        },
+        {
+          "key": "g",
+          "content": "Mit kleinen Kindern entspannt in den Urlaub",
+          "sortOrder": 6
+        },
+        {
+          "key": "h",
+          "content": "Urlauber informieren sich vor Reisen stärker über Nachhaltigkeit",
+          "sortOrder": 7
+        },
+        {
+          "key": "i",
+          "content": "Neue Regelungen für Gepäck im Flugzeug",
+          "sortOrder": 8
+        },
+        {
+          "key": "j",
+          "content": "Campingplätze werden bei Familien immer beliebter",
+          "sortOrder": 9
+        }
+      ],
+      "texts": [
+        {
+          "textNumber": 1,
+          "von": null,
+          "an": null,
+          "sortOrder": 0,
+          "correctTitleKey": "h",
+          "body": "Viele Reisende achten bei der Planung ihres Urlaubs inzwischen darauf, wie umweltfreundlich ihre Reise ist. Eine aktuelle Umfrage zeigt, dass sich besonders jüngere Menschen vor der Buchung über Zugverbindungen, regionale Angebote und nachhaltige Hotels informieren. Einige sind sogar bereit, dafür etwas mehr zu bezahlen."
+        },
+        {
+          "textNumber": 2,
+          "von": null,
+          "an": null,
+          "sortOrder": 1,
+          "correctTitleKey": "f",
+          "body": "Immer mehr Menschen möchten im Urlaub unabhängig sein und reisen deshalb ohne Partner oder Freunde. Besonders Städtereisen und kurze Rundreisen werden häufig allein gebucht. Viele Reiseveranstalter reagieren darauf und bieten inzwischen spezielle Programme für Einzelreisende an."
+        },
+        {
+          "textNumber": 3,
+          "von": null,
+          "an": null,
+          "sortOrder": 2,
+          "correctTitleKey": "j",
+          "body": "Familien verbringen ihren Sommerurlaub immer häufiger auf Campingplätzen. Besonders gefragt sind Plätze mit Spielbereichen, Schwimmbädern und kleinen Ferienhäusern. Viele Eltern schätzen, dass Kinder dort schnell andere Kinder kennenlernen und sich viel draußen bewegen können."
+        },
+        {
+          "textNumber": 4,
+          "von": null,
+          "an": null,
+          "sortOrder": 3,
+          "correctTitleKey": "a",
+          "body": "Statt mit dem Auto oder dem Flugzeug fahren immer mehr Reisende mit der Bahn in den Urlaub. Als Gründe nennen sie die Möglichkeit, während der Fahrt zu lesen oder zu arbeiten, sowie die bequemere Ankunft direkt im Stadtzentrum. Besonders bei Reisen innerhalb Deutschlands wächst die Nachfrage."
+        },
+        {
+          "textNumber": 5,
+          "von": null,
+          "an": null,
+          "sortOrder": 4,
+          "correctTitleKey": "c",
+          "body": "Eine Reise muss nicht immer weit weg führen. Viele Menschen entdecken während freier Tage ihre eigene Region neu. Sie besuchen Museen, Seen oder Wanderwege in der Nähe und übernachten manchmal sogar in einem Hotel in der eigenen Stadt. Besonders beliebt ist diese Form des Urlaubs bei Menschen, die wenig Zeit haben."
+        }
+      ]
+    },
+    "lesenTeil2": {
+      "contentRevision": "modelltest-6-lesen-teil2-v1",
+      "label": "Leseverstehen Teil 2",
+      "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
+      "cautionNote": "",
+      "topSender": "",
+      "topReceiver": "",
+      "quotedThread": "",
+      "topBody": "Ein Urlaub ohne Auto\n\nVor drei Jahren machte Familie Scholz zum ersten Mal Urlaub ohne eigenes Auto. Zunächst war besonders Vater Michael skeptisch. Er war gewohnt, für längere Reisen das Auto zu benutzen, weil er glaubte, damit unabhängiger zu sein.\n\nDie Familie entschied sich trotzdem für eine Woche in einem kleinen Ort in den Bergen, der gut mit dem Zug erreichbar war. Vom Bahnhof wurden sie mit einem kostenlosen Bus zu ihrer Unterkunft gebracht. Während des Urlaubs konnten Gäste mit einer regionalen Gästekarte Busse und einige Bergbahnen kostenlos benutzen.\n\nAm ersten Tag musste sich die Familie noch daran gewöhnen, Fahrpläne zu beachten. Schon nach kurzer Zeit fanden sie das aber weniger schwierig als erwartet. Die Kinder fanden besonders die Zugfahrten spannend und freuten sich darüber, dass beide Eltern während der Fahrt Zeit für sie hatten.\n\nFür Ausflüge nutzte die Familie meistens öffentliche Verkehrsmittel. Einmal liehen sie sich für einen Tag Fahrräder aus. Nur für einen abgelegenen See wäre ein Auto praktischer gewesen. Deshalb beschlossen sie, diesen Ausflug nicht zu machen.\n\nAuch beim Gepäck mussten sie anders planen. Statt mehrerer großer Koffer nahm jedes Familienmitglied nur eine kleinere Tasche mit. Die Unterkunft stellte Handtücher und einige Dinge für Kinder zur Verfügung, sodass die Familie weniger mitnehmen musste.\n\nAm Ende waren alle überrascht, wie entspannt die Reise gewesen war. Besonders Michael gefiel, dass er nicht stundenlang selbst fahren musste. Seitdem hat die Familie noch zwei weitere Urlaube ohne Auto gemacht.\n\nMichael sagt trotzdem, dass diese Art des Reisens nicht für jedes Ziel geeignet ist. Entscheidend sei, dass die Region gute Bus- und Bahnverbindungen bietet.",
+      "questions": [
+        {
+          "questionNumber": 6,
+          "prompt": "Warum war Michael Scholz zunächst unsicher?",
+          "sortOrder": 0,
+          "options": [
+            {
+              "key": "a",
+              "content": "Er dachte, man sei mit dem Auto unabhängiger.",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Er hatte Angst vor Zugreisen.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Er wollte nicht in die Berge fahren.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 7,
+          "prompt": "Was war mit der Gästekarte möglich?",
+          "sortOrder": 1,
+          "options": [
+            {
+              "key": "a",
+              "content": "Man konnte kostenlos ein Auto mieten.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Man konnte bestimmte Verkehrsmittel kostenlos nutzen.",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Man bekam jeden Tag kostenlos Fahrräder.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 8,
+          "prompt": "Was gefiel den Kindern an der Zugfahrt?",
+          "sortOrder": 2,
+          "options": [
+            {
+              "key": "a",
+              "content": "Sie konnten allein im Zug spielen.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Ihre Eltern hatten während der Fahrt mehr Zeit für sie.",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Sie durften den Zugführer besuchen.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 9,
+          "prompt": "Was änderte die Familie bei ihrem Gepäck?",
+          "sortOrder": 3,
+          "options": [
+            {
+              "key": "a",
+              "content": "Sie nahm weniger mit.",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Sie schickte die Koffer vorher per Post.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Sie kaufte größere Koffer.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 10,
+          "prompt": "Wann funktioniert Urlaub ohne Auto laut Michael besonders gut?",
+          "sortOrder": 4,
+          "options": [
+            {
+              "key": "a",
+              "content": "Wenn das Urlaubsziel sehr nah ist.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Wenn die Region gute öffentliche Verkehrsmittel hat.",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Wenn man nur zwei Tage bleibt.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    "lesenTeil3": {
+      "contentRevision": "modelltest-6-lesen-teil3-v1",
+      "label": "Leseverstehen Teil 3",
+      "instruction": "Lesen Sie die Situationen 11–20 und die Anzeigen a–l. Finden Sie für jede Situation die passende Anzeige. Sie können jede Anzeige nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 11–20 auf dem Antwortbogen. Wenn Sie zu einer Situation keine Anzeige finden, markieren Sie ein x.",
+      "announcements": [
+        {
+          "key": "a",
+          "title": "Hotel am See",
+          "sortOrder": 0,
+          "content": "Familienzimmer, Frühstück inklusive, eigener Spielplatz und direkter Zugang zum See. Kinder bis sechs Jahre übernachten kostenlos."
+        },
+        {
+          "key": "b",
+          "title": "City Hostel",
+          "sortOrder": 1,
+          "content": "Preiswerte Zimmer im Stadtzentrum. Einzel-, Doppel- und Mehrbettzimmer. Hauptbahnhof nur fünf Minuten zu Fuß entfernt."
+        },
+        {
+          "key": "c",
+          "title": "Radurlaub Aktiv",
+          "sortOrder": 2,
+          "content": "Geführte Fahrradtouren durch die Region. Tages- und Mehrtagestouren. Fahrradverleih möglich. Gepäcktransport auf Wunsch."
+        },
+        {
+          "key": "d",
+          "title": "Last-Minute-Reisen",
+          "sortOrder": 3,
+          "content": "Kurzfristig freie Hotelzimmer und Pauschalreisen. Angebote für Abreise innerhalb der nächsten sieben Tage."
+        },
+        {
+          "key": "e",
+          "title": "Deutschlands schönste Wanderwege",
+          "sortOrder": 4,
+          "content": "Geführte Wanderungen für Anfänger und Fortgeschrittene. Wochenendtouren inklusive Übernachtung und Frühstück."
+        },
+        {
+          "key": "f",
+          "title": "Ferienwohnung Sonnenblick",
+          "sortOrder": 5,
+          "content": "Ruhige Lage, Küche, zwei Schlafzimmer und Balkon. Bushaltestelle direkt vor dem Haus. Mindestaufenthalt fünf Nächte."
+        },
+        {
+          "key": "g",
+          "title": "Flughafentransfer 24",
+          "sortOrder": 6,
+          "content": "Fahrten von Ihrer Wohnung direkt zum Flughafen und zurück. Buchung telefonisch oder online. Service rund um die Uhr."
+        },
+        {
+          "key": "h",
+          "title": "Reiseversicherung Plus",
+          "sortOrder": 7,
+          "content": "Schutz bei Krankheit, Reiseabbruch und verlorenem Gepäck. Tarife für Einzelpersonen und Familien."
+        },
+        {
+          "key": "i",
+          "title": "Sprachreise nach Wien",
+          "sortOrder": 8,
+          "content": "Deutsch lernen und die Stadt kennenlernen. Zwei Wochen Sprachkurs mit Unterkunft bei einer Gastfamilie."
+        },
+        {
+          "key": "j",
+          "title": "Camping Naturpark",
+          "sortOrder": 9,
+          "content": "Stellplätze für Zelte und Wohnmobile. Sanitäranlagen, kleiner Supermarkt und Freizeitprogramm für Kinder."
+        },
+        {
+          "key": "k",
+          "title": "Städtereisen für Singles",
+          "sortOrder": 10,
+          "content": "Wochenendreisen für Alleinreisende zwischen 25 und 45 Jahren. Gemeinsame Stadtführungen und Abendprogramm."
+        },
+        {
+          "key": "l",
+          "title": "Gepäckservice Bahn",
+          "sortOrder": 11,
+          "content": "Wir holen Ihre Koffer zu Hause ab und bringen sie direkt in Ihr Hotel. Buchung mindestens drei Werktage vor Reisebeginn."
+        }
+      ],
+      "situations": [
+        {
+          "situationNumber": 11,
+          "content": "Sie reisen allein und möchten am Wochenende andere Leute in Ihrem Alter kennenlernen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "k",
+          "sortOrder": 0
+        },
+        {
+          "situationNumber": 12,
+          "content": "Sie fahren mit kleinen Kindern in Urlaub und suchen ein Hotel mit Angeboten für Familien.",
+          "noMatch": false,
+          "correctAnnouncementKey": "a",
+          "sortOrder": 1
+        },
+        {
+          "situationNumber": 13,
+          "content": "Sie möchten nächste Woche spontan verreisen und suchen ein günstiges kurzfristiges Angebot.",
+          "noMatch": false,
+          "correctAnnouncementKey": "d",
+          "sortOrder": 2
+        },
+        {
+          "situationNumber": 14,
+          "content": "Sie möchten im Urlaub mehrere Tage mit dem Fahrrad unterwegs sein, haben aber kein eigenes Fahrrad.",
+          "noMatch": false,
+          "correctAnnouncementKey": "c",
+          "sortOrder": 3
+        },
+        {
+          "situationNumber": 15,
+          "content": "Sie fahren mit dem Zug in Urlaub und möchten Ihren großen Koffer nicht selbst tragen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "l",
+          "sortOrder": 4
+        },
+        {
+          "situationNumber": 16,
+          "content": "Sie möchten Urlaub machen und dabei gleichzeitig Ihr Deutsch verbessern.",
+          "noMatch": false,
+          "correctAnnouncementKey": "i",
+          "sortOrder": 5
+        },
+        {
+          "situationNumber": 17,
+          "content": "Sie möchten in einer ruhigen Wohnung wohnen und selbst kochen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "f",
+          "sortOrder": 6
+        },
+        {
+          "situationNumber": 18,
+          "content": "Sie fliegen sehr früh am Morgen und brauchen eine Fahrt direkt von zu Hause zum Flughafen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "g",
+          "sortOrder": 7
+        },
+        {
+          "situationNumber": 19,
+          "content": "Sie möchten für drei Tage einen Wohnwagen mieten und damit durch Deutschland fahren.",
+          "noMatch": true,
+          "correctAnnouncementKey": null,
+          "sortOrder": 8
+        },
+        {
+          "situationNumber": 20,
+          "content": "Sie möchten draußen übernachten und suchen einen Platz für Ihr Zelt.",
+          "noMatch": false,
+          "correctAnnouncementKey": "j",
+          "sortOrder": 9
+        }
+      ]
+    },
+    "sprachbausteineTeil1": {
+      "teilNumber": 1,
+      "contentRevision": "modelltest-6-sprachbausteine-teil1-v1",
+      "label": "Sprachbausteine Teil 1",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 21–30. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 21–30 auf dem Antwortbogen.",
+      "body": "Liebe Maria,\n\nendlich sind wir aus unserem Urlaub zurück. Wir waren zehn Tage in Österreich, _____ es uns wirklich sehr gut gefallen hat.\n\nWir sind diesmal nicht mit dem Auto gefahren, _____ wir die lange Fahrt vermeiden wollten. Stattdessen _____ wir den Zug genommen. Das war viel entspannter als erwartet.\n\nUnser Hotel lag direkt _____ einem kleinen See. Jeden Morgen konnten wir dort frühstücken und dabei auf die Berge schauen.\n\nAm dritten Tag _____ wir eine längere Wanderung gemacht. Das Wetter war zuerst schön, aber am Nachmittag hat es plötzlich stark geregnet. Zum Glück hatten wir Regenjacken _____ .\n\nBesonders gut hat mir gefallen, _____ wir viele regionale Gerichte probieren konnten. Mein Lieblingsessen war eine Suppe, die ich vorher noch nie _____ hatte.\n\nNächstes Jahr möchten wir vielleicht wieder dorthin fahren. Wenn du möchtest, _____ du gern mitkommen.\n\nIch zeige dir bald die Fotos, _____ wir uns sehen.\n\nLiebe Grüße\nSandra",
+      "gaps": [
+        {
+          "gapKey": "21",
+          "gapNumber": 21,
+          "sortOrder": 0,
+          "options": [
+            {
+              "key": "a",
+              "content": "wo",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "wann",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "ob",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "22",
+          "gapNumber": 22,
+          "sortOrder": 1,
+          "options": [
+            {
+              "key": "a",
+              "content": "weil",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "obwohl",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "sondern",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "23",
+          "gapNumber": 23,
+          "sortOrder": 2,
+          "options": [
+            {
+              "key": "a",
+              "content": "haben",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "sind",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "wurden",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "24",
+          "gapNumber": 24,
+          "sortOrder": 3,
+          "options": [
+            {
+              "key": "a",
+              "content": "an",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "für",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "über",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "25",
+          "gapNumber": 25,
+          "sortOrder": 4,
+          "options": [
+            {
+              "key": "a",
+              "content": "haben",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "sind",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "hatten",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "26",
+          "gapNumber": 26,
+          "sortOrder": 5,
+          "options": [
+            {
+              "key": "a",
+              "content": "dabei",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "damit",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "daran",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "27",
+          "gapNumber": 27,
+          "sortOrder": 6,
+          "options": [
+            {
+              "key": "a",
+              "content": "dass",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "ob",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "als",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "28",
+          "gapNumber": 28,
+          "sortOrder": 7,
+          "options": [
+            {
+              "key": "a",
+              "content": "gegessen",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "essen",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "aß",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "29",
+          "gapNumber": 29,
+          "sortOrder": 8,
+          "options": [
+            {
+              "key": "a",
+              "content": "kannst",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "musst",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "sollst",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "30",
+          "gapNumber": 30,
+          "sortOrder": 9,
+          "options": [
+            {
+              "key": "a",
+              "content": "wenn",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "obwohl",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "damit",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    "sprachbausteineTeil2": {
+      "contentRevision": "modelltest-6-sprachbausteine-teil2-v1",
+      "label": "Sprachbausteine Teil 2",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 31–40. Benutzen Sie die Wörter a–o. Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31–40 auf dem Antwortbogen.",
+      "body": "Sehr geehrte Damen und Herren,\n\nich habe Ihre Ferienwohnung im Internet gefunden und interessiere mich sehr _____ Ihr Angebot. Meine Frau und ich möchten im August eine Woche in Ihrer Region verbringen und hätten _____ einige Fragen.\n\nAuf Ihrer Internetseite steht, dass die Wohnung ungefähr drei Kilometer vom Zentrum entfernt liegt. Können Sie mir bitte sagen, _____ es eine gute Busverbindung gibt?\n\nWir reisen mit dem Zug an und würden _____ ungern ein Auto mieten. Außerdem möchten wir wissen, _____ Einkaufsmöglichkeiten in der Nähe sind.\n\nWir interessieren uns besonders für Wanderungen. Gibt es Wege, die direkt an der Unterkunft beginnen, _____ muss man zuerst mit dem Bus fahren?\n\nIn der Beschreibung steht, dass Fahrräder vorhanden sind. Sind diese im Preis enthalten oder müssen wir _____ bezahlen?\n\nWir haben außerdem einen kleinen Hund. Bitte teilen Sie uns mit, ob Haustiere _____ erlaubt sind.\n\nFalls die Wohnung in der Woche vom 10. bis 17. August noch frei ist, würden wir sie _____ reservieren.\n\nWir wären Ihnen sehr _____, wenn Sie uns bald antworten könnten.\n\nMit freundlichen Grüßen\nPeter Lang",
+      "words": [
+        {
+          "letter": "a",
+          "content": "ABER",
+          "sortOrder": 0
+        },
+        {
+          "letter": "b",
+          "content": "DAFÜR",
+          "sortOrder": 1
+        },
+        {
+          "letter": "c",
+          "content": "DANKBAR",
+          "sortOrder": 2
+        },
+        {
+          "letter": "d",
+          "content": "DESHALB",
+          "sortOrder": 3
+        },
+        {
+          "letter": "e",
+          "content": "FÜR",
+          "sortOrder": 4
+        },
+        {
+          "letter": "f",
+          "content": "GERNE",
+          "sortOrder": 5
+        },
+        {
+          "letter": "g",
+          "content": "NOCH",
+          "sortOrder": 6
+        },
+        {
+          "letter": "h",
+          "content": "OB",
+          "sortOrder": 7
+        },
+        {
+          "letter": "i",
+          "content": "ODER",
+          "sortOrder": 8
+        },
+        {
+          "letter": "j",
+          "content": "WELCHE",
+          "sortOrder": 9
+        },
+        {
+          "letter": "k",
+          "content": "WENN",
+          "sortOrder": 10
+        },
+        {
+          "letter": "l",
+          "content": "TROTZDEM",
+          "sortOrder": 11
+        },
+        {
+          "letter": "m",
+          "content": "AUCH",
+          "sortOrder": 12
+        },
+        {
+          "letter": "n",
+          "content": "WIE",
+          "sortOrder": 13
+        },
+        {
+          "letter": "o",
+          "content": "DAMIT",
+          "sortOrder": 14
+        }
+      ],
+      "gaps": [
+        {
+          "gapKey": "31",
+          "gapNumber": 31,
+          "correctWordKey": "e",
+          "sortOrder": 0
+        },
+        {
+          "gapKey": "32",
+          "gapNumber": 32,
+          "correctWordKey": "g",
+          "sortOrder": 1
+        },
+        {
+          "gapKey": "33",
+          "gapNumber": 33,
+          "correctWordKey": "h",
+          "sortOrder": 2
+        },
+        {
+          "gapKey": "34",
+          "gapNumber": 34,
+          "correctWordKey": "d",
+          "sortOrder": 3
+        },
+        {
+          "gapKey": "35",
+          "gapNumber": 35,
+          "correctWordKey": "j",
+          "sortOrder": 4
+        },
+        {
+          "gapKey": "36",
+          "gapNumber": 36,
+          "correctWordKey": "i",
+          "sortOrder": 5
+        },
+        {
+          "gapKey": "37",
+          "gapNumber": 37,
+          "correctWordKey": "b",
+          "sortOrder": 6
+        },
+        {
+          "gapKey": "38",
+          "gapNumber": 38,
+          "correctWordKey": "m",
+          "sortOrder": 7
+        },
+        {
+          "gapKey": "39",
+          "gapNumber": 39,
+          "correctWordKey": "f",
+          "sortOrder": 8
+        },
+        {
+          "gapKey": "40",
+          "gapNumber": 40,
+          "correctWordKey": "c",
+          "sortOrder": 9
+        }
+      ]
+    },
+    "schreiben": {
+      "contentRevision": "modelltest-6-schreiben-v1",
+      "title": "Schriftlicher Ausdruck",
+      "subtitle": "Sie haben von einem Freund folgende E-Mail erhalten:",
+      "taskType": "brief",
+      "intro": "Sie haben von einem Freund folgende E-Mail erhalten:",
+      "stimulus": {
+        "heading": "Liebe/r __________,",
+        "subheading": null,
+        "body": "ich möchte im Sommer gern ein paar Tage in deiner Region verbringen. Ich war noch nie dort und weiß deshalb überhaupt nicht, was man sehen oder unternehmen kann.\n\nIch möchte nicht nur Sehenswürdigkeiten besuchen, sondern auch etwas in der Natur machen. Außerdem weiß ich noch nicht, ob ich mit dem Auto oder mit dem Zug kommen soll.\n\nKannst du mir ein paar Tipps geben? Vielleicht können wir ja auch einen Tag zusammen etwas unternehmen.\n\nSchreib mir bald!",
+        "features": [],
+        "contact": {
+          "name": "Daniel",
+          "lines": [
+            "Viele Grüße"
+          ]
+        },
+        "callToAction": null,
+        "imageUrl": null
+      },
+      "taskInstructions": "Antworten Sie auf die E-Mail. Schreiben Sie etwas zu allen vier Punkten:",
+      "bulletPoints": [
+        "welche Sehenswürdigkeiten Daniel besuchen sollte",
+        "welche Aktivität in der Natur Sie empfehlen",
+        "welches Verkehrsmittel für die Reise am besten ist",
+        "was Sie gemeinsam mit Daniel unternehmen möchten"
+      ],
+      "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss."
+    },
+    "sprechen": {
+      "teil1": {
+        "part": 1,
+        "title": "Teil 1 Einander kennenlernen",
+        "subtitle": "Teilnehmer/in A und B",
+        "topicTitle": "Einander kennenlernen",
+        "topicDescription": "Unterhalten Sie sich mit Ihrer Partnerin bzw. Ihrem Partner über folgende Themen:",
+        "topicPoints": [
+          "Name",
+          "Woher sie oder er kommt",
+          "Wie sie oder er wohnt",
+          "Familie",
+          "Wo sie oder er Deutsch gelernt hat",
+          "Was sie oder er macht",
+          "Sprachen"
+        ],
+        "additionalExaminerTopics": [
+          "wohin er oder sie gern reist",
+          "wie er oder sie normalerweise Urlaub macht"
+        ],
+        "instructions": "Die Prüfenden können außerdem noch weitere Fragen stellen."
+      },
+      "teil2": {
+        "part": 2,
+        "title": "Teil 2 Über ein Thema sprechen",
+        "subtitle": "Teilnehmer/in A / Teilnehmer/in B",
+        "topicTitle": "Urlaub am Meer oder Urlaub in den Bergen?",
+        "commonInstructions": "Sie haben in einer Zeitschrift etwas zum Thema „Urlaub am Meer oder Urlaub in den Bergen?“ gelesen. Berichten Sie Ihrer Gesprächspartnerin/Ihrem Gesprächspartner darüber. Ihre Gesprächspartnerin/Ihr Gesprächspartner hat eine andere Meinung dazu gelesen und berichtet Ihnen auch darüber. Unterhalten Sie sich dann mit Ihrer Gesprächspartnerin/Ihrem Gesprächspartner über das Thema. Sagen Sie Ihre Meinung und erzählen Sie von eigenen Erfahrungen.",
+        "participants": {
+          "A": {
+            "label": "Teilnehmer/in A",
+            "person": "Lisa Brenner, 28 Jahre, Erzieherin",
+            "text": "„Im Urlaub möchte ich mich erholen. Deshalb fahre ich am liebsten ans Meer. Ich kann am Strand liegen, schwimmen und abends in einem Restaurant essen. Im Alltag bin ich viel unterwegs, deshalb möchte ich im Urlaub nicht jeden Tag lange Wanderungen machen.“"
+          },
+          "B": {
+            "label": "Teilnehmer/in B",
+            "person": "Thomas Krüger, 35 Jahre, Mechaniker",
+            "text": "„Für mich ist Urlaub in den Bergen viel interessanter. Ich wandere gern und möchte mich bewegen. Außerdem genieße ich die Ruhe und die Natur. Einen ganzen Tag am Strand zu liegen wäre mir viel zu langweilig.“"
+          }
+        }
+      },
+      "teil3": {
+        "part": 3,
+        "title": "Teil 3 Gemeinsam etwas planen",
+        "subtitle": "Teilnehmer/in A und B",
+        "topicTitle": "Gemeinsamen Wochenendausflug planen",
+        "topicDescription": "Sie möchten mit einigen Freunden am kommenden Wochenende einen zweitägigen Ausflug machen. Sie und Ihre Gesprächspartnerin bzw. Ihr Gesprächspartner sollen den Ausflug gemeinsam organisieren. Überlegen Sie, wohin Sie fahren möchten und was alles organisiert werden muss.",
+        "topicPoints": [
+          "Wohin?",
+          "Wie fahren?",
+          "Übernachtung",
+          "Aktivitäten",
+          "Essen",
+          "Kosten",
+          "Wer organisiert was?",
+          "..."
+        ],
+        "instructions": "Entscheiden Sie zuerst, was Sie machen möchten und warum. Tragen Sie Ihrem Partner Ihre Ideen vor und begründen Sie sie. Reagieren Sie auf die Ideen Ihres Partners bzw. Ihrer Partnerin und die Begründungen. Einigen Sie sich auf einen gemeinsamen Programmvorschlag."
+      }
+    },
+    "hoeren": {
+      "teil1": {
+        "part": 1,
+        "title": "Teil 1",
+        "subtitle": "Hörverstehen, Teil 1",
+        "instruction": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41–45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41–45. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 41–45. Sie haben dazu 30 Sekunden Zeit.",
+        "contentRevision": "modelltest-6-hoeren-teil1-v1",
+        "transcript": "41\nIch fliege eigentlich nicht besonders gern. Deshalb fahre ich innerhalb Europas meistens mit dem Zug. Letzten Sommer bin ich sogar bis nach Italien gefahren. Die Reise hat länger gedauert als mit dem Flugzeug, aber ich konnte während der Fahrt lesen und schlafen. Für mich war das viel entspannter.\n\n42\nFrüher habe ich meinen Urlaub immer mehrere Monate vorher geplant. Heute mache ich das anders. Ich schaue meistens erst ein oder zwei Wochen vorher, welche Hotels oder Flüge noch günstig sind. Manchmal findet man tolle Angebote, aber natürlich kann man dann nicht jedes Reiseziel auswählen.\n\n43\nMit unseren beiden kleinen Kindern fahren wir am liebsten auf einen Campingplatz. Wir schlafen allerdings nicht im Zelt, sondern mieten dort ein kleines Ferienhaus. Die Kinder können draußen spielen und finden schnell andere Kinder. Für uns Eltern ist das ziemlich entspannt.\n\n44\nIch reise jedes Jahr allein für ein paar Tage in eine andere Stadt. Viele Freunde verstehen das nicht, aber ich finde es angenehm. Ich kann selbst entscheiden, wann ich aufstehe, was ich besichtige und wo ich esse. Wenn ich Gesellschaft möchte, buche ich manchmal eine Stadtführung.\n\n45\nBei langen Reisen nehme ich normalerweise viel zu viel mit. Dieses Jahr möchte ich versuchen, nur mit einem kleinen Koffer zu reisen. Ich habe gemerkt, dass ich viele Sachen im Urlaub überhaupt nicht brauche. Außerdem ist es einfacher, wenn man mit dem Zug unterwegs ist.",
+        "questions": [
+          {
+            "questionNumber": 41,
+            "prompt": "Der Sprecher reist innerhalb Europas meistens mit dem Flugzeug.",
+            "correctAnswer": "-",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 42,
+            "prompt": "Die Sprecherin bucht ihren Urlaub heute eher kurzfristig.",
+            "correctAnswer": "+",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 43,
+            "prompt": "Die Familie schläft beim Camping im Zelt.",
+            "correctAnswer": "-",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 44,
+            "prompt": "Der Sprecher reist gern allein.",
+            "correctAnswer": "+",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 45,
+            "prompt": "Die Sprecherin möchte dieses Jahr weniger Gepäck mitnehmen.",
+            "correctAnswer": "+",
+            "sortOrder": 4
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-6-hoeren/modelltest-6-hoeren-teil1.mp3",
+        "imageUrl": "",
+        "durationMinutes": 8
+      },
+      "teil2": {
+        "part": 2,
+        "title": "Teil 2",
+        "subtitle": "Hörverstehen, Teil 2",
+        "instruction": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46–55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46–55. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 46–55. Sie haben dazu eine Minute Zeit.",
+        "contentRevision": "modelltest-6-hoeren-teil2-v1",
+        "transcript": "Moderatorin: Willkommen bei unserem Reisemagazin. Heute sprechen wir über nachhaltiges Reisen. Bei mir im Studio ist Herr Martin Faber. Er arbeitet bei einem Reiseveranstalter, der sich auf umweltfreundliche Urlaubsangebote spezialisiert hat. Guten Tag, Herr Faber.\n\nHerr Faber: Guten Tag.\n\nModeratorin: Herr Faber, was bedeutet nachhaltiges Reisen eigentlich?\n\nHerr Faber: Das kann verschiedene Dinge bedeuten. Zum Beispiel kann man für kürzere Strecken den Zug statt des Flugzeugs nehmen, kleinere regionale Hotels unterstützen oder im Urlaub öffentliche Verkehrsmittel benutzen.\n\nModeratorin: Bedeutet nachhaltiges Reisen automatisch, dass Urlaub teurer wird?\n\nHerr Faber: Nein, nicht unbedingt. Zugtickets können teuer sein, wenn man sehr kurzfristig bucht. Wer früh plant, findet aber häufig günstige Angebote. Auch kleine Pensionen sind oft nicht teurer als große Hotels.\n\nModeratorin: Welche Reisen buchen Ihre Kunden besonders häufig?\n\nHerr Faber: Sehr beliebt sind momentan Reisen innerhalb Deutschlands und in die Nachbarländer. Viele unserer Kunden fahren nach Österreich, in die Schweiz oder in die Niederlande. Fernreisen bieten wir zwar auch an, aber deutlich seltener.\n\nModeratorin: Reisen Ihre Kunden hauptsächlich mit dem Zug?\n\nHerr Faber: Bei Reisen innerhalb Europas versuchen wir das möglichst oft. Manchmal ist das aber schwierig, zum Beispiel wenn das Ziel schlecht mit der Bahn erreichbar ist. Dann organisieren wir auch Busreisen oder kombinieren verschiedene Verkehrsmittel.\n\nModeratorin: Was ist bei den Unterkünften wichtig?\n\nHerr Faber: Wir arbeiten gern mit kleineren Hotels und Pensionen zusammen. Viele verwenden regionale Lebensmittel oder achten darauf, Energie und Wasser zu sparen. Aber natürlich schauen wir auch auf Komfort und Qualität.\n\nModeratorin: Müssen Urlauber während einer solchen Reise auf viele Dinge verzichten?\n\nHerr Faber: Nein. Nachhaltig reisen bedeutet nicht, dass man keinen Komfort haben darf. Wichtig ist eher, bewusste Entscheidungen zu treffen. Man kann zum Beispiel in einem guten Hotel wohnen und trotzdem mit öffentlichen Verkehrsmitteln reisen.\n\nModeratorin: Gibt es bestimmte Altersgruppen, die sich besonders dafür interessieren?\n\nHerr Faber: Früher waren es vor allem jüngere Menschen. Inzwischen interessieren sich aber Kunden fast aller Altersgruppen dafür. Besonders Familien fragen häufig nach Angeboten, bei denen sie ohne eigenes Auto reisen können.\n\nModeratorin: Welche Probleme gibt es dabei?\n\nHerr Faber: Ein Problem ist manchmal das Gepäck. Wenn Familien mit Kindern unterwegs sind, möchten sie natürlich einiges mitnehmen. Deshalb arbeiten einige unserer Partnerhotels mit einem Gepäckservice zusammen.\n\nModeratorin: Was empfehlen Sie Menschen, die nachhaltiger reisen möchten?\n\nHerr Faber: Man muss nicht sofort alles verändern. Man kann zum Beispiel zunächst ein Reiseziel wählen, das mit dem Zug erreichbar ist. Oder man bleibt etwas länger an einem Ort, statt in wenigen Tagen mehrere Städte zu besuchen.\n\nModeratorin: Und wird nachhaltiges Reisen in Zukunft wichtiger?\n\nHerr Faber: Davon bin ich überzeugt. Wir sehen jedes Jahr mehr Nachfrage. Deshalb erweitern wir unser Angebot im kommenden Jahr sogar um mehrere neue Bahnreisen.\n\nModeratorin: Vielen Dank für das Gespräch.\n\nHerr Faber: Sehr gerne.",
+        "questions": [
+          {
+            "questionNumber": 46,
+            "prompt": "Nachhaltiges Reisen kann bedeuten, häufiger den Zug zu benutzen.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 47,
+            "prompt": "Nachhaltige Reisen sind immer teurer als andere Reisen.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 48,
+            "prompt": "Viele Kunden reisen in Deutschlands Nachbarländer.",
+            "correctAnswer": "+",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 49,
+            "prompt": "Der Reiseveranstalter organisiert ausschließlich Zugreisen.",
+            "correctAnswer": "-",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 50,
+            "prompt": "Bei der Auswahl von Hotels spielt auch die Qualität eine Rolle.",
+            "correctAnswer": "+",
+            "sortOrder": 4
+          },
+          {
+            "questionNumber": 51,
+            "prompt": "Nachhaltiges Reisen bedeutet laut Herrn Faber, auf Komfort zu verzichten.",
+            "correctAnswer": "-",
+            "sortOrder": 5
+          },
+          {
+            "questionNumber": 52,
+            "prompt": "Heute interessieren sich Menschen verschiedener Altersgruppen für nachhaltiges Reisen.",
+            "correctAnswer": "+",
+            "sortOrder": 6
+          },
+          {
+            "questionNumber": 53,
+            "prompt": "Familien fragen häufig nach Reisen ohne eigenes Auto.",
+            "correctAnswer": "+",
+            "sortOrder": 7
+          },
+          {
+            "questionNumber": 54,
+            "prompt": "Einige Partnerhotels bieten einen Gepäckservice an.",
+            "correctAnswer": "+",
+            "sortOrder": 8
+          },
+          {
+            "questionNumber": 55,
+            "prompt": "Der Reiseveranstalter möchte sein Angebot an Bahnreisen verkleinern.",
+            "correctAnswer": "-",
+            "sortOrder": 9
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-6-hoeren/modelltest-6-hoeren-teil2.mp3",
+        "imageUrl": "",
+        "durationMinutes": 10
+      },
+      "teil3": {
+        "part": 3,
+        "title": "Teil 3",
+        "subtitle": "Hörverstehen, Teil 3",
+        "instruction": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56–60 richtig oder falsch sind. Markieren Sie Ihre Lösungen für die Aufgaben 56–60 auf dem Antwortbogen. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch.",
+        "contentRevision": "modelltest-6-hoeren-teil3-v1",
+        "transcript": "56\nAchtung, Reisende nach Hamburg. Der ICE 812 fährt heute wegen Bauarbeiten nicht von Gleis 7, sondern von Gleis 10. Die planmäßige Abfahrtszeit um 11 Uhr 24 bleibt unverändert.\n\n57\nGuten Tag, hier ist das Hotel Sonnenhof. Unser Frühstück wird montags bis freitags von 7 bis 10 Uhr angeboten. Am Wochenende können Sie von 8 bis 11 Uhr frühstücken. Das Restaurant befindet sich im Erdgeschoss neben der Rezeption.\n\n58\nLiebe Fluggäste, der Flug AB 327 nach Madrid verspätet sich um ungefähr 45 Minuten. Der neue Abflug ist für 16 Uhr 20 vorgesehen. Bitte bleiben Sie in der Nähe von Ausgang B12.\n\n59\nHerzlich willkommen im Stadtmuseum. Unsere Führung durch die historische Altstadt beginnt heute um 14 Uhr vor dem Haupteingang. Die Führung dauert ungefähr neunzig Minuten und kostet fünf Euro pro Person. Kinder unter zwölf Jahren nehmen kostenlos teil.\n\n60\nHallo Frau Wagner, hier ist das Reisebüro Fernweh. Ihre Unterlagen für die Reise nach Wien sind jetzt vollständig. Sie können die Tickets und Hotelinformationen ab morgen bei uns abholen. Unser Büro ist morgen von 9 bis 18 Uhr geöffnet.",
+        "questions": [
+          {
+            "questionNumber": 56,
+            "prompt": "Der Zug nach Hamburg fährt heute von einem anderen Gleis ab.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 57,
+            "prompt": "Am Wochenende endet das Frühstück um 10 Uhr.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 58,
+            "prompt": "Der Flug nach Madrid startet später als geplant.",
+            "correctAnswer": "+",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 59,
+            "prompt": "Kinder unter zwölf Jahren müssen für die Führung bezahlen.",
+            "correctAnswer": "-",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 60,
+            "prompt": "Frau Wagner kann ihre Reiseunterlagen ab morgen abholen.",
+            "correctAnswer": "+",
+            "sortOrder": 4
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-6-hoeren/modelltest-6-hoeren-teil3.mp3",
+        "imageUrl": "",
+        "durationMinutes": 8
+      }
+    }
+  },
+  "answerKey": {
+    "lesenTeil1": {
+      "1": "h",
+      "2": "f",
+      "3": "j",
+      "4": "a",
+      "5": "c"
+    },
+    "lesenTeil2": {
+      "6": "a",
+      "7": "b",
+      "8": "b",
+      "9": "a",
+      "10": "b"
+    },
+    "lesenTeil3": {
+      "11": "k",
+      "12": "a",
+      "13": "d",
+      "14": "c",
+      "15": "l",
+      "16": "i",
+      "17": "f",
+      "18": "g",
+      "19": "X",
+      "20": "j"
+    },
+    "sprachbausteineTeil1": {
+      "21": "a",
+      "22": "a",
+      "23": "a",
+      "24": "a",
+      "25": "a",
+      "26": "a",
+      "27": "a",
+      "28": "a",
+      "29": "a",
+      "30": "a"
+    },
+    "sprachbausteineTeil2": {
+      "31": "e",
+      "32": "g",
+      "33": "h",
+      "34": "d",
+      "35": "j",
+      "36": "i",
+      "37": "b",
+      "38": "m",
+      "39": "f",
+      "40": "c"
+    },
+    "hoerenTeil1": {
+      "41": "-",
+      "42": "+",
+      "43": "-",
+      "44": "+",
+      "45": "+"
+    },
+    "hoerenTeil2": {
+      "46": "+",
+      "47": "-",
+      "48": "+",
+      "49": "-",
+      "50": "+",
+      "51": "-",
+      "52": "+",
+      "53": "+",
+      "54": "+",
+      "55": "-"
+    },
+    "hoerenTeil3": {
+      "56": "+",
+      "57": "-",
+      "58": "+",
+      "59": "-",
+      "60": "+"
+    }
+  },
+  "extractionWarnings": [
+    "Sprachbausteine Teil 2 editorial fixes for unique words: gap 34→DESHALB (d) instead of GERNE+ungern; gap 38 sentence adjusted to use AUCH (m) so OB (h) is used only once at gap 33.",
+    "Origin booklet title kept for reference: Modelltest 6 – Reisen und Urlaub"
+  ]
+}
