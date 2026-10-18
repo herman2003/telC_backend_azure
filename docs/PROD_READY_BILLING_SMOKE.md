@@ -27,11 +27,11 @@ npm run test:integration -- --testPathPatterns="payment|entitlement|subscription
 2. DB de test / staging — **jamais** la prod pour les SQL de block/restore.
 3. Paiements locaux : `PAYMENT_PROVIDER=fake` + `FAKE_PAYMENT_WEBHOOK_SECRET` (≥32 chars, même valeur que `fakeWebhookSecret` Bruno).
 4. Staging réel : Stripe + Fapshi en **test mode**, webhooks pointant vers staging.
-5. Profil centre completable avant paiement : `country`, `city`, `phone` (trial OK sans ; payment refuse).
+5. Profil centre completable avant paiement : `country`, `city`, `phone`, `logo` (trial OK sans ; payment refuse).
 
 ---
 
-## Matrice smoke (9 scénarios)
+## Matrice smoke (10 scénarios)
 
 Cocher **API** + **dashboard centre** + **élève** à chaque ligne.
 
@@ -41,8 +41,8 @@ Cocher **API** + **dashboard centre** + **élève** à chaque ligne.
 |-------|---------|
 | Register → verify email → login | 200 / tokens |
 | Profil incomplet | trial OK |
-| Payment sans country/city/phone | **refusé** (profil incomplet) |
-| Patch profil complet | payment possible |
+| Payment sans country/city/phone/logo | **refusé** (profil incomplet) |
+| Patch profil complet (incl. logo HTTPS) | payment possible |
 
 Bruno : `Center Auth/*`, `Center Profile/*`, puis `Center Subscription / 03 Start trial`.
 
@@ -84,6 +84,19 @@ UPDATE center_subscriptions
 | Code trial daté | retiré / élève passé sur code payé |
 
 Bruno : `Center Payments / 01–06`. Double-envoi même clé → même `paymentId`. Double webhook → **une** activation.
+
+### 4b. Mid-period sièges (prorata + plafond)
+
+Prérequis : Start déjà actif (`paid_seats` &gt; 0, `paid_until` futur).
+
+| Étape | Attendu |
+|-------|---------|
+| Quote ajout (ex. 10 → 16) | `billingKind: mid_period_addition`, HT &lt; pack plein des sièges ajoutés |
+| Quote shrink (ex. 16 → 12) | **refusé** `SEATS_BELOW_PAID_FLOOR` |
+| Quote same seats | **refusé** `NOTHING_TO_PAY` |
+| Create-payment ajout | même HT que le quote (plafond = `added × unitPrice` HT) |
+
+Bruno : `Center Payments Prorata / 01–04`.
 
 ### 5. Grâce 7 jours (après Start payé)
 
@@ -155,9 +168,10 @@ Bruno : `Subscription Access / 05–06`.
 1. Filet auto (`npm test` + `test:integration` ci-dessus).
 2. Bruno : Auth → **Start trial** → Activate student → Learn.
 3. Bruno Payments : quote → pay → checkout → webhook → re-lire subscription.
-4. Bruno Entitlements : Prep Pass + Elena → assign → élève `/api/me/entitlements`.
-5. SQL block/restore (grâce + freeze).
-6. Cocher go-live gate avant prod.
+4. Bruno Payments Prorata : mid-period add / shrink / nothing-to-pay.
+5. Bruno Entitlements : Prep Pass + Elena → assign → élève `/api/me/entitlements`.
+6. SQL block/restore (grâce + freeze).
+7. Cocher go-live gate avant prod.
 
 ---
 
