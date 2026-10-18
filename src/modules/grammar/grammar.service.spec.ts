@@ -121,22 +121,17 @@ describe('GrammarService', () => {
     expect(dto.modelltestNumber).toBe(2);
     expect(dto.progress.lessonCompleted).toBe(false);
     expect(Object.prototype.hasOwnProperty.call(dto, 'exercises')).toBe(false);
-    expect(prisma.modelltest.findUnique).toHaveBeenCalledWith({
-      where: { number: 2 },
-      select: { id: true },
-    });
-    expect(prisma.grammarTopicModelltest.findMany).toHaveBeenCalledWith(
+    expect(prisma.grammarTopic.findMany).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: {
-          modelltest_id: 'mt-2',
-          topic: { published: true },
-        },
+        where: { published: true },
+        include: { examples: true },
       }),
     );
+    expect(prisma.grammarTopicModelltest.findMany).not.toHaveBeenCalled();
   });
 
-  it('throws GRAMMAR_POOL_EMPTY when weekly MT has no linked topics', async () => {
-    prisma.grammarTopicModelltest.findMany.mockResolvedValue([]);
+  it('throws GRAMMAR_POOL_EMPTY when no published topics', async () => {
+    prisma.grammarTopic.findMany.mockResolvedValue([]);
     await expect(service.getOfTheDay('student-1', now)).rejects.toBeInstanceOf(
       NotFoundException,
     );
@@ -290,7 +285,7 @@ describe('GrammarService', () => {
   });
 
   it('404 when pool empty', async () => {
-    prisma.grammarTopicModelltest.findMany.mockResolvedValue([]);
+    prisma.grammarTopic.findMany.mockResolvedValue([]);
     await expect(service.getOfTheDay('student-1', now)).rejects.toBeInstanceOf(
       NotFoundException,
     );
