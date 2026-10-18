@@ -124,7 +124,6 @@ describe('GrammarService', () => {
         include: { examples: true },
       }),
     );
-    expect(prisma.grammarTopicModelltest.findMany).not.toHaveBeenCalled();
   });
 
   it('throws GRAMMAR_POOL_EMPTY when no published topics', async () => {

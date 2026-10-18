@@ -166,7 +166,7 @@ export class GrammarService {
       day: this.dayDto(now),
       lessonCompleted: progress.lesson_completed,
       exercises: ordered.map((exo, index) => {
-        const localized = localizeExercise(exo, lang);
+        const localized = localizeExercise(exo, lang, topic);
         return {
           id: exo.id,
           index,
@@ -234,7 +234,7 @@ export class GrammarService {
 
     return {
       exercises: ordered.map((exo) => {
-        const localized = localizeExercise(exo, lang);
+        const localized = localizeExercise(exo, lang, topic);
         return {
           id: exo.id,
           prompt: localized.prompt,
@@ -456,7 +456,7 @@ export class GrammarService {
     }
 
     const lang = parseGrammarLang(opts.lang ?? DEFAULT_GRAMMAR_LANG);
-    const { explanation } = localizeExercise(exo, lang);
+    const { explanation } = localizeExercise(exo, lang, topic);
     return {
       correct,
       explanation,

@@ -1,3 +1,4 @@
+import { shortExplanation } from './grammar-exercise-templates';
 import {
   DEFAULT_GRAMMAR_LANG,
   localizeExercise,
@@ -113,6 +114,36 @@ const exerciseSample: GrammarExerciseLocaleSource = {
 };
 
 describe('localizeExercise', () => {
+  it('restores legacy generated summaries from the full localized rule', () => {
+    const rules = {
+      rule_fr: '## Français\n\n' + 'Règle complète. '.repeat(40),
+      rule_en: '## English\n\n' + 'Complete rule. '.repeat(40),
+      rule_de: '## Deutsch\n\n' + 'Vollständige Regel. '.repeat(40),
+    };
+    const legacy = {
+      ...exerciseSample,
+      explanation_fr: shortExplanation(rules.rule_fr),
+      explanation_en: shortExplanation(rules.rule_en),
+      explanation_de: shortExplanation(rules.rule_de),
+    };
+    expect(localizeExercise(legacy, 'fr', rules).explanation).toBe(
+      rules.rule_fr.trim(),
+    );
+    expect(localizeExercise(legacy, 'en', rules).explanation).toBe(
+      rules.rule_en.trim(),
+    );
+    expect(localizeExercise(legacy, 'de', rules).explanation).toBe(
+      rules.rule_de.trim(),
+    );
+    expect(
+      localizeExercise({ ...legacy, explanation_en: null }, 'en', rules)
+        .explanation,
+    ).toBe(rules.rule_fr.trim());
+    expect(localizeExercise(exerciseSample, 'fr', rules).explanation).toBe(
+      'Akkusatif',
+    );
+  });
+
   it('returns French prompt and explanation', () => {
     expect(localizeExercise(exerciseSample, 'fr')).toEqual({
       prompt: 'Complète : Der _____ bellt.',
