@@ -21,8 +21,20 @@ describe('weekly MT Start access (smoke)', () => {
   const trainingRows = [{ number: 1 }, { number: 2 }, { number: 3 }];
   const entitlements = { mayUse: jest.fn() };
   const prisma = {
+    student: {
+      findUnique: jest.fn().mockResolvedValue({ level: 'B1' }),
+    },
     modelltest: {
       findMany: jest.fn().mockResolvedValue(trainingRows),
+      findFirst: jest.fn().mockImplementation(
+        ({ where }: { where: { number: number } }) =>
+          Promise.resolve(
+            trainingRows.some((r) => r.number === where.number) ||
+              where.number === 99
+              ? { level: 'B1' }
+              : null,
+          ),
+      ),
     },
   };
   const access = new TrainingModelltestAccessService(
@@ -58,7 +70,17 @@ describe('weekly MT Start access (smoke)', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    prisma.student.findUnique.mockResolvedValue({ level: 'B1' });
     prisma.modelltest.findMany.mockResolvedValue(trainingRows);
+    prisma.modelltest.findFirst.mockImplementation(
+      ({ where }: { where: { number: number } }) =>
+        Promise.resolve(
+          trainingRows.some((r) => r.number === where.number) ||
+            where.number === 99
+            ? { level: 'B1' }
+            : null,
+        ),
+    );
   });
 
   describe('TrainingModelltestAccessService', () => {

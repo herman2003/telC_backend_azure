@@ -64,7 +64,10 @@ export class TrainingModelltestAccessService {
       where: { number: modelltestNumber, exam_only: false },
       select: { level: true },
     });
-    if (!mt || mt.level !== level) {
+    if (!mt) {
+      throw new NotFoundException('Modelltest not found');
+    }
+    if (mt.level !== level) {
       throw new ForbiddenException({
         message: 'LEVEL_MISMATCH',
         messageKey: 'levelMismatch',

@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -519,7 +520,8 @@ export class GrammarService {
         now,
         { isGuest: opts.isGuest === true },
       );
-    } catch {
+    } catch (error) {
+      if (error instanceof ForbiddenException) throw error;
       throw new NotFoundException('GRAMMAR_POOL_EMPTY');
     }
 
@@ -626,7 +628,8 @@ export class GrammarService {
       return await this.trainingAccess.weeklyModelltestNumber(studentId, now, {
         isGuest: opts.isGuest === true,
       });
-    } catch {
+    } catch (error) {
+      if (error instanceof ForbiddenException) throw error;
       return undefined;
     }
   }

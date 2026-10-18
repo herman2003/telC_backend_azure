@@ -2,7 +2,9 @@ import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
+  HttpException,
   Injectable,
+  NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { TrainingModelltestAccessService } from '../services/training-modelltest-access.service';
@@ -20,8 +22,11 @@ interface PrepPassRequest {
  * level. Guests pass through — the demo JWT contract already promises
  * Reading / Listening / Sprachbausteine without a seat.
  *
- * When the request names a Modelltest, CEFR is checked even if Prep Pass is
- * active (Option A: pass must not skip level).
+ * When the request names a Modelltest, CEFR + Prep Pass / weekly are checked
+ * via assertMayAccess (Prep Pass must not skip level).
+ *
+ * When no Modelltest is named (list/sessions), Start and Prep Pass may
+ * proceed; handlers that default to a MT must still call the access service.
  */
 @Injectable()
 export class PrepPassGuard implements CanActivate {
@@ -44,22 +49,19 @@ export class PrepPassGuard implements CanActivate {
 
     try {
       const modelltestNumber = extractModelltestNumber(request);
-
-      // Named MT: always enforce CEFR (and Prep Pass / weekly when needed).
       if (modelltestNumber !== null) {
         await this.access.assertMayAccess(studentId, modelltestNumber);
-        return true;
       }
-
-      // List / sessions with no MT number: Prep Pass or Start may proceed;
-      // handlers that default to a MT must still call the access service.
-      if (await this.access.isPrepPassActive(studentId)) {
-        return true;
-      }
-
       return true;
     } catch (error) {
-      if (error instanceof ForbiddenException) throw error;
+      if (
+        error instanceof ForbiddenException ||
+        error instanceof NotFoundException
+      ) {
+        throw error;
+      }
+      // Preserve other HTTP errors from the access layer.
+      if (error instanceof HttpException) throw error;
       throw new ServiceUnavailableException('PREP_PASS_CHECK_UNAVAILABLE');
     }
   }

@@ -72,9 +72,18 @@ describe('TrainingModelltestAccessService', () => {
 
   it('assertMayAccess allows a matching-level MT when Prep Pass is active', async () => {
     entitlements.mayUse.mockResolvedValue({ allowed: true, reason: null });
+    prisma.modelltest.findFirst.mockResolvedValue({ level: 'B1' });
 
     await expect(service.assertMayAccess('s1', 99)).resolves.toBeUndefined();
     expect(prisma.modelltest.findMany).not.toHaveBeenCalled();
+  });
+
+  it('assertLevelAllows returns NotFound when the training MT does not exist', async () => {
+    prisma.modelltest.findFirst.mockResolvedValue(null);
+
+    await expect(service.assertLevelAllows('s1', 99)).rejects.toBeInstanceOf(
+      NotFoundException,
+    );
   });
 
   it('assertMayAccess allows the weekly Modelltest without Prep Pass', async () => {

@@ -5,7 +5,6 @@ describe('PrepPassGuard', () => {
   const access = {
     isPrepPassActive: jest.fn(),
     assertMayAccess: jest.fn(),
-    assertLevelAllows: jest.fn(),
   };
   const guard = new PrepPassGuard(access as never);
 
@@ -32,13 +31,10 @@ describe('PrepPassGuard', () => {
     jest.clearAllMocks();
   });
 
-  it('allows a student with an active Prep Pass when no MT is named', async () => {
-    access.isPrepPassActive.mockResolvedValue(true);
-
+  it('allows a student when no MT is named (list/sessions)', async () => {
     await expect(
       guard.canActivate(contextOf({ studentId: 's1', isGuest: false })),
     ).resolves.toBe(true);
-    expect(access.isPrepPassActive).toHaveBeenCalledWith('s1');
     expect(access.assertMayAccess).not.toHaveBeenCalled();
   });
 
