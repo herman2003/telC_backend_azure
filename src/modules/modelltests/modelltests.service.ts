@@ -37,11 +37,21 @@ export class ModelltestsService {
   async getAll(
     opts: { isGuest?: boolean; studentId?: string } = {},
   ): Promise<ModelltestListItemDto[]> {
+    const levelWhere =
+      opts.isGuest === true || !opts.studentId
+        ? {}
+        : {
+            level: await this.trainingAccess.requireStudentLevel(
+              opts.studentId,
+            ),
+          };
+
     const rows = await this.prisma.modelltest.findMany({
       // Exam material is kept out of the training catalogue, so a sitting can
       // use a Modelltest no student has worked through. Everything that
       // exists today is false; this is what makes the flag mean something.
-      where: { exam_only: false },
+      // Option A: signed-in students only see their CEFR level.
+      where: { exam_only: false, ...levelWhere },
       orderBy: { number: 'asc' },
     });
 
@@ -53,12 +63,19 @@ export class ModelltestsService {
         opts.studentId,
       );
       if (!prepPass) {
-        const weekly = await this.trainingAccess.weeklyModelltestNumber();
+        const weekly = await this.trainingAccess.weeklyModelltestNumber(
+          opts.studentId,
+        );
         visible = rows.filter((row) => row.number === weekly);
       }
     }
 
-    return visible.map(({ id, number, title }) => ({ id, number, title }));
+    return visible.map(({ id, number, title, level }) => ({
+      id,
+      number,
+      title,
+      level,
+    }));
   }
 
   /**
@@ -67,12 +84,21 @@ export class ModelltestsService {
    */
   async getOfTheWeek(
     now: Date = new Date(),
-    opts: { isGuest?: boolean } = {},
+    opts: { isGuest?: boolean; studentId?: string } = {},
   ): Promise<ModelltestOfTheWeekDto> {
+    const levelWhere =
+      opts.isGuest === true || !opts.studentId
+        ? {}
+        : {
+            level: await this.trainingAccess.requireStudentLevel(
+              opts.studentId,
+            ),
+          };
+
     const rows = await this.prisma.modelltest.findMany({
-      where: { exam_only: false },
+      where: { exam_only: false, ...levelWhere },
       orderBy: { number: 'asc' },
-      select: { id: true, number: true, title: true },
+      select: { id: true, number: true, title: true, level: true },
     });
     const pool =
       opts.isGuest === true
@@ -91,6 +117,7 @@ export class ModelltestsService {
       id: row.id,
       number: row.number,
       title: row.title,
+      level: row.level,
       periodStart: periodStart.toISOString(),
       periodEnd: periodEnd.toISOString(),
     };
@@ -105,13 +132,16 @@ export class ModelltestsService {
    */
   async getOfTheWeekContent(
     now: Date = new Date(),
-    opts: { isGuest?: boolean } = {},
+    opts: { isGuest?: boolean; studentId?: string } = {},
   ): Promise<ModelltestOfTheWeekContentDto> {
     if (opts.isGuest === true) {
       throw new ForbiddenException('GUESTS_NOT_ALLOWED');
     }
 
-    const weekly = await this.getOfTheWeek(now, { isGuest: false });
+    const weekly = await this.getOfTheWeek(now, {
+      isGuest: false,
+      studentId: opts.studentId,
+    });
     const n = weekly.number;
 
     const [lesen, sprachbausteine, hoerenTeile, schreiben, sprechen] =
@@ -177,6 +207,7 @@ export class ModelltestsService {
       id: row.id,
       number: row.number,
       title: row.title,
+      level: row.level,
       exercises: {
         sprachbausteineT1: row.sprachbausteineExercises.map((e) => e.id),
         sprachbausteineT2: row.sprachbausteineTeil2Exercises.map((e) => e.id),

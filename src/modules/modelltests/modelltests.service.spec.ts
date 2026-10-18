@@ -13,8 +13,8 @@ const mockPrisma = {
 };
 
 const TRAINING_ROWS = [
-  { id: 'mt1-uuid', number: 1, title: 'Modelltest 1' },
-  { id: 'mt2-uuid', number: 2, title: 'Modelltest 2' },
+  { id: 'mt1-uuid', number: 1, title: 'Modelltest 1', level: 'B1' as const },
+  { id: 'mt2-uuid', number: 2, title: 'Modelltest 2', level: 'B1' as const },
 ];
 
 function daysAfterEpoch(days: number): Date {
@@ -25,6 +25,7 @@ const MT1_ROW = {
   id: 'mt1-uuid',
   number: 1,
   title: 'Modelltest 1',
+  level: 'B1' as const,
   created_at: new Date(),
   sprachbausteineExercises: [{ id: 'sb1-uuid' }],
   sprachbausteineTeil2Exercises: [{ id: 'sb2-uuid' }],
@@ -40,6 +41,7 @@ const mockAccess = {
   isPrepPassActive: jest.fn(),
   assertMayAccess: jest.fn(),
   weeklyModelltestNumber: jest.fn(),
+  requireStudentLevel: jest.fn(),
 };
 
 const mockLesen = { getExercise: jest.fn() };
@@ -59,6 +61,7 @@ describe('ModelltestsService', () => {
     mockAccess.isPrepPassActive.mockResolvedValue(true);
     mockAccess.assertMayAccess.mockResolvedValue(undefined);
     mockAccess.weeklyModelltestNumber.mockResolvedValue(1);
+    mockAccess.requireStudentLevel.mockResolvedValue('B1');
     service = new ModelltestsService(
       mockPrisma as never,
       mockAccess as never,
@@ -77,12 +80,14 @@ describe('ModelltestsService', () => {
           id: 'mt1-uuid',
           number: 1,
           title: 'Modelltest 1',
+          level: 'B1',
           created_at: new Date(),
         },
         {
           id: 'mt2-uuid',
           number: 2,
           title: 'Modelltest 2',
+          level: 'B1',
           created_at: new Date(),
         },
       ]);
@@ -94,11 +99,13 @@ describe('ModelltestsService', () => {
         id: 'mt1-uuid',
         number: 1,
         title: 'Modelltest 1',
+        level: 'B1',
       });
       expect(result[1]).toEqual({
         id: 'mt2-uuid',
         number: 2,
         title: 'Modelltest 2',
+        level: 'B1',
       });
       // Exam-only material is withheld from the training catalogue, so a
       // sitting can use a Modelltest nobody has worked through.
@@ -118,9 +125,27 @@ describe('ModelltestsService', () => {
 
     it('hides Modelltest 3+ from guests', async () => {
       mockPrisma.modelltest.findMany.mockResolvedValue([
-        { id: 'mt1', number: 1, title: 'Modelltest 1', created_at: new Date() },
-        { id: 'mt2', number: 2, title: 'Modelltest 2', created_at: new Date() },
-        { id: 'mt3', number: 3, title: 'Modelltest 3', created_at: new Date() },
+        {
+          id: 'mt1',
+          number: 1,
+          title: 'Modelltest 1',
+          level: 'B1',
+          created_at: new Date(),
+        },
+        {
+          id: 'mt2',
+          number: 2,
+          title: 'Modelltest 2',
+          level: 'B1',
+          created_at: new Date(),
+        },
+        {
+          id: 'mt3',
+          number: 3,
+          title: 'Modelltest 3',
+          level: 'B1',
+          created_at: new Date(),
+        },
       ]);
 
       const result = await service.getAll({ isGuest: true });
@@ -134,6 +159,11 @@ describe('ModelltestsService', () => {
 
       const result = await service.getAll({ studentId: 's1' });
 
+      expect(mockAccess.requireStudentLevel).toHaveBeenCalledWith('s1');
+      expect(mockPrisma.modelltest.findMany).toHaveBeenCalledWith({
+        where: { exam_only: false, level: 'B1' },
+        orderBy: { number: 'asc' },
+      });
       expect(result.map((r) => r.number)).toEqual([1, 2]);
     });
 
@@ -144,8 +174,9 @@ describe('ModelltestsService', () => {
 
       const result = await service.getAll({ studentId: 's1' });
 
+      expect(mockAccess.weeklyModelltestNumber).toHaveBeenCalledWith('s1');
       expect(result).toEqual([
-        { id: 'mt2-uuid', number: 2, title: 'Modelltest 2' },
+        { id: 'mt2-uuid', number: 2, title: 'Modelltest 2', level: 'B1' },
       ]);
     });
   });
@@ -241,7 +272,7 @@ describe('ModelltestsService', () => {
     it('rotates guests only among allowlisted Modelltests', async () => {
       mockPrisma.modelltest.findMany.mockResolvedValue([
         ...TRAINING_ROWS,
-        { id: 'mt3-uuid', number: 3, title: 'Modelltest 3' },
+        { id: 'mt3-uuid', number: 3, title: 'Modelltest 3', level: 'B1' },
       ]);
 
       const day0 = await service.getOfTheWeek(daysAfterEpoch(0), {
@@ -285,7 +316,20 @@ describe('ModelltestsService', () => {
       expect(mockPrisma.modelltest.findMany).toHaveBeenCalledWith({
         where: { exam_only: false },
         orderBy: { number: 'asc' },
-        select: { id: true, number: true, title: true },
+        select: { id: true, number: true, title: true, level: true },
+      });
+    });
+
+    it('scopes of-the-week to the student CEFR level', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue(TRAINING_ROWS);
+
+      await service.getOfTheWeek(daysAfterEpoch(0), { studentId: 's1' });
+
+      expect(mockAccess.requireStudentLevel).toHaveBeenCalledWith('s1');
+      expect(mockPrisma.modelltest.findMany).toHaveBeenCalledWith({
+        where: { exam_only: false, level: 'B1' },
+        orderBy: { number: 'asc' },
+        select: { id: true, number: true, title: true, level: true },
       });
     });
   });

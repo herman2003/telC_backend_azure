@@ -108,10 +108,13 @@ export class GrammarController {
   })
   @ApiOkResponse({ type: GrammarPracticeExercisesDto })
   practiceExercises(
+    @CurrentStudent() student: AccessTokenPayload,
     @Query() query: GrammarPracticeQueryDto,
   ): Promise<GrammarPracticeExercisesDto> {
     return this.grammar.getPracticeExercises(query.difficulty, {
       lang: query.lang,
+      isGuest: student.isGuest === true,
+      studentId: student.studentId,
     });
   }
 

@@ -93,6 +93,20 @@ describe('midPeriodAdditionHt', () => {
     expect(result.daysInPeriod).toBe(17);
     expect(result.amountHtXaf).toBe(6 * 4_500);
   });
+
+  it('lets the full-pack ceiling win over the min floor when pack HT is below it', () => {
+    // Catalogue / stamp below MIN_PRO_RATA: never invent money above the pack.
+    const result = midPeriodAdditionHt({
+      addedSeats: 1,
+      unitPriceXaf: 500,
+      paidUntil: doualaMidnight('2026-02-01'),
+      now: doualaMidnight('2026-01-29'),
+      anchorDay: 1,
+    });
+
+    // 500 × 3 / 31 ≈ 48 → ceil 100 = 100 → floor 1_000 → cap at 500
+    expect(result.amountHtXaf).toBe(500);
+  });
 });
 
 describe('priceSeatsDue', () => {
