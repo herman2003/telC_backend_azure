@@ -2,6 +2,8 @@ export interface ModelltestListItemDto {
   id: string;
   number: number;
   title: string;
+  /** CEFR level of this Modelltest (Option A catalogue filter). */
+  level: 'A1' | 'A2' | 'B1' | 'B2';
 }
 
 export interface ModelltestExercisesDto {
