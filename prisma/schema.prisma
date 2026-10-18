@@ -992,7 +992,6 @@ model Modelltest {
   examSessions                  ExamSession[]
   vocab_occurrences             VocabOccurrence[]
   vocab_exercises               VocabExercise[]
-  grammar_topic_links           GrammarTopicModelltest[]
 
   /// Kept out of the training catalogue, so an exam sitting can use material
   /// no student has seen. False for everything that exists today.
@@ -1619,28 +1618,12 @@ model GrammarTopic {
   created_at   DateTime @default(now()) @db.Timestamptz(6)
   updated_at   DateTime @default(now()) @updatedAt @db.Timestamptz(6)
 
-  examples    GrammarExample[]
-  exercises   GrammarExercise[]
-  progress    GrammarTopicProgress[]
-  modelltests GrammarTopicModelltest[]
+  examples  GrammarExample[]
+  exercises GrammarExercise[]
+  progress  GrammarTopicProgress[]
 
   @@index([published, sort_order])
   @@map("grammar_topics")
-}
-
-/// Weekly MT ↔ grammar topics (pool for of-the-day within the week).
-model GrammarTopicModelltest {
-  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  topic_id      String @db.Uuid
-  modelltest_id String @db.Uuid
-  sort_order    Int    @default(0)
-
-  topic      GrammarTopic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
-  modelltest Modelltest   @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
-
-  @@unique([topic_id, modelltest_id])
-  @@index([modelltest_id, sort_order])
-  @@map("grammar_topic_modelltests")
 }
 
 model GrammarExample {

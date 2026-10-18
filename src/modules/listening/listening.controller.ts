@@ -203,7 +203,9 @@ export class ListeningController {
     },
   })
   @ApiBadRequestResponse({
-    description: 'NO_PLAYS_LEFT | AUDIO_UNAVAILABLE | AUDIO_DURATION_MISSING',
+    description:
+      'AUDIO_UNAVAILABLE | AUDIO_DURATION_MISSING — /play always returns a ' +
+      'fresh signed URL; expired links fail later with AUDIO_TOKEN_EXPIRED.',
   })
   @ApiNotFoundResponse({ description: 'AUDIO_NOT_FOUND' })
   async playAudio(
