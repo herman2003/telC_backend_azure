@@ -93,6 +93,7 @@ export class GrammarProgressDto {
 }
 
 export class GrammarOfTheDayDto {
+  /** Weekly MT number (informational only — of-the-day pool is not MT-scoped). */
   @ApiPropertyOptional()
   modelltestNumber?: number;
 
