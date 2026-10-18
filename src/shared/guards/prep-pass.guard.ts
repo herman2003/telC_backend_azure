@@ -73,11 +73,13 @@ function extractModelltestNumber(request: PrepPassRequest): number | null {
     request.body?.modelltestNumber ??
     request.params?.number;
 
-  if (raw === undefined || raw === null || raw === '') {
+  if (typeof raw === 'number') {
+    return Number.isInteger(raw) && raw >= 1 ? raw : null;
+  }
+  if (typeof raw !== 'string' || raw === '') {
     return null;
   }
-
-  const n = typeof raw === 'number' ? raw : Number(String(raw));
+  const n = Number(raw);
   if (!Number.isInteger(n) || n < 1) {
     return null;
   }

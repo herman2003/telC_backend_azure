@@ -142,9 +142,9 @@ describe('PrepPassGuard', () => {
   });
 
   it('refuses a token with no studentId', async () => {
-    await expect(guard.canActivate(contextOf(undefined))).rejects.toBeInstanceOf(
-      ForbiddenException,
-    );
+    await expect(
+      guard.canActivate(contextOf(undefined)),
+    ).rejects.toBeInstanceOf(ForbiddenException);
     expect(access.isPrepPassActive).not.toHaveBeenCalled();
   });
 });

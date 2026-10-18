@@ -26,15 +26,16 @@ describe('weekly MT Start access (smoke)', () => {
     },
     modelltest: {
       findMany: jest.fn().mockResolvedValue(trainingRows),
-      findFirst: jest.fn().mockImplementation(
-        ({ where }: { where: { number: number } }) =>
+      findFirst: jest
+        .fn()
+        .mockImplementation(({ where }: { where: { number: number } }) =>
           Promise.resolve(
             trainingRows.some((r) => r.number === where.number) ||
               where.number === 99
               ? { level: 'B1' }
               : null,
           ),
-      ),
+        ),
     },
   };
   const access = new TrainingModelltestAccessService(
@@ -95,11 +96,11 @@ describe('weekly MT Start access (smoke)', () => {
       await expect(
         access.assertMayAccess('s1', 1, epoch),
       ).resolves.toBeUndefined();
-      await expect(access.assertMayAccess('s1', 2, epoch)).rejects.toMatchObject(
-        {
-          response: { messageKey: 'prepPassRequired', reason: 'NOT_HELD' },
-        },
-      );
+      await expect(
+        access.assertMayAccess('s1', 2, epoch),
+      ).rejects.toMatchObject({
+        response: { messageKey: 'prepPassRequired', reason: 'NOT_HELD' },
+      });
     });
 
     it('Prep Pass: any Modelltest allowed', async () => {

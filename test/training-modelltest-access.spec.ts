@@ -121,9 +121,9 @@ describe('TrainingModelltestAccessService', () => {
     prisma.student.findUnique.mockResolvedValue({ level: 'A2' });
     prisma.modelltest.findMany.mockResolvedValue([]);
 
-    await expect(
-      service.weeklyModelltestNumber('s1'),
-    ).rejects.toBeInstanceOf(NotFoundException);
+    await expect(service.weeklyModelltestNumber('s1')).rejects.toBeInstanceOf(
+      NotFoundException,
+    );
 
     expect(prisma.modelltest.findMany).toHaveBeenCalledWith({
       where: { exam_only: false, level: 'A2' },
@@ -133,7 +133,9 @@ describe('TrainingModelltestAccessService', () => {
   });
 
   it('weeklyModelltestNumber for guests ignores CEFR', async () => {
-    await service.weeklyModelltestNumber('guest', new Date(), { isGuest: true });
+    await service.weeklyModelltestNumber('guest', new Date(), {
+      isGuest: true,
+    });
 
     expect(prisma.student.findUnique).not.toHaveBeenCalled();
     expect(prisma.modelltest.findMany).toHaveBeenCalledWith({

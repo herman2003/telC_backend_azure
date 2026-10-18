@@ -7,7 +7,10 @@ import {
 import type { CefrLevel } from '@prisma/client';
 import { getSevenDayPeriod } from '../../modules/modelltests/seven-day-period';
 import { PrismaService } from './prisma.service';
-import { EntitlementSpendService } from './entitlement-spend.service';
+import {
+  EntitlementSpendService,
+  type EntitlementDecision,
+} from './entitlement-spend.service';
 
 /**
  * Start may train on the current weekly Modelltest; Prep Pass unlocks the
@@ -23,9 +26,16 @@ export class TrainingModelltestAccessService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async isPrepPassActive(studentId: string, now: Date = new Date()): Promise<boolean> {
+  async isPrepPassActive(
+    studentId: string,
+    now: Date = new Date(),
+  ): Promise<boolean> {
     try {
-      const decision = await this.entitlements.mayUse(studentId, 'PREP_PASS', now);
+      const decision = await this.entitlements.mayUse(
+        studentId,
+        'PREP_PASS',
+        now,
+      );
       return decision.allowed;
     } catch (error) {
       if (error instanceof ForbiddenException) throw error;
@@ -83,7 +93,7 @@ export class TrainingModelltestAccessService {
     // CEFR first — Prep Pass only widens how many MT of that level are open.
     await this.assertLevelAllows(studentId, modelltestNumber);
 
-    let decision;
+    let decision: EntitlementDecision;
     try {
       decision = await this.entitlements.mayUse(studentId, 'PREP_PASS', now);
     } catch (error) {
