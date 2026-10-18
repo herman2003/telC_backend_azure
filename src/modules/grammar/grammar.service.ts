@@ -506,42 +506,28 @@ export class GrammarService {
   }
 
   /**
-   * Today's topic from the weekly Modelltest pool (not the global 365 catalogue).
+   * Today's topic from all published grammar topics (independent of Modelltest).
+   * Still checks weekly MT access entitlement before serving the catalogue.
    */
   private async resolveTopicOfTheDay(
     studentId: string,
     now: Date,
     opts: GrammarAccessOpts = {},
   ) {
-    let weeklyNumber: number;
     try {
-      weeklyNumber = await this.trainingAccess.weeklyModelltestNumber(
-        studentId,
-        now,
-        { isGuest: opts.isGuest === true },
-      );
+      await this.trainingAccess.weeklyModelltestNumber(studentId, now, {
+        isGuest: opts.isGuest === true,
+      });
     } catch (error) {
       if (error instanceof ForbiddenException) throw error;
       throw new NotFoundException('GRAMMAR_POOL_EMPTY');
     }
 
-    const mt = await this.prisma.modelltest.findUnique({
-      where: { number: weeklyNumber },
-      select: { id: true },
+    const pool = await this.prisma.grammarTopic.findMany({
+      where: { published: true },
+      include: { examples: true },
+      orderBy: [{ sort_order: 'asc' }, { slug: 'asc' }],
     });
-    if (!mt) {
-      throw new NotFoundException('GRAMMAR_POOL_EMPTY');
-    }
-
-    const links = await this.prisma.grammarTopicModelltest.findMany({
-      where: {
-        modelltest_id: mt.id,
-        topic: { published: true },
-      },
-      include: { topic: { include: { examples: true } } },
-      orderBy: [{ sort_order: 'asc' }, { topic: { slug: 'asc' } }],
-    });
-    const pool = links.map((link) => link.topic);
     if (pool.length === 0) {
       throw new NotFoundException('GRAMMAR_POOL_EMPTY');
     }
