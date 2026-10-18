@@ -77,6 +77,26 @@ describe('grammar-exercise-templates', () => {
     ).toBe(false);
   });
 
+  it('keeps the entire Markdown explanation in every generated exercise', () => {
+    const rule =
+      '## W-Fragen\n\n| Mot | Sens |\n|---|---|\n| wer | qui |\n\n' +
+      'Une explication complète. '.repeat(30) +
+      '\n\nFin de la règle.';
+    const generated = generateExercisesFromExamples({
+      ...base,
+      ruleFr: rule,
+      ruleEn: rule,
+      ruleDe: rule,
+      examples: [{ de: 'Wo wohnst du?' }],
+    });
+    expect(generated.length).toBeGreaterThan(0);
+    for (const exercise of generated) {
+      expect(exercise.explanation_fr.startsWith(rule)).toBe(true);
+      expect(exercise.explanation_en.startsWith(rule)).toBe(true);
+      expect(exercise.explanation_de.startsWith(rule)).toBe(true);
+    }
+  });
+
   it('shortExplanation truncates long lesson text', () => {
     const tip = shortExplanation(base.ruleFr, 80);
     expect(tip.length).toBeLessThanOrEqual(80);

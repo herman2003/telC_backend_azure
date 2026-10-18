@@ -38,7 +38,7 @@ Plan détail : `docs/superpowers/plans/2026-10-17-vocab-senses-conjugations-mt-s
 | 4 | ✅ Grammar = **thème du jour** ; thèmes **peuvent se répéter** | — |
 | 4b | ✅ Leçon → exos linéaire ; succès requis pour débloquer | — |
 | 4c | ✅ Déblocage exo suivant : **bonne réponse** | `409` si locked |
-| 4d | ✅ Pool grammar = topics **liés au MT weekly** (≥7 / MT) | `npm run grammar:link-modelltests` ; plus de pool global 365 |
+| 4d | ✅ Pool grammar = **tous les topics publiés** (indépendant du MT) | table `grammar_topic_modelltests` supprimée |
 | 5 | ✅ Fiche = lemma(+article)+pos ; **N sens** avec exemple+trad | Remplace glossesFr[] seul |
 | 6 | ✅ Catalogue réputé **tous niveaux CEFR** | — |
 | 7 | ✅ Localisation fiches : **FR + EN** | Conjugaison = DE only |
@@ -323,21 +323,7 @@ model GrammarTopic {
 
   examples     GrammarExample[]
   exercises    GrammarExercise[]
-  modelltests  GrammarTopicModelltest[] // pack weekly
-
   @@map("grammar_topics")
-}
-
-/// Liaison topic ↔ Modelltest (pour of-the-week grammar).
-model GrammarTopicModelltest {
-  topic_id      String @db.Uuid
-  modelltest_id String @db.Uuid
-
-  topic      GrammarTopic @relation(fields: [topic_id], references: [id])
-  modelltest Modelltest   @relation(fields: [modelltest_id], references: [id])
-
-  @@id([topic_id, modelltest_id])
-  @@map("grammar_topic_modelltests")
 }
 
 model GrammarExample {
@@ -491,8 +477,6 @@ Même epoch UTC que la rotation MT → déterministe, testable, même thème pou
 | Progress | Si le thème revient → **reprise** (`GrammarTopicProgress`) |
 | Vocab | Pack **hebdo** MT (inchangé) |
 | Méta UI | On peut quand même renvoyer `modelltestNumber` weekly pour cohérence visuelle avec le reste de l’app |
-
-`grammar_topic_modelltests` : **optionnel / plus tard** (éditorial par MT). V1 n’en dépend pas.
 
 UI V1 : pas de liste « toutes les leçons ». Uniquement le thème du jour.  
 V1.1 optionnel : `GET /api/grammar/of-the-week` = aperçu des 7 thèmes (hors scope MVP).
@@ -739,7 +723,6 @@ npm run vocab:extract-from-modelltests
 npm run vocab:enrich
 npm run grammar:import-rep12
 npm run grammar:translate-fr
-npm run grammar:link-modelltests
 ```
 
 ---

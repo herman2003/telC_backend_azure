@@ -24,6 +24,10 @@
 
 `ActivationCodeDto.level`: `A1` \| `A2` \| `B1` \| `B2` \| `null`. Body for PATCH: `{ "level": "A2" }` or `{ "level": null }`. On redeem, a non-null code level is copied onto the student.
 
+### Training catalogue (Option A)
+
+After redeem, training lists / access are filtered by `student.level` vs `Modelltest.level` (exact match). Errors: `LEVEL_REQUIRED` (no level on student), `LEVEL_MISMATCH` (wrong MT). Prep Pass unlocks the full pool **of that level only**. Without content for A1/A2/B2 yet, those seats see an empty training catalogue.
+
 There is **no** `activate` / reactivate-of-deactivated route.
 
 ## Errors (manager)

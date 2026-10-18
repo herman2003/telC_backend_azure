@@ -133,7 +133,7 @@ function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-/** Short tip for the QCM (not the full lesson dump). */
+/** Legacy summary format, retained to recognize already-stored explanations. */
 export function shortExplanation(rule: string, max = 320): string {
   const plain = rule
     .replace(/^#+\s*/gm, '')
@@ -287,9 +287,9 @@ function pickExamples(
 
 function tipBundle(ruleFr: string, ruleEn: string, ruleDe: string) {
   return {
-    explanation_fr: shortExplanation(ruleFr),
-    explanation_en: shortExplanation(ruleEn),
-    explanation_de: shortExplanation(ruleDe),
+    explanation_fr: ruleFr.trim(),
+    explanation_en: ruleEn.trim(),
+    explanation_de: ruleDe.trim(),
   };
 }
 

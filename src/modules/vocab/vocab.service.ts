@@ -61,7 +61,11 @@ export class VocabService {
     opts: { isGuest?: boolean; lang?: string | null } = {},
   ): Promise<VocabOfTheWeekDto> {
     const lang = parseVocabLang(opts.lang);
-    const weeklyNumber = await this.trainingAccess.weeklyModelltestNumber(now);
+    const weeklyNumber = await this.trainingAccess.weeklyModelltestNumber(
+      studentId,
+      now,
+      { isGuest: opts.isGuest === true },
+    );
     const mt = await this.prisma.modelltest.findUnique({
       where: { number: weeklyNumber },
     });

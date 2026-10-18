@@ -1,3 +1,5 @@
+import { shortExplanation } from './grammar-exercise-templates';
+
 export const GRAMMAR_LANGS = ['fr', 'en', 'de'] as const;
 export type GrammarLang = (typeof GRAMMAR_LANGS)[number];
 export const DEFAULT_GRAMMAR_LANG: GrammarLang = 'fr';
@@ -124,22 +126,43 @@ export type LocalizedGrammarExerciseFields = {
 export function localizeExercise(
   exo: GrammarExerciseLocaleSource,
   lang: GrammarLang,
+  topic?: Pick<GrammarTopicLocaleSource, 'rule_fr' | 'rule_en' | 'rule_de'>,
 ): LocalizedGrammarExerciseFields {
+  // Repair legacy generated summaries without changing authored corrections or
+  // requiring a destructive regeneration of exercise IDs and student progress.
+  const completeExplanation = (value: string | null): string | null => {
+    if (!topic || !value) return value;
+    const rule =
+      lang === 'de' && exo.explanation_de?.trim()
+        ? topic.rule_de
+        : lang === 'en' && exo.explanation_en?.trim()
+          ? pickWithFallback(topic.rule_en, topic.rule_fr)
+          : topic.rule_fr;
+    const legacy = shortExplanation(rule);
+    if (value === legacy || value.startsWith(`${legacy}\n\n`)) {
+      return rule.trim() + value.slice(legacy.length);
+    }
+    return value;
+  };
   switch (lang) {
     case 'fr':
       return {
         prompt: exo.prompt_fr,
-        explanation: pickNotes(exo.explanation_fr, null),
+        explanation: completeExplanation(pickNotes(exo.explanation_fr, null)),
       };
     case 'en':
       return {
         prompt: pickWithFallback(exo.prompt_en, exo.prompt_fr),
-        explanation: pickNotes(exo.explanation_en, exo.explanation_fr),
+        explanation: completeExplanation(
+          pickNotes(exo.explanation_en, exo.explanation_fr),
+        ),
       };
     case 'de':
       return {
         prompt: pickWithFallback(exo.prompt_de, exo.prompt_fr),
-        explanation: pickNotes(exo.explanation_de, exo.explanation_fr),
+        explanation: completeExplanation(
+          pickNotes(exo.explanation_de, exo.explanation_fr),
+        ),
       };
     default: {
       const _exhaustive: never = lang;
