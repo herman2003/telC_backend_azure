@@ -40,9 +40,9 @@
     "vocab:enrich-pack-senses": "ts-node -r dotenv/config scripts/vocab-enrich-pack-senses.ts",
     "vocab:fill-conjugations": "ts-node -r dotenv/config scripts/vocab-fill-conjugations.ts",
     "vocab:backfill-fr": "ts-node -r dotenv/config scripts/vocab-backfill-fr-meanings.ts",
-    "vocab:curate-weekly-pack": "ts-node -r dotenv/config scripts/vocab-curate-weekly-pack.ts",
-    "grammar:link-modelltests": "ts-node -r dotenv/config scripts/grammar-link-modelltests.ts"
+    "vocab:curate-weekly-pack": "ts-node -r dotenv/config scripts/vocab-curate-weekly-pack.ts"
   },
+
   "dependencies": {
     "@google/genai": "^1.40.0",
     "@nestjs/cli": "^11.0.0",

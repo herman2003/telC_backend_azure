@@ -82,9 +82,6 @@ describe('GrammarService', () => {
       modelltest: {
         findUnique: jest.fn().mockResolvedValue({ id: 'mt-2' }),
       },
-      grammarTopicModelltest: {
-        findMany: jest.fn().mockResolvedValue([{ topic }]),
-      },
       grammarTopic: {
         findMany: jest.fn().mockResolvedValue([topic]),
       },
@@ -127,7 +124,6 @@ describe('GrammarService', () => {
         include: { examples: true },
       }),
     );
-    expect(prisma.grammarTopicModelltest.findMany).not.toHaveBeenCalled();
   });
 
   it('throws GRAMMAR_POOL_EMPTY when no published topics', async () => {
