@@ -31,14 +31,41 @@ describe('PrepPassGuard', () => {
     jest.clearAllMocks();
   });
 
-  it('allows a student with an active Prep Pass', async () => {
-    access.isPrepPassActive.mockResolvedValue(true);
-
+  it('allows a student when no MT is named (list/sessions)', async () => {
     await expect(
       guard.canActivate(contextOf({ studentId: 's1', isGuest: false })),
     ).resolves.toBe(true);
-    expect(access.isPrepPassActive).toHaveBeenCalledWith('s1');
     expect(access.assertMayAccess).not.toHaveBeenCalled();
+  });
+
+  it('still checks assertMayAccess for Prep Pass holders when a MT is named', async () => {
+    access.isPrepPassActive.mockResolvedValue(true);
+    access.assertMayAccess.mockResolvedValue(undefined);
+
+    await expect(
+      guard.canActivate(
+        contextOf(
+          { studentId: 's1', isGuest: false },
+          { query: { modelltest: '2' } },
+        ),
+      ),
+    ).resolves.toBe(true);
+    expect(access.assertMayAccess).toHaveBeenCalledWith('s1', 2);
+  });
+
+  it('refuses Prep Pass holders on LEVEL_MISMATCH', async () => {
+    access.assertMayAccess.mockRejectedValue(
+      new ForbiddenException({ message: 'LEVEL_MISMATCH' }),
+    );
+
+    await expect(
+      guard.canActivate(
+        contextOf(
+          { studentId: 's1', isGuest: false },
+          { query: { modelltest: '2' } },
+        ),
+      ),
+    ).rejects.toBeInstanceOf(ForbiddenException);
   });
 
   it('allows Start-only when no Modelltest is on the request (list/sessions)', async () => {
@@ -115,9 +142,9 @@ describe('PrepPassGuard', () => {
   });
 
   it('refuses a token with no studentId', async () => {
-    await expect(guard.canActivate(contextOf(undefined))).rejects.toBeInstanceOf(
-      ForbiddenException,
-    );
+    await expect(
+      guard.canActivate(contextOf(undefined)),
+    ).rejects.toBeInstanceOf(ForbiddenException);
     expect(access.isPrepPassActive).not.toHaveBeenCalled();
   });
 });

@@ -997,6 +997,10 @@ model Modelltest {
   /// no student has seen. False for everything that exists today.
   exam_only Boolean @default(false)
 
+  /// CEFR exam this Modelltest prepares for (Option A: student.level must match).
+  level CefrLevel @default(B1)
+
+  @@index([level, exam_only])
   @@map("modelltests")
 }
 

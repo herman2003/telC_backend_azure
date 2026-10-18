@@ -26,6 +26,7 @@ export class ModelltestOfTheWeekController {
   ): Promise<ModelltestOfTheWeekDto> {
     return this.service.getOfTheWeek(new Date(), {
       isGuest: student?.isGuest === true,
+      studentId: student?.isGuest === true ? undefined : student?.studentId,
     });
   }
 
@@ -35,6 +36,7 @@ export class ModelltestOfTheWeekController {
   ): Promise<ModelltestOfTheWeekContentDto> {
     return this.service.getOfTheWeekContent(new Date(), {
       isGuest: student?.isGuest === true,
+      studentId: student?.isGuest === true ? undefined : student?.studentId,
     });
   }
 }
