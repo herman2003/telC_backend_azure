@@ -40,7 +40,12 @@ import type {
   SubmitGrammarPracticeResponseDto,
 } from './dto/grammar.dto';
 
-type GrammarAccessOpts = { isGuest?: boolean; lang?: GrammarLang };
+type GrammarAccessOpts = {
+  isGuest?: boolean;
+  lang?: GrammarLang;
+  /** When set on free-practice, weekly pool is CEFR-scoped. */
+  studentId?: string;
+};
 
 type GrammarProgressRow = {
   id: string;
@@ -64,14 +69,14 @@ export class GrammarService {
     opts: GrammarAccessOpts = {},
   ): Promise<GrammarOfTheDayDto> {
     const lang = parseGrammarLang(opts.lang ?? DEFAULT_GRAMMAR_LANG);
-    const topic = await this.resolveTopicOfTheDay(now);
+    const topic = await this.resolveTopicOfTheDay(studentId, now, opts);
     const [progress, dayExercises, modelltestNumber] = await Promise.all([
       this.getOrInitProgress(studentId, topic.id, opts),
       this.prisma.grammarExercise.findMany({
         where: { topic_id: topic.id },
         select: { id: true, difficulty: true, sort_order: true },
       }),
-      this.safeWeeklyNumber(now),
+      this.safeWeeklyNumber(studentId, now, opts),
     ]);
     const exercisesTotal = pickOfTheDayExercises(dayExercises).length;
 
@@ -109,7 +114,7 @@ export class GrammarService {
     now: Date = new Date(),
     opts: GrammarAccessOpts = {},
   ): Promise<CompleteLessonResponseDto> {
-    const topic = await this.resolveTopicOfTheDay(now);
+    const topic = await this.resolveTopicOfTheDay(studentId, now, opts);
     const progress = await this.getOrInitProgress(studentId, topic.id, opts);
 
     if (opts.isGuest === true) {
@@ -147,7 +152,7 @@ export class GrammarService {
     opts: GrammarAccessOpts = {},
   ): Promise<GrammarExercisesOfTheDayDto> {
     const lang = parseGrammarLang(opts.lang ?? DEFAULT_GRAMMAR_LANG);
-    const topic = await this.resolveTopicOfTheDay(now);
+    const topic = await this.resolveTopicOfTheDay(studentId, now, opts);
     const progress = await this.getOrInitProgress(studentId, topic.id, opts);
     const raw = await this.prisma.grammarExercise.findMany({
       where: { topic_id: topic.id },
@@ -210,7 +215,11 @@ export class GrammarService {
       throw new BadRequestException('GRAMMAR_DIFFICULTY_INVALID');
     }
 
-    const topic = await this.resolveTopicOfTheDay(now);
+    const practiceStudentId = opts.studentId ?? 'guest-practice';
+    const topic = await this.resolveTopicOfTheDay(practiceStudentId, now, {
+      ...opts,
+      isGuest: opts.isGuest === true || !opts.studentId,
+    });
     const raw = await this.prisma.grammarExercise.findMany({
       where: {
         topic_id: topic.id,
@@ -386,7 +395,7 @@ export class GrammarService {
     now: Date = new Date(),
     opts: GrammarAccessOpts = {},
   ): Promise<SubmitGrammarExerciseResponseDto> {
-    const topic = await this.resolveTopicOfTheDay(now);
+    const topic = await this.resolveTopicOfTheDay(studentId, now, opts);
     const progress = await this.getOrInitProgress(studentId, topic.id, opts);
 
     if (!progress.lesson_completed) {
@@ -498,10 +507,18 @@ export class GrammarService {
   /**
    * Today's topic from the weekly Modelltest pool (not the global 365 catalogue).
    */
-  private async resolveTopicOfTheDay(now: Date) {
+  private async resolveTopicOfTheDay(
+    studentId: string,
+    now: Date,
+    opts: GrammarAccessOpts = {},
+  ) {
     let weeklyNumber: number;
     try {
-      weeklyNumber = await this.trainingAccess.weeklyModelltestNumber(now);
+      weeklyNumber = await this.trainingAccess.weeklyModelltestNumber(
+        studentId,
+        now,
+        { isGuest: opts.isGuest === true },
+      );
     } catch {
       throw new NotFoundException('GRAMMAR_POOL_EMPTY');
     }
@@ -600,9 +617,15 @@ export class GrammarService {
     };
   }
 
-  private async safeWeeklyNumber(now: Date): Promise<number | undefined> {
+  private async safeWeeklyNumber(
+    studentId: string,
+    now: Date,
+    opts: GrammarAccessOpts = {},
+  ): Promise<number | undefined> {
     try {
-      return await this.trainingAccess.weeklyModelltestNumber(now);
+      return await this.trainingAccess.weeklyModelltestNumber(studentId, now, {
+        isGuest: opts.isGuest === true,
+      });
     } catch {
       return undefined;
     }

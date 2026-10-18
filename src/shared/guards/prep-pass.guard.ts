@@ -15,14 +15,13 @@ interface PrepPassRequest {
 }
 
 /**
- * Training library gate: Prep Pass unlocks the full pool; Start alone may
- * reach the current weekly Modelltest (Hören / Lesen / Sprachbausteine /
- * catalogue). Guests pass through — the demo JWT contract already promises
+ * Training library gate: Prep Pass unlocks the full pool for the student's
+ * CEFR level; Start alone may reach the current weekly Modelltest of that
+ * level. Guests pass through — the demo JWT contract already promises
  * Reading / Listening / Sprachbausteine without a seat.
  *
- * When the request does not name a Modelltest (list/sessions), Start may
- * proceed; handlers that default content to MT 1 must still pass that number
- * (or call the access service) so non-weekly defaults stay blocked.
+ * When the request names a Modelltest, CEFR is checked even if Prep Pass is
+ * active (Option A: pass must not skip level).
  */
 @Injectable()
 export class PrepPassGuard implements CanActivate {
@@ -44,16 +43,20 @@ export class PrepPassGuard implements CanActivate {
     }
 
     try {
+      const modelltestNumber = extractModelltestNumber(request);
+
+      // Named MT: always enforce CEFR (and Prep Pass / weekly when needed).
+      if (modelltestNumber !== null) {
+        await this.access.assertMayAccess(studentId, modelltestNumber);
+        return true;
+      }
+
+      // List / sessions with no MT number: Prep Pass or Start may proceed;
+      // handlers that default to a MT must still call the access service.
       if (await this.access.isPrepPassActive(studentId)) {
         return true;
       }
 
-      const modelltestNumber = extractModelltestNumber(request);
-      if (modelltestNumber === null) {
-        return true;
-      }
-
-      await this.access.assertMayAccess(studentId, modelltestNumber);
       return true;
     } catch (error) {
       if (error instanceof ForbiddenException) throw error;
