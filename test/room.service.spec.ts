@@ -23,6 +23,28 @@ describe('RoomService', () => {
 
   // ─── createRoom ─────────────────────────────────────────────────────────────
 
+  describe('a level with no topics yet', () => {
+    /**
+     * A level is openable before its topics are written, and must say so.
+     *
+     * B2 students exist as soon as a centre sets a seat to B2, while the 60 B2
+     * Live Room topics are content that arrives separately. The old code threw
+     * a bare Error from pickTopic, which the controller turned into a 500 and
+     * the gateway into an unhandled failure — a student told nothing, and a
+     * paging alert for a content gap. It must be a stated reason instead, and
+     * it must never quietly hand out a B1 topic.
+     */
+    it('refuses with a reason rather than a 500 or a B1 topic', () => {
+      expect(() => service.createRoom('B2')).toThrow(
+        /NO_TOPICS_FOR_LEVEL/,
+      );
+    });
+
+    it('still serves B1, whose topics exist', () => {
+      expect(service.createRoom('B1').topic.level).toBe('B1');
+    });
+  });
+
   describe('createRoom()', () => {
     it('stores and returns one B1 topic as the first used topic', () => {
       jest.spyOn(Math, 'random').mockReturnValue(0);

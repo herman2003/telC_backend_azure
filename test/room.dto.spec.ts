@@ -94,13 +94,21 @@ describe('RoomInfoResponseDto', () => {
 });
 
 describe('CreateRoomQueryDto', () => {
-  it('accepts level B1', async () => {
-    const dto = plainToInstance(CreateRoomQueryDto, { level: 'B1' });
+  /**
+   * Every CEFR level the product sells is accepted.
+   *
+   * The validator used to be `@IsIn(['B1'])`, which made a Live Room a 400 for
+   * anyone who was not B1 — on a feature Start sells as unlimited. Whether a
+   * level has topics to talk about is a content question, answered further in
+   * with a reason, not a validation error on the way in.
+   */
+  it.each(['A1', 'A2', 'B1', 'B2'])('accepts level %s', async (level) => {
+    const dto = plainToInstance(CreateRoomQueryDto, { level });
 
     expect(await validate(dto)).toHaveLength(0);
   });
 
-  it.each([{}, { level: 'A2' }, { level: 'B2' }])(
+  it.each([{}, { level: 'C1' }, { level: 'b1' }, { level: 'x' }])(
     'rejects unsupported input %p',
     async (input) => {
       const dto = plainToInstance(CreateRoomQueryDto, input);

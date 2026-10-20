@@ -1,9 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsIn } from 'class-validator';
-import type { SpeakingLevel } from '../speaking-topics.data';
+import { IsEnum } from 'class-validator';
+import { CefrLevel } from '@prisma/client';
 
 export class CreateRoomQueryDto {
-  @ApiProperty({ enum: ['B1'], example: 'B1' })
-  @IsIn(['B1'])
-  level: SpeakingLevel;
+  /**
+   * Any level the product sells. A level with no topics yet is refused
+   * further in, with a reason, rather than rejected as a malformed request.
+   */
+  @ApiProperty({ enum: CefrLevel, example: 'B1' })
+  @IsEnum(CefrLevel)
+  level: CefrLevel;
 }

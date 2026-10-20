@@ -1,4 +1,17 @@
-export type SpeakingLevel = 'B1';
+import type { CefrLevel } from '@prisma/client';
+
+/**
+ * A Live Room is opened at a CEFR level, not at B1.
+ *
+ * This was the literal `'B1'`, which made the level a protocol constant: a
+ * student on any other level got a 400 from the validators below, on a
+ * feature Start sells as unlimited. Whether a level has topics is a content
+ * question — answered by `pickTopic`, with a reason — rather than a shape the
+ * request is allowed to have.
+ *
+ * Only B1 topics exist today. Adding B2's is a data change in this file.
+ */
+export type SpeakingLevel = CefrLevel;
 
 export interface SpeakingTopic {
   id: string;
