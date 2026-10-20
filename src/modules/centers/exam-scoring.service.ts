@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { ExamBlock } from '@prisma/client';
+import type { CefrLevel, ExamBlock } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
@@ -30,6 +30,14 @@ export interface ScoreBlockInput {
    * nobody could spot.
    */
   modelltestNumber: number;
+
+  /**
+   * Which exam this sitting is, read from the session.
+   *
+   * The AI Schreiben suggestion is rated against this level's criteria, and
+   * the sitting is the only authority on it — a client must not say.
+   */
+  level: CefrLevel;
   /** What the center bought. AI adds a suggestion beside the empty mark. */
   gradingTier: 'MANUAL' | 'AI';
   block: ExamBlock;
@@ -287,6 +295,8 @@ export class ExamScoringService {
           content,
           createdAt: new Date().toISOString(),
           notify: false,
+          // From the sitting, which is the authority on which exam this is.
+          level: input.level,
         })
         .catch(() => undefined);
     }

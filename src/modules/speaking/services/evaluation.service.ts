@@ -272,13 +272,13 @@ export class EvaluationService {
     teilNumber: number,
     transcript: string,
   ): string {
-    const context = this.getTeilContext(teilNumber);
+    const context = this.getTeilContext(level, teilNumber);
     // From the same table the letters are converted against, so the maximum
     // the model is told matches the one the backend applies. The wording below
     // still names B1 and B1's Teile; keying that on the level is task 6.
     const maxPts = m10MaxPoints(level, teilNumber);
 
-    return `You are an expert rater for telc Deutsch B1 Mündlicher Ausdruck (Bewertungsbogen M10), Teil ${teilNumber}.
+    return `You are an expert rater for telc Deutsch ${level} Mündlicher Ausdruck (Bewertungsbogen M10), Teil ${teilNumber}.
 
 **TEIL ${teilNumber} CONTEXT:**
 ${context}
@@ -322,12 +322,27 @@ Also provide:
 }`;
   }
 
-  private getTeilContext(teilNumber: number): string {
-    const contexts: Record<number, string> = {
+  /**
+   * What the candidate was asked to do, per level and Teil.
+   *
+   * The Teil numbers do not mean the same thing at both levels. `Einander
+   * kennenlernen` is B1's scored Teil 1 and B2's unscored introduction, so
+   * B2's Teil 1 is a different task entirely. Keyed on the Teil alone, a B2
+   * candidate was rated against B1's opener and told about it in fluent
+   * German.
+   */
+  private getTeilContext(level: CefrLevel, teilNumber: number): string {
+    const b1: Record<number, string> = {
       1: 'Teil 1 — Einander kennenlernen: personal introduction and background (self, hobbies, work, daily life).',
       2: 'Teil 2 — Über ein Thema sprechen: opinion and experience on a topic; give examples and elaborate.',
       3: 'Teil 3 — Gemeinsam etwas planen: plan an activity together (appointments, options, agree on next steps). This is NOT a debate.',
     };
+    const b2: Record<number, string> = {
+      1: 'Teil 1 — Über Erfahrungen sprechen: the candidate chose one experience topic and speaks about it for up to 1½ minutes, then answers the partner’s questions. Expect a sustained, structured account with examples, not a question-and-answer introduction.',
+      2: 'Teil 2 — Diskussion: a controversial text was read. Expect the candidate to address the text, then exchange opinions, arguments and experiences with the partner, and work towards possible solutions.',
+      3: 'Teil 3 — Gemeinsam etwas planen: plan an activity together and respond to the partner’s proposals (options, agreement, next steps). This is NOT a debate.',
+    };
+    const contexts = level === 'B2' ? b2 : b1;
     return contexts[teilNumber] ?? contexts[1];
   }
 

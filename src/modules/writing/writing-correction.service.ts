@@ -1,5 +1,5 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { type CefrLevel, Prisma } from '@prisma/client';
 import { diffWords } from 'diff';
 import { PrismaService } from '../../shared/services/prisma.service';
 import {
@@ -36,6 +36,16 @@ export interface CorrectionJobData {
    * before a human had read it and before the center released anything.
    */
   notify?: boolean;
+
+  /**
+   * Which exam's criteria to rate against.
+   *
+   * Supplied by the caller, which knows it authoritatively: an exam from the
+   * sitting's level, training from the exercise's Modelltest. Not resolved
+   * here and not defaulted — a default is how a B2 letter gets rated against
+   * B1's standard, which the points conversion then faithfully converts.
+   */
+  level: CefrLevel;
 }
 
 const STUB_SCORE = 75;
@@ -78,7 +88,8 @@ export class WritingCorrectionService {
    * Updates writing_attempts and emits correction_ready. Does not throw.
    */
   async runCorrection(data: CorrectionJobData): Promise<void> {
-    const { attemptId, studentId, exerciseId, content, createdAt } = data;
+    const { attemptId, studentId, exerciseId, content, createdAt, level } =
+      data;
     const completedAt = new Date().toISOString();
     const created = new Date(createdAt).getTime();
     const durationSeconds = Math.round((Date.now() - created) / 1000);
@@ -89,7 +100,7 @@ export class WritingCorrectionService {
 
     let parsed: ParsedWritingCorrection | null = null;
     try {
-      const prompt = this.buildWritingPrompt(content, exercise);
+      const prompt = this.buildWritingPrompt(content, exercise, level);
       const responseText = await this.callModelWithTimeout(prompt);
       parsed = this.parseWritingResponse(responseText);
     } catch (err) {
@@ -213,6 +224,7 @@ export class WritingCorrectionService {
   private buildWritingPrompt(
     content: string,
     exercise: WritingExerciseDto | null,
+    level: CefrLevel,
   ): string {
     const exerciseBlock = exercise
       ? this.formatExerciseForPrompt(exercise)
@@ -225,12 +237,28 @@ export class WritingCorrectionService {
     const pointsAddressedExample =
       pointsCount > 0 ? `\n  "points_addressed": 3,` : '';
 
-    return `You are an expert rater for telc Deutsch B1 Schriftlicher Ausdruck (Zertifikat Deutsch).
+    /**
+     * telc bands criterion II by the level the writing reaches, so the bands
+     * have to be stated or the model invents its own. At B2 a text that is
+     * solidly B1 is a C — without that, a B1-level B2 submission comes back
+     * A or B and the conversion turns it into a confidently generous mark.
+     */
+    const bandNote =
+      level === 'B2'
+        ? [
+            '',
+            'Banding for II Kommunikative Gestaltung at B2:',
+            'A = fully meets B2, B = meets B2, C = reaches B1 only,',
+            'D = A2 or below. Writing that would be good at B1 is a C here.',
+          ].join('\n')
+        : '';
+
+    return `You are an expert rater for telc Deutsch ${level} Schriftlicher Ausdruck (Zertifikat Deutsch).${bandNote}
 Evaluate the student email/letter against the exercise brief using official criteria. Provide a single JSON object (no markdown, no extra text) with:
 - "taskFulfilment" (A|B|C|D): I Aufgabenbewältigung — did they cover the Leitpunkte appropriately? A=all required points, B=most, C=some, D=one/none or off-task
 - "communicativeDesign" (A|B|C|D): II Kommunikative Gestaltung — Betreff, Anrede, Einleitung, Schluss, coherence, register
 - "formalAccuracy" (A|B|C|D): III Formale Richtigkeit — grammar, spelling, morphology
-- "feedback" (string): short feedback in German for a B1 learner; mention missed Leitpunkte if any
+- "feedback" (string): short feedback in German for a ${level} learner; mention missed Leitpunkte if any
 - "corrected_text" (string): full student text rewritten with corrections; keep tone/structure
 - "corrections" (array, max 10): each "original", "corrected", "explanation" (German), "error_type" (grammar|vocabulary|spelling|style)${pointsAddressedSchema}
 

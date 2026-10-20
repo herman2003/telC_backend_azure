@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import {
   Injectable,
   NotFoundException,
@@ -26,6 +27,8 @@ export interface WritingCorrectionQueue {
     exerciseId: string;
     content: string;
     createdAt: string;
+    /** The exam whose criteria the letter is rated against. */
+    level: CefrLevel;
   }): Promise<unknown>;
 }
 
@@ -178,11 +181,22 @@ export class WritingService {
   ): Promise<SubmitWritingResponseDto> {
     const { exerciseId, content } = dto;
 
-    let exercise: { id: string; modelltest_id: string | null } | null;
+    let exercise: {
+      id: string;
+      modelltest_id: string | null;
+      modelltest: { level: CefrLevel } | null;
+    } | null;
     try {
       exercise = await this.prisma.writingExercise.findUnique({
         where: { id: exerciseId },
-        select: { id: true, modelltest_id: true },
+        // `level` with it: the correction is rated against the criteria of the
+        // exam the task belongs to, and the caller is the only place that
+        // knows which that is without guessing.
+        select: {
+          id: true,
+          modelltest_id: true,
+          modelltest: { select: { level: true } },
+        },
       });
     } catch {
       throw new NotFoundException({
@@ -296,6 +310,9 @@ export class WritingService {
           exerciseId,
           content: content.trim(),
           createdAt,
+          // From the task's own Modelltest. A training task that belongs to
+          // no Modelltest is B1, which is every row that predates levels.
+          level: exercise.modelltest?.level ?? 'B1',
         });
       } catch (err) {
         this.logger.warn(
