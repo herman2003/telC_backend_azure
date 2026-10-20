@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import { EvaluationService } from './services/evaluation.service';
 
 describe('EvaluationService.parseResponse (M10)', () => {
@@ -22,6 +23,7 @@ describe('EvaluationService.parseResponse (M10)', () => {
         "areas_for_improvement": "Grammatik.",
         "corrections": []
       }`,
+      'B1',
       1,
     );
 
@@ -47,6 +49,7 @@ describe('EvaluationService.parseResponse (M10)', () => {
         "evaluation_text": "Hallo!",
         "corrections": []
       }`,
+      'B1',
       2,
     );
 
@@ -83,9 +86,14 @@ describe('EvaluationService Teil 3 context', () => {
       EvaluationService.prototype,
     ) as EvaluationService;
     type PromptBuilder = {
-      buildPrompt: (teil: number, transcript: string) => string;
+      buildPrompt: (
+        level: CefrLevel,
+        teil: number,
+        transcript: string,
+      ) => string;
     };
     const prompt = (service as unknown as PromptBuilder).buildPrompt(
+      'B1',
       3,
       'Lass uns am Samstag treffen.',
     );
