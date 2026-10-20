@@ -123,10 +123,16 @@ async function collectChunks(prisma: any, modelltestId: string): Promise<TextChu
     }
   }
 
-  const writing = await prisma.writingExercise.findUnique({
+  // Every Schreiben task, not one. The row used to be unique per Modelltest
+  // and `findUnique({ modelltest_id })` was valid; B2 offers a choice of two,
+  // so the key is now (modelltest_id, part) and that call would throw. Both
+  // tasks carry vocabulary and a candidate sees both before choosing, so both
+  // are collected.
+  const writingTasks = await prisma.writingExercise.findMany({
     where: { modelltest_id: modelltestId },
+    orderBy: { part: 'asc' },
   });
-  if (writing) {
+  for (const writing of writingTasks) {
     chunks.push({
       skill: 'schreiben',
       revision: writing.content_revision ?? '',
