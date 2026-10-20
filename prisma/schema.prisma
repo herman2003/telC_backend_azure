@@ -1110,10 +1110,22 @@ model WritingExercise {
   // See Modelltest.created_at — same hand-written-migration origin.
   created_at        DateTime @default(now()) @db.Timestamptz(6)
 
+  /// Which Schreiben task of the Modelltest this is.
+  ///
+  /// B1 asks for one letter, so every row written before B2 is part 1. telc
+  /// B2 offers two tasks and the candidate answers exactly one, which is why
+  /// the key is no longer the Modelltest alone.
+  part Int @default(1)
+
+  /// Shared by every task of a one-of-N choice, and null when there is no
+  /// choice. It is what tells a reader that two rows are alternatives rather
+  /// than two pieces of work to hand in.
+  choice_group_id String?
+
   modelltest_id String     @db.Uuid
   modelltest    Modelltest @relation(fields: [modelltest_id], references: [id])
 
-  @@unique([modelltest_id])
+  @@unique([modelltest_id, part])
   @@map("writing_exercises")
 }
 
