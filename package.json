@@ -42,7 +42,6 @@
     "vocab:backfill-fr": "ts-node -r dotenv/config scripts/vocab-backfill-fr-meanings.ts",
     "vocab:curate-weekly-pack": "ts-node -r dotenv/config scripts/vocab-curate-weekly-pack.ts"
   },
-
   "dependencies": {
     "@google/genai": "^1.40.0",
     "@nestjs/cli": "^11.0.0",
@@ -66,6 +65,7 @@
     "class-validator": "^0.14.3",
     "diff": "^9.0.0",
     "dotenv": "^17.2.4",
+    "firebase-admin": "^14.5.0",
     "german-verbs": "^5.4.0",
     "german-verbs-dict": "^3.4.0",
     "helmet": "^8.1.0",

@@ -82,6 +82,9 @@ model Student {
   grammar_practice_attempts GrammarPracticeAttempt[]
   vocab_progress VocabProgress[]
 
+  push_endpoints PushEndpoint[]
+  notification_preference NotificationPreference?
+
   @@index([center_id])
   @@index([email])
   @@map("students")
@@ -98,6 +101,7 @@ model DeviceSession {
   revoked_at         DateTime?
 
   student Student @relation(fields: [student_id], references: [id])
+  push_endpoints PushEndpoint[]
 
   @@unique([student_id, device_id])
   @@index([student_id])
@@ -1592,6 +1596,8 @@ model Notification {
 
   student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
+  push_dispatch PushDispatch?
+
   /// The unread list, newest first, is the only query this table serves.
   @@index([student_id, read_at, created_at])
   @@map("notifications")
@@ -1832,4 +1838,62 @@ model VocabExercise {
 
   @@index([modelltest_id, sort_order])
   @@map("vocab_exercises")
+}
+
+/// Provider tokens are encrypted; ownership follows a live authentication session.
+model PushEndpoint {
+  id                String        @id @default(uuid())
+  student_id        String
+  device_id         String
+  session_id        String
+  platform          String
+  target_ciphertext String
+  target_hash       String        @unique
+  locale            String        @default("de")
+  timezone          String        @default("Europe/Berlin")
+  app_version       String
+  permission        String        @default("GRANTED")
+  preferred         Boolean       @default(false)
+  last_active_at    DateTime      @default(now())
+  invalidated_at    DateTime?
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+  student           Student       @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  session           DeviceSession @relation(fields: [session_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, device_id, platform])
+  @@index([student_id, invalidated_at, last_active_at])
+  @@map("push_endpoints")
+}
+
+model NotificationPreference {
+  student_id            String   @id
+  transactional_enabled Boolean  @default(true)
+  timezone              String   @default("Europe/Berlin")
+  quiet_start           String   @default("21:00")
+  quiet_end             String   @default("08:00")
+  updated_at            DateTime @updatedAt
+  student               Student  @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@map("notification_preferences")
+}
+
+/// Enqueued by the notification INSERT trigger in the same database transaction.
+model PushDispatch {
+  id              String       @id @default(uuid())
+  notification_id String       @unique
+  status          String       @default("PENDING")
+  available_at    DateTime     @default(now())
+  expires_at      DateTime
+  attempts        Int          @default(0)
+  lease_until     DateTime?
+  lease_token     String?
+  endpoint_id     String?
+  last_error      String?
+  sent_at         DateTime?
+  created_at      DateTime     @default(now())
+  notification    Notification @relation(fields: [notification_id], references: [id], onDelete: Cascade)
+
+  @@index([status, available_at, lease_until])
+  @@map("push_dispatches")
 }
