@@ -131,13 +131,8 @@ export class PushWorkerService implements OnModuleInit, OnModuleDestroy {
       take: 10,
     });
     // Apple native is opt-in only after APNs is configured. Web stays supported.
-    const eligibleEndpoint = (e: (typeof endpoints)[number]) => {
-      if (['IOS', 'MACOS'].includes(e.platform))
-        return process.env.PUSH_APPLE_ENABLED === 'true';
-      if (e.platform === 'ANDROID')
-        return process.env.PUSH_ANDROID_ENABLED !== 'false';
-      return process.env.PUSH_WEB_ENABLED !== 'false';
-    };
+    const eligibleEndpoint = (e: (typeof endpoints)[number]) =>
+      ['ANDROID', 'WEB', 'IOS_WEB'].includes(e.platform);
     // Keep retries on the first chosen device: a lost acknowledgement must not
     // turn one notification into a second device's alert. Fallback only if invalid.
     const endpoint =
@@ -194,13 +189,14 @@ export class PushWorkerService implements OnModuleInit, OnModuleDestroy {
     if (!owned.count) return;
     try {
       await this.firebase.send(endpoint, job.notification, job.expires_at);
-      await finish(process.env.PUSH_DRY_RUN === 'true' ? 'DRY_RUN' : 'SENT', {
+      await finish('SENT', {
         sent_at: new Date(),
         endpoint_id: endpoint.id,
         attempts: { increment: 1 },
         last_error: null,
       });
-      this.logger.log(`push.dispatch.completed id=${id}`);
+      if (process.env.PUSH_DEBUG_LOGS === 'true')
+        this.logger.log(`push.dispatch.completed id=${id}`);
     } catch (error: unknown) {
       // Only emit whitelisted provider codes, never provider payloads or tokens.
       const raw = (error as { code?: string })?.code ?? '';

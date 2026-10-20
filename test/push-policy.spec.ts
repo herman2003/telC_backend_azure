@@ -60,13 +60,13 @@ describe('push policy', () => {
   });
 });
 describe('encrypted provider addresses', () => {
-  const original = process.env.PUSH_TOKEN_ENCRYPTION_KEY;
+  const original = process.env.TOKEN_HMAC_SECRET;
   beforeEach(() => {
-    process.env.PUSH_TOKEN_ENCRYPTION_KEY = 'ab'.repeat(32);
+    process.env.TOKEN_HMAC_SECRET = 'ab'.repeat(32);
   });
   afterAll(() => {
-    if (original === undefined) delete process.env.PUSH_TOKEN_ENCRYPTION_KEY;
-    else process.env.PUSH_TOKEN_ENCRYPTION_KEY = original;
+    if (original === undefined) delete process.env.TOKEN_HMAC_SECRET;
+    else process.env.TOKEN_HMAC_SECRET = original;
   });
   it('randomizes ciphertext, preserves equality through HMAC, and rejects tampering', () => {
     const service = new PushCryptoService();
@@ -82,7 +82,7 @@ describe('encrypted provider addresses', () => {
     expect(() => service.decrypt(pieces.join('.'))).toThrow();
   });
   it('refuses registration without a real encryption key', () => {
-    delete process.env.PUSH_TOKEN_ENCRYPTION_KEY;
+    delete process.env.TOKEN_HMAC_SECRET;
     expect(() => new PushCryptoService().encrypt('token')).toThrow(
       'PUSH_ENCRYPTION_NOT_CONFIGURED',
     );

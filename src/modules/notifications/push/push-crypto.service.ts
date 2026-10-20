@@ -4,15 +4,19 @@ import {
   createDecipheriv,
   createHmac,
   randomBytes,
+  hkdfSync,
 } from 'crypto';
 
 @Injectable()
 export class PushCryptoService {
-  private key(): Buffer {
-    const raw = process.env.PUSH_TOKEN_ENCRYPTION_KEY ?? '';
-    if (!/^[a-f0-9]{64}$/i.test(raw))
+  private key(purpose = 'encryption'): Buffer {
+    const secret = process.env.TOKEN_HMAC_SECRET ?? '';
+    if (secret.length < 32)
       throw new ServiceUnavailableException('PUSH_ENCRYPTION_NOT_CONFIGURED');
-    return Buffer.from(raw, 'hex');
+    // Separate derived keys; never encrypt with the authentication secret directly.
+    return Buffer.from(
+      hkdfSync('sha256', secret, 'lerniqo/push/v1', purpose, 32),
+    );
   }
   encrypt(value: string): string {
     const iv = randomBytes(12),
@@ -37,6 +41,6 @@ export class PushCryptoService {
     ]).toString('utf8');
   }
   hash(value: string): string {
-    return createHmac('sha256', this.key()).update(value).digest('hex');
+    return createHmac('sha256', this.key('lookup')).update(value).digest('hex');
   }
 }

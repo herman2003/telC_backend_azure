@@ -36,8 +36,9 @@ Windows/Linux keep their account inbox; no closed-native-app push is claimed.
    background OS display and typed inbox opening after authentication.
 8. Verify migration/outbox/concurrency/recovery against isolated PostgreSQL;
    verify quiet hours over DST; test Flutter click queues and secret redaction.
-9. Deploy backend disabled, configure secrets, perform dry-run, enable an internal
-   Android/Web cohort, then expand only after real-device verification.
+9. Deploy backend without its service-account path, then configure the mounted
+   credential file for an internal Android/Web cohort. Expand after real-device
+   verification. A valid file activates real sends automatically.
 
 ## Endpoints
 
@@ -57,43 +58,52 @@ body. Validation rejects unknown fields, including a caller-supplied owner id.
 
 ## Deployment configuration
 
-Install the service-account credential in the backend's secret store, not Git or
-Flutter. Grant only Firebase Cloud Messaging sending permissions for this project.
-Choose GOOGLE_APPLICATION_CREDENTIALS (mounted JSON file) OR
-FIREBASE_SERVICE_ACCOUNT_JSON (secret environment variable). The application
-validates configuration before starting an enabled worker. Missing/invalid
-configuration logs PUSH_CONFIGURATION_INVALID and leaves push disabled while
-the API/inbox remain available. GET /api/me/push-status reports non-secret readiness.
+Only three new environment variables are used, matching AfroSchool Admin:
 
-Set FIREBASE_PROJECT_ID, PUSH_TOKEN_ENCRYPTION_KEY (64 random hex characters),
-PUSH_WEB_APP_URL and credentials. Apply migrations through the existing
-`prisma migrate deploy` deployment workflow. Then set PUSH_ENABLED=true.
-The worker starts with the API; no second manual command is needed.
+```env
+FIREBASE_SERVICE_ACCOUNT_PATH=/run/secrets/firebase-service-account.json
+FIREBASE_PROJECT_ID=lerniqo-68411
+PUSH_DEBUG_LOGS=false
+```
 
-Initially use PUSH_DRY_RUN=true: FCM validates but does not deliver. Those jobs
-finish DRY_RUN, not SENT. Switch it to false before creating a new internal test
-notification. Never count a dry run as a real delivery acceptance test.
+Mount the private JSON in the backend secret store/filesystem, outside Git and
+Flutter. Grant only Firebase Cloud Messaging sending permissions. The project
+in that JSON must match FIREBASE_PROJECT_ID. The path refers to a file available
+inside the running container/server, not a file on the developer's laptop.
 
-Platform switches: PUSH_ANDROID_ENABLED / PUSH_WEB_ENABLED can stop the respective
-transport. PUSH_APPLE_ENABLED defaults false. Global PUSH_ENABLED=false stops
-polling/sending on restart without dropping queue or inbox rows. Environment
-changes take effect on process restart/redeployment, not by editing a remote
-setting while the process runs.
+Apply migrations through the existing `prisma migrate deploy` deployment workflow.
+The API automatically initializes Firebase and starts the worker when the file
+and project are valid. This enables real sends, with no additional enable flag,
+dry-run setting or separate worker command. An absent path disables delivery;
+missing/invalid credentials leave the inbox/API running and log only a generic
+configuration error. GET /api/me/push-status reports non-secret readiness.
+Remove the path and restart/redeploy to stop delivery without deleting queued
+notifications. Logs of completed dispatch IDs are opt-in via PUSH_DEBUG_LOGS=true;
+errors never include credential contents or provider tokens. Logging does not
+control whether notifications are delivered.
+
+Android and Web delivery are supported. Native Apple remains disabled in code
+until APNs/signing is implemented. The Web destination is https://app.lerniqo.tech.
+The backend's existing TOKEN_HMAC_SECRET is reused through HKDF with separate,
+push-specific encryption and lookup contexts. No extra encryption variable or
+plaintext token storage is introduced. The existing secret must have at least
+32 characters. These are the only three *new* variables; existing backend settings
+(database, auth secrets, etc.) remain required.
 
 Existing notifications are not backfilled. Pending work waits until an eligible
 installation is available (up to its 14-day expiry). Explicit read, disabled
 account preferences or cancelled exam suppress the relevant pending dispatch.
 Temporary retries retain the original chosen installation, including after a
 worker restart, to avoid alerting a newly active second device after an uncertain
-provider acknowledgement. Permanent token failures invalidate only that endpoint; retry then selects the
-next eligible device. Temporary failures use 1m, 5m, 15m, 1h delays, bounded by
+provider acknowledgement. Permanent token failures invalidate only that endpoint;
+retry then selects the next eligible device. Temporary failures use 1m, 5m, 15m, 1h delays, bounded by
 expiry and five attempts. Logs use ids/error classes, never provider tokens.
 
-Do not rotate PUSH_TOKEN_ENCRYPTION_KEY by simply replacing it: existing targets
-would become unreadable. Re-encrypt rows under a staged migration or invalidate
-addresses and require re-registration; keep old keys only in protected secret
-storage during rotation. Avoid capturing request bodies in APM for endpoint
-registration. Restrict access to delivery metadata and define retention before
+Rotation of TOKEN_HMAC_SECRET also changes the derived push keys. Before rotating,
+re-encrypt endpoints and recompute lookup hashes, or invalidate old endpoints and
+require re-registration. Registrations from the initial, undeployed implementation
+using PUSH_TOKEN_ENCRYPTION_KEY likewise need re-registration. Avoid capturing
+request bodies in APM for endpoint registration. Restrict access to delivery metadata and define retention before
 broad rollout; a retention purge job is a follow-up.
 
 ## Follow-up slices (not claimed as implemented here)
@@ -120,7 +130,7 @@ can defer or prevent delivery. Do not promise unconditional immediate arrival.
 
 ## Automated verification
 
-48 tests pass across the existing inbox and new push suites. Nine exercise the
+50 tests pass across the existing inbox and new push suites. Nine exercise the
 actual SQL migration and worker against an isolated local PostgreSQL schema,
 including transactional rollback, concurrent claims, lease recovery, restart,
 sticky retries, read suppression, expiry, cancellation and session revocation.

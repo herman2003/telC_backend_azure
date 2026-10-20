@@ -23,10 +23,10 @@ describe('push endpoint identity', () => {
   };
   let tx: any, prisma: any, service: PushService;
   const savedProject = process.env.FIREBASE_PROJECT_ID,
-    savedKey = process.env.PUSH_TOKEN_ENCRYPTION_KEY;
+    savedKey = process.env.TOKEN_HMAC_SECRET;
   beforeEach(() => {
     process.env.FIREBASE_PROJECT_ID = 'test-project';
-    process.env.PUSH_TOKEN_ENCRYPTION_KEY = '12'.repeat(32);
+    process.env.TOKEN_HMAC_SECRET = '12'.repeat(32);
     tx = {
       deviceSession: {
         findFirst: jest.fn().mockResolvedValue({ id: 'session-1' }),
@@ -47,7 +47,7 @@ describe('push endpoint identity', () => {
   afterAll(() => {
     for (const [k, v] of Object.entries({
       FIREBASE_PROJECT_ID: savedProject,
-      PUSH_TOKEN_ENCRYPTION_KEY: savedKey,
+      TOKEN_HMAC_SECRET: savedKey,
     })) {
       if (v === undefined) delete process.env[k];
       else process.env[k] = v;

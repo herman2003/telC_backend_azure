@@ -1,10 +1,6 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
-import {
-  applicationDefault,
-  cert,
-  getApps,
-  initializeApp,
-} from 'firebase-admin/app';
+import { cert, getApps, initializeApp } from 'firebase-admin/app';
+import { readFileSync } from 'fs';
 import { getMessaging } from 'firebase-admin/messaging';
 import { PushCryptoService } from './push-crypto.service';
 
@@ -14,51 +10,39 @@ export class FirebasePushService implements OnModuleInit {
   constructor(private readonly crypto: PushCryptoService) {}
   private configured = false;
   get enabled() {
-    return process.env.PUSH_ENABLED === 'true' && this.configured;
+    return this.configured;
   }
   get status() {
     return {
       enabled: this.enabled,
       configured: this.configured,
-      dryRun: process.env.PUSH_DRY_RUN === 'true',
+      dryRun: false,
     };
   }
   onModuleInit() {
-    if (process.env.PUSH_ENABLED !== 'true') {
+    if (!process.env.FIREBASE_SERVICE_ACCOUNT_PATH) {
       this.logger.log('Push delivery disabled (inbox remains available)');
       return;
     }
     try {
-      if (
-        !process.env.FIREBASE_PROJECT_ID ||
-        !(
-          process.env.GOOGLE_APPLICATION_CREDENTIALS ||
-          process.env.FIREBASE_SERVICE_ACCOUNT_JSON
-        )
-      )
-        throw new Error('missing configuration');
+      const projectId = process.env.FIREBASE_PROJECT_ID;
+      if (!projectId) throw new Error('missing project');
       this.crypto.hash('startup-validation');
+      const account = JSON.parse(
+        readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH, 'utf8'),
+      ) as { project_id?: string; client_email?: string; private_key?: string };
+      if (account.project_id !== projectId) throw new Error('project mismatch');
+      if (!account.client_email || !account.private_key)
+        throw new Error('incomplete account');
       if (!getApps().some((a) => a.name === 'lerniqo-push')) {
-        const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-        const account = raw
-          ? (JSON.parse(raw) as {
-              project_id?: string;
-              client_email?: string;
-              private_key?: string;
-            })
-          : null;
-        if (account && account.project_id !== process.env.FIREBASE_PROJECT_ID)
-          throw new Error('project mismatch');
         initializeApp(
           {
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            credential: account
-              ? cert({
-                  projectId: account.project_id,
-                  clientEmail: account.client_email,
-                  privateKey: account.private_key,
-                })
-              : applicationDefault(),
+            projectId,
+            credential: cert({
+              projectId: account.project_id,
+              clientEmail: account.client_email,
+              privateKey: account.private_key,
+            }),
           },
           'lerniqo-push',
         );
@@ -96,11 +80,7 @@ export class FirebasePushService implements OnModuleInit {
     const [title, body] = copies[locale];
     const app = getApps().find((a) => a.name === 'lerniqo-push');
     if (!app) throw new Error('PUSH_NOT_INITIALIZED');
-    const origin = new URL(
-      process.env.PUSH_WEB_APP_URL || 'https://app.lerniqo.tech',
-    );
-    if (origin.protocol !== 'https:' && origin.hostname !== 'localhost')
-      throw new Error('PUSH_WEB_ORIGIN_INVALID');
+    const origin = new URL('https://app.lerniqo.tech');
     return getMessaging(app).send(
       {
         token: this.crypto.decrypt(endpoint.target_ciphertext),
@@ -144,7 +124,7 @@ export class FirebasePushService implements OnModuleInit {
           },
         },
       },
-      process.env.PUSH_DRY_RUN === 'true',
+      false,
     );
   }
 }

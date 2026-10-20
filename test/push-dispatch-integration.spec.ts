@@ -24,7 +24,7 @@ describe('durable push dispatch (PostgreSQL)', () => {
     deviceId: 'push-device',
     sessionId: 'push-session',
   };
-  const savedKey = process.env.PUSH_TOKEN_ENCRYPTION_KEY,
+  const savedKey = process.env.TOKEN_HMAC_SECRET,
     savedProject = process.env.FIREBASE_PROJECT_ID;
   beforeAll(async () => {
     const url = process.env.DATABASE_URL!;
@@ -33,7 +33,7 @@ describe('durable push dispatch (PostgreSQL)', () => {
       throw new Error(
         'Push integration requires a local disposable PostgreSQL instance',
       );
-    process.env.PUSH_TOKEN_ENCRYPTION_KEY = 'ab'.repeat(32);
+    process.env.TOKEN_HMAC_SECRET = 'ab'.repeat(32);
     process.env.FIREBASE_PROJECT_ID = 'push-test';
     admin = new Pool({ connectionString: url });
     await admin.query(`CREATE SCHEMA "${schema}"`);
@@ -83,7 +83,7 @@ describe('durable push dispatch (PostgreSQL)', () => {
       await admin.end();
     }
     for (const [k, v] of Object.entries({
-      PUSH_TOKEN_ENCRYPTION_KEY: savedKey,
+      TOKEN_HMAC_SECRET: savedKey,
       FIREBASE_PROJECT_ID: savedProject,
     })) {
       if (v === undefined) delete process.env[k];
