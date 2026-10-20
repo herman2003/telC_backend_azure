@@ -1,0 +1,38 @@
+meta {
+  name: 03 Catalogue returns only MT 7
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/modelltests
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  const numbers = res.body.map((m) => m.number);
+  const levels = [...new Set(res.body.map((m) => m.level))];
+
+  // A B2 student must not be offered B1 papers. Without Prep Pass the list
+  // narrows further to the weekly pick, so 7 may be the only entry.
+  if (levels.length !== 1 || levels[0] !== "B2") {
+    throw new Error("expected only B2 papers, got levels " + levels.join(","));
+  }
+  if (numbers.some((n) => n >= 1 && n <= 6)) {
+    throw new Error("a B1 paper leaked into a B2 catalogue: " + numbers.join(","));
+  }
+}
+
+docs {
+  Expect every entry to carry level B2. Modelltests 1-6 are B1 and must not
+  appear.
+}

@@ -1,0 +1,49 @@
+meta {
+  name: 12 Create a B2 sitting
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/exam-sessions
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "name": "Examen B2 — smoke",
+    "modelltestNumber": 7,
+    "opensAt": "2027-01-15T08:00:00.000Z",
+    "accessWindowHours": 48
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.level: eq B2
+  res.body.modelltestNumber: eq 7
+}
+
+script:post-response {
+  bru.setEnvVar("b2ExamSessionId", res.body.id);
+}
+
+docs {
+  THE SITTING TAKES ITS LEVEL FROM THE PAPER. This was a constant 'B1'
+  stamped on every sitting whatever Modelltest was chosen, and everything
+  downstream reads session.level — the block timings a candidate is given,
+  the weights their answers are marked against, the ceiling a trainer may
+  enter. Nothing failed: the rows it asked for existed, they just belonged to
+  another exam.
+
+  opensAt must be in the future or it is OPENS_AT_IN_PAST.
+
+  Then PATCH this sitting to modelltestNumber 2 and expect level to become
+  B1: the level moves with the paper on an edit too, which was a second
+  instance of the same bug.
+}

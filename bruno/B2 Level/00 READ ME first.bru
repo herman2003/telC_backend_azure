@@ -1,0 +1,42 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 0
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+docs {
+  B2 as a second CEFR level — phase 26.
+
+  WHAT THIS CHECKS
+  A B2 seat gets the whole Start experience on Modelltest 7, and a centre
+  can run a B2 Exam Day sitting that is timed and marked as B2 rather than
+  as B1.
+
+  BEFORE YOU START
+  1. Run the API against the disposable database, not production:
+         .\scripts\start-dev-testdb.ps1
+     It prints the database host. It must NOT be ep-wandering-hall.
+  2. Modelltest 7 must be imported on that database:
+         npm run modelltest:verify -- --level B2 --number 7
+     Expect "Modelltest 7 (B2) verified."
+  3. Have a centre signed in (Center Auth / 03 Login) so {{accessToken}}
+     is set, and an activation code minted so {{codeId}} is set.
+
+  ORDER
+  01 and 02 set the seat to B2 and put a student on it. Everything after
+  depends on {{studentAccessToken}} belonging to a B2 student, so run them
+  in sequence the first time.
+
+  WHAT WOULD HAVE FAILED BEFORE THIS PHASE
+  - 10 Live Room: 400, because the level validator accepted only B1
+  - 12 Create B2 sitting: level stamped B1 whatever paper was chosen
+  - 13 Hören 20 minutes: timed with B1's 30
+  - 07 Schreiben both tasks: only one of the two offered
+  - 09 Vocab pack: empty
+}

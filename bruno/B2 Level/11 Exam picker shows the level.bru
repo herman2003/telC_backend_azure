@@ -1,0 +1,38 @@
+meta {
+  name: 11 Exam picker shows the level
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-modelltests
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  const mt7 = res.body.find((m) => m.number === 7);
+  if (!mt7) {
+    throw new Error("MT 7 is not offered — it must satisfy every completeness check");
+  }
+  if (mt7.level !== "B2") {
+    throw new Error("the picker must say which level a paper is, got " + mt7.level);
+  }
+  bru.setEnvVar("b2ModelltestNumber", 7);
+}
+
+docs {
+  The picker used to return number and title alone, so a manager chose a CEFR
+  level blind and the candidates found out at the sitting.
+
+  Needs a remaining exam slot on the centre, or it is 403 before it lists
+  anything.
+}

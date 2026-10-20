@@ -1,0 +1,50 @@
+meta {
+  name: 06 Lesen, Sprachbausteine and Hoeren on MT 7
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  // telc B2 Leseverstehen: 5 texts against 10 headings, 5 single-choice
+  // questions, 10 situations against 12 announcements.
+  const t1 = res.body.teil1, t2 = res.body.teil2, t3 = res.body.teil3;
+  if (t1.texts.length !== 5 || t1.titles.length !== 10) {
+    throw new Error("Teil 1 should be 5 texts and 10 titles, got " +
+      t1.texts.length + " and " + t1.titles.length);
+  }
+  if (t2.questions.length !== 5) {
+    throw new Error("Teil 2 should have 5 questions, got " + t2.questions.length);
+  }
+  if (t3.situations.length !== 10 || t3.announcements.length !== 12) {
+    throw new Error("Teil 3 should be 10 situations and 12 announcements");
+  }
+  // No answer key on a content read, at any level.
+  const body = JSON.stringify(res.body);
+  if (body.includes("isCorrect\":true") || body.includes("correctTitleKey")) {
+    throw new Error("an answer key leaked into the exercise response");
+  }
+}
+
+docs {
+  Run the Sprachbausteine and Hoeren reads alongside this one:
+    GET /api/sprachbausteine/exercise?modelltest=7   (10 gaps; 10 gaps, 15 words)
+    GET /api/listening/exercise?modelltest=7&teil=1  (5 questions, audio_url set)
+    ...&teil=2 (10 questions)  ...&teil=3 (5 questions)
+
+  Hoeren audio is served from cdn.lerniqo.tech as .m4a. Play one to confirm
+  it is reachable, not just present as a string.
+}

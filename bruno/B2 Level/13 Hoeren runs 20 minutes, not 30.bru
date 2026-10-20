@@ -1,0 +1,36 @@
+meta {
+  name: 13 Hoeren runs 20 minutes, not 30
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-sessions/{{b2ExamSessionId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.level: eq B2
+}
+
+docs {
+  The number this phase exists to get right. telc runs B2 Hoerverstehen for
+  about 20 minutes against B1's 30, and it is the ONLY value that differs
+  between the two levels: Lesen+Sprachbausteine 90 and Schreiben 30 are the
+  same, and so is every point in the grid.
+
+  The schedule is read from exam_block_durations by the sitting's level, so
+  confirm it where a candidate sees it — start the sitting as a participant
+  and check the Hoeren block's minutes, or read the rows directly:
+
+    npm run modelltest:verify -- --level B2 --number 7
+
+  With no B2 rows at all this is 404 EXAM_TIMINGS_MISSING rather than a wrong
+  number, which is the better failure of the two.
+}
