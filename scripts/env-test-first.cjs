@@ -27,6 +27,7 @@
  */
 const { config } = require('dotenv');
 const { resolve } = require('path');
+const { PRODUCTION_HOST, isProduction, hostOf } = require('./production-endpoint.cjs');
 
 config({ path: resolve(process.cwd(), '.env.test') });
 config({ path: resolve(process.cwd(), '.env') });
@@ -39,12 +40,12 @@ if (process.env.DIRECT_URL) {
 }
 
 const target = process.env.DIRECT_URL || process.env.DATABASE_URL || '';
-const host = (target.match(/@([^/]+)\//) || [])[1] || '(none)';
+const host = hostOf(target);
 
-if (/ep-wandering-hall/.test(target)) {
+if (isProduction(target)) {
   if (process.env.LERNIQO_ALLOW_PRODUCTION !== '1') {
     console.error(
-      '\nREFUSING: that connection is production (ep-wandering-hall).\n' +
+      `\nREFUSING: that connection is production (${PRODUCTION_HOST}).\n` +
         '\nThese scripts write content. If you genuinely mean to run this\n' +
         'against production, say so out loud:\n' +
         '\n  LERNIQO_ALLOW_PRODUCTION=1 npm run <script>\n' +

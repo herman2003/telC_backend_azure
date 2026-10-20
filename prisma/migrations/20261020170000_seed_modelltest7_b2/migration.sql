@@ -15,6 +15,23 @@ DECLARE
   mt_id UUID;
   seed_exercise_id UUID;
 BEGIN
+  -- Refuse to take over a Modelltest that belongs to another level.
+  --
+  -- The upsert below is ON CONFLICT ("number") DO UPDATE, which is what makes
+  -- a re-import a no-op. It also means a mistyped --number would rewrite
+  -- another paper's title and level and then replace its content through the
+  -- scoped deletes further down: one wrong digit, one transaction, no warning.
+  -- The number column is unique across all levels and nothing in the schema
+  -- says which level owns which number, so the check has to live here.
+  IF EXISTS (
+    SELECT 1 FROM "modelltests"
+    WHERE "number" = 7 AND "level" <> 'B2'
+  ) THEN
+    RAISE EXCEPTION
+      'Modelltest % already exists at another level; refusing to overwrite it with B2 content',
+      7;
+  END IF;
+
   INSERT INTO "modelltests" ("number", "title", "exam_only", "level")
   VALUES (7, 'telc Deutsch B2 – Übungstest 1', false, 'B2')
   ON CONFLICT ("number") DO UPDATE SET
@@ -600,6 +617,15 @@ Danach spricht Ihre Partnerin bzw. Ihr Partner ebenfalls über ihr bzw. sein The
     "prep_duration_seconds" = EXCLUDED."prep_duration_seconds",
     "image_url" = EXCLUDED."image_url", "exam_image_url" = EXCLUDED."exam_image_url",
     "content_revision" = EXCLUDED."content_revision";
+
+  DELETE FROM "writing_exercises"
+  WHERE "modelltest_id" = mt_id AND "part" NOT IN (1, 2);
+
+  DELETE FROM "speaking_exercises"
+  WHERE "modelltest_id" = mt_id AND "part" NOT IN (0, 1, 2, 3);
+
+  DELETE FROM "listening_exercises"
+  WHERE "modelltest_id" = mt_id AND "part" NOT IN (1, 2, 3);
 
 END $$;
 

@@ -85,13 +85,22 @@ export function isTelcLetter(value: unknown): value is TelcLetter {
  * evaluate DTO is `@Min(1) @Max(3)` — so this is the guard for an internal
  * caller, where the alternative is a wrong mark rather than an error.
  */
+export class UnscoredTeilError extends Error {
+  constructor(readonly teilNumber: number) {
+    super(`Teil ${teilNumber} is not a scored Teil of the telc oral exam`);
+    this.name = 'UnscoredTeilError';
+  }
+}
+
 export function assertScoredTeil(teilNumber: number): ScoredTeil {
   if (teilNumber === 1 || teilNumber === 2 || teilNumber === 3) {
     return teilNumber;
   }
-  throw new Error(
-    `Teil ${teilNumber} is not a scored Teil of the telc oral exam`,
-  );
+  // Its own type, so a caller can tell this apart from a failure to store.
+  // Thrown bare, it reached the store path's catch and was logged as
+  // "Speaking attempt not stored" — a caller bug wearing a database error's
+  // clothes.
+  throw new UnscoredTeilError(teilNumber);
 }
 
 function tableFor(level: CefrLevel, teilNumber: number): LetterPoints {

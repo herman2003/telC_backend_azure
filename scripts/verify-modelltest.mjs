@@ -65,14 +65,42 @@ notes.push(`${mt.title} — level ${mt.level}, exam_only ${mt.exam_only}`);
 
 /** One parent row per Modelltest, with however many children it should hold. */
 const singles = [
-  ['lesen_teil1_exercises', 'lesen_teil1_texts', 'lesen_teil1_titles'],
-  ['lesen_teil2_exercises', 'lesen_teil2_questions', null],
-  ['lesen_teil3_exercises', 'lesen_teil3_situations', 'lesen_teil3_announcements'],
-  ['sprachbausteine_exercises', 'sprachbausteine_gaps', null],
-  ['sprachbausteine_teil2_exercises', 'sprachbausteine_teil2_gaps', 'sprachbausteine_teil2_words'],
+  // Each child names the column it joins on. These tables disagree about it —
+  // some are camelCase from Prisma's own naming, some snake_case from the
+  // hand-written migrations — and inferring it from the table name worked only
+  // by coincidence of how these five happen to be spelled.
+  {
+    parent: 'lesen_teil1_exercises',
+    children: [
+      ['lesen_teil1_texts', '"exerciseId"'],
+      ['lesen_teil1_titles', '"exerciseId"'],
+    ],
+  },
+  {
+    parent: 'lesen_teil2_exercises',
+    children: [['lesen_teil2_questions', '"exerciseId"']],
+  },
+  {
+    parent: 'lesen_teil3_exercises',
+    children: [
+      ['lesen_teil3_situations', '"exerciseId"'],
+      ['lesen_teil3_announcements', '"exerciseId"'],
+    ],
+  },
+  {
+    parent: 'sprachbausteine_exercises',
+    children: [['sprachbausteine_gaps', 'exercise_id']],
+  },
+  {
+    parent: 'sprachbausteine_teil2_exercises',
+    children: [
+      ['sprachbausteine_teil2_gaps', '"exerciseId"'],
+      ['sprachbausteine_teil2_words', '"exerciseId"'],
+    ],
+  },
 ];
 
-for (const [parent, childA, childB] of singles) {
+for (const { parent, children } of singles) {
   const rows = await all(
     `SELECT id FROM "${parent}" WHERE "modelltest_id" = $1`,
     [mt.id],
@@ -81,17 +109,8 @@ for (const [parent, childA, childB] of singles) {
     problems.push(`${parent}: ${rows.length} rows, expected 1`);
     continue;
   }
-  const idColumn = parent.includes('sprachbausteine_exercises')
-    ? 'exercise_id'
-    : parent.startsWith('sprachbausteine_teil2') || parent.startsWith('lesen')
-      ? '"exerciseId"'
-      : 'exercise_id';
   const counts = [];
-  for (const child of [childA, childB]) {
-    if (!child) continue;
-    const column = child.startsWith('sprachbausteine_gaps')
-      ? 'exercise_id'
-      : idColumn;
+  for (const [child, column] of children) {
     const row = await one(
       `SELECT COUNT(*)::int AS n FROM "${child}" WHERE ${column} = $1`,
       [rows[0].id],

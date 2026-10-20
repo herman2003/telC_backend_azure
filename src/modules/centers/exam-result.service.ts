@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import type { CefrLevel, Skill } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 
@@ -130,6 +130,8 @@ export interface ExamResultView {
  */
 @Injectable()
 export class ExamResultService {
+  private readonly logger = new Logger(ExamResultService.name);
+
   constructor(private readonly prisma: PrismaService) {}
 
   /**
@@ -609,7 +611,16 @@ export class ExamResultService {
         where: { id: { in: exerciseIds } },
         select: { id: true, part: true, title: true },
       })
-      .catch(() => []);
+      .catch((error: unknown) => {
+        // A results page is still useful without the label, so this degrades
+        // rather than failing. Logged because an unreadable task looks exactly
+        // like a sitting recorded before the task was stored, and silence
+        // would make a real fault indistinguishable from old data.
+        this.logger.warn(
+          `Could not read Schreiben task labels: ${(error as Error).message}`,
+        );
+        return [] as { id: string; part: number; title: string }[];
+      });
 
     for (const row of rows) {
       const letter = String.fromCharCode('A'.charCodeAt(0) + row.part - 1);

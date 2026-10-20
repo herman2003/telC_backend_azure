@@ -12,6 +12,7 @@ import { readFileSync } from 'fs';
 import { createHash } from 'crypto';
 import { randomUUID } from 'crypto';
 import pg from 'pg';
+import { createRequire } from 'module';
 
 const [, , name, path] = process.argv;
 if (!name || !path) {
@@ -21,8 +22,13 @@ if (!name || !path) {
 
 const url = process.env.DIRECT_URL || process.env.DATABASE_URL;
 if (!url) throw new Error('No DIRECT_URL or DATABASE_URL');
-if (/ep-wandering-hall/.test(url)) {
-  throw new Error('REFUSING: that is the live database.');
+// One shared definition of which endpoint is production, so a move does not
+// silently disarm this guard and the two others that had their own copy.
+const { isProduction, PRODUCTION_HOST } = createRequire(import.meta.url)(
+  './production-endpoint.cjs',
+);
+if (isProduction(url)) {
+  throw new Error(`REFUSING: that is the live database (${PRODUCTION_HOST}).`);
 }
 
 const sql = readFileSync(path, 'utf8');

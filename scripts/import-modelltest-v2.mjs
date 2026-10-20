@@ -183,6 +183,23 @@ DECLARE
   mt_id UUID;
   exercise_id UUID;
 BEGIN
+  -- Refuse to take over a Modelltest that belongs to another level.
+  --
+  -- The upsert below is ON CONFLICT ("number") DO UPDATE, which is what makes
+  -- a re-import a no-op. It also means a mistyped --number would rewrite
+  -- another paper's title and level and then replace its content through the
+  -- scoped deletes further down: one wrong digit, one transaction, no warning.
+  -- The number column is unique across all levels and nothing in the schema
+  -- says which level owns which number, so the check has to live here.
+  IF EXISTS (
+    SELECT 1 FROM "modelltests"
+    WHERE "number" = ${globalNumber} AND "level" <> ${q(level)}
+  ) THEN
+    RAISE EXCEPTION
+      'Modelltest % already exists at another level; refusing to overwrite it with ${level} content',
+      ${globalNumber};
+  END IF;
+
   INSERT INTO "modelltests" ("number", "title", "exam_only", "level")
   VALUES (${globalNumber}, ${q(source.modelltest.title)}, ${source.modelltest.examOnly === true}, ${q(level)})
   ON CONFLICT ("number") DO UPDATE SET
@@ -461,6 +478,11 @@ ${values(
   const tasks = s.tasks ?? [s];
   const choiceGroupId = tasks.length > 1 ? (s.choiceGroupId ?? null) : null;
 
+  // The section's own declared revision is checked even when its tasks each
+  // get a suffixed one. Skipping it for a choice disabled the drift check in
+  // the only case that has more than one row.
+  if (tasks.length > 1) revision('schreiben', s.contentRevision);
+
   tasks.forEach((task, index) => {
     const part = index + 1;
     const slug = tasks.length > 1 ? `schreiben-${part}` : 'schreiben';
@@ -530,6 +552,40 @@ for (const [name, section] of Object.entries(sections.sprechen)) {
     "prep_duration_seconds" = EXCLUDED."prep_duration_seconds",
     "image_url" = EXCLUDED."image_url", "exam_image_url" = EXCLUDED."exam_image_url",
     "content_revision" = EXCLUDED."content_revision";
+`);
+}
+
+/**
+ * Remove parts this paper no longer has.
+ *
+ * The three per-part tables are upserted by (modelltest_id, part), and child
+ * rows are deleted by parent, but nothing removed a parent whose part
+ * disappeared. A corrected paper with one Schreiben task instead of two would
+ * leave part 2 behind, and the `choices` field would offer a candidate a task
+ * the paper no longer contains — which they could then answer, since the exam
+ * resolves a submission by task id.
+ *
+ * B1 never exposed this because its shape does not vary. B2 is the first
+ * level where the number of parts is genuinely a property of the paper.
+ *
+ * `listening_attempts.listening_exercise_id` is ON DELETE RESTRICT, so
+ * dropping a Hoeren part somebody has already attempted fails here rather
+ * than quietly discarding their work. That is the right outcome: it says the
+ * content cannot be reshaped without deciding what happens to those attempts.
+ */
+const keptParts = {
+  writing_exercises: (sections.schreiben.tasks ?? [sections.schreiben]).map(
+    (_task, index) => index + 1,
+  ),
+  speaking_exercises: Object.values(sections.sprechen).map(
+    (section) => section.part ?? 0,
+  ),
+  listening_exercises: Object.values(sections.hoeren).map((part) => part.part),
+};
+
+for (const [table, parts] of Object.entries(keptParts)) {
+  sql.push(`  DELETE FROM "${table}"
+  WHERE "modelltest_id" = mt_id AND "part" NOT IN (${parts.join(', ')});
 `);
 }
 

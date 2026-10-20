@@ -34,7 +34,10 @@ function snippet(text: string, surface: string): string {
   return text.slice(start, end).replace(/\s+/g, ' ').trim();
 }
 
-async function collectChunks(prisma: any, modelltestId: string): Promise<TextChunk[]> {
+async function collectChunks(
+  prisma: PrismaClient,
+  modelltestId: string,
+): Promise<TextChunk[]> {
   const chunks: TextChunk[] = [];
 
   const lesen1 = await prisma.lesenTeil1Exercise.findUnique({
@@ -151,7 +154,7 @@ async function collectChunks(prisma: any, modelltestId: string): Promise<TextChu
 }
 
 async function upsertCandidate(
-  prisma: any,
+  prisma: PrismaClient,
   modelltestId: string,
   candidate: TokenCandidate & { count: number },
   skillHits: Map<string, { skill: string; revision: string; snippet: string }>,
