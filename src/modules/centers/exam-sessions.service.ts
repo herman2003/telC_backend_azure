@@ -13,10 +13,6 @@ import {
 
 type SignedCenterIdentity = Pick<CenterAccessTokenPayload, 'centerId'>;
 
-/** All the content we have is B1, so the wizard offers one level. Adding A2
- *  or B2 is seeding `exam_block_durations` and widening this. */
-export const EXAM_LEVEL: CefrLevel = 'B1';
-
 export interface CreateExamSessionInput {
   name: string;
   modelltestNumber: number;
@@ -91,9 +87,13 @@ export class ExamSessionsService {
       throw new BadRequestException('OPENS_AT_IN_PAST');
     }
 
+    // `level` with the id: the sitting is timed and marked by the level it
+    // carries, so it has to be the level of the paper rather than a constant.
+    // A sitting stamped with the wrong level fails nothing — the timing and
+    // weight rows it asks for exist, they just belong to another exam.
     const modelltest = await this.prisma.modelltest.findUnique({
       where: { number: input.modelltestNumber },
-      select: { id: true },
+      select: { id: true, level: true },
     });
     if (!modelltest) throw new NotFoundException('MODELLTEST_NOT_FOUND');
 
@@ -103,7 +103,7 @@ export class ExamSessionsService {
         // could file a sitting against someone else's slots.
         center_id: identity.centerId,
         name: input.name.trim(),
-        level: EXAM_LEVEL,
+        level: modelltest.level,
         modelltest_id: modelltest.id,
         opens_at: input.opensAt,
         closes_at: closesAt,
@@ -171,10 +171,13 @@ export class ExamSessionsService {
     if (input.modelltestNumber !== undefined) {
       const modelltest = await this.prisma.modelltest.findUnique({
         where: { number: input.modelltestNumber },
-        select: { id: true },
+        select: { id: true, level: true },
       });
       if (!modelltest) throw new NotFoundException('MODELLTEST_NOT_FOUND');
       data.modelltest_id = modelltest.id;
+      // The level moves with the paper. Swapping a draft from a B1 paper to a
+      // B2 one and leaving the level behind would mark B2 work by B1's rows.
+      data.level = modelltest.level;
     }
 
     const updated = await this.prisma.examSession.update({

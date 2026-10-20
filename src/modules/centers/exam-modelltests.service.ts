@@ -59,7 +59,7 @@ export class ExamModelltestsService {
     return this.prisma.modelltest.findMany({
       where: COMPLETE_EXAM_MODELLTEST_WHERE,
       orderBy: { number: 'asc' },
-      select: { number: true, title: true },
+      select: { number: true, title: true, level: true },
     });
   }
 
