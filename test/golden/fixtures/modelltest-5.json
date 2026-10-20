@@ -1,0 +1,842 @@
+{
+  "hoeren": [
+    {
+      "audioId": "a8a2b014-a4b6-47ff-b219-f0828fd2bd83",
+      "contentRevision": "modelltest-5-hoeren-teil1-v1",
+      "imagePath": "",
+      "playsAllowed": 1,
+      "questions": [
+        {
+          "id": "q41",
+          "prompt": "Die Sprecherin arbeitet einmal pro Woche von zu Hause."
+        },
+        {
+          "id": "q42",
+          "prompt": "Der Sprecher darf während seiner Ausbildung noch keine Aufgaben selbst erledigen."
+        },
+        {
+          "id": "q43",
+          "prompt": "Die Sprecherin arbeitet jetzt weniger Stunden als früher."
+        },
+        {
+          "id": "q44",
+          "prompt": "Freitags sind normalerweise alle Kollegen gemeinsam im Büro."
+        },
+        {
+          "id": "q45",
+          "prompt": "Der Sprecher schreibt für jede Bewerbung ein passendes Anschreiben."
+        }
+      ]
+    },
+    {
+      "audioId": "a40b6c9e-ad21-4b3a-b523-377e042830bd",
+      "contentRevision": "modelltest-5-hoeren-teil2-v1",
+      "imagePath": "",
+      "playsAllowed": 1,
+      "questions": [
+        {
+          "id": "q46",
+          "prompt": "Die Idee für die Vier-Tage-Woche kam von der Geschäftsleitung."
+        },
+        {
+          "id": "q47",
+          "prompt": "Alle 120 Mitarbeiter nehmen an dem neuen Arbeitsmodell teil."
+        },
+        {
+          "id": "q48",
+          "prompt": "Alle Beschäftigten im Modell haben freitags frei."
+        },
+        {
+          "id": "q49",
+          "prompt": "Frau Hoffmann arbeitet an ihren Arbeitstagen länger als früher."
+        },
+        {
+          "id": "q50",
+          "prompt": "Die Teilnehmer erhalten während des Tests weniger Gehalt."
+        },
+        {
+          "id": "q51",
+          "prompt": "Die Firma hat unter anderem Besprechungen kürzer gemacht."
+        },
+        {
+          "id": "q52",
+          "prompt": "Das Team von Frau Hoffmann erledigt jetzt deutlich weniger Arbeit."
+        },
+        {
+          "id": "q53",
+          "prompt": "Frau Hoffmann nutzt ihren freien Tag auch für private Termine."
+        },
+        {
+          "id": "q54",
+          "prompt": "Für Beschäftigte mit kleinen Kindern können die längeren Arbeitstage schwierig sein."
+        },
+        {
+          "id": "q55",
+          "prompt": "Es steht bereits fest, dass die Vier-Tage-Woche dauerhaft bleibt."
+        }
+      ]
+    },
+    {
+      "audioId": "15545530-33dd-4c10-ac19-7c2f8eeb0dc2",
+      "contentRevision": "modelltest-5-hoeren-teil3-v1",
+      "imagePath": "",
+      "playsAllowed": 1,
+      "questions": [
+        {
+          "id": "q56",
+          "prompt": "Während der technischen Arbeiten funktioniert auch die E-Mail nicht."
+        },
+        {
+          "id": "q57",
+          "prompt": "Der Sprachkurs beginnt morgen früher als ursprünglich geplant."
+        },
+        {
+          "id": "q58",
+          "prompt": "Der Regionalexpress 5 fährt heute nach Köln."
+        },
+        {
+          "id": "q59",
+          "prompt": "Für Bewerbungsgespräche sollen die Besucher Lebensläufe mitbringen."
+        },
+        {
+          "id": "q60",
+          "prompt": "Das Vorstellungsgespräch soll am Donnerstag um 14 Uhr stattfinden."
+        }
+      ]
+    }
+  ],
+  "lesen": {
+    "contentRevision": "modelltest-5-lesen-teil2-v1",
+    "issuedAt": "<volatile>",
+    "teil1": {
+      "instruction": "Lesen Sie die Überschriften a–j und die Texte 1–5. Finden Sie für jeden Text die passende Überschrift. Sie können jede Überschrift nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 1–5 auf dem Antwortbogen.",
+      "label": "Leseverstehen Teil 1",
+      "texts": [
+        {
+          "an": null,
+          "body": "Viele Unternehmen bieten ihren Beschäftigten inzwischen die Möglichkeit, an einigen Tagen pro Woche von zu Hause zu arbeiten. Besonders beliebt ist dieses Modell bei Menschen, die einen langen Arbeitsweg haben. Eine aktuelle Umfrage zeigt, dass viele Beschäftigte zwei oder drei Tage im Büro und den Rest der Woche zu Hause arbeiten möchten.",
+          "correctTitleId": "01470e51-ade6-47a7-8286-137b21c93e08",
+          "id": "1",
+          "von": null
+        },
+        {
+          "an": null,
+          "body": "Für viele junge Menschen ist ein Praktikum die erste Möglichkeit, einen Beruf genauer kennenzulernen. Sie können dabei praktische Erfahrungen sammeln, Kontakte zu Unternehmen knüpfen und herausfinden, ob der Beruf wirklich zu ihnen passt. Manche Firmen übernehmen gute Praktikanten später sogar als Auszubildende oder feste Mitarbeiter.",
+          "correctTitleId": "d65ebb69-49fa-4b46-bd0e-9901ff2e1b4c",
+          "id": "2",
+          "von": null
+        },
+        {
+          "an": null,
+          "body": "In einer Befragung von mehr als 2.000 Arbeitnehmerinnen und Arbeitnehmern gaben viele an, dass ein gutes Verhältnis zu den Kollegen für sie besonders wichtig ist. Ein angenehmes Arbeitsklima und gegenseitige Unterstützung wurden häufiger genannt als zusätzliche finanzielle Vorteile.",
+          "correctTitleId": "08a15396-b641-46e4-bbd4-907d598a4c9f",
+          "id": "3",
+          "von": null
+        },
+        {
+          "an": null,
+          "body": "Neue Computerprogramme, künstliche Intelligenz und digitale Arbeitsprozesse verändern viele Berufe. Deshalb investieren immer mehr Firmen in Schulungen für ihre Mitarbeiter. Auch viele Berufstätige besuchen freiwillig Kurse, um ihre Kenntnisse zu verbessern und beruflich flexibel zu bleiben.",
+          "correctTitleId": "a24b39a6-61f3-4f39-8e77-583f34d0df76",
+          "id": "4",
+          "von": null
+        },
+        {
+          "an": null,
+          "body": "Junge Erwachsene bleiben heute oft nicht mehr viele Jahre beim ersten Arbeitgeber. Eine Studie zeigt, dass besonders Beschäftigte unter 30 häufiger die Firma wechseln als ältere Arbeitnehmer. Als Gründe nennen sie bessere Entwicklungsmöglichkeiten, ein höheres Gehalt oder interessantere Aufgaben.",
+          "correctTitleId": "9c0ab16b-85da-405e-8150-d4fd25bedf32",
+          "id": "5",
+          "von": null
+        }
+      ],
+      "titles": [
+        {
+          "content": "Immer mehr Beschäftigte arbeiten teilweise von zu Hause",
+          "id": "01470e51-ade6-47a7-8286-137b21c93e08"
+        },
+        {
+          "content": "Neue Ausbildung mit besonders hohen Gehältern",
+          "id": "cd0ed067-0f15-428c-8482-3f1372501371"
+        },
+        {
+          "content": "Ein Praktikum kann den Einstieg in den Beruf erleichtern",
+          "id": "d65ebb69-49fa-4b46-bd0e-9901ff2e1b4c"
+        },
+        {
+          "content": "Viele Arbeitnehmer wünschen sich kürzere Arbeitszeiten",
+          "id": "a1f2ee17-7873-4ef2-9b7b-8aa6ba07c0fe"
+        },
+        {
+          "content": "Unternehmen suchen dringend neue Mitarbeiter",
+          "id": "5d94dec5-e0d3-4914-8365-651ff13c1d30"
+        },
+        {
+          "content": "Gute Kollegen sind vielen wichtiger als ein hohes Gehalt",
+          "id": "08a15396-b641-46e4-bbd4-907d598a4c9f"
+        },
+        {
+          "content": "Neue Regeln für Bewerbungen im Internet",
+          "id": "1d3e2b17-100a-4e50-aa5d-b76a6e62ee34"
+        },
+        {
+          "content": "Weiterbildung wird für Berufstätige immer wichtiger",
+          "id": "a24b39a6-61f3-4f39-8e77-583f34d0df76"
+        },
+        {
+          "content": "Mehr Urlaub für alle Beschäftigten geplant",
+          "id": "e81a7c67-162f-489f-9b28-dedf81e5a7e7"
+        },
+        {
+          "content": "Berufseinsteiger wechseln heute häufiger den Arbeitsplatz",
+          "id": "9c0ab16b-85da-405e-8150-d4fd25bedf32"
+        }
+      ]
+    },
+    "teil2": {
+      "cautionNote": "",
+      "content": "Vier Tage arbeiten, fünf Tage bezahlt werden\r\n\r\nDie Firma Heller Technik beschäftigt rund 80 Mitarbeiterinnen und Mitarbeiter. Seit sechs Monaten arbeitet ein Teil der Belegschaft nur noch vier Tage pro Woche. Das Besondere dabei: Das monatliche Gehalt wurde nicht reduziert.\r\n\r\nDie Idee kam von der Geschäftsführung. In den Jahren zuvor hatte das Unternehmen immer größere Schwierigkeiten, neue Fachkräfte zu finden. Gleichzeitig berichteten viele Beschäftigte, dass sie sich mehr Zeit für Familie und Freizeit wünschten.\r\n\r\nBevor das neue Modell eingeführt wurde, testete die Firma es zunächst drei Monate lang in zwei Abteilungen. Die Beschäftigten arbeiteten montags bis donnerstags jeweils etwas länger als vorher. Freitags hatten sie frei. Wichtig war allerdings, dass Kunden trotzdem an fünf Tagen pro Woche jemanden erreichen konnten. Deshalb arbeiten einige Teams mit unterschiedlichen freien Tagen.\r\n\r\nNach der Testphase war die Geschäftsführung überrascht. Obwohl die Beschäftigten insgesamt weniger Stunden arbeiteten, wurden die meisten Aufgaben genauso schnell erledigt wie vorher. Die Zahl der Krankmeldungen ging sogar leicht zurück.\r\n\r\nFür Projektleiterin Sarah Neumann hat sich besonders ihr privater Alltag verbessert. Sie nutzt den freien Tag häufig für Termine, Einkäufe und Sport. Dadurch habe sie am Wochenende mehr Zeit für ihre Familie.\r\n\r\nNicht alle Beschäftigten sind jedoch begeistert. Einige Mitarbeiter in der Produktion können ihre Arbeitszeit weniger flexibel organisieren. Außerdem sind die Arbeitstage von Montag bis Donnerstag länger geworden. Für Eltern kleiner Kinder kann das manchmal schwierig sein.\r\n\r\nTrotzdem will die Firma das Modell weiterführen und im kommenden Jahr auf weitere Abteilungen ausweiten. Eine Rückkehr zur alten Fünf-Tage-Woche ist derzeit nicht geplant.",
+      "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
+      "label": "Leseverstehen Teil 2",
+      "questions": [
+        {
+          "content": "Warum hat die Firma das neue Arbeitsmodell eingeführt?",
+          "correctOptionId": "6a",
+          "id": "6",
+          "options": [
+            {
+              "content": "Sie wollte leichter neue Fachkräfte gewinnen und Wünsche der Beschäftigten berücksichtigen.",
+              "id": "6a"
+            },
+            {
+              "content": "Sie wollte die Gehälter der Beschäftigten reduzieren.",
+              "id": "6b"
+            },
+            {
+              "content": "Sie wollte freitags keine Kunden mehr bedienen.",
+              "id": "6c"
+            }
+          ]
+        },
+        {
+          "content": "Was geschah vor der endgültigen Einführung?",
+          "correctOptionId": "7b",
+          "id": "7",
+          "options": [
+            {
+              "content": "Alle Mitarbeiter arbeiteten sofort nur noch vier Tage.",
+              "id": "7a"
+            },
+            {
+              "content": "Das Modell wurde zuerst in zwei Abteilungen ausprobiert.",
+              "id": "7b"
+            },
+            {
+              "content": "Die Firma schloss freitags vollständig.",
+              "id": "7c"
+            }
+          ]
+        },
+        {
+          "content": "Was zeigte sich während der Testphase?",
+          "correctOptionId": "8a",
+          "id": "8",
+          "options": [
+            {
+              "content": "Die meisten Aufgaben wurden weiterhin ähnlich schnell erledigt.",
+              "id": "8a"
+            },
+            {
+              "content": "Die Zahl der Krankmeldungen stieg stark.",
+              "id": "8b"
+            },
+            {
+              "content": "Die Kunden beschwerten sich über schlechtere Qualität.",
+              "id": "8c"
+            }
+          ]
+        },
+        {
+          "content": "Welchen Vorteil sieht Sarah Neumann?",
+          "correctOptionId": "9c",
+          "id": "9",
+          "options": [
+            {
+              "content": "Sie verdient jetzt deutlich mehr.",
+              "id": "9a"
+            },
+            {
+              "content": "Sie muss weniger Verantwortung übernehmen.",
+              "id": "9b"
+            },
+            {
+              "content": "Sie kann private Aufgaben an ihrem freien Tag erledigen.",
+              "id": "9c"
+            }
+          ]
+        },
+        {
+          "content": "Warum finden einige Beschäftigte das Modell schwierig?",
+          "correctOptionId": "10b",
+          "id": "10",
+          "options": [
+            {
+              "content": "Sie haben jetzt überhaupt keinen freien Tag.",
+              "id": "10a"
+            },
+            {
+              "content": "Die Arbeitstage sind teilweise länger geworden.",
+              "id": "10b"
+            },
+            {
+              "content": "Sie müssen jeden Freitag im Homeoffice arbeiten.",
+              "id": "10c"
+            }
+          ]
+        }
+      ],
+      "quotedThread": "",
+      "receiver": "",
+      "sender": ""
+    },
+    "teil3": {
+      "announcements": [
+        {
+          "content": "Sie möchten sich bewerben, sind aber unsicher bei Lebenslauf und Anschreiben? Wir prüfen Ihre Unterlagen und geben persönliche Tipps. Jeden Dienstag von 15 bis 18 Uhr. Anmeldung erforderlich.",
+          "id": "a",
+          "title": "Bewerbungscheck"
+        },
+        {
+          "content": "Grundkurs für Berufstätige. Tabellen erstellen, Berechnungen durchführen und Daten übersichtlich darstellen. Vier Abende, jeweils Montag und Mittwoch von 18 bis 20 Uhr.",
+          "id": "b",
+          "title": "Excel für den Beruf"
+        },
+        {
+          "content": "Wir suchen freundliche Unterstützung am Samstag und Sonntag zwischen 10 und 18 Uhr. Erfahrung ist nicht erforderlich. Ideal für Studierende.",
+          "id": "c",
+          "title": "Aushilfe im Café gesucht"
+        },
+        {
+          "content": "Berufsbezogener Deutschkurs für Erwachsene ab Niveau B1. Telefonieren, E-Mails schreiben, Besprechungen und Gespräche mit Kunden. Dienstag und Donnerstag 18.30–20.30 Uhr.",
+          "id": "d",
+          "title": "Deutsch am Arbeitsplatz"
+        },
+        {
+          "content": "Mehr als 30 Unternehmen stellen sich vor. Informieren Sie sich über Stellen, Praktika und Ausbildungsplätze. Samstag von 10 bis 16 Uhr. Eintritt frei.",
+          "id": "e",
+          "title": "Karrieretag Technik"
+        },
+        {
+          "content": "Betreuung montags bis freitags von 7 bis 18 Uhr für Kinder zwischen zwei und sechs Jahren. Flexible Buchung einzelner Wochentage möglich.",
+          "id": "f",
+          "title": "Kinderbetreuung für Berufstätige"
+        },
+        {
+          "content": "Wie beantworte ich schwierige Fragen? Wie stelle ich meine Stärken vor? Kostenloses Online-Seminar am Donnerstag um 19 Uhr.",
+          "id": "g",
+          "title": "Online-Seminar: Erfolgreich im Vorstellungsgespräch"
+        },
+        {
+          "content": "Ruhige Arbeitsplätze, schnelles WLAN und Besprechungsräume. Tageskarte 15 Euro. Montag bis Samstag von 8 bis 20 Uhr.",
+          "id": "h",
+          "title": "Coworking am Hauptbahnhof"
+        },
+        {
+          "content": "Unternehmen aus der Region bieten Praktika in Büro, Technik, Handel und Pflege an. Angebote für Schülerinnen, Schüler und Studierende.",
+          "id": "i",
+          "title": "Praktikumsbörse"
+        },
+        {
+          "content": "Berufsbegleitender Kurs über Planung, Organisation und Teamarbeit. Zwölf Wochen, immer freitagabends und samstags.",
+          "id": "j",
+          "title": "Weiterbildung Projektmanagement"
+        },
+        {
+          "content": "Flexible Arbeitszeiten von Montag bis Freitag. Eigenes Fahrrad erforderlich. Bezahlung pro Stunde plus Bonus.",
+          "id": "k",
+          "title": "Fahrradkurier gesucht"
+        },
+        {
+          "content": "Sie möchten Ihren Beruf wechseln oder wissen nicht, welche Weiterbildung zu Ihnen passt? Persönliche Beratung nach Terminvereinbarung.",
+          "id": "l",
+          "title": "Berufsberatung für Erwachsene"
+        }
+      ],
+      "instruction": "Lesen Sie die Situationen 11–20 und die Anzeigen a–l. Finden Sie für jede Situation die passende Anzeige. Sie können jede Anzeige nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 11–20 auf dem Antwortbogen. Wenn Sie zu einer Situation keine Anzeige finden, markieren Sie ein x.",
+      "label": "Leseverstehen Teil 3",
+      "situations": [
+        {
+          "content": "Sie möchten Ihren Lebenslauf verbessern, bevor Sie sich bei einer Firma bewerben.",
+          "correctAnswer": "a",
+          "id": "11"
+        },
+        {
+          "content": "Sie arbeiten im Büro und müssen lernen, besser mit Tabellen zu arbeiten.",
+          "correctAnswer": "b",
+          "id": "12"
+        },
+        {
+          "content": "Sie studieren und möchten nur am Wochenende etwas Geld verdienen.",
+          "correctAnswer": "c",
+          "id": "13"
+        },
+        {
+          "content": "Sie sprechen schon Deutsch auf B1-Niveau und möchten besser mit Kollegen und Kunden kommunizieren.",
+          "correctAnswer": "d",
+          "id": "14"
+        },
+        {
+          "content": "Sie suchen eine technische Arbeitsstelle und möchten mehrere Firmen an einem Tag kennenlernen.",
+          "correctAnswer": "e",
+          "id": "15"
+        },
+        {
+          "content": "Sie haben bald ein Bewerbungsgespräch und möchten sich darauf vorbereiten, aber nicht zu einem Kurs fahren.",
+          "correctAnswer": "g",
+          "id": "16"
+        },
+        {
+          "content": "Sie arbeiten normalerweise von zu Hause, brauchen aber morgen einen ruhigen Arbeitsplatz mit Internet.",
+          "correctAnswer": "h",
+          "id": "17"
+        },
+        {
+          "content": "Sie studieren und möchten praktische Berufserfahrung in einem Unternehmen sammeln.",
+          "correctAnswer": "i",
+          "id": "18"
+        },
+        {
+          "content": "Sie möchten einen neuen Beruf lernen und suchen einen kostenlosen Kurs, der jeden Vormittag stattfindet.",
+          "correctAnswer": "X",
+          "id": "19"
+        },
+        {
+          "content": "Sie denken über einen Berufswechsel nach und möchten zuerst mit jemandem darüber sprechen.",
+          "correctAnswer": "l",
+          "id": "20"
+        }
+      ]
+    }
+  },
+  "schreiben": {
+    "bulletPoints": [
+      "was Laura am ersten Arbeitstag beachten sollte",
+      "welche Kleidung Sie empfehlen",
+      "wie man gute Kontakte zu Kolleginnen und Kollegen aufbauen kann",
+      "wie Ihre eigenen ersten Tage in einem neuen Job waren"
+    ],
+    "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.",
+    "id": "c6d6e691-e36d-4b0f-bcab-3b32f24e1c77",
+    "intro": "Sie haben von einer Freundin folgende E-Mail erhalten:",
+    "part": 1,
+    "prepDurationSeconds": 120,
+    "registerChecklist": [
+      "Betreff",
+      "Anrede",
+      "Einleitung",
+      "Schluss"
+    ],
+    "stimulus": {
+      "body": "endlich habe ich einen neuen Job gefunden! Nächsten Monat fange ich in einer großen Firma an. Einerseits freue ich mich sehr, andererseits bin ich ziemlich nervös, weil ich dort niemanden kenne.\n\nDu arbeitest doch schon länger in einem Unternehmen. Hast du vielleicht ein paar Tipps für meinen ersten Arbeitstag? Ich weiß zum Beispiel nicht, was ich anziehen soll und wie ich mich am besten auf die ersten Tage vorbereiten kann.\n\nAußerdem würde mich interessieren, wie du mit deinen Kolleginnen und Kollegen zurechtkommst.\n\nSchreib mir bald!",
+      "callToAction": null,
+      "contact": {
+        "lines": [
+          "Liebe Grüße"
+        ],
+        "name": "Laura"
+      },
+      "features": [],
+      "heading": "Liebe/r __________,",
+      "imageUrl": null,
+      "subheading": null
+    },
+    "subtitle": "Sie haben von einer Freundin folgende E-Mail erhalten:",
+    "taskInstructions": "Antworten Sie auf die E-Mail. Schreiben Sie etwas zu allen vier Punkten:",
+    "taskType": "brief",
+    "title": "Schriftlicher Ausdruck",
+    "writingDurationMinutes": 30
+  },
+  "sprachbausteine": {
+    "contentRevision": "modelltest-5-sprachbausteine-teil1-v1",
+    "issuedAt": "<volatile>",
+    "teil1": {
+      "body": "Liebe Julia,\r\n\r\nich muss dir unbedingt von meinem neuen Job erzählen. Seit zwei Wochen arbeite ich bei einer kleinen Firma, _____ Software für Hotels entwickelt.\r\n\r\nAm ersten Tag war ich natürlich ziemlich nervös, _____ meine neuen Kollegen haben mich sehr freundlich begrüßt. Zuerst _____ mir meine Teamleiterin das Büro gezeigt und mich allen vorgestellt.\r\n\r\nIch arbeite normalerweise von neun bis siebzehn Uhr. Zweimal pro Woche darf ich aber auch _____ zu Hause arbeiten. Das finde ich besonders praktisch, weil mein Arbeitsweg fast eine Stunde _____ .\r\n\r\nDie Aufgaben sind interessant, aber ich muss noch viel lernen. Zum Glück kann ich meine Kollegen immer fragen, wenn ich etwas nicht _____ .\r\n\r\nNächsten Monat nehme ich außerdem _____ einer Schulung teil. Dort lernen wir ein neues Programm kennen, das wir später bei der Arbeit benutzen werden.\r\n\r\nWas mir bisher am besten gefällt, _____ die Atmosphäre im Team. Mittags essen wir oft zusammen und freitags trinken wir nach der Arbeit manchmal noch etwas.\r\n\r\nIch hoffe, dass du mich bald besuchen kannst. Dann _____ ich dir auch mein neues Büro zeigen.\r\n\r\nSchreib mir, _____ du am nächsten Wochenende Zeit hast.\r\n\r\nLiebe Grüße\r\nAnna",
+      "durationMinutes": 18,
+      "gaps": [
+        {
+          "correctOptionId": "21a",
+          "id": "21",
+          "options": [
+            {
+              "content": "die",
+              "id": "21a"
+            },
+            {
+              "content": "der",
+              "id": "21b"
+            },
+            {
+              "content": "den",
+              "id": "21c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "22a",
+          "id": "22",
+          "options": [
+            {
+              "content": "aber",
+              "id": "22a"
+            },
+            {
+              "content": "denn",
+              "id": "22b"
+            },
+            {
+              "content": "sondern",
+              "id": "22c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "23a",
+          "id": "23",
+          "options": [
+            {
+              "content": "hat",
+              "id": "23a"
+            },
+            {
+              "content": "ist",
+              "id": "23b"
+            },
+            {
+              "content": "wird",
+              "id": "23c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "24c",
+          "id": "24",
+          "options": [
+            {
+              "content": "von",
+              "id": "24a"
+            },
+            {
+              "content": "bei",
+              "id": "24b"
+            },
+            {
+              "content": "zu",
+              "id": "24c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "25a",
+          "id": "25",
+          "options": [
+            {
+              "content": "dauert",
+              "id": "25a"
+            },
+            {
+              "content": "braucht",
+              "id": "25b"
+            },
+            {
+              "content": "geht",
+              "id": "25c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "26a",
+          "id": "26",
+          "options": [
+            {
+              "content": "verstehe",
+              "id": "26a"
+            },
+            {
+              "content": "verstanden",
+              "id": "26b"
+            },
+            {
+              "content": "verstand",
+              "id": "26c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "27a",
+          "id": "27",
+          "options": [
+            {
+              "content": "an",
+              "id": "27a"
+            },
+            {
+              "content": "auf",
+              "id": "27b"
+            },
+            {
+              "content": "für",
+              "id": "27c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "28b",
+          "id": "28",
+          "options": [
+            {
+              "content": "sind",
+              "id": "28a"
+            },
+            {
+              "content": "ist",
+              "id": "28b"
+            },
+            {
+              "content": "war",
+              "id": "28c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "29b",
+          "id": "29",
+          "options": [
+            {
+              "content": "kann",
+              "id": "29a"
+            },
+            {
+              "content": "werde",
+              "id": "29b"
+            },
+            {
+              "content": "würde",
+              "id": "29c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "30a",
+          "id": "30",
+          "options": [
+            {
+              "content": "ob",
+              "id": "30a"
+            },
+            {
+              "content": "als",
+              "id": "30b"
+            },
+            {
+              "content": "damit",
+              "id": "30c"
+            }
+          ]
+        }
+      ],
+      "imageUrl": "",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 21–30. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 21–30 auf dem Antwortbogen.",
+      "label": "Sprachbausteine Teil 1"
+    },
+    "teil2": {
+      "body": "Sehr geehrte Damen und Herren,\r\n\r\nauf Ihrer Internetseite habe ich gelesen, dass Sie im November einen Kurs zum Thema Projektmanagement anbieten. Ich interessiere mich sehr _____ diesen Kurs und hätte _____ einige Fragen.\r\n\r\nIch arbeite seit zwei Jahren in einem kleinen Unternehmen und soll in Zukunft mehr Verantwortung für Projekte übernehmen. _____ habe ich bisher noch keine Weiterbildung in diesem Bereich gemacht.\r\n\r\nKönnten Sie mir bitte mitteilen, _____ Vorkenntnisse für die Teilnahme notwendig sind? Außerdem würde ich gern wissen, _____ der Unterricht hauptsächlich theoretisch ist oder ob man auch praktische Aufgaben bearbeitet.\r\n\r\nDa ich von Montag bis Freitag arbeite, wäre es für mich wichtig zu wissen, _____ genau die Unterrichtszeiten sind. Auf Ihrer Internetseite steht nur, dass der Kurs berufsbegleitend stattfindet.\r\n\r\nMich interessiert _____, ob die Kursgebühr alle Lernmaterialien enthält. Falls zusätzliche Kosten entstehen, könnten Sie mir bitte sagen, wie hoch diese ungefähr sind?\r\n\r\nIch würde mich _____ anmelden, wenn noch ein Platz frei ist. Bitte schicken Sie mir auch Informationen darüber, _____ ich mich anmelden kann.\r\n\r\nIch wäre Ihnen sehr _____, wenn Sie mir bald antworten könnten.\r\n\r\nMit freundlichen Grüßen\r\nThomas Wagner",
+      "durationMinutes": 18,
+      "gaps": [
+        {
+          "correctWordId": "we",
+          "id": "31"
+        },
+        {
+          "correctWordId": "wg",
+          "id": "32"
+        },
+        {
+          "correctWordId": "wa",
+          "id": "33"
+        },
+        {
+          "correctWordId": "wl",
+          "id": "34"
+        },
+        {
+          "correctWordId": "wh",
+          "id": "35"
+        },
+        {
+          "correctWordId": "wi",
+          "id": "36"
+        },
+        {
+          "correctWordId": "wb",
+          "id": "37"
+        },
+        {
+          "correctWordId": "wf",
+          "id": "38"
+        },
+        {
+          "correctWordId": "wj",
+          "id": "39"
+        },
+        {
+          "correctWordId": "wc",
+          "id": "40"
+        }
+      ],
+      "imageUrl": "",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 31–40. Benutzen Sie die Wörter a–o. Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31–40 auf dem Antwortbogen.",
+      "label": "Sprachbausteine Teil 2",
+      "wordBank": [
+        {
+          "content": "ABER",
+          "id": "wa",
+          "letter": "a"
+        },
+        {
+          "content": "AUCH",
+          "id": "wb",
+          "letter": "b"
+        },
+        {
+          "content": "DANKBAR",
+          "id": "wc",
+          "letter": "c"
+        },
+        {
+          "content": "DESHALB",
+          "id": "wd",
+          "letter": "d"
+        },
+        {
+          "content": "FÜR",
+          "id": "we",
+          "letter": "e"
+        },
+        {
+          "content": "GERNE",
+          "id": "wf",
+          "letter": "f"
+        },
+        {
+          "content": "NOCH",
+          "id": "wg",
+          "letter": "g"
+        },
+        {
+          "content": "OB",
+          "id": "wh",
+          "letter": "h"
+        },
+        {
+          "content": "WANN",
+          "id": "wi",
+          "letter": "i"
+        },
+        {
+          "content": "WIE",
+          "id": "wj",
+          "letter": "j"
+        },
+        {
+          "content": "WENN",
+          "id": "wk",
+          "letter": "k"
+        },
+        {
+          "content": "WELCHE",
+          "id": "wl",
+          "letter": "l"
+        },
+        {
+          "content": "TROTZDEM",
+          "id": "wm",
+          "letter": "m"
+        },
+        {
+          "content": "DAMIT",
+          "id": "wn",
+          "letter": "n"
+        },
+        {
+          "content": "WEGEN",
+          "id": "wo",
+          "letter": "o"
+        }
+      ]
+    }
+  },
+  "sprechen": [
+    {
+      "durationMinutes": 10,
+      "examImagePath": null,
+      "id": 1,
+      "imagePath": "",
+      "instructions": "Die Prüfenden können außerdem noch weitere Fragen stellen.",
+      "part": 1,
+      "prepDurationSeconds": 300,
+      "subtitle": "Teilnehmer/in A und B",
+      "title": "Teil 1 Einander kennenlernen",
+      "topicDescription": "Unterhalten Sie sich mit Ihrer Partnerin bzw. Ihrem Partner über folgende Themen:",
+      "topicPoints": [
+        "Name",
+        "Woher sie oder er kommt",
+        "Wie sie oder er wohnt",
+        "Familie",
+        "Wo sie oder er Deutsch gelernt hat",
+        "Was sie oder er macht (Schule, Studium, Beruf …)",
+        "Sprachen (welche? wie lange? warum?)",
+        "Zusätzliche Prüferfrage: welchen Beruf er oder sie interessant findet",
+        "Zusätzliche Prüferfrage: was ihm oder ihr bei der Arbeit wichtig ist"
+      ],
+      "topicTitle": "Einander kennenlernen"
+    },
+    {
+      "durationMinutes": 15,
+      "examImagePath": null,
+      "id": 2,
+      "imagePath": "",
+      "instructions": "Sie haben in einer Zeitschrift etwas zum Thema „Homeoffice oder Büro?“ gelesen. Berichten Sie Ihrer Gesprächspartnerin/Ihrem Gesprächspartner darüber. Ihre Gesprächspartnerin/Ihr Gesprächspartner hat eine andere Meinung dazu gelesen und berichtet Ihnen auch darüber. Unterhalten Sie sich dann mit Ihrer Gesprächspartnerin/Ihrem Gesprächspartner über das Thema. Sagen Sie Ihre Meinung und erzählen Sie von eigenen Erfahrungen.",
+      "part": 2,
+      "prepDurationSeconds": 300,
+      "subtitle": "Teilnehmer/in A / Teilnehmer/in B",
+      "title": "Teil 2 Über ein Thema sprechen",
+      "topicDescription": "Sie haben in einer Zeitschrift etwas zum Thema „Homeoffice oder Büro?“ gelesen. Berichten Sie Ihrer Gesprächspartnerin/Ihrem Gesprächspartner darüber. Ihre Gesprächspartnerin/Ihr Gesprächspartner hat eine andere Meinung dazu gelesen und berichtet Ihnen auch darüber. Unterhalten Sie sich dann mit Ihrer Gesprächspartnerin/Ihrem Gesprächspartner über das Thema. Sagen Sie Ihre Meinung und erzählen Sie von eigenen Erfahrungen.",
+      "topicPoints": [
+        "Teilnehmer/in A — Nadine Scholz, 31 Jahre, Grafikdesignerin: „Ich arbeite sehr gerne von zu Hause. Ich spare jeden Tag fast eine Stunde Fahrtzeit und kann mich dort oft besser konzentrieren. Außerdem kann ich meine Arbeitszeit leichter mit meinem Privatleben organisieren. Zwei Tage pro Woche im Büro reichen mir völlig.“",
+        "Teilnehmer/in B — Martin Köhler, 42 Jahre, Kundenberater: „Ich gehe lieber ins Büro. Dort kann ich schnell mit meinen Kollegen sprechen, wenn es ein Problem gibt. Zu Hause fehlt mir außerdem der Kontakt zu anderen Menschen. Für mich gehören gemeinsame Pausen und Gespräche mit Kollegen zu einem guten Arbeitstag dazu.“"
+      ],
+      "topicTitle": "Homeoffice oder Büro?"
+    },
+    {
+      "durationMinutes": 5,
+      "examImagePath": null,
+      "id": 3,
+      "imagePath": "",
+      "instructions": "Entscheiden Sie zuerst, was Sie machen möchten und warum. Tragen Sie Ihrem Partner Ihre Ideen vor und begründen Sie sie. Reagieren Sie auf die Ideen Ihres Partners bzw. Ihrer Partnerin und die Begründungen. Einigen Sie sich auf einen gemeinsamen Programmvorschlag.",
+      "part": 3,
+      "prepDurationSeconds": 300,
+      "subtitle": "Teilnehmer/in A und B",
+      "title": "Teil 3 Gemeinsam etwas planen",
+      "topicDescription": "In Ihrer Firma beginnen nächste Woche mehrere neue Mitarbeiterinnen und Mitarbeiter. Ihr Team möchte einen kleinen Willkommenstag organisieren. Sie und Ihre Gesprächspartnerin bzw. Ihr Gesprächspartner sollen gemeinsam planen, wie dieser Tag aussehen soll. Überlegen Sie, was organisiert werden muss und wer welche Aufgaben übernimmt.",
+      "topicPoints": [
+        "Wann?",
+        "Wo?",
+        "Vorstellung der Firma",
+        "Essen und Getränke",
+        "Aktivitäten zum Kennenlernen",
+        "Wer organisiert was?",
+        "Kosten",
+        "..."
+      ],
+      "topicTitle": "Willkommenstag für neue Kolleginnen und Kollegen"
+    }
+  ]
+}
