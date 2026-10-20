@@ -60,6 +60,35 @@ describe('writing-telc-rating', () => {
     expect(capTaskFulfilment('A', 4, 5)).toBe('A');
   });
 
+  /**
+   * B1 letters carry four Leitpunkte and B2's three, and telc states the
+   * ladder relative to that count: A for all of them (or all but one plus a
+   * relevant additional aspect), B for one short, C for two short, D for none.
+   * The thresholds therefore come from `requiredPoints` rather than from B1's
+   * four written as literals.
+   */
+  it('caps on the ladder of the task, not on B1 four Leitpunkte', () => {
+    // B1, four required — the rungs above, restated as a ladder.
+    expect(capTaskFulfilment('A', 4, 4)).toBe('A');
+    expect(capTaskFulfilment('A', 3, 4)).toBe('B');
+    expect(capTaskFulfilment('A', 2, 4)).toBe('C');
+    expect(capTaskFulfilment('A', 1, 4)).toBe('D');
+    expect(capTaskFulfilment('A', 0, 4)).toBe('D');
+
+    // B2, three required — one rung shorter.
+    expect(capTaskFulfilment('A', 3, 3)).toBe('A');
+    expect(capTaskFulfilment('A', 2, 3)).toBe('B');
+    expect(capTaskFulfilment('A', 1, 3)).toBe('C');
+    expect(capTaskFulfilment('A', 0, 3)).toBe('D');
+  });
+
+  it('never raises a letter the model did not give', () => {
+    // The cap is a ceiling. A B2 letter of C with every point addressed stays
+    // C; capping must not promote it.
+    expect(capTaskFulfilment('C', 3, 3)).toBe('C');
+    expect(capTaskFulfilment('D', 3, 3)).toBe('D');
+  });
+
   it('does not kill on communicativeDesign D alone', () => {
     expect(
       telcSchreibenPoints({
