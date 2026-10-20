@@ -108,6 +108,42 @@ const revision = (slug, declared) => {
   return derived;
 };
 
+/**
+ * A Hören answer in the notation the column accepts.
+ *
+ * `listening_questions.correct_answer` is constrained to '+' or '-', which is
+ * telc's own marking notation — the booklet states every answer as "+
+ * (richtig)" or "- (falsch)". Source files spell the words out, so they are
+ * mapped here rather than relaxing a constraint that is keeping the column
+ * honest.
+ *
+ * Anything unrecognised throws. An answer key that silently became '-'
+ * because a spelling was not anticipated would mark correct work wrong, and
+ * nobody would be able to see why from the data.
+ */
+const RICHTIG_FALSCH = new Map([
+  ['RICHTIG', '+'],
+  ['FALSCH', '-'],
+  ['richtig', '+'],
+  ['falsch', '-'],
+  ['+', '+'],
+  ['-', '-'],
+  ['−', '-'],
+  ['true', '+'],
+  ['false', '-'],
+]);
+
+const hoerenAnswer = (value, where) => {
+  const mapped = RICHTIG_FALSCH.get(String(value));
+  if (!mapped) {
+    throw new Error(
+      `${where}: cannot read "${value}" as richtig or falsch. ` +
+        `correct_answer accepts only + or -.`,
+    );
+  }
+  return mapped;
+};
+
 const assertCount = (label, actual, expected) => {
   if (actual !== expected) {
     throw new Error(`${label}: expected ${expected}, found ${actual}`);
@@ -254,7 +290,18 @@ ${values(question.options.map((o) => ['exercise_id', q(o.content), o.isCorrect =
   DELETE FROM "lesen_teil3_situations" WHERE "exerciseId" = exercise_id;
   DELETE FROM "lesen_teil3_announcements" WHERE "exerciseId" = exercise_id;
   INSERT INTO "lesen_teil3_announcements" ("exerciseId", "title", "content", "sortOrder") VALUES
-${values(s.announcements.map((item) => ['exercise_id', q(item.title), q(item.content), item.sortOrder]))};
+${values(
+  s.announcements.map((item) => [
+    'exercise_id',
+    // `title` is NOT NULL, and some of telc's announcements are untitled
+    // press snippets. Empty string rather than a schema change: it is the
+    // convention this schema already uses for a text field that does not
+    // apply, and the client renders it as no heading.
+    q(item.title ?? ''),
+    q(item.content),
+    item.sortOrder,
+  ]),
+)};
   INSERT INTO "lesen_teil3_situations"
     ("exerciseId", "situationNumber", "content", "noMatch", "correctAnnouncementId", "sortOrder") VALUES
 ${values(
@@ -397,7 +444,7 @@ ${values(
     'exercise_id',
     item.questionNumber,
     q(item.prompt),
-    q(item.correctAnswer),
+    q(hoerenAnswer(item.correctAnswer, `Hören ${name} Q${item.questionNumber}`)),
     item.sortOrder,
   ]),
 )};

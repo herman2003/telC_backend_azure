@@ -132,16 +132,38 @@ code reads them. Wrong here is wrong for every B2 candidate permanently.
 - **Verify:** `npm.cmd test -- --runInBand`
 - **Files:** `src/modules/writing/writing-telc-rating.ts`, its spec
 
-### T6 — Sprechen prompt keyed on `(level, teil)`
+### T6 — Both AI rating prompts keyed on level
 
-- **Acceptance:** the evaluation prompt names the student's level, and the Teil
-  context comes from `(level, teil)` — B2 Teil 1 is *Über Erfahrungen
-  sprechen*, Teil 2 *Diskussion*, Teil 3 *Gemeinsam etwas planen*. Max points
-  come from `m10MaxPoints(level, teil)`. The unscored intro cannot be
-  evaluated. A B1 request produces the same prompt as today (string equality
-  test).
+Widened from "the Sprechen prompt" after T5. Two prompts name B1 to the
+model, not one, and the Schreiben one is the more dangerous of the pair.
+
+**Sprechen** (`evaluation.service.ts:268`) opens *"expert rater for telc
+Deutsch B1 Mündlicher Ausdruck (Bewertungsbogen M10), Teil N"* with B1's Teil
+names and `maxPts = teil === 1 ? 15 : 30`. At B2 the Teil numbers mean
+different tasks, so a B2 candidate practising Teil 1 is rated against B1's
+*Einander kennenlernen* out of 15 instead of *Über Erfahrungen sprechen* out
+of 25.
+
+**Schreiben** (`writing-correction.service.ts:228`) opens *"expert rater for
+telc Deutsch B1 Schriftlicher Ausdruck (Zertifikat Deutsch)"*. The spec had
+this as a watch item because B2's rubric and 45 points are already
+implemented — the arithmetic is right. The booklet shows why that is not
+enough: B2's criterion II bands are A *B2 gut erfüllt*, B *B2 erfüllt*,
+**C *B1***, D *A2 oder darunter*. At B2, solidly-B1 writing is a **C**.
+Telling the model it is rating B1 anchors it to the wrong standard and returns
+A or B for that same text, and the correct conversion then produces a
+confidently wrong mark.
+
+- **Acceptance:** both prompts name the level being rated. The Sprechen Teil
+  context comes from `(level, teil)` — B2 Teil 1 *Über Erfahrungen sprechen*,
+  Teil 2 *Diskussion*, Teil 3 *Gemeinsam etwas planen* — and max points from
+  `m10MaxPoints(level, teil)`. The Schreiben prompt carries the level and its
+  criterion II banding. The unscored intro cannot be evaluated. **A B1 request
+  produces byte-identical prompts to today**, asserted by string equality on
+  both.
 - **Verify:** `npm.cmd test -- --runInBand`
-- **Files:** `src/modules/speaking/services/evaluation.service.ts`, its spec
+- **Files:** `src/modules/speaking/services/evaluation.service.ts`,
+  `src/modules/writing/writing-correction.service.ts`, their specs
 
 ### T7 — `SpeakingLevel` → `CefrLevel`
 

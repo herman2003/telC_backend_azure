@@ -1,0 +1,1398 @@
+{
+ "modelltest": {
+  "level": "B2",
+  "number": 1,
+  "title": "telc Deutsch B2 – Übungstest 1",
+  "contentRevision": "b2-modelltest-1-v1",
+  "examOnly": false,
+  "source": {
+   "documentTitle": "telc Deutsch B2 – Übungstest 1",
+   "fileName": "telc_deutsch_b2_uebungstest_1.pdf",
+   "publisher": "telc",
+   "sourceType": "PDF"
+  }
+ },
+ "format": {
+  "family": "TELC_DEUTSCH",
+  "totalPoints": 300,
+  "writtenPoints": 225,
+  "oralPoints": 75,
+  "passRule": {
+   "type": "PART_PERCENT",
+   "writtenMinimumPercent": 60,
+   "oralMinimumPercent": 60
+  },
+  "writtenBlocks": [
+   {
+    "key": "LESEN_SPRACHBAUSTEINE",
+    "label": "Leseverstehen und Sprachbausteine",
+    "position": 1,
+    "durationMinutes": 90,
+    "sections": [
+     "LESEN_1",
+     "LESEN_2",
+     "LESEN_3",
+     "SPRACHBAUSTEINE_1",
+     "SPRACHBAUSTEINE_2"
+    ]
+   },
+   {
+    "key": "HOEREN",
+    "label": "Hörverstehen",
+    "position": 2,
+    "durationMinutes": 20,
+    "sections": [
+     "HOEREN_1",
+     "HOEREN_2",
+     "HOEREN_3"
+    ]
+   },
+   {
+    "key": "SCHREIBEN",
+    "label": "Schriftlicher Ausdruck",
+    "position": 3,
+    "durationMinutes": 30,
+    "sections": [
+     "SCHREIBEN_1_A",
+     "SCHREIBEN_1_B"
+    ]
+   }
+  ],
+  "oralExam": {
+   "label": "Mündlicher Ausdruck",
+   "durationMinutes": 15,
+   "durationMinutesThreeParticipants": 25,
+   "preparationMinutes": 20,
+   "sections": [
+    "SPRECHEN_INTRO",
+    "SPRECHEN_1",
+    "SPRECHEN_2",
+    "SPRECHEN_3"
+   ]
+  }
+ },
+ "sections": {
+  "lesenTeil1": {
+   "sectionId": "LESEN_1",
+   "contentRevision": "b2-modelltest-1-lesen-teil1-v1",
+   "label": "Leseverstehen, Teil 1",
+   "aufgabentyp": "ZUORDNUNG",
+   "instruction": "Lesen Sie zuerst die zehn Überschriften. Lesen Sie dann die fünf Texte und entscheiden Sie,\nwelche Überschrift (a–j) am besten zu welchem Text (1–5) passt.\nTragen Sie Ihre Lösungen in den Antwortbogen bei den Aufgaben 1–5 ein.",
+   "maximumPoints": 25,
+   "sourcePages": [
+    8,
+    9
+   ],
+   "titles": [
+    {
+     "key": "a",
+     "content": "Am Strand im Dienst – mehr Sicherheit für Urlauber",
+     "sortOrder": 0
+    },
+    {
+     "key": "b",
+     "content": "Bäder, Seen und Natur – im hessischen Paradies",
+     "sortOrder": 1
+    },
+    {
+     "key": "c",
+     "content": "Freiheit und Natur – nach sechs Wochen harter Arbeit",
+     "sortOrder": 2
+    },
+    {
+     "key": "d",
+     "content": "Jugendliche arbeiten für Jugendliche",
+     "sortOrder": 3
+    },
+    {
+     "key": "e",
+     "content": "Kinderarbeit in Deutschland: Jugendliche werden zur Arbeit gezwungen",
+     "sortOrder": 4
+    },
+    {
+     "key": "f",
+     "content": "Nach harter Arbeit durch nordische Gewässer",
+     "sortOrder": 5
+    },
+    {
+     "key": "g",
+     "content": "Schaden an Kreuzfahrtschiff verhindert Weiterfahrt",
+     "sortOrder": 6
+    },
+    {
+     "key": "h",
+     "content": "Urlaub an deutschen Seen immer gefährlicher",
+     "sortOrder": 7
+    },
+    {
+     "key": "i",
+     "content": "Wegen Niedrigwasser: vom Fluss auf die Straße",
+     "sortOrder": 8
+    },
+    {
+     "key": "j",
+     "content": "Zu Gast bei den Fürsten",
+     "sortOrder": 9
+    }
+   ],
+   "texts": [
+    {
+     "textNumber": 1,
+     "title": null,
+     "body": "Entdecken Sie interessante Städte und Regionen. Im Herzen Deutschlands liegen wunderbare Landschaften, mit einem für deutsche Verhältnisse sehr milden Klima – und keine typischen „Touristenziele“. Von der Stadt Gießen ausgehend kann man in den hessischen Kreisen Bergstraße und Waldeck-Frankenberg viele Orte entdecken, die noch ein Geheimtipp sind.\nVor allem gilt dies für den Kreis Waldeck-Frankenberg. Wer nicht gerade in Hessen wohnt, wird kaum wissen, wo diese Region eigentlich liegt. Es ist ein herrliches Stück Deutschland ohne besonders große Städte, eine Gegend, die Natur pur bietet. Daher wundert es nicht, dass man hier einige Kurorte findet wie Bad Arolsen oder Bad Wildungen oder den Luftkurort Edertal-Kleinern. Apropos Edertal: Der zwölf Quadratkilometer große Edersee gehört zu den vier schönen „blauen Augen“ des Kreises.\nDer Landkreis Waldeck-Frankenberg ist Hessens attraktivstes Umland. In der Region der Berge und Seen spürt man auch heute noch einen Hauch von Fürstlichkeit: Majestätisch erhebt sich über dem Edersee das Schloss Waldeck. Auch in Bad Arolsen, einer ehemaligen Residenzstadt, ist vieles noch vom früheren Adel geprägt. Unbedingt besuchen sollte man darüber hinaus das über 1000 Jahre alte Korbach wie auch die Fachwerkstadt Frankenberg.",
+     "correctTitleKey": "b",
+     "sortOrder": 0,
+     "sourcePage": 8
+    },
+    {
+     "textNumber": 2,
+     "title": null,
+     "body": "Pferde waren schon immer Melanie Schilles Leidenschaft. „Und jetzt kann ich Hobby und Beruf miteinander verbinden“, freut sich die Beamtin aus Hannover. In diesem Jahr verstärkt sie die Strandwache an der Nordseeküste. Ihr Arbeitsplatz ist der Strand: Mit „Magnus“, einem 11-jährigen Pferd, patrouilliert sie dort, wo die Kleinen Sandburgen bauen, Urlauber bei einem Buch entspannen oder sich in die kühlen Fluten stürzen. Melanie Schille und ihr Hannoveraner sind eine Attraktion in dem Ferienort. Immer wieder wollen Gäste das Tier streicheln, von der Polizistin wissen, was sie hier macht. „Wir sorgen für mehr Sicherheit am Strand“, erklären Melanie Schille und Rüdiger Teichmann (42). Sie suchen im Watt nach Vermissten, klären über Gefahren auf, verhindern Diebstähle und Sachbeschädigungen. Nachweislich gingen die Delikte zurück, seit es die Streife hoch zu Ross gibt. Die Polizisten: „Wir sind in dem unwegsamen Gelände oft schneller am Einsatzort als die Kollegen per Fahrrad oder mit dem Auto. Außerdem schonen wir die Natur.“\nFür sich persönlich sieht Melanie Schille noch einen großen Vorteil: „Es ist schön, mal keine Demonstration sichern zu müssen, stattdessen genieße ich die frische Luft mit fröhlichen Urlaubern.“ Nur eins vermisst die 22-Jährige, die mit Polizeipferd „Magnus“ auf einem Bauernhof Quartier bezogen hat, während ihres sechswöchigen Einsatzes: Freund Robert (23). Er fährt als Polizist in Hannover Streife – und wartet auf sie.",
+     "correctTitleKey": "a",
+     "sortOrder": 1,
+     "sourcePage": 9
+    },
+    {
+     "textNumber": 3,
+     "title": null,
+     "body": "Ein neuer Urlaubstrend setzt sich durch: Statt faul am Strand zu liegen, wird man aktiv. Ein besonders beliebtes Ziel ist Schweden: So kann man am Ufer des Flusses Klarälven in der Provinz Värmland selbst ein Floß bauen. Das dauert drei bis sechs Stunden, anschließend macht man darauf Urlaub. „Das ist Abenteuerurlaub pur“, schwärmt Johan Bengtson, der mit seiner Frau und den drei Kindern zum zweiten Mal Floßferien macht. „Sich auf dem Fluss treiben lassen und in der Wildnis leben – dieses Gefühl ist super!“ Seit zehn Jahren veranstaltet Marie Junler von der Agentur Vildmark i Värmland die Holzfloßtrips.\nWir haben die Bengtsons an ihrem ersten Urlaubstag begleitet. Mit dabei ist auch Veranstalterin Marie Junler, die der Familie hilft, das Floß zu bauen. Es ist ein herrlicher Sonnentag. In einer sanften Kurve des Flusses Klarälven steht Marie bis zu den Hüften im tiefblauen Wasser. Mit dicken grünen Seilen schnürt sie Holzstämme zusammen und gibt Kommandos: „Einer hält den Stamm, der andere knotet – den Seemannsknoten, wie wir ihn vorhin an Land geübt haben.“ Ohne einen Nagel werden 96 Baumstämme verzurrt – im Wasser, sonst wäre das Holz zu schwer. Mindestens zwei Erwachsene sind nötig, um ein Floß zu bauen, einer allein packt das nicht. Nach drei Stunden ist es geschafft: Das Urlaubsparadies der Bengtsons – es misst übrigens 6 mal 3 Meter und wiegt 2 Tonnen – treibt am Ufer. Noch schnell das Sonnenzelt befestigen, darunter Vorratskasten, Frischwassertank, Chemie-Klo, Küchenausrüstung, Zelt, Rettungsring, Schwimmwesten und das Paddel zum Steuern und Manövrieren verstauen – und ab geht’s.",
+     "correctTitleKey": "f",
+     "sortOrder": 2,
+     "sourcePage": 9
+    },
+    {
+     "textNumber": 4,
+     "title": null,
+     "body": "Von 9 bis 15 Uhr arbeitet Sebastian Keller (18) in einem Altenwohnheim in Hamburg-Altona: Er kümmert sich um die Essensausgabe, putzt die Küche und dann ist noch Zeit, um den Senioren vorzulesen oder mit ihnen Karten zu spielen. Zur selben Zeit putzen Rebecca (12) und Christiane (13) den Eingang des Hamburger „Michels“, der wohl bekanntesten Kirche der Stadt, und Friderike (17) füttert schon frühmorgens Kühe, Schweine und Hühner auf einem Bio-Bauernhof bei Wedel. „Endlich mal ein sinnvoller Job“, sagen die fünf übereinstimmend. Sie stehen stellvertretend für etwa 100.000 Jugendliche, die beim „Sozialen Tag“ mitgemacht haben. Hut ab! Und was mindestens ebenso beeindruckend ist: Der Verein „Hamburgs Schüler helfen“ (HSH) wurde von Jugendlichen im Jahr 2004 gegründet – und seitdem findet jedes Jahr im August der „Soziale Tag“ statt. Mit Behörden und Firmen haben Schüler aus Hamburg Verträge für einen Tag abgeschlossen. Die Schülerinnen und Schüler verdienen dann am „Sozialen Tag“ zwischen 6 und 8 Euro pro Stunde – aber nicht für sich selbst, sondern für andere. Denn der Verdienst wird gespendet. Die Jugendlichen wählen selbst ein Projekt aus, an das sie die Gelder spenden wollen. Einzige Bedingung: Es muss ein Projekt sein, von dem Jugendliche profitieren. Im letzten Jahr zum Beispiel wurde die Gesamtsumme von 1,2 Millionen Euro an das Projekt „Frieden für alle“ gespendet. Dessen Ziel ist es, Jugendliche in Kriegs- und Krisenregionen zu unterstützen, den Dialog unter Jugendlichen aus verschiedenen Ländern zu fördern und auch das Kennenlernen anderer Kulturen zu ermöglichen. Für Ralf Waldner (20) vom HSH steht fest: „Wir können und werden anderen auch in Zukunft helfen, das Engagement der Schülerinnen und Schüler in Hamburg ist in den letzten Jahren schließlich immer weiter gestiegen.“",
+     "correctTitleKey": "d",
+     "sortOrder": 3,
+     "sourcePage": 9
+    },
+    {
+     "textNumber": 5,
+     "title": null,
+     "body": "Die Windjacken waren schon eingepackt, die Koffer geschlossen. Thomas Meurer (64) und Wiebke Fuchs (62) aus Hannover freuten sich auf ihre Flusskreuzfahrt mit der „MS Eurostar“ von Potsdam nach Prag. Stattliche 2500 Euro kostete die Reise pro Person, und beide hatten lange gespart, um sich das leisten zu können. Doch aus der Kreuzfahrt wurde eine Bustour. Meurer berichtet, was er erlebt hat: „Wir waren am Abend auf das Schiff gegangen und hatten unsere Kabinen bezogen. Am nächsten Morgen ging es los. Aber schon bald machte das Schiff wieder fest und alle Gäste mussten von Bord.“ Wiebke Fuchs ergänzt: „Der Fluss hatte einfach zu wenig Wasser, da konnten wir mit dem großen Kreuzfahrtschiff nicht weiterfahren!“ Per Bus ging es nach Prag. Beide wollen nun einen Teil des Reisepreises zurück, aber der Veranstalter Hapag-Lloyd wehrt ab: „Das war höhere Gewalt, da kann man nichts machen.“",
+     "correctTitleKey": "i",
+     "sortOrder": 4,
+     "sourcePage": 9
+    }
+   ]
+  },
+  "lesenTeil2": {
+   "sectionId": "LESEN_2",
+   "contentRevision": "b2-modelltest-1-lesen-teil2-v1",
+   "label": "Leseverstehen, Teil 2",
+   "aufgabentyp": "EINZELAUSWAHL",
+   "instruction": "Lesen Sie zuerst die beiden Artikel und lösen Sie dann die Aufgaben 6–10 zu den Texten.\nLösen Sie die Aufgaben 6–10. Entscheiden Sie, welche Lösung (a, b oder c) richtig ist, und tragen Sie Ihre\nLösung in den Antwortbogen bei den Aufgaben 6–10 ein.",
+   "maximumPoints": 25,
+   "sourcePages": [
+    10,
+    11
+   ],
+   "readingText": {
+    "title": null,
+    "subtitle": null,
+    "body": "Freizeitbegriff\nDas Freizeitverständnis hat sich grundlegend gewandelt. Quantitativ und qualitativ unterscheidet sich die Freizeit heute von früheren Freizeitformen. Auch gegenwärtig findet Erholung von der Arbeit in der Freizeit statt, aber diese Freizeit ist nicht mehr nur – wie in den fünfziger Jahren – Erholungszeit. Für die überwiegende Mehrheit der Bevölkerung hat Freizeit einen eigenständigen Wert bekommen. So vertreten 70 % der Bevölkerung die Auffassung, dass Freizeit in erster Linie eine Zeit ist, in der man tun und lassen kann, was einem Spaß macht. Aus einem arbeitsabhängigen Zeitbegriff, der Freizeit negativ als Abwesenheit von Arbeit definierte, hat sich heute ein positives Freizeitverständnis entwickelt: Freizeit ist eine Zeit, in der man frei ist.\nÜber vierzig Jahre Arbeitszeitverkürzungen sind an den Menschen und ihrer Einstellung zum arbeitsfreien Teil des Lebens nicht spurlos vorübergegangen. Freizeit ist mehr als eine Pause, in der man sich für den nächsten Arbeitstag wieder erholt. Freizeit koppelt sich von der Arbeit ab: Nur für eine Minderheit der Bevölkerung ist Freizeit eine Zeit, die nicht mit Arbeit und Geldverdienen ausgefüllt ist (26 %). Dies gilt für Arbeiter (38 %) genauso wie für Angestellte (34 %) oder Selbständige (30 %). Bei Freizeit denken die meisten erst einmal an den eigenen Spaß. Freizeit ist daher mehr ein positives Lebensgefühl als eine arbeitsabhängige Zeitkategorie. Im subjektiven Empfinden der Menschen sind „arbeitsfreie Zeit“ und „Freizeit“ nicht mehr dasselbe. Mit dem Wandel des subjektiven Freizeitverständnisses ist auch eine gesellschaftliche Neubewertung der Freizeit notwendiger denn je.\nVor dem Hintergrund des wachsenden Anteils Nichterwerbstätiger lässt sich für die Zukunft unschwer prognostizieren: Freizeit verliert zunehmend ihre Bedeutung als arbeitsfreie Regenerationszeit. Umso mehr richten sich dann die Hoffnungen auf die Freizeit als Synonym für Lebensqualität und Wohlbefinden. Dies aber heißt: sich wohlfühlen, das tun und lassen können, was Spaß und Freude macht, und das Leben in eigener Regie gestalten sowie viel mit Familie und Freunden unternehmen.\n\nFreizeitrituale\nAlles hat seine Regeln und Rituale, auch die Freizeit. Die Deutschen haben ihre Freizeit bestens organisiert: samstags auf die Piste und sonntags mit der Familie. Fast jeder dritte Bundesbürger reserviert regelmäßig einen Wochentag für Familie oder Ausgehen, für Sport oder Faulenzen. Mehr als 20 % kennen ebenfalls einen festen Termin für Hobby, Verein oder Besuche. Und selbst der Badetag ist für jeden vierten Deutschen nach wie vor ein Begriff.\nTrotz kürzerer Arbeitszeiten konzentrieren sich die meisten Freizeittermine auf das lange Wochenende. Ausgehen und Besuche machen stehen ebenso auf dem Programm wie faulenzen, lesen oder sich dem Hobby widmen. So hat der Samstag für jeden dritten Bundesbürger seinen festen Platz als Hauptausgehtag. Den sonntäglichen Terminkalender bestimmen dann bei der Mehrheit der Befragten die beiden „F“: Faulenzen und Familie. Für viele wird damit der Sonntag zum Balanceakt zwischen eigener und gemeinsamer Freizeitgestaltung. Denn auch die Zweisamkeit darf nicht zu kurz kommen. Für sechs Prozent der Deutschen ist der siebte Tag der Woche ein „Schmusetag“.\nFreizeitrituale, bisher kaum erforscht, hatten im Alltagsleben der Bevölkerung schon immer ihren festen Platz. Was als liebe Gewohnheit oder Alltagsroutine beginnt, kann zur eingeübten Handlung und starren Ordnung werden: von den Begrüßungs-, Wasch- und Umziehritualen nach Feierabend bis zum gemeinsamen Frühstück und Familienspaziergang am Sonntag. Solche eingespielten und liebgewordenen Gewohnheiten geben den Menschen im Alltag Struktur und Halt. Gerade im Zusammenleben von Familienmitgliedern haben Rituale eine wichtige Stabilisierungsfunktion. Dahinter verbirgt sich das Bedürfnis nach Sicherheit und Geborgenheit, der Wunsch nach einem harmonischen Feierabend oder schönen Wochenende.",
+    "source": null
+   },
+   "questions": [
+    {
+     "questionNumber": 6,
+     "prompt": "Siebzig Prozent der Bevölkerung meinen, dass Freizeit",
+     "options": [
+      {
+       "key": "a",
+       "content": "nach den eigenen Vorlieben gestaltet werden soll.",
+       "isCorrect": true,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "nicht unbedingt positiv besetzt ist.",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "nur dem Ausruhen und Schlafen dienen sollte.",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 0,
+     "sourcePage": 11
+    },
+    {
+     "questionNumber": 7,
+     "prompt": "Die Mehrheit der Leute nutzt ihre Freizeit",
+     "options": [
+      {
+       "key": "a",
+       "content": "für die eigenen Interessen.",
+       "isCorrect": true,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "zur Aufbesserung des Einkommens.",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "zur Regeneration für den nächsten Arbeitstag.",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 1,
+     "sourcePage": 11
+    },
+    {
+     "questionNumber": 8,
+     "prompt": "Die Deutschen",
+     "options": [
+      {
+       "key": "a",
+       "content": "gehen nur an Wochenenden ihren Hobbys nach.",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "organisieren ihre Freizeit gar nicht.",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "organisieren ihre Freizeit meistens gut und reservieren für ihre Aktivitäten bestimmte Wochentage.",
+       "isCorrect": true,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 2,
+     "sourcePage": 11
+    },
+    {
+     "questionNumber": 9,
+     "prompt": "Der Sonntag ist bei vielen reserviert für",
+     "options": [
+      {
+       "key": "a",
+       "content": "das Ausgehen.",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "die Freizeitgestaltung mit Freunden oder Kollegen.",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "Familie und Entspannung.",
+       "isCorrect": true,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 3,
+     "sourcePage": 11
+    },
+    {
+     "questionNumber": 10,
+     "prompt": "Freizeitrituale",
+     "options": [
+      {
+       "key": "a",
+       "content": "schwächen den Gruppenzusammenhalt.",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "sind für die moderne Familie nicht mehr von Bedeutung.",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "waren bislang noch nicht oft Gegenstand wissenschaftlicher Untersuchungen.",
+       "isCorrect": true,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 4,
+     "sourcePage": 11
+    }
+   ]
+  },
+  "lesenTeil3": {
+   "sectionId": "LESEN_3",
+   "contentRevision": "b2-modelltest-1-lesen-teil3-v1",
+   "label": "Leseverstehen, Teil 3",
+   "aufgabentyp": "ZUORDNUNG",
+   "instruction": "Lesen Sie zuerst die zehn Situationen (11–20) und dann die zwölf Info-Texte (a–l).\nWelcher Info-Text passt zu welcher Situation? Sie können jeden Info-Text nur einmal verwenden.\nMarkieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 11–20.\nManchmal gibt es keine Lösung. Markieren Sie dann x.",
+   "maximumPoints": 25,
+   "sourcePages": [
+    12,
+    13,
+    14
+   ],
+   "announcements": [
+    {
+     "key": "a",
+     "title": null,
+     "content": "Auf dem Göta-Kanal sind drei historische Schiffe unterwegs: „Juno“, „Wilhelm Tham“ und „Diana“. Die um die Jahrhundertwende gebauten Dampfer sind restauriert und auf umgerüstet.\nUnterkunft an Bord: in Doppelkabinen mit Etagenbetten, Dusche und WC.\nReiseverlauf: Reiseantritt in Stockholm oder Göteborg. Aktivitäten: tägliche Ausflüge zu verschiedenen Sehenswürdigkeiten, Spaziergänge auf dem Treidelweg, baden, lesen, Karten spielen, die Stimmung an Deck genießen.\nReisetermine: von Mai bis September.\nWer in Göteborg oder Stockholm bleiben will, kann weitere Übernachtungen buchen.\nWeitere Infos: Schweden-Werbung, Lilienstr. 19, D-20095 Hamburg, Tel. 040 / 32 55 13 55.\nWeb: www.gotacanal.se (Reederei).",
+     "sortOrder": 0,
+     "sourcePage": 13
+    },
+    {
+     "key": "b",
+     "title": "Skating für Fortgeschrittene",
+     "content": "Können Sie bremsen? Oder nur wenn ein Verkehrsschild oder eine Ampel in der Nähe ist? Vielleicht ist ein Wochenend-Kurs beim Starnberger Rollschuh-Club genau das Richtige für Sie.\nTrainer vermitteln effektives Gleiten, Bremsen, Kurvenfahren, Fallen – alles für fortgeschrittene Skater, die ihre Technik verbessern wollen.\nDazu: neueste Skate-Modelle zum Üben: Fr 17 Uhr bis So 19 Uhr,\nÜ/F, ab 160 Euro,\nInfos: 0800 / 100 88 00 (Ortstarif).",
+     "sortOrder": 1,
+     "sourcePage": 13
+    },
+    {
+     "key": "c",
+     "title": null,
+     "content": "Skater gelten verkehrsrechtlich als Fußgänger und dürfen eigentlich nur auf Gehwegen oder in verkehrsberuhigten Zonen fahren. Gar nicht einfach, eine schöne, freie Piste auf glattem Asphalt zu finden! In unseren Reiseführern für Skater stellen wir ausgewählte Strecken für Touren vor: in verschiedenen Großstädten und Regionen in Deutschland, von der kleinen Abend- bis zur großen Tagestour. (Klartext Verlag Essen, ab ca. 7 Euro im Buchhandel).\nWichtige Infos zu Skate-Hallen und -Bahnen, Veranstaltungen, zu regelmäßigen Inline-Treffpunkten von Flensburg bis Passau enthält der „ActionGuide Inline-Skating“ (BLV Verlag, 14,80 Euro).",
+     "sortOrder": 2,
+     "sourcePage": 13
+    },
+    {
+     "key": "d",
+     "title": "LAUFEN FÜR DIE FORSCHUNG",
+     "content": "Straßenlauf in Frankfurt am Main: Alle Teilnehmer haben ihren Sponsor; das Geld stiften sie für Aufklärung und Forschung zum Thema Brustkrebs. Gestartet wird am 13. August um zehn Uhr morgens am Frankfurter Römer. Die Idee für diese Aktion stammt aus den USA: Dort organisiert die „Breast Cancer Foundation“ seit fast 20 Jahren solche gesponserten Läufe. Wer mitlaufen und/oder sponsern will, kann sich per E-Mail anmelden.\nInfo: Race for the Cure\nE-Mail: raceforthecure@arcormail.de\nwww. raceforthecure.de",
+     "sortOrder": 3,
+     "sourcePage": 13
+    },
+    {
+     "key": "e",
+     "title": "Russland, China, Kamerun, Venezuela",
+     "content": "– wer binnen weniger Tage in ein Land jenseits der EU-Grenzen aufbrechen muss, verliert eine Menge Zeit bei der Beschaffung von Einreisepapieren. Inzwischen holen Agenturen die Visa kurzfristig ein, überbringen sie persönlich oder hinterlegen sie am Flughafen. So geht’s: Sie lassen sich vom Visumservice beraten, füllen einen Antrag aus, die Unterlagen werden überprüft und beim zuständigen Konsulat eingereicht.\nKosten für ein Visum innerhalb von fünf Arbeitstagen: 85 Euro; 24-Stunden-Service: 140 Euro.\nInfos: Tel. 069/69 07 22 32,\nwww.visumservice.de",
+     "sortOrder": 4,
+     "sourcePage": 13
+    },
+    {
+     "key": "f",
+     "title": "MÖWE E. V. – Kinder- und Jugendfreizeiten",
+     "content": "Wir bieten: Campen, Kanufahren, Wandern, Klettern, Geländespiele usw. • Für Kinder und Jugendliche zwischen 7 und 18 Jahren. Alle Aktivitäten werden von erfahrenen Pädagogen betreut und begleitet! Elternbegleitung möglich. • Integrativer Ansatz: auch für Kinder und Jugendliche mit erhöhtem Betreuungsbedarf. • Jetzt neu: Auslandsreisen zu Hilfsprojekten in anderen Ländern (mit sozialer Tätigkeit, z. B. Hilfe in Schulen o. Ä.) – Reisen, Lernen, Gutes tun! Für Jugendliche ab 15 Jahren.\nWeitere Infos: Möwe e. V., Esslingerstr. 7, D-72649 Wolfschlugen\nTelefon: 0800 / 5959219\nE-Mail: Petra.Schrei@moewe.eu",
+     "sortOrder": 5,
+     "sourcePage": 13
+    },
+    {
+     "key": "g",
+     "title": null,
+     "content": "Sie wollen bald zu Ihrer ersten Inliner-Tour starten? Anfänger sollten die wichtigsten Techniken (beim Gleiten, Bremsen und Fallen) vorher üben und Körperhaltung und Balance trainieren. Infos zu Kursen gibt es beim Deutschen Inline-Skate-Verband. Auch Sportartikelfirmen bieten Kurse an, z. B. das mobile „K2 Skate College“ in ca. 100 deutschen Städten (Tel. 0190 / 57 55 55; 2 Stunden 25 Euro).\nIn kleinen Gruppen lernen Sie die richtige Technik beim Gleiten, Bremsen und Fallen, trainieren Körperhaltung und Balance.\nSkate-Unterricht für Einsteiger gibt es auch per Video (z. B. GoInline!; ca. 15 Euro, in Buch- und Sportgeschäften) oder als Buch (z. B. Richtig Inline-Skaten, BLV Verlag, 9,90 Euro).",
+     "sortOrder": 6,
+     "sourcePage": 14
+    },
+    {
+     "key": "h",
+     "title": "Skate Nights vom 5. bis 9. August",
+     "content": "MAINZ. Für die Skate Nights vom 5. bis 9. August sucht die Stadt Mainz Helfer.\nEngagierte Skater werden benötigt, die Skating-Regeln erklären oder bei der Verkehrsregelung helfen. An allen Tagen dürfen Skater von 20.30 bis 22.30 Uhr durch die Innenstadt fahren – auf einem Rundkurs über Hauptstraßen und den Markt.\nAnmeldung für die Helfer und Inline-Skater beim Sportamt der Stadt Mainz, Tel.: 06131-12 43 21.",
+     "sortOrder": 7,
+     "sourcePage": 14
+    },
+    {
+     "key": "i",
+     "title": "Bäche, Seen, Wälder und Wiesen",
+     "content": "Für Feriengenießer haben wir viel zu bieten: herrliche Natur, ein bisschen Luxus, komfortable Zimmer und Suiten, gemütliche Restaurants mit dem Besten aus Küche und Keller. Und dazu ein großes Angebot für alle, die im Urlaub aktiv werden wollen: geführte Wanderungen im Tannheimer Tal, Radeln, Mountainbiken, Surfen, Bootsfahrten und Baden am klaren Haldensee, Tennisspielen und dann Relaxen im Wellness-Bereich – Entspannung pur! Schöner kann Urlaub nicht sein!\nHotel Waldruhe, A-6673 Haldensee,\nBergweg 12, Tel.: 0043-56 75 31 62;\nE-Mail: hoteltyrol@netway.at",
+     "sortOrder": 8,
+     "sourcePage": 14
+    },
+    {
+     "key": "j",
+     "title": "Reisetipps",
+     "content": "Wichtige Hinweise für Ihre Reise nach Ägypten. Sicherheit: Die Hauptattraktionen des Landes werden bewacht. Verhalten Sie sich respektvoll dem kulturellen Erbe und den Einheimischen gegenüber. Passen Sie Ihre Kleidung wie bei jeder Reise den Gepflogenheiten des Landes an. Gesundheit: Wasser, auch zum Zähneputzen, sollten Sie nur aus verschlossenen Flaschen benutzen.\nWelche Impfung nötig ist, erfahren Sie am Impftelefon: 0 40 / 42 81 88 00. Beste Reisezeit: Oktober bis April. Touren: Alle großen deutschen Veranstalter bieten auch Rundreisen sowie Kreuzfahrten auf dem Nil an. Weitere Informationen finden Sie im Internet unter www.reise-tipps.eu.",
+     "sortOrder": 9,
+     "sourcePage": 14
+    },
+    {
+     "key": "k",
+     "title": "LAGO DI CHIUSI: EINFACH HERRLICH",
+     "content": "Früher schnitt man hier das Rohr für die Florentinerhüte, heute ist der winzige, von grünen Wiesen umgebene See an der Grenze zu Latium ein Geheimtipp für Liebhaber der Gemächlichkeit. Zeitloses Italien: ein windschiefer Holzsteg, morsche bunte Boote, ein paar Angler, ein paar Enten auf sattem Grün und der würzige Geruch von Seefischen, die „alla etrusca“ über Schilf gebraten werden. Zum Beispiel bei Gino: Filets von Forelle, Felchen und Hecht, ein paar Spritzer Olivenöl und Zitronensaft.\nBuon appetito!",
+     "sortOrder": 10,
+     "sourcePage": 14
+    },
+    {
+     "key": "l",
+     "title": "KRÄUTERCREME UND ÖKO-SEIFE",
+     "content": "Viele Beauty-Produkte schmücken sich mit dem Begriff „Naturkosmetik“. Bisher gab es dafür keine festen Prüfkriterien, doch jetzt kommt das Gütezeichen „Kontrollierte Natur-Kosmetik BDHI“, das vom Bundesverband Deutscher Industrie- und Handelsunternehmen (BDHI) vergeben wird. Damit können Sie sicher sein: Wo Natur draufsteht, ist auch Natur drin.\nInfos gibt’s beim BDHI unter: Telefon 06 21/1 29 43 30.",
+     "sortOrder": 11,
+     "sourcePage": 14
+    }
+   ],
+   "situations": [
+    {
+     "situationNumber": 11,
+     "content": "Ein Bekannter möchte Schweden per Schiff kennenlernen.",
+     "noMatch": false,
+     "correctAnnouncementKey": "a",
+     "sortOrder": 0,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 12,
+     "content": "Ein Freund möchte sich im Inline-Skaten perfektionieren.",
+     "noMatch": false,
+     "correctAnnouncementKey": "b",
+     "sortOrder": 1,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 13,
+     "content": "Ein Kollege möchte sich über Gesundheitsrisiken in Ägypten informieren.",
+     "noMatch": false,
+     "correctAnnouncementKey": "j",
+     "sortOrder": 2,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 14,
+     "content": "Eine Bekannte möchte einen Kurs über Naturkosmetik besuchen.",
+     "noMatch": true,
+     "correctAnnouncementKey": null,
+     "sortOrder": 3,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 15,
+     "content": "Eine 17-jährige Freundin würde gerne armen Menschen in anderen Ländern helfen.",
+     "noMatch": false,
+     "correctAnnouncementKey": "f",
+     "sortOrder": 4,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 16,
+     "content": "Ihr Nachbar möchte sich im Sommerurlaub sportlich betätigen.",
+     "noMatch": false,
+     "correctAnnouncementKey": "i",
+     "sortOrder": 5,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 17,
+     "content": "Ihre Freundin möchte gerne bei der Organisation einer Inline-Skate-Veranstaltung mitwirken.",
+     "noMatch": false,
+     "correctAnnouncementKey": "h",
+     "sortOrder": 6,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 18,
+     "content": "Sie möchten das Inline-Skaten erlernen und suchen Informationen.",
+     "noMatch": false,
+     "correctAnnouncementKey": "g",
+     "sortOrder": 7,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 19,
+     "content": "Sie möchten herausfinden, wo es in Deutschland Skate-Veranstaltungen gibt.",
+     "noMatch": false,
+     "correctAnnouncementKey": "c",
+     "sortOrder": 8,
+     "sourcePage": 12
+    },
+    {
+     "situationNumber": 20,
+     "content": "Sie müssen kurzfristig für Ihren Chef Reisepapiere für Ägypten besorgen.",
+     "noMatch": false,
+     "correctAnnouncementKey": "e",
+     "sortOrder": 9,
+     "sourcePage": 12
+    }
+   ]
+  },
+  "sprachbausteineTeil1": {
+   "sectionId": "SPRACHBAUSTEINE_1",
+   "contentRevision": "b2-modelltest-1-sprachbausteine-teil1-v1",
+   "label": "Sprachbausteine, Teil 1",
+   "aufgabentyp": "LUECKENTEXT_EINZELAUSWAHL",
+   "instruction": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke\npasst. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+   "body": "Liebe Daniela,\nich habe schon ein ganz schlechtes Gewissen, denn {{21}} wollte ich dir schon vor zwei Monaten schreiben. Aber du weißt ja, wie das ist: Wenn man sich auf eine Prüfung vorbereitet, hat {{22}} überhaupt keine Zeit mehr für seine Hobbys – alles dreht sich nur noch ums Lernen.\nNun habe ich es aber geschafft: Gestern war die Prüfung und ich bin zuversichtlich, dass ich sie bestanden habe. Mein Freund, mit {{23}} Hilfe es mir überhaupt nur möglich war, diese ganze Zeit zu {{24}}, hat mich für heute Abend in ein tolles Restaurant eingeladen. Danach gehen wir auch noch tanzen.\nIn deinem letzten Brief hast du mich gefragt, {{25}} ich Lust hätte, mit dir zusammen ein Wochenende in London zu verbringen. Natürlich habe ich Lust! Nach dem ganzen Stress der letzten Wochen fände ich es super, mal ein paar Tage lang mit einer Freundin etwas Tolles zu {{26}}. London ist eine wunderbare Stadt, ich habe schon viele Berichte darüber gelesen. Ich würde mich {{27}} besonders {{28}} die Tate Gallery und das Filmmuseum interessieren.\nMach {{29}} einfach ein paar Vorschläge, wann du Zeit hast. Ich bin sicher, dass wir {{30}} auf ein Wochenende einigen können. In der Zwischenzeit drucke ich schon mal ein paar Angebote aus dem Internet aus: preiswerte Flüge, ein schönes und günstiges Hotel für uns usw. Ich freue mich schon auf deinen nächsten Brief.\nHerzliche Grüße\nAndrea",
+   "maximumPoints": 15,
+   "sourcePages": [
+    15
+   ],
+   "gaps": [
+    {
+     "gapNumber": 21,
+     "gapKey": "21",
+     "options": [
+      {
+       "key": "a",
+       "content": "außerdem",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "eigentlich",
+       "isCorrect": true,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "überhaupt",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 0
+    },
+    {
+     "gapNumber": 22,
+     "gapKey": "22",
+     "options": [
+      {
+       "key": "a",
+       "content": "er",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "es",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "man",
+       "isCorrect": true,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 1
+    },
+    {
+     "gapNumber": 23,
+     "gapKey": "23",
+     "options": [
+      {
+       "key": "a",
+       "content": "der",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "dessen",
+       "isCorrect": true,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "seiner",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 2
+    },
+    {
+     "gapNumber": 24,
+     "gapKey": "24",
+     "options": [
+      {
+       "key": "a",
+       "content": "übersetzen",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "überstehen",
+       "isCorrect": true,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "übertragen",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 3
+    },
+    {
+     "gapNumber": 25,
+     "gapKey": "25",
+     "options": [
+      {
+       "key": "a",
+       "content": "dass",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "falls",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "ob",
+       "isCorrect": true,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 4
+    },
+    {
+     "gapNumber": 26,
+     "gapKey": "26",
+     "options": [
+      {
+       "key": "a",
+       "content": "unternehmen",
+       "isCorrect": true,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "verbringen",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "verplanen",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 5
+    },
+    {
+     "gapNumber": 27,
+     "gapKey": "27",
+     "options": [
+      {
+       "key": "a",
+       "content": "ganz",
+       "isCorrect": true,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "recht",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "zwar",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 6
+    },
+    {
+     "gapNumber": 28,
+     "gapKey": "28",
+     "options": [
+      {
+       "key": "a",
+       "content": "auf",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "für",
+       "isCorrect": true,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "in",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 7
+    },
+    {
+     "gapNumber": 29,
+     "gapKey": "29",
+     "options": [
+      {
+       "key": "a",
+       "content": "bestimmt",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "doch",
+       "isCorrect": true,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "sicher",
+       "isCorrect": false,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 8
+    },
+    {
+     "gapNumber": 30,
+     "gapKey": "30",
+     "options": [
+      {
+       "key": "a",
+       "content": "euch",
+       "isCorrect": false,
+       "sortOrder": 0
+      },
+      {
+       "key": "b",
+       "content": "sich",
+       "isCorrect": false,
+       "sortOrder": 1
+      },
+      {
+       "key": "c",
+       "content": "uns",
+       "isCorrect": true,
+       "sortOrder": 2
+      }
+     ],
+     "sortOrder": 9
+    }
+   ]
+  },
+  "sprachbausteineTeil2": {
+   "sectionId": "SPRACHBAUSTEINE_2",
+   "contentRevision": "b2-modelltest-1-sprachbausteine-teil2-v1",
+   "label": "Sprachbausteine, Teil 2",
+   "aufgabentyp": "LUECKENTEXT_WORTBANK",
+   "instruction": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–o) in die Lücken\n31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den\nText. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+   "body": "Es gibt immer weniger Deutsche\n{{31}} Angaben des Statistischen Bundesamtes in Wiesbaden wird die Bevölkerungszahl in Deutschland in den nächsten Jahrzehnten {{32}} sinken. Die Statistiker {{33}} damit, dass die Zahl der Deutschen bis zum Jahr 2050 von jetzt 82 Millionen auf nur noch 65 Millionen zurückgehen wird. Diese Entwicklung sei, so kommentieren die Statistiker, deswegen so dramatisch, weil sich gleichzeitig mit dem Rückgang der Einwohnerzahl die Altersstruktur Deutschlands sehr stark verändern wird: Fast die Hälfte der Bevölkerung wird dann im Rentenalter sein. Das Gesundheitssystem und die Altersversorgung werden {{34}} dieser Entwicklung vor großen Problemen stehen und möglicherweise nicht mehr bezahlbar sein.\nDiese ungünstige Bevölkerungsentwicklung in Deutschland hat nach Auskunft der Statistiker mehrere Aspekte. Zum einen werden die Deutschen immer älter: Das durchschnittliche Lebensalter für Frauen wird bis 2050 auf 84, das der Männer auf 78 Jahre {{35}}. Gleichzeitig werde zum anderen die Zahl der Geburten zurückgehen: Im Jahr 2050 werden voraussichtlich nur noch 1400 Kinder pro 1000 Frauen geboren. Die Zahl der Erwerbstätigen werde um fast 10 Millionen auf nur noch 30 Millionen sinken.\nDie Auswirkungen auf das politische und gesellschaftliche Leben in Deutschland im Jahr 2050 lassen sich {{36}} erahnen. Wenn nahezu fünfzig Prozent der Bevölkerung Senioren sind, werden sich Politik und Geschäftswelt {{37}} diesen Personenkreis einstellen. Für junge Leute wird sich dann das Problem ergeben, dass sich Politiker mehr {{38}} die alten Wähler interessieren werden. Die Produktivität der Wirtschaft wird abnehmen, da Arbeitnehmer den größten Teil ihres Einkommens in die Kranken- und Rentenversicherungen {{39}} in den Konsum stecken müssen. Diese Probleme könne man nur {{40}}, so das Statistische Bundesamt, wenn ab sofort eine hohe Zahl von jungen Arbeitskräften aus dem Ausland zuwandere. Diese würden dann für eine ausgeglichenere Bevölkerungsentwicklung in Deutschland sorgen.",
+   "maximumPoints": 15,
+   "sourcePages": [
+    16
+   ],
+   "words": [
+    {
+     "key": "a",
+     "content": "AN",
+     "sortOrder": 0
+    },
+    {
+     "key": "b",
+     "content": "AUF",
+     "sortOrder": 1
+    },
+    {
+     "key": "c",
+     "content": "AUFGRUND",
+     "sortOrder": 2
+    },
+    {
+     "key": "d",
+     "content": "BEHEBEN",
+     "sortOrder": 3
+    },
+    {
+     "key": "e",
+     "content": "BESCHEIDEN",
+     "sortOrder": 4
+    },
+    {
+     "key": "f",
+     "content": "DRASTISCH",
+     "sortOrder": 5
+    },
+    {
+     "key": "g",
+     "content": "ERHÖHEN",
+     "sortOrder": 6
+    },
+    {
+     "key": "h",
+     "content": "FÜR",
+     "sortOrder": 7
+    },
+    {
+     "key": "i",
+     "content": "IM",
+     "sortOrder": 8
+    },
+    {
+     "key": "j",
+     "content": "NACH",
+     "sortOrder": 9
+    },
+    {
+     "key": "k",
+     "content": "RECHNEN",
+     "sortOrder": 10
+    },
+    {
+     "key": "l",
+     "content": "STATT",
+     "sortOrder": 11
+    },
+    {
+     "key": "m",
+     "content": "STEIGEN",
+     "sortOrder": 12
+    },
+    {
+     "key": "n",
+     "content": "ÜBERHEBLICH",
+     "sortOrder": 13
+    },
+    {
+     "key": "o",
+     "content": "UNSCHWER",
+     "sortOrder": 14
+    }
+   ],
+   "gaps": [
+    {
+     "gapNumber": 31,
+     "gapKey": "31",
+     "correctWordKey": "j",
+     "sortOrder": 0
+    },
+    {
+     "gapNumber": 32,
+     "gapKey": "32",
+     "correctWordKey": "f",
+     "sortOrder": 1
+    },
+    {
+     "gapNumber": 33,
+     "gapKey": "33",
+     "correctWordKey": "k",
+     "sortOrder": 2
+    },
+    {
+     "gapNumber": 34,
+     "gapKey": "34",
+     "correctWordKey": "c",
+     "sortOrder": 3
+    },
+    {
+     "gapNumber": 35,
+     "gapKey": "35",
+     "correctWordKey": "m",
+     "sortOrder": 4
+    },
+    {
+     "gapNumber": 36,
+     "gapKey": "36",
+     "correctWordKey": "o",
+     "sortOrder": 5
+    },
+    {
+     "gapNumber": 37,
+     "gapKey": "37",
+     "correctWordKey": "b",
+     "sortOrder": 6
+    },
+    {
+     "gapNumber": 38,
+     "gapKey": "38",
+     "correctWordKey": "h",
+     "sortOrder": 7
+    },
+    {
+     "gapNumber": 39,
+     "gapKey": "39",
+     "correctWordKey": "l",
+     "sortOrder": 8
+    },
+    {
+     "gapNumber": 40,
+     "gapKey": "40",
+     "correctWordKey": "d",
+     "sortOrder": 9
+    }
+   ]
+  },
+  "hoeren": {
+   "teil1": {
+    "sectionId": "HOEREN_1",
+    "part": 1,
+    "title": "Teil 1",
+    "subtitle": "Hörverstehen, Teil 1",
+    "aufgabentyp": "RICHTIG_FALSCH",
+    "instruction": "Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen.\nSie hören die Nachrichtensendung nur einmal.\n\nEntscheiden Sie beim Hören, ob die Aussagen 41–45 richtig oder falsch sind.\nMarkieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41–45.\nMarkieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen.\n\nLesen Sie jetzt die Aufgaben 41–45. Sie haben dazu 30 Sekunden Zeit.",
+    "contentRevision": "b2-modelltest-1-hoeren-teil1-v1",
+    "maximumPoints": 25,
+    "sourcePages": [
+     17,
+     50
+    ],
+    "media": {
+     "audioUrl": "https://cdn.lerniqo.tech/b2-modelltest-1-hoeren/b2-modelltest-1-hoeren-teil1.m4a",
+     "imageUrl": null,
+     "durationSeconds": 290.122,
+     "allowedPlays": 1
+    },
+    "transcript": null,
+    "questions": [
+     {
+      "questionNumber": 41,
+      "prompt": "Laut BILD AM SONNTAG können in Zukunft nur Mieter, aber nicht Vermieter bestimmte Mietverträge schneller kündigen.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 0,
+      "sourcePage": 17
+     },
+     {
+      "questionNumber": 42,
+      "prompt": "In bestimmten Bundesländern sollen Wohnhäuser abgerissen werden, weil sie unbewohnt sind.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 1,
+      "sourcePage": 17
+     },
+     {
+      "questionNumber": 43,
+      "prompt": "Sowohl die Waldbrände als auch die Hitzewelle in Griechenland sind zu Ende.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 2,
+      "sourcePage": 17
+     },
+     {
+      "questionNumber": 44,
+      "prompt": "In Kanada mussten die Bergungsarbeiten nach einem Tornado wegen erneuter Unwetterwarnungen eingestellt werden.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 3,
+      "sourcePage": 17
+     },
+     {
+      "questionNumber": 45,
+      "prompt": "Bei einem Fährunglück in der Nähe von Gibraltar gab es nur Sachschaden.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 4,
+      "sourcePage": 17
+     }
+    ]
+   },
+   "teil2": {
+    "sectionId": "HOEREN_2",
+    "part": 2,
+    "title": "Teil 2",
+    "subtitle": "Hörverstehen, Teil 2",
+    "aufgabentyp": "RICHTIG_FALSCH",
+    "instruction": "Sie hören ein Rundfunk-Interview. Dazu sollen Sie zehn Aufgaben lösen.\nSie hören dieses Interview nur einmal.\n\nEntscheiden Sie beim Hören, ob die Aussagen 46–55 richtig oder falsch sind.\nMarkieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46–55.\nMarkieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen.\n\nLesen Sie jetzt die Aufgaben 46–55. Sie haben dazu 60 Sekunden Zeit.",
+    "contentRevision": "b2-modelltest-1-hoeren-teil2-v1",
+    "maximumPoints": 25,
+    "sourcePages": [
+     18,
+     50,
+     51
+    ],
+    "media": {
+     "audioUrl": "https://cdn.lerniqo.tech/b2-modelltest-1-hoeren/b2-modelltest-1-hoeren-teil2.m4a",
+     "imageUrl": null,
+     "durationSeconds": 435.659,
+     "allowedPlays": 1
+    },
+    "transcript": null,
+    "questions": [
+     {
+      "questionNumber": 46,
+      "prompt": "Auf dem Gipfel der Zugspitze liegt ungefähr ein Meter Schnee.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 0,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 47,
+      "prompt": "Man kann derzeit auf der Zugspitze Ski fahren.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 1,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 48,
+      "prompt": "Auch in Garmisch-Partenkirchen selbst hat es geschneit.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 2,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 49,
+      "prompt": "In der kommenden Woche erwartet man für die Zugspitzregion freundliches Wetter.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 3,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 50,
+      "prompt": "Am Sonntag wird ein Gottesdienst auf einer Bergstation abgehalten.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 4,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 51,
+      "prompt": "Die Zugspitze kann man momentan wegen des Nebels nicht erkennen.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 5,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 52,
+      "prompt": "Die Urlauber in Garmisch-Partenkirchen haben bei jedem Wetter genügend Möglichkeiten zur Freizeitgestaltung.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 6,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 53,
+      "prompt": "Herr Werner erwartet keine Wetterbesserung.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 7,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 54,
+      "prompt": "Auch in früheren Jahren hat es im Juni und August geschneit.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 8,
+      "sourcePage": 18
+     },
+     {
+      "questionNumber": 55,
+      "prompt": "Herr Werner ist mit seinem Arbeitsplatz zufrieden.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 9,
+      "sourcePage": 18
+     }
+    ]
+   },
+   "teil3": {
+    "sectionId": "HOEREN_3",
+    "part": 3,
+    "title": "Teil 3",
+    "subtitle": "Hörverstehen, Teil 3",
+    "aufgabentyp": "RICHTIG_FALSCH",
+    "instruction": "Sie hören jetzt fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen.\nSie hören diese Ansagen nur einmal.\n\nEntscheiden Sie beim Hören, ob die Aussagen 56–60 richtig oder falsch sind.\nMarkieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 56–60.\nMarkieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen.",
+    "contentRevision": "b2-modelltest-1-hoeren-teil3-v1",
+    "maximumPoints": 25,
+    "sourcePages": [
+     19,
+     51
+    ],
+    "media": {
+     "audioUrl": "https://cdn.lerniqo.tech/b2-modelltest-1-hoeren/b2-modelltest-1-hoeren-teil3.m4a",
+     "imageUrl": null,
+     "durationSeconds": 381.879,
+     "allowedPlays": 1
+    },
+    "transcript": null,
+    "questions": [
+     {
+      "questionNumber": 56,
+      "prompt": "Der Software-Service von Macrohard steht rund um die Uhr zur Verfügung.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 0,
+      "sourcePage": 19
+     },
+     {
+      "questionNumber": 57,
+      "prompt": "Für das Konzert mit Romano Castelli gibt es noch Karten ab 200 Euro.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 1,
+      "sourcePage": 19
+     },
+     {
+      "questionNumber": 58,
+      "prompt": "Über den neuen Tarif von T-Upline können Sie sich im Internet informieren.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 2,
+      "sourcePage": 19
+     },
+     {
+      "questionNumber": 59,
+      "prompt": "Weil das Schwerpunktthema „Japan“ lautet, treten im Park des Museums für Völkerkunde in diesem Jahr nur japanische Musiker auf.",
+      "correctAnswer": "FALSCH",
+      "sortOrder": 3,
+      "sourcePage": 19
+     },
+     {
+      "questionNumber": 60,
+      "prompt": "Bei dem Festival gibt es nicht nur folkloristische Unterhaltung, sondern auch kulinarische Spezialitäten aus dem In- und Ausland.",
+      "correctAnswer": "RICHTIG",
+      "sortOrder": 4,
+      "sourcePage": 19
+     }
+    ]
+   }
+  },
+  "schreiben": {
+   "contentRevision": "b2-modelltest-1-schreiben-v1",
+   "title": "Schriftlicher Ausdruck",
+   "instruction": "Wählen Sie zuerst zwischen Aufgabe A und Aufgabe B.\n\nEntscheiden Sie schnell, denn die zur Verfügung stehende Zeit ist begrenzt auf 30 Minuten!",
+   "selectionMode": "ONE_OF",
+   "choiceGroupId": "b2-modelltest-1-schreiben",
+   "durationMinutes": 30,
+   "maximumPoints": 45,
+   "sourcePages": [
+    20,
+    21,
+    22
+   ],
+   "tasks": [
+    {
+     "taskId": "SCHREIBEN_1_A",
+     "label": "Aufgabe A",
+     "aufgabentyp": "TEXT_SCHREIBEN",
+     "title": "Bitte um Informationen",
+     "intro": "In der Zeitung lesen Sie folgende Anzeige:",
+     "stimulus": {
+      "heading": "Secura Versicherungen AG",
+      "subheading": null,
+      "body": "Alle 4 Sekunden passiert in Deutschland ein Unfall – davon 71 % in der Freizeit und im Haushalt. Sollte Ihnen etwas zustoßen, bietet Ihnen unsere Unfallversicherung Schutz vor finanziellen Risiken. Nur mit einer privaten Unfallversicherung sind Sie auch in Ihrer Freizeit abgesichert. Weltweit und rund um die Uhr!",
+      "features": [
+       "Unsere Basis-Leistungen",
+       "Unfallrente in vereinbarter Höhe",
+       "Kostenübernahme bei Spezialbehandlungen (auch im Ausland)",
+       "Kostenübernahme für erforderliche Umbaumaßnahmen in Haus/Wohnung",
+       "Vorteile der Secura Versicherungen AG",
+       "umfangreiche Leistungen zu einem fairen Preis",
+       "individuelle Beitragshöhe je nach Beruf/Hobbys",
+       "weltweiter Schutz – 365 Tage und rund um die Uhr",
+       "exklusive Extraleistungen",
+       "Rabatt-Möglichkeiten – besonders für Familien"
+      ],
+      "contact": {
+       "name": null,
+       "lines": [
+        "kundenservice@secura-versicherungen.net"
+       ]
+      },
+      "callToAction": null,
+      "imageDescription": null
+     },
+     "taskInstructions": "Sie möchten eine Unfallversicherung abschließen und haben noch Fragen. Sie treiben risikoreichen Sport und reisen auch gerne alleine. Bitten Sie in einem Schreiben an die Secura Versicherungen AG um mehr Informationen.\n\nBehandeln Sie darin entweder\na) drei der folgenden Punkte\noder\nb) zwei der folgenden Punkte und einen weiteren Aspekt Ihrer Wahl.\n\nÜberlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.",
+     "bulletPoints": [
+      "Legen Sie dar, welchen Sport Sie treiben und wie gefährlich das ist.",
+      "Beschreiben Sie Ihre Pläne für zukünftige Reisen und welche Risiken damit evtl. verbunden sind.",
+      "Erläutern Sie, welche Leistungen Sie sich wünschen.",
+      "Stellen Sie weitere Fragen zu den Leistungen."
+     ],
+     "minimumWords": 150,
+     "sourcePages": [
+      21
+     ]
+    },
+    {
+     "taskId": "SCHREIBEN_1_B",
+     "label": "Aufgabe B",
+     "aufgabentyp": "TEXT_SCHREIBEN",
+     "title": "Beschwerde",
+     "intro": "Lesen Sie folgende Werbeanzeige:",
+     "stimulus": {
+      "heading": "Jugendcamp Silberstrand",
+      "subheading": "Der Urlaubsspaß für junge Leute",
+      "body": "Urlaubsspaß mit internationalem Flair für junge Leute (17–25 Jahre) an einem der herrlichsten deutschen Ostseestrände: komfortable Wohnstudios für jeweils zwei Gäste. Jede Menge Spaß und Action erwarten euch: Beachball, Fußball, Volleyball, Surfen, Segeltouren, Wandern und am Abend tolle Strandpartys mit Livemusik und internationalen Stars in der weithin bekannten Campdisko.\nDas alles gibt’s für nur wenig Geld: 380 Euro pro Woche, alles inklusive.\nWas wollt Ihr mehr?",
+      "features": [],
+      "contact": {
+       "name": null,
+       "lines": [
+        "E-Mail: info@silberstrand.de"
+       ]
+      },
+      "callToAction": null,
+      "imageDescription": null
+     },
+     "taskInstructions": "Sie haben im Jugendcamp Silberstrand zwei Wochen Urlaub gemacht. Leider waren Sie überhaupt nicht zufrieden. Schreiben Sie eine Beschwerde an das Camp.\n\nBehandeln Sie darin entweder\na) drei der folgenden Punkte\noder\nb) zwei der folgenden Punkte und einen weiteren Aspekt Ihrer Wahl.\n\nÜberlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.",
+     "bulletPoints": [
+      "Erklären Sie, was Sie nun vom Veranstalter erwarten.",
+      "Beschreiben Sie Ihre Erwartungen nach der Lektüre der Werbeanzeige.",
+      "Legen Sie dar, was Sie im Camp erlebt haben.",
+      "Beschreiben Sie, was Sie tun, falls Sie keine Antwort bekommen."
+     ],
+     "minimumWords": 150,
+     "sourcePages": [
+      22
+     ]
+    }
+   ]
+  },
+  "sprechen": {
+   "intro": {
+    "sectionId": "SPRECHEN_INTRO",
+    "title": "Einander kennenlernen",
+    "aufgabentyp": "SICH_VORSTELLEN",
+    "instruction": "Stellen Sie sich Ihrer Partnerin/Ihrem Partner vor. Sie können z. B. darüber sprechen, warum Sie Deutsch lernen, welche Interessen oder Hobbys Sie haben oder wie Sie sich auf die Prüfung vorbereitet haben usw.\n\nDieser Teil der Prüfung wird nicht bewertet.",
+    "scoring": {
+     "mode": "NOT_SCORED",
+     "maximumPoints": 0
+    },
+    "sourcePages": [
+     23
+    ]
+   },
+   "teil1": {
+    "sectionId": "SPRECHEN_1",
+    "part": 1,
+    "title": "Über Erfahrungen sprechen",
+    "aufgabentyp": "UEBER_ERFAHRUNGEN_SPRECHEN",
+    "topicTitle": "Themen zur Auswahl",
+    "topicDescription": "Sie sollen Ihrer Partnerin bzw. Ihrem Partner über Ihre Erfahrungen zu einem der folgenden Themen berichten.",
+    "instructions": "Die Stichpunkte in den Klammern können als Anregung dienen. Sie haben dazu ca. 1 ½ Minuten Zeit. Im Anschluss sollen Sie die Fragen Ihrer Partnerin bzw. Ihres Partners beantworten.\n\nDanach spricht Ihre Partnerin bzw. Ihr Partner ebenfalls über ihr bzw. sein Thema. Folgen Sie aufmerksam dem Redebeitrag und überlegen Sie sich Fragen, die Sie ihr/ihm stellen könnten. Unterbrechen Sie sie/ihn nicht. Stellen Sie einige Fragen zum Thema, wenn sie/er ihren/seinen Redebeitrag beendet hat.",
+    "prompts": [
+     "Ein Buch, das Sie gelesen haben (Thema, Autor, Ihre Meinung usw.)",
+     "Einen Film, den Sie gesehen haben (Thema und Handlung, Schauspieler, Ihre Meinung usw.)",
+     "Eine Reise, die Sie unternommen haben (Ziel, Zeit, Land und Leute, Sehenswürdigkeiten usw.)",
+     "Eine Musikveranstaltung, die Sie besucht haben (Musikrichtung, Musiker, Ort, persönliche Vorlieben usw.)",
+     "Ein Sportereignis, das Sie besucht haben (Sportart, Ort, Personen, Ergebnis usw.)",
+     "Eine Person, die in Ihrem Leben wichtig war (wer, wann, warum wichtig usw.)",
+     "Eine wichtige Erfahrung, die Sie in Ihrem Leben gemacht haben (was, wann, wo, mit wem, warum wichtig usw.)"
+    ],
+    "materials": [],
+    "maximumPoints": 25,
+    "sourcePages": [
+     24
+    ]
+   },
+   "teil2": {
+    "sectionId": "SPRECHEN_2",
+    "part": 2,
+    "title": "Diskussion",
+    "aufgabentyp": "DISKUSSION",
+    "topicTitle": "Getrennte Schulen für Mädchen und Jungen?",
+    "commonInstructions": "Lesen Sie folgenden Text. Diskutieren Sie mit Ihrer Partnerin bzw. Ihrem Partner über den Inhalt des Textes, bringen Sie Ihre Erfahrungen ein und äußern Sie Ihre Meinung. Begründen Sie Ihre Argumente. Sprechen Sie über mögliche Lösungen.",
+    "participants": {
+     "A": {
+      "label": "Teilnehmer/in A",
+      "position": null,
+      "stimulusText": "Studie plädiert für die getrennte Schulerziehung\nSollen Mädchen und Jungen zukünftig wieder getrennte Schulen besuchen? Dafür jedenfalls plädiert eine Studie des Instituts für sozialpädagogische Forschung (ISF) in Hannover.\n\nDie Studie geht davon aus, dass im herkömmlichen koedukativen Schulsystem für die Angehörigen der beiden Geschlechter, besonders in den naturwissenschaftlichen Fächern, keine Chancengleichheit bestehe und junge Frauen in der Entfaltung ihrer Möglichkeiten eingeschränkt würden.\n\nDies belegt unter anderem eine Umfrage, die vom ISF an mehreren Gymnasien durchgeführt wurde. Schülerinnen gelten bei nicht wenigen männlichen Lehrern und Schülern als unbegabt für naturwissenschaftliche Fächer. Es wird behauptet, Mädchen könnten zwar gut auswendig lernen, ihnen fehle aber in Wirklichkeit das Verständnis für Physik, Chemie und Biologie.\n\nJunge Frauen fühlen sich daher diskriminiert und zurückgesetzt und können nicht mehr ihre wirkliche Leistung erbringen. Das ISF schlägt vor, Jungen und Mädchen von der siebten Klasse an getrennt zu unterrichten. Modellversuche in Nordrhein-Westfalen geben dem Institut Recht: Dort werden an einigen Schulen Mädchen in den Naturwissenschaften getrennt von den Jungen unterrichtet und sie erzielen im Durchschnitt wesentlich bessere Lernerfolge als Schülerinnen an koedukativen Schulen.\n\nDemgegenüber verweist eine Sprecherin des Kultusministeriums darauf, dass sie die getrennte Erziehung nicht für geeignet halte, die Ungleichheiten zwischen Männern und Frauen in unserer Gesellschaft abzubauen. Stattdessen führe die getrennte Erziehung in eine Isolation der Geschlechter, die die Rollenklischees eher verstärken als abschwächen würde. Die Koedukation sei letztendlich eine Errungenschaft der Emanzipation des weiblichen Geschlechts.\n\nAußerdem sei die Tatsache, dass in Deutschland immer mehr Frauen naturwissenschaftliche Berufe ausübten und darin sehr erfolgreich seien, doch eher ein Beleg dafür, dass die Berufswahl nicht davon bestimmt werde, ob an einer Schule Mädchen und Jungen getrennt unterrichtet werden oder nicht."
+     },
+     "B": {
+      "label": "Teilnehmer/in B",
+      "position": null,
+      "stimulusText": "Studie plädiert für die getrennte Schulerziehung\nSollen Mädchen und Jungen zukünftig wieder getrennte Schulen besuchen? Dafür jedenfalls plädiert eine Studie des Instituts für sozialpädagogische Forschung (ISF) in Hannover.\n\nDie Studie geht davon aus, dass im herkömmlichen koedukativen Schulsystem für die Angehörigen der beiden Geschlechter, besonders in den naturwissenschaftlichen Fächern, keine Chancengleichheit bestehe und junge Frauen in der Entfaltung ihrer Möglichkeiten eingeschränkt würden.\n\nDies belegt unter anderem eine Umfrage, die vom ISF an mehreren Gymnasien durchgeführt wurde. Schülerinnen gelten bei nicht wenigen männlichen Lehrern und Schülern als unbegabt für naturwissenschaftliche Fächer. Es wird behauptet, Mädchen könnten zwar gut auswendig lernen, ihnen fehle aber in Wirklichkeit das Verständnis für Physik, Chemie und Biologie.\n\nJunge Frauen fühlen sich daher diskriminiert und zurückgesetzt und können nicht mehr ihre wirkliche Leistung erbringen. Das ISF schlägt vor, Jungen und Mädchen von der siebten Klasse an getrennt zu unterrichten. Modellversuche in Nordrhein-Westfalen geben dem Institut Recht: Dort werden an einigen Schulen Mädchen in den Naturwissenschaften getrennt von den Jungen unterrichtet und sie erzielen im Durchschnitt wesentlich bessere Lernerfolge als Schülerinnen an koedukativen Schulen.\n\nDemgegenüber verweist eine Sprecherin des Kultusministeriums darauf, dass sie die getrennte Erziehung nicht für geeignet halte, die Ungleichheiten zwischen Männern und Frauen in unserer Gesellschaft abzubauen. Stattdessen führe die getrennte Erziehung in eine Isolation der Geschlechter, die die Rollenklischees eher verstärken als abschwächen würde. Die Koedukation sei letztendlich eine Errungenschaft der Emanzipation des weiblichen Geschlechts.\n\nAußerdem sei die Tatsache, dass in Deutschland immer mehr Frauen naturwissenschaftliche Berufe ausübten und darin sehr erfolgreich seien, doch eher ein Beleg dafür, dass die Berufswahl nicht davon bestimmt werde, ob an einer Schule Mädchen und Jungen getrennt unterrichtet werden oder nicht."
+     }
+    },
+    "maximumPoints": 25,
+    "sourcePages": [
+     25
+    ]
+   },
+   "teil3": {
+    "sectionId": "SPRECHEN_3",
+    "part": 3,
+    "title": "Gemeinsam etwas planen",
+    "aufgabentyp": "GEMEINSAM_PLANEN",
+    "topicTitle": "Eine Gruppe von Senioren (60 Jahre und älter) möchte eine Reise durch Deutschland, Österreich oder die Schweiz machen.",
+    "topicDescription": "Eine Gruppe von Senioren (60 Jahre und älter) möchte eine Reise durch Deutschland, Österreich oder die Schweiz machen. Sie sollen der Gruppe bei der Planung und beim Erstellen eines Programms helfen.",
+    "planningPoints": [],
+    "instructions": "Überlegen Sie, wie Sie der Gruppe helfen können, und machen Sie Ihrer Partnerin /Ihrem Partner Vorschläge. Entwickeln Sie dann gemeinsam einen Plan und ein Programm für die Reisegruppe.",
+    "maximumPoints": 25,
+    "sourcePages": [
+     26
+    ]
+   }
+  }
+ },
+ "answerKey": {
+  "lesenTeil1": {
+   "1": "b",
+   "2": "a",
+   "3": "f",
+   "4": "d",
+   "5": "i"
+  },
+  "lesenTeil2": {
+   "6": "a",
+   "7": "a",
+   "8": "c",
+   "9": "c",
+   "10": "c"
+  },
+  "lesenTeil3": {
+   "11": "a",
+   "12": "b",
+   "13": "j",
+   "14": "X",
+   "15": "f",
+   "16": "i",
+   "17": "h",
+   "18": "g",
+   "19": "c",
+   "20": "e"
+  },
+  "sprachbausteineTeil1": {
+   "21": "b",
+   "22": "c",
+   "23": "b",
+   "24": "b",
+   "25": "c",
+   "26": "a",
+   "27": "a",
+   "28": "b",
+   "29": "b",
+   "30": "c"
+  },
+  "sprachbausteineTeil2": {
+   "31": "j",
+   "32": "f",
+   "33": "k",
+   "34": "c",
+   "35": "m",
+   "36": "o",
+   "37": "b",
+   "38": "h",
+   "39": "l",
+   "40": "d"
+  },
+  "hoerenTeil1": {
+   "41": "RICHTIG",
+   "42": "RICHTIG",
+   "43": "RICHTIG",
+   "44": "FALSCH",
+   "45": "FALSCH"
+  },
+  "hoerenTeil2": {
+   "46": "RICHTIG",
+   "47": "FALSCH",
+   "48": "FALSCH",
+   "49": "RICHTIG",
+   "50": "RICHTIG",
+   "51": "FALSCH",
+   "52": "RICHTIG",
+   "53": "FALSCH",
+   "54": "RICHTIG",
+   "55": "RICHTIG"
+  },
+  "hoerenTeil3": {
+   "56": "FALSCH",
+   "57": "FALSCH",
+   "58": "RICHTIG",
+   "59": "FALSCH",
+   "60": "RICHTIG"
+  }
+ },
+ "extractionWarnings": [
+  {
+   "code": "UNCLEAR_TEXT",
+   "sectionId": "LESEN_3",
+   "page": 13,
+   "message": "In Info-Text a, the supplied PDF text visibly reads „Die um die Jahrhundertwende gebauten Dampfer sind restauriert und auf umgerüstet.“ No missing word was invented."
+  },
+  {
+   "section": "hoeren",
+   "issue": "TRANSCRIPTS_WITHHELD",
+   "detail": "Transcript cut positions were not verified against the audio. Withheld from b2-modelltest-1-v1 rather than shipped under an immutable revision; they arrive as a new revision once checked by listening."
+  }
+ ]
+}

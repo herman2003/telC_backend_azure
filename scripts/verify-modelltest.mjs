@@ -121,7 +121,9 @@ for (const part of hoeren) {
     problems.push(`Hören Teil ${part.part}: no questions`);
   }
   notes.push(
-    `Hören Teil ${part.part}: ${part.questions} questions, ${part.exam_plays_allowed} play(s), audio ok`,
+    `Hören Teil ${part.part}: ${part.questions} questions, ` +
+      `${part.exam_plays_allowed} play(s), ` +
+      `audio ${part.audio_url ? 'ok' : 'MISSING'}`,
   );
 }
 
