@@ -1,8 +1,6 @@
-import { readFileSync } from 'fs';
 import { cert, initializeApp } from 'firebase-admin/app';
 import { FirebasePushService } from '../src/modules/notifications/push/firebase-push.service';
 import { PushCryptoService } from '../src/modules/notifications/push/push-crypto.service';
-jest.mock('fs', () => ({ readFileSync: jest.fn() }));
 jest.mock('firebase-admin/app', () => ({
   cert: jest.fn(),
   getApps: () => [],
@@ -10,13 +8,14 @@ jest.mock('firebase-admin/app', () => ({
 }));
 describe('three-variable push configuration', () => {
   const keys = [
-    'FIREBASE_SERVICE_ACCOUNT_PATH',
+    'FIREBASE_SERVICE_ACCOUNT_JSON',
     'FIREBASE_PROJECT_ID',
     'PUSH_DEBUG_LOGS',
     'TOKEN_HMAC_SECRET',
   ];
   const saved = Object.fromEntries(keys.map((k) => [k, process.env[k]]));
   const account = {
+    type: 'service_account',
     project_id: 'prod',
     client_email: 'sender@prod.iam.gserviceaccount.com',
     private_key: 'private-key-marker',
@@ -25,7 +24,6 @@ describe('three-variable push configuration', () => {
     keys.forEach((k) => delete process.env[k]);
     jest.clearAllMocks();
     process.env.TOKEN_HMAC_SECRET = 'ab'.repeat(32);
-    jest.mocked(readFileSync).mockReturnValue(JSON.stringify(account));
   });
   afterAll(() => {
     for (const [k, v] of Object.entries(saved)) {
@@ -34,16 +32,15 @@ describe('three-variable push configuration', () => {
     }
   });
   const configure = () => {
-    process.env.FIREBASE_SERVICE_ACCOUNT_PATH = '/secrets/firebase.json';
+    process.env.FIREBASE_SERVICE_ACCOUNT_JSON = JSON.stringify(account);
     process.env.FIREBASE_PROJECT_ID = 'prod';
   };
-  it('leaves the inbox usable and delivery disabled when no file path is configured', () => {
+  it('leaves the inbox usable and delivery disabled when no JSON secret is configured', () => {
     const service = new FirebasePushService(new PushCryptoService());
     expect(() => service.onModuleInit()).not.toThrow();
     expect(service.enabled).toBe(false);
-    expect(readFileSync).not.toHaveBeenCalled();
   });
-  it('starts automatically with a valid account file and project, without further push variables', () => {
+  it('starts automatically with the pasted account JSON and project, without further push variables', () => {
     configure();
     const service = new FirebasePushService(new PushCryptoService());
     service.onModuleInit();
@@ -52,7 +49,6 @@ describe('three-variable push configuration', () => {
       configured: true,
       dryRun: false,
     });
-    expect(readFileSync).toHaveBeenCalledWith('/secrets/firebase.json', 'utf8');
     expect(cert).toHaveBeenCalledWith({
       projectId: 'prod',
       clientEmail: account.client_email,
@@ -68,18 +64,36 @@ describe('three-variable push configuration', () => {
     expect(service.enabled).toBe(false);
     expect(initializeApp).not.toHaveBeenCalled();
   });
-  it('disables sending for a missing file or invalid JSON', () => {
+  it.each([
+    'invalid-json',
+    'null',
+    '[]',
+    '{}',
+    JSON.stringify({ ...account, private_key: 123 }),
+  ])(
+    'disables sending without crashing for malformed or incomplete JSON (%#)',
+    (value) => {
+      configure();
+      process.env.FIREBASE_SERVICE_ACCOUNT_JSON = value;
+      const service = new FirebasePushService(new PushCryptoService());
+      expect(() => service.onModuleInit()).not.toThrow();
+      expect(service.enabled).toBe(false);
+      expect(initializeApp).not.toHaveBeenCalled();
+    },
+  );
+  it('preserves the escaped private-key newlines from the downloaded JSON', () => {
     configure();
-    jest.mocked(readFileSync).mockImplementation(() => {
-      throw new Error('ENOENT');
-    });
-    const missing = new FirebasePushService(new PushCryptoService());
-    expect(() => missing.onModuleInit()).not.toThrow();
-    expect(missing.enabled).toBe(false);
-    jest.mocked(readFileSync).mockReturnValue('invalid-json');
-    const invalid = new FirebasePushService(new PushCryptoService());
-    expect(() => invalid.onModuleInit()).not.toThrow();
-    expect(invalid.enabled).toBe(false);
+    const privateKey =
+      '-----BEGIN PRIVATE KEY-----\nkey-marker\n-----END PRIVATE KEY-----\n';
+    process.env.FIREBASE_SERVICE_ACCOUNT_JSON = JSON.stringify(
+      { ...account, private_key: privateKey },
+      null,
+      2,
+    );
+    const service = new FirebasePushService(new PushCryptoService());
+    service.onModuleInit();
+    expect(service.enabled).toBe(true);
+    expect(cert).toHaveBeenCalledWith(expect.objectContaining({ privateKey }));
   });
   it('requires the existing authentication secret to keep provider addresses encrypted', () => {
     configure();

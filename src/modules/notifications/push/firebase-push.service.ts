@@ -1,6 +1,5 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
-import { readFileSync } from 'fs';
 import { getMessaging } from 'firebase-admin/messaging';
 import { PushCryptoService } from './push-crypto.service';
 
@@ -20,7 +19,8 @@ export class FirebasePushService implements OnModuleInit {
     };
   }
   onModuleInit() {
-    if (!process.env.FIREBASE_SERVICE_ACCOUNT_PATH) {
+    const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON?.trim();
+    if (!raw) {
       this.logger.log('Push delivery disabled (inbox remains available)');
       return;
     }
@@ -28,11 +28,20 @@ export class FirebasePushService implements OnModuleInit {
       const projectId = process.env.FIREBASE_PROJECT_ID;
       if (!projectId) throw new Error('missing project');
       this.crypto.hash('startup-validation');
-      const account = JSON.parse(
-        readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH, 'utf8'),
-      ) as { project_id?: string; client_email?: string; private_key?: string };
+      const account = JSON.parse(raw) as {
+        type?: string;
+        project_id?: string;
+        client_email?: string;
+        private_key?: string;
+      };
       if (account.project_id !== projectId) throw new Error('project mismatch');
-      if (!account.client_email || !account.private_key)
+      if (
+        account.type !== 'service_account' ||
+        typeof account.client_email !== 'string' ||
+        !account.client_email ||
+        typeof account.private_key !== 'string' ||
+        !account.private_key
+      )
         throw new Error('incomplete account');
       if (!getApps().some((a) => a.name === 'lerniqo-push')) {
         initializeApp(

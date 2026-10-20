@@ -36,9 +36,9 @@ Windows/Linux keep their account inbox; no closed-native-app push is claimed.
    background OS display and typed inbox opening after authentication.
 8. Verify migration/outbox/concurrency/recovery against isolated PostgreSQL;
    verify quiet hours over DST; test Flutter click queues and secret redaction.
-9. Deploy backend without its service-account path, then configure the mounted
-   credential file for an internal Android/Web cohort. Expand after real-device
-   verification. A valid file activates real sends automatically.
+9. Deploy backend without its service-account JSON, then configure the encrypted
+   runtime secret for an internal Android/Web cohort. Expand after real-device
+   verification. Valid credentials activate real sends automatically.
 
 ## Endpoints
 
@@ -58,27 +58,35 @@ body. Validation rejects unknown fields, including a caller-supplied owner id.
 
 ## Deployment configuration
 
-Only three new environment variables are used, matching AfroSchool Admin:
+Only three new environment variables are used. This keeps AfroSchool Admin’s
+three-variable approach, with JSON instead of a file path for App Platform:
 
 ```env
-FIREBASE_SERVICE_ACCOUNT_PATH=/run/secrets/firebase-service-account.json
+FIREBASE_SERVICE_ACCOUNT_JSON=<complete private service-account JSON>
 FIREBASE_PROJECT_ID=lerniqo-68411
 PUSH_DEBUG_LOGS=false
 ```
 
-Mount the private JSON in the backend secret store/filesystem, outside Git and
-Flutter. Grant only Firebase Cloud Messaging sending permissions. The project
-in that JSON must match FIREBASE_PROJECT_ID. The path refers to a file available
-inside the running container/server, not a file on the developer's laptop.
+In DigitalOcean App Platform, open Apps → your app → backend component →
+Settings → Environment Variables. Paste the complete downloaded JSON into
+FIREBASE_SERVICE_ACCOUNT_JSON, select Encrypt and runtime availability, and save.
+Do not wrap the whole JSON in extra quotes, base64-encode it or paste a local path.
+The JSON may be formatted across multiple lines; the JSON-escaped private-key
+newlines are decoded automatically. The project in the JSON must match
+FIREBASE_PROJECT_ID. Keep the secret out of Git, Flutter, logs and the PR.
+Grant the service account only the Firebase Cloud Messaging sending permissions.
+No uploaded file or persistent filesystem is needed; this also works on App
+Platform's ephemeral containers. FIREBASE_SERVICE_ACCOUNT_PATH is no longer used.
 
 Apply migrations through the existing `prisma migrate deploy` deployment workflow.
-The API automatically initializes Firebase and starts the worker when the file
+The API automatically initializes Firebase and starts the worker when the JSON
 and project are valid. This enables real sends, with no additional enable flag,
-dry-run setting or separate worker command. An absent path disables delivery;
+dry-run setting or separate worker command. An absent JSON secret disables
+delivery;
 missing/invalid credentials leave the inbox/API running and log only a generic
 configuration error. GET /api/me/push-status reports non-secret readiness.
-Remove the path and restart/redeploy to stop delivery without deleting queued
-notifications. Logs of completed dispatch IDs are opt-in via PUSH_DEBUG_LOGS=true;
+Remove the JSON secret and restart/redeploy to stop delivery without deleting
+queued notifications. Logs of completed dispatch IDs are opt-in via PUSH_DEBUG_LOGS=true;
 errors never include credential contents or provider tokens. Logging does not
 control whether notifications are delivered.
 
@@ -130,7 +138,7 @@ can defer or prevent delivery. Do not promise unconditional immediate arrival.
 
 ## Automated verification
 
-50 tests pass across the existing inbox and new push suites. Nine exercise the
+55 tests pass across the existing inbox and new push suites. Nine exercise the
 actual SQL migration and worker against an isolated local PostgreSQL schema,
 including transactional rollback, concurrent claims, lease recovery, restart,
 sticky retries, read suppression, expiry, cancellation and session revocation.
