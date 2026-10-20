@@ -108,6 +108,17 @@ export class ExamSchreibenSubmissionDto {
     description: 'text.length when text is present, otherwise 0.',
   })
   characterCount: number;
+
+  @ApiProperty({
+    nullable: true,
+    example: 'Aufgabe A — Bitte um Informationen',
+    description:
+      'Which Schreiben task the letter answers. telc B2 offers two and the ' +
+      'candidate answers one, and criterion I is whether that prompt’s ' +
+      'required points were addressed — so a trainer cannot mark without it. ' +
+      'Null for a sitting recorded before the task was stored.',
+  })
+  task: string | null;
 }
 
 export class ExamAttemptResultDto {

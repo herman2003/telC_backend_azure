@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import type { ExamBlock } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { LesenService } from '../lesen/lesen.service';
@@ -204,16 +204,63 @@ export class ExamScoringService {
    * trainer confirming at 1,500. Writing a zero here would put a failing mark
    * on a piece of work nobody has read.
    */
+  /**
+   * Which Schreiben task this submission answers.
+   *
+   * `taskId` arrives from the candidate's client, so it is resolved **within
+   * this Modelltest** rather than looked up globally: without that scope a
+   * submission could name any task in the catalogue and be marked against a
+   * prompt the sitting never showed.
+   *
+   * With no `taskId` — B1, which has one task, and any client written before
+   * the choice existed — the Modelltest's first task is used.
+   */
+  private async resolveWritingTask(
+    input: ScoreBlockInput,
+    answers: Record<string, unknown>,
+  ): Promise<{ id: string }> {
+    const taskId = typeof answers.taskId === 'string' ? answers.taskId : null;
+
+    const task = await this.prisma.writingExercise.findFirst({
+      where: {
+        modelltest_id: input.modelltestId,
+        ...(taskId ? { id: taskId } : {}),
+      },
+      orderBy: { part: 'asc' },
+      select: { id: true },
+    });
+
+    if (!task) {
+      throw new NotFoundException(
+        taskId
+          ? 'WRITING_TASK_NOT_IN_MODELLTEST'
+          : 'WRITING_TASK_NOT_FOUND',
+      );
+    }
+    return task;
+  }
+
   private async storeWriting(
     input: ScoreBlockInput,
     section: { skill: ExamSkill; teil: string },
     answers: Record<string, unknown>,
   ): Promise<ExamSectionScore> {
     const content = typeof answers.text === 'string' ? answers.text : '';
+    const task = await this.resolveWritingTask(input, answers);
     const row = await this.prisma.writingAttempt.create({
       data: {
         student_id: input.studentId,
-        exercise_id: `exam-${input.modelltestId}`,
+        // The task actually answered, by its own id.
+        //
+        // This was `exam-${modelltestId}`, which named the sitting rather
+        // than the prompt. Two things went wrong with that. A trainer opening
+        // the marking screen saw a letter with no way to tell which of a B2
+        // choice it answered, while criterion I is exactly whether that
+        // prompt's required points were addressed. And the same placeholder
+        // was handed to runCorrection as its exerciseId, where getExercise
+        // cannot resolve it — so every AI-tier suggestion was generated with
+        // no task in the prompt and no Leitpunkte cap on criterion I.
+        exercise_id: task.id,
         modelltest_id: input.modelltestId,
         content,
         status: 'pending',
@@ -236,7 +283,7 @@ export class ExamScoringService {
         .runCorrection({
           attemptId: row.attempt_id,
           studentId: input.studentId,
-          exerciseId: `exam-${input.modelltestId}`,
+          exerciseId: task.id,
           content,
           createdAt: new Date().toISOString(),
           notify: false,

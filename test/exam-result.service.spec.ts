@@ -106,11 +106,17 @@ describe('ExamResultService', () => {
         {
           exam_attempt_id: ATTEMPT,
           content: letter,
+          exercise_id: 'task-b',
           score: null,
           feedback: null,
           corrections: null,
         },
       ]);
+      prisma.writingExercise = {
+        findMany: jest
+          .fn()
+          .mockResolvedValue([{ id: 'task-b', part: 2, title: 'Beschwerde' }]),
+      };
       prisma.examAttemptBlock.findMany.mockResolvedValue([
         {
           attempt_id: ATTEMPT,
@@ -126,6 +132,10 @@ describe('ExamResultService', () => {
         text: letter,
         submittedAt,
         characterCount: letter.length,
+        // Which of a B2 choice was answered. Criterion I is whether that
+        // prompt's required points were addressed, so a trainer marking
+        // without it is guessing.
+        task: 'Aufgabe B — Beschwerde',
       });
     });
 
@@ -147,6 +157,8 @@ describe('ExamResultService', () => {
         text: letter,
         submittedAt,
         characterCount: letter.length,
+        // No writing attempt row, so no task to name.
+        task: null,
       });
     });
 
@@ -167,6 +179,7 @@ describe('ExamResultService', () => {
         text: null,
         submittedAt: null,
         characterCount: 0,
+        task: null,
       });
     });
 

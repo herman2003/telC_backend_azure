@@ -89,6 +89,8 @@ export interface ExamSuggestion {
  * beside an empty points field.
  */
 export interface ExamSchreibenSubmission {
+  /** Which Schreiben task the letter answers; null when it is not recorded. */
+  task?: string | null;
   text: string | null;
   submittedAt: Date | null;
   characterCount: number;
@@ -398,7 +400,13 @@ export class ExamResultService {
     const [writing, blocks] = await Promise.all([
       this.prisma.writingAttempt.findMany({
         where: { exam_attempt_id: { in: attemptIds } },
-        select: { exam_attempt_id: true, content: true },
+        select: {
+          exam_attempt_id: true,
+          content: true,
+          // The prompt the letter answers. Stored as the task's own id since
+          // the exam began recording which of a choice was taken.
+          exercise_id: true,
+        },
       }),
       this.prisma.examAttemptBlock.findMany({
         where: {
@@ -414,12 +422,22 @@ export class ExamResultService {
     ]);
 
     const contentByAttempt = new Map<string, string>();
+    const exerciseByAttempt = new Map<string, string>();
     for (const row of writing) {
       if (!row.exam_attempt_id) continue;
       if (typeof row.content === 'string' && row.content.length > 0) {
         contentByAttempt.set(row.exam_attempt_id, row.content);
       }
+      if (row.exercise_id) {
+        exerciseByAttempt.set(row.exam_attempt_id, row.exercise_id);
+      }
     }
+
+    // One lookup for the whole page rather than one per candidate: a sitting
+    // of thirty answers at most two distinct prompts.
+    const taskLabels = await this.writingTaskLabels([
+      ...new Set(exerciseByAttempt.values()),
+    ]);
 
     for (const block of blocks) {
       const fromWriting = contentByAttempt.get(block.attempt_id);
@@ -430,10 +448,12 @@ export class ExamResultService {
           : null;
       const text = fromWriting ?? fromBlock;
 
+      const exerciseId = exerciseByAttempt.get(block.attempt_id);
       byAttempt.set(block.attempt_id, {
         text,
         submittedAt: block.submitted_at,
         characterCount: text?.length ?? 0,
+        task: (exerciseId && taskLabels.get(exerciseId)) ?? null,
       });
     }
 
@@ -569,6 +589,33 @@ export class ExamResultService {
       percent: maxPoints === 0 ? 0 : Math.round((points / maxPoints) * 100),
       passed: maxPoints > 0 && points >= maxPoints * PASS_RATIO,
     };
+  }
+
+  /**
+   * Readable labels for the Schreiben tasks a sitting's candidates answered.
+   *
+   * Ids that resolve to nothing are simply absent: sittings recorded before
+   * the task was stored carry a placeholder in `exercise_id`, and that is a
+   * null label rather than an error on a results page.
+   */
+  private async writingTaskLabels(
+    exerciseIds: string[],
+  ): Promise<Map<string, string>> {
+    const labels = new Map<string, string>();
+    if (exerciseIds.length === 0) return labels;
+
+    const rows = await this.prisma.writingExercise
+      .findMany({
+        where: { id: { in: exerciseIds } },
+        select: { id: true, part: true, title: true },
+      })
+      .catch(() => []);
+
+    for (const row of rows) {
+      const letter = String.fromCharCode('A'.charCodeAt(0) + row.part - 1);
+      labels.set(row.id, `Aufgabe ${letter} — ${row.title}`);
+    }
+    return labels;
   }
 
   private async weightsFor(level: CefrLevel) {
