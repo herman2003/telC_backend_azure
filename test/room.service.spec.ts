@@ -34,14 +34,25 @@ describe('RoomService', () => {
      * paging alert for a content gap. It must be a stated reason instead, and
      * it must never quietly hand out a B1 topic.
      */
-    it('refuses with a reason rather than a 500 or a B1 topic', () => {
-      expect(() => service.createRoom('B2')).toThrow(
-        /NO_TOPICS_FOR_LEVEL/,
-      );
+    it('refuses with a reason rather than a 500 or another level topic', () => {
+      // A1 has no topics written yet. B2 did when this test was added and
+      // now has ten, which is the point: the refusal is about content, so it
+      // follows the content rather than being pinned to a level.
+      expect(() => service.createRoom('A1')).toThrow(/NO_TOPICS_FOR_LEVEL/);
     });
 
-    it('still serves B1, whose topics exist', () => {
-      expect(service.createRoom('B1').topic.level).toBe('B1');
+    it.each(['B1', 'B2'] as const)(
+      'serves %s, whose topics exist',
+      (level) => {
+        expect(service.createRoom(level).topic.level).toBe(level);
+      },
+    );
+
+    it('never hands a room a topic from another level', () => {
+      // Twenty draws: enough that a filter dropped by accident would show up.
+      for (let i = 0; i < 20; i += 1) {
+        expect(service.createRoom('B2').topic.level).toBe('B2');
+      }
     });
   });
 
@@ -104,26 +115,48 @@ describe('RoomService', () => {
   });
 
   describe('selectNextTopic()', () => {
+    /**
+     * A room cycles the topics of its own level, so the catalogue it can
+     * exhaust is that level's slice rather than every card in the file. These
+     * two counted `SPEAKING_TOPICS.length`, which was the same number only
+     * while B1 was the only level — the ten B2 cards made it wrong.
+     */
+    const topicsAt = (level: 'B1' | 'B2') =>
+      SPEAKING_TOPICS.filter((topic) => topic.level === level).length;
+
     it('does not repeat a topic before the catalog is exhausted', () => {
       jest.spyOn(Math, 'random').mockReturnValue(0);
       const { roomId, topic: initialTopic } = service.createRoom('B1');
       const selectedIds = new Set([initialTopic.id]);
 
-      for (let index = 1; index < SPEAKING_TOPICS.length; index += 1) {
+      for (let index = 1; index < topicsAt('B1'); index += 1) {
         selectedIds.add(service.selectNextTopic(roomId)!.id);
       }
 
-      expect(selectedIds.size).toBe(SPEAKING_TOPICS.length);
+      expect(selectedIds.size).toBe(topicsAt('B1'));
       expect(service.getRoom(roomId)!.usedTopicIds).toHaveLength(
-        SPEAKING_TOPICS.length,
+        topicsAt('B1'),
       );
+    });
+
+    it('exhausts the B2 slice independently of B1', () => {
+      jest.spyOn(Math, 'random').mockReturnValue(0);
+      const { roomId, topic: initialTopic } = service.createRoom('B2');
+      const selectedIds = new Set([initialTopic.id]);
+
+      for (let index = 1; index < topicsAt('B2'); index += 1) {
+        selectedIds.add(service.selectNextTopic(roomId)!.id);
+      }
+
+      expect(selectedIds.size).toBe(topicsAt('B2'));
+      expect([...selectedIds].every((id) => id.startsWith('b2-'))).toBe(true);
     });
 
     it('resets exhausted history without immediately repeating the current topic', () => {
       jest.spyOn(Math, 'random').mockReturnValue(0);
       const { roomId } = service.createRoom('B1');
 
-      for (let index = 1; index < SPEAKING_TOPICS.length; index += 1) {
+      for (let index = 1; index < topicsAt('B1'); index += 1) {
         service.selectNextTopic(roomId);
       }
 

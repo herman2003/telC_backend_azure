@@ -826,6 +826,167 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
       'Wie bleibt man in Kontakt?',
     ],
   },
+
+  // ─── B2 ──────────────────────────────────────────────────────────────────
+  //
+  // telc B2 Teil 2 is a Diskussion: a controversial societal question, read as
+  // a short press text and then argued with a partner. The register is a step
+  // up from B1's everyday choices — policy and principle rather than personal
+  // preference — and the first card mirrors the theme of Uebungstest 1 so the
+  // level is anchored to a real paper.
+  //
+  // Ten to start. A Live Room pairs two students, so the controversy is
+  // carried as the two sides they argue.
+  {
+    id: 'b2-t2-001',
+    level: 'B2',
+    teil: 2,
+    title: 'Getrennte Schulen fuer Maedchen und Jungen',
+    positionA:
+      'Getrennter Unterricht gibt Maedchen in Naturwissenschaften mehr Raum und bessere Chancen.',
+    positionB:
+      'Koedukation bereitet auf eine gemischte Gesellschaft vor; Trennung verstaerkt Rollenbilder.',
+    followUpQuestions: [
+      'Welche Erfahrungen haben Sie mit gemischten Klassen gemacht?',
+      'Woran koennte Chancengleichheit im Unterricht sonst scheitern?',
+      'Welche Loesung halten Sie fuer realistisch?',
+    ],
+  },
+  {
+    id: 'b2-t2-002',
+    level: 'B2',
+    teil: 2,
+    title: 'Homeoffice oder Praesenzpflicht',
+    positionA:
+      'Wer seine Arbeit von zu Hause erledigen kann, sollte selbst entscheiden duerfen.',
+    positionB:
+      'Ohne gemeinsame Praesenz leiden Zusammenarbeit, Einarbeitung und Zusammenhalt.',
+    followUpQuestions: [
+      'Was geht verloren, wenn ein Team sich kaum noch sieht?',
+      'Wie liesse sich beides sinnvoll verbinden?',
+      'Wer sollte diese Entscheidung treffen?',
+    ],
+  },
+  {
+    id: 'b2-t2-003',
+    level: 'B2',
+    teil: 2,
+    title: 'Tempolimit auf Autobahnen',
+    positionA:
+      'Ein allgemeines Tempolimit senkt Unfallzahlen und Emissionen sofort und ohne Kosten.',
+    positionB:
+      'Der Nutzen ist gering, und die freie Geschwindigkeitswahl ist eine Frage der Eigenverantwortung.',
+    followUpQuestions: [
+      'Welche Argumente ueberzeugen Sie am meisten?',
+      'Wie wird das in Ihrem Herkunftsland geregelt?',
+      'Welche Massnahmen waeren wirksamer?',
+    ],
+  },
+  {
+    id: 'b2-t2-004',
+    level: 'B2',
+    teil: 2,
+    title: 'Handyverbot an Schulen',
+    positionA:
+      'Ein Verbot waehrend der Schulzeit schuetzt Konzentration und das soziale Miteinander.',
+    positionB:
+      'Schule muss den verantwortungsvollen Umgang mit Medien lehren, nicht verbieten.',
+    followUpQuestions: [
+      'Wo verlaeuft die Grenze zwischen Schutz und Bevormundung?',
+      'Welche Rolle sollten die Eltern spielen?',
+      'Wie liesse sich ein Verbot ueberhaupt durchsetzen?',
+    ],
+  },
+  {
+    id: 'b2-t2-005',
+    level: 'B2',
+    teil: 2,
+    title: 'Bedingungsloses Grundeinkommen',
+    positionA:
+      'Ein Grundeinkommen sichert Existenz und Wuerde und macht Menschen unabhaengiger.',
+    positionB:
+      'Es ist kaum finanzierbar und schwaecht die Bereitschaft zu arbeiten.',
+    followUpQuestions: [
+      'Was wuerde sich an Ihrer eigenen Lebensplanung aendern?',
+      'Wie liesse sich so etwas finanzieren?',
+      'Welche Gruppen wuerden am meisten profitieren?',
+    ],
+  },
+  {
+    id: 'b2-t2-006',
+    level: 'B2',
+    teil: 2,
+    title: 'Studiengebuehren',
+    positionA:
+      'Wer studiert, profitiert persoenlich davon und kann sich angemessen beteiligen.',
+    positionB:
+      'Gebuehren halten gerade aermere Begabte vom Studium ab; Bildung ist eine Gemeinschaftsaufgabe.',
+    followUpQuestions: [
+      'Wie ist der Hochschulzugang in Ihrem Land organisiert?',
+      'Welche Folgen hat Chancengleichheit fuer eine Gesellschaft?',
+      'Gaebe es einen Mittelweg?',
+    ],
+  },
+  {
+    id: 'b2-t2-007',
+    level: 'B2',
+    teil: 2,
+    title: 'Videoueberwachung im oeffentlichen Raum',
+    positionA:
+      'Kameras an belebten Orten verhindern Straftaten und helfen bei der Aufklaerung.',
+    positionB:
+      'Dauerhafte Beobachtung greift in die Privatsphaere ein, ohne die Ursachen zu loesen.',
+    followUpQuestions: [
+      'Fuehlen Sie sich durch Kameras sicherer oder beobachtet?',
+      'Wer sollte Zugriff auf solche Aufnahmen haben?',
+      'Welche Alternativen sehen Sie?',
+    ],
+  },
+  {
+    id: 'b2-t2-008',
+    level: 'B2',
+    teil: 2,
+    title: 'Hoehere Steuern auf Fleisch',
+    positionA:
+      'Wenn Fleisch seine wahren Umweltkosten traegt, aendert sich der Konsum spuerbar.',
+    positionB:
+      'Eine solche Steuer trifft vor allem Haushalte mit wenig Geld und bevormundet beim Essen.',
+    followUpQuestions: [
+      'Wie stark beeinflussen Preise Ihr eigenes Einkaufsverhalten?',
+      'Welche Verantwortung tragen Erzeuger und Handel?',
+      'Welche Massnahme waere gerechter?',
+    ],
+  },
+  {
+    id: 'b2-t2-009',
+    level: 'B2',
+    teil: 2,
+    title: 'Soziale Netzwerke erst ab 16 Jahren',
+    positionA:
+      'Eine Altersgrenze schuetzt Jugendliche vor Druck, Sucht und Mobbing.',
+    positionB:
+      'Verbote sind leicht zu umgehen; Begleitung und Medienbildung wirken besser.',
+    followUpQuestions: [
+      'Ab welchem Alter halten Sie Netzwerke fuer vertretbar?',
+      'Wer traegt die Verantwortung: Plattform, Eltern oder Staat?',
+      'Was hat Ihnen selbst als Jugendlicher geholfen?',
+    ],
+  },
+  {
+    id: 'b2-t2-010',
+    level: 'B2',
+    teil: 2,
+    title: 'Soziales Pflichtjahr',
+    positionA:
+      'Ein verpflichtendes Jahr staerkt den Zusammenhalt und oeffnet neue Perspektiven.',
+    positionB:
+      'Pflicht widerspricht dem Gedanken des Engagements und verzoegert Ausbildung und Beruf.',
+    followUpQuestions: [
+      'Wuerden Sie sich freiwillig engagieren?',
+      'Welche Bereiche braeuchten solche Hilfe am dringendsten?',
+      'Wie liesse sich Engagement anders foerdern?',
+    ],
+  },
 ];
 
 export function findSpeakingTopicById(id: string): SpeakingTopic | undefined {
