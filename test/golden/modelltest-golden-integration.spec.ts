@@ -59,6 +59,13 @@ const VOLATILE_KEYS = new Set(['issuedAt']);
 const SCRUBBED = '<volatile>';
 
 /**
+ * Fixtures are written with LF and checked out with CRLF on Windows, so the
+ * comparison normalizes both sides. Without this the suite passes for whoever
+ * captured the fixtures and fails on every other clone and in CI.
+ */
+const lf = (value: string) => value.replace(/\r\n/g, '\n');
+
+/**
  * Sorted keys so a fixture diff is readable, and both sides go through
  * `JSON.stringify` so a `Date` and its serialization never compare unequal.
  */
@@ -130,7 +137,7 @@ describe('Modelltest content golden master (B1, 1–6)', () => {
         );
       }
 
-      expect(canonical(captured)).toBe(readFileSync(path, 'utf8'));
+      expect(lf(canonical(captured))).toBe(lf(readFileSync(path, 'utf8')));
     },
   );
 });
