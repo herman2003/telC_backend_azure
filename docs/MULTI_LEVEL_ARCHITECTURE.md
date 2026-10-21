@@ -770,8 +770,12 @@ reason.
 - All four suites green before merge: unit, e2e, integration, build.
 - Branch from `dev`, never `main`. Direct pushes to `dev` are rejected; open a PR.
 - Content is immutable by `content_revision`; a correction is a new revision.
-- Exercise `GET` responses never contain correct answers — `correct_key` and
-  `is_correct` are stripped on read, as the B1 readers already do.
+- Exercise `GET` responses **do** carry the answer key, deliberately — ADR
+  0001, under the field names the app already parses (`correctTitleId`,
+  `correctOptionId`, `correctAnswer`, `correctWordId`). A new level must ship
+  it the same way. An earlier draft of this file asserted the opposite, which
+  was the pre-ADR rule and is still what
+  `MODELLTEST_CONTENT_ARCHITECTURE.md` says.
 - B1's 18 content tables are never migrated and never altered except by
   widening (phase 2's `writing_exercises`).
 
