@@ -4,7 +4,10 @@
 **Design:** [ENTITLEMENTS_INTERFACE_DESIGN.md](ENTITLEMENTS_INTERFACE_DESIGN.md)
 **Decision:** [ADR 0002](adr/0002-the-centre-pays-the-code-holds.md)
 **Block:** 23 (with 22b folded in) of [BUILD_BLOCKS_22_27.md](BUILD_BLOCKS_22_27.md)
-**Status:** 🛑 awaiting review of §1 and §9 before the task split
+**Status:** implemented. The marker below said "awaiting review" long after
+the fact — the tables (`center_entitlement_pools`, `code_entitlement_caps`,
+`code_entitlements`), the `/api/centers/me/entitlements` routes and the
+entitlement integration suites are all in place.
 
 ---
 

@@ -1,5 +1,10 @@
 # Architecture: centers, students, and seats
 
+> **One stale reference.** The student activation flow described here used
+> `POST /api/student-activations`, which no longer exists. Students now
+> register (`/api/auth/register`), verify, then redeem a school code
+> (`/api/auth/redeem-code`). Everything else in this document still applies.
+
 How Lerniqo sells to language centers and how those centers give their students
 access to the product. This is the model Phases 2–9 of
 `tasks/center-subscription-global-plan.md` build on; where the two disagree,

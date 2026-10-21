@@ -1,5 +1,10 @@
 # Center dashboard ↔ backend: sync decisions
 
+> **One stale reference.** The student activation flow described here used
+> `POST /api/student-activations`, which no longer exists. Students now
+> register (`/api/auth/register`), verify, then redeem a school code
+> (`/api/auth/redeem-code`). Everything else in this document still applies.
+
 The decisions taken while aligning the backend with the center dashboard
 (`sprach`, Next.js). The frontend's own spec is the source these are measured
 against. Each entry says what was chosen, what it replaces, and what is still

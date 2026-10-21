@@ -4,7 +4,9 @@
 **Priority:** P0 — a school can pay for ten seats and enrol one student
 **Contract:** `CENTER_FRONTEND_SYNC_DECISIONS.md`, D4 rules 1–2 and line 336
 **Reported by:** the frontend, against centre `testapplication551@gmail.com`
-**Status:** 🛑 awaiting review of §1 and §7 before the task split
+**Status:** implemented. The marker below said "awaiting review" long after
+the fact — see `payment-activation.service.ts` and
+`payment-activation-integration.spec.ts`.
 
 ---
 
