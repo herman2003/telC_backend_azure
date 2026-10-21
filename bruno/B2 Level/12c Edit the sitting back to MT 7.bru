@@ -1,0 +1,46 @@
+meta {
+  name: 12c Edit the sitting back to MT 7
+  type: http
+  seq: 14
+}
+
+patch {
+  url: {{baseUrl}}/api/centers/me/exam-sessions/{{b2ExamSessionId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "modelltestNumber": 7
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.modelltestNumber: eq 7
+  res.body.level: eq B2
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+}
+
+docs {
+  Reverses 12b. Confirms level tracks the paper both directions, not just
+  B2 -> B1: after this the sitting must read modelltestNumber 7, level B2
+  again, with the same session id and no leftover B1 state (Hören duration,
+  weights grid) bleeding through.
+}
