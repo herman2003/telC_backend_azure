@@ -777,6 +777,49 @@ reason.
 
 ---
 
+## Follow-up: an exam sitting admits candidates of any level
+
+Found by running the Bruno collection, once Modelltest 7 made it reachable.
+
+A sitting takes its level from its paper, which is correct and is what phase
+26 fixed. Admission does not:
+
+- `GET /exam-sessions/:id/eligible-students` filters on `center_id` and an
+  optional name search. There is no level filter, and the query does not even
+  `select` the student's level, so a dashboard cannot show it.
+- `PUT /exam-sessions/:id/participants` calls `requireOwnStudents`, then
+  checks cancellation, open-state and slots. It never compares the student's
+  level to the session's. The word `level` does not appear anywhere in
+  `exam-participants.service.ts`.
+
+So a centre holding five B1 and five B2 students can admit all ten to the B2
+sitting. Nothing errors. The five B1 candidates sit a B2 paper, get B2's
+20-minute Hoeren, and are marked against B2's grid out of 300 — a plausible,
+wrong result, on the paid product.
+
+Training refuses exactly this: a student opening a paper of another level gets
+`403 LEVEL_MISMATCH`. The exam path has no equivalent.
+
+**Pre-existing, and newly reachable.** With one level every student matched
+every sitting, so the gap could not be hit. Importing a second level is what
+turns it into something a manager can do by accident, which is why it belongs
+to this work even though it is out of phase 26's scope — that scope being "B2
+behaves exactly as B1 does", and this behaves identically at both.
+
+### Shape of the fix
+
+| | |
+|---|---|
+| `eligible-students` | select and return `level`; filter to the session's level by default, with an explicit opt-out if a centre ever needs one |
+| `setParticipants` | refuse a mismatch with a named error rather than a generic 400, so the dashboard can say which candidate and why |
+| Dashboard | show each candidate's level beside their name in the admission step |
+| Gate | `/security-and-hardening` before merge — it decides who sits a paid exam, and a wrong verdict is the kind of thing a centre takes back to a candidate |
+
+Worth deciding at the same time: what happens to a student whose level is
+`null`. Today they are admissible to anything.
+
+---
+
 ## Open decisions
 
 1. **Is A1 in the offer?** Phases 3–4 exist for the A-family. If the answer is
