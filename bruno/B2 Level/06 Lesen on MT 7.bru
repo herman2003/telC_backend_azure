@@ -1,5 +1,5 @@
 meta {
-  name: 06 Lesen, Sprachbausteine and Hoeren on MT 7
+  name: 06 Lesen on MT 7
   type: http
   seq: 6
 }
@@ -62,18 +62,14 @@ script:post-response {
 }
 
 docs {
-  Run the Sprachbausteine and Hoeren reads alongside this one:
-    GET /api/sprachbausteine/exercise?modelltest=7   (10 gaps; 10 gaps, 15 words)
-    GET /api/listening/exercise?modelltest=7&teil=1  (5 questions, audio_url set)
-    ...&teil=2 (10 questions)  ...&teil=3 (5 questions)
+  Leseverstehen only. Sprachbausteine and Hoeren have their own requests —
+  16, 17 and 18 — and this request used to carry them as prose telling a
+  human to run them by hand, which both duplicated those requests and made
+  the name promise three checks it did not perform.
 
-  Hoeren does NOT return an audio URL — see request 17. The training DTO
-  carries audioId and playsAllowed, and the client spends a play through
+  Hoeren returns no audio URL by design. The training DTO carries audioId
+  and playsAllowed, and the client spends a play through
   POST /api/listening/audio/{audioId}/play. Handing out the URL would make
-  the play allowance unenforceable, so checking for one here is looking for
-  something that is deliberately absent.
-
-  To confirm the audio itself is reachable, spend a play and follow what that
-  returns, or read audio_url straight from the row:
-    npm run modelltest:verify -- --level B2 --number 7
+  the play allowance unenforceable, so looking for one here is looking for
+  something deliberately absent.
 }

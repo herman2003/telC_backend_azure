@@ -1,0 +1,32 @@
+meta {
+  name: 14d2 Submit Lesen and Sprachbausteine
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{b2AttemptId}}/blocks/LESEN_SPRACHBAUSTEINE/submit
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+}
+
+docs {
+  Closes block 1 so HOEREN may open. Submitted unanswered on purpose.
+}

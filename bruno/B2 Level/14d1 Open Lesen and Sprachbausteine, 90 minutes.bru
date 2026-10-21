@@ -1,0 +1,49 @@
+meta {
+  name: 14d1 Open Lesen and Sprachbausteine, 90 minutes
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{b2AttemptId}}/blocks/LESEN_SPRACHBAUSTEINE/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  // 90 minutes, and B2 shares it with B1 — asserted anyway, because the
+  // value comes from exam_block_durations keyed by the sitting's level. A
+  // B2 sitting reading B1's rows would still be wrong here if the two ever
+  // diverge, and the row set is what this phase seeded.
+  const minutes =
+    (new Date(res.body.deadlineAt) - new Date(res.body.startedAt)) / 60000;
+  if (minutes !== 90) {
+    throw new Error("LESEN_SPRACHBAUSTEINE should run 90 minutes, got " + minutes);
+  }
+}
+
+docs {
+  BLOCKS RUN IN ORDER: LESEN_SPRACHBAUSTEINE (1), HOEREN (2), SCHREIBEN (3),
+  each started AND submitted before the next may open. Request 14e used to
+  document that as something to do by hand, which meant the chain could not
+  be run end to end from the collection. These four requests do it.
+
+  Nothing is answered here. The blocks exist to reach Schreiben with a real
+  attempt, and an unanswered block submits as zero, which is fine — the
+  marking of this sitting is not what 14 is about.
+}

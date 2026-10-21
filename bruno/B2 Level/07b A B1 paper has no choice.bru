@@ -1,0 +1,61 @@
+meta {
+  name: 07b A B1 paper has no choice
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/writing/exercise?modelltest=2
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation for the B1 student)" : "")
+    );
+  }
+
+  // The single assertion that protects the Flutter app.
+  //
+  // B2 added `choices` and `choiceGroupId` to this response. A B1 paper must
+  // carry NEITHER — not an empty array, not a null id — because a client
+  // written before B2 branches on the field being absent. An empty array is
+  // truthy, so `if (res.choices)` would take the choice path and render a
+  // pick-one screen with nothing to pick.
+  //
+  // This lived in request 07's docs as a sentence telling a human to compare
+  // by hand. The most important non-regression check in the collection was
+  // the one thing it did not run.
+  if ("choices" in res.body) {
+    throw new Error("a B1 paper must not carry `choices`, got " + JSON.stringify(res.body.choices));
+  }
+  if ("choiceGroupId" in res.body) {
+    throw new Error("a B1 paper must not carry `choiceGroupId`");
+  }
+  if (res.body.part !== 1) {
+    throw new Error("expected the single B1 task at part 1, got " + res.body.part);
+  }
+}
+
+docs {
+  Uses {{b1StudentAccessToken}} — the SECOND student, on a B1 seat, the same
+  one request 05 needs. Set it by running Student Activation against a code
+  left at B1.
+
+  Do not run this with the B2 token. It would answer 200 today only because
+  /api/writing/exercise is the one content endpoint with no level guard on
+  it (noted as a backend follow-up); the moment that guard lands, a B2 token
+  here is a correct 403 and this request would start failing for a reason
+  that has nothing to do with what it checks.
+}
