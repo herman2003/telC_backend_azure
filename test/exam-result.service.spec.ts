@@ -15,6 +15,13 @@ import { ExamResultService } from '../src/modules/centers/exam-result.service';
 describe('ExamResultService', () => {
   const ATTEMPT = 'attempt-1';
 
+  /**
+   * Uuid-shaped on purpose. `writing_exercises.id` is a uuid column, so a
+   * readable stand-in like 'task-b' is a value production cannot hold, and
+   * the service now filters unresolvable ids by that shape before querying.
+   */
+  const TASK_B_ID = '3f1c8a52-9d64-4e71-b0a3-7c5e2d184af6';
+
   /** telc B1, as seeded: 225 written, 75 oral. */
   const weights = [
     { skill: 'LESEN', teil: 1, max_points: 25, part: 'WRITTEN' },
@@ -106,7 +113,7 @@ describe('ExamResultService', () => {
         {
           exam_attempt_id: ATTEMPT,
           content: letter,
-          exercise_id: 'task-b',
+          exercise_id: TASK_B_ID,
           score: null,
           feedback: null,
           corrections: null,
@@ -115,7 +122,7 @@ describe('ExamResultService', () => {
       prisma.writingExercise = {
         findMany: jest
           .fn()
-          .mockResolvedValue([{ id: 'task-b', part: 2, title: 'Beschwerde' }]),
+          .mockResolvedValue([{ id: TASK_B_ID, part: 2, title: 'Beschwerde' }]),
       };
       prisma.examAttemptBlock.findMany.mockResolvedValue([
         {
@@ -137,6 +144,60 @@ describe('ExamResultService', () => {
         // without it is guessing.
         task: 'Aufgabe B — Beschwerde',
       });
+    });
+
+    /**
+     * Before B2, the exam stored `exam-<modelltestId>` in `exercise_id`. Those
+     * rows are still there, and `exercise_id` is text, so nothing rejected
+     * them on write.
+     *
+     * Postgres rejects the whole statement on the first unparseable uuid, so
+     * one old row used to cost every label in the batch — the current
+     * candidates' labels disappeared too, and the service logged it as an
+     * unreadable task. The placeholder must never reach the query.
+     */
+    it('keeps current labels when an older attempt carries a placeholder id', async () => {
+      load(100);
+      const letter = 'Sehr geehrte Damen und Herren, ich bewerbe mich.';
+      prisma.writingAttempt.findMany.mockResolvedValue([
+        {
+          exam_attempt_id: ATTEMPT,
+          content: letter,
+          exercise_id: TASK_B_ID,
+          score: null,
+          feedback: null,
+          corrections: null,
+        },
+        {
+          exam_attempt_id: 'attempt-older',
+          content: 'Ein alter Brief.',
+          exercise_id: 'exam-7b3d9f20-5c41-4a68-9e02-1d8f6b4c3a95',
+          score: null,
+          feedback: null,
+          corrections: null,
+        },
+      ]);
+      const findMany = jest
+        .fn()
+        .mockResolvedValue([
+          { id: TASK_B_ID, part: 2, title: 'Beschwerde' },
+        ]);
+      prisma.writingExercise = { findMany };
+      prisma.examAttemptBlock.findMany.mockResolvedValue([
+        {
+          attempt_id: ATTEMPT,
+          block: 'SCHREIBEN',
+          submitted_at: submittedAt,
+          answers: { text: letter },
+        },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { id: { in: [TASK_B_ID] } } }),
+      );
+      expect(result.schreibenSubmission?.task).toBe('Aufgabe B — Beschwerde');
     });
 
     it('falls back to block answers when writing attempt has no content', async () => {

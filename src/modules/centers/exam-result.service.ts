@@ -5,6 +5,13 @@ import { PrismaService } from '../../shared/services/prisma.service';
 /** telc's bar, on each half separately. */
 export const PASS_RATIO = 0.6;
 
+/**
+ * `writing_attempts.exercise_id` is text, so it can hold values a uuid column
+ * would have refused. See `writingTaskLabels`.
+ */
+const UUID =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 /** The two a human marks. Everything else the server decides. */
 export const HUMAN_MARKED: readonly Skill[] = ['SCHREIBEN', 'SPRECHEN'];
 
@@ -599,16 +606,25 @@ export class ExamResultService {
    * Ids that resolve to nothing are simply absent: sittings recorded before
    * the task was stored carry a placeholder in `exercise_id`, and that is a
    * null label rather than an error on a results page.
+   *
+   * Those placeholders are filtered out rather than queried. `exercise_id` is
+   * a plain text column, the ids it now holds are uuids, and the pre-B2 rows
+   * hold `exam-<modelltestId>` and `exam-schreiben`. Postgres rejects the
+   * whole statement on the first unparseable uuid, so passing one through
+   * loses every label in the batch, not just its own — a sitting with one old
+   * candidate and three current ones showed no task labels at all, and the
+   * `catch` below reported it as if the task were unreadable.
    */
   private async writingTaskLabels(
     exerciseIds: string[],
   ): Promise<Map<string, string>> {
     const labels = new Map<string, string>();
-    if (exerciseIds.length === 0) return labels;
+    const resolvable = exerciseIds.filter((id) => UUID.test(id));
+    if (resolvable.length === 0) return labels;
 
     const rows = await this.prisma.writingExercise
       .findMany({
-        where: { id: { in: exerciseIds } },
+        where: { id: { in: resolvable } },
         select: { id: true, part: true, title: true },
       })
       .catch((error: unknown) => {
