@@ -9,8 +9,7 @@ export const PASS_RATIO = 0.6;
  * `writing_attempts.exercise_id` is text, so it can hold values a uuid column
  * would have refused. See `writingTaskLabels`.
  */
-const UUID =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** The two a human marks. Everything else the server decides. */
 export const HUMAN_MARKED: readonly Skill[] = ['SCHREIBEN', 'SPRECHEN'];

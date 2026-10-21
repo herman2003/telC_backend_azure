@@ -34,7 +34,10 @@ const prisma = new PrismaService();
 const lesen = new LesenService(prisma);
 const sprachbausteine = new SprachbausteineService(prisma);
 const listening = new ListeningService(prisma);
-const writing = new WritingService(prisma, new WritingDailyQuotaService(prisma));
+const writing = new WritingService(
+  prisma,
+  new WritingDailyQuotaService(prisma),
+);
 const speaking = new SpeakingService(prisma);
 
 /** Every B1 Modelltest in the training catalogue when phase 26 started. */
@@ -76,8 +79,7 @@ const SCRUBBED = '<volatile>';
  * What survives is what the suite is for: which fields exist, their shapes,
  * their counts, and every piece of content a mapper could change.
  */
-const UUID =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
  * Ids are numbered in first-seen order rather than blanked.
@@ -159,9 +161,9 @@ describe('Modelltest content golden master (B1, 1–6)', () => {
     });
     // If this fails, the fixtures below describe a different catalogue than
     // the database holds and the comparison means nothing.
-    expect(rows.filter((row) => row.level === 'B1').map((row) => row.number)).toEqual([
-      ...GOLDEN_MODELLTESTS,
-    ]);
+    expect(
+      rows.filter((row) => row.level === 'B1').map((row) => row.number),
+    ).toEqual([...GOLDEN_MODELLTESTS]);
   });
 
   it.each(GOLDEN_MODELLTESTS)(
@@ -171,7 +173,11 @@ describe('Modelltest content golden master (B1, 1–6)', () => {
 
       if (updating) {
         mkdirSync(fixtureDir, { recursive: true });
-        writeFileSync(fixturePath(modelltestNumber), canonical(captured), 'utf8');
+        writeFileSync(
+          fixturePath(modelltestNumber),
+          canonical(captured),
+          'utf8',
+        );
         return;
       }
 

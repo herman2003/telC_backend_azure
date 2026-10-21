@@ -179,9 +179,7 @@ describe('ExamResultService', () => {
       ]);
       const findMany = jest
         .fn()
-        .mockResolvedValue([
-          { id: TASK_B_ID, part: 2, title: 'Beschwerde' },
-        ]);
+        .mockResolvedValue([{ id: TASK_B_ID, part: 2, title: 'Beschwerde' }]);
       prisma.writingExercise = { findMany };
       prisma.examAttemptBlock.findMany.mockResolvedValue([
         {

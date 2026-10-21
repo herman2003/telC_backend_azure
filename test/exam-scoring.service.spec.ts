@@ -315,7 +315,9 @@ describe('ExamScoringService', () => {
         level: 'B1',
         gradingTier,
         block: 'SCHREIBEN',
-        answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren', ...extra } },
+        answers: {
+          SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren', ...extra },
+        },
       });
     };
 

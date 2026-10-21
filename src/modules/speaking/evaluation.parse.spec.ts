@@ -83,11 +83,7 @@ describe('EvaluationService.parseResponse (M10)', () => {
 
 describe('the prompt names the level it is rating', () => {
   type PromptBuilder = {
-    buildPrompt: (
-      level: CefrLevel,
-      teil: number,
-      transcript: string,
-    ) => string;
+    buildPrompt: (level: CefrLevel, teil: number, transcript: string) => string;
   };
   const promptFor = (level: CefrLevel, teil: number) => {
     const service = Object.create(
