@@ -841,29 +841,29 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     id: 'b2-t2-001',
     level: 'B2',
     teil: 2,
-    title: 'Getrennte Schulen fuer Maedchen und Jungen',
+    title: 'Getrennte Schulen für Mädchen und Jungen',
     positionA:
-      'Getrennter Unterricht gibt Maedchen in Naturwissenschaften mehr Raum und bessere Chancen.',
+      'Getrennter Unterricht gibt Mädchen in Naturwissenschaften mehr Raum und bessere Chancen.',
     positionB:
-      'Koedukation bereitet auf eine gemischte Gesellschaft vor; Trennung verstaerkt Rollenbilder.',
+      'Koedukation bereitet auf eine gemischte Gesellschaft vor; Trennung verstärkt Rollenbilder.',
     followUpQuestions: [
       'Welche Erfahrungen haben Sie mit gemischten Klassen gemacht?',
-      'Woran koennte Chancengleichheit im Unterricht sonst scheitern?',
-      'Welche Loesung halten Sie fuer realistisch?',
+      'Woran könnte Chancengleichheit im Unterricht sonst scheitern?',
+      'Welche Lösung halten Sie für realistisch?',
     ],
   },
   {
     id: 'b2-t2-002',
     level: 'B2',
     teil: 2,
-    title: 'Homeoffice oder Praesenzpflicht',
+    title: 'Homeoffice oder Präsenzpflicht',
     positionA:
-      'Wer seine Arbeit von zu Hause erledigen kann, sollte selbst entscheiden duerfen.',
+      'Wer seine Arbeit von zu Hause erledigen kann, sollte selbst entscheiden dürfen.',
     positionB:
-      'Ohne gemeinsame Praesenz leiden Zusammenarbeit, Einarbeitung und Zusammenhalt.',
+      'Ohne gemeinsame Präsenz leiden Zusammenarbeit, Einarbeitung und Zusammenhalt.',
     followUpQuestions: [
       'Was geht verloren, wenn ein Team sich kaum noch sieht?',
-      'Wie liesse sich beides sinnvoll verbinden?',
+      'Wie ließe sich beides sinnvoll verbinden?',
       'Wer sollte diese Entscheidung treffen?',
     ],
   },
@@ -877,9 +877,9 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     positionB:
       'Der Nutzen ist gering, und die freie Geschwindigkeitswahl ist eine Frage der Eigenverantwortung.',
     followUpQuestions: [
-      'Welche Argumente ueberzeugen Sie am meisten?',
+      'Welche Argumente überzeugen Sie am meisten?',
       'Wie wird das in Ihrem Herkunftsland geregelt?',
-      'Welche Massnahmen waeren wirksamer?',
+      'Welche Massnahmen wären wirksamer?',
     ],
   },
   {
@@ -888,13 +888,13 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     teil: 2,
     title: 'Handyverbot an Schulen',
     positionA:
-      'Ein Verbot waehrend der Schulzeit schuetzt Konzentration und das soziale Miteinander.',
+      'Ein Verbot während der Schulzeit schützt Konzentration und das soziale Miteinander.',
     positionB:
       'Schule muss den verantwortungsvollen Umgang mit Medien lehren, nicht verbieten.',
     followUpQuestions: [
-      'Wo verlaeuft die Grenze zwischen Schutz und Bevormundung?',
+      'Wo verläuft die Grenze zwischen Schutz und Bevormundung?',
       'Welche Rolle sollten die Eltern spielen?',
-      'Wie liesse sich ein Verbot ueberhaupt durchsetzen?',
+      'Wie ließe sich ein Verbot überhaupt durchsetzen?',
     ],
   },
   {
@@ -903,41 +903,41 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     teil: 2,
     title: 'Bedingungsloses Grundeinkommen',
     positionA:
-      'Ein Grundeinkommen sichert Existenz und Wuerde und macht Menschen unabhaengiger.',
+      'Ein Grundeinkommen sichert Existenz und Würde und macht Menschen unabhängiger.',
     positionB:
-      'Es ist kaum finanzierbar und schwaecht die Bereitschaft zu arbeiten.',
+      'Es ist kaum finanzierbar und schwächt die Bereitschaft zu arbeiten.',
     followUpQuestions: [
-      'Was wuerde sich an Ihrer eigenen Lebensplanung aendern?',
-      'Wie liesse sich so etwas finanzieren?',
-      'Welche Gruppen wuerden am meisten profitieren?',
+      'Was würde sich an Ihrer eigenen Lebensplanung ändern?',
+      'Wie ließe sich so etwas finanzieren?',
+      'Welche Gruppen würden am meisten profitieren?',
     ],
   },
   {
     id: 'b2-t2-006',
     level: 'B2',
     teil: 2,
-    title: 'Studiengebuehren',
+    title: 'Studiengebühren',
     positionA:
-      'Wer studiert, profitiert persoenlich davon und kann sich angemessen beteiligen.',
+      'Wer studiert, profitiert persönlich davon und kann sich angemessen beteiligen.',
     positionB:
-      'Gebuehren halten gerade aermere Begabte vom Studium ab; Bildung ist eine Gemeinschaftsaufgabe.',
+      'Gebühren halten gerade ärmere Begabte vom Studium ab; Bildung ist eine Gemeinschaftsaufgabe.',
     followUpQuestions: [
       'Wie ist der Hochschulzugang in Ihrem Land organisiert?',
-      'Welche Folgen hat Chancengleichheit fuer eine Gesellschaft?',
-      'Gaebe es einen Mittelweg?',
+      'Welche Folgen hat Chancengleichheit für eine Gesellschaft?',
+      'Gäbe es einen Mittelweg?',
     ],
   },
   {
     id: 'b2-t2-007',
     level: 'B2',
     teil: 2,
-    title: 'Videoueberwachung im oeffentlichen Raum',
+    title: 'Videoüberwachung im öffentlichen Raum',
     positionA:
-      'Kameras an belebten Orten verhindern Straftaten und helfen bei der Aufklaerung.',
+      'Kameras an belebten Orten verhindern Straftaten und helfen bei der Aufklärung.',
     positionB:
-      'Dauerhafte Beobachtung greift in die Privatsphaere ein, ohne die Ursachen zu loesen.',
+      'Dauerhafte Beobachtung greift in die Privatsphäre ein, ohne die Ursachen zu lösen.',
     followUpQuestions: [
-      'Fuehlen Sie sich durch Kameras sicherer oder beobachtet?',
+      'Fühlen Sie sich durch Kameras sicherer oder beobachtet?',
       'Wer sollte Zugriff auf solche Aufnahmen haben?',
       'Welche Alternativen sehen Sie?',
     ],
@@ -946,15 +946,15 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     id: 'b2-t2-008',
     level: 'B2',
     teil: 2,
-    title: 'Hoehere Steuern auf Fleisch',
+    title: 'Höhere Steuern auf Fleisch',
     positionA:
-      'Wenn Fleisch seine wahren Umweltkosten traegt, aendert sich der Konsum spuerbar.',
+      'Wenn Fleisch seine wahren Umweltkosten trägt, ändert sich der Konsum spürbar.',
     positionB:
       'Eine solche Steuer trifft vor allem Haushalte mit wenig Geld und bevormundet beim Essen.',
     followUpQuestions: [
       'Wie stark beeinflussen Preise Ihr eigenes Einkaufsverhalten?',
       'Welche Verantwortung tragen Erzeuger und Handel?',
-      'Welche Massnahme waere gerechter?',
+      'Welche Massnahme wäre gerechter?',
     ],
   },
   {
@@ -963,12 +963,12 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     teil: 2,
     title: 'Soziale Netzwerke erst ab 16 Jahren',
     positionA:
-      'Eine Altersgrenze schuetzt Jugendliche vor Druck, Sucht und Mobbing.',
+      'Eine Altersgrenze schützt Jugendliche vor Druck, Sucht und Mobbing.',
     positionB:
       'Verbote sind leicht zu umgehen; Begleitung und Medienbildung wirken besser.',
     followUpQuestions: [
-      'Ab welchem Alter halten Sie Netzwerke fuer vertretbar?',
-      'Wer traegt die Verantwortung: Plattform, Eltern oder Staat?',
+      'Ab welchem Alter halten Sie Netzwerke für vertretbar?',
+      'Wer trägt die Verantwortung: Plattform, Eltern oder Staat?',
       'Was hat Ihnen selbst als Jugendlicher geholfen?',
     ],
   },
@@ -978,13 +978,13 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     teil: 2,
     title: 'Soziales Pflichtjahr',
     positionA:
-      'Ein verpflichtendes Jahr staerkt den Zusammenhalt und oeffnet neue Perspektiven.',
+      'Ein verpflichtendes Jahr stärkt den Zusammenhalt und öffnet neue Perspektiven.',
     positionB:
-      'Pflicht widerspricht dem Gedanken des Engagements und verzoegert Ausbildung und Beruf.',
+      'Pflicht widerspricht dem Gedanken des Engagements und verzögert Ausbildung und Beruf.',
     followUpQuestions: [
-      'Wuerden Sie sich freiwillig engagieren?',
-      'Welche Bereiche braeuchten solche Hilfe am dringendsten?',
-      'Wie liesse sich Engagement anders foerdern?',
+      'Würden Sie sich freiwillig engagieren?',
+      'Welche Bereiche bräuchten solche Hilfe am dringendsten?',
+      'Wie ließe sich Engagement anders fördern?',
     ],
   },
 ];

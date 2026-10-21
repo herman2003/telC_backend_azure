@@ -1,0 +1,44 @@
+meta {
+  name: 04c Put the B1 student on a B1 seat
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/auth/redeem-code
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+body:json {
+  {
+    "code": "{{b1ActivationKey}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 409 ? "  (seat already claimed — re-run scripts/seed-b2-bruno-fixture.mjs)" : "")
+    );
+  }
+}
+
+docs {
+  The mirror of request 02, one level down. This seat carries B1 from the
+  start, so redemption makes the student B1 the same way 02 made the other
+  one B2 — and a subscription, without which 05 would answer 403 for having
+  no code rather than for the level.
+
+  Skip this and 05 and 07b test nothing: an unredeemed student is refused
+  for the wrong reason.
+}

@@ -1,7 +1,7 @@
 meta {
   name: 14a New sitting opening soon
   type: http
-  seq: 15
+  seq: 19
 }
 
 post {
@@ -14,11 +14,26 @@ headers {
   Authorization: Bearer {{accessToken}}
 }
 
+script:pre-request {
+  // Computed, not hard-coded. This request carried a literal date, which was
+  // already in the past — and `create` refuses a past opensAt, so it had
+  // stopped working before anyone noticed.
+  //
+  // Three minutes, because three rules have to be satisfied in order:
+  //   create  (14a) opensAt must be in the FUTURE
+  //   publish (14c) opensAt must STILL be in the future — publishing into
+  //                 the past would open the sitting the instant it appeared
+  //   start   (14d) opensAt must now be in the PAST
+  // So 14a-14c run before the timestamp and 14d after it. 45 seconds was
+  // not enough and 14c failed with OPENS_AT_IN_PAST.
+  bru.setVar('opensAtNow', new Date(Date.now() + 3 * 60 * 1000).toISOString());
+}
+
 body:json {
   {
     "name": "B2 Schreiben smoke",
     "modelltestNumber": 7,
-    "opensAt": "2026-10-21T05:58:00.000Z",
+    "opensAt": "{{opensAtNow}}",
     "accessWindowHours": 48
   }
 }
@@ -39,8 +54,13 @@ script:post-response {
 }
 
 docs {
-  opensAt must be a few minutes in the future from when you run this — edit
-  the literal timestamp above first, `create` refuses a past opensAt.
-  Separate from {{b2ExamSessionId}} (the 12/12b/12c draft, never published):
-  this one gets published and actually sat, so it needs its own id.
+  Creates the sitting the 14x chain runs on. {{b2SittingId}} comes from here.
+
+  THE TIMING MATTERS. The sitting opens three minutes from now:
+    run 14b and 14c WITHIN those three minutes,
+    then WAIT until the opensAt in the response before running 14d.
+
+  14c answering OPENS_AT_IN_PAST means you were too slow — re-run this
+  request to get a fresh window and continue from 14b.
+  14d answering EXAM_NOT_OPEN means you were too fast — wait, then re-run 14d.
 }

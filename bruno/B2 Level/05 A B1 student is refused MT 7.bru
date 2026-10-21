@@ -1,7 +1,7 @@
 meta {
   name: 05 A B1 student is refused MT 7
   type: http
-  seq: 5
+  seq: 8
 }
 
 get {
@@ -20,10 +20,13 @@ assert {
 }
 
 docs {
-  Needs a SECOND student, on a B1 seat. Set {{b1StudentAccessToken}} by
-  running Student Activation again with a code left at B1.
+  REQUIRED, not optional. An earlier version of this file ended with "skip
+  this request if you have only the B2 student to hand" — but every other
+  request here only shows that B2 content exists. This is the one that shows
+  content of one level does NOT open for a student of another, and Prep Pass
+  does not widen it. Skipping it tests nothing about the level gate.
 
-  The gate is the point of the level: content of one level must not open for
-  a student of another, and Prep Pass does not widen it. Skip this request if
-  you have only the B2 student to hand.
+  Needs a SECOND student on a B1 seat. Set {{b1StudentAccessToken}} by
+  running Student Activation again with a code left at B1. Request 07b uses
+  the same token.
 }

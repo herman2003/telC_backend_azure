@@ -1,7 +1,7 @@
 meta {
   name: 07 Schreiben offers both Aufgaben
   type: http
-  seq: 7
+  seq: 10
 }
 
 get {
@@ -55,7 +55,7 @@ docs {
   could not be stored and the read returned whichever one the database felt
   like. Both are worth 45 points and the candidate answers one.
 
-  Compare with a B1 paper — GET /api/writing/exercise?modelltest=2 — where
-  `choices` must be ABSENT, not an empty array. That is what keeps the Flutter
-  app working unchanged.
+  Request 07b is the other half: a B1 paper must carry no `choices` at all,
+  which is what keeps the Flutter app working unchanged. It used to be this
+  sentence telling a reader to check by hand; it is a request now.
 }
