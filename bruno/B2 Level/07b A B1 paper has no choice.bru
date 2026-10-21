@@ -1,11 +1,11 @@
 meta {
   name: 07b A B1 paper has no choice
   type: http
-  seq: 8
+  seq: 11
 }
 
 get {
-  url: {{baseUrl}}/api/writing/exercise?modelltest=2
+  url: {{baseUrl}}/api/writing/exercise?modelltest={{b1ModelltestNumber}}
   body: none
   auth: none
 }
@@ -53,7 +53,8 @@ docs {
   one request 05 needs. Set it by running Student Activation against a code
   left at B1.
 
-  Do not run this with the B2 token. It would answer 200 today only because
+  Runs against {{b1ModelltestNumber}} from 04d — the student's own weekly
+  paper — not a hard-coded number. Do not run this with the B2 token. It would answer 200 today only because
   /api/writing/exercise is the one content endpoint with no level guard on
   it (noted as a backend follow-up); the moment that guard lands, a B2 token
   here is a correct 403 and this request would start failing for a reason

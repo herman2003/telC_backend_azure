@@ -1,0 +1,48 @@
+meta {
+  name: 04d The B1 student's own paper
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/modelltests
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  if (!res.body.length) {
+    throw new Error("the B1 student sees no papers — did 04c run?");
+  }
+  if (res.body.some((m) => m.level !== "B1")) {
+    throw new Error("a non-B1 paper reached a B1 student: " +
+      res.body.map((m) => m.number + "/" + m.level).join(", "));
+  }
+  bru.setEnvVar("b1ModelltestNumber", String(res.body[0].number));
+}
+
+docs {
+  The mirror of request 03, and the source of {{b1ModelltestNumber}} for 07b.
+
+  Read at runtime rather than hard-coded, because without Prep Pass this list
+  is the ONE paper of the student's weekly rotation and it changes every seven
+  days. 07b used to name Modelltest 2, which is not this student's paper — it
+  answered 200 only because /api/writing/exercise carries no PrepPassGuard, so
+  the request passed by exercising a hole rather than the shape it claims to
+  check.
+
+  To see that hole for yourself, with the B1 token:
+    GET /api/reading/exercise?modelltest=2    -> 403 PREP_PASS_REQUIRED
+    GET /api/writing/exercise?modelltest=2    -> 200
+}
