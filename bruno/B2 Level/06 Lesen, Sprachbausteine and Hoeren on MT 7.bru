@@ -1,0 +1,79 @@
+meta {
+  name: 06 Lesen, Sprachbausteine and Hoeren on MT 7
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  // telc B2 Leseverstehen: 5 texts against 10 headings, 5 single-choice
+  // questions, 10 situations against 12 announcements.
+  const t1 = res.body.teil1, t2 = res.body.teil2, t3 = res.body.teil3;
+  if (t1.texts.length !== 5 || t1.titles.length !== 10) {
+    throw new Error("Teil 1 should be 5 texts and 10 titles, got " +
+      t1.texts.length + " and " + t1.titles.length);
+  }
+  if (t2.questions.length !== 5) {
+    throw new Error("Teil 2 should have 5 questions, got " + t2.questions.length);
+  }
+  if (t3.situations.length !== 10 || t3.announcements.length !== 12) {
+    throw new Error("Teil 3 should be 10 situations and 12 announcements");
+  }
+  // The answer key SHIPS with the exercise, deliberately — ADR 0001, accepted
+  // as the right trade for a self-paced practice product, with field names
+  // chosen to match the bundle the app already parses. So this asserts it is
+  // PRESENT, not absent.
+  //
+  // The first draft of this check looked for an absent key, and for field
+  // names that do not exist (`isCorrect`, `correctTitleKey`), so it passed
+  // without testing anything while asserting the opposite of the design.
+  if (!t1.texts.every((x) => x.correctTitleId)) {
+    throw new Error("Teil 1 texts must carry correctTitleId");
+  }
+  if (!t2.questions.every((q) => q.correctOptionId)) {
+    throw new Error("Teil 2 questions must carry correctOptionId");
+  }
+  if (!t3.situations.every((x) => x.correctAnswer)) {
+    throw new Error("Teil 3 situations must carry correctAnswer");
+  }
+}
+
+docs {
+  Run the Sprachbausteine and Hoeren reads alongside this one:
+    GET /api/sprachbausteine/exercise?modelltest=7   (10 gaps; 10 gaps, 15 words)
+    GET /api/listening/exercise?modelltest=7&teil=1  (5 questions, audio_url set)
+    ...&teil=2 (10 questions)  ...&teil=3 (5 questions)
+
+  Hoeren does NOT return an audio URL — see request 17. The training DTO
+  carries audioId and playsAllowed, and the client spends a play through
+  POST /api/listening/audio/{audioId}/play. Handing out the URL would make
+  the play allowance unenforceable, so checking for one here is looking for
+  something that is deliberately absent.
+
+  To confirm the audio itself is reachable, spend a play and follow what that
+  returns, or read audio_url straight from the row:
+    npm run modelltest:verify -- --level B2 --number 7
+}

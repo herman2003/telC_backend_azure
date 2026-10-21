@@ -246,7 +246,7 @@ export class ExamSittingController {
       block,
       dto.answers,
     );
-    const { modelltestId, modelltestNumber, gradingTier } =
+    const { modelltestId, modelltestNumber, gradingTier, level } =
       await this.sitting.attemptContextFor(student.studentId, attemptId);
 
     // Marked on what the submit settled on, never on the request body: a late
@@ -263,6 +263,7 @@ export class ExamSittingController {
       modelltestId,
       modelltestNumber,
       gradingTier,
+      level,
       block,
       answers: submitted.answers as Record<string, Record<string, unknown>>,
     });

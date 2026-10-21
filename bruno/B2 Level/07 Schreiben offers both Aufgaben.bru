@@ -1,0 +1,61 @@
+meta {
+  name: 07 Schreiben offers both Aufgaben
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/writing/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  // telc B2 presents two tasks and the candidate answers exactly one.
+  if (!Array.isArray(res.body.choices) || res.body.choices.length !== 2) {
+    throw new Error("expected two Schreiben tasks, got " +
+      (res.body.choices ? res.body.choices.length : "none"));
+  }
+  if (!res.body.choiceGroupId) {
+    throw new Error("a choice must carry a choiceGroupId");
+  }
+  const parts = res.body.choices.map((t) => t.part).sort();
+  if (parts.join(",") !== "1,2") {
+    throw new Error("expected parts 1 and 2, got " + parts.join(","));
+  }
+  // The response itself is still the first task, so a client that knows
+  // nothing about a choice keeps working as it did for B1.
+  if (res.body.part !== 1) {
+    throw new Error("the response should still be the first task");
+  }
+  bru.setEnvVar("b2SchreibenTaskA", res.body.choices[0].id);
+  bru.setEnvVar("b2SchreibenTaskB", res.body.choices[1].id);
+}
+
+docs {
+  Before this phase the row was unique per Modelltest, so the second task
+  could not be stored and the read returned whichever one the database felt
+  like. Both are worth 45 points and the candidate answers one.
+
+  Compare with a B1 paper — GET /api/writing/exercise?modelltest=2 — where
+  `choices` must be ABSENT, not an empty array. That is what keeps the Flutter
+  app working unchanged.
+}

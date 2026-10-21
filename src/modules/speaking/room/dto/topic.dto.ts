@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import type { SpeakingLevel } from '../speaking-topics.data';
+import { CefrLevel } from '@prisma/client';
 
 export class TopicDto {
   @ApiProperty({ example: 'b1-t2-001' })
   id: string;
 
-  @ApiProperty({ enum: ['B1'], example: 'B1' })
-  level: SpeakingLevel;
+  @ApiProperty({ enum: CefrLevel, example: 'B1' })
+  level: CefrLevel;
 
   @ApiProperty({ enum: [2], example: 2 })
   teil: 2;

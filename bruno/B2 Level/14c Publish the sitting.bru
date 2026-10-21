@@ -1,0 +1,33 @@
+meta {
+  name: 14c Publish the sitting
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/exam-sessions/{{b2SittingId}}/publish
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+}
+
+docs {
+  Spends 1 of the centre's 3 Exam Day slots. After this, wait until opensAt
+  passes before 14d — starting early is EXAM_NOT_OPEN.
+}

@@ -1,0 +1,56 @@
+meta {
+  name: 18 Hoeren Teil 2 has 10 questions
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/api/listening/exercise?modelltest=7&teil=2
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  if (res.body.questions.length !== 10) {
+    throw new Error("Teil 2 should have 10 questions, got " + res.body.questions.length);
+  }
+  bru.setEnvVar("b2AudioId", res.body.audioId);
+}
+
+docs {
+  telc's 5-then-10 asymmetry between Teil 1 and Teil 2: Teil 1 is five short
+  monologues, Teil 2 one longer dialogue with ten statements. Getting this
+  backwards would mean the import mangled the question split.
+
+  On the cdn.lerniqo.tech question: this endpoint does not return audioUrl —
+  intentionally, per ListeningExerciseDto's comment ("No durable audio URL").
+  The stored audio_url (which is cdn.lerniqo.tech) only gets used server-side
+  by the proxy. To actually hear it:
+
+    1. POST {{baseUrl}}/api/listening/audio/{{b2AudioId}}/play
+       (same Authorization header) — spends one play, returns
+       { url: "/api/listening/audio?token=…" }.
+    2. Open {{baseUrl}}<that url> in a browser tab and listen.
+
+  That play-then-stream call isn't in this collection yet since it consumes
+  a limited play count (exam_plays_allowed) — add it only when you're ready
+  to actually spend a play on MT 7's Teil 2 recording.
+}

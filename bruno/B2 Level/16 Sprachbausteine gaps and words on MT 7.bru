@@ -1,0 +1,47 @@
+meta {
+  name: 16 Sprachbausteine gaps and words on MT 7
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{baseUrl}}/api/sprachbausteine/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  const t1 = res.body.teil1, t2 = res.body.teil2;
+  if (t1.gaps.length !== 10) {
+    throw new Error("Teil 1 should have 10 gaps, got " + t1.gaps.length);
+  }
+  if (t2.gaps.length !== 10) {
+    throw new Error("Teil 2 should have 10 gaps, got " + t2.gaps.length);
+  }
+  if (t2.wordBank.length !== 15) {
+    throw new Error("Teil 2 should have 15 words in the word bank, got " + t2.wordBank.length);
+  }
+}
+
+docs {
+  10 gaps in Teil 1, 10 gaps with 15 words in Teil 2 — the import must not
+  have mangled either count.
+}

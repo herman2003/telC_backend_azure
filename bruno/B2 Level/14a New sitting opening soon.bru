@@ -1,0 +1,46 @@
+meta {
+  name: 14a New sitting opening soon
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/exam-sessions
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "name": "B2 Schreiben smoke",
+    "modelltestNumber": 7,
+    "opensAt": "2026-10-21T05:58:00.000Z",
+    "accessWindowHours": 48
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.level: eq B2
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+  bru.setEnvVar("b2SittingId", res.body.id);
+}
+
+docs {
+  opensAt must be a few minutes in the future from when you run this — edit
+  the literal timestamp above first, `create` refuses a past opensAt.
+  Separate from {{b2ExamSessionId}} (the 12/12b/12c draft, never published):
+  this one gets published and actually sat, so it needs its own id.
+}

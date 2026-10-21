@@ -1,9 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import type { CefrLevel, Skill } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 
 /** telc's bar, on each half separately. */
 export const PASS_RATIO = 0.6;
+
+/**
+ * `writing_attempts.exercise_id` is text, so it can hold values a uuid column
+ * would have refused. See `writingTaskLabels`.
+ */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** The two a human marks. Everything else the server decides. */
 export const HUMAN_MARKED: readonly Skill[] = ['SCHREIBEN', 'SPRECHEN'];
@@ -89,6 +95,8 @@ export interface ExamSuggestion {
  * beside an empty points field.
  */
 export interface ExamSchreibenSubmission {
+  /** Which Schreiben task the letter answers; null when it is not recorded. */
+  task?: string | null;
   text: string | null;
   submittedAt: Date | null;
   characterCount: number;
@@ -128,6 +136,8 @@ export interface ExamResultView {
  */
 @Injectable()
 export class ExamResultService {
+  private readonly logger = new Logger(ExamResultService.name);
+
   constructor(private readonly prisma: PrismaService) {}
 
   /**
@@ -398,7 +408,13 @@ export class ExamResultService {
     const [writing, blocks] = await Promise.all([
       this.prisma.writingAttempt.findMany({
         where: { exam_attempt_id: { in: attemptIds } },
-        select: { exam_attempt_id: true, content: true },
+        select: {
+          exam_attempt_id: true,
+          content: true,
+          // The prompt the letter answers. Stored as the task's own id since
+          // the exam began recording which of a choice was taken.
+          exercise_id: true,
+        },
       }),
       this.prisma.examAttemptBlock.findMany({
         where: {
@@ -414,12 +430,22 @@ export class ExamResultService {
     ]);
 
     const contentByAttempt = new Map<string, string>();
+    const exerciseByAttempt = new Map<string, string>();
     for (const row of writing) {
       if (!row.exam_attempt_id) continue;
       if (typeof row.content === 'string' && row.content.length > 0) {
         contentByAttempt.set(row.exam_attempt_id, row.content);
       }
+      if (row.exercise_id) {
+        exerciseByAttempt.set(row.exam_attempt_id, row.exercise_id);
+      }
     }
+
+    // One lookup for the whole page rather than one per candidate: a sitting
+    // of thirty answers at most two distinct prompts.
+    const taskLabels = await this.writingTaskLabels([
+      ...new Set(exerciseByAttempt.values()),
+    ]);
 
     for (const block of blocks) {
       const fromWriting = contentByAttempt.get(block.attempt_id);
@@ -430,10 +456,12 @@ export class ExamResultService {
           : null;
       const text = fromWriting ?? fromBlock;
 
+      const exerciseId = exerciseByAttempt.get(block.attempt_id);
       byAttempt.set(block.attempt_id, {
         text,
         submittedAt: block.submitted_at,
         characterCount: text?.length ?? 0,
+        task: (exerciseId && taskLabels.get(exerciseId)) ?? null,
       });
     }
 
@@ -569,6 +597,51 @@ export class ExamResultService {
       percent: maxPoints === 0 ? 0 : Math.round((points / maxPoints) * 100),
       passed: maxPoints > 0 && points >= maxPoints * PASS_RATIO,
     };
+  }
+
+  /**
+   * Readable labels for the Schreiben tasks a sitting's candidates answered.
+   *
+   * Ids that resolve to nothing are simply absent: sittings recorded before
+   * the task was stored carry a placeholder in `exercise_id`, and that is a
+   * null label rather than an error on a results page.
+   *
+   * Those placeholders are filtered out rather than queried. `exercise_id` is
+   * a plain text column, the ids it now holds are uuids, and the pre-B2 rows
+   * hold `exam-<modelltestId>` and `exam-schreiben`. Postgres rejects the
+   * whole statement on the first unparseable uuid, so passing one through
+   * loses every label in the batch, not just its own — a sitting with one old
+   * candidate and three current ones showed no task labels at all, and the
+   * `catch` below reported it as if the task were unreadable.
+   */
+  private async writingTaskLabels(
+    exerciseIds: string[],
+  ): Promise<Map<string, string>> {
+    const labels = new Map<string, string>();
+    const resolvable = exerciseIds.filter((id) => UUID.test(id));
+    if (resolvable.length === 0) return labels;
+
+    const rows = await this.prisma.writingExercise
+      .findMany({
+        where: { id: { in: resolvable } },
+        select: { id: true, part: true, title: true },
+      })
+      .catch((error: unknown) => {
+        // A results page is still useful without the label, so this degrades
+        // rather than failing. Logged because an unreadable task looks exactly
+        // like a sitting recorded before the task was stored, and silence
+        // would make a real fault indistinguishable from old data.
+        this.logger.warn(
+          `Could not read Schreiben task labels: ${(error as Error).message}`,
+        );
+        return [] as { id: string; part: number; title: string }[];
+      });
+
+    for (const row of rows) {
+      const letter = String.fromCharCode('A'.charCodeAt(0) + row.part - 1);
+      labels.set(row.id, `Aufgabe ${letter} — ${row.title}`);
+    }
+    return labels;
   }
 
   private async weightsFor(level: CefrLevel) {

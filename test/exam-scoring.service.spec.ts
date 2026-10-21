@@ -77,6 +77,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {
@@ -105,6 +106,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
@@ -120,6 +122,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
@@ -144,6 +147,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: { LESEN_1: { '1': 'a' } },
@@ -174,6 +178,7 @@ describe('ExamScoringService', () => {
           studentId: STUDENT,
           modelltestId: MODELLTEST,
           modelltestNumber: 2,
+          level: 'B1',
           gradingTier: 'MANUAL',
           block: 'LESEN_SPRACHBAUSTEINE',
           answers: { LESEN_1: { '1': 'a' } },
@@ -187,6 +192,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
@@ -204,6 +210,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: { HOEREN_1: { q1: 'a', q2: 'b', q3: 'c', q4: 'd', q5: 'x' } },
@@ -224,6 +231,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: {},
@@ -252,6 +260,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
@@ -270,6 +279,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: {},
@@ -281,21 +291,95 @@ describe('ExamScoringService', () => {
   });
 
   describe('the AI tier', () => {
-    const writeSchreiben = (gradingTier: 'MANUAL' | 'AI') => {
+    const writeSchreiben = (
+      gradingTier: 'MANUAL' | 'AI',
+      extra: Record<string, unknown> = {},
+      writingExercise?: { findFirst: jest.Mock },
+    ) => {
       prisma.writingAttempt = {
         create: jest.fn().mockResolvedValue({ attempt_id: 'writing-1' }),
         deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      prisma.writingExercise = writingExercise ?? {
+        findFirst: jest.fn().mockResolvedValue({
+          id: 'task-a',
+          part: 1,
+          title: 'Bitte um Informationen',
+        }),
       };
       return service.scoreBlock({
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier,
         block: 'SCHREIBEN',
-        answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },
+        answers: {
+          SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren', ...extra },
+        },
       });
     };
+
+    /**
+     * The trainer has to know which Aufgabe the letter answers.
+     *
+     * telc B2 offers two Schreiben tasks and the candidate answers exactly
+     * one. The attempt recorded only `exam-<modelltestId>`, so a trainer
+     * opening the marking screen saw a letter with no way to tell which
+     * prompt it was written for — and criterion I is precisely whether the
+     * required points of that prompt were addressed.
+     *
+     * Storing the chosen task's own id also repairs the AI tier. The
+     * placeholder was passed to runCorrection as its exerciseId, where
+     * getExercise cannot resolve it, so the suggestion was generated with no
+     * task at all and no Leitpunkte cap.
+     */
+    it('records the chosen task, not a placeholder', async () => {
+      await writeSchreiben('MANUAL', { taskId: 'task-a' });
+
+      expect(prisma.writingAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ exercise_id: 'task-a' }),
+        }),
+      );
+    });
+
+    it('falls back to the single task when the client names none', async () => {
+      // B1 has one Schreiben task and clients that predate the choice send no
+      // taskId. The attempt must still name a resolvable exercise.
+      await writeSchreiben('MANUAL');
+
+      expect(prisma.writingAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ exercise_id: 'task-a' }),
+        }),
+      );
+    });
+
+    it('gives the model a resolvable exercise id', async () => {
+      await writeSchreiben('AI', { taskId: 'task-a' });
+
+      expect(correction.runCorrection).toHaveBeenCalledWith(
+        expect.objectContaining({ exerciseId: 'task-a' }),
+      );
+    });
+
+    it('refuses a task that belongs to another Modelltest', async () => {
+      // The id arrives from the candidate's client. Resolving it without
+      // scoping to this Modelltest would let a submission name any task in
+      // the catalogue and be marked against a prompt it never saw.
+      const scopedMiss = { findFirst: jest.fn().mockResolvedValue(null) };
+
+      await expect(
+        writeSchreiben('MANUAL', { taskId: 'someone-elses-task' }, scopedMiss),
+      ).rejects.toThrow();
+      expect(scopedMiss.findFirst).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({ modelltest_id: MODELLTEST }),
+        }),
+      );
+    });
 
     it('asks the model for a suggestion when the center bought it', async () => {
       await writeSchreiben('AI');
@@ -352,12 +436,16 @@ describe('ExamScoringService', () => {
         deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
       };
       prisma.writingAttempt = writing;
+      prisma.writingExercise = {
+        findFirst: jest.fn().mockResolvedValue({ id: 'task-a' }),
+      };
 
       const scored = await service.scoreBlock({
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'SCHREIBEN',
         answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },

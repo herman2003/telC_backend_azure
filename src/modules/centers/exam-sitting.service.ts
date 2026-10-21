@@ -250,6 +250,7 @@ export class ExamSittingService {
     modelltestId: string;
     modelltestNumber: number;
     gradingTier: 'MANUAL' | 'AI';
+    level: CefrLevel;
   }> {
     const attempt = await this.load(studentId, attemptId);
     const modelltest = await this.prisma.modelltest.findUniqueOrThrow({
@@ -263,6 +264,9 @@ export class ExamSittingService {
       // Read from the sitting, never from the request: what the center paid
       // for is not something a client gets to say.
       gradingTier: attempt.session.grading_tier,
+      // Same reason. The level decides which criteria the AI Schreiben
+      // suggestion is rated against.
+      level: attempt.session.level,
     };
   }
 

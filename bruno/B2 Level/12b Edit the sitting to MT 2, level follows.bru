@@ -1,0 +1,50 @@
+meta {
+  name: 12b Edit the sitting to MT 2, level follows
+  type: http
+  seq: 13
+}
+
+patch {
+  url: {{baseUrl}}/api/centers/me/exam-sessions/{{b2ExamSessionId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "modelltestNumber": 2
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.modelltestNumber: eq 2
+  res.body.level: eq B1
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+}
+
+docs {
+  Follows on from 12 Create a B2 sitting, which stamps b2ExamSessionId. That
+  request's docs name this exact edit: the sitting was created against
+  Modelltest 7 (B2) and this PATCHes it to Modelltest 2 (B1). If level is
+  still B2 after this, the second instance of the "level is a constant, not
+  derived from the paper" bug is back.
+
+  Only works while the sitting has not opened yet (opensAt in the future) —
+  otherwise EXAM_ALREADY_OPEN.
+}

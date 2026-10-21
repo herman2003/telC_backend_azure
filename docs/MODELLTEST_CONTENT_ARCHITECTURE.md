@@ -1,5 +1,18 @@
 # Modelltest content architecture
 
+> **Superseded in part, and one section is now wrong.**
+>
+> Written for the Modelltest 1 and 2 deployment in August 2026. The selection
+> and storage notes still describe how things work. **"Answer security" does
+> not**: exercise `GET` responses now ship the answer key on purpose — ADR
+> 0001, accepted as the right trade for a self-paced practice product. Read
+> `ANSWER_KEY_WITH_EXERCISE_SPEC.md` instead.
+>
+> For anything multi-level, see `MULTI_LEVEL_ARCHITECTURE.md` and
+> `ADDING_A_LEVEL.md`. The "Adding Modelltest 2" section at the end is
+> replaced by the v2 importer (`scripts/import-modelltest-v2.mjs`).
+
+
 ## Selection
 
 - Hören exercise: `GET /api/listening/exercise?modelltest=1&teil=1`

@@ -28,8 +28,8 @@ describe('ExamModelltestsService', () => {
       exam_ai_slots_remaining: 0,
     });
     modelltestFindMany = jest.fn().mockResolvedValue([
-      { number: 1, title: 'Modelltest 1' },
-      { number: 2, title: 'Modelltest 2' },
+      { number: 1, title: 'Modelltest 1', level: 'B1' },
+      { number: 2, title: 'Modelltest 2', level: 'B1' },
     ]);
     modelltestFindFirst = jest.fn().mockResolvedValue({
       id: 'mt-2',
@@ -107,8 +107,8 @@ describe('ExamModelltestsService', () => {
 
   it('allows browsing with a remaining MANUAL exam slot', async () => {
     await expect(service.list(identity)).resolves.toEqual([
-      { number: 1, title: 'Modelltest 1' },
-      { number: 2, title: 'Modelltest 2' },
+      { number: 1, title: 'Modelltest 1', level: 'B1' },
+      { number: 2, title: 'Modelltest 2', level: 'B1' },
     ]);
   });
 
@@ -142,7 +142,7 @@ describe('ExamModelltestsService', () => {
         ],
       },
       orderBy: { number: 'asc' },
-      select: { number: true, title: true },
+      select: { number: true, title: true, level: true },
     });
   });
 
