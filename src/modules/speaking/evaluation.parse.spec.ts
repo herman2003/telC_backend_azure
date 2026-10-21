@@ -74,6 +74,7 @@ describe('EvaluationService.parseResponse (M10)', () => {
           "evaluation_text": "Hallo!",
           "corrections": []
         }`,
+        'B1',
         1,
       ),
     ).toThrow('EVALUATION_PARSE_FAILED');

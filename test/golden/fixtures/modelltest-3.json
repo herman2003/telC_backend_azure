@@ -1,7 +1,7 @@
 {
   "hoeren": [
     {
-      "audioId": "bc7485b9-09df-412c-9909-23ab7c9e8535",
+      "audioId": "<id:1>",
       "contentRevision": "modelltest-3-hoeren-teil1-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "audioId": "8943af9a-fc10-41a9-a69c-f838b309d4bb",
+      "audioId": "<id:2>",
       "contentRevision": "modelltest-3-hoeren-teil2-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -77,7 +77,7 @@
       ]
     },
     {
-      "audioId": "764c2966-d4f1-4cc7-9e53-0ddff005952e",
+      "audioId": "<id:3>",
       "contentRevision": "modelltest-3-hoeren-teil3-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -115,35 +115,35 @@
         {
           "an": null,
           "body": "Wer ist der typische Computerfan? Das B.A.T. Freizeitforschungsinstitut Hamburg ermittelte einige Eigenschaften: Er ist männlich, jung und hat einen höheren Schulabschluss. Bei der Beschäftigung am heimischen Computer stehen Textverarbeitung und Spiele ganz oben, es folgen private Buchhaltung, Grafikprogramme und Tabellenkalkulation.",
-          "correctTitleId": "f89c28a1-4a56-4549-8639-82e7baebbdf3",
+          "correctTitleId": "<id:4>",
           "id": "1",
           "von": null
         },
         {
           "an": null,
           "body": "„Bahn&Bike“ heißt ein 222-seitiger Prospekt, den die Deutsche Bahn AG in Zusammenarbeit mit der Deutschen Zentrale für Tourismus herausgebracht hat und der wichtige Informationen für jene bereitstellt, die ihren Radurlaub mit Bahnfahren verbinden wollen. Das Motto lautet: Hin mit der Bahn – das Rad vor Ort mieten. Der Prospekt enthält Angaben zur Streckenlänge und Wegbeschaffenheit, Adressen von Verleihstationen, verweist auf Sehenswürdigkeiten sowie Unterkünfte und wird durch Karten ergänzt. Die Broschüre kostet 5 Euro und ist im Buchhandel beziehungsweise an Fahrkartenschaltern zu beziehen.",
-          "correctTitleId": "98419c63-2565-45f5-9126-e3f7746e62c9",
+          "correctTitleId": "<id:5>",
           "id": "2",
           "von": null
         },
         {
           "an": null,
           "body": "Ausführliche Informationen zum Thema „Schlafstörungen“ finden Sie im gleichnamigen Patientenratgeber von Dr. med. Fritz Hohagen. Sie erfahren, was den Schlaf stört und was Sie dagegen unternehmen können. Für 9,95 Euro erhalten Sie das Buch in Apotheken oder direkt beim Wort&Bild Verlag, 82065 Baierbrunn.",
-          "correctTitleId": "602448ce-7368-41ff-baec-ec899a455f85",
+          "correctTitleId": "<id:6>",
           "id": "3",
           "von": null
         },
         {
           "an": null,
           "body": "Jetzt wird für Familien Reisen mit der Bahn zwischen Österreich und Deutschland noch ein gutes Stück günstiger. Denn ab 6. Oktober gibt es den Familien-Super-Sparpreis. Ein echter Traumpreis für die ganze Familie – vom Baby bis zum Großpapa – da kann man wirklich sparen. Der Familien-Super-Sparpreis gilt für Familien, bestehend aus ein oder zwei Erwachsenen (Eltern, auch Großeltern) und deren Kindern/Enkelkindern bis zum vollendeten 17. Lebensjahr, wobei mindestens ein Kind/Enkelkind an der Reise teilnehmen muss.",
-          "correctTitleId": "3c8f9da4-5043-414a-ae41-993305d45283",
+          "correctTitleId": "<id:7>",
           "id": "4",
           "von": null
         },
         {
           "an": null,
           "body": "Touristen zwischen 14 und 29 Jahren sowie zwischen 40 und 49 Jahren haben ein besonders großes Interesse an der Kultur des jeweiligen Reiselandes, während die Gruppe der 30- bis 39-jährigen im Urlaub „eine Kulturpause einlegt“. Dies geht aus der neuesten Analyse der Forschungsgemeinschaft Urlaub und Reisen e. V. hervor. Urlauber aus Ostdeutschland, so die Studie, zeigen wiederum mehr Kulturinteresse als Reisende aus dem Westen. Grundsätzlich gelte: Je höher das Einkommen und die Schulbildung sind, umso mehr besteht im Urlaub der Wunsch, Land und Leute kennenzulernen.",
-          "correctTitleId": "2b3806d1-920f-4e44-ac03-f367da51b76c",
+          "correctTitleId": "<id:8>",
           "id": "5",
           "von": null
         }
@@ -151,49 +151,49 @@
       "titles": [
         {
           "content": "Immer mehr deutsche Familien reisen mit der Bahn",
-          "id": "21be7d2f-4f82-4c1b-9bbf-22560db424e6"
+          "id": "<id:9>"
         },
         {
           "content": "Buchtipp: Hilfe bei Schlafproblemen",
-          "id": "602448ce-7368-41ff-baec-ec899a455f85"
+          "id": "<id:6>"
         },
         {
           "content": "Der Computer: Liebstes Hobby von Deutschlands Frauen",
-          "id": "f6586a77-4655-4034-852d-3be718f53991"
+          "id": "<id:10>"
         },
         {
           "content": "Neu bei der Bahn: Spezielle Informationen und Angebote für Radfahrer",
-          "id": "98419c63-2565-45f5-9126-e3f7746e62c9"
+          "id": "<id:5>"
         },
         {
           "content": "Neu am Markt: Billige Schlaftabletten",
-          "id": "fd1c16cc-8bc5-48e0-a801-6523992f915b"
+          "id": "<id:11>"
         },
         {
           "content": "Familien reisen billiger",
-          "id": "3c8f9da4-5043-414a-ae41-993305d45283"
+          "id": "<id:7>"
         },
         {
           "content": "Urlaub mit dem Fahrrad in Deutschland immer beliebter",
-          "id": "0523715f-7652-44be-9ebf-dc0201efc7db"
+          "id": "<id:12>"
         },
         {
           "content": "Kultur im Urlaub: Interessen je nach Alter unterschiedlich",
-          "id": "2b3806d1-920f-4e44-ac03-f367da51b76c"
+          "id": "<id:8>"
         },
         {
           "content": "Umfrage: Wer verwendet den Computer am häufigsten?",
-          "id": "f89c28a1-4a56-4549-8639-82e7baebbdf3"
+          "id": "<id:4>"
         },
         {
           "content": "Deutschland: Immer mehr Touristen reisen in den Westen",
-          "id": "3cf865bb-69ce-4ec8-bcd0-125cf11aa903"
+          "id": "<id:13>"
         }
       ]
     },
     "teil2": {
       "cautionNote": "",
-      "content": "Büro-Werkstatt: Chance für behinderte Menschen\r\n\r\nComputerarbeit im Auftrag privater Firmen – jeder Dritte findet nach einem fünfmonatigen Kurs einen Job. Interessierte Unternehmen werden noch gesucht.\r\n\r\nMargit, die junge Frau im Rollstuhl, erledigt die Lohnverrechnung für einen Verlag. Reinhard, seit der Geburt gehbehindert, tippt für die Direktion von Hewlett Packard Protokolle und Preislisten. Martin, seine Unterarme sind verkürzt, layoutet die Speisekarte eines Wiener Restaurants.\r\nDrei junge körperbehinderte Menschen am Computer – alle drei können auf eine abgeschlossene kaufmännische Ausbildung verweisen. Dennoch hat man sie auf dem Arbeitsamt als „schwer vermittelbar“ eingestuft – was de facto nicht vermittelbar bedeutet. Zurzeit arbeiten Margit, Reinhard und Martin – gemeinsam mit sieben anderen behinderten Menschen – in der „Büro-Werkstatt“ in Wien-Stadlau. Hier werden körperbehinderte Schulabgänger auf das Berufsleben vorbereitet. In einem fünfmonatigen Kurs lernen sie, das in der Schule Gelernte in die Praxis umzusetzen. Ihre Dienste werden von Privatfirmen (darunter auch die OMV und zwei Banken) zugekauft.\r\nGleichzeitig wird ihnen bei der Jobsuche geholfen. „Leicht ist das nicht“, sagt Betreuer Günther Hos. „Es gibt so viele Arbeitslose, die nicht behindert sind. Wer nimmt schon einen Mitarbeiter mit Handicap?“ Zwar wären die Firmen gesetzlich verpflichtet, pro 25 Beschäftigte einen Behinderten einzustellen. Die meisten Firmen nützen jedoch die Möglichkeit, sich „freizukaufen“ (die sogenannte „Ausgleichstaxe“ beträgt rund 150 Euro monatlich).\r\nTrotz der Rahmenbedingungen kann Hos mit einer durchaus positiven Bilanz aufwarten: „Immerhin haben wir seit der Vereinsgründung vor drei Jahren ein Drittel unserer Leute untergebracht.“ Auch ein Dienst an der Allgemeinheit, denn jede Vermittlung bedeutet: ein Arbeitsloser weniger, ein Steuerzahler mehr.\r\nGegründet wurde die Büro-Werkstatt von einer Lehrerin: Heide Hanisch, die in einer Wiener berufsbildenden Schule Geografie und Geschichte unterrichtet, wollte nicht länger hinnehmen, dass ihre behinderten Schüler erst ausgebildet werden, um dann als Arbeitnehmer nicht gebraucht zu werden.\r\n\r\nNähere Informationen, auch für interessierte Firmen: „Büro-Werkstatt“ in Wien-Stadlau, Telefon: 0222/283 85 75.",
+      "content": "Büro-Werkstatt: Chance für behinderte Menschen\n\nComputerarbeit im Auftrag privater Firmen – jeder Dritte findet nach einem fünfmonatigen Kurs einen Job. Interessierte Unternehmen werden noch gesucht.\n\nMargit, die junge Frau im Rollstuhl, erledigt die Lohnverrechnung für einen Verlag. Reinhard, seit der Geburt gehbehindert, tippt für die Direktion von Hewlett Packard Protokolle und Preislisten. Martin, seine Unterarme sind verkürzt, layoutet die Speisekarte eines Wiener Restaurants.\nDrei junge körperbehinderte Menschen am Computer – alle drei können auf eine abgeschlossene kaufmännische Ausbildung verweisen. Dennoch hat man sie auf dem Arbeitsamt als „schwer vermittelbar“ eingestuft – was de facto nicht vermittelbar bedeutet. Zurzeit arbeiten Margit, Reinhard und Martin – gemeinsam mit sieben anderen behinderten Menschen – in der „Büro-Werkstatt“ in Wien-Stadlau. Hier werden körperbehinderte Schulabgänger auf das Berufsleben vorbereitet. In einem fünfmonatigen Kurs lernen sie, das in der Schule Gelernte in die Praxis umzusetzen. Ihre Dienste werden von Privatfirmen (darunter auch die OMV und zwei Banken) zugekauft.\nGleichzeitig wird ihnen bei der Jobsuche geholfen. „Leicht ist das nicht“, sagt Betreuer Günther Hos. „Es gibt so viele Arbeitslose, die nicht behindert sind. Wer nimmt schon einen Mitarbeiter mit Handicap?“ Zwar wären die Firmen gesetzlich verpflichtet, pro 25 Beschäftigte einen Behinderten einzustellen. Die meisten Firmen nützen jedoch die Möglichkeit, sich „freizukaufen“ (die sogenannte „Ausgleichstaxe“ beträgt rund 150 Euro monatlich).\nTrotz der Rahmenbedingungen kann Hos mit einer durchaus positiven Bilanz aufwarten: „Immerhin haben wir seit der Vereinsgründung vor drei Jahren ein Drittel unserer Leute untergebracht.“ Auch ein Dienst an der Allgemeinheit, denn jede Vermittlung bedeutet: ein Arbeitsloser weniger, ein Steuerzahler mehr.\nGegründet wurde die Büro-Werkstatt von einer Lehrerin: Heide Hanisch, die in einer Wiener berufsbildenden Schule Geografie und Geschichte unterrichtet, wollte nicht länger hinnehmen, dass ihre behinderten Schüler erst ausgebildet werden, um dann als Arbeitnehmer nicht gebraucht zu werden.\n\nNähere Informationen, auch für interessierte Firmen: „Büro-Werkstatt“ in Wien-Stadlau, Telefon: 0222/283 85 75.",
       "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
       "label": "Leseverstehen Teil 2",
       "questions": [
@@ -300,62 +300,62 @@
     "teil3": {
       "announcements": [
         {
-          "content": "81379 Boschetsrieder Straße 140\r\nTel./Fax 089/785 56 52\r\ntäglich von 11.30 – 14.30 Uhr\r\nund 17.30 – 23.00 Uhr\r\nKein Ruhetag\r\nAlle Gerichte auch zum Mitnehmen\r\nund Heimservice",
+          "content": "81379 Boschetsrieder Straße 140\nTel./Fax 089/785 56 52\ntäglich von 11.30 – 14.30 Uhr\nund 17.30 – 23.00 Uhr\nKein Ruhetag\nAlle Gerichte auch zum Mitnehmen\nund Heimservice",
           "id": "a",
           "title": "Thai-China-Vietnam – Asiatisches Spezialitäten-Restaurant – Bong - Hong"
         },
         {
-          "content": "Italienisches Restaurant\r\n• hausgemachte Nudeln\r\n• Fischspezialitäten\r\n• Mittagsmenues ab 7.50 Euro\r\nBei schönem Wetter Gartenbetrieb\r\nFallmerayerstr. 16\r\nMünchen-Schwabing",
+          "content": "Italienisches Restaurant\n• hausgemachte Nudeln\n• Fischspezialitäten\n• Mittagsmenues ab 7.50 Euro\nBei schönem Wetter Gartenbetrieb\nFallmerayerstr. 16\nMünchen-Schwabing",
           "id": "b",
           "title": "Ristorante OLINDO"
         },
         {
-          "content": "... sind Sie für den Urlaub auch gut versichert?\r\nFragen Sie:\r\nHelmut Schwabe\r\nHerzogstraße 88 · Vers.-Büro\r\nTel.: 089-303097, Fax 059-3073802\r\nVERMITTLUNG FÜR DIE UNTERNEHMEN DER\r\nVERSICHERUNGSKAMMER BAYERN",
+          "content": "... sind Sie für den Urlaub auch gut versichert?\nFragen Sie:\nHelmut Schwabe\nHerzogstraße 88 · Vers.-Büro\nTel.: 089-303097, Fax 059-3073802\nVERMITTLUNG FÜR DIE UNTERNEHMEN DER\nVERSICHERUNGSKAMMER BAYERN",
           "id": "c",
           "title": "Wir wünschen unseren Kunden und allen, die es noch werden wollen, schöne Ferien und gute Erholung."
         },
         {
-          "content": "Der Flug- und Hotelspezialist\r\nWELTWEIT REISEN\r\nMietwagen\r\nHotelvermittlung – Rundreisen –\r\nSommertermine nach USA noch\r\nPlätze frei\r\nTel. 53 91 84 · Fax 53 67 78",
+          "content": "Der Flug- und Hotelspezialist\nWELTWEIT REISEN\nMietwagen\nHotelvermittlung – Rundreisen –\nSommertermine nach USA noch\nPlätze frei\nTel. 53 91 84 · Fax 53 67 78",
           "id": "d",
           "title": "SEATOP Reisen"
         },
         {
-          "content": "Adalbertstr. 32, 80799 München 40\r\nTel: 089/39 50 22  Fax: 39 70 04\r\nFür Studenten/Jugendliche\r\nNew York/Boston ....................329,–\r\nLos Angeles ............................429,–\r\nMiami/Chicago ......................349,–\r\nMexico ....................................499,–\r\nHongkong ...............................529,–\r\nAmsterdam ...............................99,–\r\nLondon......................................99,–\r\nEdinburgh ...............................129,–\r\nBarcelona..................................99,–\r\nStockholm ...............................159,–\r\nHelsinki ...................................199,–\r\nParis..........................................99,–\r\nMadrid .....................................129,–\r\nTel Aviv....................................299,–\r\nAlle Preise zzgl. Sicherheitsgebühr u. Steuern\r\nSPRACHREISEN & ABENTEUERREISEN\r\nA travel division of the Council on International Educational Exchange (EIEE)\r\nSpezialpreise auch für JEDERMANN!",
+          "content": "Adalbertstr. 32, 80799 München 40\nTel: 089/39 50 22  Fax: 39 70 04\nFür Studenten/Jugendliche\nNew York/Boston ....................329,–\nLos Angeles ............................429,–\nMiami/Chicago ......................349,–\nMexico ....................................499,–\nHongkong ...............................529,–\nAmsterdam ...............................99,–\nLondon......................................99,–\nEdinburgh ...............................129,–\nBarcelona..................................99,–\nStockholm ...............................159,–\nHelsinki ...................................199,–\nParis..........................................99,–\nMadrid .....................................129,–\nTel Aviv....................................299,–\nAlle Preise zzgl. Sicherheitsgebühr u. Steuern\nSPRACHREISEN & ABENTEUERREISEN\nA travel division of the Council on International Educational Exchange (EIEE)\nSpezialpreise auch für JEDERMANN!",
           "id": "e",
           "title": "COUNCIL TRAVEL"
         },
         {
-          "content": "Kneipe mit Biergarten\r\nBillard und Kegelbahnen\r\nJeden Fr. oder Sa. live\r\nBundesliga-Topspiele\r\nKreittmayrstr. 15\r\nTel. 523 17 34\r\nMo. – Fr. 11.00 – 1.00\r\nSa. + So. 17.00 – 1.00",
+          "content": "Kneipe mit Biergarten\nBillard und Kegelbahnen\nJeden Fr. oder Sa. live\nBundesliga-Topspiele\nKreittmayrstr. 15\nTel. 523 17 34\nMo. – Fr. 11.00 – 1.00\nSa. + So. 17.00 – 1.00",
           "id": "f",
           "title": "Kreittmayr"
         },
         {
-          "content": "Deutsche und ausländische Jugendliche in München\r\nist das Thema, das der Internationale Stammtisch am Montag,\r\nden 4. September, um 19.30 Uhr im Ratskeller\r\n„Moriskengewölbe“ (Marienplatz) diskutieren wird.",
+          "content": "Deutsche und ausländische Jugendliche in München\nist das Thema, das der Internationale Stammtisch am Montag,\nden 4. September, um 19.30 Uhr im Ratskeller\n„Moriskengewölbe“ (Marienplatz) diskutieren wird.",
           "id": "g",
           "title": "Internationaler Stammtisch"
         },
         {
-          "content": "Lehrerin bereitet intensiv vor\r\nin: Latein, Englisch,\r\nFranzösisch, Deutsch\r\nTel.: 308 51 17",
+          "content": "Lehrerin bereitet intensiv vor\nin: Latein, Englisch,\nFranzösisch, Deutsch\nTel.: 308 51 17",
           "id": "h",
           "title": "Nachprüfung"
         },
         {
-          "content": "Nachhilfe in Mathe-Physik mit viel Geduld u.\r\nErfahrung von Gymnasiallehrer, Tel. 260 95 57\r\n\r\nMathe/Physik/Chemie, Nachhilfe f. alle Kl.,\r\nGymn., Realschule, FOS, Abi-Vorbereitung,\r\nSchulwechsel, Hausbes. f. ganz MÜ. ohne\r\nZuschlag Tel. 089/834 04 40 o. 36 14 55 1\r\n\r\n***Erf. Dipl.-Math. gibt*** MATHE (alles für Abi\r\nu. Studium) PHYSIK (für ABI), Tel. 271 29 32",
+          "content": "Nachhilfe in Mathe-Physik mit viel Geduld u.\nErfahrung von Gymnasiallehrer, Tel. 260 95 57\n\nMathe/Physik/Chemie, Nachhilfe f. alle Kl.,\nGymn., Realschule, FOS, Abi-Vorbereitung,\nSchulwechsel, Hausbes. f. ganz MÜ. ohne\nZuschlag Tel. 089/834 04 40 o. 36 14 55 1\n\n***Erf. Dipl.-Math. gibt*** MATHE (alles für Abi\nu. Studium) PHYSIK (für ABI), Tel. 271 29 32",
           "id": "i",
           "title": "Unterricht"
         },
         {
-          "content": "Klenzestr. 7 · 80469 München\r\nCampmobile\r\nUSA/CANADA\r\nz.B. San Francisco/\r\nLos Angeles\r\nab € 35,– pro Tag\r\nFrüh buchen lohnt!\r\nTelefon 089 290 45 65",
+          "content": "Klenzestr. 7 · 80469 München\nCampmobile\nUSA/CANADA\nz.B. San Francisco/\nLos Angeles\nab € 35,– pro Tag\nFrüh buchen lohnt!\nTelefon 089 290 45 65",
           "id": "j",
           "title": "City-Reisebüro"
         },
         {
-          "content": "Für Erwachsene und Kinder mit (Sprach-)Schwierigkeiten\r\nGisela Geiger\r\nLeopoldstraße 83 · 80802 München · Telefon 39 99 95",
+          "content": "Für Erwachsene und Kinder mit (Sprach-)Schwierigkeiten\nGisela Geiger\nLeopoldstraße 83 · 80802 München · Telefon 39 99 95",
           "id": "k",
           "title": "Kurse"
         },
         {
-          "content": "Deutsch als Fremdsprache · Fremdsprachen · Kindersprachkurse\r\n• Prüfungskurse\r\n• Geschäftsdeutsch\r\n• muttersprachl. Lehrkräfte\r\n• Minigruppen und Einzelunterricht\r\n• schon für Kinder ab 4 Jahren\r\nSprachbörse: Nähe Rotkreuzplatz · Tel. 16 14 79 · Schulstraße 31",
+          "content": "Deutsch als Fremdsprache · Fremdsprachen · Kindersprachkurse\n• Prüfungskurse\n• Geschäftsdeutsch\n• muttersprachl. Lehrkräfte\n• Minigruppen und Einzelunterricht\n• schon für Kinder ab 4 Jahren\nSprachbörse: Nähe Rotkreuzplatz · Tel. 16 14 79 · Schulstraße 31",
           "id": "l",
           "title": "SPRACHBÖRSE"
         }
@@ -424,7 +424,7 @@
       "wie sie sich am besten auf die Reise vorbereiten kann"
     ],
     "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.",
-    "id": "729774e7-c0cd-4920-bbd3-af19220f18e6",
+    "id": "<id:14>",
     "intro": "Sie haben von einer Freundin folgende E-Mail erhalten:",
     "part": 1,
     "prepDurationSeconds": 120,
@@ -458,7 +458,7 @@
     "contentRevision": "modelltest-3-sprachbausteine-teil1-v1",
     "issuedAt": "<volatile>",
     "teil1": {
-      "body": "Liebe Karin,\r\n\r\nnach meinem Praktikum in Frankreich bin ich jetzt wieder zu Hause. Wie du ja weißt, wollte ich eigentlich nach Paris, _____ das hat dann leider nicht geklappt. Doch dann habe ich eine Stelle als Praktikant bei _____ Firma in Straßburg gefunden.\r\n\r\nDort _____ ich drei Monate geblieben. Die Arbeit war sehr _____ – ich musste schon um 8.00 Uhr im Büro sein –, hat mir aber _____ sehr gut gefallen.\r\nIch habe _____ dieser Zeit in verschiedenen Abteilungen gearbeitet und so nicht nur etwas über die Herstellung von Fernsehgeräten _____, sondern auch über den Verkauf.\r\nUnd die Kollegen, mit _____ ich am meisten zu tun hatte, waren wirklich sehr nett.\r\n\r\nNach dem Praktikum habe ich noch zwei Wochen Urlaub bei _____ Freunden gemacht. Darüber erzähle ich _____ bald mehr – für heute muss ich Schluss machen.\r\n\r\nLiebe Grüße\r\nFritz",
+      "body": "Liebe Karin,\n\nnach meinem Praktikum in Frankreich bin ich jetzt wieder zu Hause. Wie du ja weißt, wollte ich eigentlich nach Paris, _____ das hat dann leider nicht geklappt. Doch dann habe ich eine Stelle als Praktikant bei _____ Firma in Straßburg gefunden.\n\nDort _____ ich drei Monate geblieben. Die Arbeit war sehr _____ – ich musste schon um 8.00 Uhr im Büro sein –, hat mir aber _____ sehr gut gefallen.\nIch habe _____ dieser Zeit in verschiedenen Abteilungen gearbeitet und so nicht nur etwas über die Herstellung von Fernsehgeräten _____, sondern auch über den Verkauf.\nUnd die Kollegen, mit _____ ich am meisten zu tun hatte, waren wirklich sehr nett.\n\nNach dem Praktikum habe ich noch zwei Wochen Urlaub bei _____ Freunden gemacht. Darüber erzähle ich _____ bald mehr – für heute muss ich Schluss machen.\n\nLiebe Grüße\nFritz",
       "durationMinutes": 18,
       "gaps": [
         {
@@ -647,7 +647,7 @@
       "label": "Sprachbausteine Teil 1"
     },
     "teil2": {
-      "body": "Hotel-Pension Janosch\r\nruhige Lage, Wanderwege, Bademöglichkeiten,\r\nTennis, Freizeitprogramm für Kinder,\r\nFamilienappartements: 1 Woche pro Person\r\nnur € 99,– inkl. Frühstück, spezielle Kinderermäßigung.\r\nAnfragen an: Herbert Janosch, Griesweg 3, A-5020 Innsbruck\r\n\r\nSehr geehrter Herr Janosch,\r\n\r\nich habe Ihre Anzeige gelesen und interessiere mich sehr _____ Ihr Angebot. Ich möchte mit meiner Familie vom 10.–24. August in Österreich Urlaub machen und hätte deshalb _____ noch nähere Informationen.\r\nMeine Frau und mich interessiert ganz _____ das Freizeitprogramm für Kinder, _____ wir zwei Kinder (3 und 8 Jahre) haben. Gibt es Schwimm- und Tenniskurse für Kinder und _____ ja, was kosten sie? In Ihrer Anzeige steht auch, dass Sie für die Unterkunft günstige Angebote für Kinder haben. Wie viel _____ wir pro Woche für unsere Kinder bezahlen?\r\nUnd _____ noch eine letzte Frage: Wir haben einen kleinen Hund, von dem sich meine Kinder nicht trennen können und den wir _____ auch mitnehmen müssten. Wäre das möglich?\r\n\r\nBitte schreiben Sie uns so bald wie möglich, _____ wir uns bald entscheiden können.\r\nAußerdem wären wir Ihnen sehr _____, wenn Sie uns einige Prospekte oder Bilder Ihrer Pension sowie der Umgebung zusenden würden.\r\n\r\nMit freundlichen Grüßen\r\nIhr Anton Müller",
+      "body": "Hotel-Pension Janosch\nruhige Lage, Wanderwege, Bademöglichkeiten,\nTennis, Freizeitprogramm für Kinder,\nFamilienappartements: 1 Woche pro Person\nnur € 99,– inkl. Frühstück, spezielle Kinderermäßigung.\nAnfragen an: Herbert Janosch, Griesweg 3, A-5020 Innsbruck\n\nSehr geehrter Herr Janosch,\n\nich habe Ihre Anzeige gelesen und interessiere mich sehr _____ Ihr Angebot. Ich möchte mit meiner Familie vom 10.–24. August in Österreich Urlaub machen und hätte deshalb _____ noch nähere Informationen.\nMeine Frau und mich interessiert ganz _____ das Freizeitprogramm für Kinder, _____ wir zwei Kinder (3 und 8 Jahre) haben. Gibt es Schwimm- und Tenniskurse für Kinder und _____ ja, was kosten sie? In Ihrer Anzeige steht auch, dass Sie für die Unterkunft günstige Angebote für Kinder haben. Wie viel _____ wir pro Woche für unsere Kinder bezahlen?\nUnd _____ noch eine letzte Frage: Wir haben einen kleinen Hund, von dem sich meine Kinder nicht trennen können und den wir _____ auch mitnehmen müssten. Wäre das möglich?\n\nBitte schreiben Sie uns so bald wie möglich, _____ wir uns bald entscheiden können.\nAußerdem wären wir Ihnen sehr _____, wenn Sie uns einige Prospekte oder Bilder Ihrer Pension sowie der Umgebung zusenden würden.\n\nMit freundlichen Grüßen\nIhr Anton Müller",
       "durationMinutes": 18,
       "gaps": [
         {

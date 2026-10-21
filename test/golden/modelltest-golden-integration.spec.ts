@@ -59,6 +59,50 @@ const VOLATILE_KEYS = new Set(['issuedAt']);
 const SCRUBBED = '<volatile>';
 
 /**
+ * Values that differ between databases rather than between code versions.
+ *
+ * The first version of this file compared them literally, so the fixtures
+ * matched only the machine that captured them. CI seeds its own database and
+ * failed on two counts at once:
+ *
+ *   ids — every `gen_random_uuid()` row key differs per seed. One Modelltest
+ *   fixture carried fourteen of them. Replaced by a stable placeholder, which
+ *   still asserts an id is PRESENT and well-formed without pinning its value.
+ *
+ *   line endings inside content — this database holds CRLF in the German
+ *   text, CI's holds LF. Normalising the file's own line endings, which an
+ *   earlier commit did, does not touch the bytes inside a JSON string.
+ *
+ * What survives is what the suite is for: which fields exist, their shapes,
+ * their counts, and every piece of content a mapper could change.
+ */
+const UUID =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Ids are numbered in first-seen order rather than blanked.
+ *
+ * Blanking them made the fixtures portable but cost real coverage: with every
+ * id reading the same token, a mapper pointing `correctTitleId` at the wrong
+ * title would still have matched. Numbering keeps the relationships — one id
+ * reads one token wherever it appears, a different id reads a different one —
+ * while the absolute values, which differ per seeded database, never appear.
+ *
+ * Deterministic because `canonical` sorts keys and walks arrays in order, so
+ * the same content always yields the same tokens.
+ */
+function idNumberer() {
+  const seen = new Map<string, string>();
+  return (value: string): string => {
+    // split/join rather than a regex: escape sequences in a replace() get
+    // mangled by every shell between here and this file.
+    if (!UUID.test(value)) return value.split('\r\n').join('\n');
+    if (!seen.has(value)) seen.set(value, `<id:${seen.size + 1}>`);
+    return seen.get(value) as string;
+  };
+}
+
+/**
  * Fixtures are written with LF and checked out with CRLF on Windows, so the
  * comparison normalizes both sides. Without this the suite passes for whoever
  * captured the fixtures and fails on every other clone and in CI.
@@ -70,8 +114,10 @@ const lf = (value: string) => value.replace(/\r\n/g, '\n');
  * `JSON.stringify` so a `Date` and its serialization never compare unequal.
  */
 function canonical(value: unknown): string {
+  const stable = idNumberer();
   const normalize = (input: unknown): unknown => {
     if (Array.isArray(input)) return input.map(normalize);
+    if (typeof input === 'string') return stable(input);
     if (input instanceof Date) return input.toISOString();
     if (input && typeof input === 'object') {
       const row = input as Record<string, unknown>;

@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { WritingCorrectionService } from '../src/modules/writing/writing-correction.service';
@@ -74,6 +75,10 @@ describe('WritingCorrectionService', () => {
     exerciseId: 'uuid-exercise-1',
     content: 'Ich habe geschrieben einen Brief.',
     createdAt: new Date(Date.now() - 120000).toISOString(),
+    // `as const` so the literal stays 'B1' rather than widening to string:
+    // this is a standalone const, so it gets no contextual typing from
+    // CorrectionJobData.
+    level: 'B1' as const,
   };
 
   const validModelJson = `{

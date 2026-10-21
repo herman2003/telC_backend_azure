@@ -1,7 +1,7 @@
 {
   "hoeren": [
     {
-      "audioId": "a8a2b014-a4b6-47ff-b219-f0828fd2bd83",
+      "audioId": "<id:1>",
       "contentRevision": "modelltest-5-hoeren-teil1-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "audioId": "a40b6c9e-ad21-4b3a-b523-377e042830bd",
+      "audioId": "<id:2>",
       "contentRevision": "modelltest-5-hoeren-teil2-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -77,7 +77,7 @@
       ]
     },
     {
-      "audioId": "15545530-33dd-4c10-ac19-7c2f8eeb0dc2",
+      "audioId": "<id:3>",
       "contentRevision": "modelltest-5-hoeren-teil3-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -115,35 +115,35 @@
         {
           "an": null,
           "body": "Viele Unternehmen bieten ihren Beschäftigten inzwischen die Möglichkeit, an einigen Tagen pro Woche von zu Hause zu arbeiten. Besonders beliebt ist dieses Modell bei Menschen, die einen langen Arbeitsweg haben. Eine aktuelle Umfrage zeigt, dass viele Beschäftigte zwei oder drei Tage im Büro und den Rest der Woche zu Hause arbeiten möchten.",
-          "correctTitleId": "01470e51-ade6-47a7-8286-137b21c93e08",
+          "correctTitleId": "<id:4>",
           "id": "1",
           "von": null
         },
         {
           "an": null,
           "body": "Für viele junge Menschen ist ein Praktikum die erste Möglichkeit, einen Beruf genauer kennenzulernen. Sie können dabei praktische Erfahrungen sammeln, Kontakte zu Unternehmen knüpfen und herausfinden, ob der Beruf wirklich zu ihnen passt. Manche Firmen übernehmen gute Praktikanten später sogar als Auszubildende oder feste Mitarbeiter.",
-          "correctTitleId": "d65ebb69-49fa-4b46-bd0e-9901ff2e1b4c",
+          "correctTitleId": "<id:5>",
           "id": "2",
           "von": null
         },
         {
           "an": null,
           "body": "In einer Befragung von mehr als 2.000 Arbeitnehmerinnen und Arbeitnehmern gaben viele an, dass ein gutes Verhältnis zu den Kollegen für sie besonders wichtig ist. Ein angenehmes Arbeitsklima und gegenseitige Unterstützung wurden häufiger genannt als zusätzliche finanzielle Vorteile.",
-          "correctTitleId": "08a15396-b641-46e4-bbd4-907d598a4c9f",
+          "correctTitleId": "<id:6>",
           "id": "3",
           "von": null
         },
         {
           "an": null,
           "body": "Neue Computerprogramme, künstliche Intelligenz und digitale Arbeitsprozesse verändern viele Berufe. Deshalb investieren immer mehr Firmen in Schulungen für ihre Mitarbeiter. Auch viele Berufstätige besuchen freiwillig Kurse, um ihre Kenntnisse zu verbessern und beruflich flexibel zu bleiben.",
-          "correctTitleId": "a24b39a6-61f3-4f39-8e77-583f34d0df76",
+          "correctTitleId": "<id:7>",
           "id": "4",
           "von": null
         },
         {
           "an": null,
           "body": "Junge Erwachsene bleiben heute oft nicht mehr viele Jahre beim ersten Arbeitgeber. Eine Studie zeigt, dass besonders Beschäftigte unter 30 häufiger die Firma wechseln als ältere Arbeitnehmer. Als Gründe nennen sie bessere Entwicklungsmöglichkeiten, ein höheres Gehalt oder interessantere Aufgaben.",
-          "correctTitleId": "9c0ab16b-85da-405e-8150-d4fd25bedf32",
+          "correctTitleId": "<id:8>",
           "id": "5",
           "von": null
         }
@@ -151,49 +151,49 @@
       "titles": [
         {
           "content": "Immer mehr Beschäftigte arbeiten teilweise von zu Hause",
-          "id": "01470e51-ade6-47a7-8286-137b21c93e08"
+          "id": "<id:4>"
         },
         {
           "content": "Neue Ausbildung mit besonders hohen Gehältern",
-          "id": "cd0ed067-0f15-428c-8482-3f1372501371"
+          "id": "<id:9>"
         },
         {
           "content": "Ein Praktikum kann den Einstieg in den Beruf erleichtern",
-          "id": "d65ebb69-49fa-4b46-bd0e-9901ff2e1b4c"
+          "id": "<id:5>"
         },
         {
           "content": "Viele Arbeitnehmer wünschen sich kürzere Arbeitszeiten",
-          "id": "a1f2ee17-7873-4ef2-9b7b-8aa6ba07c0fe"
+          "id": "<id:10>"
         },
         {
           "content": "Unternehmen suchen dringend neue Mitarbeiter",
-          "id": "5d94dec5-e0d3-4914-8365-651ff13c1d30"
+          "id": "<id:11>"
         },
         {
           "content": "Gute Kollegen sind vielen wichtiger als ein hohes Gehalt",
-          "id": "08a15396-b641-46e4-bbd4-907d598a4c9f"
+          "id": "<id:6>"
         },
         {
           "content": "Neue Regeln für Bewerbungen im Internet",
-          "id": "1d3e2b17-100a-4e50-aa5d-b76a6e62ee34"
+          "id": "<id:12>"
         },
         {
           "content": "Weiterbildung wird für Berufstätige immer wichtiger",
-          "id": "a24b39a6-61f3-4f39-8e77-583f34d0df76"
+          "id": "<id:7>"
         },
         {
           "content": "Mehr Urlaub für alle Beschäftigten geplant",
-          "id": "e81a7c67-162f-489f-9b28-dedf81e5a7e7"
+          "id": "<id:13>"
         },
         {
           "content": "Berufseinsteiger wechseln heute häufiger den Arbeitsplatz",
-          "id": "9c0ab16b-85da-405e-8150-d4fd25bedf32"
+          "id": "<id:8>"
         }
       ]
     },
     "teil2": {
       "cautionNote": "",
-      "content": "Vier Tage arbeiten, fünf Tage bezahlt werden\r\n\r\nDie Firma Heller Technik beschäftigt rund 80 Mitarbeiterinnen und Mitarbeiter. Seit sechs Monaten arbeitet ein Teil der Belegschaft nur noch vier Tage pro Woche. Das Besondere dabei: Das monatliche Gehalt wurde nicht reduziert.\r\n\r\nDie Idee kam von der Geschäftsführung. In den Jahren zuvor hatte das Unternehmen immer größere Schwierigkeiten, neue Fachkräfte zu finden. Gleichzeitig berichteten viele Beschäftigte, dass sie sich mehr Zeit für Familie und Freizeit wünschten.\r\n\r\nBevor das neue Modell eingeführt wurde, testete die Firma es zunächst drei Monate lang in zwei Abteilungen. Die Beschäftigten arbeiteten montags bis donnerstags jeweils etwas länger als vorher. Freitags hatten sie frei. Wichtig war allerdings, dass Kunden trotzdem an fünf Tagen pro Woche jemanden erreichen konnten. Deshalb arbeiten einige Teams mit unterschiedlichen freien Tagen.\r\n\r\nNach der Testphase war die Geschäftsführung überrascht. Obwohl die Beschäftigten insgesamt weniger Stunden arbeiteten, wurden die meisten Aufgaben genauso schnell erledigt wie vorher. Die Zahl der Krankmeldungen ging sogar leicht zurück.\r\n\r\nFür Projektleiterin Sarah Neumann hat sich besonders ihr privater Alltag verbessert. Sie nutzt den freien Tag häufig für Termine, Einkäufe und Sport. Dadurch habe sie am Wochenende mehr Zeit für ihre Familie.\r\n\r\nNicht alle Beschäftigten sind jedoch begeistert. Einige Mitarbeiter in der Produktion können ihre Arbeitszeit weniger flexibel organisieren. Außerdem sind die Arbeitstage von Montag bis Donnerstag länger geworden. Für Eltern kleiner Kinder kann das manchmal schwierig sein.\r\n\r\nTrotzdem will die Firma das Modell weiterführen und im kommenden Jahr auf weitere Abteilungen ausweiten. Eine Rückkehr zur alten Fünf-Tage-Woche ist derzeit nicht geplant.",
+      "content": "Vier Tage arbeiten, fünf Tage bezahlt werden\n\nDie Firma Heller Technik beschäftigt rund 80 Mitarbeiterinnen und Mitarbeiter. Seit sechs Monaten arbeitet ein Teil der Belegschaft nur noch vier Tage pro Woche. Das Besondere dabei: Das monatliche Gehalt wurde nicht reduziert.\n\nDie Idee kam von der Geschäftsführung. In den Jahren zuvor hatte das Unternehmen immer größere Schwierigkeiten, neue Fachkräfte zu finden. Gleichzeitig berichteten viele Beschäftigte, dass sie sich mehr Zeit für Familie und Freizeit wünschten.\n\nBevor das neue Modell eingeführt wurde, testete die Firma es zunächst drei Monate lang in zwei Abteilungen. Die Beschäftigten arbeiteten montags bis donnerstags jeweils etwas länger als vorher. Freitags hatten sie frei. Wichtig war allerdings, dass Kunden trotzdem an fünf Tagen pro Woche jemanden erreichen konnten. Deshalb arbeiten einige Teams mit unterschiedlichen freien Tagen.\n\nNach der Testphase war die Geschäftsführung überrascht. Obwohl die Beschäftigten insgesamt weniger Stunden arbeiteten, wurden die meisten Aufgaben genauso schnell erledigt wie vorher. Die Zahl der Krankmeldungen ging sogar leicht zurück.\n\nFür Projektleiterin Sarah Neumann hat sich besonders ihr privater Alltag verbessert. Sie nutzt den freien Tag häufig für Termine, Einkäufe und Sport. Dadurch habe sie am Wochenende mehr Zeit für ihre Familie.\n\nNicht alle Beschäftigten sind jedoch begeistert. Einige Mitarbeiter in der Produktion können ihre Arbeitszeit weniger flexibel organisieren. Außerdem sind die Arbeitstage von Montag bis Donnerstag länger geworden. Für Eltern kleiner Kinder kann das manchmal schwierig sein.\n\nTrotzdem will die Firma das Modell weiterführen und im kommenden Jahr auf weitere Abteilungen ausweiten. Eine Rückkehr zur alten Fünf-Tage-Woche ist derzeit nicht geplant.",
       "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
       "label": "Leseverstehen Teil 2",
       "questions": [
@@ -424,7 +424,7 @@
       "wie Ihre eigenen ersten Tage in einem neuen Job waren"
     ],
     "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.",
-    "id": "c6d6e691-e36d-4b0f-bcab-3b32f24e1c77",
+    "id": "<id:14>",
     "intro": "Sie haben von einer Freundin folgende E-Mail erhalten:",
     "part": 1,
     "prepDurationSeconds": 120,
@@ -458,7 +458,7 @@
     "contentRevision": "modelltest-5-sprachbausteine-teil1-v1",
     "issuedAt": "<volatile>",
     "teil1": {
-      "body": "Liebe Julia,\r\n\r\nich muss dir unbedingt von meinem neuen Job erzählen. Seit zwei Wochen arbeite ich bei einer kleinen Firma, _____ Software für Hotels entwickelt.\r\n\r\nAm ersten Tag war ich natürlich ziemlich nervös, _____ meine neuen Kollegen haben mich sehr freundlich begrüßt. Zuerst _____ mir meine Teamleiterin das Büro gezeigt und mich allen vorgestellt.\r\n\r\nIch arbeite normalerweise von neun bis siebzehn Uhr. Zweimal pro Woche darf ich aber auch _____ zu Hause arbeiten. Das finde ich besonders praktisch, weil mein Arbeitsweg fast eine Stunde _____ .\r\n\r\nDie Aufgaben sind interessant, aber ich muss noch viel lernen. Zum Glück kann ich meine Kollegen immer fragen, wenn ich etwas nicht _____ .\r\n\r\nNächsten Monat nehme ich außerdem _____ einer Schulung teil. Dort lernen wir ein neues Programm kennen, das wir später bei der Arbeit benutzen werden.\r\n\r\nWas mir bisher am besten gefällt, _____ die Atmosphäre im Team. Mittags essen wir oft zusammen und freitags trinken wir nach der Arbeit manchmal noch etwas.\r\n\r\nIch hoffe, dass du mich bald besuchen kannst. Dann _____ ich dir auch mein neues Büro zeigen.\r\n\r\nSchreib mir, _____ du am nächsten Wochenende Zeit hast.\r\n\r\nLiebe Grüße\r\nAnna",
+      "body": "Liebe Julia,\n\nich muss dir unbedingt von meinem neuen Job erzählen. Seit zwei Wochen arbeite ich bei einer kleinen Firma, _____ Software für Hotels entwickelt.\n\nAm ersten Tag war ich natürlich ziemlich nervös, _____ meine neuen Kollegen haben mich sehr freundlich begrüßt. Zuerst _____ mir meine Teamleiterin das Büro gezeigt und mich allen vorgestellt.\n\nIch arbeite normalerweise von neun bis siebzehn Uhr. Zweimal pro Woche darf ich aber auch _____ zu Hause arbeiten. Das finde ich besonders praktisch, weil mein Arbeitsweg fast eine Stunde _____ .\n\nDie Aufgaben sind interessant, aber ich muss noch viel lernen. Zum Glück kann ich meine Kollegen immer fragen, wenn ich etwas nicht _____ .\n\nNächsten Monat nehme ich außerdem _____ einer Schulung teil. Dort lernen wir ein neues Programm kennen, das wir später bei der Arbeit benutzen werden.\n\nWas mir bisher am besten gefällt, _____ die Atmosphäre im Team. Mittags essen wir oft zusammen und freitags trinken wir nach der Arbeit manchmal noch etwas.\n\nIch hoffe, dass du mich bald besuchen kannst. Dann _____ ich dir auch mein neues Büro zeigen.\n\nSchreib mir, _____ du am nächsten Wochenende Zeit hast.\n\nLiebe Grüße\nAnna",
       "durationMinutes": 18,
       "gaps": [
         {
@@ -647,7 +647,7 @@
       "label": "Sprachbausteine Teil 1"
     },
     "teil2": {
-      "body": "Sehr geehrte Damen und Herren,\r\n\r\nauf Ihrer Internetseite habe ich gelesen, dass Sie im November einen Kurs zum Thema Projektmanagement anbieten. Ich interessiere mich sehr _____ diesen Kurs und hätte _____ einige Fragen.\r\n\r\nIch arbeite seit zwei Jahren in einem kleinen Unternehmen und soll in Zukunft mehr Verantwortung für Projekte übernehmen. _____ habe ich bisher noch keine Weiterbildung in diesem Bereich gemacht.\r\n\r\nKönnten Sie mir bitte mitteilen, _____ Vorkenntnisse für die Teilnahme notwendig sind? Außerdem würde ich gern wissen, _____ der Unterricht hauptsächlich theoretisch ist oder ob man auch praktische Aufgaben bearbeitet.\r\n\r\nDa ich von Montag bis Freitag arbeite, wäre es für mich wichtig zu wissen, _____ genau die Unterrichtszeiten sind. Auf Ihrer Internetseite steht nur, dass der Kurs berufsbegleitend stattfindet.\r\n\r\nMich interessiert _____, ob die Kursgebühr alle Lernmaterialien enthält. Falls zusätzliche Kosten entstehen, könnten Sie mir bitte sagen, wie hoch diese ungefähr sind?\r\n\r\nIch würde mich _____ anmelden, wenn noch ein Platz frei ist. Bitte schicken Sie mir auch Informationen darüber, _____ ich mich anmelden kann.\r\n\r\nIch wäre Ihnen sehr _____, wenn Sie mir bald antworten könnten.\r\n\r\nMit freundlichen Grüßen\r\nThomas Wagner",
+      "body": "Sehr geehrte Damen und Herren,\n\nauf Ihrer Internetseite habe ich gelesen, dass Sie im November einen Kurs zum Thema Projektmanagement anbieten. Ich interessiere mich sehr _____ diesen Kurs und hätte _____ einige Fragen.\n\nIch arbeite seit zwei Jahren in einem kleinen Unternehmen und soll in Zukunft mehr Verantwortung für Projekte übernehmen. _____ habe ich bisher noch keine Weiterbildung in diesem Bereich gemacht.\n\nKönnten Sie mir bitte mitteilen, _____ Vorkenntnisse für die Teilnahme notwendig sind? Außerdem würde ich gern wissen, _____ der Unterricht hauptsächlich theoretisch ist oder ob man auch praktische Aufgaben bearbeitet.\n\nDa ich von Montag bis Freitag arbeite, wäre es für mich wichtig zu wissen, _____ genau die Unterrichtszeiten sind. Auf Ihrer Internetseite steht nur, dass der Kurs berufsbegleitend stattfindet.\n\nMich interessiert _____, ob die Kursgebühr alle Lernmaterialien enthält. Falls zusätzliche Kosten entstehen, könnten Sie mir bitte sagen, wie hoch diese ungefähr sind?\n\nIch würde mich _____ anmelden, wenn noch ein Platz frei ist. Bitte schicken Sie mir auch Informationen darüber, _____ ich mich anmelden kann.\n\nIch wäre Ihnen sehr _____, wenn Sie mir bald antworten könnten.\n\nMit freundlichen Grüßen\nThomas Wagner",
       "durationMinutes": 18,
       "gaps": [
         {

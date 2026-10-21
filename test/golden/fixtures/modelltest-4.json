@@ -1,7 +1,7 @@
 {
   "hoeren": [
     {
-      "audioId": "6d811d7d-5abd-44aa-b173-aebca7abfbb2",
+      "audioId": "<id:1>",
       "contentRevision": "modelltest-4-hoeren-teil1-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "audioId": "d39c7d77-5e39-43cb-9e56-331f38f54842",
+      "audioId": "<id:2>",
       "contentRevision": "modelltest-4-hoeren-teil2-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -77,7 +77,7 @@
       ]
     },
     {
-      "audioId": "e366494b-335d-4b99-9c3a-3bd0b417213b",
+      "audioId": "<id:3>",
       "contentRevision": "modelltest-4-hoeren-teil3-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -115,35 +115,35 @@
         {
           "an": null,
           "body": "Ein eigenes Auto ist für viele junge Stadtbewohner nicht mehr selbstverständlich. Eine aktuelle Umfrage zeigt, dass besonders Menschen zwischen 20 und 35 Jahren häufiger Bus, Bahn oder Fahrrad benutzen. Wenn sie doch einmal ein Auto benötigen, mieten sie für einige Stunden ein Fahrzeug über einen Carsharing-Anbieter. Viele Befragte nennen die hohen Kosten für Versicherung, Reparaturen und Parkplätze als Grund dafür.",
-          "correctTitleId": "59c35174-edca-4d49-a9a4-5f63b21c4c00",
+          "correctTitleId": "<id:4>",
           "id": "1",
           "von": null
         },
         {
           "an": null,
           "body": "Auf einer früheren Parkfläche im Stadtteil Nord wächst seit diesem Frühjahr Gemüse. Rund 30 Bewohnerinnen und Bewohner haben dort gemeinsam Beete angelegt. Tomaten, Salat, Kräuter und Erdbeeren werden von den Nachbarn zusammen gepflegt. Das Projekt soll nicht nur Lebensmittel liefern. Vor allem möchten die Organisatoren einen Ort schaffen, an dem sich Menschen aus dem Viertel kennenlernen können.",
-          "correctTitleId": "eb7715c0-e132-4c1a-9da8-a64ae60910ed",
+          "correctTitleId": "<id:5>",
           "id": "2",
           "von": null
         },
         {
           "an": null,
           "body": "Wer Mitglied der Stadtbibliothek ist, kann ab sofort nicht nur Bücher und Zeitschriften ausleihen. Über die Internetseite der Bibliothek stehen jetzt auch E-Books, Hörbücher und mehrere Zeitungen zur Verfügung. Die Medien können rund um die Uhr heruntergeladen werden. Für ältere Nutzer bietet die Bibliothek jeden Mittwoch eine kostenlose Einführung an.",
-          "correctTitleId": "129b24f0-0039-4e7c-b641-bec64734804b",
+          "correctTitleId": "<id:6>",
           "id": "3",
           "von": null
         },
         {
           "an": null,
           "body": "Am kommenden Samstag findet auf dem Marktplatz das jährliche Fest des Stadtteils West statt. Ab 14 Uhr treten verschiedene Musikgruppen auf. Vereine aus dem Viertel informieren über ihre Arbeit und Restaurants bieten Spezialitäten aus unterschiedlichen Ländern an. Für Kinder gibt es Spiele und einen kleinen Flohmarkt. Der Eintritt ist frei.",
-          "correctTitleId": "6a818ed5-1175-4c5b-9496-fdf838d3d251",
+          "correctTitleId": "<id:7>",
           "id": "4",
           "von": null
         },
         {
           "an": null,
           "body": "Die Stadtverwaltung möchte in den kommenden Jahren rund 180 neue Wohnungen bauen. Das neue Wohngebiet soll auf einem alten Firmengelände nur wenige Minuten vom Hauptbahnhof entfernt entstehen. Neben Wohnungen sind dort auch ein Kindergarten, kleinere Geschäfte und Grünflächen vorgesehen. Mit dem Bau soll im nächsten Frühjahr begonnen werden.",
-          "correctTitleId": "0cb5976f-d468-4a22-a6bb-25ba2aa44290",
+          "correctTitleId": "<id:8>",
           "id": "5",
           "von": null
         }
@@ -151,49 +151,49 @@
       "titles": [
         {
           "content": "Immer mehr Menschen verzichten in der Stadt auf das eigene Auto",
-          "id": "a8dc1aa8-6483-4b03-9482-7c28fec37302"
+          "id": "<id:9>"
         },
         {
           "content": "Neue Wohnungen direkt am Hauptbahnhof geplant",
-          "id": "0cb5976f-d468-4a22-a6bb-25ba2aa44290"
+          "id": "<id:8>"
         },
         {
           "content": "Stadtbibliothek erweitert ihr digitales Angebot",
-          "id": "129b24f0-0039-4e7c-b641-bec64734804b"
+          "id": "<id:6>"
         },
         {
           "content": "Nachbarn verwandeln einen Parkplatz in einen Garten",
-          "id": "7e693517-acf4-4a11-99dc-ad26877a3506"
+          "id": "<id:10>"
         },
         {
           "content": "Kostenlose Busfahrten für alle Einwohner",
-          "id": "dd69f404-0794-4320-9eb1-06c45f91c4f0"
+          "id": "<id:11>"
         },
         {
           "content": "Carsharing wird besonders bei jungen Erwachsenen beliebter",
-          "id": "59c35174-edca-4d49-a9a4-5f63b21c4c00"
+          "id": "<id:4>"
         },
         {
           "content": "Stadtteilfest bietet Musik, Essen und Begegnungen",
-          "id": "6a818ed5-1175-4c5b-9496-fdf838d3d251"
+          "id": "<id:7>"
         },
         {
           "content": "Bibliotheken verlieren immer mehr Besucher",
-          "id": "e9541834-5174-4754-888a-35682418cc39"
+          "id": "<id:12>"
         },
         {
           "content": "Gemeinsam gärtnern mitten in der Stadt",
-          "id": "eb7715c0-e132-4c1a-9da8-a64ae60910ed"
+          "id": "<id:5>"
         },
         {
           "content": "Neue Regeln machen das Fahrradfahren teurer",
-          "id": "38a03299-4644-4f31-aef2-357964155aa5"
+          "id": "<id:13>"
         }
       ]
     },
     "teil2": {
       "cautionNote": "",
-      "content": "Ein neues Leben ohne eigenes Auto\r\n\r\nVor zwei Jahren verkaufte die Familie Berger ihr Auto. Damals waren Anna und Tobias Berger zunächst unsicher, ob das Leben ohne eigenen Wagen im Alltag wirklich funktionieren würde. Die Familie wohnt mit ihren beiden Kindern in einer mittelgroßen Stadt und hatte das Auto vorher fast täglich benutzt.\r\n\r\nDer wichtigste Grund für die Entscheidung waren die Kosten. Neben Benzin und Versicherung mussten die Bergers regelmäßig für Reparaturen bezahlen. Außerdem wurde es in ihrem Wohnviertel immer schwieriger, einen kostenlosen Parkplatz zu finden.\r\n\r\nHeute fährt Tobias mit dem Fahrrad zur Arbeit. Bei schlechtem Wetter nimmt er den Bus. Anna arbeitet drei Tage pro Woche von zu Hause aus. An den anderen Tagen fährt sie mit der Straßenbahn ins Büro. Die Kinder gehen zu Fuß zur Schule, weil sie nur etwa zehn Minuten entfernt liegt.\r\n\r\nGanz ohne Auto kommt die Familie allerdings nicht aus. Etwa zweimal im Monat benötigt sie eines, zum Beispiel für größere Einkäufe oder für einen Besuch bei den Großeltern auf dem Land. Dann reservieren die Bergers über eine App ein Carsharing-Fahrzeug. In ihrem Stadtteil gibt es inzwischen mehrere Stationen.\r\n\r\nAm Anfang mussten alle ihre Gewohnheiten ändern. Besonders beim Einkaufen war mehr Planung notwendig. Inzwischen bestellt die Familie schwere Getränke häufig online und kauft Lebensmittel mehrmals pro Woche in kleineren Mengen.\r\n\r\nFinanziell hat sich die Veränderung gelohnt. Nach Berechnungen der Familie gibt sie heute monatlich ungefähr 200 Euro weniger für Mobilität aus als früher. Anna Berger sieht aber noch einen weiteren Vorteil: 'Wir bewegen uns deutlich mehr. Früher sind wir selbst kurze Strecken mit dem Auto gefahren. Heute gehen wir zu Fuß oder nehmen das Fahrrad.'\r\n\r\nNur bei Ausflügen am Wochenende vermisst die Familie manchmal das eigene Auto. Trotzdem möchte sie im Moment keines mehr kaufen.",
+      "content": "Ein neues Leben ohne eigenes Auto\n\nVor zwei Jahren verkaufte die Familie Berger ihr Auto. Damals waren Anna und Tobias Berger zunächst unsicher, ob das Leben ohne eigenen Wagen im Alltag wirklich funktionieren würde. Die Familie wohnt mit ihren beiden Kindern in einer mittelgroßen Stadt und hatte das Auto vorher fast täglich benutzt.\n\nDer wichtigste Grund für die Entscheidung waren die Kosten. Neben Benzin und Versicherung mussten die Bergers regelmäßig für Reparaturen bezahlen. Außerdem wurde es in ihrem Wohnviertel immer schwieriger, einen kostenlosen Parkplatz zu finden.\n\nHeute fährt Tobias mit dem Fahrrad zur Arbeit. Bei schlechtem Wetter nimmt er den Bus. Anna arbeitet drei Tage pro Woche von zu Hause aus. An den anderen Tagen fährt sie mit der Straßenbahn ins Büro. Die Kinder gehen zu Fuß zur Schule, weil sie nur etwa zehn Minuten entfernt liegt.\n\nGanz ohne Auto kommt die Familie allerdings nicht aus. Etwa zweimal im Monat benötigt sie eines, zum Beispiel für größere Einkäufe oder für einen Besuch bei den Großeltern auf dem Land. Dann reservieren die Bergers über eine App ein Carsharing-Fahrzeug. In ihrem Stadtteil gibt es inzwischen mehrere Stationen.\n\nAm Anfang mussten alle ihre Gewohnheiten ändern. Besonders beim Einkaufen war mehr Planung notwendig. Inzwischen bestellt die Familie schwere Getränke häufig online und kauft Lebensmittel mehrmals pro Woche in kleineren Mengen.\n\nFinanziell hat sich die Veränderung gelohnt. Nach Berechnungen der Familie gibt sie heute monatlich ungefähr 200 Euro weniger für Mobilität aus als früher. Anna Berger sieht aber noch einen weiteren Vorteil: 'Wir bewegen uns deutlich mehr. Früher sind wir selbst kurze Strecken mit dem Auto gefahren. Heute gehen wir zu Fuß oder nehmen das Fahrrad.'\n\nNur bei Ausflügen am Wochenende vermisst die Familie manchmal das eigene Auto. Trotzdem möchte sie im Moment keines mehr kaufen.",
       "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
       "label": "Leseverstehen Teil 2",
       "questions": [
@@ -424,7 +424,7 @@
       "was Martin in den ersten Tagen erledigen sollte"
     ],
     "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.",
-    "id": "401de9b2-bb12-44a8-bfa5-eb1cb84f9723",
+    "id": "<id:14>",
     "intro": "Sie haben von einem Freund folgende E-Mail erhalten:",
     "part": 1,
     "prepDurationSeconds": 120,
@@ -458,7 +458,7 @@
     "contentRevision": "modelltest-4-sprachbausteine-teil1-v1",
     "issuedAt": "<volatile>",
     "teil1": {
-      "body": "Liebe Sophie,\r\n\r\nseit drei Wochen wohne ich jetzt in meiner neuen Wohnung in Köln. Am Anfang war alles ein bisschen schwierig, _____ ich hier fast niemanden kannte. Inzwischen gefällt mir das Leben _____ der Stadt aber sehr gut.\r\n\r\nMeine Wohnung liegt nicht weit vom Zentrum entfernt. Zur Arbeit _____ ich meistens mit der Straßenbahn, weil ich morgens keine Lust habe, im Stau zu stehen. Die Haltestelle ist nur fünf Minuten _____ meiner Wohnung entfernt.\r\n\r\nAm Wochenende entdecke ich oft neue Orte. Letzten Samstag _____ ich auf einem großen Wochenmarkt. Dort konnte man nicht nur Lebensmittel kaufen, _____ auch Musik hören und verschiedene Gerichte probieren.\r\n\r\nMeine Nachbarn sind ebenfalls sehr nett. Eine ältere Dame, _____ direkt neben mir wohnt, hat mich schon zum Kaffee eingeladen. Sie kennt das Viertel seit vielen Jahren und hat mir einige interessante Orte _____ .\r\n\r\nWenn du im November Zeit hast, musst du mich unbedingt besuchen. Dann _____ ich dir alles zeigen. Schreib mir bald, _____ du kommen kannst.\r\n\r\nLiebe Grüße\r\nDaniel",
+      "body": "Liebe Sophie,\n\nseit drei Wochen wohne ich jetzt in meiner neuen Wohnung in Köln. Am Anfang war alles ein bisschen schwierig, _____ ich hier fast niemanden kannte. Inzwischen gefällt mir das Leben _____ der Stadt aber sehr gut.\n\nMeine Wohnung liegt nicht weit vom Zentrum entfernt. Zur Arbeit _____ ich meistens mit der Straßenbahn, weil ich morgens keine Lust habe, im Stau zu stehen. Die Haltestelle ist nur fünf Minuten _____ meiner Wohnung entfernt.\n\nAm Wochenende entdecke ich oft neue Orte. Letzten Samstag _____ ich auf einem großen Wochenmarkt. Dort konnte man nicht nur Lebensmittel kaufen, _____ auch Musik hören und verschiedene Gerichte probieren.\n\nMeine Nachbarn sind ebenfalls sehr nett. Eine ältere Dame, _____ direkt neben mir wohnt, hat mich schon zum Kaffee eingeladen. Sie kennt das Viertel seit vielen Jahren und hat mir einige interessante Orte _____ .\n\nWenn du im November Zeit hast, musst du mich unbedingt besuchen. Dann _____ ich dir alles zeigen. Schreib mir bald, _____ du kommen kannst.\n\nLiebe Grüße\nDaniel",
       "durationMinutes": 18,
       "gaps": [
         {
@@ -647,7 +647,7 @@
       "label": "Sprachbausteine Teil 1"
     },
     "teil2": {
-      "body": "Sehr geehrte Damen und Herren,\r\n\r\nich habe auf Ihrer Internetseite von dem neuen Gemeinschaftsgarten im Stadtteil Süd gelesen und interessiere mich sehr _____ das Projekt.\r\n\r\nIch bin vor wenigen Monaten in den Stadtteil gezogen und würde _____ neue Menschen kennenlernen. Außerdem arbeite ich gern im Garten, _____ ich in meiner jetzigen Wohnung leider keinen eigenen Garten habe.\r\n\r\nIch möchte deshalb wissen, _____ es noch freie Beete gibt und wie man sich anmelden kann. Muss man bereits Erfahrung mit Gartenarbeit haben oder _____ auch Anfänger teilnehmen?\r\n\r\nAuf Ihrer Internetseite steht, dass sich die Mitglieder regelmäßig treffen. Können Sie mir bitte mitteilen, _____ diese Treffen stattfinden? Mich würde auch interessieren, ob jeder sein eigenes Gemüse anbaut _____ ob die Gruppe alles gemeinsam pflegt.\r\n\r\nIch könnte hauptsächlich am Wochenende helfen, _____ ich unter der Woche bis 18 Uhr arbeite. Falls Sie noch Unterstützung brauchen, würde ich _____ bei Veranstaltungen oder bei der Organisation helfen.\r\n\r\nIch wäre Ihnen sehr _____, wenn Sie mir weitere Informationen schicken könnten.\r\n\r\nMit freundlichen Grüßen\r\nMichael Weber",
+      "body": "Sehr geehrte Damen und Herren,\n\nich habe auf Ihrer Internetseite von dem neuen Gemeinschaftsgarten im Stadtteil Süd gelesen und interessiere mich sehr _____ das Projekt.\n\nIch bin vor wenigen Monaten in den Stadtteil gezogen und würde _____ neue Menschen kennenlernen. Außerdem arbeite ich gern im Garten, _____ ich in meiner jetzigen Wohnung leider keinen eigenen Garten habe.\n\nIch möchte deshalb wissen, _____ es noch freie Beete gibt und wie man sich anmelden kann. Muss man bereits Erfahrung mit Gartenarbeit haben oder _____ auch Anfänger teilnehmen?\n\nAuf Ihrer Internetseite steht, dass sich die Mitglieder regelmäßig treffen. Können Sie mir bitte mitteilen, _____ diese Treffen stattfinden? Mich würde auch interessieren, ob jeder sein eigenes Gemüse anbaut _____ ob die Gruppe alles gemeinsam pflegt.\n\nIch könnte hauptsächlich am Wochenende helfen, _____ ich unter der Woche bis 18 Uhr arbeite. Falls Sie noch Unterstützung brauchen, würde ich _____ bei Veranstaltungen oder bei der Organisation helfen.\n\nIch wäre Ihnen sehr _____, wenn Sie mir weitere Informationen schicken könnten.\n\nMit freundlichen Grüßen\nMichael Weber",
       "durationMinutes": 18,
       "gaps": [
         {

@@ -1,7 +1,7 @@
 {
   "hoeren": [
     {
-      "audioId": "ac79eca6-7a7a-4296-a0fb-14df5ea4fe1e",
+      "audioId": "<id:1>",
       "contentRevision": "modelltest-6-hoeren-teil1-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "audioId": "8fba3069-949d-41d0-9ea4-ad8020beba27",
+      "audioId": "<id:2>",
       "contentRevision": "modelltest-6-hoeren-teil2-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -77,7 +77,7 @@
       ]
     },
     {
-      "audioId": "ca816c83-fd6a-4748-b21b-364aae9f0bfb",
+      "audioId": "<id:3>",
       "contentRevision": "modelltest-6-hoeren-teil3-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -115,35 +115,35 @@
         {
           "an": null,
           "body": "Viele Reisende achten bei der Planung ihres Urlaubs inzwischen darauf, wie umweltfreundlich ihre Reise ist. Eine aktuelle Umfrage zeigt, dass sich besonders jüngere Menschen vor der Buchung über Zugverbindungen, regionale Angebote und nachhaltige Hotels informieren. Einige sind sogar bereit, dafür etwas mehr zu bezahlen.",
-          "correctTitleId": "1c94b869-9f08-4661-8b9b-20bb580d5052",
+          "correctTitleId": "<id:4>",
           "id": "1",
           "von": null
         },
         {
           "an": null,
           "body": "Immer mehr Menschen möchten im Urlaub unabhängig sein und reisen deshalb ohne Partner oder Freunde. Besonders Städtereisen und kurze Rundreisen werden häufig allein gebucht. Viele Reiseveranstalter reagieren darauf und bieten inzwischen spezielle Programme für Einzelreisende an.",
-          "correctTitleId": "a4e1d413-e1b1-4d76-9a42-9a0845e116dc",
+          "correctTitleId": "<id:5>",
           "id": "2",
           "von": null
         },
         {
           "an": null,
           "body": "Familien verbringen ihren Sommerurlaub immer häufiger auf Campingplätzen. Besonders gefragt sind Plätze mit Spielbereichen, Schwimmbädern und kleinen Ferienhäusern. Viele Eltern schätzen, dass Kinder dort schnell andere Kinder kennenlernen und sich viel draußen bewegen können.",
-          "correctTitleId": "66d665f9-0399-420a-a5db-cabb5b0a1344",
+          "correctTitleId": "<id:6>",
           "id": "3",
           "von": null
         },
         {
           "an": null,
           "body": "Statt mit dem Auto oder dem Flugzeug fahren immer mehr Reisende mit der Bahn in den Urlaub. Als Gründe nennen sie die Möglichkeit, während der Fahrt zu lesen oder zu arbeiten, sowie die bequemere Ankunft direkt im Stadtzentrum. Besonders bei Reisen innerhalb Deutschlands wächst die Nachfrage.",
-          "correctTitleId": "cfb2a409-dc84-4b8f-88ab-a90dc4e4750d",
+          "correctTitleId": "<id:7>",
           "id": "4",
           "von": null
         },
         {
           "an": null,
           "body": "Eine Reise muss nicht immer weit weg führen. Viele Menschen entdecken während freier Tage ihre eigene Region neu. Sie besuchen Museen, Seen oder Wanderwege in der Nähe und übernachten manchmal sogar in einem Hotel in der eigenen Stadt. Besonders beliebt ist diese Form des Urlaubs bei Menschen, die wenig Zeit haben.",
-          "correctTitleId": "1ea24009-90ab-4bc6-bd45-d3f9b04f24b0",
+          "correctTitleId": "<id:8>",
           "id": "5",
           "von": null
         }
@@ -151,49 +151,49 @@
       "titles": [
         {
           "content": "Immer mehr Urlauber reisen mit dem Zug",
-          "id": "cfb2a409-dc84-4b8f-88ab-a90dc4e4750d"
+          "id": "<id:7>"
         },
         {
           "content": "Hotels bieten Gästen kostenlose Fahrräder",
-          "id": "33335ad2-7cb2-456c-b4af-e9c430733ea6"
+          "id": "<id:9>"
         },
         {
           "content": "Urlaub zu Hause wird immer beliebter",
-          "id": "1ea24009-90ab-4bc6-bd45-d3f9b04f24b0"
+          "id": "<id:8>"
         },
         {
           "content": "Junge Reisende buchen Unterkünfte besonders kurzfristig",
-          "id": "c2abecb0-322e-466c-96ff-3349dd179e4a"
+          "id": "<id:10>"
         },
         {
           "content": "Flugreisen werden in Europa günstiger",
-          "id": "28578ce0-bad9-4697-ae34-a55b4bdb892a"
+          "id": "<id:11>"
         },
         {
           "content": "Immer mehr Menschen reisen allein",
-          "id": "a4e1d413-e1b1-4d76-9a42-9a0845e116dc"
+          "id": "<id:5>"
         },
         {
           "content": "Mit kleinen Kindern entspannt in den Urlaub",
-          "id": "231b092c-ad6e-4377-9cdd-9a011dd870b5"
+          "id": "<id:12>"
         },
         {
           "content": "Urlauber informieren sich vor Reisen stärker über Nachhaltigkeit",
-          "id": "1c94b869-9f08-4661-8b9b-20bb580d5052"
+          "id": "<id:4>"
         },
         {
           "content": "Neue Regelungen für Gepäck im Flugzeug",
-          "id": "f9b3efc6-99de-4b24-a276-d1813530d570"
+          "id": "<id:13>"
         },
         {
           "content": "Campingplätze werden bei Familien immer beliebter",
-          "id": "66d665f9-0399-420a-a5db-cabb5b0a1344"
+          "id": "<id:6>"
         }
       ]
     },
     "teil2": {
       "cautionNote": "",
-      "content": "Ein Urlaub ohne Auto\r\n\r\nVor drei Jahren machte Familie Scholz zum ersten Mal Urlaub ohne eigenes Auto. Zunächst war besonders Vater Michael skeptisch. Er war gewohnt, für längere Reisen das Auto zu benutzen, weil er glaubte, damit unabhängiger zu sein.\r\n\r\nDie Familie entschied sich trotzdem für eine Woche in einem kleinen Ort in den Bergen, der gut mit dem Zug erreichbar war. Vom Bahnhof wurden sie mit einem kostenlosen Bus zu ihrer Unterkunft gebracht. Während des Urlaubs konnten Gäste mit einer regionalen Gästekarte Busse und einige Bergbahnen kostenlos benutzen.\r\n\r\nAm ersten Tag musste sich die Familie noch daran gewöhnen, Fahrpläne zu beachten. Schon nach kurzer Zeit fanden sie das aber weniger schwierig als erwartet. Die Kinder fanden besonders die Zugfahrten spannend und freuten sich darüber, dass beide Eltern während der Fahrt Zeit für sie hatten.\r\n\r\nFür Ausflüge nutzte die Familie meistens öffentliche Verkehrsmittel. Einmal liehen sie sich für einen Tag Fahrräder aus. Nur für einen abgelegenen See wäre ein Auto praktischer gewesen. Deshalb beschlossen sie, diesen Ausflug nicht zu machen.\r\n\r\nAuch beim Gepäck mussten sie anders planen. Statt mehrerer großer Koffer nahm jedes Familienmitglied nur eine kleinere Tasche mit. Die Unterkunft stellte Handtücher und einige Dinge für Kinder zur Verfügung, sodass die Familie weniger mitnehmen musste.\r\n\r\nAm Ende waren alle überrascht, wie entspannt die Reise gewesen war. Besonders Michael gefiel, dass er nicht stundenlang selbst fahren musste. Seitdem hat die Familie noch zwei weitere Urlaube ohne Auto gemacht.\r\n\r\nMichael sagt trotzdem, dass diese Art des Reisens nicht für jedes Ziel geeignet ist. Entscheidend sei, dass die Region gute Bus- und Bahnverbindungen bietet.",
+      "content": "Ein Urlaub ohne Auto\n\nVor drei Jahren machte Familie Scholz zum ersten Mal Urlaub ohne eigenes Auto. Zunächst war besonders Vater Michael skeptisch. Er war gewohnt, für längere Reisen das Auto zu benutzen, weil er glaubte, damit unabhängiger zu sein.\n\nDie Familie entschied sich trotzdem für eine Woche in einem kleinen Ort in den Bergen, der gut mit dem Zug erreichbar war. Vom Bahnhof wurden sie mit einem kostenlosen Bus zu ihrer Unterkunft gebracht. Während des Urlaubs konnten Gäste mit einer regionalen Gästekarte Busse und einige Bergbahnen kostenlos benutzen.\n\nAm ersten Tag musste sich die Familie noch daran gewöhnen, Fahrpläne zu beachten. Schon nach kurzer Zeit fanden sie das aber weniger schwierig als erwartet. Die Kinder fanden besonders die Zugfahrten spannend und freuten sich darüber, dass beide Eltern während der Fahrt Zeit für sie hatten.\n\nFür Ausflüge nutzte die Familie meistens öffentliche Verkehrsmittel. Einmal liehen sie sich für einen Tag Fahrräder aus. Nur für einen abgelegenen See wäre ein Auto praktischer gewesen. Deshalb beschlossen sie, diesen Ausflug nicht zu machen.\n\nAuch beim Gepäck mussten sie anders planen. Statt mehrerer großer Koffer nahm jedes Familienmitglied nur eine kleinere Tasche mit. Die Unterkunft stellte Handtücher und einige Dinge für Kinder zur Verfügung, sodass die Familie weniger mitnehmen musste.\n\nAm Ende waren alle überrascht, wie entspannt die Reise gewesen war. Besonders Michael gefiel, dass er nicht stundenlang selbst fahren musste. Seitdem hat die Familie noch zwei weitere Urlaube ohne Auto gemacht.\n\nMichael sagt trotzdem, dass diese Art des Reisens nicht für jedes Ziel geeignet ist. Entscheidend sei, dass die Region gute Bus- und Bahnverbindungen bietet.",
       "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
       "label": "Leseverstehen Teil 2",
       "questions": [
@@ -424,7 +424,7 @@
       "was Sie gemeinsam mit Daniel unternehmen möchten"
     ],
     "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.",
-    "id": "a2cfeed7-cd85-4e21-bd7f-1e25b66a5df8",
+    "id": "<id:14>",
     "intro": "Sie haben von einem Freund folgende E-Mail erhalten:",
     "part": 1,
     "prepDurationSeconds": 120,
@@ -458,7 +458,7 @@
     "contentRevision": "modelltest-6-sprachbausteine-teil1-v1",
     "issuedAt": "<volatile>",
     "teil1": {
-      "body": "Liebe Maria,\r\n\r\nendlich sind wir aus unserem Urlaub zurück. Wir waren zehn Tage in Österreich, _____ es uns wirklich sehr gut gefallen hat.\r\n\r\nWir sind diesmal nicht mit dem Auto gefahren, _____ wir die lange Fahrt vermeiden wollten. Stattdessen _____ wir den Zug genommen. Das war viel entspannter als erwartet.\r\n\r\nUnser Hotel lag direkt _____ einem kleinen See. Jeden Morgen konnten wir dort frühstücken und dabei auf die Berge schauen.\r\n\r\nAm dritten Tag _____ wir eine längere Wanderung gemacht. Das Wetter war zuerst schön, aber am Nachmittag hat es plötzlich stark geregnet. Zum Glück hatten wir Regenjacken _____ .\r\n\r\nBesonders gut hat mir gefallen, _____ wir viele regionale Gerichte probieren konnten. Mein Lieblingsessen war eine Suppe, die ich vorher noch nie _____ hatte.\r\n\r\nNächstes Jahr möchten wir vielleicht wieder dorthin fahren. Wenn du möchtest, _____ du gern mitkommen.\r\n\r\nIch zeige dir bald die Fotos, _____ wir uns sehen.\r\n\r\nLiebe Grüße\r\nSandra",
+      "body": "Liebe Maria,\n\nendlich sind wir aus unserem Urlaub zurück. Wir waren zehn Tage in Österreich, _____ es uns wirklich sehr gut gefallen hat.\n\nWir sind diesmal nicht mit dem Auto gefahren, _____ wir die lange Fahrt vermeiden wollten. Stattdessen _____ wir den Zug genommen. Das war viel entspannter als erwartet.\n\nUnser Hotel lag direkt _____ einem kleinen See. Jeden Morgen konnten wir dort frühstücken und dabei auf die Berge schauen.\n\nAm dritten Tag _____ wir eine längere Wanderung gemacht. Das Wetter war zuerst schön, aber am Nachmittag hat es plötzlich stark geregnet. Zum Glück hatten wir Regenjacken _____ .\n\nBesonders gut hat mir gefallen, _____ wir viele regionale Gerichte probieren konnten. Mein Lieblingsessen war eine Suppe, die ich vorher noch nie _____ hatte.\n\nNächstes Jahr möchten wir vielleicht wieder dorthin fahren. Wenn du möchtest, _____ du gern mitkommen.\n\nIch zeige dir bald die Fotos, _____ wir uns sehen.\n\nLiebe Grüße\nSandra",
       "durationMinutes": 18,
       "gaps": [
         {
@@ -647,7 +647,7 @@
       "label": "Sprachbausteine Teil 1"
     },
     "teil2": {
-      "body": "Sehr geehrte Damen und Herren,\r\n\r\nich habe Ihre Ferienwohnung im Internet gefunden und interessiere mich sehr _____ Ihr Angebot. Meine Frau und ich möchten im August eine Woche in Ihrer Region verbringen und hätten _____ einige Fragen.\r\n\r\nAuf Ihrer Internetseite steht, dass die Wohnung ungefähr drei Kilometer vom Zentrum entfernt liegt. Können Sie mir bitte sagen, _____ es eine gute Busverbindung gibt?\r\n\r\nWir reisen mit dem Zug an und würden _____ ungern ein Auto mieten. Außerdem möchten wir wissen, _____ Einkaufsmöglichkeiten in der Nähe sind.\r\n\r\nWir interessieren uns besonders für Wanderungen. Gibt es Wege, die direkt an der Unterkunft beginnen, _____ muss man zuerst mit dem Bus fahren?\r\n\r\nIn der Beschreibung steht, dass Fahrräder vorhanden sind. Sind diese im Preis enthalten oder müssen wir _____ bezahlen?\r\n\r\nWir haben außerdem einen kleinen Hund. Bitte teilen Sie uns mit, ob Haustiere _____ erlaubt sind.\r\n\r\nFalls die Wohnung in der Woche vom 10. bis 17. August noch frei ist, würden wir sie _____ reservieren.\r\n\r\nWir wären Ihnen sehr _____, wenn Sie uns bald antworten könnten.\r\n\r\nMit freundlichen Grüßen\r\nPeter Lang",
+      "body": "Sehr geehrte Damen und Herren,\n\nich habe Ihre Ferienwohnung im Internet gefunden und interessiere mich sehr _____ Ihr Angebot. Meine Frau und ich möchten im August eine Woche in Ihrer Region verbringen und hätten _____ einige Fragen.\n\nAuf Ihrer Internetseite steht, dass die Wohnung ungefähr drei Kilometer vom Zentrum entfernt liegt. Können Sie mir bitte sagen, _____ es eine gute Busverbindung gibt?\n\nWir reisen mit dem Zug an und würden _____ ungern ein Auto mieten. Außerdem möchten wir wissen, _____ Einkaufsmöglichkeiten in der Nähe sind.\n\nWir interessieren uns besonders für Wanderungen. Gibt es Wege, die direkt an der Unterkunft beginnen, _____ muss man zuerst mit dem Bus fahren?\n\nIn der Beschreibung steht, dass Fahrräder vorhanden sind. Sind diese im Preis enthalten oder müssen wir _____ bezahlen?\n\nWir haben außerdem einen kleinen Hund. Bitte teilen Sie uns mit, ob Haustiere _____ erlaubt sind.\n\nFalls die Wohnung in der Woche vom 10. bis 17. August noch frei ist, würden wir sie _____ reservieren.\n\nWir wären Ihnen sehr _____, wenn Sie uns bald antworten könnten.\n\nMit freundlichen Grüßen\nPeter Lang",
       "durationMinutes": 18,
       "gaps": [
         {

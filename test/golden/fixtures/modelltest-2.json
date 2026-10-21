@@ -1,7 +1,7 @@
 {
   "hoeren": [
     {
-      "audioId": "6406b5ef-7e51-4a47-826b-5252706bf414",
+      "audioId": "<id:1>",
       "contentRevision": "modelltest-2-hoeren-teil1-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "audioId": "06cbc490-dc63-4ea1-b491-c1a569d88489",
+      "audioId": "<id:2>",
       "contentRevision": "modelltest-2-hoeren-teil2-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -77,7 +77,7 @@
       ]
     },
     {
-      "audioId": "f63e694e-e9d3-493b-961a-2db42eb5c345",
+      "audioId": "<id:3>",
       "contentRevision": "modelltest-2-hoeren-teil3-v1",
       "imagePath": "",
       "playsAllowed": 1,
@@ -115,35 +115,35 @@
         {
           "an": "Manfred Ulmen, Büro & Co.",
           "body": "Gesendet: 22.5.2015, 14:27\n\nSehr geehrter Herr Ulmen,\nvielen Dank für Ihre E-Mail und Ihren Terminvorschlag. Gerne können wir uns am Freitag um 12 Uhr in unserem Konferenzraum treffen, um über eine mögliche Bestellung neuer Büromöbel zu sprechen.\n\nMit freundlichen Grüßen\nW. Jung\nFilialleiter Novo-Bank Neustadt",
-          "correctTitleId": "6da22f93-b4e1-49d2-8317-690bf3bf9298",
+          "correctTitleId": "<id:4>",
           "id": "1",
           "von": "Wilfried Jung, Novo-Bank"
         },
         {
           "an": null,
           "body": "Sehr geehrte Damen und Herren,\nwir bestätigen den Erhalt Ihrer Reklamation bezüglich Ihrer Telefonkosten. Wir werden die Angelegenheit umgehend prüfen und melden uns innerhalb der nächsten 14 Tage wieder bei Ihnen. Sollten Sie in der Zwischenzeit Fragen haben, stehen wir Ihnen unter unserer kostenlosen Hotline gerne zur Verfügung.\n\nMit freundlichen Grüßen\nTelefix GmbH",
-          "correctTitleId": "d4083c25-a38b-4f94-8b0f-82428edade67",
+          "correctTitleId": "<id:5>",
           "id": "2",
           "von": null
         },
         {
           "an": null,
           "body": "Sehr geehrte Frau Thang,\nwie Sie wissen, benutzen wir seit vielen Jahren in unserem Hotel die Geschirrserie „Sommerbrise“. Da in der Zwischenzeit wieder einige Sachen kaputt gegangen sind, würden wir gerne folgende Geschirrteile bestellen:\n\n30 Teller (groß), Nr. 321-TL\n15 Teller (tief), Nr. 321-TT\n20 Salatteller, Nr. 321-ST\n\nIch hoffe, die Serie wird noch immer produziert. Bitte bestätigen Sie doch so schnell wie möglich die Bestellung. Vielen Dank!\n\nMit freundlichen Grüßen\nJoachim Sauer\nRestaurant „Zum Anker“",
-          "correctTitleId": "30d5b8d3-553c-487c-a51f-444c25605ef0",
+          "correctTitleId": "<id:6>",
           "id": "3",
           "von": null
         },
         {
           "an": null,
           "body": "Liebe Marion,\nwir hatten uns für morgen um 10 Uhr verabredet, um in Raum R001 gemeinsam an der Präsentation für die Betriebsversammlung zu arbeiten. Leider muss ich nun morgen Früh noch etwas für meinen Kollegen erledigen, der krank ist. Das wird so bis zum Mittag dauern, deshalb würde ich mich gerne erst gegen 14 Uhr treffen. Wäre das okay für dich?\n\nLiebe Grüße\nChristina",
-          "correctTitleId": "aa74f43a-9c10-4a37-9a8f-a473d4f104a2",
+          "correctTitleId": "<id:7>",
           "id": "4",
           "von": null
         },
         {
           "an": "alle",
           "body": "Gesendet: 25.5.2015, 14:23\n\nLiebe Kolleginnen und Kollegen,\nam kommenden Montag wird unser Kollege Rolf Groß nach 35 Jahren Firmenzugehörigkeit in den Ruhestand verabschiedet. Die Feier beginnt gegen 10 Uhr und endet mit einem gemeinsamen Mittagessen um 12.30 Uhr.\nWer noch etwas Geld in das Sparschwein tun möchte, das wir Rolf am Montag schenken, kann sich noch bis Freitag bei mir melden.\n\nKollegiale Grüße\nMaria Olbas (Betriebsrat)",
-          "correctTitleId": "54e13952-1feb-47a2-a92e-8e437b87f30b",
+          "correctTitleId": "<id:8>",
           "id": "5",
           "von": "Maria Olbas"
         }
@@ -151,43 +151,43 @@
       "titles": [
         {
           "content": "Abschiedsfeier",
-          "id": "54e13952-1feb-47a2-a92e-8e437b87f30b"
+          "id": "<id:8>"
         },
         {
           "content": "Beschwerde",
-          "id": "01e3ae5b-1f6a-4d04-8db2-b605403b42f9"
+          "id": "<id:9>"
         },
         {
           "content": "Eingangsbestätigung",
-          "id": "d4083c25-a38b-4f94-8b0f-82428edade67"
+          "id": "<id:5>"
         },
         {
           "content": "Erstbestellung",
-          "id": "91eab2d0-70d7-4991-b2b8-1eaa26231802"
+          "id": "<id:10>"
         },
         {
           "content": "Firmenjubiläum",
-          "id": "d1e7f672-9722-4ed7-a043-ec0772f812d2"
+          "id": "<id:11>"
         },
         {
           "content": "Krankmeldung",
-          "id": "8f21391c-612a-4931-95ad-d8d7502e5ac9"
+          "id": "<id:12>"
         },
         {
           "content": "Nachbestellung",
-          "id": "30d5b8d3-553c-487c-a51f-444c25605ef0"
+          "id": "<id:6>"
         },
         {
           "content": "Termin verschieben?",
-          "id": "aa74f43a-9c10-4a37-9a8f-a473d4f104a2"
+          "id": "<id:7>"
         },
         {
           "content": "Terminabsage",
-          "id": "3c6d6c9d-dddd-495a-a09d-8efddbb2fef9"
+          "id": "<id:13>"
         },
         {
           "content": "Terminbestätigung",
-          "id": "6da22f93-b4e1-49d2-8317-690bf3bf9298"
+          "id": "<id:4>"
         }
       ]
     },
@@ -424,7 +424,7 @@
       "fragen Sie nach bisherigen Kunden (wer, Zufriedenheit, ...)"
     ],
     "closingReminder": "Bevor Sie den Brief schreiben, überlegen Sie sich die passende Reihenfolge der Punkte, eine passende Einleitung und einen passenden Schluss. Vergessen Sie auch nicht Datum und Anrede.",
-    "id": "5196c237-2ef9-4ffc-885a-dabf364873e4",
+    "id": "<id:14>",
     "intro": "Sie lesen folgende Anzeige:",
     "part": 1,
     "prepDurationSeconds": 120,

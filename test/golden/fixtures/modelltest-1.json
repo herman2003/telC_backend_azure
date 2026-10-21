@@ -1,7 +1,7 @@
 {
   "hoeren": [
     {
-      "audioId": "4d9a006f-f8f2-4837-ae5f-729654f44386",
+      "audioId": "<id:1>",
       "contentRevision": "modelltest-1-teil-1-v1",
       "imagePath": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/hoerverstehen_teil1.png",
       "playsAllowed": 1,
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "audioId": "a5aeb389-7dc6-4890-8438-d77be92f2e23",
+      "audioId": "<id:2>",
       "contentRevision": "modelltest-1-teil-2-v1",
       "imagePath": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/hoerverstehen_teil2.png",
       "playsAllowed": 1,
@@ -77,7 +77,7 @@
       ]
     },
     {
-      "audioId": "835623a4-16cf-4117-89c0-9cb8c5765a0c",
+      "audioId": "<id:3>",
       "contentRevision": "modelltest-1-teil-3-v1",
       "imagePath": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/hoerverstehen_teil3.png",
       "playsAllowed": 1,
@@ -115,35 +115,35 @@
         {
           "an": "v.gruedle@grb.com",
           "body": "Hallo Frau Grüdle,\nleider kann ich nicht an der Dienstbesprechung am nächsten\nDonnerstag teilnehmen. Wie wir bereits vor Längerem besprochen\nhaben, habe ich mich zur Trainingsreihe „Personalführung\"\nangemeldet. Als ich mich anmelden wollte, kam ich nur auf die\nWarteliste. Eben hat mich der Veranstalter angerufen, dass ein\nPlatz krankheitsbedingt frei geworden ist. Weil die nächste Reihe\nerst in einem halben Jahr beginnt, möchte ich meine Teilnahme an\nder Dienstbesprechung absagen.\nVielen Dank für Ihr Verständnis!\nHerzlichen Gruß\nRamik Fazli",
-          "correctTitleId": "ffffffff-0007-0001-0001-000000000001",
+          "correctTitleId": "<id:4>",
           "id": "1",
           "von": "r.fazli@grb.com"
         },
         {
           "an": null,
           "body": "Liebe Kolleginnen und Kollegen,\nder Sicherheitsdienst hat mich informiert, dass die Eingangstüre\nbei der Routinekontrolle am vergangenen Samstag nicht richtig\nverschlossen war. Man konnte zwar nicht ins Gebäude gelangen,\ndennoch stand auf dem Display nicht „Verschlossen\". Wir hoffen,\ndass nichts Schlimmes passiert ist, aber im Schadensfall würde die\nVersicherung nichts bezahlen. Bitte achten Sie daher beim Verlassen\ndes Gebäudes freitags nach 16:00 Uhr darauf, dass das digitale\nDisplay neben der Tür „Verschlossen\" anzeigt.\nVielen Dank für Ihre Unterstützung!\ngez. Postmann\nVerwaltungsleitung",
-          "correctTitleId": "ffffffff-0005-0001-0001-000000000001",
+          "correctTitleId": "<id:5>",
           "id": "2",
           "von": null
         },
         {
           "an": "stephan.gerke@werbeagentur.net",
           "body": "Sehr geehrter Herr Gerke,\nvielen Dank für Ihre schnelle Lieferung. Wir haben 4.000 Stück\nWerbebroschüren für unser neuestes Produkt bestellt. Allerdings\nhaben Sie 500 Stück weniger geliefert. Aber auf dem Lieferschein\nsteht die bestellte Menge.\nWir hoffen, dass es sich um ein Versehen handelt und erwarten in\nKürze Ihre Nachlieferung.\nMit freundlichen Grüßen\nRené Gallack",
-          "correctTitleId": "ffffffff-0003-0001-0001-000000000001",
+          "correctTitleId": "<id:6>",
           "id": "3",
           "von": "rene.gallack@fa-rzw.de"
         },
         {
           "an": "aurum@gaestehaus.com",
           "body": "Sehr geehrte Damen und Herren,\nunsere Firma plant für Anfang November eine zweitägige\ninternationale Tagung zum Thema „Technik und Innovation\". Wir\nsuchen einen großen Konferenzsaal mit der modernsten technischen\nAusstattung. Da wir auch in Gruppen arbeiten werden, benötigen\nwir zusätzlich vier kleinere Räume. Ist dies möglich? Natürlich\nmöchten wir für alle Teilnehmenden das Mittag- und Abendessen\nbuchen.\nWir erwarten ca. 80 Kunden aus dem In- und Ausland. Daher wäre\nes praktisch, wenn diese am Tagungsort auch übernachten könnten.\nHätten Sie genug Einzelzimmer?\nBitte schicken Sie mir Ihre komplette Angebotsliste mit Preisen.\nMit freundlichen Grüßen\nInes Villa",
-          "correctTitleId": "ffffffff-0001-0001-0001-000000000001",
+          "correctTitleId": "<id:7>",
           "id": "4",
           "von": "i.villa@kompsit.net"
         },
         {
           "an": "nella.weber@rett-platt.de",
           "body": "Hallo Nella,\nich habe gerade in meinem Kalender unser Treffen morgen um 16 Uhr\nentdeckt. Wir wollten doch den Aufbau des Seminars zum\ninterkulturellen Training „Fettnäpfchen in Russland vermeiden\"\nbesprechen. Könnten wir uns auch direkt nach der Mittagspause um\n13.30 Uhr zusammensetzen? Danach muss ich nämlich zum Elternabend\nin Michas Kindergarten. Das Sommerfest steht an ...\nSag mir kurz Bescheid.\nMichaela",
-          "correctTitleId": "ffffffff-0008-0001-0001-000000000001",
+          "correctTitleId": "<id:8>",
           "id": "5",
           "von": "michaela.rojka@rett-platt.de"
         }
@@ -151,43 +151,43 @@
       "titles": [
         {
           "content": "Anfrage",
-          "id": "ffffffff-0001-0001-0001-000000000001"
+          "id": "<id:7>"
         },
         {
           "content": "Lieferschein",
-          "id": "ffffffff-0002-0001-0001-000000000001"
+          "id": "<id:9>"
         },
         {
           "content": "Reklamation",
-          "id": "ffffffff-0003-0001-0001-000000000001"
+          "id": "<id:6>"
         },
         {
           "content": "Schadensmeldung",
-          "id": "ffffffff-0004-0001-0001-000000000001"
+          "id": "<id:10>"
         },
         {
           "content": "Schließregelung",
-          "id": "ffffffff-0005-0001-0001-000000000001"
+          "id": "<id:5>"
         },
         {
           "content": "Sommerfest",
-          "id": "ffffffff-0006-0001-0001-000000000001"
+          "id": "<id:11>"
         },
         {
           "content": "Terminabsage",
-          "id": "ffffffff-0007-0001-0001-000000000001"
+          "id": "<id:4>"
         },
         {
           "content": "Terminverschiebung",
-          "id": "ffffffff-0008-0001-0001-000000000001"
+          "id": "<id:8>"
         },
         {
           "content": "Terminzusage",
-          "id": "ffffffff-0009-0001-0001-000000000001"
+          "id": "<id:12>"
         },
         {
           "content": "Übernachtung",
-          "id": "ffffffff-0010-0001-0001-000000000001"
+          "id": "<id:13>"
         }
       ]
     },
@@ -485,7 +485,7 @@
       "Fragen Sie nach den Kosten."
     ],
     "closingReminder": "Bevor Sie den Brief schreiben, überlegen Sie sich die passende Reihenfolge der Punkte, eine passende Einleitung und einen passenden Schluss. Vergessen Sie auch nicht Datum und Anrede.",
-    "id": "0af1e03c-5b50-4d5d-bed4-bf18c5721b59",
+    "id": "<id:14>",
     "intro": "Sie sehen folgende Anzeige:",
     "part": 1,
     "prepDurationSeconds": 120,
