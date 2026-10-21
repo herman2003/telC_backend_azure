@@ -1,0 +1,47 @@
+meta {
+  name: 14f Answer, naming the task
+  type: http
+  seq: 20
+}
+
+put {
+  url: {{baseUrl}}/api/exams/attempts/{{b2AttemptId}}/blocks/SCHREIBEN/answers
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+body:json {
+  {
+    "answers": {
+      "SCHREIBEN_1": {
+        "text": "Sehr geehrte Damen und Herren, ich interessiere mich für Ihre Unfallversicherung und habe einige Fragen zu den Leistungen. Ich treibe Klettersport und reise oft allein. Mit freundlichen Grüßen, Awa Test",
+        "taskId": "{{b2SchreibenTaskA}}"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+}
+
+docs {
+  {{b2SchreibenTaskA}} was captured by request 07 (Schreiben offers both
+  Aufgaben) — Aufgabe A, "Bitte um Informationen". Naming it here is the
+  point of this whole chain: before this phase the stored value was
+  exam-<modelltestId>, telling a trainer which sitting but not which of
+  the two prompts was answered.
+}
