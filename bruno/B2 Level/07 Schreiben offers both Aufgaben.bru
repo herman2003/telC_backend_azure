@@ -19,6 +19,16 @@ assert {
 }
 
 script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
   // telc B2 presents two tasks and the candidate answers exactly one.
   if (!Array.isArray(res.body.choices) || res.body.choices.length !== 2) {
     throw new Error("expected two Schreiben tasks, got " +

@@ -19,6 +19,16 @@ assert {
 }
 
 script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
   // telc B2 Leseverstehen: 5 texts against 10 headings, 5 single-choice
   // questions, 10 situations against 12 announcements.
   const t1 = res.body.teil1, t2 = res.body.teil2, t3 = res.body.teil3;
@@ -57,6 +67,13 @@ docs {
     GET /api/listening/exercise?modelltest=7&teil=1  (5 questions, audio_url set)
     ...&teil=2 (10 questions)  ...&teil=3 (5 questions)
 
-  Hoeren audio is served from cdn.lerniqo.tech as .m4a. Play one to confirm
-  it is reachable, not just present as a string.
+  Hoeren does NOT return an audio URL — see request 17. The training DTO
+  carries audioId and playsAllowed, and the client spends a play through
+  POST /api/listening/audio/{audioId}/play. Handing out the URL would make
+  the play allowance unenforceable, so checking for one here is looking for
+  something that is deliberately absent.
+
+  To confirm the audio itself is reachable, spend a play and follow what that
+  returns, or read audio_url straight from the row:
+    npm run modelltest:verify -- --level B2 --number 7
 }

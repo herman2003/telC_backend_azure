@@ -19,9 +19,31 @@ assert {
 }
 
 script:post-response {
-  const cards = res.body.cards || res.body;
-  if (!Array.isArray(cards) || cards.length === 0) {
-    throw new Error("the weekly vocab pack is empty — run the extraction for MT 7");
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  // The pack is five arrays by part of speech, not one `cards` array. The
+  // first draft read res.body.cards, found nothing, and reported an empty
+  // pack on a perfectly good response — it could never have passed.
+  const groups = ["nouns", "verbs", "adjectives", "adverbs", "prepositions"];
+  const counts = groups.map((g) => (res.body[g] || []).length);
+  const total = counts.reduce((a, b) => a + b, 0);
+
+  if (total === 0) {
+    throw new Error(
+      "the weekly vocab pack is empty. Those rows are not in a migration: run " +
+        "npm run vocab:analyze-extract -- --mt=7 then vocab:curate-weekly-pack -- --mt=7"
+    );
+  }
+  if (res.body.modelltestNumber !== 7) {
+    throw new Error("the pack should come from MT 7, got " + res.body.modelltestNumber);
   }
 }
 

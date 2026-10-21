@@ -19,6 +19,16 @@ assert {
 }
 
 script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
   const parts = res.body.map((t) => t.part).sort((a, b) => a - b);
   if (parts.join(",") !== "0,1,2,3") {
     throw new Error("expected parts 0,1,2,3 and got " + parts.join(","));

@@ -1,0 +1,43 @@
+meta {
+  name: 17 Hoeren Teil 1 has 5 questions
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/api/listening/exercise?modelltest=7&teil=1
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  if (res.body.questions.length !== 5) {
+    throw new Error("Teil 1 should have 5 questions, got " + res.body.questions.length);
+  }
+}
+
+docs {
+  No audioUrl field here by design — see ListeningExerciseDto. The response
+  carries audioId, playsAllowed, contentRevision, imagePath and questions;
+  the client spends a play via POST /api/listening/audio/{audioId}/play to
+  get a short-lived streaming URL. There is nothing to check against
+  cdn.lerniqo.tech on this endpoint itself — see request 18's docs.
+}
