@@ -32,10 +32,22 @@ script:post-response {
   if (t3.situations.length !== 10 || t3.announcements.length !== 12) {
     throw new Error("Teil 3 should be 10 situations and 12 announcements");
   }
-  // No answer key on a content read, at any level.
-  const body = JSON.stringify(res.body);
-  if (body.includes("isCorrect\":true") || body.includes("correctTitleKey")) {
-    throw new Error("an answer key leaked into the exercise response");
+  // The answer key SHIPS with the exercise, deliberately — ADR 0001, accepted
+  // as the right trade for a self-paced practice product, with field names
+  // chosen to match the bundle the app already parses. So this asserts it is
+  // PRESENT, not absent.
+  //
+  // The first draft of this check looked for an absent key, and for field
+  // names that do not exist (`isCorrect`, `correctTitleKey`), so it passed
+  // without testing anything while asserting the opposite of the design.
+  if (!t1.texts.every((x) => x.correctTitleId)) {
+    throw new Error("Teil 1 texts must carry correctTitleId");
+  }
+  if (!t2.questions.every((q) => q.correctOptionId)) {
+    throw new Error("Teil 2 questions must carry correctOptionId");
+  }
+  if (!t3.situations.every((x) => x.correctAnswer)) {
+    throw new Error("Teil 3 situations must carry correctAnswer");
   }
 }
 
