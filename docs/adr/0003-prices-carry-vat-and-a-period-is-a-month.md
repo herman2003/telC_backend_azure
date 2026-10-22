@@ -2,8 +2,8 @@
 
 **Status:** accepted
 **Date:** 2026-10-03
-**Supersedes:** B5 in [CENTER_FRONTEND_SYNC_DECISIONS.md](../CENTER_FRONTEND_SYNC_DECISIONS.md) (VAT dropped, 2026-09-18)
-**Spec:** [BILLING_PERIOD_SPEC.md](../BILLING_PERIOD_SPEC.md)
+**Supersedes:** B5 in [CENTER_FRONTEND_SYNC_DECISIONS.md](../contracts/center-dashboard-sync.md) (VAT dropped, 2026-09-18)
+**Spec:** [BILLING_PERIOD_SPEC.md](../domains/billing-period.md)
 **Rules:** D4 rules 3, 5, 6, 7 and 9
 
 ---

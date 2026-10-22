@@ -1,10 +1,10 @@
 # ADR 0002 — The centre pays, the code holds
 
-**Status:** accepted (AI Speaking spend/assign semantics superseded by [ADR 0003](./0003-ai-speaking-assign-from-stock.md))
+**Status:** accepted (AI Speaking spend/assign semantics superseded by [ADR 0005](./0005-ai-speaking-assign-from-stock.md); Prep Pass price/duration below superseded by launch pricing — see note)
 **Date:** 2026-09-25
-**Design:** [ENTITLEMENTS_INTERFACE_DESIGN.md](../ENTITLEMENTS_INTERFACE_DESIGN.md)
-**Offer:** [OFFRES_LERNIQO.md](../OFFRES_LERNIQO.md)
-**Block:** 23 of [BUILD_BLOCKS_22_27.md](../BUILD_BLOCKS_22_27.md)
+**Design:** [ENTITLEMENTS_INTERFACE_DESIGN.md](../architecture/entitlements-interface.md)
+**Offer:** [OFFRES_LERNIQO.md](../domains/offres-lerniqo.md)
+**Block:** 23 of [BUILD_BLOCKS_22_27.md](../archive/build-blocks-22-27.md)
 
 ---
 
@@ -14,6 +14,14 @@ Lerniqo sells one subscription and four add-ons. Three of the add-ons are
 described per student: Prep Pass (3 000 FCFA, 60 days), AI Speaking credits
 (300 FCFA each), AI Assisted Learning (2 000 FCFA a month). Start (4 500
 FCFA/élève/mois) is the door — an add-on only works behind a paid Start.
+
+> **Note (2026-10-22):** Prep Pass's price and duration here are what was true
+> when this ADR was written. Launch pricing
+> (`docs/superpowers/plans/2026-10-06-tranche1-prep-pass-pricing.md`) cut it to
+> **1 000 FCFA, 30 days** on 2026-10-06 — `PREP_PASS` and `PREP_PASS_DAYS` in
+> `entitlement-purchase.service.ts` / `entitlements.service.ts` are the source
+> of truth now. The decision this ADR records (who owns the entitlement, who
+> pays, what happens on lapse) is unaffected by the price change.
 
 The schema has nowhere to put any of them. A centre holds seats and exam slots;
 a student holds nothing. Before building three products, we have to decide who
