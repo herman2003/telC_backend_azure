@@ -2,7 +2,8 @@ You are extracting a complete, machine-readable Lerniqo Modelltest record from
 the attached PDF: "telc Deutsch A2 – Übungstest 1 / Start Deutsch 2".
 
 Output must validate against Lerniqo's canonical content contract
-(`docs/domains/modelltest-content-contract.md`, schemaVersion 2.0). Do not
+(`docs/ideas/modelltest-content-contract.md`, schemaVersion 2.0 — a proposal,
+not yet approved). Do not
 invent a different JSON shape. Return valid JSON only, no Markdown fences, no
 commentary outside the JSON.
 
@@ -79,7 +80,7 @@ Omit `SPRACHBAUSTEINE` entirely — A2 has none.
 | SPRECHEN_2 | `ALLTAGSGESPRAECH` | — | 6 | topic "Tagesablauf", 8 question-word cards (incl. 2 blank jokers) |
 | SPRECHEN_3 | `ETWAS_AUSHANDELN` | — | 6 | topic "Ein neues Hobby", participant A/B activity cards + prompts Was?/Wann?/Warum?/Warum nicht? |
 
-Use the exact `content` field names from `docs/domains/modelltest-content-contract.md`
+Use the exact `content` field names from `docs/ideas/modelltest-content-contract.md`
 (sections "Aufgabenart: `KURZANTWORT`", "`EINZELAUSWAHL`", "`ZUORDNUNG`",
 "`FORMULAR_AUSFUELLEN`", "`TEXT_SCHREIBEN`", "Sprechen task shapes" —
 `SICH_VORSTELLEN`, `ALLTAGSGESPRAECH`/`ETWAS_AUSHANDELN`). Each section also

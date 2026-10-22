@@ -51,8 +51,7 @@ Business rules and approved behaviour, per domain. Not plans.
 [exam-schreiben-visibility](domains/exam-schreiben-visibility.md) ·
 [center-modelltest-preview](domains/center-modelltest-preview.md)
 
-**Content** — [modelltest-content-contract](domains/modelltest-content-contract.md) ·
-[answer-key-with-exercise](domains/answer-key-with-exercise.md) ·
+**Content** — [answer-key-with-exercise](domains/answer-key-with-exercise.md) ·
 [hoeren-training-exam-alignment](domains/hoeren-training-exam-alignment.md) ·
 [vocab-grammar](domains/vocab-grammar.md)
 
