@@ -2,7 +2,23 @@
 
 ## Status
 
-Proposal only. No runtime, database, endpoint, or seed changes are part of this document.
+Approved as the shape for Phase 3 generic-model content (A1/A2) — chosen
+over `docs/architecture/multi-level.md` Part 3's `ExamSection.material`
+sketch, 2026-10-22. No runtime, database, endpoint, or seed changes are
+part of this document itself; the generic schema design still lives in
+`docs/architecture/multi-level.md` Part 3 and `docs/plans/active/multi-level-phase-3-generic-model.md`.
+
+**Known corrections not yet folded into the body below** (surfaced by a
+review against the real telc A2 PDF; see
+`docs/plans/active/multi-level-phase-3-generic-model.md`'s "Resolved —
+contract shape" section for the full list, and
+`docs/plans/active/a2-modelltest-1-extraction-prompt.md` for them applied):
+telc uses fractional (0.5/1.5) points in Schreiben and Sprechen rubrics at
+every level; `Schreiben Teil 2` and all `Sprechen` sections must not use
+`scoring.mode: "AUTO"`; Hören is one continuous, unpausable recording on
+Exam Day, not per-Teil clips; grade bands belong in `format`; a visual-asset
+record shape is needed; `modelltest.number` is the paper's own per-level
+number, never the global catalogue number.
 
 ## Assumptions
 
