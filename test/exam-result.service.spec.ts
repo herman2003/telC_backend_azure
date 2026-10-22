@@ -302,7 +302,7 @@ describe('ExamResultService', () => {
       expect(sb.reduce((n, s) => n + (s.points ?? 0), 0)).toBe(30);
     });
 
-    it('rounds a Teil to whole points, because telc has no half marks', async () => {
+    it('rounds an auto-scored Teil to whole points (human marks may be half, auto-scored ones never are)', async () => {
       load(50);
 
       const result = await service.forAttempt(ATTEMPT);
@@ -392,6 +392,21 @@ describe('ExamResultService', () => {
       expect(result.written.points).toBe(134);
       expect(result.written.passed).toBe(false);
       expect(result.outcome).toBe('FAILED');
+    });
+
+    it('carries a half-point human mark through to the oral total and verdict', async () => {
+      // A human mark no longer has to be a whole number -- the point of
+      // Task 0. 75 written (passes at 100%), oral at 74.5/75 (still 60%+).
+      load(100, [
+        { skill: 'SCHREIBEN', teil: 1, points: 45 },
+        { skill: 'SPRECHEN', teil: 1, points: 74.5 },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.oral.points).toBe(74.5);
+      expect(result.oral.passed).toBe(true);
+      expect(result.outcome).toBe('PASSED');
     });
   });
 

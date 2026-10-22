@@ -164,6 +164,33 @@ describe('ExamGradingService', () => {
       ).rejects.toThrow('POINTS_INVALID');
     });
 
+    it("accepts a half-point mark, telc's own Bewertungsbogen M10 grid", async () => {
+      // B1 Sprechen Teil 1: Vorstellen (1/0.5/0) + Zusatzfragen (2/1/0) can
+      // legitimately sum to 1.5 -- this used to be unrepresentable.
+      const recorded = await service.recordMark(identity, ATTEMPT, {
+        skill: 'SPRECHEN',
+        teil: 1,
+        points: 1.5,
+      });
+
+      expect(prisma.examSectionResult.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({ points: 1.5 }),
+        }),
+      );
+      expect(recorded).toMatchObject({ points: 1.5 });
+    });
+
+    it('refuses a mark finer than half a point', async () => {
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'SPRECHEN',
+          teil: 1,
+          points: 1.3,
+        }),
+      ).rejects.toThrow('POINTS_INVALID');
+    });
+
     it('refuses a Teil this level does not have', async () => {
       prisma.examSectionWeight.findUnique.mockResolvedValue(null);
 
