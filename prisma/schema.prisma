@@ -1595,7 +1595,13 @@ model ExamSectionResult {
   /// Out of the Teil's `max_points`, not a percentage: an examiner marks in
   /// telc's points, and converting on the way in would lose the number they
   /// actually wrote down.
-  points    Int
+  ///
+  /// Float, not Decimal: telc's own Bewertungsbogen M10 only ever produces
+  /// multiples of 0.5 (1, 0.5, 0 per criterion), which binary64 represents
+  /// exactly. A Decimal column would force every read site in this codebase
+  /// — already typed `number` throughout — to convert with `.toNumber()`
+  /// for no precision this domain needs.
+  points    Float
   /// The center user who gave it.
   graded_by String
   graded_at DateTime @default(now())
