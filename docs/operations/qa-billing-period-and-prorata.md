@@ -1,9 +1,9 @@
 # QA runbook — Période Start, renouvellement & prorata
 
 **Audience:** QA / autre ingénieur.  
-**Happy-path abo / add-ons:** [PROD_READY_BILLING_SMOKE.md](./PROD_READY_BILLING_SMOKE.md)  
-**Échecs / grâce / webhooks:** [QA_BILLING_EDGE_CASES.md](./QA_BILLING_EDGE_CASES.md) (branche `docs/qa-billing-edge-cases` si absent sur `dev`)  
-**Règles produit:** D4 dans [CENTER_FRONTEND_SYNC_DECISIONS.md](./CENTER_FRONTEND_SYNC_DECISIONS.md), [BILLING_PERIOD_SPEC.md](./BILLING_PERIOD_SPEC.md)
+**Happy-path abo / add-ons:** [PROD_READY_BILLING_SMOKE.md](./billing-smoke.md)  
+**Échecs / grâce / webhooks:** [QA_BILLING_EDGE_CASES.md](./qa-billing-edge-cases.md) (branche `docs/qa-billing-edge-cases` si absent sur `dev`)  
+**Règles produit:** D4 dans [CENTER_FRONTEND_SYNC_DECISIONS.md](../contracts/center-dashboard-sync.md), [BILLING_PERIOD_SPEC.md](../domains/billing-period.md)
 
 ---
 

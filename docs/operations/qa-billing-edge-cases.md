@@ -1,8 +1,8 @@
 # QA runbook — Billing edge cases (pre-prod)
 
 **Audience:** QA / another engineer verifying launch readiness.  
-**Happy-path smoke (already done):** [PROD_READY_BILLING_SMOKE.md](./PROD_READY_BILLING_SMOKE.md)  
-**Commercial source:** [OFFRES_LERNIQO.md](./OFFRES_LERNIQO.md)
+**Happy-path smoke (already done):** [PROD_READY_BILLING_SMOKE.md](./billing-smoke.md)  
+**Commercial source:** [OFFRES_LERNIQO.md](../domains/offres-lerniqo.md)
 
 This document covers what **still matters after** trial / Start / Prep Pass / Elena / Exam Day succeed once. Industry practice (Stripe go-live, SaaS billing checklists) is: do **not** only re-buy add-ons; prove **failure, expiry, duplicates, and ops visibility**.
 
