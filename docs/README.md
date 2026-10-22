@@ -101,6 +101,8 @@ what it cannot express — rules, sequences, conventions.
 |---|---|
 | [deploy-vps.md](operations/deploy-vps.md) | leaving App Platform for a VPS |
 | [billing-smoke.md](operations/billing-smoke.md) | production billing smoke test |
+| [qa-billing-edge-cases.md](operations/qa-billing-edge-cases.md) | grace, block, failed webhook, duplicates (FR) |
+| [qa-billing-period-and-prorata.md](operations/qa-billing-period-and-prorata.md) | period, renewal, mid-period prorata (FR) |
 
 ## Other directories
 

@@ -1,6 +1,6 @@
 import { UnauthorizedException } from '@nestjs/common';
 
-/** Defaults match docs/CENTER_SESSION_TIMEOUTS_SPEC.md */
+/** Defaults match docs/domains/center-session-timeouts.md */
 export const CENTER_SESSION_IDLE_TTL_DEFAULT = '30m';
 export const CENTER_SESSION_ABSOLUTE_TTL_DEFAULT = '12h';
 

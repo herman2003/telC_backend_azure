@@ -1,6 +1,6 @@
 # Phase 26 — B2 as a second CEFR level
 
-**Spec:** `SPEC-b2-level.md` · **Block:** `docs/BUILD_BLOCK_B2_LEVEL.md`
+**Spec:** `docs/archive/spec-b2-level.md` · **Block:** `docs/archive/build-block-b2-level.md`
 **Branch:** `feat/b2-level` off `dev` (created; two doc commits on it)
 **Status:** plan awaiting approval. No code written.
 
@@ -262,13 +262,13 @@ becomes a committed migration. Applied against `.env.test` only.
 |---|---|---|
 | 1 | `/review` over the whole diff — five axes, attention on the exam and scoring paths. Findings reported before any fix | 🛑 the human approves which are fixed |
 | 2 | `bruno/B2 Level/` — the 14 numbered requests in the block doc | 🛑 the human runs the collection against local |
-| 3 | PR into `dev`, referencing `SPEC-b2-level.md` | four suites green |
+| 3 | PR into `dev`, referencing `docs/archive/spec-b2-level.md` | four suites green |
 
 ---
 
 ## Done when
 
-Every success criterion in `SPEC-b2-level.md` is met, Modelltests 1–6 are
+Every success criterion in `docs/archive/spec-b2-level.md` is met, Modelltests 1–6 are
 byte-identical to T1's snapshot, and the four suites are green.
 
 **And the real finish line:** importing a second B2 paper costs one JSON file,

@@ -3,7 +3,7 @@
  *
  * `GET /exercise` ships the answer key unconditionally, and deliberately so:
  * a student practising offline needs it to see WHICH gaps were wrong, and
- * `docs/ANSWER_KEY_WITH_EXERCISE_SPEC.md` records that decision as having no
+ * `docs/domains/answer-key-with-exercise.md` records that decision as having no
  * mode flag. An exam is the case that decision did not cover — handing a
  * candidate the answers with the questions is not an exam at all.
  *
