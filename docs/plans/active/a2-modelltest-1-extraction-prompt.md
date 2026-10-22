@@ -163,21 +163,40 @@ not as a bare `maxPoints: 10`:
 ### Sprechen Teil 1 (`SICH_VORSTELLEN`)
 
 `scoring.mode: "MANUAL"`. Maximum 3 points: `Vorstellen` (1/0.5/0) +
-`Zusatzfragen` (2/1/0).
+`Zusatzfragen` (2/1/0). Store exactly this field shape in `content`:
+
+```json
+"rubric": {
+  "vorstellen": [1, 0.5, 0],
+  "zusatzfragen": [2, 1, 0]
+}
+```
 
 ### Sprechen Teil 2 (`ALLTAGSGESPRAECH`)
 
 `scoring.mode: "MANUAL"`. Maximum 6 points: each candidate asks three
 questions and answers three — six scored interaction acts, each 1/0.5/0.
+Store exactly this field shape in `content`:
+
+```json
+"rubric": { "perInteractionAct": [1, 0.5, 0] }
+```
 
 ### Sprechen Teil 3 (`ETWAS_AUSHANDELN`)
 
 `scoring.mode: "MANUAL"`. Maximum 6 points: `Erfüllung der
-Aufgabenstellung` (3/1.5/0) + `Sprachliche Realisierung` (3/1.5/0).
+Aufgabenstellung` (3/1.5/0) + `Sprachliche Realisierung` (3/1.5/0). Store
+exactly this field shape in `content`:
 
-Store each Sprechen section's rubric explicitly in `content`, same pattern
-as Schreiben Teil 2 above — the criteria and their point options, not just
-a `maxPoints` total.
+```json
+"rubric": {
+  "erfuellungDerAufgabenstellung": [3, 1.5, 0],
+  "sprachlicheRealisierung": [3, 1.5, 0]
+}
+```
+
+These exact key names match `scripts/generic-modelltest-schemas.mjs`'s Zod
+validation — a different key name is a rejected import, not a warning.
 
 ## Hören delivery — one continuous recording, not per-Teil clips
 
