@@ -79,14 +79,44 @@ describe('generic-model importer, against real Postgres', () => {
     const sections = await prisma.examSection.findMany({
       where: { modelltest: { number: SMOKE_NUMBER } },
       orderBy: { sort_order: 'asc' },
-      select: { skill: true, teil: true, aufgabentyp: true, scoring_mode: true, max_points: true },
+      select: {
+        skill: true,
+        teil: true,
+        aufgabentyp: true,
+        scoring_mode: true,
+        max_points: true,
+      },
     });
 
     expect(sections).toEqual([
-      { skill: 'HOEREN', teil: 1, aufgabentyp: 'KURZANTWORT', scoring_mode: 'AUTO', max_points: 1 },
-      { skill: 'LESEN', teil: 1, aufgabentyp: 'EINZELAUSWAHL', scoring_mode: 'AUTO', max_points: 1 },
-      { skill: 'SPRECHEN', teil: 1, aufgabentyp: 'SICH_VORSTELLEN', scoring_mode: 'MANUAL', max_points: 3 },
-      { skill: 'SCHREIBEN', teil: 2, aufgabentyp: 'TEXT_SCHREIBEN', scoring_mode: 'MANUAL_WITH_AI_SUGGESTION', max_points: 10 },
+      {
+        skill: 'HOEREN',
+        teil: 1,
+        aufgabentyp: 'KURZANTWORT',
+        scoring_mode: 'AUTO',
+        max_points: 1,
+      },
+      {
+        skill: 'LESEN',
+        teil: 1,
+        aufgabentyp: 'EINZELAUSWAHL',
+        scoring_mode: 'AUTO',
+        max_points: 1,
+      },
+      {
+        skill: 'SPRECHEN',
+        teil: 1,
+        aufgabentyp: 'SICH_VORSTELLEN',
+        scoring_mode: 'MANUAL',
+        max_points: 3,
+      },
+      {
+        skill: 'SCHREIBEN',
+        teil: 2,
+        aufgabentyp: 'TEXT_SCHREIBEN',
+        scoring_mode: 'MANUAL_WITH_AI_SUGGESTION',
+        max_points: 10,
+      },
     ]);
   });
 
@@ -109,9 +139,7 @@ describe('generic-model importer, against real Postgres', () => {
     });
 
     expect(section?.items).toHaveLength(0);
-    expect(
-      (section!.material as { rubric?: unknown }).rubric,
-    ).toBeDefined();
+    expect((section!.material as { rubric?: unknown }).rubric).toBeDefined();
   });
 
   it('re-running the same SQL is a no-op, not a duplicate', async () => {
@@ -127,7 +155,7 @@ describe('generic-model importer, against real Postgres', () => {
     expect(after).toBe(before);
   });
 
-  it('never touches any B1/B2 table', async () => {
+  it('never touches any B1/B2 table', () => {
     // Sanity check on the generator itself, not the DB: the generic
     // importer's output must not reference a B1-shared table name.
     const b1Tables = [

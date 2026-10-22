@@ -15,10 +15,7 @@ import {
   type SkillScores,
   type TeilScore,
 } from './progress-formula';
-import {
-  sessionOfDay,
-  type SessionOfDay,
-} from './session-of-day';
+import { sessionOfDay, type SessionOfDay } from './session-of-day';
 
 const WEEK_MS = 7 * 86_400_000;
 
@@ -71,9 +68,7 @@ export class ProgressService {
       this.activityOf(studentIds, now),
       this.levelsOf(studentIds),
     ]);
-    const weightsByLevel = await this.weightsByLevel(
-      new Set(levels.values()),
-    );
+    const weightsByLevel = await this.weightsByLevel(new Set(levels.values()));
     const result = new Map<string, StudentProgress>();
     for (const id of studentIds) {
       const level = levels.get(id) ?? 'B1';

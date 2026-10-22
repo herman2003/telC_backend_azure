@@ -401,9 +401,7 @@ describe('ModelltestsService', () => {
       );
       expect(JSON.stringify(result.sections.HOEREN)).not.toContain('audioUrl');
       expect(result.sections.SCHREIBEN).toEqual({ id: 'w1', stimulus: '…' });
-      expect(result.sections.SPRECHEN).toEqual([
-        { part: 1, title: 'Teil 1' },
-      ]);
+      expect(result.sections.SPRECHEN).toEqual([{ part: 1, title: 'Teil 1' }]);
       expect(mockLesen.getExercise).toHaveBeenCalledWith(1);
       expect(mockSprachbausteine.getExercise).toHaveBeenCalledWith(1);
       expect(mockWriting.getExerciseByModelltest).toHaveBeenCalledWith(1);
@@ -416,7 +414,12 @@ describe('ModelltestsService', () => {
 
     it('reads the generic model for an A2 Modelltest, never the B1 skill services', async () => {
       mockPrisma.modelltest.findMany.mockResolvedValue([
-        { id: 'a2-mt-uuid', number: 100, title: 'A2 Modelltest 1', level: 'A2' },
+        {
+          id: 'a2-mt-uuid',
+          number: 100,
+          title: 'A2 Modelltest 1',
+          level: 'A2',
+        },
       ]);
       mockPrisma.examSection.findMany.mockResolvedValue([
         {

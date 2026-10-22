@@ -126,14 +126,22 @@ describe('skillPoints', () => {
   it('maps percent scores onto the official telc B1 caps', () => {
     expect(skillPoints(scores({ LESEN: 100 }), 'LESEN', B1_WEIGHTS)).toBe(75);
     expect(
-      skillPoints(scores({ SPRACHBAUSTEINE: 100 }), 'SPRACHBAUSTEINE', B1_WEIGHTS),
+      skillPoints(
+        scores({ SPRACHBAUSTEINE: 100 }),
+        'SPRACHBAUSTEINE',
+        B1_WEIGHTS,
+      ),
     ).toBe(30);
     expect(skillPoints(scores({}), 'HOEREN', B1_WEIGHTS)).toBe(0);
   });
 
   it("contributes 0 for a skill the level doesn't have, not a crash", () => {
     expect(
-      skillPoints(scores({ SPRACHBAUSTEINE: 100 }), 'SPRACHBAUSTEINE', A2_WEIGHTS),
+      skillPoints(
+        scores({ SPRACHBAUSTEINE: 100 }),
+        'SPRACHBAUSTEINE',
+        A2_WEIGHTS,
+      ),
     ).toBe(0);
   });
 });
@@ -233,9 +241,9 @@ describe('readiness', () => {
       pointsTotal: 180,
     });
     // Lesen 59% → written 134.25 < 135.
-    expect(
-      readiness({ ...allAt(60), LESEN: 59 }, 10, B1_WEIGHTS).ready,
-    ).toBe(false);
+    expect(readiness({ ...allAt(60), LESEN: 59 }, 10, B1_WEIGHTS).ready).toBe(
+      false,
+    );
   });
 
   describe('A2: one combined bar, not two halves', () => {

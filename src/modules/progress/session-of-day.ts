@@ -67,8 +67,7 @@ export function sessionOfDay(
   const exactWeakness = teilScoreOrZero(skill, teil, teils);
   const weaknessPercent = Math.round(exactWeakness);
   const mode: SessionMode = exactWeakness < PASS_MARK ? 'training' : 'exam';
-  const maxListens =
-    skill === 'HOEREN' ? (mode === 'exam' ? 2 : 3) : null;
+  const maxListens = skill === 'HOEREN' ? (mode === 'exam' ? 2 : 3) : null;
 
   return {
     moduleId: SKILL_ID[skill],

@@ -50,10 +50,7 @@ export class ExamGradingService {
     // telc marks in whole or half points (1, 0.5, 0 per M10 criterion), never
     // finer. Checked by doubling rather than a float-epsilon comparison: a
     // clean decimal like 1.5 doubles to exactly 3.
-    if (
-      input.points < 0 ||
-      !Number.isInteger(input.points * 2)
-    ) {
+    if (input.points < 0 || !Number.isInteger(input.points * 2)) {
       throw new BadRequestException('POINTS_INVALID');
     }
 

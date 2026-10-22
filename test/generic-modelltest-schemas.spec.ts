@@ -12,7 +12,12 @@ import { tmpdir } from 'os';
 import { join, resolve } from 'path';
 
 const repoRoot = resolve(__dirname, '..');
-const harness = join(repoRoot, 'test', 'fixtures', 'validate-generic-section.mjs');
+const harness = join(
+  repoRoot,
+  'test',
+  'fixtures',
+  'validate-generic-section.mjs',
+);
 
 const envelope = (overrides: Record<string, unknown>) => ({
   sectionId: 'TEST_SECTION',
@@ -50,10 +55,11 @@ describe('generic-modelltest-schemas', () => {
     });
   };
 
-  const expectRejects = (section: Record<string, unknown>, pattern?: RegExp) => {
-    expect(() => validate(section)).toThrow(
-      pattern ?? expect.anything(),
-    );
+  const expectRejects = (
+    section: Record<string, unknown>,
+    pattern?: RegExp,
+  ) => {
+    expect(() => validate(section)).toThrow(pattern ?? expect.anything());
   };
 
   it('accepts a valid EINZELAUSWAHL section', () => {
@@ -156,7 +162,11 @@ describe('generic-modelltest-schemas', () => {
     expectRejects(
       envelope({
         aufgabentyp: 'TEXT_SCHREIBEN',
-        scoring: { mode: 'NOT_A_REAL_MODE', maxPoints: 10, examPart: 'WRITTEN' },
+        scoring: {
+          mode: 'NOT_A_REAL_MODE',
+          maxPoints: 10,
+          examPart: 'WRITTEN',
+        },
         content: {},
       }),
     );
