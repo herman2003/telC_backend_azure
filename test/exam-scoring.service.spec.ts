@@ -37,6 +37,30 @@ describe('ExamScoringService', () => {
       get studentActivity(): never {
         throw new Error('An exam must never write training activity');
       },
+      // telc B1's block composition, as seeded in exam_section_weights.
+      examSectionWeight: {
+        findMany: jest.fn(({ where }: { where: { block: string } }) =>
+          Promise.resolve(
+            (
+              {
+                LESEN_SPRACHBAUSTEINE: [
+                  { skill: 'LESEN', teil: 1 },
+                  { skill: 'LESEN', teil: 2 },
+                  { skill: 'LESEN', teil: 3 },
+                  { skill: 'SPRACHBAUSTEINE', teil: 1 },
+                  { skill: 'SPRACHBAUSTEINE', teil: 2 },
+                ],
+                HOEREN: [
+                  { skill: 'HOEREN', teil: 1 },
+                  { skill: 'HOEREN', teil: 2 },
+                  { skill: 'HOEREN', teil: 3 },
+                ],
+                SCHREIBEN: [{ skill: 'SCHREIBEN', teil: 1 }],
+              } as Record<string, { skill: string; teil: number }[]>
+            )[where.block] ?? [],
+          ),
+        ),
+      },
     };
     lesen = {
       getSubmissionRules: jest.fn().mockResolvedValue({
