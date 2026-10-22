@@ -1359,6 +1359,31 @@ model ExamBlockDuration {
   @@map("exam_block_durations")
 }
 
+enum PassRuleType {
+  TOTAL_PERCENT
+  PART_PERCENT
+}
+
+/// How a level's pass/fail verdict is computed. B1/B2 require 60% of written
+/// AND 60% of oral, scored independently. A1/A2 require 60% of the combined
+/// total — a candidate strong on paper and weak orally still passes, which
+/// PART_PERCENT would wrongly fail. See docs/architecture/multi-level.md
+/// Part 4.
+model ExamPassRule {
+  level CefrLevel @id
+
+  type PassRuleType
+
+  /// TOTAL_PERCENT only.
+  minimum_percent Int?
+
+  /// PART_PERCENT only.
+  written_percent Int?
+  oral_percent    Int?
+
+  @@map("exam_pass_rules")
+}
+
 /// A center's exam sitting: one Modelltest, a named list of candidates, and a
 /// window in which they may start.
 ///
