@@ -3,7 +3,7 @@
 **For:** the coding agent or developer working in the Flutter app
 (`lerniqo-frontend/telC_frontend/telC_frontend`, web and mobile).
 **Backend state:** branch `dev` of `telC_backend_azure`, 2026-09-19.
-**Source of every rule below:** `docs/CENTER_FRONTEND_SYNC_DECISIONS.md` in the
+**Source of every rule below:** `docs/contracts/center-dashboard-sync.md` in the
 backend repo (the D- and T-numbers refer to it).
 
 Students get access through their school: the school buys seats, each seat is
@@ -232,7 +232,7 @@ document, and a second copy would be a second thing to keep true.
 
 ### 9.1 Elena is sold by the month, and sessions are shorter
 
-→ **`docs/ELENA_FLUTTER_CHANGE_REQUEST.md`** has the whole list. In summary:
+→ **`docs/archive/elena-flutter-change-request.md`** has the whole list. In summary:
 
 - a session now ends at **5 minutes**, not 10 (`expiresInSeconds` is 300)
 - the app must close a session after **30 s of silence at the start** and
@@ -288,7 +288,7 @@ Two bugs in the **training** Hören screens, from the exam work:
    autoplay on web leaves no button and allows unlimited replays.
 
 The exam simulator has its own document:
-**`docs/EXAM_SIMULATOR_FLUTTER_PROMPT.md`**.
+**`docs/archive/exam-simulator-flutter-prompt.md`**.
 
 ---
 
