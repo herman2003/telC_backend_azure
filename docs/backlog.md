@@ -130,7 +130,58 @@ exam exists**. That window closes when Modelltest 2 is seeded.
 
 ---
 
-## 4 — Infrastructure
+## 4 — Deferred auth hardening
+
+These come from the account pre-hijacking research (Sudhodanan/Paverd, USENIX
+Security '22) that informed the registration fix shipped 2026-08-21.
+
+**They were downgraded from security gates to hygiene by that fix**, and by the
+per-address registration cap shipped alongside it. Credentials are now never
+written on an unverified address, and re-registration is capped at 5/hour, so a
+stale unverified account no longer exposes an account-takeover path — only a
+capped nuisance. Worth noting the app was always narrower than the paper's
+general case: an unverified account here can do nothing, because no token is
+issued until `verifyEmail`.
+
+Revisit at a few thousand users, or sooner if abandoned signups become common.
+
+### Prune unverified accounts
+No scheduled deletion exists, and `@nestjs/schedule` is not installed. As of
+2026-08-21 production held 13 students, 10 unverified, **9 unverified for over
+7 days**.
+
+Two effects. The address stays occupied forever, so a returning user always
+lands on the re-registration path and can never get a clean signup — pruning
+would fix that outright, since a deleted account makes their next attempt an
+ordinary new signup with their new password. And the row is a standing (now
+low-value) target.
+
+If done: do the first cleanup **by hand**, reviewing exactly which rows would
+go, before automating anything that deletes user data on a timer. Open product
+question — whether abandoned accounts get a warning email first. Probably not
+at this scale; it is one more email an attacker can trigger.
+
+### Shorten the verification token TTL
+`VERIFICATION_TOKEN_TTL_MS` is 24h (`auth.service.ts:28`). The link is a bearer
+credential, and a day is a long time for one to sit in an inbox — forwarded
+mail, shared devices, link-scanning proxies. 1–2h would be better.
+
+**Not a one-constant change.** `wasVerificationSentRecently` reconstructs the
+send time by subtracting the TTL from the stored expiry:
+
+```ts
+const sentAt = expiresAt.getTime() - VERIFICATION_TOKEN_TTL_MS;
+```
+
+Drop the constant to 2h and every existing row is misread — a row written an
+hour ago yields a `sentAt` 22 hours in the future, so the cooldown check reports
+"sent recently" and refuses to resend. Existing unverified users would be unable
+to request a new verification email for up to a day. Needs a real
+`verification_sent_at` column, or a backfill of stored expiries.
+
+---
+
+## 5 — Infrastructure
 
 ### Before the first paying center: four deploy-safety items
 Added 2026-09-24. None of these matter while `main` is a demo; all of them
@@ -244,7 +295,7 @@ Worth one pass with `--fix`, then a decision about the rules that remain: either
 they are worth obeying and the violations get fixed, or they are not and they
 come out of the config.
 
-## 5 — Consistency and housekeeping
+## 6 — Consistency and housekeeping
 
 ### `modelltest` param convention differs across three modules
 **verified**
