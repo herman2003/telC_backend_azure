@@ -6,7 +6,7 @@ been removed rather than marked done.
 
 🔵 = blocked on a decision, not on effort.
 
-See `DECISIONS.md` for choices that look like bugs and are not — read it
+See `docs/decisions.md` for choices that look like bugs and are not — read it
 before "fixing" anything in auth registration or the Modelltest query params.
 
 ---
@@ -271,10 +271,12 @@ speaking exam is a live conversation, not a fixed question set. Worth putting on
 record so it is a decision rather than something discovered when a student asks
 why Modelltest 2 has no Sprechen.
 
-### `docs/api-contract.md` is gitignored
-`.gitignore:40` — **verified**. The Reading `?modelltest=` documentation written
-there will never reach anyone else through git. Either untrack it or move the
-contract somewhere shared.
+### `modelltest` is optional on some skills and required on others
+Lesen and Sprachbausteine default a missing `modelltest` to 1;
+`GET /api/writing/exercise` returns 400 without it, and `/api/speaking/teils`
+silently serves Modelltest 1. Carried over from the old api-contract draft,
+and still true. Unify before more skills take the parameter — see the Sprechen
+entry below.
 
 ### `submitTeil2` is a stub
 `lesen.service.ts:195` returns `{ score: 0 }` regardless of input.
@@ -286,12 +288,168 @@ absolute paths from a previous folder location
 never match. Cosmetic.
 
 ### Azure references in historical docs
-Base-URL examples in `SCHREIBEN_API_FRONTEND.md`,
-`SPRECHEN_ROOM_ICE_SERVERS_API.md`, `PLAN.md`,
+Base-URL examples in `docs/contracts/schreiben-api.md`,
+`docs/contracts/sprechen-room-ice-servers.md`, `docs/archive/plan-2026.md`,
 `ideas/auth-system-overhaul.md`. The operational ones are done;
-`SPRECHEN_ROOM_REFERENCE.md`'s remaining mentions are deliberate
+`docs/architecture/sprechen-room.md`'s remaining mentions are deliberate
 Azure-vs-App-Platform comparisons.
 
 ### Repo is still named `telC_backend_azure`
 GitHub (`NKWILI/telC_backend_azure`) and the local folder. Renaming breaks clones
 and remotes for anyone else, so it needs coordinating.
+
+---
+
+## The CEFR level is not checked on writing, speaking, vocab or grammar
+
+Phase 1b of the content level gate. Scheduled, not done.
+
+`PrepPassGuard` carries two checks: the CEFR level, and — without Prep Pass
+— the weekly-paper limit. It runs on `modelltests`, `lesen`, `listening` and
+`sprachbausteine`.
+
+**Its absence on `writing` and `speaking-catalog` is deliberate for Prep
+Pass** and must stay: Schreiben and Sprechen topic GETs are on Start for all
+Modelltests, by product decision of 2026-10-22, recorded in
+[domains/offres-lerniqo.md](domains/offres-lerniqo.md) and originally decided
+in `superpowers/plans/2026-10-06-tranche6-prep-pass-gate.md`. Do not add the
+guard to those endpoints.
+
+**The level check is a separate rule and is missing.** The two are
+orthogonal — level decides *which* content, Prep Pass decides *how many*
+Modelltests. `superpowers/specs/2026-10-18-content-level-gate-option-a-design.md`
+puts it out of Phase 1 and into Phase 1b:
+
+> Brancher le même check niveau sur : writing, speaking catalog, vocab,
+> grammar (chemins qui bypassent Prep Pass aujourd’hui).
+
+Phase 1b was due "avant ou avec le contenu". B2 content shipped on
+2026-10-21, so it is now overdue. Measured on 2026-10-22 with a B1 student:
+
+```
+GET /api/writing/exercise?modelltest=7   -> 200   a B2 paper
+GET /api/speaking/teils?modelltest=7     -> 200
+GET /api/reading/exercise?modelltest=7   -> 403 LEVEL_MISMATCH
+```
+
+Scope when it is built: `writing`, `speaking-catalog`, `vocab`, `grammar`.
+Note `GET /api/writing/exercise/:id` takes a uuid, and
+`extractModelltestNumber` reads a paper *number* from the query, body or
+`:number` param — so a guard alone cannot cover that route; it has to resolve
+the exercise to its Modelltest first.
+
+### Corrected on 2026-10-22
+
+An earlier version of this entry called the missing guard a Prep Pass
+paywall hole. That was wrong — Tranche 6 excluded those two endpoints on
+purpose, six days before the level gate was designed. Only the level half is
+a gap.
+
+---
+
+## Sprechen serves the wrong paper, today
+
+`speaking_repository_impl.dart:50` sends no `modelltest` query parameter.
+`speaking-catalog.controller.ts:60` and `speaking.service.ts:15` both default a
+missing value to Modelltest 1. Measured: a student whose weekly paper is 6
+gets Modelltest 1's Teile, 200, no error. A B2 student gets B1 content.
+
+Adding `PrepPassGuard` does not fix this — the guard finds no number, returns
+null and allows the request, and the controller substitutes 1 afterwards. The
+default has to go, and `modelltest` become required, which needs the app to
+send it first.
+
+## LEVEL_MISMATCH and LEVEL_REQUIRED render as "Please login again"
+
+Frontend. Neither code appears in the Flutter codebase, so both fall through
+the 403 catch-all in `dio_exception_mapper.dart:311` to `authUnauthorized`.
+Unreachable from the app today because it never sends a wrong number, but
+reachable by URL, and it becomes reachable the moment the guards land.
+
+`PREP_PASS_REQUIRED` is mapped, but as a red error snackbar reading "contact
+your school" — no description of what Prep Pass unlocks, no CTA. It is an
+upsell surface rendered as a failure.
+
+## The student's CEFR level is not exposed to the app
+
+`POST /api/auth/login` returns `student: { id, firstName, lastName, email,
+emailVerified }` — no `level`. The only endpoint carrying it is
+`GET /api/progress/me`. The Flutter app has no server level concept at all;
+`targetLevelProvider` is a local settings preference.
+
+This blocks the frontend from handling `LEVEL_REQUIRED` ("complete your
+profile") or from filtering by level at all. Add `level` to the login and
+refresh payloads, or add a `GET /api/auth/me`.
+
+## The app unlocks a screen for Prep Pass, not the paper pool
+
+🔵 Product decision, not a bug to fix blind.
+
+The app gates Prep Pass client-side: `isPrepPassInactive`
+(`student_entitlements_rules.dart:12`) decides whether `exams_page.dart:333`
+renders the catalogue or an empty state. The module APIs are never called when
+inactive — which is why no user reaches a locked paper through the UI.
+
+But when it IS active, every catalogue row still loads
+`activeTrainingModelltestNumberProvider`. `kExamsCatalogueModelltestIds =
+[1, 2]` only relabels in-memory rows (`exam_catalog_mapper.dart:89`). So a
+paying Prep Pass holder sees the same weekly paper under two labels, not the
+other papers of their level.
+
+Prep Pass is sold as the Modelltest pool for Lesen, Hören and Sprachbausteine
+(1 000 FCFA / 30 days — see [domains/offres-lerniqo.md](domains/offres-lerniqo.md)).
+A holder should reach the other papers of their level in those three modules.
+Today the screen unlocks and still serves the weekly paper, so the backend
+rule and the app do not agree. Frontend side; the backend serves the pool
+correctly.
+
+---
+
+# Post-launch product work
+
+Decided, not implemented. Moved here from `things-to-do-after.md` so there is
+one backlog rather than two. French as written — these are product briefs.
+
+## Coach date d’examen → tâche du jour
+
+**Status:** todo (après launch)  
+**Priority:** P1  
+**Area:** progress / student home + center dashboard
+
+### Goal
+
+L’élève saisit une date d’examen ; Lerniqo propose **une tâche par jour** pondérée vers la skill faible (&lt; 45 %, réutilise `WEAK_SKILL_BELOW`). Countdown jusqu’à l’examen. Le centre voit qui est prêt / qui a une date.
+
+### Why
+
+Différenciateur centres / rétention (inspir. Prepilingo, Papagei). Readiness + alertes `weak_skill` existent déjà ; il manque plan journalier et countdown.
+
+### Work required
+
+1. Persister `examDate` côté élève (et exposition centre).
+2. Générer 1 tâche/jour orientée skill faible.
+3. UI élève : countdown + tâche du jour.
+4. UI centre : dates + readiness liées.
+
+---
+
+## Revue d’erreurs + spaced repetition
+
+**Status:** todo (après launch)  
+**Priority:** P2  
+**Area:** Prep Pass — Lesen / Hören / Sprachbausteine (items discrets)
+
+### Goal
+
+Après un submit, stocker les **erreurs** (item + explication) et les ramener dans une file de révision (ex. 1 / 3 / 7 jours) jusqu’à maîtrise.
+
+### Why
+
+Augmente la valeur Prep Pass sans nouveau contenu Modelltest. Items Richtig/Falsch, Zuordnung, MC du format telc se prêtent bien à la revisit (inspir. Papagei / PassDeutsch).
+
+### Work required
+
+1. Modèle « error bank » lié aux attempts.
+2. API : erreurs à revoir + marquer comme révisé / réussi.
+3. UI après submit + écran « À revoir ».
+4. Scheduling espacé (1 / 3 / 7 jours).
