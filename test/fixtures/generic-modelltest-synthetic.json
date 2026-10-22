@@ -6,7 +6,26 @@
     "examOnly": true,
     "contentRevision": "a2-modelltest-1-v1"
   },
-  "format": {},
+  "format": {
+    "hoerenDelivery": {
+      "deliveryMode": "CONTINUOUS_OFFICIAL_RECORDING",
+      "audioAssetKey": "a2/modelltest-1/hoeren/complete.mp3",
+      "audioUrl": null,
+      "durationSeconds": null,
+      "playsAllowed": 1,
+      "pauseAllowed": false,
+      "seekAllowed": false,
+      "restartAllowed": false,
+      "teilOrder": ["HOEREN_1"]
+    },
+    "gradeBands": [
+      { "label": "SEHR_GUT", "minimum": 54, "maximum": 60 },
+      { "label": "GUT", "minimum": 48, "maximum": 53.5 },
+      { "label": "BEFRIEDIGEND", "minimum": 42, "maximum": 47.5 },
+      { "label": "AUSREICHEND", "minimum": 36, "maximum": 41.5 },
+      { "label": "TEILGENOMMEN", "minimum": 0, "maximum": 35.5 }
+    ]
+  },
   "sections": {
     "HOEREN": [
       {
@@ -126,6 +145,18 @@
       }
     ]
   },
-  "assets": [],
+  "assets": [
+    {
+      "assetKey": "a2-modelltest-1-lesen-1-directory",
+      "usedBy": ["LESEN_1"],
+      "sourcePages": [13],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-teil1-directory.png",
+      "imageUrl": null,
+      "altText": "Kaufhaus Waldheim floor directory",
+      "extractionNotes": "Preserve floor-to-department mapping."
+    }
+  ],
   "extractionWarnings": []
 }

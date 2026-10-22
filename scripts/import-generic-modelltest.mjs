@@ -36,7 +36,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { validateSection } from './generic-modelltest-schemas.mjs';
+import {
+  validateFormatAndAssets,
+  validateSection,
+} from './generic-modelltest-schemas.mjs';
 
 const args = process.argv.slice(2);
 const flagIndex = args.indexOf('--number');
@@ -115,6 +118,10 @@ const duplicateRevisions = sections
 if (duplicateRevisions.length > 0) {
   throw new Error(`Duplicate content revisions: ${duplicateRevisions.join(', ')}`);
 }
+
+// format.hoerenDelivery / format.gradeBands and the assets manifest — both
+// optional, both validated before any SQL is written, same as sections.
+const { format, assets } = validateFormatAndAssets(source);
 
 /**
  * Items vs. material, per aufgabentyp. `items` becomes exam_items rows
@@ -230,12 +237,14 @@ BEGIN
   END IF;
 END $$;
 
-INSERT INTO "modelltests" ("number", "title", "exam_only", "level")
-VALUES (${globalNumber}, ${q(title)}, ${examOnly === true}, ${q(level)})
+INSERT INTO "modelltests" ("number", "title", "exam_only", "level", "format", "assets")
+VALUES (${globalNumber}, ${q(title)}, ${examOnly === true}, ${q(level)}, ${format ? json(format) : 'NULL'}, ${assets ? json(assets) : 'NULL'})
 ON CONFLICT ("number") DO UPDATE SET
   "title" = EXCLUDED."title",
   "exam_only" = EXCLUDED."exam_only",
-  "level" = EXCLUDED."level";
+  "level" = EXCLUDED."level",
+  "format" = EXCLUDED."format",
+  "assets" = EXCLUDED."assets";
 
 DELETE FROM "exam_sections"
 WHERE "content_revision" IN (${sections.map((s) => q(s.contentRevision)).join(', ')});
