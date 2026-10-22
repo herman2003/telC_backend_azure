@@ -161,8 +161,11 @@ Bruno : `Subscription Access / 05–06`.
 - [ ] 1 paiement réel contrôlé (montant min) puis annulation / remboursement
 - [ ] Procédure kill : désactiver checkout / provider sans redeploy long
 
-**Edge cases (échec, grâce, BLOCKED, doublon webhook, refund):** see the assignee runbook  
-→ [QA_BILLING_EDGE_CASES.md](./QA_BILLING_EDGE_CASES.md)
+**Edge cases (échec, grâce, BLOCKED, doublon webhook, refund) :**  
+→ [qa-billing-edge-cases.md](./qa-billing-edge-cases.md)
+
+**Période Start / renouvellement / mid-period (+ prorata cible) :**  
+→ [qa-billing-period-and-prorata.md](./qa-billing-period-and-prorata.md)
 
 ---
 
