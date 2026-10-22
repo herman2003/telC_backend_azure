@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import type { CefrLevel } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
 import { LesenService } from '../lesen/lesen.service';
@@ -21,6 +22,33 @@ import {
   assertGuestMayAccessModelltest,
   guestMayAccessModelltest,
 } from '../../shared/guest-modelltest-access';
+
+/**
+ * A1/A2 content lives in the generic model (exam_sections); B1/B2 keep
+ * reading their own 18 tables. This is the one place
+ * `getOfTheWeekContent` is allowed to branch on level (Part 7 Principle 1
+ * of docs/architecture/multi-level.md) — the DTO shape returned to
+ * clients never changes.
+ */
+const GENERIC_MODEL_LEVELS: readonly CefrLevel[] = ['A1', 'A2'];
+
+/** One exam_sections row, with its items and options, as a client reads it. */
+interface GenericSectionContent {
+  sectionId: string;
+  aufgabentyp: string;
+  teil: number;
+  label: string;
+  instruction: string;
+  maxPoints: number;
+  scoringMode: string;
+  material: unknown;
+  items: {
+    itemNumber: number;
+    prompt: string | null;
+    solution: unknown;
+    options: { key: string; content: string; isCorrect: boolean }[];
+  }[];
+}
 
 @Injectable()
 export class ModelltestsService {
@@ -144,6 +172,20 @@ export class ModelltestsService {
     });
     const n = weekly.number;
 
+    if (GENERIC_MODEL_LEVELS.includes(weekly.level)) {
+      const bySkill = await this.genericSectionsFor(weekly.id);
+      return {
+        ...weekly,
+        sections: {
+          LESEN: bySkill.LESEN,
+          SPRACHBAUSTEINE: bySkill.SPRACHBAUSTEINE,
+          HOEREN: bySkill.HOEREN,
+          SCHREIBEN: bySkill.SCHREIBEN,
+          SPRECHEN: bySkill.SPRECHEN,
+        },
+      };
+    }
+
     const [lesen, sprachbausteine, hoerenTeile, schreiben, sprechen] =
       await Promise.all([
         this.lesen.getExercise(n),
@@ -173,6 +215,15 @@ export class ModelltestsService {
     };
   }
 
+  /**
+   * Known gap, not fixed here: for a generic-model level (A1/A2) every
+   * `exercises.*` list below is empty, since none of those eight relations
+   * exist for that level. `ModelltestExercisesDto` is a fixed per-table
+   * shape (not `unknown`, unlike `getOfTheWeekContent`'s `sections`), so
+   * widening it to carry generic-model ids is a DTO change this task's
+   * scope (docs/plans/active/multi-level-phase-3-generic-model.md Task 4)
+   * deliberately doesn't make. Empty lists, not a crash or wrong data.
+   */
   async getByNumber(
     number: number,
     opts: { isGuest?: boolean; studentId?: string } = {},
@@ -219,5 +270,58 @@ export class ModelltestsService {
         speaking: row.speakingExercises.map((e) => e.id),
       },
     };
+  }
+
+  /**
+   * A generic-model Modelltest's content, grouped by skill. One list per
+   * skill (empty for a skill the level doesn't offer, e.g. A2's
+   * Sprachbausteine) — not B1's single-object-per-written-skill shape,
+   * since nothing yet consumes a generic-model level's content and there
+   * is no B1 convention to match.
+   */
+  private async genericSectionsFor(
+    modelltestId: string,
+  ): Promise<Record<string, GenericSectionContent[]>> {
+    const rows = await this.prisma.examSection.findMany({
+      where: { modelltest_id: modelltestId },
+      orderBy: [{ skill: 'asc' }, { teil: 'asc' }],
+      include: {
+        items: {
+          orderBy: { item_number: 'asc' },
+          include: { options: { orderBy: { sort_order: 'asc' } } },
+        },
+      },
+    });
+
+    const bySkill: Record<string, GenericSectionContent[]> = {
+      HOEREN: [],
+      LESEN: [],
+      SPRACHBAUSTEINE: [],
+      SCHREIBEN: [],
+      SPRECHEN: [],
+    };
+    for (const row of rows) {
+      bySkill[row.skill].push({
+        sectionId: `${row.skill}_${row.teil}`,
+        aufgabentyp: row.aufgabentyp,
+        teil: row.teil,
+        label: row.label,
+        instruction: row.instruction,
+        maxPoints: row.max_points,
+        scoringMode: row.scoring_mode,
+        material: row.material,
+        items: row.items.map((item) => ({
+          itemNumber: item.item_number,
+          prompt: item.prompt,
+          solution: item.solution,
+          options: item.options.map((option) => ({
+            key: option.key,
+            content: option.content,
+            isCorrect: option.is_correct,
+          })),
+        })),
+      });
+    }
+    return bySkill;
   }
 }

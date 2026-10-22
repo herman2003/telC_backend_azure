@@ -10,6 +10,9 @@ const mockPrisma = {
     findUnique: jest.fn(),
     findFirst: jest.fn(),
   },
+  examSection: {
+    findMany: jest.fn(),
+  },
 };
 
 const TRAINING_ROWS = [
@@ -409,6 +412,54 @@ describe('ModelltestsService', () => {
         expect(mockListening.getExamTeil).toHaveBeenCalledWith(1, part);
         expect(mockListening.getAnswerKey).toHaveBeenCalledWith(1, part);
       }
+    });
+
+    it('reads the generic model for an A2 Modelltest, never the B1 skill services', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue([
+        { id: 'a2-mt-uuid', number: 100, title: 'A2 Modelltest 1', level: 'A2' },
+      ]);
+      mockPrisma.examSection.findMany.mockResolvedValue([
+        {
+          skill: 'LESEN',
+          teil: 1,
+          aufgabentyp: 'EINZELAUSWAHL',
+          label: 'Lesen Teil 1',
+          instruction: 'Kreuzen Sie an.',
+          max_points: 5,
+          scoring_mode: 'AUTO',
+          material: { stimulus: null },
+          items: [
+            {
+              item_number: 1,
+              prompt: 'Frage?',
+              solution: { key: 'a' },
+              options: [{ key: 'a', content: 'Antwort', is_correct: true }],
+            },
+          ],
+        },
+      ]);
+
+      const result = await service.getOfTheWeekContent(daysAfterEpoch(0));
+
+      expect(result.number).toBe(100);
+      expect(result.sections.LESEN).toEqual([
+        expect.objectContaining({
+          sectionId: 'LESEN_1',
+          aufgabentyp: 'EINZELAUSWAHL',
+          maxPoints: 5,
+          scoringMode: 'AUTO',
+        }),
+      ]);
+      // A2 has no Sprachbausteine -- an empty list, not a crash or null.
+      expect(result.sections.SPRACHBAUSTEINE).toEqual([]);
+      expect(mockPrisma.examSection.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { modelltest_id: 'a2-mt-uuid' } }),
+      );
+      expect(mockLesen.getExercise).not.toHaveBeenCalled();
+      expect(mockSprachbausteine.getExercise).not.toHaveBeenCalled();
+      expect(mockListening.getExamTeil).not.toHaveBeenCalled();
+      expect(mockWriting.getExerciseByModelltest).not.toHaveBeenCalled();
+      expect(mockSpeaking.getTeils).not.toHaveBeenCalled();
     });
   });
 });
