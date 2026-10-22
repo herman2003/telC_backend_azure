@@ -1340,6 +1340,9 @@ enum ExamBlock {
   LESEN_SPRACHBAUSTEINE
   HOEREN
   SCHREIBEN
+  /// A1/A2 only — Lesen and Schreiben sat as one timed block. Not referenced
+  /// by any B1/B2 row.
+  LESEN_SCHREIBEN
 }
 
 /// How long a block lasts, per level, as telc specifies it.
@@ -1562,6 +1565,12 @@ model ExamSectionWeight {
   /// telc's points for this Teil.
   max_points Int
   part       ExamPart
+  /// Which timed written block this Teil is sat in. Null for ORAL rows —
+  /// Sprechen is not part of any `ExamBlock`; it is scored outside
+  /// `scoreBlock`. Lets `BLOCK_SECTIONS` (exam-scoring.service.ts) be a query
+  /// over these rows instead of a hardcoded map — needed because A1/A2 put
+  /// Lesen and Schreiben in one block (`LESEN_SCHREIBEN`), unlike B1/B2.
+  block      ExamBlock?
 
   @@unique([level, skill, teil])
   @@map("exam_section_weights")
