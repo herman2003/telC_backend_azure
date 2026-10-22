@@ -1,9 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import type { CefrLevel, Skill } from '@prisma/client';
+import type { CefrLevel, PassRuleType, Skill } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
-
-/** telc's bar, on each half separately. */
-export const PASS_RATIO = 0.6;
 
 /**
  * `writing_attempts.exercise_id` is text, so it can hold values a uuid column
@@ -15,6 +12,13 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const HUMAN_MARKED: readonly Skill[] = ['SCHREIBEN', 'SPRECHEN'];
 
 export type ExamOutcome = 'PASSED' | 'FAILED' | 'INCOMPLETE';
+
+interface PassRule {
+  type: PassRuleType;
+  minimum_percent: number | null;
+  written_percent: number | null;
+  oral_percent: number | null;
+}
 
 /** PERCENT comes from an answer key, POINTS from an examiner's form. */
 interface MarkedValue {
@@ -168,11 +172,12 @@ export class ExamResultService {
     if (!attempt) throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
 
     const weights = await this.weightsFor(attempt.session.level);
+    const passRule = await this.passRuleFor(attempt.session.level);
     const marks = (await this.marksForMany([attemptId])).get(attemptId);
     const submissions = await this.schreibenSubmissionsFor([attemptId]);
 
     return {
-      ...this.assemble(attempt, weights, marks ?? new Map()),
+      ...this.assemble(attempt, weights, marks ?? new Map(), passRule),
       suggestions: await this.suggestionsFor(attemptId, weights),
       schreibenSubmission: submissions.get(attemptId) ?? null,
     };
@@ -271,10 +276,21 @@ export class ExamResultService {
       part: string;
     }[],
     marks: Map<string, MarkedValue>,
+    passRule: PassRule,
   ): Omit<ExamResultView, 'suggestions' | 'schreibenSubmission'> {
     const sections = this.sectionsOf(weights, marks);
-    const written = this.half(weights, sections, 'WRITTEN');
-    const oral = this.half(weights, sections, 'ORAL');
+    const written = this.half(
+      weights,
+      sections,
+      'WRITTEN',
+      passRule.written_percent ?? passRule.minimum_percent ?? 0,
+    );
+    const oral = this.half(
+      weights,
+      sections,
+      'ORAL',
+      passRule.oral_percent ?? passRule.minimum_percent ?? 0,
+    );
     const awaiting = this.awaitingOf(sections);
 
     return {
@@ -285,7 +301,7 @@ export class ExamResultService {
       sections,
       written,
       oral,
-      outcome: this.outcomeOf(awaiting, written, oral),
+      outcome: this.outcomeOf(awaiting, written, oral, passRule),
       awaiting,
     };
   }
@@ -335,15 +351,33 @@ export class ExamResultService {
     );
   }
 
-  /** A verdict with a mark missing would fail every candidate the moment they
-   *  put their pen down, since Sprechen happens days later. */
+  /**
+   * A verdict with a mark missing would fail every candidate the moment they
+   * put their pen down, since Sprechen happens days later.
+   *
+   * PART_PERCENT (B1/B2) requires both halves to clear their own bar.
+   * TOTAL_PERCENT (A1/A2) has no separate written/oral bar — telc marks the
+   * combined total against one threshold, so a candidate strong on paper and
+   * weak orally still passes, which the PART_PERCENT rule would wrongly fail.
+   */
   private outcomeOf(
     awaiting: Skill[],
     written: ExamHalfView,
     oral: ExamHalfView,
+    passRule: PassRule,
   ): ExamOutcome {
     if (awaiting.length > 0) return 'INCOMPLETE';
-    return written.passed && oral.passed ? 'PASSED' : 'FAILED';
+
+    if (passRule.type === 'PART_PERCENT') {
+      return written.passed && oral.passed ? 'PASSED' : 'FAILED';
+    }
+
+    const points = written.points + oral.points;
+    const maxPoints = written.maxPoints + oral.maxPoints;
+    const passed =
+      maxPoints > 0 &&
+      points >= maxPoints * ((passRule.minimum_percent ?? 0) / 100);
+    return passed ? 'PASSED' : 'FAILED';
   }
 
   /**
@@ -374,6 +408,7 @@ export class ExamResultService {
     // Every attempt in one sitting shares a level, and a caller batching
     // across levels is not a thing this has to be fast at.
     const weights = await this.weightsFor(attempts[0].session.level);
+    const passRule = await this.passRuleFor(attempts[0].session.level);
     const marks = await this.marksForMany(attempts.map((a) => a.id));
 
     // No suggestions here: a table of forty candidates has no room for
@@ -385,7 +420,12 @@ export class ExamResultService {
     );
 
     return attempts.map((attempt) => ({
-      ...this.assemble(attempt, weights, marks.get(attempt.id) ?? new Map()),
+      ...this.assemble(
+        attempt,
+        weights,
+        marks.get(attempt.id) ?? new Map(),
+        passRule,
+      ),
       suggestions: [],
       schreibenSubmission: submissions.get(attempt.id) ?? null,
     }));
@@ -510,6 +550,7 @@ export class ExamResultService {
     if (!session) throw new NotFoundException('EXAM_SESSION_NOT_FOUND');
 
     const weights = await this.weightsFor(session.level);
+    const passRule = await this.passRuleFor(session.level);
     const attemptIds = session.attempts.map((attempt) => attempt.id);
     const marks = await this.marksForMany(attemptIds);
 
@@ -520,8 +561,18 @@ export class ExamResultService {
         weights,
         marks.get(attempt.id) ?? new Map(),
       );
-      const written = this.half(weights, sections, 'WRITTEN');
-      const oral = this.half(weights, sections, 'ORAL');
+      const written = this.half(
+        weights,
+        sections,
+        'WRITTEN',
+        passRule.written_percent ?? passRule.minimum_percent ?? 0,
+      );
+      const oral = this.half(
+        weights,
+        sections,
+        'ORAL',
+        passRule.oral_percent ?? passRule.minimum_percent ?? 0,
+      );
       const awaiting = this.awaitingOf(sections);
 
       return {
@@ -530,7 +581,7 @@ export class ExamResultService {
         firstName: attempt.student.first_name,
         lastName: attempt.student.last_name,
         email: attempt.student.email,
-        outcome: this.outcomeOf(awaiting, written, oral),
+        outcome: this.outcomeOf(awaiting, written, oral, passRule),
         written,
         oral,
         awaiting,
@@ -574,6 +625,10 @@ export class ExamResultService {
     weights: { skill: Skill; teil: number; max_points: number; part: string }[],
     sections: ExamSectionResultView[],
     part: 'WRITTEN' | 'ORAL',
+    /** This half's own bar, for display. Not what decides the verdict —
+     *  `outcomeOf` reads the level's `exam_pass_rules` row for that, since a
+     *  TOTAL_PERCENT level has no separate written/oral bar to clear. */
+    thresholdPercent: number,
   ): ExamHalfView {
     const inPart = new Set(
       weights
@@ -595,7 +650,8 @@ export class ExamResultService {
       maxPoints,
       // Shown, never decided on: 134.5 of 225 displays as 60 and is not 60.
       percent: maxPoints === 0 ? 0 : Math.round((points / maxPoints) * 100),
-      passed: maxPoints > 0 && points >= maxPoints * PASS_RATIO,
+      passed:
+        maxPoints > 0 && points >= maxPoints * (thresholdPercent / 100),
     };
   }
 
@@ -642,6 +698,23 @@ export class ExamResultService {
       labels.set(row.id, `Aufgabe ${letter} — ${row.title}`);
     }
     return labels;
+  }
+
+  private async passRuleFor(level: CefrLevel): Promise<PassRule> {
+    const rule = await this.prisma.examPassRule.findUnique({
+      where: { level },
+      select: {
+        type: true,
+        minimum_percent: true,
+        written_percent: true,
+        oral_percent: true,
+      },
+    });
+    if (!rule) {
+      // Seeded data, same fault class as EXAM_WEIGHTS_MISSING.
+      throw new NotFoundException('EXAM_PASS_RULE_MISSING');
+    }
+    return rule;
   }
 
   private async weightsFor(level: CefrLevel) {

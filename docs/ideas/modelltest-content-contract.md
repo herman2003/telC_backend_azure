@@ -244,6 +244,7 @@ FRAGEN_UND_ANTWORTEN
 BITTEN_UND_REAGIEREN
 ALLTAGSGESPRAECH
 ETWAS_AUSHANDELN
+UEBER_EIN_THEMA_SPRECHEN
 UEBER_ERFAHRUNGEN_SPRECHEN
 DISKUSSION
 GEMEINSAM_PLANEN
@@ -578,6 +579,24 @@ All Hören sections require this object:
       "A": ["Singen", "Tanzen", "Malen", "Fußball spielen"],
       "B": ["Musik machen", "Fotografieren", "Tischtennis", "Kochkurs"]
     }
+  }
+}
+```
+
+### B1 `UEBER_EIN_THEMA_SPRECHEN`
+
+B1 Sprechen Teil 2. Not B2's Teil 1 (`UEBER_ERFAHRUNGEN_SPRECHEN`, below) —
+the two levels put a different task at the same Teil number; see
+`docs/architecture/multi-level.md` Part 1 for why that distinction is load-
+bearing.
+
+```json
+{
+  "aufgabentyp": "UEBER_EIN_THEMA_SPRECHEN",
+  "content": {
+    "topic": "Freizeitaktivitäten",
+    "prompts": ["Was machen Sie gern in Ihrer Freizeit?", "Warum?"],
+    "talkDurationSeconds": 60
   }
 }
 ```

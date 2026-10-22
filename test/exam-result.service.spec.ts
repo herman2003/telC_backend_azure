@@ -92,6 +92,14 @@ describe('ExamResultService', () => {
         }),
       },
       examSectionWeight: { findMany: jest.fn().mockResolvedValue(weights) },
+      examPassRule: {
+        findUnique: jest.fn().mockResolvedValue({
+          type: 'PART_PERCENT',
+          minimum_percent: null,
+          written_percent: 60,
+          oral_percent: 60,
+        }),
+      },
       examSectionResult: { findMany: jest.fn().mockResolvedValue([]) },
       lesenAttempt: { findMany: jest.fn().mockResolvedValue([]) },
       sprachbausteineAttempt: { findMany: jest.fn().mockResolvedValue([]) },
@@ -387,6 +395,62 @@ describe('ExamResultService', () => {
     });
   });
 
+  describe("A2's rule: one combined bar, not two", () => {
+    /** telc A2 — 45 written, 15 oral, 60 total. */
+    const a2Weights = [
+      { skill: 'LESEN', teil: 1, max_points: 15, part: 'WRITTEN' },
+      { skill: 'HOEREN', teil: 1, max_points: 15, part: 'WRITTEN' },
+      { skill: 'SCHREIBEN', teil: 1, max_points: 15, part: 'WRITTEN' },
+      { skill: 'SPRECHEN', teil: 1, max_points: 15, part: 'ORAL' },
+    ];
+
+    beforeEach(() => {
+      prisma.examSectionWeight.findMany.mockResolvedValue(a2Weights);
+      prisma.examPassRule.findUnique.mockResolvedValue({
+        type: 'TOTAL_PERCENT',
+        minimum_percent: 60,
+        written_percent: null,
+        oral_percent: null,
+      });
+      prisma.examAttempt.findFirst.mockResolvedValue({
+        id: ATTEMPT,
+        student_id: 'student-1',
+        submitted_at: new Date(),
+        released_at: null,
+        session: { level: 'A2', center_id: 'center-1' },
+      });
+    });
+
+    it('passes a candidate strong on paper and silent orally, which PART_PERCENT would fail', async () => {
+      // 45/45 written, 0/15 oral: 45/60 = 75% combined. The exact scenario
+      // "fails a candidate who was excellent on paper and silent in the
+      // room" (above) marks FAILED under B1/B2's per-half rule — A2 has no
+      // separate oral bar, so this candidate passes.
+      load(100, [
+        { skill: 'SCHREIBEN', teil: 1, points: 15 },
+        { skill: 'SPRECHEN', teil: 1, points: 0 },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.written.points).toBe(45);
+      expect(result.oral.points).toBe(0);
+      expect(result.outcome).toBe('PASSED');
+    });
+
+    it('fails below the combined 60%', async () => {
+      // 24/60 everywhere = 40% combined.
+      load(40, [
+        { skill: 'SCHREIBEN', teil: 1, points: 6 },
+        { skill: 'SPRECHEN', teil: 1, points: 6 },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.outcome).toBe('FAILED');
+    });
+  });
+
   describe('what the machine suggested', () => {
     it('reports the AI Schreiben score as a suggestion, not a mark', async () => {
       load(100);
@@ -509,7 +573,9 @@ describe('ExamResultService', () => {
       await service.forSession('center-1', 'session-1');
 
       const perCandidate = countQueries() - before;
-      expect(perCandidate).toBeLessThanOrEqual(6);
+      // 7, not 6: forSession now also reads the level's exam_pass_rules row
+      // once, alongside exam_section_weights — still fixed, not per-candidate.
+      expect(perCandidate).toBeLessThanOrEqual(7);
     });
 
     it('returns one row per candidate, named', async () => {

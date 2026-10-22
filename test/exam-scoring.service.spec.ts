@@ -1,6 +1,45 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 import { ExamScoringService } from '../src/modules/centers/exam-scoring.service';
 
+/** telc's block composition per level, as seeded in exam_section_weights
+ *  (verified by querying .env.test directly — B1 and B2 share every
+ *  WRITTEN row, which is why they look identical here). */
+const BLOCK_SECTIONS_BY_LEVEL: Record<
+  string,
+  Record<string, { skill: string; teil: number }[]>
+> = {
+  B1: {
+    LESEN_SPRACHBAUSTEINE: [
+      { skill: 'LESEN', teil: 1 },
+      { skill: 'LESEN', teil: 2 },
+      { skill: 'LESEN', teil: 3 },
+      { skill: 'SPRACHBAUSTEINE', teil: 1 },
+      { skill: 'SPRACHBAUSTEINE', teil: 2 },
+    ],
+    HOEREN: [
+      { skill: 'HOEREN', teil: 1 },
+      { skill: 'HOEREN', teil: 2 },
+      { skill: 'HOEREN', teil: 3 },
+    ],
+    SCHREIBEN: [{ skill: 'SCHREIBEN', teil: 1 }],
+  },
+  B2: {
+    LESEN_SPRACHBAUSTEINE: [
+      { skill: 'LESEN', teil: 1 },
+      { skill: 'LESEN', teil: 2 },
+      { skill: 'LESEN', teil: 3 },
+      { skill: 'SPRACHBAUSTEINE', teil: 1 },
+      { skill: 'SPRACHBAUSTEINE', teil: 2 },
+    ],
+    HOEREN: [
+      { skill: 'HOEREN', teil: 1 },
+      { skill: 'HOEREN', teil: 2 },
+      { skill: 'HOEREN', teil: 3 },
+    ],
+    SCHREIBEN: [{ skill: 'SCHREIBEN', teil: 1 }],
+  },
+};
+
 /**
  * Scoring a submitted block.
  *
@@ -36,6 +75,14 @@ describe('ExamScoringService', () => {
       // Reading this at all is the mistake the exam must not make.
       get studentActivity(): never {
         throw new Error('An exam must never write training activity');
+      },
+      // telc's block composition per level, as seeded in exam_section_weights
+      // (verified against .env.test: B1 and B2 share every WRITTEN row).
+      examSectionWeight: {
+        findMany: jest.fn(
+          ({ where }: { where: { level: string; block: string } }) =>
+            Promise.resolve(BLOCK_SECTIONS_BY_LEVEL[where.level]?.[where.block] ?? []),
+        ),
       },
     };
     lesen = {
@@ -135,6 +182,71 @@ describe('ExamScoringService', () => {
         'SPRACHBAUSTEINE_1',
         'SPRACHBAUSTEINE_2',
       ]);
+    });
+
+    it('covers the three Teile of Hören, in order', async () => {
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        level: 'B1',
+        gradingTier: 'MANUAL',
+        block: 'HOEREN',
+        answers: {},
+      });
+
+      expect(scored.map((s) => `${s.skill}_${s.teil}`)).toEqual([
+        'HOEREN_1',
+        'HOEREN_2',
+        'HOEREN_3',
+      ]);
+    });
+
+    it('covers Schreiben as its own, single-Teil block', async () => {
+      prisma.writingAttempt = {
+        create: jest.fn().mockResolvedValue({}),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      prisma.writingExercise = {
+        findFirst: jest.fn().mockResolvedValue({ id: 'task-a' }),
+      };
+
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        level: 'B1',
+        gradingTier: 'MANUAL',
+        block: 'SCHREIBEN',
+        answers: {},
+      });
+
+      expect(scored.map((s) => `${s.skill}_${s.teil}`)).toEqual([
+        'SCHREIBEN_1',
+      ]);
+    });
+
+    it("reads the sitting's own level, not a fixed one", async () => {
+      // A B2 sitting must not be scored against B1's composition — this was
+      // the point of moving BLOCK_SECTIONS into the database.
+      await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 7,
+        level: 'B2',
+        gradingTier: 'MANUAL',
+        block: 'HOEREN',
+        answers: {},
+      });
+
+      expect(prisma.examSectionWeight.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { level: 'B2', block: 'HOEREN' },
+        }),
+      );
     });
   });
 

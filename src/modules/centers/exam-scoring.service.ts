@@ -50,30 +50,6 @@ export interface ScoreBlockInput {
 }
 
 /**
- * Which Teile each timed block contains, in the order telc sits them.
- *
- * Data in one place rather than spread through the scorer: Lesen and
- * Sprachbausteine sharing one 90-minute block is the fact the whole exam
- * model turns on, and it should be readable in one line.
- */
-const BLOCK_SECTIONS: Record<ExamBlock, { skill: ExamSkill; teil: string }[]> =
-  {
-    LESEN_SPRACHBAUSTEINE: [
-      { skill: 'LESEN', teil: '1' },
-      { skill: 'LESEN', teil: '2' },
-      { skill: 'LESEN', teil: '3' },
-      { skill: 'SPRACHBAUSTEINE', teil: '1' },
-      { skill: 'SPRACHBAUSTEINE', teil: '2' },
-    ],
-    HOEREN: [
-      { skill: 'HOEREN', teil: '1' },
-      { skill: 'HOEREN', teil: '2' },
-      { skill: 'HOEREN', teil: '3' },
-    ],
-    SCHREIBEN: [{ skill: 'SCHREIBEN', teil: '1' }],
-  };
-
-/**
  * Marks a submitted block.
  *
  * Two things pull against each other here. An exam must be marked by exactly
@@ -96,7 +72,7 @@ export class ExamScoringService {
   ) {}
 
   async scoreBlock(input: ScoreBlockInput): Promise<ExamSectionScore[]> {
-    const sections = BLOCK_SECTIONS[input.block];
+    const sections = await this.sectionsFor(input.level, input.block);
 
     // Repeatable on purpose. Marking is not in the same transaction as
     // closing the block, so a submit whose marking failed has to be safe to
@@ -115,6 +91,34 @@ export class ExamScoringService {
     }
 
     return scored;
+  }
+
+  /**
+   * Which Teile a timed block contains, in the order telc sits them.
+   *
+   * Read from `exam_section_weights.block` rather than a hardcoded map —
+   * needed because A1/A2 put Lesen and Schreiben in one block
+   * (`LESEN_SCHREIBEN`), unlike B1/B2. Ordering by skill then teil
+   * reproduces the order the previous hardcoded `BLOCK_SECTIONS` map used
+   * for every block that exists today (Lesen before Sprachbausteine
+   * alphabetically, Teil ascending within a skill).
+   */
+  private async sectionsFor(
+    level: CefrLevel,
+    block: ExamBlock,
+  ): Promise<{ skill: ExamSkill; teil: string }[]> {
+    const rows = await this.prisma.examSectionWeight.findMany({
+      where: { level, block },
+      orderBy: [{ skill: 'asc' }, { teil: 'asc' }],
+      select: { skill: true, teil: true },
+    });
+    if (rows.length === 0) {
+      throw new NotFoundException('EXAM_BLOCK_SECTIONS_MISSING');
+    }
+    return rows.map((row) => ({
+      skill: row.skill as ExamSkill,
+      teil: String(row.teil),
+    }));
   }
 
   /**
