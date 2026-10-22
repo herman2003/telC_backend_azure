@@ -52,6 +52,50 @@ The integration suites remove centre and student rows from the scratch
 database. After running them, rebuild the manual-testing fixture with
 `node scripts/seed-b2-bruno-fixture.mjs`.
 
+---
+
+## How work gets done
+
+The full lifecycle, the skill for each stage and the Bruno policy are in
+`.claude/rules/engineering-workflow.md`. The short version:
+
+**Do not start coding when a feature is described.** Understand the
+objective, read the code and the approved rule in `docs/domains/` and
+`docs/adr/`, say whether it already exists, propose an approach, and stop.
+
+**Four approvals, none of them assumed:** the design, the plan, the merge,
+and production. Merging to `main` deploys.
+
+**One skill per stage** — two planning skills produce two plans that
+disagree. Check the available-skills list rather than assuming a skill
+exists; sixteen of Matt Pocock's are deliberately manual-only and must be
+typed as `/mattpocock-skills:<name>`.
+
+| | |
+|---|---|
+| understand | `mattpocock-skills:grilling` |
+| investigate | `Explore`, `docs/README.md`, `docs/glossary.md` |
+| research | `source-driven-development` |
+| design | `api-and-interface-design` (+ `documentation-and-adrs` for an ADR) |
+| plan | `planning-and-task-breakdown` |
+| implement | `incremental-implementation` + `test-driven-development` |
+| review | `mattpocock-skills:code-review`, fresh context |
+| PR | `mattpocock-skills:pr` |
+
+**Current code is behaviour, not policy.** The approved rule lives in
+`docs/domains/` and `docs/adr/`. A plan in `docs/archive/` is history — a
+requirement it describes may have been replaced or dropped on purpose.
+Establish which before building it.
+
+**API changes are verified over HTTP**, not only by unit tests and `tsc`.
+`bruno/` holds 111 requests across 14 collections; extend the one that
+covers the area. The `bru` CLI is not installed, so they run from the Bruno
+app against `.env.test` — if no safe environment is available, report the
+tests blocked rather than skipping them silently.
+
+**A gate counts when its exit code was read.** "Tests should pass" is not a
+result.
+
 ---
 
 ## Documentation
