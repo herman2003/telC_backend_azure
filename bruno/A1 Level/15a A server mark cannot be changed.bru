@@ -1,0 +1,32 @@
+meta {
+  name: 15a A server mark cannot be changed
+  type: http
+  seq: 34
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a1AttemptId}}/marks
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "skill": "LESEN",
+    "teil": 1,
+    "points": 5
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.message: eq SECTION_MARKED_BY_SERVER
+}
+
+docs {
+  Lesen Teil 1 was decided by the answer key at submit. A person changing it would make the exam negotiable.
+}

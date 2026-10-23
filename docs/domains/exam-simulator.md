@@ -87,8 +87,8 @@ enforcement. A play is spent the moment it starts — a connection that drops at
 0:15 costs it, exactly as the recording would keep playing in the room.
 
 The table is B1/B2. **A1/A2 Hören is one official recording per Teil, each
-played once.** telc's repeats are inside the file — at A2, Teil 1 and Teil 3
-are heard twice and Teil 2 once, all within a single play — so a second play
+played once.** telc's repeats are inside the file — at A1 and A2, Teil 1 and
+Teil 3 are heard twice and Teil 2 once, all within a single play — so a second play
 would be a third and fourth hearing. Each A1/A2 Teil names its recording the
 way a B1/B2 Teil does (`audioId`, `playsAllowed: 1` in the block content), so
 the app plays both levels the same way; the `audioId` is the Teil's own
@@ -186,7 +186,9 @@ the 60 points**, with no separate oral bar (`exam_pass_rules`).
   accepts misspellings ("Donerstach" for "Donnerstag") that no list of
   accepted answers can hold, so such an answer is never marked wrong by the
   machine: the Teil waits, and the examiner sees the unrecognised answers and
-  what the recognised ones are worth. An empty answer is simply wrong.
+  what the recognised ones are worth. An empty answer is simply wrong, and
+  so is a wrong pick in a form field with printed choices (A1: *Bar* or
+  *Kreditkarte*) — the candidate chose, nothing is left to read.
 - Schreiben is marked once its block (Lesen und Schreiben) is submitted;
   Sprechen has no block. Marks are whole or half points.
 

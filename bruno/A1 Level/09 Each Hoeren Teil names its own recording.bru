@@ -1,0 +1,62 @@
+meta {
+  name: 09 Each Hoeren Teil names its own recording
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/blocks/HOEREN
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+
+  const teile = res.body.sections.HOEREN;
+  if (!Array.isArray(teile) || teile.length !== 3) {
+    throw new Error("A1 Hoeren has three Teile, got " + JSON.stringify(teile));
+  }
+
+  // The same shape as B1/B2: each Teil names the recording to ask for and
+  // allows one play (telc's repeats are inside the file).
+  const ids = new Set();
+  for (const teil of teile) {
+    if (!teil.audioId || teil.playsAllowed !== 1) {
+      throw new Error("each Teil needs its own audioId and playsAllowed 1, got " +
+        JSON.stringify({ audioId: teil.audioId, playsAllowed: teil.playsAllowed }));
+    }
+    ids.add(teil.audioId);
+  }
+  if (ids.size !== 3) {
+    throw new Error("the three Teile must name three different recordings");
+  }
+
+  // Questions, never answers or an address to play from.
+  const whole = JSON.stringify(res.body);
+  if (whole.includes("solution") || whole.includes("isCorrect")) {
+    throw new Error("the candidate was served an answer key");
+  }
+  if (whole.includes(".mp3") || whole.includes("r2.dev")) {
+    throw new Error("the candidate was served a recording's address");
+  }
+
+  bru.setEnvVar("a1Teil1AudioId", teile[0].audioId);
+  bru.setEnvVar("a1Teil2AudioId", teile[1].audioId);
+  bru.setEnvVar("a1Teil3AudioId", teile[2].audioId);
+}
+
+docs {
+  Exactly what the Flutter Hören sequencer reads for B1/B2, so A1 plays
+  through the same code. Captures the three Teile's ids for 10 and 10e-10f.
+}

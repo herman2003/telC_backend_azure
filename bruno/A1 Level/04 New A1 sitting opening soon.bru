@@ -1,0 +1,54 @@
+meta {
+  name: 04 New A1 sitting opening soon
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/exam-sessions
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+script:pre-request {
+  // Three minutes: create and publish need opensAt in the future, start
+  // needs it in the past.
+  bru.setVar('a1OpensAt', new Date(Date.now() + 3 * 60 * 1000).toISOString());
+}
+
+body:json {
+  {
+    "name": "A1 smoke",
+    "modelltestNumber": 9,
+    "opensAt": "{{a1OpensAt}}",
+    "accessWindowHours": 48
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.level: eq A1
+  res.body.modelltestNumber: eq 9
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+  bru.setEnvVar("a1SittingId", res.body.id);
+}
+
+docs {
+  The sitting takes its level from the paper: A1, so every block below is
+  timed and marked with A1's rows.
+
+  TIMING: run 05 and 06 within three minutes, then wait for opensAt
+  before 07.
+}

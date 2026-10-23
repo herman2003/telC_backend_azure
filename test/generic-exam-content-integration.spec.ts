@@ -32,13 +32,4 @@ describe('GenericExamContentService.isComplete, against real Postgres', () => {
       service.isComplete('A2', '00000000-0000-0000-0000-000000000000'),
     ).resolves.toBe(false);
   });
-
-  it('is false for a level with no exam_section_weights rows (A1)', async () => {
-    const modelltest = await prisma.modelltest.findUnique({
-      where: { number: 8 },
-      select: { id: true },
-    });
-
-    await expect(service.isComplete('A1', modelltest!.id)).resolves.toBe(false);
-  });
 });

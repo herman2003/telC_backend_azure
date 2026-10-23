@@ -8,9 +8,9 @@
  * that reaches inside material." The same discipline applies to validation —
  * check it once, trust it forever after.
  *
- * Covers the 9 `aufgabentyp` values A2 Modelltest 1 needs. The other 8
- * (B-family Sprechen/Sprachbausteine shapes) are added only when a level
- * that needs the generic model for them actually exists.
+ * Covers the 11 `aufgabentyp` values A1 and A2 need. The B-family
+ * Sprechen/Sprachbausteine shapes are added only when a level that needs
+ * the generic model for them actually exists.
  */
 import { z } from 'zod';
 
@@ -52,18 +52,42 @@ export const EINZELAUSWAHL = z.object({
     .min(1),
 });
 
-export const RICHTIG_FALSCH = z.object({
-  stimulus: asset.optional(),
-  items: z
-    .array(
-      z.object({
-        number: z.number().int().positive(),
-        statement: z.string().min(1),
-        solution: z.object({ value: z.boolean() }),
-      }),
-    )
-    .min(1),
-});
+/**
+ * `texts` is for a Teil whose items read different texts: A1 Lesen 1 has two
+ * letters (items 1–2 and 3–5), Lesen 3 one sign per item. Each text names
+ * the items it belongs to.
+ */
+export const RICHTIG_FALSCH = z
+  .object({
+    stimulus: asset.optional(),
+    texts: z
+      .array(
+        z.object({
+          forItems: z.array(z.number().int().positive()).min(1),
+          title: z.string().optional(),
+          body: z.string().min(1),
+        }),
+      )
+      .optional(),
+    items: z
+      .array(
+        z.object({
+          number: z.number().int().positive(),
+          statement: z.string().min(1),
+          solution: z.object({ value: z.boolean() }),
+        }),
+      )
+      .min(1),
+  })
+  .refine(
+    (content) => {
+      const numbers = new Set(content.items.map((item) => item.number));
+      return (content.texts ?? []).every((text) =>
+        text.forItems.every((n) => numbers.has(n)),
+      );
+    },
+    { message: 'every text must point at items that exist' },
+  );
 
 export const ZUORDNUNG = z.object({
   leftLabel: z.string().min(1),
@@ -114,15 +138,31 @@ export const FORMULAR_AUSFUELLEN = z.object({
   sourceDocuments: z.array(asset).default([]),
   fields: z
     .array(
-      z.object({
-        number: z.number().int().positive(),
-        label: z.string().min(1),
-        inputType: z.enum(['TEXT', 'DATE', 'CHOICE']),
-        normalization,
-        solution: z.object({
-          acceptedAnswers: z.array(z.string().min(1)).min(1),
-        }),
-      }),
+      z
+        .object({
+          number: z.number().int().positive(),
+          label: z.string().min(1),
+          inputType: z.enum(['TEXT', 'DATE', 'CHOICE']),
+          /** What the candidate picks from; required for, and only for, CHOICE. */
+          choices: z.array(z.string().min(1)).min(2).optional(),
+          normalization,
+          solution: z.object({
+            acceptedAnswers: z.array(z.string().min(1)).min(1),
+          }),
+        })
+        .refine(
+          (field) =>
+            field.inputType === 'CHOICE'
+              ? field.choices !== undefined &&
+                field.solution.acceptedAnswers.every((answer) =>
+                  field.choices.includes(answer),
+                )
+              : field.choices === undefined,
+          {
+            message:
+              'a CHOICE field needs choices that contain its answer; other fields have none',
+          },
+        ),
     )
     .min(1),
 });
@@ -156,14 +196,40 @@ export const TEXT_SCHREIBEN = z.object({
   }),
 });
 
+const scale = z.array(z.number()).min(1);
+
+/** A2 marks introduction and follow-up questions; A1 introduction, spelling
+ *  and numbers (Bewertungsbogen M10, V/B/Z). */
 export const SICH_VORSTELLEN = z.object({
   prompts: z.array(z.string().min(1)).min(1),
   examinerPrompts: z.array(z.string()).default([]),
   participants: z.number().int().positive(),
-  rubric: z.object({
-    vorstellen: z.array(z.number()).min(1),
-    zusatzfragen: z.array(z.number()).min(1),
-  }),
+  rubric: z.union([
+    z.object({ vorstellen: scale, zusatzfragen: scale }).strict(),
+    z.object({ vorstellen: scale, buchstabieren: scale, zahlen: scale }).strict(),
+  ]),
+});
+
+const card = z.object({
+  key: z.string().min(1),
+  /** The word on the card, or — for a picture card — the object it shows. */
+  text: z.string().min(1),
+  imageUrl: z.string().nullable().optional(),
+});
+
+/** One round per topic: A1 Teil 2 plays "Essen und Trinken", then "Einkaufen". */
+const rounds = z
+  .array(z.object({ topic: z.string().min(1).optional(), cards: z.array(card).min(1) }))
+  .min(1);
+
+export const FRAGEN_UND_ANTWORTEN = z.object({
+  rounds,
+  rubric: z.object({ frage: scale, antwort: scale }),
+});
+
+export const BITTEN_UND_REAGIEREN = z.object({
+  rounds,
+  rubric: z.object({ bitte: scale, reaktion: scale }),
 });
 
 export const ALLTAGSGESPRAECH = z.object({
@@ -203,6 +269,8 @@ export const AUFGABENTYP_SCHEMAS = {
   FORMULAR_AUSFUELLEN,
   TEXT_SCHREIBEN,
   SICH_VORSTELLEN,
+  FRAGEN_UND_ANTWORTEN,
+  BITTEN_UND_REAGIEREN,
   ALLTAGSGESPRAECH,
   ETWAS_AUSHANDELN,
 };

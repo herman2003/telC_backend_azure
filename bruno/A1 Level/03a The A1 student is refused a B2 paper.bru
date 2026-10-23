@@ -1,0 +1,23 @@
+meta {
+  name: 03a The A1 student is refused a B2 paper
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+assert {
+  res.status: eq 403
+  res.body.message: eq LEVEL_MISMATCH
+}
+
+docs {
+  The level gate from the A1 side: an A1 seat opens A1 papers only. Needs 02 (the seat) or the refusal would be for having no code.
+}

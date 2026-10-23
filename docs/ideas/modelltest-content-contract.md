@@ -308,6 +308,9 @@ Used for A1/A2 Lesen or Hören questions with one correct option.
       "body": "Optional shared reading text",
       "imageUrl": null
     },
+    "texts": [
+      { "forItems": [7], "title": "Durchsage", "body": "Liebe Fahrgäste, ..." }
+    ],
     "items": [
       {
         "number": 7,
@@ -318,6 +321,10 @@ Used for A1/A2 Lesen or Hören questions with one correct option.
   }
 }
 ```
+
+`texts` is optional. Use it when items read different texts: A1 Lesen
+Teil 1 has two letters, and Teil 3 has one sign per item. Every number in
+`forItems` must be an item of the section.
 
 ## Aufgabenart: `ZUORDNUNG`
 
@@ -409,11 +416,23 @@ Used by A1/A2 Schreiben, Teil 1.
         "solution": {
           "acceptedAnswers": ["4", "vier"]
         }
+      },
+      {
+        "number": 4,
+        "label": "Zahlungsweise",
+        "inputType": "CHOICE",
+        "choices": ["bar", "Kreditkarte"],
+        "normalization": { "...": "..." },
+        "solution": { "acceptedAnswers": ["bar"] }
       }
     ]
   }
 }
 ```
+
+A `CHOICE` field must list its `choices`, and every accepted answer must be one
+of them. Other fields have no `choices`. The choices are stored as the item's
+options; the mark still comes from `acceptedAnswers`.
 
 ## Aufgabenarten: Sprachbausteine
 
@@ -561,10 +580,14 @@ All Hören sections require this object:
   "content": {
     "prompts": ["Name", "Alter", "Land", "Wohnort", "Sprachen", "Beruf", "Hobby"],
     "examinerPrompts": [],
-    "participants": 2
+    "participants": 2,
+    "rubric": { "vorstellen": [1, 0.5, 0], "zusatzfragen": [2, 1, 0] }
   }
 }
 ```
+
+The rubric is A2's (`vorstellen`, `zusatzfragen`) or A1's (`vorstellen`,
+`buchstabieren`, `zahlen`), each a list of the points an examiner may give.
 
 ### `FRAGEN_UND_ANTWORTEN` / `BITTEN_UND_REAGIEREN`
 
@@ -572,15 +595,25 @@ All Hören sections require this object:
 {
   "aufgabentyp": "FRAGEN_UND_ANTWORTEN",
   "content": {
-    "topic": "Essen und Trinken",
-    "cards": [
-      { "key": "a", "text": "Frühstück", "imageUrl": null },
-      { "key": "b", "text": "Lieblingsessen", "imageUrl": null }
+    "rounds": [
+      {
+        "topic": "Essen und Trinken",
+        "cards": [
+          { "key": "1", "text": "Frühstück", "imageUrl": null },
+          { "key": "2", "text": "Lieblingsessen", "imageUrl": null }
+        ]
+      },
+      { "topic": "Einkaufen", "cards": [{ "key": "1", "text": "Zeitung" }] }
     ],
-    "jokerCards": 0
+    "rubric": { "frage": [2, 1, 0], "antwort": [1, 0.5, 0] }
   }
 }
 ```
+
+One round per topic. `BITTEN_UND_REAGIEREN` has the same `rounds`, with an
+optional `topic` and the rubric `{ "bitte", "reaktion" }`. Its cards are
+pictures; `text` names the object shown, and `imageUrl` stays null until the
+image is uploaded.
 
 ### `ALLTAGSGESPRAECH` / `ETWAS_AUSHANDELN`
 

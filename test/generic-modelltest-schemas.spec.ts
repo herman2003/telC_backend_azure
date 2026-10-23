@@ -201,6 +201,162 @@ describe('generic-modelltest-schemas', () => {
     ).toBe('OK\n');
   });
 
+  describe('A1 shapes', () => {
+    /** The importer must say which section failed, never just "invalid". */
+    const NAMED = /TEST_SECTION \(\w+\) content is invalid/;
+    const oral = (aufgabentyp: string, content: unknown, maxPoints = 6) =>
+      envelope({
+        fertigkeit: 'SPRECHEN',
+        aufgabentyp,
+        scoring: { mode: 'MANUAL', maxPoints, examPart: 'ORAL' },
+        content,
+      });
+    const normalization = {
+      trim: true,
+      ignoreCase: true,
+      unicodeNormalization: 'NFC',
+      numericAnswersStrict: true,
+      fuzzyMatchingAllowed: false,
+      unrecognizedAnswerPolicy: 'MANUAL_REVIEW',
+    };
+    const field = (over: Record<string, unknown>) => ({
+      number: 4,
+      label: 'Zahlungsweise',
+      normalization,
+      solution: { acceptedAnswers: ['bar'] },
+      ...over,
+    });
+    const form = (fields: unknown[]) =>
+      envelope({
+        fertigkeit: 'SCHREIBEN',
+        aufgabentyp: 'FORMULAR_AUSFUELLEN',
+        content: { fields },
+      });
+
+    it('accepts FRAGEN_UND_ANTWORTEN with two topic rounds', () => {
+      expect(
+        validate(
+          oral('FRAGEN_UND_ANTWORTEN', {
+            rounds: [
+              {
+                topic: 'Essen und Trinken',
+                cards: [{ key: '1', text: 'Frühstück' }],
+              },
+              { topic: 'Einkaufen', cards: [{ key: '1', text: 'Zeitung' }] },
+            ],
+            rubric: { frage: [2, 1, 0], antwort: [1, 0.5, 0] },
+          }),
+        ),
+      ).toBe('OK\n');
+    });
+
+    it('rejects FRAGEN_UND_ANTWORTEN with no round', () => {
+      expectRejects(
+        oral('FRAGEN_UND_ANTWORTEN', {
+          rounds: [],
+          rubric: { frage: [2, 1, 0], antwort: [1, 0.5, 0] },
+        }),
+        NAMED,
+      );
+    });
+
+    it('accepts BITTEN_UND_REAGIEREN picture cards written as words', () => {
+      expect(
+        validate(
+          oral('BITTEN_UND_REAGIEREN', {
+            rounds: [{ cards: [{ key: '1', text: 'Äpfel', imageUrl: null }] }],
+            rubric: { bitte: [2, 1, 0], reaktion: [1, 0.5, 0] },
+          }),
+        ),
+      ).toBe('OK\n');
+    });
+
+    it('accepts the A1 Sprechen Teil 1 rubric, and still the A2 one', () => {
+      const intro = (rubric: unknown) =>
+        oral(
+          'SICH_VORSTELLEN',
+          { prompts: ['Name'], participants: 4, rubric },
+          3,
+        );
+
+      expect(
+        validate(
+          intro({
+            vorstellen: [1, 0.5, 0],
+            buchstabieren: [1, 0.5, 0],
+            zahlen: [1, 0.5, 0],
+          }),
+        ),
+      ).toBe('OK\n');
+      expect(
+        validate(intro({ vorstellen: [1, 0.5, 0], zusatzfragen: [2, 1, 0] })),
+      ).toBe('OK\n');
+      expectRejects(intro({ vorstellen: [1, 0.5, 0] }), NAMED);
+    });
+
+    it('accepts RICHTIG_FALSCH texts that belong to some items', () => {
+      expect(
+        validate(
+          envelope({
+            aufgabentyp: 'RICHTIG_FALSCH',
+            content: {
+              texts: [
+                { forItems: [1], title: 'Brief von Karin', body: 'Liebe …' },
+              ],
+              items: [{ number: 1, statement: 'X', solution: { value: true } }],
+            },
+          }),
+        ),
+      ).toBe('OK\n');
+    });
+
+    it('rejects a RICHTIG_FALSCH text pointing at an item that does not exist', () => {
+      expectRejects(
+        envelope({
+          aufgabentyp: 'RICHTIG_FALSCH',
+          content: {
+            texts: [{ forItems: [9], body: 'Schild' }],
+            items: [{ number: 1, statement: 'X', solution: { value: true } }],
+          },
+        }),
+        NAMED,
+      );
+    });
+
+    it('accepts a CHOICE field whose answer is one of its choices', () => {
+      expect(
+        validate(
+          form([
+            field({ inputType: 'CHOICE', choices: ['bar', 'Kreditkarte'] }),
+          ]),
+        ),
+      ).toBe('OK\n');
+    });
+
+    it('rejects a CHOICE field with no choices', () => {
+      expectRejects(form([field({ inputType: 'CHOICE' })]), NAMED);
+    });
+
+    it('rejects a CHOICE field whose answer is not among its choices', () => {
+      expectRejects(
+        form([
+          field({ inputType: 'CHOICE', choices: ['Scheck', 'Kreditkarte'] }),
+        ]),
+        NAMED,
+      );
+    });
+  });
+
+  it('still accepts every section of the A2 Modelltest 1 source', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const source = require('../content/a2-modelltest-1-source.json') as {
+      sections: Record<string, Record<string, unknown>[]>;
+    };
+    for (const section of Object.values(source.sections).flat()) {
+      expect(validate(section)).toBe('OK\n');
+    }
+  });
+
   it('rejects an unknown aufgabentyp', () => {
     expectRejects(envelope({ aufgabentyp: 'NOT_A_REAL_TYPE', content: {} }));
   });
