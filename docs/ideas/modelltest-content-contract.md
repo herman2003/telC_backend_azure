@@ -309,7 +309,7 @@ Used for A1/A2 Lesen or Hören questions with one correct option.
       "imageUrl": null
     },
     "texts": [
-      { "forItems": [1, 2], "title": "Brief von Karin", "body": "Liebe Ulla, ..." }
+      { "forItems": [7], "title": "Durchsage", "body": "Liebe Fahrgäste, ..." }
     ],
     "items": [
       {

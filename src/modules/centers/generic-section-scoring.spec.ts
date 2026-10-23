@@ -198,6 +198,37 @@ describe('markGenericSection: wrong vs not recognised', () => {
     expect(mark.unrecognised).toEqual([{ itemNumber: 2, answer: 'Sontag' }]);
   });
 
+  it('marks a form field with choices as a closed answer: a wrong pick is wrong', () => {
+    // A1 Schreiben Teil 1, field 4: Bar or Kreditkarte. Nothing to review —
+    // the candidate picked one of the printed choices.
+    const payment = section({
+      aufgabentyp: 'FORMULAR_AUSFUELLEN',
+      items: [
+        {
+          itemNumber: 4,
+          prompt: 'Zahlungsweise',
+          solution: { acceptedAnswers: ['Bar'], normalization },
+          options: [
+            { key: 'Bar', content: 'Bar', isCorrect: true },
+            { key: 'Kreditkarte', content: 'Kreditkarte', isCorrect: false },
+          ],
+        },
+      ],
+    });
+
+    expect(markGenericSection(payment, { '4': 'Kreditkarte' })).toEqual({
+      correct: 0,
+      total: 1,
+      percent: 0,
+      unrecognised: [],
+    });
+    expect(markGenericSection(payment, { '4': 'Bar' }).correct).toBe(1);
+    // Not one of the choices at all: still a closed field, so wrong.
+    expect(markGenericSection(payment, { '4': 'Scheck' }).unrecognised).toEqual(
+      [],
+    );
+  });
+
   it('treats an empty or missing answer as wrong, not as something to review', () => {
     const mark = markGenericSection(form, { '1': '', '2': '   ' });
 

@@ -154,4 +154,18 @@ describe('A1 Modelltest 1 rows', () => {
     expect(mark.correct).toBe(4);
     expect(mark.unrecognised).toEqual([{ itemNumber: 3, answer: 'Seheim' }]);
   });
+
+  it('marks the wrong payment choice wrong, with nothing for the examiner', async () => {
+    const form = await content.sectionFor(modelltestId, 'SCHREIBEN', 1);
+    const mark = markGenericSection(form!, {
+      '1': '4',
+      '2': '2',
+      '3': 'Seeheim',
+      '4': 'Kreditkarte',
+      '5': 'Sonntag',
+    });
+
+    expect(mark.correct).toBe(4);
+    expect(mark.unrecognised).toEqual([]);
+  });
 });

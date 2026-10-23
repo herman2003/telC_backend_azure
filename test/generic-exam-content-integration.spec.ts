@@ -32,8 +32,4 @@ describe('GenericExamContentService.isComplete, against real Postgres', () => {
       service.isComplete('A2', '00000000-0000-0000-0000-000000000000'),
     ).resolves.toBe(false);
   });
-
-  // A1 used to be the "no weights" case here. It has weights since
-  // 20261024100100_seed_a1_exam_rules; its own completeness is asserted in
-  // test/a1-modelltest-1-integration.spec.ts.
 });

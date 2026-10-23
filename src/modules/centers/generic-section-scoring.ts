@@ -41,6 +41,7 @@ function outcomeOf(
   solution: Record<string, unknown>,
   material: Record<string, unknown>,
   answer: unknown,
+  hasChoices: boolean,
 ): ItemOutcome {
   const right = (ok: boolean): ItemOutcome => (ok ? 'CORRECT' : 'WRONG');
   switch (aufgabentyp) {
@@ -60,13 +61,15 @@ function outcomeOf(
       // A form field such as "number of people" may arrive as the number 4.
       const text = typeof answer === 'number' ? String(answer) : answer;
       if (typeof text !== 'string' || text.trim() === '') return 'WRONG';
-      return matchesAccepted(
+      const matched = matchesAccepted(
         text,
         solution.acceptedAnswers as string[],
         solution.normalization as NormalizationRule,
-      )
-        ? 'CORRECT'
-        : 'UNRECOGNISED';
+      );
+      // A field with printed choices (A1: Bar or Kreditkarte) is a closed
+      // answer: a wrong pick is wrong, not something for the examiner.
+      if (hasChoices) return right(matched);
+      return matched ? 'CORRECT' : 'UNRECOGNISED';
     }
     default:
       throw new Error(`No auto-scoring rule for aufgabentyp ${aufgabentyp}`);
@@ -103,6 +106,7 @@ export function markGenericSection(
       (item.solution ?? {}) as Record<string, unknown>,
       material,
       answer,
+      item.options.length > 0,
     );
     if (outcome === 'CORRECT') correct++;
     if (outcome === 'UNRECOGNISED') {

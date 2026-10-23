@@ -186,7 +186,9 @@ the 60 points**, with no separate oral bar (`exam_pass_rules`).
   accepts misspellings ("Donerstach" for "Donnerstag") that no list of
   accepted answers can hold, so such an answer is never marked wrong by the
   machine: the Teil waits, and the examiner sees the unrecognised answers and
-  what the recognised ones are worth. An empty answer is simply wrong.
+  what the recognised ones are worth. An empty answer is simply wrong, and
+  so is a wrong pick in a form field with printed choices (A1: *Bar* or
+  *Kreditkarte*) — the candidate chose, nothing is left to read.
 - Schreiben is marked once its block (Lesen und Schreiben) is submitted;
   Sprechen has no block. Marks are whole or half points.
 

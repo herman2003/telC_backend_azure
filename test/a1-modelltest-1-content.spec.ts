@@ -23,7 +23,12 @@ interface Section {
   sectionId: string;
   aufgabentyp: string;
   scoring: { mode: string; maxPoints: number };
-  content: { items?: Item[]; fields?: Field[] };
+  content: {
+    items?: Item[];
+    fields?: Field[];
+    rubric?: unknown;
+    rounds?: { topic?: string; cards: { text: string }[] }[];
+  };
 }
 
 const source = JSON.parse(
@@ -107,6 +112,73 @@ describe('A1 Modelltest 1 content', () => {
     const payment = fields.find((f) => f.number === 4);
     expect(payment?.inputType).toBe('CHOICE');
     expect(payment?.choices).toEqual(['Bar', 'Kreditkarte']);
+  });
+
+  it('carries the Bewertungsbogen rubrics', () => {
+    // Schreiben Teil 2: 3 / 1.5 / 0 per point, Kommunikative Gestaltung
+    // 1 / 0.5 / 0 (page 34). Sprechen: M10 telc Deutsch A1 (page 35).
+    expect(section('SCHREIBEN_2').content.rubric).toEqual({
+      contentPoints: { selectRequired: 3, pointsPerPoint: [3, 1.5, 0] },
+      communicativeDesign: { points: [1, 0.5, 0] },
+    });
+    expect(section('SPRECHEN_1').content.rubric).toEqual({
+      vorstellen: [1, 0.5, 0],
+      buchstabieren: [1, 0.5, 0],
+      zahlen: [1, 0.5, 0],
+    });
+    expect(section('SPRECHEN_2').content.rubric).toEqual({
+      frage: [2, 1, 0],
+      antwort: [1, 0.5, 0],
+    });
+    expect(section('SPRECHEN_3').content.rubric).toEqual({
+      bitte: [2, 1, 0],
+      reaktion: [1, 0.5, 0],
+    });
+  });
+
+  it('has the Sprechen cards as printed', () => {
+    const rounds = (id: string) =>
+      (section(id).content.rounds ?? []).map((r) => ({
+        topic: r.topic,
+        cards: r.cards.map((c) => c.text),
+      }));
+
+    expect(rounds('SPRECHEN_2')).toEqual([
+      {
+        topic: 'Essen und Trinken',
+        cards: [
+          'Frühstück',
+          'Lieblingsessen',
+          'Sonntag',
+          'Bier',
+          'Fisch',
+          'Brot',
+        ],
+      },
+      {
+        topic: 'Einkaufen',
+        cards: ['Zeitung', 'Kasse', 'Obst', 'Schuhe', 'Buch', 'Stadtplan'],
+      },
+    ]);
+    // Picture cards (page 27): twelve objects, named by us.
+    const teil3 = rounds('SPRECHEN_3');
+    expect(teil3).toHaveLength(1);
+    expect([...teil3[0].cards].sort()).toEqual(
+      [
+        'Äpfel',
+        'Auto',
+        'Banane',
+        'Blumen',
+        'Einkaufskorb',
+        'Fleisch',
+        'Hund',
+        'Koffer',
+        'Kuchen',
+        'Laptop',
+        'Orangensaft',
+        'Schlüssel',
+      ].sort(),
+    );
   });
 
   it('adds up to the official 15 / 15 / 15 / 15', () => {

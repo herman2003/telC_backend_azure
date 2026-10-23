@@ -202,6 +202,8 @@ describe('generic-modelltest-schemas', () => {
   });
 
   describe('A1 shapes', () => {
+    /** The importer must say which section failed, never just "invalid". */
+    const NAMED = /TEST_SECTION \(\w+\) content is invalid/;
     const oral = (aufgabentyp: string, content: unknown, maxPoints = 6) =>
       envelope({
         fertigkeit: 'SPRECHEN',
@@ -254,7 +256,7 @@ describe('generic-modelltest-schemas', () => {
           rounds: [],
           rubric: { frage: [2, 1, 0], antwort: [1, 0.5, 0] },
         }),
-        /SPRECHEN|TEST_SECTION/,
+        NAMED,
       );
     });
 
@@ -289,7 +291,7 @@ describe('generic-modelltest-schemas', () => {
       expect(
         validate(intro({ vorstellen: [1, 0.5, 0], zusatzfragen: [2, 1, 0] })),
       ).toBe('OK\n');
-      expectRejects(intro({ vorstellen: [1, 0.5, 0] }));
+      expectRejects(intro({ vorstellen: [1, 0.5, 0] }), NAMED);
     });
 
     it('accepts RICHTIG_FALSCH texts that belong to some items', () => {
@@ -317,6 +319,7 @@ describe('generic-modelltest-schemas', () => {
             items: [{ number: 1, statement: 'X', solution: { value: true } }],
           },
         }),
+        NAMED,
       );
     });
 
@@ -331,7 +334,7 @@ describe('generic-modelltest-schemas', () => {
     });
 
     it('rejects a CHOICE field with no choices', () => {
-      expectRejects(form([field({ inputType: 'CHOICE' })]));
+      expectRejects(form([field({ inputType: 'CHOICE' })]), NAMED);
     });
 
     it('rejects a CHOICE field whose answer is not among its choices', () => {
@@ -339,6 +342,7 @@ describe('generic-modelltest-schemas', () => {
         form([
           field({ inputType: 'CHOICE', choices: ['Scheck', 'Kreditkarte'] }),
         ]),
+        NAMED,
       );
     });
   });

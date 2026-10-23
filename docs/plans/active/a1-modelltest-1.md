@@ -1,6 +1,6 @@
 # Implementation Plan: A1 Modelltest 1 on Exam Day
 
-**Status:** draft, awaiting approval.
+**Status:** approved; implemented, in review. Archive once merged.
 **Weight:** High risk. This is exam content and results, plus a migration. It
 needs the full gates, an independent review in a fresh context, and Bruno over
 HTTP through to a final verdict.
@@ -76,11 +76,11 @@ the same commit.
 | Lesen 1 | `RICHTIG_FALSCH` + 2 letters | 1–5 | R F F F R |
 | Lesen 2 | `EINZELAUSWAHL` (ads a/b) | 6–10 | b a a a b |
 | Lesen 3 | `RICHTIG_FALSCH` + 1 sign per item | 11–15 | R F F R R |
-| Schreiben 1 | `FORMULAR_AUSFUELLEN` | 1–5 | 4 · 2 · Seeheim · bar · Sonntag (open → examiner) |
+| Schreiben 1 | `FORMULAR_AUSFUELLEN` | 1–5 | 4 · 2 · Seeheim · Bar (a choice: a wrong pick is wrong) · Sonntag (open → examiner) |
 | Schreiben 2 | `TEXT_SCHREIBEN` | — | rubric 3/1.5/0 × 3 + KG 1/0.5/0, max 10 |
 | Sprechen 1 | `SICH_VORSTELLEN` | — | V/B/Z 1/0.5/0, max 3 |
 | Sprechen 2 | `FRAGEN_UND_ANTWORTEN` | — | *Essen und Trinken*: Frühstück, Lieblingsessen, Sonntag, Bier, Fisch, Brot · *Einkaufen*: Zeitung, Kasse, Obst, Schuhe, Buch, Stadtplan |
-| Sprechen 3 | `BITTEN_UND_REAGIEREN` | — | Äpfel, Fleisch, Banane, Orangensaft, Korb, Hund, Laptop, Auto, Schlüssel, Koffer, Blumen, Kuchen |
+| Sprechen 3 | `BITTEN_UND_REAGIEREN` | — | Äpfel, Fleisch, Laptop, Auto, Banane, Orangensaft, Einkaufskorb, Hund, Schlüssel, Koffer, Blumen, Kuchen |
 
 **Hören delivery.** `PER_TEIL_RECORDINGS`, one play per file. The three R2
 files are already uploaded and checked byte for byte:
@@ -94,8 +94,8 @@ files are already uploaded and checked byte for byte:
 The transcripts go in `media.transcript`, which is never sent to the student.
 
 **Schreiben 1, field 5.** The answer is "the date of next Sunday", so it
-cannot have a fixed key. Accepted answers: "Sonntag", "nächsten Sonntag",
-"nächster Sonntag". Anything else goes to the examiner (Decision 1 = B, built
+cannot have a fixed key. Accepted answers: "Sonntag", "am Sonntag",
+"nächsten Sonntag", "nächster Sonntag", "am nächsten Sonntag". Anything else goes to the examiner (Decision 1 = B, built
 in #120).
 
 ## Rules (one migration)

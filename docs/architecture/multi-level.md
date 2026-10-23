@@ -731,7 +731,6 @@ infrastructure as A2 with different rows. What it did need, and why:
   and the choices of a form field (`docs/ideas/modelltest-content-contract.md`).
 
 A1 Modelltest 1 is catalogue number 9 (`content/a1-modelltest-1-source.json`).
-Plan: `docs/plans/active/a1-modelltest-1.md`.
 
 ---
 
