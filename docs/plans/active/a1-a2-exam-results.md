@@ -1,6 +1,6 @@
 # Implementation Plan: A1/A2 Exam Day results can be completed
 
-**Status:** plan, design approved 2026-10-23, not yet approved to implement.
+**Status:** implemented, in review. Archive once merged; the rule lives in `docs/domains/exam-simulator.md` ("Who marks what at A1/A2").
 **Weight:** High risk — exam results. Full gates, independent review in a
 fresh context, Bruno over HTTP through to a final verdict.
 
