@@ -1,0 +1,23 @@
+meta {
+  name: 11b No play once Hoeren is submitted
+  type: http
+  seq: 27
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/audio/{{a2Teil1AudioId}}/play
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+assert {
+  res.status: eq 400
+  res.body.message: eq BLOCK_ALREADY_SUBMITTED
+}
+
+docs {
+  A play is a write to the block; a closed block takes none.
+}

@@ -1,7 +1,7 @@
 meta {
   name: 09 Each Hoeren Teil names its own recording
   type: http
-  seq: 9
+  seq: 17
 }
 
 get {
@@ -52,9 +52,11 @@ script:post-response {
   }
 
   bru.setEnvVar("a2Teil1AudioId", teile[0].audioId);
+  bru.setEnvVar("a2Teil2AudioId", teile[1].audioId);
+  bru.setEnvVar("a2Teil3AudioId", teile[2].audioId);
 }
 
 docs {
   Exactly what the Flutter Hören sequencer reads for B1/B2, so A2 plays
-  through the same code. Captures {{a2Teil1AudioId}} for 10.
+  through the same code. Captures the three Teile's ids for 10 and 10e-10f.
 }

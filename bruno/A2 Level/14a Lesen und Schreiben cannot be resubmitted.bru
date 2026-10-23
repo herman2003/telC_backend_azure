@@ -1,0 +1,23 @@
+meta {
+  name: 14a Lesen und Schreiben cannot be resubmitted
+  type: http
+  seq: 32
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/LESEN_SCHREIBEN/submit
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+assert {
+  res.status: eq 400
+  res.body.message: eq BLOCK_ALREADY_SUBMITTED
+}
+
+docs {
+  A resubmit must not replace the marked answers.
+}
