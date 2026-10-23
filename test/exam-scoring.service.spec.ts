@@ -38,6 +38,20 @@ const BLOCK_SECTIONS_BY_LEVEL: Record<
     ],
     SCHREIBEN: [{ skill: 'SCHREIBEN', teil: 1 }],
   },
+  A2: {
+    HOEREN: [
+      { skill: 'HOEREN', teil: 1 },
+      { skill: 'HOEREN', teil: 2 },
+      { skill: 'HOEREN', teil: 3 },
+    ],
+    LESEN_SCHREIBEN: [
+      { skill: 'LESEN', teil: 1 },
+      { skill: 'LESEN', teil: 2 },
+      { skill: 'LESEN', teil: 3 },
+      { skill: 'SCHREIBEN', teil: 1 },
+      { skill: 'SCHREIBEN', teil: 2 },
+    ],
+  },
 };
 
 /**
@@ -54,6 +68,7 @@ describe('ExamScoringService', () => {
   const MODELLTEST = 'mt-1';
 
   let prisma: any;
+  let genericContent: any;
   let lesen: any;
   let sprachbausteine: any;
   let listening: any;
@@ -108,8 +123,10 @@ describe('ExamScoringService', () => {
       deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
     };
     correction = { runCorrection: jest.fn().mockResolvedValue(undefined) };
+    genericContent = { sectionFor: jest.fn() };
     service = new ExamScoringService(
       prisma,
+      genericContent,
       lesen,
       sprachbausteine,
       listening,
@@ -576,6 +593,188 @@ describe('ExamScoringService', () => {
           data: expect.objectContaining({ exam_attempt_id: ATTEMPT }),
         }),
       );
+    });
+  });
+
+  describe('the generic model (A1/A2)', () => {
+    const genericSection = (over: Record<string, unknown>) => ({
+      sectionId: 'LESEN_1',
+      aufgabentyp: 'EINZELAUSWAHL',
+      teil: 1,
+      label: 'Lesen Teil 1',
+      instruction: '',
+      maxPoints: 5,
+      scoringMode: 'AUTO',
+      material: {},
+      items: [
+        { itemNumber: 1, prompt: null, solution: { key: 'a' }, options: [] },
+        { itemNumber: 2, prompt: null, solution: { key: 'b' }, options: [] },
+      ],
+      ...over,
+    });
+
+    it('scores Lesen against the generic model, never the B1 answer-key service', async () => {
+      prisma.writingAttempt = {
+        create: jest.fn().mockResolvedValue({ attempt_id: 'writing-generic-0' }),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      genericContent.sectionFor.mockResolvedValue(genericSection({}));
+
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 8,
+        level: 'A2',
+        gradingTier: 'MANUAL',
+        block: 'LESEN_SCHREIBEN',
+        answers: { LESEN_1: { '1': 'a', '2': 'wrong' } },
+      });
+
+      expect(genericContent.sectionFor).toHaveBeenCalledWith(
+        MODELLTEST,
+        'LESEN',
+        1,
+      );
+      expect(lesen.getSubmissionRules).not.toHaveBeenCalled();
+      expect(scored).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ skill: 'LESEN', teil: '1', score: 50 }),
+        ]),
+      );
+    });
+
+    it('auto-scores a FORMULAR_AUSFUELLEN Schreiben Teil as a completed, not pending, result', async () => {
+      prisma.writingAttempt = {
+        create: jest.fn().mockResolvedValue({ attempt_id: 'writing-generic-1' }),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      genericContent.sectionFor.mockImplementation(
+        (_modelltestId: string, skill: string, teil: number) => {
+          if (skill === 'LESEN') return Promise.resolve(genericSection({}));
+          return Promise.resolve(
+            genericSection({
+              sectionId: 'SCHREIBEN_1',
+              aufgabentyp: 'FORMULAR_AUSFUELLEN',
+              teil: 1,
+              scoringMode: 'AUTO',
+              items: [
+                {
+                  itemNumber: 1,
+                  prompt: 'Name',
+                  solution: {
+                    acceptedAnswers: ['Müller'],
+                    normalization: {
+                      trim: true,
+                      ignoreCase: false,
+                      unicodeNormalization: 'NFC',
+                      numericAnswersStrict: false,
+                      fuzzyMatchingAllowed: false,
+                      unrecognizedAnswerPolicy: 'MANUAL_REVIEW',
+                    },
+                  },
+                  options: [],
+                },
+              ],
+            }),
+          );
+        },
+      );
+
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 8,
+        level: 'A2',
+        gradingTier: 'MANUAL',
+        block: 'LESEN_SCHREIBEN',
+        answers: { SCHREIBEN_1: { '1': 'Müller' } },
+      });
+
+      expect(
+        scored.find((s) => s.skill === 'SCHREIBEN' && s.teil === '1'),
+      ).toMatchObject({ score: 100, pending: false });
+      expect(prisma.writingAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            status: 'completed',
+            score: 100,
+            exercise_id: 'SCHREIBEN_1',
+          }),
+        }),
+      );
+      // Auto-scored: no WritingExercise lookup, no AI suggestion.
+      expect(correction.runCorrection).not.toHaveBeenCalled();
+    });
+
+    it('still routes a TEXT_SCHREIBEN Schreiben Teil to a person, resolved via the exam_section, not WritingExercise', async () => {
+      prisma.writingAttempt = {
+        create: jest.fn().mockResolvedValue({ attempt_id: 'writing-generic-2' }),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      genericContent.sectionFor.mockImplementation(
+        (_modelltestId: string, skill: string) => {
+          if (skill === 'LESEN') return Promise.resolve(genericSection({}));
+          return Promise.resolve(
+            genericSection({
+              sectionId: 'SCHREIBEN_2',
+              aufgabentyp: 'TEXT_SCHREIBEN',
+              teil: 2,
+              scoringMode: 'MANUAL_WITH_AI_SUGGESTION',
+              items: [],
+            }),
+          );
+        },
+      );
+
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 8,
+        level: 'A2',
+        gradingTier: 'AI',
+        block: 'LESEN_SCHREIBEN',
+        answers: { SCHREIBEN_2: { text: 'Liebe Frau Müller,' } },
+      });
+
+      expect(
+        scored.find((s) => s.skill === 'SCHREIBEN' && s.teil === '2'),
+      ).toMatchObject({ score: null, pending: true });
+      expect(prisma.writingAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ exercise_id: 'SCHREIBEN_2' }),
+        }),
+      );
+      expect(prisma.writingExercise).toBeUndefined();
+      expect(correction.runCorrection).toHaveBeenCalledWith(
+        expect.objectContaining({ exerciseId: 'SCHREIBEN_2', level: 'A2' }),
+      );
+    });
+
+    it('B1 Schreiben routing is unchanged -- still unconditionally a person, scoring_mode never consulted', async () => {
+      prisma.writingAttempt = {
+        create: jest.fn().mockResolvedValue({}),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      prisma.writingExercise = {
+        findFirst: jest.fn().mockResolvedValue({ id: 'task-a' }),
+      };
+
+      await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        level: 'B1',
+        gradingTier: 'MANUAL',
+        block: 'SCHREIBEN',
+        answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },
+      });
+
+      expect(genericContent.sectionFor).not.toHaveBeenCalled();
+      expect(prisma.writingExercise.findFirst).toHaveBeenCalled();
     });
   });
 });

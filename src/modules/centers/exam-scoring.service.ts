@@ -1,10 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { CefrLevel, ExamBlock } from '@prisma/client';
+import type { CefrLevel, ExamBlock, Skill } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../listening/listening.service';
 import { WritingCorrectionService } from '../writing/writing-correction.service';
+import { scoreGenericItems } from './generic-section-scoring';
 
 export type ExamSkill = 'LESEN' | 'SPRACHBAUSTEINE' | 'HOEREN' | 'SCHREIBEN';
 
@@ -65,6 +70,7 @@ export interface ScoreBlockInput {
 export class ExamScoringService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly genericContent: GenericExamContentService,
     private readonly lesen: LesenService,
     private readonly sprachbausteine: SprachbausteineService,
     private readonly listening: ListeningService,
@@ -153,12 +159,17 @@ export class ExamScoringService {
     section: { skill: ExamSkill; teil: string },
     answers: Record<string, unknown>,
   ): Promise<ExamSectionScore> {
+    const isGenericModel = GENERIC_MODEL_LEVELS.includes(input.level);
+
     if (section.skill === 'SCHREIBEN') {
-      return this.storeWriting(input, section, answers);
+      return isGenericModel
+        ? this.scoreGenericSchreiben(input, section, answers)
+        : this.storeWriting(input, section, answers, undefined);
     }
 
-    const answerKey = await this.answerKeyFor(input, section);
-    const score = markAgainst(answerKey, answers);
+    const score = isGenericModel
+      ? await this.scoreGenericAutoSection(input, section, answers)
+      : markAgainst(await this.answerKeyFor(input, section), answers);
 
     if (section.skill === 'HOEREN') {
       await this.prisma.listeningAttempt.create({
@@ -209,6 +220,72 @@ export class ExamScoringService {
     return { skill: section.skill, teil: section.teil, score, pending: false };
   }
 
+  /** The generic model's (A1/A2) content for one section, or a loud error --
+   *  `isComplete` already gates which Modelltests reach `scoreBlock`, so a
+   *  missing section here is a bug, not a user-facing 404. */
+  private async genericSectionFor(
+    input: ScoreBlockInput,
+    section: { skill: ExamSkill; teil: string },
+  ) {
+    const generic = await this.genericContent.sectionFor(
+      input.modelltestId,
+      section.skill as Skill,
+      Number(section.teil),
+    );
+    if (!generic) {
+      throw new Error(
+        `EXAM_SECTION_MISSING: ${section.skill}_${section.teil} for modelltest ${input.modelltestId}`,
+      );
+    }
+    return generic;
+  }
+
+  /** Lesen/Hören/Sprachbausteine for A1/A2: scored against the generic
+   *  model's item solutions instead of a B1/B2 answer key. */
+  private async scoreGenericAutoSection(
+    input: ScoreBlockInput,
+    section: { skill: ExamSkill; teil: string },
+    answers: Record<string, unknown>,
+  ): Promise<number> {
+    const generic = await this.genericSectionFor(input, section);
+    return scoreGenericItems(generic, answers);
+  }
+
+  /**
+   * Schreiben for A1/A2: routed by the section's own `scoring_mode`, not by
+   * `skill === 'SCHREIBEN'` — A2's Teil 1 (`FORMULAR_AUSFUELLEN`) is
+   * auto-scored like any other written Teil, while Teil 2
+   * (`TEXT_SCHREIBEN`) still goes to a person, same as B1/B2.
+   */
+  private async scoreGenericSchreiben(
+    input: ScoreBlockInput,
+    section: { skill: ExamSkill; teil: string },
+    answers: Record<string, unknown>,
+  ): Promise<ExamSectionScore> {
+    const generic = await this.genericSectionFor(input, section);
+
+    if (generic.scoringMode !== 'AUTO') {
+      return this.storeWriting(input, section, answers, generic.sectionId);
+    }
+
+    const score = scoreGenericItems(generic, answers);
+    await this.prisma.writingAttempt.create({
+      data: {
+        student_id: input.studentId,
+        exercise_id: generic.sectionId,
+        modelltest_id: input.modelltestId,
+        // A filled-in form, not a letter — kept for a disputed result, same
+        // reason ListeningAttempt.answers exists.
+        content: JSON.stringify(answers),
+        status: 'completed',
+        score,
+        completed_at: new Date(),
+        exam_attempt_id: input.attemptId,
+      },
+    });
+    return { skill: section.skill, teil: section.teil, score, pending: false };
+  }
+
   /**
    * Stores the Schreiben text and scores nothing.
    *
@@ -256,9 +333,15 @@ export class ExamScoringService {
     input: ScoreBlockInput,
     section: { skill: ExamSkill; teil: string },
     answers: Record<string, unknown>,
+    // Set by the generic-model path (A1/A2): the exam_section's own id, since
+    // there is no WritingExercise row to resolve via resolveWritingTask.
+    // Undefined for B1/B2, where resolveWritingTask is the only source.
+    taskId: string | undefined,
   ): Promise<ExamSectionScore> {
     const content = typeof answers.text === 'string' ? answers.text : '';
-    const task = await this.resolveWritingTask(input, answers);
+    const task = taskId
+      ? { id: taskId }
+      : await this.resolveWritingTask(input, answers);
     const row = await this.prisma.writingAttempt.create({
       data: {
         student_id: input.studentId,
@@ -290,7 +373,9 @@ export class ExamScoringService {
       // Not awaited: a model can take twenty seconds, and a candidate
       // pressing submit should not wait for an opinion nobody has asked
       // for yet. runCorrection does not throw, and the catch is for the
-      // case it ever starts to.
+      // case it ever starts to. For a generic-model task id, getExercise
+      // (B1-table-only) resolves to null and runCorrection already
+      // tolerates that — the AI suggestion just has no Leitpunkte cap yet.
       void this.correction
         .runCorrection({
           attemptId: row.attempt_id,
