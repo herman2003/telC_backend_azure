@@ -1,10 +1,10 @@
 {
   "modelltest": {
     "level": "A2",
-    "number": 1,
+    "number": 9999,
     "title": "Synthetic A2 fixture (not real telc content)",
     "examOnly": true,
-    "contentRevision": "a2-modelltest-1-v1"
+    "contentRevision": "a2-modelltest-9999-v1"
   },
   "format": {
     "hoerenDelivery": {
@@ -35,7 +35,7 @@
         "teil": 1,
         "title": "Hören, Teil 1",
         "aufgabentyp": "KURZANTWORT",
-        "contentRevision": "a2-modelltest-1-hoeren-teil-1-v1",
+        "contentRevision": "a2-modelltest-9999-hoeren-teil-1-v1",
         "instructions": ["Ergänzen Sie die Telefonnotizen."],
         "position": 1,
         "scoring": { "mode": "AUTO", "maxPoints": 1, "examPart": "WRITTEN" },
@@ -68,7 +68,7 @@
         "teil": 1,
         "title": "Lesen, Teil 1",
         "aufgabentyp": "EINZELAUSWAHL",
-        "contentRevision": "a2-modelltest-1-lesen-teil-1-v1",
+        "contentRevision": "a2-modelltest-9999-lesen-teil-1-v1",
         "instructions": ["Kreuzen Sie an: a, b oder c."],
         "position": 1,
         "scoring": { "mode": "AUTO", "maxPoints": 1, "examPart": "WRITTEN" },
@@ -97,7 +97,7 @@
         "teil": 2,
         "title": "Schreiben, Teil 2",
         "aufgabentyp": "TEXT_SCHREIBEN",
-        "contentRevision": "a2-modelltest-1-schreiben-teil-2-v1",
+        "contentRevision": "a2-modelltest-9999-schreiben-teil-2-v1",
         "instructions": ["Schreiben Sie einen Brief."],
         "position": 2,
         "scoring": {
@@ -129,7 +129,7 @@
         "teil": 1,
         "title": "Sprechen, Teil 1",
         "aufgabentyp": "SICH_VORSTELLEN",
-        "contentRevision": "a2-modelltest-1-sprechen-teil-1-v1",
+        "contentRevision": "a2-modelltest-9999-sprechen-teil-1-v1",
         "instructions": ["Stellen Sie sich vor."],
         "position": 1,
         "scoring": { "mode": "MANUAL", "maxPoints": 3, "examPart": "ORAL" },
