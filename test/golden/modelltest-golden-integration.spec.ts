@@ -23,6 +23,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { PrismaService } from '../../src/shared/services/prisma.service';
+import { GenericExamContentService } from '../../src/shared/services/generic-exam-content.service';
 import { LesenService } from '../../src/modules/lesen/lesen.service';
 import { SprachbausteineService } from '../../src/modules/sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../../src/modules/listening/listening.service';
@@ -31,9 +32,10 @@ import { WritingDailyQuotaService } from '../../src/modules/writing/writing-dail
 import { SpeakingService } from '../../src/modules/speaking/services/speaking.service';
 
 const prisma = new PrismaService();
-const lesen = new LesenService(prisma);
+const genericContent = new GenericExamContentService(prisma);
+const lesen = new LesenService(prisma, genericContent);
 const sprachbausteine = new SprachbausteineService(prisma);
-const listening = new ListeningService(prisma);
+const listening = new ListeningService(prisma, genericContent);
 const writing = new WritingService(
   prisma,
   new WritingDailyQuotaService(prisma),

@@ -24,6 +24,7 @@ describe('GenericExamContentService', () => {
           instruction: 'Kreuzen Sie an.',
           max_points: 5,
           scoring_mode: 'AUTO',
+          content_revision: 'a2-lesen-1-v1',
           material: { stimulus: null },
           items: [
             {

@@ -48,8 +48,9 @@ interface Recording {
  * `modelltests.format.hoerenDelivery.recordings`. Validated once at import
  * (`scripts/generic-modelltest-schemas.mjs`), so only presence is checked
  * here. Null when that Teil's recording has not been uploaded yet.
+ * Shared with training play so Exam Day and practice resolve the same way.
  */
-function teilRecordingOf(
+export function teilRecordingOf(
   format: unknown,
   teil: number,
 ): { audioUrl: string; durationSeconds: number } | null {

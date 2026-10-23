@@ -87,18 +87,47 @@ export interface GenericSectionMark {
   unrecognised: { itemNumber: number; answer: string }[];
 }
 
+export type TrainingItemOutcomeKind = ItemOutcome;
+
+export interface TrainingItemOutcome {
+  itemNumber: number;
+  outcome: TrainingItemOutcomeKind;
+}
+
+/** What training shows the student for items the key could not decide. */
+export interface TrainingReviewItem {
+  itemNumber: number;
+  acceptedAnswers?: string[];
+  solution?: unknown;
+}
+
 /**
- * Marks a generic-model section. Answers are keyed by the item's own
- * `itemNumber`, as a string -- the `answers[id]` convention training
- * submissions already use for Lesen and Sprachbausteine.
+ * Training (not Exam Day) feedback for one generic section: same percent as
+ * `markGenericSection`, plus per-item outcomes and a `review` list so the
+ * student can self-check UNRECOGNISED free text. No examiner queue.
  */
-export function markGenericSection(
+export interface TrainingSectionFeedback {
+  percent: number;
+  correct: number;
+  total: number;
+  outcomes: TrainingItemOutcome[];
+  review: TrainingReviewItem[];
+}
+
+function markItems(
   section: GenericSectionContent,
   answers: Record<string, unknown>,
-): GenericSectionMark {
+): {
+  correct: number;
+  total: number;
+  percent: number;
+  outcomes: TrainingItemOutcome[];
+  unrecognised: GenericSectionMark['unrecognised'];
+} {
   const material = (section.material ?? {}) as Record<string, unknown>;
   let correct = 0;
   const unrecognised: GenericSectionMark['unrecognised'] = [];
+  const outcomes: TrainingItemOutcome[] = [];
   for (const item of section.items) {
     const answer = answers[String(item.itemNumber)];
     const outcome = outcomeOf(
@@ -108,6 +137,7 @@ export function markGenericSection(
       answer,
       item.options.length > 0,
     );
+    outcomes.push({ itemNumber: item.itemNumber, outcome });
     if (outcome === 'CORRECT') correct++;
     if (outcome === 'UNRECOGNISED') {
       unrecognised.push({
@@ -121,8 +151,47 @@ export function markGenericSection(
     correct,
     total,
     percent: total === 0 ? 0 : Math.round((correct / total) * 100),
+    outcomes,
     unrecognised,
   };
+}
+
+/**
+ * Marks a generic-model section. Answers are keyed by the item's own
+ * `itemNumber`, as a string -- the `answers[id]` convention training
+ * submissions already use for Lesen and Sprachbausteine.
+ */
+export function markGenericSection(
+  section: GenericSectionContent,
+  answers: Record<string, unknown>,
+): GenericSectionMark {
+  const { correct, total, percent, unrecognised } = markItems(section, answers);
+  return { correct, total, percent, unrecognised };
+}
+
+/**
+ * Training submit feedback: score plus outcomes and key material for any
+ * UNRECOGNISED free-text item. Closed WRONG items are not put in `review`.
+ */
+export function trainingFeedbackForSection(
+  section: GenericSectionContent,
+  answers: Record<string, unknown>,
+): TrainingSectionFeedback {
+  const { correct, total, percent, outcomes } = markItems(section, answers);
+  const review: TrainingReviewItem[] = [];
+  for (const item of section.items) {
+    const row = outcomes.find((o) => o.itemNumber === item.itemNumber);
+    if (row?.outcome !== 'UNRECOGNISED') continue;
+    const solution = item.solution ?? {};
+    const accepted = (solution as { acceptedAnswers?: string[] })
+      .acceptedAnswers;
+    review.push({
+      itemNumber: item.itemNumber,
+      ...(Array.isArray(accepted) ? { acceptedAnswers: accepted } : {}),
+      solution,
+    });
+  }
+  return { percent, correct, total, outcomes, review };
 }
 
 /** A mark in telc's points for a Teil worth `maxPoints`: whole or half

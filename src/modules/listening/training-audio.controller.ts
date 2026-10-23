@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import type { Response } from 'express';
 import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { PrismaService } from '../../shared/services/prisma.service';
 import { proxyAudioFromUrl, type AudioFetcher } from './audio-proxy';
 import { TrainingAudioService } from './training-audio.service';
 
@@ -30,7 +29,6 @@ export class TrainingAudioController {
 
   constructor(
     private readonly audio: TrainingAudioService,
-    private readonly prisma: PrismaService,
     @Optional() @Inject(TRAINING_AUDIO_FETCH) fetcher?: AudioFetcher,
   ) {
     this.fetcher = fetcher ?? (globalThis.fetch as unknown as AudioFetcher);
@@ -50,15 +48,7 @@ export class TrainingAudioController {
     if (!token) throw new BadRequestException('AUDIO_TOKEN_INVALID');
 
     const claims = this.audio.verify(token);
-
-    const exercise = await this.prisma.listeningExercise.findUnique({
-      where: { id: claims.audioId },
-      select: { audio_url: true },
-    });
-    if (!exercise?.audio_url) {
-      throw new BadRequestException('AUDIO_UNAVAILABLE');
-    }
-
-    await proxyAudioFromUrl(this.fetcher, exercise.audio_url, response);
+    const audioUrl = await this.audio.streamUrlFor(claims.audioId);
+    await proxyAudioFromUrl(this.fetcher, audioUrl, response);
   }
 }

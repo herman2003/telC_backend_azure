@@ -83,10 +83,67 @@ describe('TrainingAudioService', () => {
 
     it('refuses a missing recording', async () => {
       prisma.listeningExercise.findUnique.mockResolvedValue(null);
+      prisma.examSection = {
+        findUnique: jest.fn().mockResolvedValue(null),
+      };
 
       await expect(service.play(STUDENT, AUDIO)).rejects.toThrow(
         'AUDIO_NOT_FOUND',
       );
+    });
+
+    it('plays an A1/A2 Hören section id from format.hoerenDelivery', async () => {
+      const SECTION = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+      prisma.listeningExercise.findUnique.mockResolvedValue(null);
+      prisma.examSection = {
+        findUnique: jest.fn().mockResolvedValue({
+          id: SECTION,
+          skill: 'HOEREN',
+          teil: 1,
+          modelltest: {
+            number: 8,
+            format: {
+              hoerenDelivery: {
+                recordings: [
+                  {
+                    teil: 1,
+                    audioUrl: 'https://cdn.example/a2-t1.mp3',
+                    durationSeconds: 180,
+                  },
+                ],
+              },
+            },
+          },
+        }),
+      };
+
+      const granted = await service.play(STUDENT, SECTION);
+
+      expect(granted.audioId).toBe(SECTION);
+      expect(granted.playsRemaining).toBe(0);
+      expect(granted.url).toContain('/api/listening/audio?token=');
+      expect(trainingAccess.assertMayAccess).toHaveBeenCalledWith(STUDENT, 8);
+    });
+
+    it('refuses a generic Hören section before spending a play when upload is missing', async () => {
+      const SECTION = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+      prisma.listeningExercise.findUnique.mockResolvedValue(null);
+      prisma.examSection = {
+        findUnique: jest.fn().mockResolvedValue({
+          id: SECTION,
+          skill: 'HOEREN',
+          teil: 2,
+          modelltest: {
+            number: 9,
+            format: { hoerenDelivery: { recordings: [] } },
+          },
+        }),
+      };
+
+      await expect(service.play(STUDENT, SECTION)).rejects.toThrow(
+        'HOEREN_AUDIO_NOT_READY',
+      );
+      expect(prisma.trainingAudioPlay.create).not.toHaveBeenCalled();
     });
 
     it('refuses when audio_url is empty', async () => {

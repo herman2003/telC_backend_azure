@@ -273,6 +273,17 @@ No coverage threshold is configured; do not add one in this change.
 
 ---
 
+## A1/A2 training (Lesen + Hören)
+
+A1/A2 practice uses the same routes. Lesen `GET /api/reading/exercise` returns
+generic `sections[]` **with** per-item `solution` / `isCorrect` (this ADR).
+Hören keeps keys off GET (B1 habit) and returns them via submit `outcomes` /
+`review`. Unrecognised free text in training is **not** an examiner queue: the
+item scores 0 and `review` shows the accepted answers for self-check. See
+`docs/plans/active/a1-a2-practice-lesen-hoeren.md`.
+
+---
+
 ## Out of Scope
 
 - **Lesen attempt persistence** (`@CurrentStudent`, an attempt table, `/sessions`, `/teils`).
