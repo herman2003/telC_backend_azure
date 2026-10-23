@@ -1,0 +1,38 @@
+meta {
+  name: P03 Practice Hoeren GET
+  type: http
+  seq: 102
+}
+
+get {
+  url: {{baseUrl}}/api/listening/exercise?modelltest=9&teil=1
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const body = res.body;
+  if (!body.audioId || !body.aufgabentyp || !Array.isArray(body.items)) {
+    throw new Error("expected audioId, aufgabentyp, items — got " + JSON.stringify(body));
+  }
+  if (body.playsAllowed !== 1) {
+    throw new Error("A1/A2 training Hören playsAllowed must be 1");
+  }
+  bru.setEnvVar("a1PracticeHoerenAudioId", body.audioId);
+  bru.setEnvVar("a1PracticeHoerenRevision", body.contentRevision);
+}
+
+docs {
+  Training Hören Teil 1 for MT 9. `audioId` is the exam_sections id (play via training audio).
+}

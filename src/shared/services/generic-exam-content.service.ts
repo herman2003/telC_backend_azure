@@ -27,6 +27,8 @@ export interface GenericSectionContent {
   instruction: string;
   maxPoints: number;
   scoringMode: string;
+  /** Globally unique content version — training submit echoes it back. */
+  contentRevision: string;
   material: unknown;
   items: {
     itemNumber: number;
@@ -112,6 +114,7 @@ export class GenericExamContentService {
       instruction: row.instruction,
       maxPoints: row.max_points,
       scoringMode: row.scoring_mode,
+      contentRevision: row.content_revision,
       material: row.material,
       items: row.items.map((item) => ({
         itemNumber: item.item_number,

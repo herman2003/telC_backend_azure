@@ -746,7 +746,7 @@ center.
 | 2 | `exam_section_weights` rows exist, with `block`, summing to the level total | ✅ | ✅ 60 |
 | 3 | `exam_pass_rules` row exists | ✅ | ✅ |
 | 4 | At least one Modelltest imported, `level` set, content verified against the source | ✅ Modelltest 1 | ✅ Modelltest 1 (number 9), golden-tested against the Lösungsschlüssel |
-| 5 | All five skill endpoints return a DTO for it | ✅ | ⚠️ not checked — Exam Day only so far |
+| 5 | All five skill endpoints return a DTO for it | ✅ Lesen+Hören practice via generic model on the existing routes; SB empty (no skill); Schreiben/Sprechen practice still later | ✅ same as A2 for Lesen+Hören practice; Exam Day was already ✅ |
 | 6 | Catalogue and `of-the-week` resolve; a student of another level is refused | ✅ | ⚠️ refusal ✅ (`bruno/A1 Level` 03a); catalogue not checked |
 | 7 | Center exam picker lists it; a sitting times and marks with that level rows | ✅ picker, block content, scoring, and Hören played per Teil from the uploaded recordings (verified over HTTP, `bruno/A2 Level`) | ✅ the same, through to PASSED over HTTP (`bruno/A1 Level`) |
 | 8 | Readiness returns a number, and a perfect student reaches `ready` | ✅ | ⚠️ not checked |

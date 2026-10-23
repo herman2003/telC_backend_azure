@@ -10,6 +10,7 @@ import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscript
 import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 import { createGlobalValidationPipe } from '../src/shared/pipes/global-validation.pipe';
 import { PrismaService } from '../src/shared/services/prisma.service';
+import { GenericExamContentService } from '../src/shared/services/generic-exam-content.service';
 import { TrainingModelltestAccessService } from '../src/shared/services/training-modelltest-access.service';
 
 describe('Listening API scoring and answer security (e2e)', () => {
@@ -39,6 +40,7 @@ describe('Listening API scoring and answer security (e2e)', () => {
     ],
   };
   const prisma: any = {
+    modelltest: { findUnique: jest.fn() },
     listeningExercise: { findFirst: jest.fn() },
     listeningAttempt: { create: jest.fn(), findUnique: jest.fn() },
     student: { findUnique: jest.fn() },
@@ -48,6 +50,10 @@ describe('Listening API scoring and answer security (e2e)', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
+    prisma.modelltest.findUnique.mockResolvedValue({
+      id: 'modelltest-1',
+      level: 'B1',
+    });
     prisma.listeningExercise.findFirst.mockResolvedValue(exercise);
     prisma.listeningAttempt.create.mockResolvedValue({});
     prisma.student.findUnique.mockResolvedValue({ id: 'student-1' });
@@ -57,6 +63,10 @@ describe('Listening API scoring and answer security (e2e)', () => {
       controllers: [ListeningController],
       providers: [
         ListeningService,
+        {
+          provide: GenericExamContentService,
+          useValue: { sectionFor: jest.fn(), sectionsFor: jest.fn() },
+        },
         {
           provide: TrainingAudioService,
           useValue: { play: jest.fn() },

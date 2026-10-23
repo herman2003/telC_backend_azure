@@ -1,4 +1,7 @@
-import { markGenericSection } from './generic-section-scoring';
+import {
+  markGenericSection,
+  trainingFeedbackForSection,
+} from './generic-section-scoring';
 import type { GenericSectionContent } from '../../shared/services/generic-exam-content.service';
 
 const normalization = {
@@ -20,6 +23,7 @@ function section(over: Partial<GenericSectionContent>): GenericSectionContent {
     instruction: '',
     maxPoints: 5,
     scoringMode: 'AUTO',
+    contentRevision: 'test-rev-1',
     material: {},
     items: [],
     ...over,
@@ -245,5 +249,71 @@ describe('markGenericSection: wrong vs not recognised', () => {
     });
 
     expect(markGenericSection(choice, { '1': 'z' }).unrecognised).toEqual([]);
+  });
+});
+
+describe('trainingFeedbackForSection', () => {
+  it('matches markGenericSection percent (UNRECOGNISED counts as 0 in the total)', () => {
+    const s = section({
+      aufgabentyp: 'KURZANTWORT',
+      items: [
+        {
+          itemNumber: 1,
+          prompt: null,
+          solution: { acceptedAnswers: ['Bahnhof'], normalization },
+          options: [],
+        },
+        {
+          itemNumber: 2,
+          prompt: null,
+          solution: { acceptedAnswers: ['Markt'], normalization },
+          options: [],
+        },
+      ],
+    });
+    const answers = { '1': 'Bahnhof', '2': 'Flughafen' };
+    const mark = markGenericSection(s, answers);
+    const feedback = trainingFeedbackForSection(s, answers);
+
+    expect(feedback.percent).toBe(mark.percent);
+    expect(feedback.percent).toBe(50);
+    expect(feedback.outcomes).toEqual([
+      { itemNumber: 1, outcome: 'CORRECT' },
+      { itemNumber: 2, outcome: 'UNRECOGNISED' },
+    ]);
+  });
+
+  it('puts UNRECOGNISED free-text in review with acceptedAnswers, not closed WRONG', () => {
+    const s = section({
+      aufgabentyp: 'KURZANTWORT',
+      items: [
+        {
+          itemNumber: 1,
+          prompt: null,
+          solution: { acceptedAnswers: ['Bahnhof'], normalization },
+          options: [],
+        },
+      ],
+    });
+    const closed = section({
+      aufgabentyp: 'EINZELAUSWAHL',
+      items: [
+        { itemNumber: 1, prompt: null, solution: { key: 'a' }, options: [] },
+      ],
+    });
+
+    const free = trainingFeedbackForSection(s, { '1': 'Flughafen' });
+    expect(free.outcomes[0].outcome).toBe('UNRECOGNISED');
+    expect(free.review).toEqual([
+      {
+        itemNumber: 1,
+        acceptedAnswers: ['Bahnhof'],
+        solution: { acceptedAnswers: ['Bahnhof'], normalization },
+      },
+    ]);
+
+    const wrong = trainingFeedbackForSection(closed, { '1': 'z' });
+    expect(wrong.outcomes[0].outcome).toBe('WRONG');
+    expect(wrong.review).toEqual([]);
   });
 });
