@@ -39,7 +39,7 @@ const LINK_LIFETIME_FACTOR = 2;
 
 /** What a play needs to know about a recording, from either track. */
 interface Recording {
-  allowed: number;
+  playsAllowed: number;
   durationSeconds: number;
 }
 
@@ -170,7 +170,7 @@ export class ExamAudioService {
     }
 
     return {
-      allowed: audio.exam_plays_allowed,
+      playsAllowed: audio.exam_plays_allowed,
       durationSeconds: audio.duration_minutes * 60,
     };
   }
@@ -190,7 +190,6 @@ export class ExamAudioService {
       select: { modelltest_id: true, skill: true, teil: true },
     });
     if (!section) throw new NotFoundException('AUDIO_NOT_FOUND');
-    // Same rule as B1/B2: only a Hören Teil of this sitting's own paper.
     if (section.modelltest_id !== modelltestId || section.skill !== 'HOEREN') {
       throw new BadRequestException('AUDIO_NOT_IN_EXAM');
     }
@@ -199,14 +198,14 @@ export class ExamAudioService {
     const recording = teilRecordingOf(format, section.teil);
     if (!recording) throw new BadRequestException('HOEREN_AUDIO_NOT_READY');
 
-    return { allowed: 1, durationSeconds: recording.durationSeconds };
+    return { playsAllowed: 1, durationSeconds: recording.durationSeconds };
   }
 
   /** Spends one play of a recording, from either track, and signs its link. */
   private async spend(
     attemptId: string,
     audioId: string,
-    { allowed, durationSeconds }: Recording,
+    { playsAllowed, durationSeconds }: Recording,
   ): Promise<GrantedPlay> {
     // The counter row is made first, at zero, so that the claim below is the
     // only thing deciding whether a play is spent.
@@ -229,7 +228,7 @@ export class ExamAudioService {
       where: {
         attempt_id: attemptId,
         audio_id: audioId,
-        plays_used: { lt: allowed },
+        plays_used: { lt: playsAllowed },
       },
       data: { plays_used: { increment: 1 } },
     });
@@ -251,7 +250,7 @@ export class ExamAudioService {
     return {
       audioId,
       url: `/api/exams/audio?token=${token}`,
-      playsRemaining: Math.max(0, allowed - playNumber),
+      playsRemaining: Math.max(0, playsAllowed - playNumber),
       expiresAt,
     };
   }

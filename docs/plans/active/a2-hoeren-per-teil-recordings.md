@@ -1,6 +1,6 @@
 # Implementation Plan: A1/A2 Hören as one recording per Teil
 
-**Status:** plan, design approved, not yet approved to implement.
+**Status:** implemented, in review. Design and plan approved 2026-10-23. Archive once merged; the rule lives in `docs/domains/exam-simulator.md`.
 **Weight:** High risk — schema change (drop a column) and a data migration.
 Full gates, independent review in a fresh context, Bruno replay.
 **Supersedes:** the "one whole-block recording" mechanism of #115/#116,
@@ -10,7 +10,7 @@ which is on `dev` only and has never served a real play.
 
 The A2 Modelltest 1 recording was split into three files, one per Teil, now
 in R2 (`a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil{1,2,3}.mp3`,
-`audio/mpeg`, 400 s / 303 s / 399 s). The Flutter app already plays exactly
+`audio/mpeg`, measured 400.4 s / 303.5 s / 398.8 s, stored rounded up as 401 / 304 / 399 so a link never expires before its recording ends). The Flutter app already plays exactly
 this shape for B1/B2 (`exam_day/domain/exam_hoeren_playback.dart`): each Teil
 names its own `audioId`, the app spends one play per Teil, in order, with its
 own reading pauses between them. Matching that shape means **no Flutter
