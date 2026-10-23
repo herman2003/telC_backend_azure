@@ -1,6 +1,12 @@
 # Implementation Plan: Multi-level Phase 3 — the generic model and A2
 
-**Status:** plan, not yet approved to implement.
+**Status:** archived — implemented. All 8 tasks (0-7) merged to `dev`.
+Current state is documented in `docs/architecture/multi-level.md` Part 7
+("Phase 3"), not here — this file is history, not a to-do list. Task 7's
+scope turned out wider than its own description below ("Schreiben routed by
+`aufgabentyp`"); see the architecture doc's Break 10 for what actually
+shipped, and Break 13's "open gap" note for what Phase 3 did not cover
+(`ExamBlockContentService` still has no generic-model branch).
 **Parent design:** `docs/architecture/multi-level.md`, Part 7 Phase 3.
 **Depends on:** Phase 1 (merged to `dev`, commit `dfa140a`) — `exam_pass_rules`,
 `exam_section_weights.block`, `LESEN_SCHREIBEN` all exist and are seeded.
