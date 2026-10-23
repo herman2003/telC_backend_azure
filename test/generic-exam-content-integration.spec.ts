@@ -33,12 +33,7 @@ describe('GenericExamContentService.isComplete, against real Postgres', () => {
     ).resolves.toBe(false);
   });
 
-  it('is false for a level with no exam_section_weights rows (A1)', async () => {
-    const modelltest = await prisma.modelltest.findUnique({
-      where: { number: 8 },
-      select: { id: true },
-    });
-
-    await expect(service.isComplete('A1', modelltest!.id)).resolves.toBe(false);
-  });
+  // A1 used to be the "no weights" case here. It has weights since
+  // 20261024100100_seed_a1_exam_rules; its own completeness is asserted in
+  // test/a1-modelltest-1-integration.spec.ts.
 });

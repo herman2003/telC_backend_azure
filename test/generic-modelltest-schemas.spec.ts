@@ -262,9 +262,7 @@ describe('generic-modelltest-schemas', () => {
       expect(
         validate(
           oral('BITTEN_UND_REAGIEREN', {
-            rounds: [
-              { cards: [{ key: '1', text: 'Äpfel', imageUrl: null }] },
-            ],
+            rounds: [{ cards: [{ key: '1', text: 'Äpfel', imageUrl: null }] }],
             rubric: { bitte: [2, 1, 0], reaktion: [1, 0.5, 0] },
           }),
         ),
@@ -303,9 +301,7 @@ describe('generic-modelltest-schemas', () => {
               texts: [
                 { forItems: [1], title: 'Brief von Karin', body: 'Liebe …' },
               ],
-              items: [
-                { number: 1, statement: 'X', solution: { value: true } },
-              ],
+              items: [{ number: 1, statement: 'X', solution: { value: true } }],
             },
           }),
         ),

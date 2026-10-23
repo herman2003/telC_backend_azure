@@ -122,16 +122,16 @@ describe('A1 Modelltest 1 content', () => {
   it('has the three uploaded Hören recordings, rounded up to whole seconds', () => {
     const recordings = source.format.hoerenDelivery.recordings;
 
-    expect(
-      recordings.map((r) => [r.teil, r.durationSeconds]),
-    ).toEqual([
+    expect(recordings.map((r) => [r.teil, r.durationSeconds])).toEqual([
       [1, 492],
       [2, 231],
       [3, 292],
     ]);
     for (const r of recordings) {
       expect(r.audioUrl).toMatch(
-        new RegExp(`/a1-mt-1-hoeren/a1-modelltest-1-hoeren-teil${r.teil}\\.mp3$`),
+        new RegExp(
+          `/a1-mt-1-hoeren/a1-modelltest-1-hoeren-teil${r.teil}\\.mp3$`,
+        ),
       );
     }
   });
