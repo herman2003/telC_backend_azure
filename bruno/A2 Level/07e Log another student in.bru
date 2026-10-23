@@ -1,0 +1,38 @@
+meta {
+  name: 07e Log another student in
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "ngeukeualain+b1student@gmail.com",
+    "password": "Student-Pass1!",
+    "deviceId": "a2-outsider-device-1",
+    "deviceName": "Bruno"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  bru.setEnvVar("a2OutsiderToken", res.body.accessToken);
+}
+
+docs {
+  The fixture's B1 student, used as an outsider: a real, logged-in student
+  who was never admitted to this A2 sitting. Exam routes check only the
+  login (no subscription guard), so 07f and 07g are refused for the right
+  reason, not for lacking a seat.
+}

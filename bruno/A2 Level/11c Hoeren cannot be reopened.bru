@@ -1,0 +1,23 @@
+meta {
+  name: 11c Hoeren cannot be reopened
+  type: http
+  seq: 28
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/HOEREN/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+assert {
+  res.status: eq 400
+  res.body.message: eq BLOCK_ALREADY_SUBMITTED
+}
+
+docs {
+  No second attempt at a block already handed in.
+}
