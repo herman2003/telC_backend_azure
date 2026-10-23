@@ -1,0 +1,23 @@
+meta {
+  name: 07f Another student cannot read this attempt
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1OutsiderToken}}
+}
+assert {
+  res.status: eq 404
+  res.body.message: eq EXAM_ATTEMPT_NOT_FOUND
+}
+
+docs {
+  404, never 403: a 403 would confirm the attempt exists.
+}

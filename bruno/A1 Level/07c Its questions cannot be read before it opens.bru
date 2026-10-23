@@ -1,0 +1,23 @@
+meta {
+  name: 07c Its questions cannot be read before it opens
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/blocks/LESEN_SCHREIBEN
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+assert {
+  res.status: eq 400
+  res.body.message: eq BLOCK_NOT_STARTED
+}
+
+docs {
+  Otherwise Schreiben's task could be read during the time meant for Hören.
+}

@@ -1,0 +1,32 @@
+meta {
+  name: 18a Sprechen Teil 1
+  type: http
+  seq: 37
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a1AttemptId}}/marks
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "skill": "SPRECHEN",
+    "teil": 1,
+    "points": 2.5
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.points: eq 2.5
+}
+
+docs {
+  Vorstellen 1, Buchstabieren 1, Zahlen 0.5. No block to wait for.
+}

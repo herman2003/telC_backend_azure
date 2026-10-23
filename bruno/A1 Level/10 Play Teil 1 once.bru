@@ -1,0 +1,45 @@
+meta {
+  name: 10 Play Teil 1 once
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/audio/{{a1Teil1AudioId}}/play
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.playsRemaining: eq 0
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.body && res.body.message === "HOEREN_AUDIO_NOT_READY"
+          ? "  (that Teil has no recording URL in modelltests.format)"
+          : "")
+    );
+  }
+  if (!String(res.body.url).startsWith("/api/exams/audio?token=")) {
+    throw new Error("expected a signed link to this server, got " + res.body.url);
+  }
+  // About twice Teil 1's 492 seconds.
+  const seconds = (new Date(res.body.expiresAt) - Date.now()) / 1000;
+  if (seconds < 970 || seconds > 990) {
+    throw new Error("the link should live about 984 s, got " + Math.round(seconds));
+  }
+  bru.setEnvVar("a1PlayUrl", res.body.url);
+}
+
+docs {
+  Spends Teil 1's one play and returns a short-lived signed link — never
+  the R2 address. Teil 1 is heard twice, inside the one file.
+}
