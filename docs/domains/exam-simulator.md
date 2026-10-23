@@ -87,8 +87,8 @@ enforcement. A play is spent the moment it starts — a connection that drops at
 0:15 costs it, exactly as the recording would keep playing in the room.
 
 The table is B1/B2. **A1/A2 Hören is one official recording per Teil, each
-played once.** telc's repeats are inside the file — at A2, Teil 1 and Teil 3
-are heard twice and Teil 2 once, all within a single play — so a second play
+played once.** telc's repeats are inside the file — at A1 and A2, Teil 1 and
+Teil 3 are heard twice and Teil 2 once, all within a single play — so a second play
 would be a third and fourth hearing. Each A1/A2 Teil names its recording the
 way a B1/B2 Teil does (`audioId`, `playsAllowed: 1` in the block content), so
 the app plays both levels the same way; the `audioId` is the Teil's own

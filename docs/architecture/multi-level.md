@@ -720,9 +720,18 @@ byte-identical.
 
 ### Phase 4 — A1
 
-Importer run only. No migration, no schema change, no new code path — A1 uses
-the same infrastructure as A2 with different rows. If phase 4 needs code,
-phase 3 was built wrong.
+No schema change and no new code path in `src/` — A1 uses the same
+infrastructure as A2 with different rows. What it did need, and why:
+
+- the A1 rules migration (`20261024100100_seed_a1_exam_rules`), which A2's
+  rules migration had deliberately left out until A1 content existed;
+- four additive content shapes in the importer's Zod schemas, because the A1
+  paper differs from A2's: two topics in Sprechen Teil 2, picture cards in
+  Teil 3, the V/B/Z rubric in Teil 1, texts tied to items in Richtig/Falsch,
+  and the choices of a form field (`docs/ideas/modelltest-content-contract.md`).
+
+A1 Modelltest 1 is catalogue number 9 (`content/a1-modelltest-1-source.json`).
+Plan: `docs/plans/active/a1-modelltest-1.md`.
 
 ---
 
@@ -732,19 +741,17 @@ A level is not sellable until all nine pass. This exists to prevent the
 half-launched level, which is the error class most likely to reach a paying
 center.
 
-| | Check |
-|---|---|
-| | Check | A2 |
-|---|---|---|
-| 1 | `exam_block_durations` rows exist for the level | ✅ |
-| 2 | `exam_section_weights` rows exist, with `block`, summing to the level total | ✅ |
-| 3 | `exam_pass_rules` row exists | ✅ |
-| 4 | At least one Modelltest imported, `level` set, content verified against the source | ✅ Modelltest 1 |
-| 5 | All five skill endpoints return a DTO for it | ✅ |
-| 6 | Catalogue and `of-the-week` resolve; a student of another level is refused | ✅ |
-| 7 | Center exam picker lists it; a sitting times and marks with that level rows | ✅ picker, block content, scoring, and Hören played per Teil from the uploaded recordings (verified over HTTP, `bruno/A2 Level`) |
-| 8 | Readiness returns a number, and a perfect student reaches `ready` | ✅ |
-| 9 | Live Room opens; training audio metering writes a play row | ⚠️ not evaluated — Live Room (Break 1) is a separate subsystem, outside Phase 3 |
+| | Check | A2 | A1 |
+|---|---|---|---|
+| 1 | `exam_block_durations` rows exist for the level | ✅ | ✅ |
+| 2 | `exam_section_weights` rows exist, with `block`, summing to the level total | ✅ | ✅ 60 |
+| 3 | `exam_pass_rules` row exists | ✅ | ✅ |
+| 4 | At least one Modelltest imported, `level` set, content verified against the source | ✅ Modelltest 1 | ✅ Modelltest 1 (number 9), golden-tested against the Lösungsschlüssel |
+| 5 | All five skill endpoints return a DTO for it | ✅ | ⚠️ not checked — Exam Day only so far |
+| 6 | Catalogue and `of-the-week` resolve; a student of another level is refused | ✅ | ⚠️ refusal ✅ (`bruno/A1 Level` 03a); catalogue not checked |
+| 7 | Center exam picker lists it; a sitting times and marks with that level rows | ✅ picker, block content, scoring, and Hören played per Teil from the uploaded recordings (verified over HTTP, `bruno/A2 Level`) | ✅ the same, through to PASSED over HTTP (`bruno/A1 Level`) |
+| 8 | Readiness returns a number, and a perfect student reaches `ready` | ✅ | ⚠️ not checked |
+| 9 | Live Room opens; training audio metering writes a play row | ⚠️ not evaluated — Live Room (Break 1) is a separate subsystem, outside Phase 3 | ⚠️ not evaluated, as A2 |
 
 Checks 8 and 9 are the two that fail silently. Both are in the list for that
 reason.
