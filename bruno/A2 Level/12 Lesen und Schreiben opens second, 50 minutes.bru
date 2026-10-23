@@ -1,0 +1,35 @@
+meta {
+  name: 12 Lesen und Schreiben opens second, 50 minutes
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/LESEN_SCHREIBEN/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const minutes =
+    (new Date(res.body.deadlineAt) - new Date(res.body.startedAt)) / 60000;
+  if (minutes !== 50) {
+    throw new Error("A2 Lesen und Schreiben must run 50 minutes, got " + minutes);
+  }
+}
+
+docs {
+  A1/A2 sit Lesen and Schreiben in ONE block (LESEN_SCHREIBEN), unlike
+  B1/B2's separate blocks.
+}

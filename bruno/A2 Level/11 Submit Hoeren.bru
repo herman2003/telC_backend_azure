@@ -1,0 +1,35 @@
+meta {
+  name: 11 Submit Hoeren
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/HOEREN/submit
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const teile = res.body.sections.map((s) => s.skill + "_" + s.teil).join(",");
+  if (teile !== "HOEREN_1,HOEREN_2,HOEREN_3") {
+    throw new Error("A2 Hoeren should mark three Teile, got " + teile);
+  }
+}
+
+docs {
+  Submitted unanswered: each Teil scores 0, marked against the generic
+  model rather than throwing on a B1 answer key. Closes block 1 so
+  LESEN_SCHREIBEN may open.
+}

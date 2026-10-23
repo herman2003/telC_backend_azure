@@ -1,0 +1,46 @@
+meta {
+  name: 13 Lesen und Schreiben serves both skills
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/LESEN_SCHREIBEN
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+
+  const keys = Object.keys(res.body.sections).join(",");
+  if (keys !== "LESEN,SCHREIBEN") {
+    // Before PR #114 this block fell into the Schreiben-only branch.
+    throw new Error("expected LESEN,SCHREIBEN, got " + keys);
+  }
+  if (res.body.sections.LESEN.length !== 3 || res.body.sections.SCHREIBEN.length !== 2) {
+    throw new Error("A2 has three Lesen Teile and two Schreiben Teile");
+  }
+  if ("recording" in res.body) {
+    throw new Error("only the Hoeren block names a recording");
+  }
+
+  const whole = JSON.stringify(res.body);
+  if (whole.includes("solution") || whole.includes("isCorrect")) {
+    throw new Error("the candidate was served an answer key");
+  }
+}
+
+docs {
+  The questions, with every answer stripped.
+}
