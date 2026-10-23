@@ -147,7 +147,10 @@ function splitContent(aufgabentyp, content) {
       };
     case 'RICHTIG_FALSCH':
       return {
-        material: { stimulus: content.stimulus ?? null },
+        material: {
+          stimulus: content.stimulus ?? null,
+          ...(content.texts ? { texts: content.texts } : {}),
+        },
         items: content.items.map((item) => ({
           itemNumber: item.number,
           prompt: item.statement,
@@ -197,11 +200,19 @@ function splitContent(aufgabentyp, content) {
             acceptedAnswers: field.solution.acceptedAnswers,
             normalization: field.normalization,
           },
-          options: [],
+          // A CHOICE field's choices are what the candidate picks from. The
+          // mark still comes from acceptedAnswers, like any other field.
+          options: (field.choices ?? []).map((choice) => ({
+            key: choice,
+            content: choice,
+            isCorrect: field.solution.acceptedAnswers.includes(choice),
+          })),
         })),
       };
     case 'TEXT_SCHREIBEN':
     case 'SICH_VORSTELLEN':
+    case 'FRAGEN_UND_ANTWORTEN':
+    case 'BITTEN_UND_REAGIEREN':
     case 'ALLTAGSGESPRAECH':
     case 'ETWAS_AUSHANDELN':
       return { material: content, items: [] };
