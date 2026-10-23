@@ -10,10 +10,7 @@ import {
 import type { Response } from 'express';
 import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from '../../shared/services/prisma.service';
-import {
-  ExamAudioService,
-  hoerenRecordingOf,
-} from '../centers/exam-audio.service';
+import { ExamAudioService } from '../centers/exam-audio.service';
 import { proxyAudioFromUrl, type AudioFetcher } from '../listening/audio-proxy';
 
 /** Injected so a test can hand in a fake. Node's global fetch otherwise. */
@@ -69,23 +66,11 @@ export class ExamAudioController {
     });
     const url = exercise
       ? exercise.audio_url
-      : await this.wholeBlockRecordingUrl(claims.audioId);
+      : await this.audio.wholeBlockRecordingUrl(claims.audioId);
     if (!url) {
       throw new BadRequestException('AUDIO_UNAVAILABLE');
     }
 
     await proxyAudioFromUrl(this.fetcher, url, response);
-  }
-
-  /** A1/A2: the token names the Modelltest, whose one Hören recording lives
-   *  in `format.hoerenDelivery` rather than a `listening_exercises` row. */
-  private async wholeBlockRecordingUrl(
-    modelltestId: string,
-  ): Promise<string | null> {
-    const modelltest = await this.prisma.modelltest.findUnique({
-      where: { id: modelltestId },
-      select: { format: true },
-    });
-    return hoerenRecordingOf(modelltest?.format)?.audioUrl ?? null;
   }
 }

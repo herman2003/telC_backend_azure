@@ -1,6 +1,8 @@
 # Implementation Plan: A1/A2 Hören audio delivery (one play, whole block)
 
-**Status:** plan, approved design, not yet approved to implement.
+**Status:** implemented, in review. The approved rule now lives in
+`docs/domains/exam-simulator.md` ("Hören plays are counted"); archive this
+file once the PR merges.
 **Weight:** High risk — schema change. Per `CLAUDE.md`'s weight table this
 needs independent review in a fresh context and staging verification before
 a PR is opened, on top of the standard gates.
@@ -143,7 +145,9 @@ redirected" rule.
 - [ ] A new test: a token whose `audioId` is a generic-model Modelltest id
       proxies from `format.hoerenDelivery.audioUrl`
 - [ ] A new test: a token naming neither a `ListeningExercise` nor a
-      Modelltest with Hören delivery data still 404s, not a crash
+      Modelltest with Hören delivery data is refused with the existing
+      `400 AUDIO_UNAVAILABLE` (what a missing recording already returned
+      before this change — not a 404), not a crash
 
 **Verification:**
 - [ ] `npx jest test/exam-audio.controller.spec.ts` — exit code 0
@@ -171,7 +175,11 @@ redirected" rule.
       `bruno/`, per the Bruno policy — don't start a parallel one) with a
       scenario for `HOEREN_AUDIO_NOT_READY` against the real A2 Modelltest 1,
       since its `audioUrl` is genuinely null today — this is the one gate
-      that can be exercised for real without the actual recording existing
+      that can be exercised for real without the actual recording existing.
+      **Blocked:** the Bruno fixture (`scripts/seed-b2-bruno-fixture.mjs`)
+      seeds B1/B2 students and sittings only, with no A2 student or A2 exam
+      sitting, and the `bru` CLI is not installed. Not added rather than
+      added unrun; needs an A2 fixture first
 - [ ] **Independent review, fresh context** (`mattpocock-skills:code-review`)
       — required for high-risk work, per `CLAUDE.md`
 - [ ] PR opened, not merged — a human merges

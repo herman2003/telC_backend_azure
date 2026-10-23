@@ -43,7 +43,7 @@ const LINK_LIFETIME_FACTOR = 2;
  * (`scripts/generic-modelltest-schemas.mjs`), so only presence is checked
  * here. Null when the recording has not been uploaded yet.
  */
-export function hoerenRecordingOf(
+function hoerenRecordingOf(
   format: unknown,
 ): { audioUrl: string; durationSeconds: number } | null {
   const delivery = (
@@ -251,6 +251,20 @@ export class ExamAudioService {
       playsRemaining: 0,
       expiresAt,
     };
+  }
+
+  /**
+   * The address behind a token whose recording is not a `listening_exercises`
+   * row: a Modelltest's whole-block Hören recording. Null when there is none.
+   * Only `playWholeBlock` ever signs a Modelltest id, so a token cannot be
+   * pointed here without the secret.
+   */
+  async wholeBlockRecordingUrl(modelltestId: string): Promise<string | null> {
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { id: modelltestId },
+      select: { format: true },
+    });
+    return hoerenRecordingOf(modelltest?.format)?.audioUrl ?? null;
   }
 
   /** Signs one play. Public so a test can make an expired link without

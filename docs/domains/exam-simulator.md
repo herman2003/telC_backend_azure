@@ -86,6 +86,16 @@ Per-exercise data, not one rule. The server counts; hiding a button is not
 enforcement. A play is spent the moment it starts — a connection that drops at
 0:15 costs it, exactly as the recording would keep playing in the room.
 
+The table is B1/B2. **A1/A2 Hören is one continuous official recording for the
+whole block, played once** — every Teil and every repeat is inside the file,
+so there is no per-Teil play. The play is recorded on the block itself
+(`exam_attempt_blocks.hoeren_played_at`), and the recording is named by the
+Modelltest's id rather than a `listening_exercises` row. Asking to play before
+the recording has been uploaded is refused (`HOEREN_AUDIO_NOT_READY`) without
+spending the play. Pause, seek and restart are disallowed by the paper
+(`modelltests.format.hoerenDelivery`) but only the app can enforce those: once
+the file is streamed, the server cannot see the player.
+
 Exam audio is **served, never bundled** — decided 2026-09-24 with the Flutter
 team. Asking to play returns a link signed with an HMAC over
 `(attemptId, audioId, playNumber, expiry)`, and the app downloads it in full

@@ -314,7 +314,6 @@ describe('ExamAudioService', () => {
         playsRemaining: 0,
       });
       expect(granted.url).toContain('token=');
-      // Never the per-recording table: there is no listening_exercises row.
       expect(prisma.listeningExercise.findUnique).not.toHaveBeenCalled();
       expect(prisma.examAudioPlay.updateMany).not.toHaveBeenCalled();
     });
@@ -334,6 +333,26 @@ describe('ExamAudioService', () => {
       await expect(
         service.play(STUDENT, ATTEMPT, A2_MODELLTEST),
       ).rejects.toThrow('NO_PLAYS_LEFT');
+    });
+
+    it('grants exactly one of two taps arriving together', async () => {
+      // The database claims the row for the first update; the second finds
+      // hoeren_played_at already set and matches nothing.
+      prisma.examAttemptBlock.updateMany
+        .mockResolvedValueOnce({ count: 1 })
+        .mockResolvedValueOnce({ count: 0 });
+
+      const results = await Promise.allSettled([
+        service.play(STUDENT, ATTEMPT, A2_MODELLTEST),
+        service.play(STUDENT, ATTEMPT, A2_MODELLTEST),
+      ]);
+
+      expect(results.filter((r) => r.status === 'fulfilled')).toHaveLength(1);
+      const refused = results.filter(
+        (r): r is PromiseRejectedResult => r.status === 'rejected',
+      );
+      expect(refused).toHaveLength(1);
+      expect(String(refused[0].reason)).toContain('NO_PLAYS_LEFT');
     });
 
     it("refuses a recording that is not this sitting's", async () => {
@@ -367,6 +386,49 @@ describe('ExamAudioService', () => {
       expect(audioId).toBe(A2_MODELLTEST);
       expect(minutes).toBeGreaterThan(39);
       expect(minutes).toBeLessThan(41);
+    });
+
+    describe('wholeBlockRecordingUrl', () => {
+      beforeEach(() => {
+        prisma.modelltest = {
+          findUnique: jest.fn().mockResolvedValue({ format: delivery() }),
+        };
+      });
+
+      it("gives the Modelltest's recording address", async () => {
+        await expect(
+          service.wholeBlockRecordingUrl(A2_MODELLTEST),
+        ).resolves.toBe('https://cdn.example/a2-complete.mp3');
+        expect(prisma.modelltest.findUnique).toHaveBeenCalledWith(
+          expect.objectContaining({ where: { id: A2_MODELLTEST } }),
+        );
+      });
+
+      it('is null for an id that is no Modelltest', async () => {
+        prisma.modelltest.findUnique.mockResolvedValue(null);
+
+        await expect(
+          service.wholeBlockRecordingUrl(A2_MODELLTEST),
+        ).resolves.toBeNull();
+      });
+
+      it('is null for a Modelltest with no Hören delivery (B1/B2)', async () => {
+        prisma.modelltest.findUnique.mockResolvedValue({ format: null });
+
+        await expect(
+          service.wholeBlockRecordingUrl(A2_MODELLTEST),
+        ).resolves.toBeNull();
+      });
+
+      it('is null while the recording has not been uploaded', async () => {
+        prisma.modelltest.findUnique.mockResolvedValue({
+          format: delivery({ audioUrl: null, durationSeconds: null }),
+        });
+
+        await expect(
+          service.wholeBlockRecordingUrl(A2_MODELLTEST),
+        ).resolves.toBeNull();
+      });
     });
   });
 });
