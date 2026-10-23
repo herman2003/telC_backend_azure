@@ -10,9 +10,10 @@ const mockPrisma = {
     findUnique: jest.fn(),
     findFirst: jest.fn(),
   },
-  examSection: {
-    findMany: jest.fn(),
-  },
+};
+
+const mockGenericContent = {
+  sectionsFor: jest.fn(),
 };
 
 const TRAINING_ROWS = [
@@ -68,6 +69,7 @@ describe('ModelltestsService', () => {
     service = new ModelltestsService(
       mockPrisma as never,
       mockAccess as never,
+      mockGenericContent as never,
       mockLesen as never,
       mockSprachbausteine as never,
       mockListening as never,
@@ -421,26 +423,32 @@ describe('ModelltestsService', () => {
           level: 'A2',
         },
       ]);
-      mockPrisma.examSection.findMany.mockResolvedValue([
-        {
-          skill: 'LESEN',
-          teil: 1,
-          aufgabentyp: 'EINZELAUSWAHL',
-          label: 'Lesen Teil 1',
-          instruction: 'Kreuzen Sie an.',
-          max_points: 5,
-          scoring_mode: 'AUTO',
-          material: { stimulus: null },
-          items: [
-            {
-              item_number: 1,
-              prompt: 'Frage?',
-              solution: { key: 'a' },
-              options: [{ key: 'a', content: 'Antwort', is_correct: true }],
-            },
-          ],
-        },
-      ]);
+      mockGenericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [],
+        LESEN: [
+          {
+            sectionId: 'LESEN_1',
+            aufgabentyp: 'EINZELAUSWAHL',
+            teil: 1,
+            label: 'Lesen Teil 1',
+            instruction: 'Kreuzen Sie an.',
+            maxPoints: 5,
+            scoringMode: 'AUTO',
+            material: { stimulus: null },
+            items: [
+              {
+                itemNumber: 1,
+                prompt: 'Frage?',
+                solution: { key: 'a' },
+                options: [{ key: 'a', content: 'Antwort', isCorrect: true }],
+              },
+            ],
+          },
+        ],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
 
       const result = await service.getOfTheWeekContent(daysAfterEpoch(0));
 
@@ -455,9 +463,7 @@ describe('ModelltestsService', () => {
       ]);
       // A2 has no Sprachbausteine -- an empty list, not a crash or null.
       expect(result.sections.SPRACHBAUSTEINE).toEqual([]);
-      expect(mockPrisma.examSection.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({ where: { modelltest_id: 'a2-mt-uuid' } }),
-      );
+      expect(mockGenericContent.sectionsFor).toHaveBeenCalledWith('a2-mt-uuid');
       expect(mockLesen.getExercise).not.toHaveBeenCalled();
       expect(mockSprachbausteine.getExercise).not.toHaveBeenCalled();
       expect(mockListening.getExamTeil).not.toHaveBeenCalled();

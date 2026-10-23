@@ -10,6 +10,7 @@ import { SpeakingModule } from '../speaking/speaking.module';
 import { ListeningModule } from '../listening/listening.module';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
+import { GenericExamContentService } from '../../shared/services/generic-exam-content.service';
 
 @Module({
   // Writing / Speaking / Listening power of-the-week content the same way
@@ -23,6 +24,11 @@ import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.servi
     ListeningModule,
   ],
   controllers: [ModelltestOfTheWeekController, ModelltestsController],
-  providers: [ModelltestsService, LesenService, SprachbausteineService],
+  providers: [
+    ModelltestsService,
+    LesenService,
+    SprachbausteineService,
+    GenericExamContentService,
+  ],
 })
 export class ModelltestsModule {}
