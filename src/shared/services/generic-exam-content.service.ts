@@ -17,6 +17,9 @@ export const GENERIC_MODEL_LEVELS: readonly CefrLevel[] = ['A1', 'A2'];
 
 /** One exam_sections row, with its items and options, as a client reads it. */
 export interface GenericSectionContent {
+  /** The `exam_sections` row id. For a Hören Teil it is also the `audioId`
+   *  the candidate asks to play. */
+  id: string;
   sectionId: string;
   aufgabentyp: string;
   teil: number;
@@ -101,6 +104,7 @@ export class GenericExamContentService {
 
   private toSectionContent(row: ExamSectionRow): GenericSectionContent {
     return {
+      id: row.id,
       sectionId: `${row.skill}_${row.teil}`,
       aufgabentyp: row.aufgabentyp,
       teil: row.teil,

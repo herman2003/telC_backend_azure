@@ -10,10 +10,9 @@ const normalization = {
   unrecognizedAnswerPolicy: 'MANUAL_REVIEW' as const,
 };
 
-function section(
-  over: Partial<GenericSectionContent>,
-): GenericSectionContent {
+function section(over: Partial<GenericSectionContent>): GenericSectionContent {
   return {
+    id: 'section-1',
     sectionId: 'LESEN_1',
     aufgabentyp: 'EINZELAUSWAHL',
     teil: 1,
@@ -59,7 +58,7 @@ describe('scoreGenericItems', () => {
     expect(scoreGenericItems(s, { '1': false })).toBe(0);
   });
 
-  it('ZUORDNUNG: a null choiceKey means the item is correctly answered with the section\'s own no-match key', () => {
+  it("ZUORDNUNG: a null choiceKey means the item is correctly answered with the section's own no-match key", () => {
     const s = section({
       aufgabentyp: 'ZUORDNUNG',
       material: { noMatchKey: 'x' },
@@ -145,9 +144,7 @@ describe('scoreGenericItems', () => {
   it('throws for an aufgabentyp with no auto-scoring rule, rather than silently scoring it', () => {
     const s = section({
       aufgabentyp: 'TEXT_SCHREIBEN',
-      items: [
-        { itemNumber: 1, prompt: null, solution: {}, options: [] },
-      ],
+      items: [{ itemNumber: 1, prompt: null, solution: {}, options: [] }],
     });
     expect(() => scoreGenericItems(s, {})).toThrow(/No auto-scoring rule/);
   });

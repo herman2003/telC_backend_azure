@@ -37,20 +37,31 @@ export interface AudioTokenClaims {
  */
 const LINK_LIFETIME_FACTOR = 2;
 
+/** What a play needs to know about a recording, from either track. */
+interface Recording {
+  allowed: number;
+  durationSeconds: number;
+}
+
 /**
- * An A1/A2 Modelltest's one continuous Hören recording, read from
- * `modelltests.format.hoerenDelivery`. Validated once at import
+ * One A1/A2 Hören Teil's recording, read from
+ * `modelltests.format.hoerenDelivery.recordings`. Validated once at import
  * (`scripts/generic-modelltest-schemas.mjs`), so only presence is checked
- * here. Null when the recording has not been uploaded yet.
+ * here. Null when that Teil's recording has not been uploaded yet.
  */
-function hoerenRecordingOf(
+function teilRecordingOf(
   format: unknown,
+  teil: number,
 ): { audioUrl: string; durationSeconds: number } | null {
-  const delivery = (
-    format as { hoerenDelivery?: Record<string, unknown> } | null
-  )?.hoerenDelivery;
-  const audioUrl = delivery?.audioUrl;
-  const durationSeconds = delivery?.durationSeconds;
+  const recordings = (
+    format as { hoerenDelivery?: { recordings?: unknown } } | null
+  )?.hoerenDelivery?.recordings;
+  if (!Array.isArray(recordings)) return null;
+  const recording = (recordings as Record<string, unknown>[]).find(
+    (r) => r.teil === teil,
+  );
+  const audioUrl = recording?.audioUrl;
+  const durationSeconds = recording?.durationSeconds;
   if (typeof audioUrl !== 'string' || audioUrl === '') return null;
   if (typeof durationSeconds !== 'number' || durationSeconds <= 0) return null;
   return { audioUrl, durationSeconds };
@@ -123,15 +134,18 @@ export class ExamAudioService {
     }
 
     const { modelltest_id: modelltestId, modelltest } = attempt.session;
-    if (GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
-      return this.playWholeBlock(
-        attemptId,
-        audioId,
-        modelltestId,
-        modelltest.format,
-      );
-    }
+    const recording = GENERIC_MODEL_LEVELS.includes(modelltest.level)
+      ? await this.teilRecording(audioId, modelltestId, modelltest.format)
+      : await this.listeningRecording(audioId, modelltestId);
 
+    return this.spend(attemptId, audioId, recording);
+  }
+
+  /** B1/B2: a `listening_exercises` row per Teil. */
+  private async listeningRecording(
+    audioId: string,
+    modelltestId: string,
+  ): Promise<Recording> {
     const audio = await this.prisma.listeningExercise.findUnique({
       where: { id: audioId },
       select: {
@@ -146,7 +160,7 @@ export class ExamAudioService {
     // Without this a candidate could spend a play on any listening exercise
     // id — including the one next month's sitting will use — and stream a
     // future exam's recording during this one.
-    if (audio.modelltest_id !== attempt.session.modelltest_id) {
+    if (audio.modelltest_id !== modelltestId) {
       throw new BadRequestException('AUDIO_NOT_IN_EXAM');
     }
     if (!audio.duration_minutes || audio.duration_minutes < 1) {
@@ -155,8 +169,45 @@ export class ExamAudioService {
       throw new BadRequestException('AUDIO_DURATION_MISSING');
     }
 
-    const allowed = audio.exam_plays_allowed;
+    return {
+      allowed: audio.exam_plays_allowed,
+      durationSeconds: audio.duration_minutes * 60,
+    };
+  }
 
+  /**
+   * A1/A2: one recording per Hören Teil, named by that Teil's own
+   * `exam_sections` id; its address and length live in the Modelltest's
+   * `format.hoerenDelivery`. Played once — telc's repeats are in the file.
+   */
+  private async teilRecording(
+    audioId: string,
+    modelltestId: string,
+    format: unknown,
+  ): Promise<Recording> {
+    const section = await this.prisma.examSection.findUnique({
+      where: { id: audioId },
+      select: { modelltest_id: true, skill: true, teil: true },
+    });
+    if (!section) throw new NotFoundException('AUDIO_NOT_FOUND');
+    // Same rule as B1/B2: only a Hören Teil of this sitting's own paper.
+    if (section.modelltest_id !== modelltestId || section.skill !== 'HOEREN') {
+      throw new BadRequestException('AUDIO_NOT_IN_EXAM');
+    }
+    // Refused before the play is spent: signing a link to a file nobody has
+    // uploaded would cost the candidate their one play on nothing.
+    const recording = teilRecordingOf(format, section.teil);
+    if (!recording) throw new BadRequestException('HOEREN_AUDIO_NOT_READY');
+
+    return { allowed: 1, durationSeconds: recording.durationSeconds };
+  }
+
+  /** Spends one play of a recording, from either track, and signs its link. */
+  private async spend(
+    attemptId: string,
+    audioId: string,
+    { allowed, durationSeconds }: Recording,
+  ): Promise<GrantedPlay> {
     // The counter row is made first, at zero, so that the claim below is the
     // only thing deciding whether a play is spent.
     //
@@ -193,7 +244,7 @@ export class ExamAudioService {
     const playNumber = row.plays_used;
 
     const expiresAt = new Date(
-      Date.now() + audio.duration_minutes * LINK_LIFETIME_FACTOR * 60 * 1000,
+      Date.now() + durationSeconds * LINK_LIFETIME_FACTOR * 1000,
     );
     const token = this.signFor({ attemptId, audioId, playNumber, expiresAt });
 
@@ -206,65 +257,24 @@ export class ExamAudioService {
   }
 
   /**
-   * A1/A2: one continuous recording for the whole Hören block, played once.
-   *
-   * The recording is named by the Modelltest's own id — there is no
-   * `listening_exercises` row per Teil to name. The play is spent on the
-   * block row (`hoeren_played_at`) with the same conditional-update claim the
-   * per-recording counter uses, so two taps at once still grant one play.
-   */
-  private async playWholeBlock(
-    attemptId: string,
-    audioId: string,
-    modelltestId: string,
-    format: unknown,
-  ): Promise<GrantedPlay> {
-    if (audioId !== modelltestId) {
-      throw new BadRequestException('AUDIO_NOT_IN_EXAM');
-    }
-    // Refused before the play is spent: signing a link to a file nobody has
-    // uploaded would cost the candidate their one play on nothing.
-    const recording = hoerenRecordingOf(format);
-    if (!recording) {
-      throw new BadRequestException('HOEREN_AUDIO_NOT_READY');
-    }
-
-    const spent = await this.prisma.examAttemptBlock.updateMany({
-      where: { attempt_id: attemptId, block: 'HOEREN', hoeren_played_at: null },
-      data: { hoeren_played_at: new Date() },
-    });
-    if (spent.count !== 1) throw new BadRequestException('NO_PLAYS_LEFT');
-
-    const expiresAt = new Date(
-      Date.now() + recording.durationSeconds * LINK_LIFETIME_FACTOR * 1000,
-    );
-    const token = this.signFor({
-      attemptId,
-      audioId,
-      playNumber: 1,
-      expiresAt,
-    });
-
-    return {
-      audioId,
-      url: `/api/exams/audio?token=${token}`,
-      playsRemaining: 0,
-      expiresAt,
-    };
-  }
-
-  /**
    * The address behind a token whose recording is not a `listening_exercises`
-   * row: a Modelltest's whole-block Hören recording. Null when there is none.
-   * Only `playWholeBlock` ever signs a Modelltest id, so a token cannot be
+   * row: an A1/A2 Hören Teil's, by its section id. Null when there is none.
+   * Only `teilRecording` lets a section id be signed, so a token cannot be
    * pointed here without the secret.
    */
-  async wholeBlockRecordingUrl(modelltestId: string): Promise<string | null> {
-    const modelltest = await this.prisma.modelltest.findUnique({
-      where: { id: modelltestId },
-      select: { format: true },
+  async teilRecordingUrl(sectionId: string): Promise<string | null> {
+    const section = await this.prisma.examSection.findUnique({
+      where: { id: sectionId },
+      select: {
+        teil: true,
+        skill: true,
+        modelltest: { select: { format: true } },
+      },
     });
-    return hoerenRecordingOf(modelltest?.format)?.audioUrl ?? null;
+    if (!section || section.skill !== 'HOEREN') return null;
+    return (
+      teilRecordingOf(section.modelltest.format, section.teil)?.audioUrl ?? null
+    );
   }
 
   /** Signs one play. Public so a test can make an expired link without

@@ -40,13 +40,30 @@ describe('A2 Modelltest 1 content (real, not synthetic)', () => {
     });
 
     const format = modelltest?.format as {
-      hoerenDelivery?: { deliveryMode: string; pauseAllowed: boolean };
+      hoerenDelivery?: {
+        deliveryMode: string;
+        pauseAllowed: boolean;
+        playsAllowed: number;
+        recordings: {
+          teil: number;
+          audioUrl: string | null;
+          durationSeconds: number | null;
+        }[];
+      };
       gradeBands?: unknown[];
     } | null;
-    expect(format?.hoerenDelivery?.deliveryMode).toBe(
-      'CONTINUOUS_OFFICIAL_RECORDING',
-    );
-    expect(format?.hoerenDelivery?.pauseAllowed).toBe(false);
+    const delivery = format?.hoerenDelivery;
+    expect(delivery?.deliveryMode).toBe('PER_TEIL_RECORDINGS');
+    expect(delivery?.pauseAllowed).toBe(false);
+    expect(delivery?.playsAllowed).toBe(1);
+    // One uploaded recording per Teil, MP3 (the Flutter player sends audio/mpeg).
+    expect(delivery?.recordings.map((r) => r.teil)).toEqual([1, 2, 3]);
+    for (const recording of delivery?.recordings ?? []) {
+      expect(recording.audioUrl).toMatch(
+        /\/a2-hoeren-mt\/a2-mt-1-hoeren\/a2-modelltest-1-hoeren-teil\d\.mp3$/,
+      );
+      expect(recording.durationSeconds).toBeGreaterThan(0);
+    }
     expect(format?.gradeBands).toHaveLength(5);
   });
 

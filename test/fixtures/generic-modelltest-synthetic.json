@@ -8,15 +8,19 @@
   },
   "format": {
     "hoerenDelivery": {
-      "deliveryMode": "CONTINUOUS_OFFICIAL_RECORDING",
-      "audioAssetKey": "a2/modelltest-1/hoeren/complete.mp3",
-      "audioUrl": null,
-      "durationSeconds": null,
+      "deliveryMode": "PER_TEIL_RECORDINGS",
       "playsAllowed": 1,
       "pauseAllowed": false,
       "seekAllowed": false,
       "restartAllowed": false,
-      "teilOrder": ["HOEREN_1"]
+      "recordings": [
+        {
+          "teil": 1,
+          "audioAssetKey": "synthetic/hoeren-teil1.mp3",
+          "audioUrl": null,
+          "durationSeconds": null
+        }
+      ]
     },
     "gradeBands": [
       { "label": "SEHR_GUT", "minimum": 54, "maximum": 60 },

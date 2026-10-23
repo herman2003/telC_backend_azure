@@ -81,13 +81,18 @@ describe('generic-model importer, against real Postgres', () => {
     });
 
     const format = modelltest?.format as {
-      hoerenDelivery?: { deliveryMode: string; pauseAllowed: boolean };
+      hoerenDelivery?: {
+        deliveryMode: string;
+        pauseAllowed: boolean;
+        recordings: { teil: number }[];
+      };
       gradeBands?: { label: string }[];
     } | null;
-    expect(format?.hoerenDelivery?.deliveryMode).toBe(
-      'CONTINUOUS_OFFICIAL_RECORDING',
-    );
+    expect(format?.hoerenDelivery?.deliveryMode).toBe('PER_TEIL_RECORDINGS');
     expect(format?.hoerenDelivery?.pauseAllowed).toBe(false);
+    expect(format?.hoerenDelivery?.recordings).toEqual([
+      expect.objectContaining({ teil: 1 }),
+    ]);
     expect(format?.gradeBands).toHaveLength(5);
 
     const assets = modelltest?.assets as { assetKey: string }[] | null;
