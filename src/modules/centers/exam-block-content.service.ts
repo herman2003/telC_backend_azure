@@ -3,8 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import type { ExamBlock } from '@prisma/client';
+import type { CefrLevel, ExamBlock } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../listening/listening.service';
@@ -35,6 +39,7 @@ export interface ExamBlockContent {
 export class ExamBlockContentService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly genericContent: GenericExamContentService,
     private readonly lesen: LesenService,
     private readonly sprachbausteine: SprachbausteineService,
     private readonly listening: ListeningService,
@@ -51,7 +56,11 @@ export class ExamBlockContentService {
       select: {
         id: true,
         student_id: true,
-        session: { select: { modelltest: { select: { number: true } } } },
+        session: {
+          select: {
+            modelltest: { select: { id: true, number: true, level: true } },
+          },
+        },
         blocks: {
           select: {
             block: true,
@@ -78,12 +87,21 @@ export class ExamBlockContentService {
     // the candidate should see what they were working on as the app submits
     // it, rather than watch the screen blank at 00:00.
 
-    const modelltestNumber = attempt.session.modelltest.number;
+    const {
+      id: modelltestId,
+      number: modelltestNumber,
+      level,
+    } = attempt.session.modelltest;
     const serverNow = new Date();
 
     return {
       block,
-      sections: await this.sectionsFor(block, modelltestNumber),
+      sections: await this.sectionsFor(
+        block,
+        modelltestNumber,
+        modelltestId,
+        level,
+      ),
       savedAnswers: (row.answers ?? {}) as Record<string, unknown>,
       deadlineAt: row.deadline_at,
       serverNow,
@@ -104,7 +122,13 @@ export class ExamBlockContentService {
   private async sectionsFor(
     block: ExamBlock,
     modelltestNumber: number,
+    modelltestId: string,
+    level: CefrLevel,
   ): Promise<Record<string, unknown>> {
+    if (GENERIC_MODEL_LEVELS.includes(level)) {
+      return this.genericSectionsFor(block, modelltestId);
+    }
+
     if (block === 'LESEN_SPRACHBAUSTEINE') {
       // Both at once, because telc gives them one 90-minute block with free
       // navigation between their five Teile.
@@ -139,6 +163,33 @@ export class ExamBlockContentService {
     // why. There is no answer key to strip: a human marks it.
     return withoutAnswerKey({
       SCHREIBEN: await this.writing.getExerciseByModelltest(modelltestNumber),
+    });
+  }
+
+  /**
+   * A1/A2's block shapes, from the generic model.
+   *
+   * `LESEN_SCHREIBEN` is A1/A2's single Lesen+Schreiben block (telc gives
+   * B1/B2 two separate ones). `HOEREN` here carries no `audioId` or
+   * `playsAllowed` — A2's Hören is one continuous recording for the whole
+   * block (`modelltests.format.hoerenDelivery`), not a per-Teil asset with
+   * its own play counter, and there is no play mechanism for it yet. See
+   * docs/plans/active/exam-block-content-generic-model.md.
+   */
+  private async genericSectionsFor(
+    block: ExamBlock,
+    modelltestId: string,
+  ): Promise<Record<string, unknown>> {
+    const bySkill = await this.genericContent.sectionsFor(modelltestId);
+
+    if (block === 'HOEREN') {
+      return withoutAnswerKey({ HOEREN: bySkill.HOEREN });
+    }
+
+    // LESEN_SCHREIBEN is the only other block a generic-model level sits.
+    return withoutAnswerKey({
+      LESEN: bySkill.LESEN,
+      SCHREIBEN: bySkill.SCHREIBEN,
     });
   }
 }
