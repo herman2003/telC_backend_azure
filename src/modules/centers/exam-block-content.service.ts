@@ -20,6 +20,12 @@ export interface ExamBlockContent {
   /** Keyed by skill, each holding that skill's Teile as training serves them
    *  — minus every answer. */
   sections: Record<string, unknown>;
+  /**
+   * A1/A2 Hören only: the block's one continuous recording, which the app
+   * plays once through POST .../audio/{audioId}/play. B1/B2 name a recording
+   * per Teil inside `sections` instead and never carry this.
+   */
+  recording?: { audioId: string; playsAllowed: number };
   /** What the candidate has already answered, so a reload restores the paper
    *  rather than blanking it. */
   savedAnswers: Record<string, unknown>;
@@ -102,6 +108,11 @@ export class ExamBlockContentService {
         modelltestId,
         level,
       ),
+      // Named by the Modelltest's id because that is what ExamAudioService
+      // spends the block's one play against.
+      ...(block === 'HOEREN' && GENERIC_MODEL_LEVELS.includes(level)
+        ? { recording: { audioId: modelltestId, playsAllowed: 1 } }
+        : {}),
       savedAnswers: (row.answers ?? {}) as Record<string, unknown>,
       deadlineAt: row.deadline_at,
       serverNow,
@@ -170,11 +181,9 @@ export class ExamBlockContentService {
    * A1/A2's block shapes, from the generic model.
    *
    * `LESEN_SCHREIBEN` is A1/A2's single Lesen+Schreiben block (telc gives
-   * B1/B2 two separate ones). `HOEREN` here carries no `audioId` or
-   * `playsAllowed` — A2's Hören is one continuous recording for the whole
-   * block (`modelltests.format.hoerenDelivery`), not a per-Teil asset with
-   * its own play counter, and there is no play mechanism for it yet. See
-   * docs/plans/active/exam-block-content-generic-model.md.
+   * B1/B2 two separate ones). The `HOEREN` Teile carry no per-Teil `audioId`
+   * or `playsAllowed`: A1/A2 Hören is one continuous recording for the whole
+   * block, played once (docs/domains/exam-simulator.md).
    */
   private async genericSectionsFor(
     block: ExamBlock,

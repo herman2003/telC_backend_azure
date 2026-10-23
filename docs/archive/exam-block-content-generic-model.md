@@ -1,6 +1,7 @@
 # Implementation Plan: `ExamBlockContentService` serves the generic model (A1/A2)
 
-**Status:** plan, approved to implement.
+**Status:** archived — implemented in #114. History, not a to-do list;
+current state is `docs/architecture/multi-level.md` Break 13.
 **Weight:** Standard — new behavior on an existing endpoint; not auth,
 payment, schema, or AI-grading, but exam-content-adjacent, so full gates,
 no shortcut.

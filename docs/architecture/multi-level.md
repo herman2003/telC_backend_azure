@@ -543,14 +543,15 @@ The guard is correct; the caller must not reach it.
 exam catalogue and manager preview) — not duplicated into either. The DTO
 shape clients receive did not change.
 
-**Open gap found while closing break 10 (Phase 3 Task 7), not yet fixed:**
-`ExamBlockContentService` — the service that serves a *live* exam block's
-questions to the candidate mid-sitting — still unconditionally calls the
-five B1 skill services, with no generic-model branch. An A2 exam can now be
-*scored* (break 10) and *picked* (break 11), but a candidate cannot yet be
-*served* an A2 block's content to answer during a live sitting. Not scoped
-into any task above; needs its own design pass before Exam Day A2 is
-end-to-end.
+**Gap found while closing break 10, since fixed:** a live sitting's block
+content (`ExamBlockContentService`) and Hören playback (`ExamAudioService`)
+both read only the B1 tables. Both now branch on the generic model (#114,
+#115). A1/A2 Hören is one continuous recording played once per block — the
+rule is in `docs/domains/exam-simulator.md`. Two things remain for A2 Hören:
+the block content does not yet tell the app which `audioId` to ask to play
+(the Modelltest's id, which no student-facing response carries), and the
+real recording has to be uploaded and its URL set in
+`modelltests.format.hoerenDelivery.audioUrl`.
 
 ### Net effect
 
@@ -742,7 +743,7 @@ center.
 | 4 | At least one Modelltest imported, `level` set, content verified against the source | ✅ Modelltest 1 |
 | 5 | All five skill endpoints return a DTO for it | ✅ |
 | 6 | Catalogue and `of-the-week` resolve; a student of another level is refused | ✅ |
-| 7 | Center exam picker lists it; a sitting times and marks with that level rows | ✅ picker + scoring; a live sitting cannot yet serve the block's content — see Break 13's open gap |
+| 7 | Center exam picker lists it; a sitting times and marks with that level rows | ⚠️ picker, block content, scoring and the one-play mechanism done; Hören cannot play yet — the app is not told which recording to ask for, and the recording is not uploaded (Break 13) |
 | 8 | Readiness returns a number, and a perfect student reaches `ready` | ✅ |
 | 9 | Live Room opens; training audio metering writes a play row | ⚠️ not evaluated — Live Room (Break 1) is a separate subsystem, outside Phase 3 |
 

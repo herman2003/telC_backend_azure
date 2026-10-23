@@ -90,7 +90,9 @@ The table is B1/B2. **A1/A2 Hören is one continuous official recording for the
 whole block, played once** — every Teil and every repeat is inside the file,
 so there is no per-Teil play. The play is recorded on the block itself
 (`exam_attempt_blocks.hoeren_played_at`), and the recording is named by the
-Modelltest's id rather than a `listening_exercises` row. Asking to play before
+Modelltest's id rather than a `listening_exercises` row. The app learns it from
+the Hören block content's `recording: { audioId, playsAllowed: 1 }` field,
+which only A1/A2 carry — B1/B2 keep naming a recording per Teil. Asking to play before
 the recording has been uploaded is refused (`HOEREN_AUDIO_NOT_READY`) without
 spending the play. Pause, seek and restart are disallowed by the paper
 (`modelltests.format.hoerenDelivery`) but only the app can enforce those: once

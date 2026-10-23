@@ -1,8 +1,8 @@
 # Implementation Plan: A1/A2 Hören audio delivery (one play, whole block)
 
-**Status:** implemented, in review. The approved rule now lives in
-`docs/domains/exam-simulator.md` ("Hören plays are counted"); archive this
-file once the PR merges.
+**Status:** archived — implemented in #115. The approved rule lives in
+`docs/domains/exam-simulator.md` ("Hören plays are counted"); this file is
+history, not a to-do list.
 **Weight:** High risk — schema change. Per `CLAUDE.md`'s weight table this
 needs independent review in a fresh context and staging verification before
 a PR is opened, on top of the standard gates.
