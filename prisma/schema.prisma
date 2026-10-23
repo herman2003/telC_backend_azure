@@ -1745,7 +1745,8 @@ model ExamSectionResult {
   /// — already typed `number` throughout — to convert with `.toNumber()`
   /// for no precision this domain needs.
   points    Float
-  /// The center user who gave it.
+  /// The center user who gave it, or `SERVER` for an A1/A2 automatic Teil
+  /// the answer key decided at submit (see exam-result.service SERVER_GRADER).
   graded_by String
   graded_at DateTime @default(now())
   /// What the examiner wants remembered — an oral date, a note on why.

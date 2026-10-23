@@ -17,11 +17,9 @@ import { NotificationsService } from '../src/shared/services/notifications.servi
 import type { SignedCenterIdentity } from '../src/modules/centers/payment-shared';
 
 const prisma = new PrismaService();
-const results = new ExamResultService(
-  prisma,
-  new GenericExamContentService(prisma),
-);
-const grading = new ExamGradingService(prisma);
+const genericContent = new GenericExamContentService(prisma);
+const results = new ExamResultService(prisma, genericContent);
+const grading = new ExamGradingService(prisma, genericContent);
 const notifications = new NotificationsService(prisma);
 const release = new ExamReleaseService(prisma, results, notifications);
 

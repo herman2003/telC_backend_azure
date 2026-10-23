@@ -1,7 +1,4 @@
-import {
-  markGenericSection,
-  scoreGenericItems,
-} from './generic-section-scoring';
+import { markGenericSection } from './generic-section-scoring';
 import type { GenericSectionContent } from '../../shared/services/generic-exam-content.service';
 
 const normalization = {
@@ -29,9 +26,9 @@ function section(over: Partial<GenericSectionContent>): GenericSectionContent {
   };
 }
 
-describe('scoreGenericItems', () => {
+describe('markGenericSection: the percentage', () => {
   it('scores 0 for a section with no items, rather than dividing by zero', () => {
-    expect(scoreGenericItems(section({ items: [] }), {})).toBe(0);
+    expect(markGenericSection(section({ items: [] }), {}).percent).toBe(0);
   });
 
   it('EINZELAUSWAHL: matches the selected option key', () => {
@@ -42,7 +39,7 @@ describe('scoreGenericItems', () => {
         { itemNumber: 2, prompt: null, solution: { key: 'b' }, options: [] },
       ],
     });
-    expect(scoreGenericItems(s, { '1': 'a', '2': 'x' })).toBe(50);
+    expect(markGenericSection(s, { '1': 'a', '2': 'x' }).percent).toBe(50);
   });
 
   it('RICHTIG_FALSCH: matches the boolean value', () => {
@@ -57,8 +54,8 @@ describe('scoreGenericItems', () => {
         },
       ],
     });
-    expect(scoreGenericItems(s, { '1': true })).toBe(100);
-    expect(scoreGenericItems(s, { '1': false })).toBe(0);
+    expect(markGenericSection(s, { '1': true }).percent).toBe(100);
+    expect(markGenericSection(s, { '1': false }).percent).toBe(0);
   });
 
   it("ZUORDNUNG: a null choiceKey means the item is correctly answered with the section's own no-match key", () => {
@@ -80,8 +77,8 @@ describe('scoreGenericItems', () => {
         },
       ],
     });
-    expect(scoreGenericItems(s, { '1': 'x', '2': 'c' })).toBe(100);
-    expect(scoreGenericItems(s, { '1': 'c', '2': 'c' })).toBe(50);
+    expect(markGenericSection(s, { '1': 'x', '2': 'c' }).percent).toBe(100);
+    expect(markGenericSection(s, { '1': 'c', '2': 'c' }).percent).toBe(50);
   });
 
   it('KURZANTWORT: an accepted answer matches after trim and case-fold', () => {
@@ -96,7 +93,7 @@ describe('scoreGenericItems', () => {
         },
       ],
     });
-    expect(scoreGenericItems(s, { '1': '  bahnhof  ' })).toBe(100);
+    expect(markGenericSection(s, { '1': '  bahnhof  ' }).percent).toBe(100);
   });
 
   it('KURZANTWORT: an unrecognized answer scores as incorrect, not a crash', () => {
@@ -111,7 +108,7 @@ describe('scoreGenericItems', () => {
         },
       ],
     });
-    expect(scoreGenericItems(s, { '1': 'Flughafen' })).toBe(0);
+    expect(markGenericSection(s, { '1': 'Flughafen' }).percent).toBe(0);
   });
 
   it('FORMULAR_AUSFUELLEN: same matching as KURZANTWORT, keyed by field number', () => {
@@ -126,10 +123,10 @@ describe('scoreGenericItems', () => {
         },
       ],
     });
-    expect(scoreGenericItems(s, { '1': 'Müller' })).toBe(100);
+    expect(markGenericSection(s, { '1': 'Müller' }).percent).toBe(100);
   });
 
-  it('a non-string answer never matches a free-text accepted-answers list', () => {
+  it('compares a number answer as its text, e.g. a form field sent as 25', () => {
     const s = section({
       aufgabentyp: 'KURZANTWORT',
       items: [
@@ -141,7 +138,12 @@ describe('scoreGenericItems', () => {
         },
       ],
     });
-    expect(scoreGenericItems(s, { '1': 25 })).toBe(0);
+    expect(markGenericSection(s, { '1': 25 }).percent).toBe(100);
+    // Anything else that is not text is simply wrong, never "unrecognised".
+    expect(markGenericSection(s, { '1': true })).toMatchObject({
+      percent: 0,
+      unrecognised: [],
+    });
   });
 
   it('throws for an aufgabentyp with no auto-scoring rule, rather than silently scoring it', () => {
@@ -149,7 +151,7 @@ describe('scoreGenericItems', () => {
       aufgabentyp: 'TEXT_SCHREIBEN',
       items: [{ itemNumber: 1, prompt: null, solution: {}, options: [] }],
     });
-    expect(() => scoreGenericItems(s, {})).toThrow(/No auto-scoring rule/);
+    expect(() => markGenericSection(s, {})).toThrow(/No auto-scoring rule/);
   });
 });
 

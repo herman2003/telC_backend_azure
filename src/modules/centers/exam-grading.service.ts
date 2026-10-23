@@ -5,7 +5,11 @@ import {
 } from '@nestjs/common';
 import type { CefrLevel, Skill } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
-import { GENERIC_MODEL_LEVELS } from '../../shared/services/generic-exam-content.service';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
+import { markGenericSection } from './generic-section-scoring';
 import type { SignedCenterIdentity } from './payment-shared';
 import { HUMAN_MARKED, SERVER_GRADER } from './exam-result.service';
 
@@ -38,7 +42,10 @@ export interface RecordedMark {
  */
 @Injectable()
 export class ExamGradingService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly genericContent: GenericExamContentService,
+  ) {}
 
   async recordMark(
     identity: SignedCenterIdentity,
@@ -60,8 +67,10 @@ export class ExamGradingService {
       select: {
         id: true,
         submitted_at: true,
-        blocks: { select: { block: true, submitted_at: true } },
-        session: { select: { level: true, center_id: true } },
+        blocks: { select: { block: true, submitted_at: true, answers: true } },
+        session: {
+          select: { level: true, center_id: true, modelltest_id: true },
+        },
       },
     });
     if (!attempt) throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
@@ -107,9 +116,11 @@ export class ExamGradingService {
   }
 
   /**
-   * A1/A2: a person marks Schreiben and Sprechen, and any automatic Teil the
-   * answer key could not decide — which is any Teil without a SERVER mark.
-   * A SERVER mark stays the server's: an exam is not negotiable.
+   * A1/A2: a person marks Schreiben Teil 2 and Sprechen, and an automatic
+   * Teil only when its submitted answers hold one the key did not recognise.
+   * A Teil the key decides is the key's even without a SERVER row yet — a
+   * scoring that failed or is still running, or an attempt scored before
+   * marks were frozen — because an exam is not negotiable.
    *
    * Gated on the Teil's own block, which at A1/A2 is LESEN_SCHREIBEN for
    * Schreiben; Sprechen has none and is never gated, as at B1/B2.
@@ -117,8 +128,8 @@ export class ExamGradingService {
   private async requireGenericMarkable(
     attemptId: string,
     attempt: {
-      blocks: { block: string; submitted_at: Date | null }[];
-      session: { level: CefrLevel };
+      blocks: { block: string; submitted_at: Date | null; answers: unknown }[];
+      session: { level: CefrLevel; modelltest_id: string };
     },
     input: RecordMarkInput,
   ): Promise<void> {
@@ -154,6 +165,24 @@ export class ExamGradingService {
     }
     if (existing?.graded_by === SERVER_GRADER) {
       throw new BadRequestException('SECTION_MARKED_BY_SERVER');
+    }
+
+    const section = await this.genericContent.sectionFor(
+      attempt.session.modelltest_id,
+      input.skill,
+      input.teil,
+    );
+    if (section?.scoringMode !== 'AUTO') return;
+
+    const blockAnswers = (attempt.blocks.find(
+      (row) => row.block === weight.block,
+    )?.answers ?? {}) as Record<string, Record<string, unknown>>;
+    const mark = markGenericSection(
+      section,
+      blockAnswers[`${input.skill}_${input.teil}`] ?? {},
+    );
+    if (mark.unrecognised.length === 0) {
+      throw new BadRequestException('SECTION_DECIDED_BY_KEY');
     }
   }
 

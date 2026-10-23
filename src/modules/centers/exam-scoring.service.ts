@@ -12,6 +12,7 @@ import { WritingCorrectionService } from '../writing/writing-correction.service'
 import {
   type GenericSectionMark,
   markGenericSection,
+  pointsOf,
 } from './generic-section-scoring';
 import { SERVER_GRADER } from './exam-result.service';
 
@@ -323,13 +324,7 @@ export class ExamScoringService {
       return;
     }
 
-    // telc marks in half points; items and points coincide at A1/A2, but a
-    // Teil whose weight differs from its item count rounds to the nearest
-    // half rather than inventing finer marks.
-    const points =
-      mark.total === 0
-        ? 0
-        : Math.round((mark.correct / mark.total) * section.maxPoints * 2) / 2;
+    const points = pointsOf(mark, section.maxPoints);
     await this.prisma.examSectionResult.upsert({
       where: { attempt_id_skill_teil: key },
       create: { ...key, points, graded_by: SERVER_GRADER },

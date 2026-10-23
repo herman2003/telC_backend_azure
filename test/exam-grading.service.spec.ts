@@ -16,6 +16,7 @@ describe('ExamGradingService', () => {
   const ATTEMPT = 'attempt-1';
 
   let prisma: any;
+  let genericContent: any;
   let service: ExamGradingService;
 
   beforeEach(() => {
@@ -48,7 +49,8 @@ describe('ExamGradingService', () => {
         })),
       },
     };
-    service = new ExamGradingService(prisma);
+    genericContent = { sectionFor: jest.fn().mockResolvedValue(null) };
+    service = new ExamGradingService(prisma, genericContent);
   });
 
   describe('recording one', () => {
@@ -291,12 +293,12 @@ describe('ExamGradingService', () => {
 
   describe('A1/A2', () => {
     const a2Attempt = (
-      blocks: { block: string; submitted_at: Date | null }[],
+      blocks: { block: string; submitted_at: Date | null; answers?: unknown }[],
     ) => ({
       id: ATTEMPT,
       submitted_at: null,
       blocks,
-      session: { level: 'A2', center_id: 'center-1' },
+      session: { level: 'A2', center_id: 'center-1', modelltest_id: 'mt-8' },
     });
     // telc A2: Schreiben Teil 2 is 10 points and sits in LESEN_SCHREIBEN;
     // Hören Teil 1 is 5; Sprechen has no block.
@@ -312,12 +314,55 @@ describe('ExamGradingService', () => {
       return Promise.resolve({ max_points: 5, block: 'LESEN_SCHREIBEN' });
     };
 
+    const normalization = {
+      trim: true,
+      ignoreCase: true,
+      unicodeNormalization: 'NFC',
+      numericAnswersStrict: true,
+      fuzzyMatchingAllowed: false,
+      unrecognizedAnswerPolicy: 'MANUAL_REVIEW',
+    };
+    // A2 Hören Teil 1 is free text; Schreiben Teil 2 and Sprechen are a
+    // person's by nature.
+    const hoeren1 = {
+      id: 'h1',
+      sectionId: 'HOEREN_1',
+      aufgabentyp: 'KURZANTWORT',
+      teil: 1,
+      scoringMode: 'AUTO',
+      material: {},
+      items: [
+        {
+          itemNumber: 5,
+          prompt: 'Wann?',
+          solution: {
+            acceptedAnswers: ['Donnerstagnachmittag'],
+            normalization,
+          },
+          options: [],
+        },
+      ],
+    };
+    const hoerenAnswered = (answer: string) => ({
+      block: 'HOEREN',
+      submitted_at: new Date(),
+      answers: { HOEREN_1: { '5': answer } },
+    });
+
     beforeEach(() => {
       prisma.examSectionWeight.findUnique.mockImplementation(a2Weight);
       prisma.examSectionResult.findUnique = jest.fn().mockResolvedValue(null);
+      genericContent.sectionFor.mockImplementation(
+        (_m: string, skill: string, teil: number) =>
+          Promise.resolve(
+            skill === 'HOEREN' && teil === 1
+              ? hoeren1
+              : { scoringMode: 'MANUAL', items: [] },
+          ),
+      );
       prisma.examAttempt.findFirst.mockResolvedValue(
         a2Attempt([
-          { block: 'HOEREN', submitted_at: new Date() },
+          hoerenAnswered('Donerstagnachmittag'),
           { block: 'LESEN_SCHREIBEN', submitted_at: new Date() },
         ]),
       );
@@ -338,7 +383,7 @@ describe('ExamGradingService', () => {
     it('refuses Schreiben while that block is still being written', async () => {
       prisma.examAttempt.findFirst.mockResolvedValue(
         a2Attempt([
-          { block: 'HOEREN', submitted_at: new Date() },
+          hoerenAnswered('Donerstagnachmittag'),
           { block: 'LESEN_SCHREIBEN', submitted_at: null },
         ]),
       );
@@ -362,6 +407,27 @@ describe('ExamGradingService', () => {
           points: 4,
         }),
       ).resolves.toMatchObject({ skill: 'HOEREN', points: 4, maxPoints: 5 });
+    });
+
+    it('refuses an automatic Teil the key decided, even with no SERVER row yet', async () => {
+      // A scoring that failed or is still running, or an attempt scored
+      // before marks were frozen: the answer was recognised, so the Teil is
+      // the key's, not a person's to set.
+      prisma.examAttempt.findFirst.mockResolvedValue(
+        a2Attempt([
+          hoerenAnswered('Donnerstagnachmittag'),
+          { block: 'LESEN_SCHREIBEN', submitted_at: new Date() },
+        ]),
+      );
+
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'HOEREN',
+          teil: 1,
+          points: 5,
+        }),
+      ).rejects.toThrow('SECTION_DECIDED_BY_KEY');
+      expect(prisma.examSectionResult.upsert).not.toHaveBeenCalled();
     });
 
     it('refuses to overwrite a mark the server froze', async () => {

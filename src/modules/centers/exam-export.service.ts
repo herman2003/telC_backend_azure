@@ -126,8 +126,12 @@ export class ExamExportService {
       rows: table.candidates.map((row) => {
         // A half nobody has marked reports null, not zero. The two mean
         // different things to whoever reads the file, and only one is true.
+        // Sprechen is the only oral skill; anything else awaiting is written
+        // (at A1/A2 that includes an automatic Teil waiting for review).
         const oralUnmarked = row.awaiting.includes('SPRECHEN' as Skill);
-        const writtenUnmarked = row.awaiting.includes('SCHREIBEN' as Skill);
+        const writtenUnmarked = row.awaiting.some(
+          (skill) => skill !== ('SPRECHEN' as Skill),
+        );
 
         return {
           studentId: row.studentId,

@@ -5,7 +5,7 @@ import {
   GENERIC_MODEL_LEVELS,
   GenericExamContentService,
 } from '../../shared/services/generic-exam-content.service';
-import { markGenericSection } from './generic-section-scoring';
+import { markGenericSection, pointsOf } from './generic-section-scoring';
 
 /**
  * `writing_attempts.exercise_id` is text, so it can hold values a uuid column
@@ -286,11 +286,7 @@ export class ExamResultService {
         skill: section.skill,
         teil: section.teil,
         maxPoints: section.maxPoints,
-        provisionalPoints:
-          mark.total === 0
-            ? 0
-            : Math.round((mark.correct / mark.total) * section.maxPoints * 2) /
-              2,
+        provisionalPoints: pointsOf(mark, section.maxPoints),
         unrecognised: mark.unrecognised,
       });
     }

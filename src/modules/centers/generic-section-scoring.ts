@@ -57,9 +57,11 @@ function outcomeOf(
     }
     case 'KURZANTWORT':
     case 'FORMULAR_AUSFUELLEN': {
-      if (typeof answer !== 'string' || answer.trim() === '') return 'WRONG';
+      // A form field such as "number of people" may arrive as the number 4.
+      const text = typeof answer === 'number' ? String(answer) : answer;
+      if (typeof text !== 'string' || text.trim() === '') return 'WRONG';
       return matchesAccepted(
-        answer,
+        text,
         solution.acceptedAnswers as string[],
         solution.normalization as NormalizationRule,
       )
@@ -119,10 +121,9 @@ export function markGenericSection(
   };
 }
 
-/** The percentage only, for callers that need no more. */
-export function scoreGenericItems(
-  section: GenericSectionContent,
-  answers: Record<string, unknown>,
-): number {
-  return markGenericSection(section, answers).percent;
+/** A mark in telc's points for a Teil worth `maxPoints`: whole or half
+ *  points, never finer, as the Bewertungsbogen gives them. */
+export function pointsOf(mark: GenericSectionMark, maxPoints: number): number {
+  if (mark.total === 0) return 0;
+  return Math.round((mark.correct / mark.total) * maxPoints * 2) / 2;
 }
