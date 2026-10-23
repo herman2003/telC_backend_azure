@@ -40,6 +40,7 @@ describe('ExamBlockContentService', () => {
   };
 
   let prisma: any;
+  let genericContent: any;
   let lesen: any;
   let sprachbausteine: any;
   let listening: any;
@@ -49,7 +50,7 @@ describe('ExamBlockContentService', () => {
   const attemptRow = (over: Record<string, unknown> = {}) => ({
     id: ATTEMPT,
     student_id: STUDENT,
-    session: { modelltest: { number: 2 } },
+    session: { modelltest: { id: 'mt-2', number: 2, level: 'B1' } },
     blocks: [
       {
         block: 'LESEN_SPRACHBAUSTEINE',
@@ -85,8 +86,10 @@ describe('ExamBlockContentService', () => {
         .fn()
         .mockResolvedValue({ id: 'w1', prompt: 'Schreiben Sie eine E-Mail' }),
     };
+    genericContent = { sectionsFor: jest.fn() };
     service = new ExamBlockContentService(
       prisma,
+      genericContent,
       lesen,
       sprachbausteine,
       listening,
@@ -297,6 +300,110 @@ describe('ExamBlockContentService', () => {
       await expect(
         service.getBlockContent(STUDENT, ATTEMPT, 'LESEN_SPRACHBAUSTEINE'),
       ).rejects.toThrow('EXAM_ATTEMPT_NOT_FOUND');
+    });
+  });
+
+  describe('the generic model (A1/A2)', () => {
+    const genericSection = (over: Record<string, unknown> = {}) => ({
+      sectionId: 'LESEN_1',
+      aufgabentyp: 'EINZELAUSWAHL',
+      teil: 1,
+      label: 'Lesen Teil 1',
+      instruction: 'Kreuzen Sie an.',
+      maxPoints: 5,
+      scoringMode: 'AUTO',
+      material: {},
+      items: [
+        {
+          itemNumber: 1,
+          prompt: 'Frage?',
+          solution: { key: 'a' },
+          options: [{ key: 'a', content: 'Antwort', isCorrect: true }],
+        },
+      ],
+      ...over,
+    });
+
+    const a2Attempt = (block: string) =>
+      attemptRow({
+        session: { modelltest: { id: 'a2-mt-8', number: 8, level: 'A2' } },
+        blocks: [
+          {
+            block,
+            started_at: new Date(Date.now() - 60_000),
+            deadline_at: new Date(Date.now() + HOUR),
+            submitted_at: null,
+            answers: {},
+          },
+        ],
+      });
+
+    it('serves Lesen and Schreiben for LESEN_SCHREIBEN, from the generic model', async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [],
+        LESEN: [genericSection({})],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [genericSection({ sectionId: 'SCHREIBEN_1' })],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        a2Attempt('LESEN_SCHREIBEN'),
+      );
+
+      const content = await service.getBlockContent(
+        STUDENT,
+        ATTEMPT,
+        'LESEN_SCHREIBEN',
+      );
+
+      expect(genericContent.sectionsFor).toHaveBeenCalledWith('a2-mt-8');
+      expect(Object.keys(content.sections)).toEqual(['LESEN', 'SCHREIBEN']);
+      expect(lesen.getExercise).not.toHaveBeenCalled();
+      expect(sprachbausteine.getExercise).not.toHaveBeenCalled();
+      expect(writing.getExerciseByModelltest).not.toHaveBeenCalled();
+    });
+
+    it('serves Hören from the generic model, with no audio play affordance', async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [genericSection({ sectionId: 'HOEREN_1' })],
+        LESEN: [],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(a2Attempt('HOEREN'));
+
+      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
+
+      expect(Object.keys(content.sections)).toEqual(['HOEREN']);
+      expect(listening.getExamTeil).not.toHaveBeenCalled();
+      const json = JSON.stringify(content);
+      expect(json).not.toContain('audioId');
+      expect(json).not.toContain('playsAllowed');
+    });
+
+    it('strips every item solution, same claim as the B1/B2 path', async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [],
+        LESEN: [genericSection({})],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        a2Attempt('LESEN_SCHREIBEN'),
+      );
+
+      const content = await service.getBlockContent(
+        STUDENT,
+        ATTEMPT,
+        'LESEN_SCHREIBEN',
+      );
+
+      const json = JSON.stringify(content);
+      expect(json).not.toContain('solution');
+      expect(json).not.toContain('isCorrect');
+      expect(json).toContain('Antwort');
     });
   });
 });
