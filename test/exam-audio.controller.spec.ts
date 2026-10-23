@@ -138,4 +138,52 @@ describe('ExamAudioController', () => {
     );
     expect(fetchImpl).not.toHaveBeenCalled();
   });
+
+  describe('A1/A2: the token names a Modelltest, not a listening exercise', () => {
+    beforeEach(() => {
+      prisma.listeningExercise.findUnique.mockResolvedValue(null);
+      prisma.modelltest = {
+        findUnique: jest.fn().mockResolvedValue({
+          format: {
+            hoerenDelivery: {
+              audioUrl: 'https://cdn.example/a2-complete.mp3',
+              durationSeconds: 1200,
+            },
+          },
+        }),
+      };
+    });
+
+    it("proxies the Modelltest's one Hören recording", async () => {
+      await controller.stream('a-token', response);
+
+      expect(prisma.modelltest.findUnique).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { id: 'audio-1' } }),
+      );
+      expect(fetchImpl).toHaveBeenCalledWith(
+        'https://cdn.example/a2-complete.mp3',
+      );
+      expect(response.status).not.toHaveBeenCalledWith(302);
+    });
+
+    it('refuses a token naming neither a recording nor a Modelltest with one', async () => {
+      prisma.modelltest.findUnique.mockResolvedValue(null);
+
+      await expect(controller.stream('a-token', response)).rejects.toThrow(
+        'AUDIO_UNAVAILABLE',
+      );
+      expect(fetchImpl).not.toHaveBeenCalled();
+    });
+
+    it('refuses a Modelltest whose recording has not been uploaded', async () => {
+      prisma.modelltest.findUnique.mockResolvedValue({
+        format: { hoerenDelivery: { audioUrl: null, durationSeconds: null } },
+      });
+
+      await expect(controller.stream('a-token', response)).rejects.toThrow(
+        'AUDIO_UNAVAILABLE',
+      );
+      expect(fetchImpl).not.toHaveBeenCalled();
+    });
+  });
 });

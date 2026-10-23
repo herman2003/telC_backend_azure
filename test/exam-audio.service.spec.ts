@@ -22,7 +22,10 @@ describe('ExamAudioService', () => {
   const runningHoeren = (over: Record<string, unknown> = {}) => ({
     id: ATTEMPT,
     student_id: STUDENT,
-    session: { modelltest_id: 'mt-1' },
+    session: {
+      modelltest_id: 'mt-1',
+      modelltest: { level: 'B1', format: null },
+    },
     blocks: [
       {
         block: 'HOEREN',
@@ -273,6 +276,97 @@ describe('ExamAudioService', () => {
       const minutes = (expiresAt.getTime() - Date.now()) / 60_000;
       expect(minutes).toBeGreaterThan(11);
       expect(minutes).toBeLessThan(13);
+    });
+  });
+
+  describe('A1/A2: one continuous recording for the whole block', () => {
+    const A2_MODELLTEST = '22222222-2222-4222-8222-222222222222';
+    const delivery = (over: Record<string, unknown> = {}) => ({
+      hoerenDelivery: {
+        deliveryMode: 'CONTINUOUS_OFFICIAL_RECORDING',
+        audioAssetKey: 'a2/modelltest-1/hoeren/complete.mp3',
+        audioUrl: 'https://cdn.example/a2-complete.mp3',
+        durationSeconds: 1200,
+        playsAllowed: 1,
+        ...over,
+      },
+    });
+    const a2Attempt = (format: unknown) => ({
+      ...runningHoeren(),
+      session: {
+        modelltest_id: A2_MODELLTEST,
+        modelltest: { level: 'A2', format },
+      },
+    });
+
+    beforeEach(() => {
+      prisma.examAttempt.findUnique.mockResolvedValue(a2Attempt(delivery()));
+      prisma.examAttemptBlock = {
+        updateMany: jest.fn().mockResolvedValue({ count: 1 }),
+      };
+    });
+
+    it('spends the block its one play and hands back a link', async () => {
+      const granted = await service.play(STUDENT, ATTEMPT, A2_MODELLTEST);
+
+      expect(granted).toMatchObject({
+        audioId: A2_MODELLTEST,
+        playsRemaining: 0,
+      });
+      expect(granted.url).toContain('token=');
+      // Never the per-recording table: there is no listening_exercises row.
+      expect(prisma.listeningExercise.findUnique).not.toHaveBeenCalled();
+      expect(prisma.examAudioPlay.updateMany).not.toHaveBeenCalled();
+    });
+
+    it('spends it in the statement, so two taps at once grant one play', async () => {
+      await service.play(STUDENT, ATTEMPT, A2_MODELLTEST);
+
+      expect(prisma.examAttemptBlock.updateMany).toHaveBeenCalledWith({
+        where: { attempt_id: ATTEMPT, block: 'HOEREN', hoeren_played_at: null },
+        data: { hoeren_played_at: expect.any(Date) },
+      });
+    });
+
+    it('refuses a second play', async () => {
+      prisma.examAttemptBlock.updateMany.mockResolvedValue({ count: 0 });
+
+      await expect(
+        service.play(STUDENT, ATTEMPT, A2_MODELLTEST),
+      ).rejects.toThrow('NO_PLAYS_LEFT');
+    });
+
+    it("refuses a recording that is not this sitting's", async () => {
+      await expect(service.play(STUDENT, ATTEMPT, AUDIO)).rejects.toThrow(
+        'AUDIO_NOT_IN_EXAM',
+      );
+      expect(prisma.examAttemptBlock.updateMany).not.toHaveBeenCalled();
+    });
+
+    it('refuses, without spending the play, when no recording is uploaded yet', async () => {
+      // The real A2 Modelltest 1 today: audioUrl is null. Signing a link to
+      // nothing would cost the candidate their one play.
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        a2Attempt(delivery({ audioUrl: null, durationSeconds: null })),
+      );
+
+      await expect(
+        service.play(STUDENT, ATTEMPT, A2_MODELLTEST),
+      ).rejects.toThrow('HOEREN_AUDIO_NOT_READY');
+      expect(prisma.examAttemptBlock.updateMany).not.toHaveBeenCalled();
+    });
+
+    it('lasts about twice the recording, same as B1/B2', async () => {
+      const granted = await service.play(STUDENT, ATTEMPT, A2_MODELLTEST);
+      const token = new URL(granted.url, 'https://api.test').searchParams.get(
+        'token',
+      )!;
+
+      const { expiresAt, audioId } = service.verify(token);
+      const minutes = (expiresAt.getTime() - Date.now()) / 60_000;
+      expect(audioId).toBe(A2_MODELLTEST);
+      expect(minutes).toBeGreaterThan(39);
+      expect(minutes).toBeLessThan(41);
     });
   });
 });

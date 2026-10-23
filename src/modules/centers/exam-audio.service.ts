@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { PrismaService } from '../../shared/services/prisma.service';
+import { GENERIC_MODEL_LEVELS } from '../../shared/services/generic-exam-content.service';
 
 /** The secret the play links are signed with. Injected rather than read here
  *  so the service can be built in a test without a ConfigService. */
@@ -35,6 +36,25 @@ export interface AudioTokenClaims {
  * the time anyone uses it.
  */
 const LINK_LIFETIME_FACTOR = 2;
+
+/**
+ * An A1/A2 Modelltest's one continuous Hören recording, read from
+ * `modelltests.format.hoerenDelivery`. Validated once at import
+ * (`scripts/generic-modelltest-schemas.mjs`), so only presence is checked
+ * here. Null when the recording has not been uploaded yet.
+ */
+export function hoerenRecordingOf(
+  format: unknown,
+): { audioUrl: string; durationSeconds: number } | null {
+  const delivery = (
+    format as { hoerenDelivery?: Record<string, unknown> } | null
+  )?.hoerenDelivery;
+  const audioUrl = delivery?.audioUrl;
+  const durationSeconds = delivery?.durationSeconds;
+  if (typeof audioUrl !== 'string' || audioUrl === '') return null;
+  if (typeof durationSeconds !== 'number' || durationSeconds <= 0) return null;
+  return { audioUrl, durationSeconds };
+}
 
 /**
  * Playing a Hören recording in an exam.
@@ -74,7 +94,12 @@ export class ExamAudioService {
         student_id: true,
         // The sitting's Modelltest, so a play can be checked against the exam
         // it belongs to rather than against any recording that exists.
-        session: { select: { modelltest_id: true } },
+        session: {
+          select: {
+            modelltest_id: true,
+            modelltest: { select: { level: true, format: true } },
+          },
+        },
         blocks: {
           where: { block: 'HOEREN' },
           select: { deadline_at: true, submitted_at: true },
@@ -95,6 +120,16 @@ export class ExamAudioService {
     // like every other write to a block.
     if (new Date() >= block.deadline_at) {
       throw new BadRequestException('BLOCK_EXPIRED');
+    }
+
+    const { modelltest_id: modelltestId, modelltest } = attempt.session;
+    if (GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
+      return this.playWholeBlock(
+        attemptId,
+        audioId,
+        modelltestId,
+        modelltest.format,
+      );
     }
 
     const audio = await this.prisma.listeningExercise.findUnique({
@@ -166,6 +201,54 @@ export class ExamAudioService {
       audioId,
       url: `/api/exams/audio?token=${token}`,
       playsRemaining: Math.max(0, allowed - playNumber),
+      expiresAt,
+    };
+  }
+
+  /**
+   * A1/A2: one continuous recording for the whole Hören block, played once.
+   *
+   * The recording is named by the Modelltest's own id — there is no
+   * `listening_exercises` row per Teil to name. The play is spent on the
+   * block row (`hoeren_played_at`) with the same conditional-update claim the
+   * per-recording counter uses, so two taps at once still grant one play.
+   */
+  private async playWholeBlock(
+    attemptId: string,
+    audioId: string,
+    modelltestId: string,
+    format: unknown,
+  ): Promise<GrantedPlay> {
+    if (audioId !== modelltestId) {
+      throw new BadRequestException('AUDIO_NOT_IN_EXAM');
+    }
+    // Refused before the play is spent: signing a link to a file nobody has
+    // uploaded would cost the candidate their one play on nothing.
+    const recording = hoerenRecordingOf(format);
+    if (!recording) {
+      throw new BadRequestException('HOEREN_AUDIO_NOT_READY');
+    }
+
+    const spent = await this.prisma.examAttemptBlock.updateMany({
+      where: { attempt_id: attemptId, block: 'HOEREN', hoeren_played_at: null },
+      data: { hoeren_played_at: new Date() },
+    });
+    if (spent.count !== 1) throw new BadRequestException('NO_PLAYS_LEFT');
+
+    const expiresAt = new Date(
+      Date.now() + recording.durationSeconds * LINK_LIFETIME_FACTOR * 1000,
+    );
+    const token = this.signFor({
+      attemptId,
+      audioId,
+      playNumber: 1,
+      expiresAt,
+    });
+
+    return {
+      audioId,
+      url: `/api/exams/audio?token=${token}`,
+      playsRemaining: 0,
       expiresAt,
     };
   }
