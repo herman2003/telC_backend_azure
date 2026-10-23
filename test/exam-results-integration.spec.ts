@@ -10,13 +10,17 @@
  */
 import { PrismaService } from '../src/shared/services/prisma.service';
 import { ExamResultService } from '../src/modules/centers/exam-result.service';
+import { GenericExamContentService } from '../src/shared/services/generic-exam-content.service';
 import { ExamGradingService } from '../src/modules/centers/exam-grading.service';
 import { ExamReleaseService } from '../src/modules/centers/exam-release.service';
 import { NotificationsService } from '../src/shared/services/notifications.service';
 import type { SignedCenterIdentity } from '../src/modules/centers/payment-shared';
 
 const prisma = new PrismaService();
-const results = new ExamResultService(prisma);
+const results = new ExamResultService(
+  prisma,
+  new GenericExamContentService(prisma),
+);
 const grading = new ExamGradingService(prisma);
 const notifications = new NotificationsService(prisma);
 const release = new ExamReleaseService(prisma, results, notifications);

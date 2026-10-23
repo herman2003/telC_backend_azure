@@ -1,6 +1,11 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import type { CefrLevel, PassRuleType, Skill } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
+import { markGenericSection } from './generic-section-scoring';
 
 /**
  * `writing_attempts.exercise_id` is text, so it can hold values a uuid column
@@ -8,8 +13,35 @@ import { PrismaService } from '../../shared/services/prisma.service';
  */
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/** The two a human marks. Everything else the server decides. */
+/** The two a human marks at B1/B2. Everything else the server decides. */
 export const HUMAN_MARKED: readonly Skill[] = ['SCHREIBEN', 'SPRECHEN'];
+
+/**
+ * `exam_section_results.graded_by` for a mark the server froze at submit
+ * (A1/A2 automatic Teile). Every other value there is a center user's id.
+ */
+export const SERVER_GRADER = 'SERVER';
+
+/** The letter in an A1/A2 Lesen-und-Schreiben block: whichever Schreiben
+ *  Teil holds a `text` (the form holds field answers instead). */
+function letterFromBlock(answers: Record<string, unknown>): string | null {
+  for (const [key, value] of Object.entries(answers)) {
+    if (!key.startsWith('SCHREIBEN_')) continue;
+    const text = (value as { text?: unknown } | null)?.text;
+    if (typeof text === 'string' && text.length > 0) return text;
+  }
+  return null;
+}
+
+/** An A1/A2 Teil the key could not decide, as the examiner needs to see it. */
+export interface ExamReviewItem {
+  skill: Skill;
+  teil: number;
+  maxPoints: number;
+  /** What the recognised answers alone are worth. The examiner decides. */
+  provisionalPoints: number;
+  unrecognised: { itemNumber: number; answer: string }[];
+}
 
 export type ExamOutcome = 'PASSED' | 'FAILED' | 'INCOMPLETE';
 
@@ -124,6 +156,9 @@ export interface ExamResultView {
    * present, with `text: null` until the candidate has submitted content.
    */
   schreibenSubmission: ExamSchreibenSubmission | null;
+  /** A1/A2 Teile waiting for an examiner because the key did not recognise
+   *  an answer. Only on a center's single-candidate view; empty otherwise. */
+  review: ExamReviewItem[];
 }
 
 /**
@@ -142,7 +177,10 @@ export interface ExamResultView {
 export class ExamResultService {
   private readonly logger = new Logger(ExamResultService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly genericContent: GenericExamContentService,
+  ) {}
 
   /**
    * One candidate's result.
@@ -166,21 +204,97 @@ export class ExamResultService {
         student_id: true,
         submitted_at: true,
         released_at: true,
-        session: { select: { level: true, center_id: true } },
+        session: {
+          select: { level: true, center_id: true, modelltest_id: true },
+        },
       },
     });
     if (!attempt) throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
 
-    const weights = await this.weightsFor(attempt.session.level);
-    const passRule = await this.passRuleFor(attempt.session.level);
-    const marks = (await this.marksForMany([attemptId])).get(attemptId);
-    const submissions = await this.schreibenSubmissionsFor([attemptId]);
+    const { level } = attempt.session;
+    const weights = await this.weightsFor(level);
+    const passRule = await this.passRuleFor(level);
+    const marks = (await this.marksForMany([attemptId], level)).get(attemptId);
+    const submissions = await this.schreibenSubmissionsFor([attemptId], level);
+    const result = this.assemble(
+      attempt,
+      weights,
+      marks ?? new Map(),
+      passRule,
+      level,
+    );
 
     return {
-      ...this.assemble(attempt, weights, marks ?? new Map(), passRule),
+      ...result,
+      // The candidate's own answers, but provisional: for the examiner only.
+      review: centerId
+        ? await this.reviewFor(
+            attemptId,
+            attempt.session.modelltest_id,
+            level,
+            result.sections,
+          )
+        : [],
       suggestions: await this.suggestionsFor(attemptId, weights),
       schreibenSubmission: submissions.get(attemptId) ?? null,
     };
+  }
+
+  /**
+   * A1/A2 automatic Teile still without a mark because the key did not
+   * recognise an answer: the answers the examiner must judge, and what the
+   * recognised ones alone are worth. Read from the submitted blocks, for
+   * display only — the mark itself is whatever the examiner then gives.
+   */
+  private async reviewFor(
+    attemptId: string,
+    modelltestId: string,
+    level: CefrLevel,
+    sections: ExamSectionResultView[],
+  ): Promise<ExamReviewItem[]> {
+    if (!GENERIC_MODEL_LEVELS.includes(level)) return [];
+    const open = sections.filter((section) => section.points === null);
+    if (open.length === 0) return [];
+
+    const [bySkill, blocks] = await Promise.all([
+      this.genericContent.sectionsFor(modelltestId),
+      this.prisma.examAttemptBlock.findMany({
+        where: { attempt_id: attemptId, submitted_at: { not: null } },
+        select: { answers: true },
+      }),
+    ]);
+    const answers: Record<string, Record<string, unknown>> = {};
+    for (const block of blocks) {
+      Object.assign(
+        answers,
+        (block.answers ?? {}) as Record<string, Record<string, unknown>>,
+      );
+    }
+
+    const review: ExamReviewItem[] = [];
+    for (const section of open) {
+      const content = bySkill[section.skill]?.find(
+        (candidate) => candidate.teil === section.teil,
+      );
+      if (!content || content.scoringMode !== 'AUTO') continue;
+      const mark = markGenericSection(
+        content,
+        answers[`${section.skill}_${section.teil}`] ?? {},
+      );
+      if (mark.unrecognised.length === 0) continue;
+      review.push({
+        skill: section.skill,
+        teil: section.teil,
+        maxPoints: section.maxPoints,
+        provisionalPoints:
+          mark.total === 0
+            ? 0
+            : Math.round((mark.correct / mark.total) * section.maxPoints * 2) /
+              2,
+        unrecognised: mark.unrecognised,
+      });
+    }
+    return review;
   }
 
   /**
@@ -277,7 +391,8 @@ export class ExamResultService {
     }[],
     marks: Map<string, MarkedValue>,
     passRule: PassRule,
-  ): Omit<ExamResultView, 'suggestions' | 'schreibenSubmission'> {
+    level: CefrLevel,
+  ): Omit<ExamResultView, 'suggestions' | 'schreibenSubmission' | 'review'> {
     const sections = this.sectionsOf(weights, marks);
     const written = this.half(
       weights,
@@ -291,7 +406,7 @@ export class ExamResultService {
       'ORAL',
       passRule.oral_percent ?? passRule.minimum_percent ?? 0,
     );
-    const awaiting = this.awaitingOf(sections);
+    const awaiting = this.awaitingOf(sections, level);
 
     return {
       attemptId: attempt.id,
@@ -341,9 +456,23 @@ export class ExamResultService {
     });
   }
 
-  /** Only the two a person gives can be missing. An automatic Teil the
-   *  candidate never reached was marked zero when the block was submitted. */
-  private awaitingOf(sections: ExamSectionResultView[]): Skill[] {
+  /**
+   * B1/B2: only the two a person gives can be missing — an automatic Teil
+   * the candidate never reached was marked zero when the block was submitted.
+   * A1/A2: any Teil without a mark, since an automatic Teil the key could not
+   * decide waits for the examiner too.
+   */
+  private awaitingOf(
+    sections: ExamSectionResultView[],
+    level: CefrLevel,
+  ): Skill[] {
+    if (GENERIC_MODEL_LEVELS.includes(level)) {
+      return [
+        ...new Set(
+          sections.filter((s) => s.points === null).map((s) => s.skill),
+        ),
+      ];
+    }
     return HUMAN_MARKED.filter((skill) =>
       sections.some(
         (section) => section.skill === skill && section.points === null,
@@ -409,7 +538,10 @@ export class ExamResultService {
     // across levels is not a thing this has to be fast at.
     const weights = await this.weightsFor(attempts[0].session.level);
     const passRule = await this.passRuleFor(attempts[0].session.level);
-    const marks = await this.marksForMany(attempts.map((a) => a.id));
+    const marks = await this.marksForMany(
+      attempts.map((a) => a.id),
+      attempts[0].session.level,
+    );
 
     // No suggestions here: a table of forty candidates has no room for
     // forty transcripts, and the manager opens one candidate to read one.
@@ -417,6 +549,7 @@ export class ExamResultService {
     // the session results table never surfaces these views.
     const submissions = await this.schreibenSubmissionsFor(
       attempts.map((a) => a.id),
+      attempts[0].session.level,
     );
 
     return attempts.map((attempt) => ({
@@ -425,8 +558,10 @@ export class ExamResultService {
         weights,
         marks.get(attempt.id) ?? new Map(),
         passRule,
+        attempt.session.level,
       ),
       suggestions: [],
+      review: [],
       schreibenSubmission: submissions.get(attempt.id) ?? null,
     }));
   }
@@ -440,7 +575,12 @@ export class ExamResultService {
    */
   private async schreibenSubmissionsFor(
     attemptIds: string[],
+    level: CefrLevel,
   ): Promise<Map<string, ExamSchreibenSubmission | null>> {
+    // A1/A2 write in the shared Lesen-und-Schreiben block, and only the
+    // letter (the Teil a person marks) leaves a writing row; the form's
+    // answers stay on the block.
+    const generic = GENERIC_MODEL_LEVELS.includes(level);
     const byAttempt = new Map<string, ExamSchreibenSubmission | null>();
     for (const id of attemptIds) byAttempt.set(id, null);
     if (attemptIds.length === 0) return byAttempt;
@@ -459,7 +599,7 @@ export class ExamResultService {
       this.prisma.examAttemptBlock.findMany({
         where: {
           attempt_id: { in: attemptIds },
-          block: 'SCHREIBEN',
+          block: generic ? 'LESEN_SCHREIBEN' : 'SCHREIBEN',
         },
         select: {
           attempt_id: true,
@@ -490,8 +630,9 @@ export class ExamResultService {
     for (const block of blocks) {
       const fromWriting = contentByAttempt.get(block.attempt_id);
       const answers = (block.answers ?? {}) as Record<string, unknown>;
-      const fromBlock =
-        typeof answers.text === 'string' && answers.text.length > 0
+      const fromBlock = generic
+        ? letterFromBlock(answers)
+        : typeof answers.text === 'string' && answers.text.length > 0
           ? answers.text
           : null;
       const text = fromWriting ?? fromBlock;
@@ -552,7 +693,7 @@ export class ExamResultService {
     const weights = await this.weightsFor(session.level);
     const passRule = await this.passRuleFor(session.level);
     const attemptIds = session.attempts.map((attempt) => attempt.id);
-    const marks = await this.marksForMany(attemptIds);
+    const marks = await this.marksForMany(attemptIds, session.level);
 
     // Typed, not inferred: inference takes the shape of the first map, and a
     // no-show row — null attempt, NOT_TAKEN, no halves — does not fit it.
@@ -573,7 +714,7 @@ export class ExamResultService {
         'ORAL',
         passRule.oral_percent ?? passRule.minimum_percent ?? 0,
       );
-      const awaiting = this.awaitingOf(sections);
+      const awaiting = this.awaitingOf(sections, session.level);
 
       return {
         studentId: attempt.student_id,
@@ -650,8 +791,7 @@ export class ExamResultService {
       maxPoints,
       // Shown, never decided on: 134.5 of 225 displays as 60 and is not 60.
       percent: maxPoints === 0 ? 0 : Math.round((points / maxPoints) * 100),
-      passed:
-        maxPoints > 0 && points >= maxPoints * (thresholdPercent / 100),
+      passed: maxPoints > 0 && points >= maxPoints * (thresholdPercent / 100),
     };
   }
 
@@ -741,6 +881,7 @@ export class ExamResultService {
    */
   private async marksForMany(
     attemptIds: string[],
+    level: CefrLevel,
   ): Promise<Map<string, Map<string, MarkedValue>>> {
     const byAttempt = new Map<string, Map<string, MarkedValue>>();
     for (const id of attemptIds) byAttempt.set(id, new Map());
@@ -749,23 +890,41 @@ export class ExamResultService {
     // One read per table for the whole sitting rather than four per
     // candidate: a school of four hundred is six queries, not sixteen
     // hundred.
+    //
+    // A1/A2 read only `exam_section_results`: their automatic marks were
+    // frozen there at submit (SERVER), and a Teil the key could not decide
+    // has no row until the examiner gives one. The per-skill attempt rows
+    // still hold their answers, but are not the verdict.
     const where = { exam_attempt_id: { in: attemptIds } };
+    const generic = GENERIC_MODEL_LEVELS.includes(level);
     const [lesen, sprachbausteine, hoeren, human] = await Promise.all([
-      this.prisma.lesenAttempt.findMany({
-        where,
-        select: { exam_attempt_id: true, teil_id: true, score: true },
-      }),
-      this.prisma.sprachbausteineAttempt.findMany({
-        where,
-        select: { exam_attempt_id: true, teil_id: true, score: true },
-      }),
-      this.prisma.listeningAttempt.findMany({
-        where,
-        select: { exam_attempt_id: true, exercise_id: true, score: true },
-      }),
+      generic
+        ? []
+        : this.prisma.lesenAttempt.findMany({
+            where,
+            select: { exam_attempt_id: true, teil_id: true, score: true },
+          }),
+      generic
+        ? []
+        : this.prisma.sprachbausteineAttempt.findMany({
+            where,
+            select: { exam_attempt_id: true, teil_id: true, score: true },
+          }),
+      generic
+        ? []
+        : this.prisma.listeningAttempt.findMany({
+            where,
+            select: { exam_attempt_id: true, exercise_id: true, score: true },
+          }),
       this.prisma.examSectionResult.findMany({
         where: { attempt_id: { in: attemptIds } },
-        select: { attempt_id: true, skill: true, teil: true, points: true },
+        select: {
+          attempt_id: true,
+          skill: true,
+          teil: true,
+          points: true,
+          graded_by: true,
+        },
       }),
     ]);
 
@@ -809,7 +968,7 @@ export class ExamResultService {
       put(row.attempt_id, row.skill, row.teil, {
         kind: 'POINTS',
         value: row.points,
-        markedBy: 'PERSON',
+        markedBy: row.graded_by === SERVER_GRADER ? 'SERVER' : 'PERSON',
       });
     }
 

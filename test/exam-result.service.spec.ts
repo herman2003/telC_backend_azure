@@ -37,6 +37,7 @@ describe('ExamResultService', () => {
   ];
 
   let prisma: any;
+  let genericContent: any;
   let service: ExamResultService;
 
   /** Every call made on the mocked client, so an N+1 can be asserted. */
@@ -108,7 +109,8 @@ describe('ExamResultService', () => {
       speakingAttempt: { findMany: jest.fn().mockResolvedValue([]) },
       examAttemptBlock: { findMany: jest.fn().mockResolvedValue([]) },
     };
-    service = new ExamResultService(prisma);
+    genericContent = { sectionsFor: jest.fn().mockResolvedValue({}) };
+    service = new ExamResultService(prisma, genericContent);
   });
 
   describe('Schreiben text for the center marker', () => {
@@ -441,9 +443,14 @@ describe('ExamResultService', () => {
       // "fails a candidate who was excellent on paper and silent in the
       // room" (above) marks FAILED under B1/B2's per-half rule — A2 has no
       // separate oral bar, so this candidate passes.
-      load(100, [
-        { skill: 'SCHREIBEN', teil: 1, points: 15 },
-        { skill: 'SPRECHEN', teil: 1, points: 0 },
+      //
+      // A1/A2 read every mark from exam_section_results: the automatic
+      // Teile as SERVER rows frozen at submit, the rest as an examiner's.
+      load(0, [
+        { skill: 'LESEN', teil: 1, points: 15, graded_by: 'SERVER' },
+        { skill: 'HOEREN', teil: 1, points: 15, graded_by: 'SERVER' },
+        { skill: 'SCHREIBEN', teil: 1, points: 15, graded_by: 'trainer-1' },
+        { skill: 'SPRECHEN', teil: 1, points: 0, graded_by: 'trainer-1' },
       ]);
 
       const result = await service.forAttempt(ATTEMPT);
@@ -455,14 +462,198 @@ describe('ExamResultService', () => {
 
     it('fails below the combined 60%', async () => {
       // 24/60 everywhere = 40% combined.
-      load(40, [
-        { skill: 'SCHREIBEN', teil: 1, points: 6 },
-        { skill: 'SPRECHEN', teil: 1, points: 6 },
+      load(0, [
+        { skill: 'LESEN', teil: 1, points: 6, graded_by: 'SERVER' },
+        { skill: 'HOEREN', teil: 1, points: 6, graded_by: 'SERVER' },
+        { skill: 'SCHREIBEN', teil: 1, points: 6, graded_by: 'trainer-1' },
+        { skill: 'SPRECHEN', teil: 1, points: 6, graded_by: 'trainer-1' },
       ]);
 
       const result = await service.forAttempt(ATTEMPT);
 
       expect(result.outcome).toBe('FAILED');
+    });
+  });
+
+  describe('A1/A2: every mark from exam_section_results', () => {
+    const a2Weights = [
+      { skill: 'LESEN', teil: 1, max_points: 5, part: 'WRITTEN' },
+      { skill: 'SCHREIBEN', teil: 1, max_points: 5, part: 'WRITTEN' },
+      { skill: 'SCHREIBEN', teil: 2, max_points: 10, part: 'WRITTEN' },
+      { skill: 'SPRECHEN', teil: 1, max_points: 3, part: 'ORAL' },
+    ];
+    const a2Attempt = {
+      id: ATTEMPT,
+      student_id: 'student-1',
+      submitted_at: new Date(),
+      released_at: null,
+      session: { level: 'A2', center_id: 'center-1', modelltest_id: 'mt-8' },
+    };
+
+    beforeEach(() => {
+      prisma.examSectionWeight.findMany.mockResolvedValue(a2Weights);
+      prisma.examPassRule.findUnique.mockResolvedValue({
+        type: 'TOTAL_PERCENT',
+        minimum_percent: 60,
+        written_percent: null,
+        oral_percent: null,
+      });
+      prisma.examAttempt.findFirst.mockResolvedValue(a2Attempt);
+    });
+
+    it('never reads the per-skill attempt rows for the verdict', async () => {
+      load(0, [{ skill: 'LESEN', teil: 1, points: 5, graded_by: 'SERVER' }]);
+
+      await service.forAttempt(ATTEMPT, 'center-1');
+
+      expect(prisma.lesenAttempt.findMany).not.toHaveBeenCalled();
+      expect(prisma.listeningAttempt.findMany).not.toHaveBeenCalled();
+    });
+
+    it('labels a frozen automatic mark SERVER and an examiner mark PERSON', async () => {
+      load(0, [
+        { skill: 'LESEN', teil: 1, points: 4, graded_by: 'SERVER' },
+        { skill: 'SCHREIBEN', teil: 2, points: 7, graded_by: 'trainer-1' },
+      ]);
+
+      const { sections } = await service.forAttempt(ATTEMPT, 'center-1');
+
+      expect(sections).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            skill: 'LESEN',
+            teil: 1,
+            points: 4,
+            markedBy: 'SERVER',
+          }),
+          expect.objectContaining({
+            skill: 'SCHREIBEN',
+            teil: 2,
+            points: 7,
+            markedBy: 'PERSON',
+          }),
+        ]),
+      );
+    });
+
+    it('awaits any Teil without a mark, automatic ones included', async () => {
+      // Schreiben Teil 1 (the form) had an answer the key did not recognise,
+      // so the server froze no mark for it.
+      load(0, [
+        { skill: 'LESEN', teil: 1, points: 5, graded_by: 'SERVER' },
+        { skill: 'SCHREIBEN', teil: 2, points: 7, graded_by: 'trainer-1' },
+        { skill: 'SPRECHEN', teil: 1, points: 3, graded_by: 'trainer-1' },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT, 'center-1');
+
+      expect(result.awaiting).toEqual(['SCHREIBEN']);
+      expect(result.outcome).toBe('INCOMPLETE');
+    });
+
+    it('reaches a verdict once every Teil has a mark', async () => {
+      load(0, [
+        { skill: 'LESEN', teil: 1, points: 5, graded_by: 'SERVER' },
+        { skill: 'SCHREIBEN', teil: 1, points: 4, graded_by: 'SERVER' },
+        { skill: 'SCHREIBEN', teil: 2, points: 7, graded_by: 'trainer-1' },
+        { skill: 'SPRECHEN', teil: 1, points: 3, graded_by: 'trainer-1' },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT, 'center-1');
+
+      expect(result.awaiting).toEqual([]);
+      expect(result.outcome).toBe('PASSED');
+    });
+
+    it('shows the examiner the letter from the shared Lesen-und-Schreiben block', async () => {
+      load(0);
+      prisma.examAttemptBlock.findMany.mockResolvedValue([
+        {
+          attempt_id: ATTEMPT,
+          submitted_at: new Date(),
+          answers: {
+            SCHREIBEN_1: { '1': '4', '2': 'Sontag' },
+            SCHREIBEN_2: { text: 'Liebe Anna, danke für die Einladung.' },
+          },
+        },
+      ]);
+
+      const result = await service.forAttempt(ATTEMPT, 'center-1');
+
+      const [[query]] = prisma.examAttemptBlock.findMany.mock.calls as [
+        [{ where: { block: string } }],
+      ];
+      expect(query.where.block).toBe('LESEN_SCHREIBEN');
+      expect(result.schreibenSubmission?.text).toBe(
+        'Liebe Anna, danke für die Einladung.',
+      );
+    });
+
+    it('lists, for the examiner, the answers the key could not decide', async () => {
+      load(0, [{ skill: 'LESEN', teil: 1, points: 5, graded_by: 'SERVER' }]);
+      prisma.examAttemptBlock.findMany.mockResolvedValue([
+        {
+          attempt_id: ATTEMPT,
+          submitted_at: new Date(),
+          answers: { SCHREIBEN_1: { '1': '4', '2': 'Sontag' } },
+        },
+      ]);
+      const normalization = {
+        trim: true,
+        ignoreCase: true,
+        unicodeNormalization: 'NFC',
+        numericAnswersStrict: true,
+        fuzzyMatchingAllowed: false,
+        unrecognizedAnswerPolicy: 'MANUAL_REVIEW',
+      };
+      genericContent.sectionsFor.mockResolvedValue({
+        SCHREIBEN: [
+          {
+            id: 's1',
+            sectionId: 'SCHREIBEN_1',
+            aufgabentyp: 'FORMULAR_AUSFUELLEN',
+            teil: 1,
+            scoringMode: 'AUTO',
+            material: {},
+            items: [
+              {
+                itemNumber: 1,
+                prompt: 'Personen',
+                solution: { acceptedAnswers: ['4'], normalization },
+                options: [],
+              },
+              {
+                itemNumber: 2,
+                prompt: 'Termin',
+                solution: { acceptedAnswers: ['Sonntag'], normalization },
+                options: [],
+              },
+            ],
+          },
+        ],
+      });
+
+      const result = await service.forAttempt(ATTEMPT, 'center-1');
+
+      expect(result.review).toEqual([
+        {
+          skill: 'SCHREIBEN',
+          teil: 1,
+          maxPoints: 5,
+          // 1 of 2 recognised as right: 2.5 of 5, the examiner decides.
+          provisionalPoints: 2.5,
+          unrecognised: [{ itemNumber: 2, answer: 'Sontag' }],
+        },
+      ]);
+    });
+
+    it("gives the candidate's own view no review list", async () => {
+      load(0);
+
+      const result = await service.forAttempt(ATTEMPT);
+
+      expect(result.review).toEqual([]);
+      expect(genericContent.sectionsFor).not.toHaveBeenCalled();
     });
   });
 

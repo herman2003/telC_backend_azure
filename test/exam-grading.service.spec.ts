@@ -288,4 +288,133 @@ describe('ExamGradingService', () => {
       ).resolves.toMatchObject({ points: 50 });
     });
   });
+
+  describe('A1/A2', () => {
+    const a2Attempt = (
+      blocks: { block: string; submitted_at: Date | null }[],
+    ) => ({
+      id: ATTEMPT,
+      submitted_at: null,
+      blocks,
+      session: { level: 'A2', center_id: 'center-1' },
+    });
+    // telc A2: Schreiben Teil 2 is 10 points and sits in LESEN_SCHREIBEN;
+    // Hören Teil 1 is 5; Sprechen has no block.
+    const a2Weight = ({ where }: { where: any }) => {
+      const { skill, teil } = where.level_skill_teil;
+      if (skill === 'SPRECHEN')
+        return Promise.resolve({ max_points: 6, block: null });
+      if (skill === 'HOEREN')
+        return Promise.resolve({ max_points: 5, block: 'HOEREN' });
+      if (skill === 'SCHREIBEN' && teil === 2) {
+        return Promise.resolve({ max_points: 10, block: 'LESEN_SCHREIBEN' });
+      }
+      return Promise.resolve({ max_points: 5, block: 'LESEN_SCHREIBEN' });
+    };
+
+    beforeEach(() => {
+      prisma.examSectionWeight.findUnique.mockImplementation(a2Weight);
+      prisma.examSectionResult.findUnique = jest.fn().mockResolvedValue(null);
+      prisma.examAttempt.findFirst.mockResolvedValue(
+        a2Attempt([
+          { block: 'HOEREN', submitted_at: new Date() },
+          { block: 'LESEN_SCHREIBEN', submitted_at: new Date() },
+        ]),
+      );
+    });
+
+    it('marks Schreiben once the shared Lesen-und-Schreiben block is in', async () => {
+      // There is no SCHREIBEN block at A1/A2. Looking for one made every
+      // A2 Schreiben unmarkable, and every A2 result INCOMPLETE for ever.
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'SCHREIBEN',
+          teil: 2,
+          points: 7.5,
+        }),
+      ).resolves.toMatchObject({ teil: 2, points: 7.5, maxPoints: 10 });
+    });
+
+    it('refuses Schreiben while that block is still being written', async () => {
+      prisma.examAttempt.findFirst.mockResolvedValue(
+        a2Attempt([
+          { block: 'HOEREN', submitted_at: new Date() },
+          { block: 'LESEN_SCHREIBEN', submitted_at: null },
+        ]),
+      );
+
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'SCHREIBEN',
+          teil: 2,
+          points: 5,
+        }),
+      ).rejects.toThrow('BLOCK_NOT_SUBMITTED');
+    });
+
+    it('marks an automatic Teil the answer key could not decide', async () => {
+      // A2 Hören Teil 1 is free text; an unrecognised answer leaves it
+      // without a SERVER mark, waiting for a person.
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'HOEREN',
+          teil: 1,
+          points: 4,
+        }),
+      ).resolves.toMatchObject({ skill: 'HOEREN', points: 4, maxPoints: 5 });
+    });
+
+    it('refuses to overwrite a mark the server froze', async () => {
+      prisma.examSectionResult.findUnique.mockResolvedValue({
+        graded_by: 'SERVER',
+      });
+
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'HOEREN',
+          teil: 1,
+          points: 5,
+        }),
+      ).rejects.toThrow('SECTION_MARKED_BY_SERVER');
+      expect(prisma.examSectionResult.upsert).not.toHaveBeenCalled();
+    });
+
+    it('lets an examiner correct their own mark', async () => {
+      prisma.examSectionResult.findUnique.mockResolvedValue({
+        graded_by: 'owner-1',
+      });
+
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'SCHREIBEN',
+          teil: 2,
+          points: 8,
+        }),
+      ).resolves.toMatchObject({ points: 8 });
+    });
+
+    it('marks Sprechen with no block at all, as at B1/B2', async () => {
+      prisma.examAttempt.findFirst.mockResolvedValue(a2Attempt([]));
+
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'SPRECHEN',
+          teil: 2,
+          points: 4.5,
+        }),
+      ).resolves.toMatchObject({ points: 4.5, maxPoints: 6 });
+    });
+
+    it('refuses a Teil this level does not have', async () => {
+      prisma.examSectionWeight.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.recordMark(identity, ATTEMPT, {
+          skill: 'SPRACHBAUSTEINE',
+          teil: 1,
+          points: 1,
+        }),
+      ).rejects.toThrow('EXAM_SECTION_UNKNOWN');
+    });
+  });
 });

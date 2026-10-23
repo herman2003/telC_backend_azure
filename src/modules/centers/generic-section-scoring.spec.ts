@@ -1,4 +1,7 @@
-import { scoreGenericItems } from './generic-section-scoring';
+import {
+  markGenericSection,
+  scoreGenericItems,
+} from './generic-section-scoring';
 import type { GenericSectionContent } from '../../shared/services/generic-exam-content.service';
 
 const normalization = {
@@ -147,5 +150,67 @@ describe('scoreGenericItems', () => {
       items: [{ itemNumber: 1, prompt: null, solution: {}, options: [] }],
     });
     expect(() => scoreGenericItems(s, {})).toThrow(/No auto-scoring rule/);
+  });
+});
+
+describe('markGenericSection: wrong vs not recognised', () => {
+  const form = section({
+    aufgabentyp: 'FORMULAR_AUSFUELLEN',
+    items: [
+      {
+        itemNumber: 1,
+        prompt: 'Personen',
+        solution: { acceptedAnswers: ['4'], normalization },
+        options: [],
+      },
+      {
+        itemNumber: 2,
+        prompt: 'Reisetermin',
+        solution: { acceptedAnswers: ['Sonntag'], normalization },
+        options: [],
+      },
+      {
+        itemNumber: 3,
+        prompt: 'Zahlungsweise',
+        solution: { acceptedAnswers: ['bar'], normalization },
+        options: [],
+      },
+    ],
+  });
+
+  it('counts a matching answer correct and reports nothing to review', () => {
+    expect(
+      markGenericSection(form, { '1': '4', '2': 'sonntag', '3': 'Bar' }),
+    ).toEqual({ correct: 3, total: 3, percent: 100, unrecognised: [] });
+  });
+
+  it('sends a non-empty answer that matches nothing to the examiner, not to zero', () => {
+    // telc accepts "Sontag" for "Sonntag"; no list of variants is complete.
+    const mark = markGenericSection(form, {
+      '1': '4',
+      '2': 'Sontag',
+      '3': 'bar',
+    });
+
+    expect(mark.correct).toBe(2);
+    expect(mark.unrecognised).toEqual([{ itemNumber: 2, answer: 'Sontag' }]);
+  });
+
+  it('treats an empty or missing answer as wrong, not as something to review', () => {
+    const mark = markGenericSection(form, { '1': '', '2': '   ' });
+
+    expect(mark.correct).toBe(0);
+    expect(mark.unrecognised).toEqual([]);
+  });
+
+  it('never reports a closed-type answer as unrecognised', () => {
+    const choice = section({
+      aufgabentyp: 'EINZELAUSWAHL',
+      items: [
+        { itemNumber: 1, prompt: null, solution: { key: 'a' }, options: [] },
+      ],
+    });
+
+    expect(markGenericSection(choice, { '1': 'z' }).unrecognised).toEqual([]);
   });
 });

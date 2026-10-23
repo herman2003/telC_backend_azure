@@ -142,13 +142,13 @@ export class ExamResultsController {
   @Put('exam-attempts/:attemptId/marks')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Give a Schreiben or Sprechen mark',
+    summary: 'Give a mark a person decides',
     description:
-      "In telc's points, not a percentage. Marking again replaces the mark and records who changed it. The other three skills were marked against an answer key and are refused here.",
+      "In telc's points (whole or half), not a percentage. Marking again replaces the mark and records who changed it. B1/B2: Schreiben and Sprechen only. A1/A2: also any automatic Teil the answer key could not decide (see `review` on the result); a Teil the server already marked cannot be changed. Gated on that Teil's own block being submitted (Sprechen has none).",
   })
   @ApiBadRequestResponse({
     description:
-      'SKILL_NOT_HUMAN_MARKED, POINTS_ABOVE_MAXIMUM, EXAM_NOT_FINISHED',
+      'SKILL_NOT_HUMAN_MARKED, SECTION_MARKED_BY_SERVER, BLOCK_NOT_SUBMITTED, POINTS_INVALID, POINTS_ABOVE_MAXIMUM',
   })
   recordMark(
     @CurrentCenterUser() user: CenterAccessTokenPayload,
