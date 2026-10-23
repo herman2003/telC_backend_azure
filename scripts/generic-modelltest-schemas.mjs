@@ -254,3 +254,62 @@ export function validateSection(raw) {
     );
   }
 }
+
+/**
+ * `format.hoerenDelivery` — Exam Day's continuous-recording contract.
+ * Optional: a source file with no Hören (none exist yet, but the shape
+ * doesn't require it) simply omits it.
+ */
+export const HOEREN_DELIVERY = z.object({
+  deliveryMode: z.literal('CONTINUOUS_OFFICIAL_RECORDING'),
+  audioAssetKey: z.string().min(1),
+  audioUrl: z.string().nullable(),
+  durationSeconds: z.number().positive().nullable(),
+  playsAllowed: z.literal(1),
+  pauseAllowed: z.literal(false),
+  seekAllowed: z.literal(false),
+  restartAllowed: z.literal(false).optional(),
+  teilOrder: z.array(z.string().min(1)).min(1),
+});
+
+export const GRADE_BAND = z.object({
+  label: z.enum(['SEHR_GUT', 'GUT', 'BEFRIEDIGEND', 'AUSREICHEND', 'TEILGENOMMEN']),
+  minimum: z.number().nonnegative(),
+  maximum: z.number().nonnegative(),
+});
+
+export const FORMAT = z.object({
+  hoerenDelivery: HOEREN_DELIVERY.optional(),
+  gradeBands: z.array(GRADE_BAND).optional(),
+});
+
+/** One entry in the top-level `assets[]` manifest — bookkeeping for whoever
+ *  uploads the real image, not the image itself. */
+export const ASSET_MANIFEST_ENTRY = z.object({
+  assetKey: z.string().min(1),
+  usedBy: z.array(z.string().min(1)).min(1),
+  sourcePages: z.array(z.number().int().positive()).default([]),
+  requiredForTask: z.boolean(),
+  containsSolution: z.boolean(),
+  targetFileName: z.string().optional(),
+  imageUrl: z.string().nullable(),
+  altText: z.string().optional(),
+  extractionNotes: z.string().optional(),
+});
+
+/**
+ * Validates `source.format` and `source.assets`, both optional. Returns
+ * `{ format, assets }` ready to store as-is on `modelltests.format`/
+ * `.assets` — `null` for whichever the source didn't carry, never `{}` or
+ * `[]`, so a reader can tell "none extracted" from "extracted as empty."
+ */
+export function validateFormatAndAssets(source) {
+  const format = source.format ? FORMAT.parse(source.format) : null;
+  const assets = source.assets
+    ? z.array(ASSET_MANIFEST_ENTRY).parse(source.assets)
+    : null;
+  return {
+    format: format && Object.keys(format).length > 0 ? format : null,
+    assets: assets && assets.length > 0 ? assets : null,
+  };
+}

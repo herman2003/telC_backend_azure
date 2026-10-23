@@ -205,3 +205,121 @@ describe('generic-modelltest-schemas', () => {
     expectRejects(envelope({ aufgabentyp: 'NOT_A_REAL_TYPE', content: {} }));
   });
 });
+
+describe('validateFormatAndAssets', () => {
+  const formatHarness = join(
+    repoRoot,
+    'test',
+    'fixtures',
+    'validate-format-assets.mjs',
+  );
+  let workDir: string;
+
+  beforeAll(() => {
+    workDir = mkdtempSync(join(tmpdir(), 'generic-format-'));
+  });
+
+  afterAll(() => {
+    rmSync(workDir, { recursive: true, force: true });
+  });
+
+  const run = (
+    source: Record<string, unknown>,
+  ): { format: unknown; assets: unknown } => {
+    const file = join(workDir, `${Math.random().toString(36).slice(2)}.json`);
+    writeFileSync(file, JSON.stringify(source));
+    const stdout = execFileSync(process.execPath, [formatHarness, file], {
+      cwd: repoRoot,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    return JSON.parse(stdout) as { format: unknown; assets: unknown };
+  };
+
+  it('accepts a valid hoerenDelivery and gradeBands', () => {
+    const result = run({
+      format: {
+        hoerenDelivery: {
+          deliveryMode: 'CONTINUOUS_OFFICIAL_RECORDING',
+          audioAssetKey: 'a2/modelltest-1/hoeren/complete.mp3',
+          audioUrl: null,
+          durationSeconds: null,
+          playsAllowed: 1,
+          pauseAllowed: false,
+          seekAllowed: false,
+          restartAllowed: false,
+          teilOrder: ['HOEREN_1'],
+        },
+        gradeBands: [{ label: 'SEHR_GUT', minimum: 54, maximum: 60 }],
+      },
+    });
+
+    expect(result.format).toMatchObject({
+      hoerenDelivery: { pauseAllowed: false },
+    });
+    expect(result.assets).toBeNull();
+  });
+
+  it('rejects pauseAllowed: true -- Exam Day Hören cannot be paused', () => {
+    expect(() =>
+      run({
+        format: {
+          hoerenDelivery: {
+            deliveryMode: 'CONTINUOUS_OFFICIAL_RECORDING',
+            audioAssetKey: 'x.mp3',
+            audioUrl: null,
+            durationSeconds: null,
+            playsAllowed: 1,
+            pauseAllowed: true,
+            seekAllowed: false,
+            teilOrder: ['HOEREN_1'],
+          },
+        },
+      }),
+    ).toThrow();
+  });
+
+  it('returns null, not {} or [], when the source carries neither', () => {
+    const result = run({});
+
+    expect(result.format).toBeNull();
+    expect(result.assets).toBeNull();
+  });
+
+  it('accepts a valid asset manifest entry', () => {
+    const result = run({
+      assets: [
+        {
+          assetKey: 'a2-modelltest-1-lesen-1-directory',
+          usedBy: ['LESEN_1'],
+          sourcePages: [13],
+          requiredForTask: true,
+          containsSolution: false,
+          imageUrl: null,
+        },
+      ],
+    });
+
+    expect(result.assets).toEqual([
+      expect.objectContaining({
+        assetKey: 'a2-modelltest-1-lesen-1-directory',
+      }),
+    ]);
+  });
+
+  it('rejects an asset with no usedBy section', () => {
+    expect(() =>
+      run({
+        assets: [
+          {
+            assetKey: 'x',
+            usedBy: [],
+            requiredForTask: true,
+            containsSolution: false,
+            imageUrl: null,
+          },
+        ],
+      }),
+    ).toThrow();
+  });
+});

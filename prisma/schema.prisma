@@ -1002,6 +1002,24 @@ model Modelltest {
   /// CEFR exam this Modelltest prepares for (Option A: student.level must match).
   level CefrLevel @default(B1)
 
+  /// Level-wide content metadata not already authoritative elsewhere:
+  /// Hören's Exam Day delivery contract (continuous recording, no pause/
+  /// seek/restart) and grade bands. Deliberately does NOT duplicate
+  /// totalPoints/writtenPoints/oralPoints/passRule — those are already
+  /// authoritative in `exam_section_weights`/`exam_pass_rules` (Phase 1),
+  /// and storing them twice would be two sources of truth that can drift.
+  /// Null for B1/B2 and for any A1/A2 Modelltest imported before this
+  /// field existed. Never queried into — read verbatim by whatever Exam
+  /// Day Hören playback eventually consumes it.
+  format Json?
+
+  /// Visual-asset manifest from the source file (`assetKey`, `sourcePages`,
+  /// `extractionNotes`, etc.) — bookkeeping for whoever uploads the actual
+  /// images, not the images themselves. Individual `imageUrl` references
+  /// inside a section's own `material`/`content` are preserved there
+  /// regardless of this field. Null when the source carried none.
+  assets Json?
+
   @@index([level, exam_only])
   @@map("modelltests")
 }

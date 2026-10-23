@@ -75,6 +75,26 @@ describe('generic-model importer, against real Postgres', () => {
     expect(modelltest?.exam_only).toBe(true);
   });
 
+  it('imports format.hoerenDelivery/gradeBands and the assets manifest', async () => {
+    const modelltest = await prisma.modelltest.findUnique({
+      where: { number: SMOKE_NUMBER },
+    });
+
+    const format = modelltest?.format as {
+      hoerenDelivery?: { deliveryMode: string; pauseAllowed: boolean };
+      gradeBands?: { label: string }[];
+    } | null;
+    expect(format?.hoerenDelivery?.deliveryMode).toBe(
+      'CONTINUOUS_OFFICIAL_RECORDING',
+    );
+    expect(format?.hoerenDelivery?.pauseAllowed).toBe(false);
+    expect(format?.gradeBands).toHaveLength(5);
+
+    const assets = modelltest?.assets as { assetKey: string }[] | null;
+    expect(assets).toHaveLength(1);
+    expect(assets?.[0].assetKey).toBe('a2-modelltest-1-lesen-1-directory');
+  });
+
   it('imports every section with its own aufgabentyp and scoring mode', async () => {
     const sections = await prisma.examSection.findMany({
       where: { modelltest: { number: SMOKE_NUMBER } },
