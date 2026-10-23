@@ -33,6 +33,12 @@ export const ANSWER_KEY_FIELDS: readonly string[] = [
   'isCorrect',
   'answerKey',
   'transcript',
+  // The generic model's (A1/A2) per-item answer key — GenericSectionContent's
+  // `items[].solution`. Found while wiring the generic model into this file's
+  // only two consumers (exam-block-content.service.ts,
+  // exam-modelltests.service.ts): without this, an A2 exam's answer keys
+  // would reach both the live candidate and the manager preview unstripped.
+  'solution',
 ];
 
 /**
