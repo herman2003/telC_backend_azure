@@ -203,6 +203,12 @@ describe('ExamBlockContentService', () => {
       expect(json).not.toContain('bundled_audio_asset');
       expect(json).not.toContain('.mp3');
     });
+
+    it('names its recordings per Teil only, never a whole-block one', async () => {
+      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
+
+      expect(content).not.toHaveProperty('recording');
+    });
   });
 
   describe('Schreiben', () => {
@@ -363,7 +369,7 @@ describe('ExamBlockContentService', () => {
       expect(writing.getExerciseByModelltest).not.toHaveBeenCalled();
     });
 
-    it('serves Hören from the generic model, with no audio play affordance', async () => {
+    it('serves Hören from the generic model, with no per-Teil recording', async () => {
       genericContent.sectionsFor.mockResolvedValue({
         HOEREN: [genericSection({ sectionId: 'HOEREN_1' })],
         LESEN: [],
@@ -377,9 +383,51 @@ describe('ExamBlockContentService', () => {
 
       expect(Object.keys(content.sections)).toEqual(['HOEREN']);
       expect(listening.getExamTeil).not.toHaveBeenCalled();
-      const json = JSON.stringify(content);
-      expect(json).not.toContain('audioId');
-      expect(json).not.toContain('playsAllowed');
+      // One recording for the whole block, so no Teil names one of its own.
+      const teile = JSON.stringify(content.sections);
+      expect(teile).not.toContain('audioId');
+      expect(teile).not.toContain('playsAllowed');
+    });
+
+    it("names the block's one recording, by the id the play endpoint spends against", async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [genericSection({ sectionId: 'HOEREN_1' })],
+        LESEN: [],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(a2Attempt('HOEREN'));
+
+      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
+
+      expect(content.recording).toEqual({
+        audioId: 'a2-mt-8',
+        playsAllowed: 1,
+      });
+      // An id to ask for a play, never an address to play from.
+      expect(JSON.stringify(content)).not.toContain('.mp3');
+    });
+
+    it('names no recording outside the Hören block', async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [],
+        LESEN: [genericSection({})],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        a2Attempt('LESEN_SCHREIBEN'),
+      );
+
+      const content = await service.getBlockContent(
+        STUDENT,
+        ATTEMPT,
+        'LESEN_SCHREIBEN',
+      );
+
+      expect(content).not.toHaveProperty('recording');
     });
 
     it('strips every item solution, same claim as the B1/B2 path', async () => {
