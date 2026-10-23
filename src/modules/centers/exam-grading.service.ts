@@ -3,10 +3,15 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import type { Skill } from '@prisma/client';
+import type { CefrLevel, Skill } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
+import { markGenericSection } from './generic-section-scoring';
 import type { SignedCenterIdentity } from './payment-shared';
-import { HUMAN_MARKED } from './exam-result.service';
+import { HUMAN_MARKED, SERVER_GRADER } from './exam-result.service';
 
 export interface RecordMarkInput {
   skill: Skill;
@@ -37,16 +42,16 @@ export interface RecordedMark {
  */
 @Injectable()
 export class ExamGradingService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly genericContent: GenericExamContentService,
+  ) {}
 
   async recordMark(
     identity: SignedCenterIdentity,
     attemptId: string,
     input: RecordMarkInput,
   ): Promise<RecordedMark> {
-    if (!HUMAN_MARKED.includes(input.skill)) {
-      throw new BadRequestException('SKILL_NOT_HUMAN_MARKED');
-    }
     // telc marks in whole or half points (1, 0.5, 0 per M10 criterion), never
     // finer. Checked by doubling rather than a float-epsilon comparison: a
     // clean decimal like 1.5 doubles to exactly 3.
@@ -62,11 +67,35 @@ export class ExamGradingService {
       select: {
         id: true,
         submitted_at: true,
-        blocks: { select: { block: true, submitted_at: true } },
-        session: { select: { level: true, center_id: true } },
+        blocks: { select: { block: true, submitted_at: true, answers: true } },
+        session: {
+          select: { level: true, center_id: true, modelltest_id: true },
+        },
       },
     });
     if (!attempt) throw new NotFoundException('EXAM_ATTEMPT_NOT_FOUND');
+
+    if (GENERIC_MODEL_LEVELS.includes(attempt.session.level)) {
+      await this.requireGenericMarkable(attemptId, attempt, input);
+    } else {
+      this.requireStructuralMarkable(attempt, input);
+    }
+
+    return this.store(identity, attemptId, attempt.session.level, input);
+  }
+
+  /**
+   * B1/B2: only Schreiben and Sprechen are a person's. Everything else the
+   * server decided against an answer key, and letting a person overwrite one
+   * would make an exam negotiable.
+   */
+  private requireStructuralMarkable(
+    attempt: { blocks: { block: string; submitted_at: Date | null }[] },
+    input: RecordMarkInput,
+  ): void {
+    if (!HUMAN_MARKED.includes(input.skill)) {
+      throw new BadRequestException('SKILL_NOT_HUMAN_MARKED');
+    }
 
     // Per block, not per attempt.
     //
@@ -84,11 +113,89 @@ export class ExamGradingService {
         throw new BadRequestException('BLOCK_NOT_SUBMITTED');
       }
     }
+  }
 
+  /**
+   * A1/A2: a person marks Schreiben Teil 2 and Sprechen, and an automatic
+   * Teil only when its submitted answers hold one the key did not recognise.
+   * A Teil the key decides is the key's even without a SERVER row yet — a
+   * scoring that failed or is still running, or an attempt scored before
+   * marks were frozen — because an exam is not negotiable.
+   *
+   * Gated on the Teil's own block, which at A1/A2 is LESEN_SCHREIBEN for
+   * Schreiben; Sprechen has none and is never gated, as at B1/B2.
+   */
+  private async requireGenericMarkable(
+    attemptId: string,
+    attempt: {
+      blocks: { block: string; submitted_at: Date | null; answers: unknown }[];
+      session: { level: CefrLevel; modelltest_id: string };
+    },
+    input: RecordMarkInput,
+  ): Promise<void> {
+    const [weight, existing] = await Promise.all([
+      this.prisma.examSectionWeight.findUnique({
+        where: {
+          level_skill_teil: {
+            level: attempt.session.level,
+            skill: input.skill,
+            teil: input.teil,
+          },
+        },
+        select: { block: true },
+      }),
+      this.prisma.examSectionResult.findUnique({
+        where: {
+          attempt_id_skill_teil: {
+            attempt_id: attemptId,
+            skill: input.skill,
+            teil: input.teil,
+          },
+        },
+        select: { graded_by: true },
+      }),
+    ]);
+    if (!weight) throw new NotFoundException('EXAM_SECTION_UNKNOWN');
+
+    if (weight.block) {
+      const block = attempt.blocks.find((row) => row.block === weight.block);
+      if (!block?.submitted_at) {
+        throw new BadRequestException('BLOCK_NOT_SUBMITTED');
+      }
+    }
+    if (existing?.graded_by === SERVER_GRADER) {
+      throw new BadRequestException('SECTION_MARKED_BY_SERVER');
+    }
+
+    const section = await this.genericContent.sectionFor(
+      attempt.session.modelltest_id,
+      input.skill,
+      input.teil,
+    );
+    if (section?.scoringMode !== 'AUTO') return;
+
+    const blockAnswers = (attempt.blocks.find(
+      (row) => row.block === weight.block,
+    )?.answers ?? {}) as Record<string, Record<string, unknown>>;
+    const mark = markGenericSection(
+      section,
+      blockAnswers[`${input.skill}_${input.teil}`] ?? {},
+    );
+    if (mark.unrecognised.length === 0) {
+      throw new BadRequestException('SECTION_DECIDED_BY_KEY');
+    }
+  }
+
+  private async store(
+    identity: SignedCenterIdentity,
+    attemptId: string,
+    level: CefrLevel,
+    input: RecordMarkInput,
+  ): Promise<RecordedMark> {
     const weight = await this.prisma.examSectionWeight.findUnique({
       where: {
         level_skill_teil: {
-          level: attempt.session.level,
+          level,
           skill: input.skill,
           teil: input.teil,
         },

@@ -1,0 +1,74 @@
+meta {
+  name: 15 Centre sees what waits for an examiner
+  type: http
+  seq: 33
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a2AttemptId}}/result
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.outcome: eq INCOMPLETE
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+  const r = res.body;
+  const awaiting = [...r.awaiting].sort().join(",");
+  if (awaiting !== "HOEREN,SCHREIBEN,SPRECHEN") {
+    throw new Error("expected HOEREN,SCHREIBEN,SPRECHEN awaiting, got " + awaiting);
+  }
+
+  const by = {};
+  for (const s of r.sections) by[s.skill + "_" + s.teil] = s;
+  // The key's marks, frozen at submit and labelled as the server's.
+  if (by.LESEN_1.points !== 4 || by.LESEN_1.markedBy !== "SERVER") {
+    throw new Error("LESEN_1 should be 4 by SERVER, got " + JSON.stringify(by.LESEN_1));
+  }
+  if (by.SCHREIBEN_1.points !== 5 || by.SCHREIBEN_1.markedBy !== "SERVER") {
+    throw new Error("the form should be 5 by SERVER, got " + JSON.stringify(by.SCHREIBEN_1));
+  }
+  // Waiting: the Hören Teil the key could not decide, the letter, the oral.
+  for (const k of ["HOEREN_1", "SCHREIBEN_2", "SPRECHEN_1"]) {
+    if (by[k].points !== null) throw new Error(k + " should have no mark yet");
+  }
+
+  // What the examiner needs to decide Hören Teil 1.
+  const review = r.review.find((x) => x.skill === "HOEREN" && x.teil === 1);
+  if (!review) throw new Error("Hören Teil 1 should be listed for review");
+  if (review.provisionalPoints !== 4) {
+    throw new Error("4 of 5 answers were recognised as right, got " + review.provisionalPoints);
+  }
+  if (JSON.stringify(review.unrecognised) !== JSON.stringify([{ itemNumber: 5, answer: "Donerstagnachmittag" }])) {
+    throw new Error("unexpected unrecognised answers " + JSON.stringify(review.unrecognised));
+  }
+
+  // The letter, from the shared Lesen-und-Schreiben block, not the form.
+  if (!r.schreibenSubmission || !String(r.schreibenSubmission.text).startsWith("Liebe Anna")) {
+    throw new Error("the examiner should see the letter, got " + JSON.stringify(r.schreibenSubmission));
+  }
+  // The form's score is the server's mark, not an AI suggestion.
+  if (r.suggestions.some((x) => x.skill === "SCHREIBEN")) {
+    throw new Error("the form's score must not appear as an AI suggestion");
+  }
+}
+
+docs {
+  Before this was fixed an A2 result could never complete: the form's
+  mark was invisible to the result, Schreiben could not be marked
+  (BLOCK_NOT_SUBMITTED, looking for a SCHREIBEN block A2 does not have) and
+  the letter could not be read.
+}

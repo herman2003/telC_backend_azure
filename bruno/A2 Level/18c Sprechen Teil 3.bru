@@ -1,0 +1,32 @@
+meta {
+  name: 18c Sprechen Teil 3
+  type: http
+  seq: 39
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a2AttemptId}}/marks
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "skill": "SPRECHEN",
+    "teil": 3,
+    "points": 6
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.points: eq 6
+}
+
+docs {
+  See 18a.
+}

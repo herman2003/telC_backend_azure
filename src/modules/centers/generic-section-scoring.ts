@@ -26,70 +26,104 @@ function matchesAccepted(
   return accepted.some((a) => normalize(a, rule) === candidate);
 }
 
+type ItemOutcome = 'CORRECT' | 'WRONG' | 'UNRECOGNISED';
+
 /**
  * telc's accepted-answer contract (`docs/ideas/modelltest-content-contract.md`)
- * marks an unrecognized free-text answer `MANUAL_REVIEW`, not automatically
- * wrong -- a genuinely correct but differently-phrased answer (a date
- * written out, a spelling variant) is exactly what that policy exists for.
- * No review queue exists yet, and nothing has asked for one, so until it
- * does, an unmatched answer scores as incorrect rather than blocking the
- * whole section from auto-scoring. A documented simplification, not a
- * silent one -- see docs/plans/active/multi-level-phase-3-generic-model.md.
+ * marks an unrecognized free-text answer `MANUAL_REVIEW`, not wrong: telc
+ * accepts misspellings ("Donerstach" for "Donnerstag") that no accepted-answer
+ * list can enumerate. So a non-empty free-text answer that matches nothing is
+ * UNRECOGNISED and goes to the examiner; an empty one is simply WRONG. Closed
+ * types (a choice among keys) are never unrecognised.
  */
-function isItemCorrect(
+function outcomeOf(
   aufgabentyp: string,
   solution: Record<string, unknown>,
   material: Record<string, unknown>,
   answer: unknown,
-): boolean {
+): ItemOutcome {
+  const right = (ok: boolean): ItemOutcome => (ok ? 'CORRECT' : 'WRONG');
   switch (aufgabentyp) {
     case 'EINZELAUSWAHL':
-      return answer === solution.key;
+      return right(answer === solution.key);
     case 'RICHTIG_FALSCH':
-      return answer === solution.value;
+      return right(answer === solution.value);
     case 'ZUORDNUNG': {
       // A null choiceKey is a deliberate "nothing matches" item -- the
       // candidate must pick the section's own no-match option, not leave
       // the item blank.
       const expected = solution.choiceKey ?? material.noMatchKey;
-      return answer === expected;
+      return right(answer === expected);
     }
     case 'KURZANTWORT':
-    case 'FORMULAR_AUSFUELLEN':
+    case 'FORMULAR_AUSFUELLEN': {
+      // A form field such as "number of people" may arrive as the number 4.
+      const text = typeof answer === 'number' ? String(answer) : answer;
+      if (typeof text !== 'string' || text.trim() === '') return 'WRONG';
       return matchesAccepted(
-        answer,
+        text,
         solution.acceptedAnswers as string[],
         solution.normalization as NormalizationRule,
-      );
+      )
+        ? 'CORRECT'
+        : 'UNRECOGNISED';
+    }
     default:
       throw new Error(`No auto-scoring rule for aufgabentyp ${aufgabentyp}`);
   }
 }
 
+/** One generic-model section marked against its own key. */
+export interface GenericSectionMark {
+  correct: number;
+  total: number;
+  /** 0-100, the convention `markAgainst` uses for the B1/B2 tables. */
+  percent: number;
+  /** Items whose free-text answer matched no accepted answer -- the Teil
+   *  cannot be decided without a person. */
+  unrecognised: { itemNumber: number; answer: string }[];
+}
+
 /**
- * Percentage of a generic-model section's items answered correctly -- the
- * same 0-100 convention `markAgainst` uses for the B1/B2 tables, so a
- * generic-model result reads identically everywhere a score is displayed.
- *
- * Answers are keyed by the item's own `itemNumber`, as a string -- the same
- * `answers[id]` convention training submissions already use for Lesen and
- * Sprachbausteine.
+ * Marks a generic-model section. Answers are keyed by the item's own
+ * `itemNumber`, as a string -- the `answers[id]` convention training
+ * submissions already use for Lesen and Sprachbausteine.
  */
-export function scoreGenericItems(
+export function markGenericSection(
   section: GenericSectionContent,
   answers: Record<string, unknown>,
-): number {
-  if (section.items.length === 0) return 0;
-
+): GenericSectionMark {
   const material = (section.material ?? {}) as Record<string, unknown>;
-  const correct = section.items.filter((item) =>
-    isItemCorrect(
+  let correct = 0;
+  const unrecognised: GenericSectionMark['unrecognised'] = [];
+  for (const item of section.items) {
+    const answer = answers[String(item.itemNumber)];
+    const outcome = outcomeOf(
       section.aufgabentyp,
       (item.solution ?? {}) as Record<string, unknown>,
       material,
-      answers[String(item.itemNumber)],
-    ),
-  ).length;
+      answer,
+    );
+    if (outcome === 'CORRECT') correct++;
+    if (outcome === 'UNRECOGNISED') {
+      unrecognised.push({
+        itemNumber: item.itemNumber,
+        answer: String(answer),
+      });
+    }
+  }
+  const total = section.items.length;
+  return {
+    correct,
+    total,
+    percent: total === 0 ? 0 : Math.round((correct / total) * 100),
+    unrecognised,
+  };
+}
 
-  return Math.round((correct / section.items.length) * 100);
+/** A mark in telc's points for a Teil worth `maxPoints`: whole or half
+ *  points, never finer, as the Bewertungsbogen gives them. */
+export function pointsOf(mark: GenericSectionMark, maxPoints: number): number {
+  if (mark.total === 0) return 0;
+  return Math.round((mark.correct / mark.total) * maxPoints * 2) / 2;
 }

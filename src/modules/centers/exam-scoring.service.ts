@@ -9,7 +9,12 @@ import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../listening/listening.service';
 import { WritingCorrectionService } from '../writing/writing-correction.service';
-import { scoreGenericItems } from './generic-section-scoring';
+import {
+  type GenericSectionMark,
+  markGenericSection,
+  pointsOf,
+} from './generic-section-scoring';
+import { SERVER_GRADER } from './exam-result.service';
 
 export type ExamSkill = 'LESEN' | 'SPRACHBAUSTEINE' | 'HOEREN' | 'SCHREIBEN';
 
@@ -112,11 +117,11 @@ export class ExamScoringService {
   private async sectionsFor(
     level: CefrLevel,
     block: ExamBlock,
-  ): Promise<{ skill: ExamSkill; teil: string }[]> {
+  ): Promise<{ skill: ExamSkill; teil: string; maxPoints: number }[]> {
     const rows = await this.prisma.examSectionWeight.findMany({
       where: { level, block },
       orderBy: [{ skill: 'asc' }, { teil: 'asc' }],
-      select: { skill: true, teil: true },
+      select: { skill: true, teil: true, max_points: true },
     });
     if (rows.length === 0) {
       throw new NotFoundException('EXAM_BLOCK_SECTIONS_MISSING');
@@ -124,6 +129,7 @@ export class ExamScoringService {
     return rows.map((row) => ({
       skill: row.skill as ExamSkill,
       teil: String(row.teil),
+      maxPoints: row.max_points,
     }));
   }
 
@@ -156,21 +162,30 @@ export class ExamScoringService {
 
   private async scoreSection(
     input: ScoreBlockInput,
-    section: { skill: ExamSkill; teil: string },
+    section: { skill: ExamSkill; teil: string; maxPoints: number },
     answers: Record<string, unknown>,
   ): Promise<ExamSectionScore> {
-    const isGenericModel = GENERIC_MODEL_LEVELS.includes(input.level);
-
-    if (section.skill === 'SCHREIBEN') {
-      return isGenericModel
-        ? this.scoreGenericSchreiben(input, section, answers)
-        : this.storeWriting(input, section, answers, undefined);
+    if (GENERIC_MODEL_LEVELS.includes(input.level)) {
+      return this.scoreGenericSection(input, section, answers);
     }
 
-    const score = isGenericModel
-      ? await this.scoreGenericAutoSection(input, section, answers)
-      : markAgainst(await this.answerKeyFor(input, section), answers);
+    if (section.skill === 'SCHREIBEN') {
+      return this.storeWriting(input, section, answers, undefined);
+    }
 
+    const score = markAgainst(await this.answerKeyFor(input, section), answers);
+    await this.storeAutoAttempt(input, section, answers, score);
+    return { skill: section.skill, teil: section.teil, score, pending: false };
+  }
+
+  /** The per-skill attempt row an automatic Teil leaves: its answers and
+   *  percentage, for history and for a disputed result. */
+  private async storeAutoAttempt(
+    input: ScoreBlockInput,
+    section: { skill: ExamSkill; teil: string },
+    answers: Record<string, unknown>,
+    score: number,
+  ): Promise<void> {
     if (section.skill === 'HOEREN') {
       await this.prisma.listeningAttempt.create({
         data: {
@@ -216,8 +231,6 @@ export class ExamScoringService {
         },
       });
     }
-
-    return { skill: section.skill, teil: section.teil, score, pending: false };
   }
 
   /** The generic model's (A1/A2) content for one section, or a loud error --
@@ -240,26 +253,20 @@ export class ExamScoringService {
     return generic;
   }
 
-  /** Lesen/Hören/Sprachbausteine for A1/A2: scored against the generic
-   *  model's item solutions instead of a B1/B2 answer key. */
-  private async scoreGenericAutoSection(
-    input: ScoreBlockInput,
-    section: { skill: ExamSkill; teil: string },
-    answers: Record<string, unknown>,
-  ): Promise<number> {
-    const generic = await this.genericSectionFor(input, section);
-    return scoreGenericItems(generic, answers);
-  }
-
   /**
-   * Schreiben for A1/A2: routed by the section's own `scoring_mode`, not by
-   * `skill === 'SCHREIBEN'` — A2's Teil 1 (`FORMULAR_AUSFUELLEN`) is
-   * auto-scored like any other written Teil, while Teil 2
-   * (`TEXT_SCHREIBEN`) still goes to a person, same as B1/B2.
+   * An A1/A2 Teil, routed by the section's own `scoring_mode`: A2's
+   * Schreiben Teil 1 (`FORMULAR_AUSFUELLEN`) is auto-scored like any other
+   * written Teil, while Teil 2 (`TEXT_SCHREIBEN`) goes to a person.
+   *
+   * An auto-scored Teil's mark is frozen here, at submit, as a SERVER row in
+   * `exam_section_results` — the one place an A1/A2 result reads. Freezing
+   * rather than recomputing on read keeps a later answer-key correction from
+   * changing a result already given. A Teil with an answer the key does not
+   * recognise gets no mark and waits for the examiner (decision B).
    */
-  private async scoreGenericSchreiben(
+  private async scoreGenericSection(
     input: ScoreBlockInput,
-    section: { skill: ExamSkill; teil: string },
+    section: { skill: ExamSkill; teil: string; maxPoints: number },
     answers: Record<string, unknown>,
   ): Promise<ExamSectionScore> {
     const generic = await this.genericSectionFor(input, section);
@@ -268,22 +275,61 @@ export class ExamScoringService {
       return this.storeWriting(input, section, answers, generic.sectionId);
     }
 
-    const score = scoreGenericItems(generic, answers);
-    await this.prisma.writingAttempt.create({
-      data: {
-        student_id: input.studentId,
-        exercise_id: generic.sectionId,
-        modelltest_id: input.modelltestId,
-        // A filled-in form, not a letter — kept for a disputed result, same
-        // reason ListeningAttempt.answers exists.
-        content: JSON.stringify(answers),
-        status: 'completed',
-        score,
-        completed_at: new Date(),
-        exam_attempt_id: input.attemptId,
-      },
+    const mark = markGenericSection(generic, answers);
+    // The form's answers are already on the block; only Lesen and Hören keep
+    // a per-skill row, for history.
+    if (section.skill !== 'SCHREIBEN') {
+      await this.storeAutoAttempt(input, section, answers, mark.percent);
+    }
+
+    const needsReview = mark.unrecognised.length > 0;
+    await this.recordServerMark(input, section, mark, needsReview);
+    return {
+      skill: section.skill,
+      teil: section.teil,
+      score: mark.percent,
+      pending: needsReview,
+    };
+  }
+
+  /**
+   * Writes, replaces or withdraws the SERVER mark for one A1/A2 Teil.
+   *
+   * Never touches an examiner's mark: a re-run of a failed submit must not
+   * overwrite what a person decided.
+   */
+  private async recordServerMark(
+    input: ScoreBlockInput,
+    section: { skill: ExamSkill; teil: string; maxPoints: number },
+    mark: GenericSectionMark,
+    needsReview: boolean,
+  ): Promise<void> {
+    const key = {
+      attempt_id: input.attemptId,
+      skill: section.skill as Skill,
+      teil: Number(section.teil),
+    };
+    const existing = await this.prisma.examSectionResult.findUnique({
+      where: { attempt_id_skill_teil: key },
+      select: { graded_by: true },
     });
-    return { skill: section.skill, teil: section.teil, score, pending: false };
+    if (existing && existing.graded_by !== SERVER_GRADER) return;
+
+    if (needsReview) {
+      if (existing) {
+        await this.prisma.examSectionResult.delete({
+          where: { attempt_id_skill_teil: key },
+        });
+      }
+      return;
+    }
+
+    const points = pointsOf(mark, section.maxPoints);
+    await this.prisma.examSectionResult.upsert({
+      where: { attempt_id_skill_teil: key },
+      create: { ...key, points, graded_by: SERVER_GRADER },
+      update: { points, graded_by: SERVER_GRADER, graded_at: new Date() },
+    });
   }
 
   /**
@@ -321,9 +367,7 @@ export class ExamScoringService {
 
     if (!task) {
       throw new NotFoundException(
-        taskId
-          ? 'WRITING_TASK_NOT_IN_MODELLTEST'
-          : 'WRITING_TASK_NOT_FOUND',
+        taskId ? 'WRITING_TASK_NOT_IN_MODELLTEST' : 'WRITING_TASK_NOT_FOUND',
       );
     }
     return task;

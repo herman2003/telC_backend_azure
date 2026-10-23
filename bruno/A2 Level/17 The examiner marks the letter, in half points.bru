@@ -1,0 +1,32 @@
+meta {
+  name: 17 The examiner marks the letter, in half points
+  type: http
+  seq: 36
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a2AttemptId}}/marks
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "skill": "SCHREIBEN",
+    "teil": 2,
+    "points": 9.5
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.points: eq 9.5
+}
+
+docs {
+  Schreiben Teil 2 (10 points), marked once LESEN_SCHREIBEN is in. 9.5 is a real telc mark (M10 gives halves); the request DTO used to refuse anything but whole numbers.
+}
