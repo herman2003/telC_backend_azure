@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import type { CefrLevel } from '@prisma/client';
+import type { CefrLevel, Prisma, Skill } from '@prisma/client';
 import { PrismaService } from './prisma.service';
+
+type ExamSectionRow = Prisma.ExamSectionGetPayload<{
+  include: { items: { include: { options: true } } };
+}>;
 
 /**
  * A1/A2 content lives in the generic model (exam_sections); B1/B2 keep
@@ -68,28 +72,54 @@ export class GenericExamContentService {
       SPRECHEN: [],
     };
     for (const row of rows) {
-      bySkill[row.skill].push({
-        sectionId: `${row.skill}_${row.teil}`,
-        aufgabentyp: row.aufgabentyp,
-        teil: row.teil,
-        label: row.label,
-        instruction: row.instruction,
-        maxPoints: row.max_points,
-        scoringMode: row.scoring_mode,
-        material: row.material,
-        items: row.items.map((item) => ({
-          itemNumber: item.item_number,
-          prompt: item.prompt,
-          solution: item.solution,
-          options: item.options.map((option) => ({
-            key: option.key,
-            content: option.content,
-            isCorrect: option.is_correct,
-          })),
-        })),
-      });
+      bySkill[row.skill].push(this.toSectionContent(row));
     }
     return bySkill;
+  }
+
+  /**
+   * One `(modelltest, skill, teil)` section, with its items' solutions --
+   * for scoring (`ExamScoringService`), never served to a client as-is.
+   * Null when that Teil has no content yet.
+   */
+  async sectionFor(
+    modelltestId: string,
+    skill: Skill,
+    teil: number,
+  ): Promise<GenericSectionContent | null> {
+    const row = await this.prisma.examSection.findFirst({
+      where: { modelltest_id: modelltestId, skill, teil },
+      include: {
+        items: {
+          orderBy: { item_number: 'asc' },
+          include: { options: { orderBy: { sort_order: 'asc' } } },
+        },
+      },
+    });
+    return row ? this.toSectionContent(row) : null;
+  }
+
+  private toSectionContent(row: ExamSectionRow): GenericSectionContent {
+    return {
+      sectionId: `${row.skill}_${row.teil}`,
+      aufgabentyp: row.aufgabentyp,
+      teil: row.teil,
+      label: row.label,
+      instruction: row.instruction,
+      maxPoints: row.max_points,
+      scoringMode: row.scoring_mode,
+      material: row.material,
+      items: row.items.map((item) => ({
+        itemNumber: item.item_number,
+        prompt: item.prompt,
+        solution: item.solution,
+        options: item.options.map((option) => ({
+          key: option.key,
+          content: option.content,
+          isCorrect: option.is_correct,
+        })),
+      })),
+    };
   }
 
   /**
