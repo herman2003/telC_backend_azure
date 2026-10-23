@@ -1537,11 +1537,6 @@ model ExamAttemptBlock {
   /// before it are, so no block is ever left unscored.
   answers Json @default("{}")
 
-  /// When an A1/A2 Hören block's one continuous recording was played. Null
-  /// until then. B1/B2 count plays per recording in `exam_audio_plays`
-  /// instead and never read this.
-  hoeren_played_at DateTime?
-
   attempt ExamAttempt @relation(fields: [attempt_id], references: [id], onDelete: Cascade)
 
   @@unique([attempt_id, block])
@@ -1557,7 +1552,8 @@ model ExamAttemptBlock {
 model ExamAudioPlay {
   id         String @id @default(uuid())
   attempt_id String
-  /// The `listening_exercises` row this counts plays of.
+  /// The recording this counts plays of: a `listening_exercises` id (B1/B2)
+  /// or an A1/A2 Hören Teil's `exam_sections` id. Plain column, no FK.
   audio_id   String @db.Uuid
 
   plays_used Int @default(0)

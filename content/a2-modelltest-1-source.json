@@ -13,15 +13,31 @@
   },
   "format": {
     "hoerenDelivery": {
-      "deliveryMode": "CONTINUOUS_OFFICIAL_RECORDING",
-      "audioAssetKey": "a2/modelltest-1/hoeren/complete.mp3",
-      "audioUrl": null,
-      "durationSeconds": null,
+      "deliveryMode": "PER_TEIL_RECORDINGS",
       "playsAllowed": 1,
       "pauseAllowed": false,
       "seekAllowed": false,
       "restartAllowed": false,
-      "teilOrder": ["HOEREN_1", "HOEREN_2", "HOEREN_3"]
+      "recordings": [
+        {
+          "teil": 1,
+          "audioAssetKey": "a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil1.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil1.mp3",
+          "durationSeconds": 401
+        },
+        {
+          "teil": 2,
+          "audioAssetKey": "a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil2.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil2.mp3",
+          "durationSeconds": 304
+        },
+        {
+          "teil": 3,
+          "audioAssetKey": "a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil3.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil3.mp3",
+          "durationSeconds": 399
+        }
+      ]
     },
     "gradeBands": [
       { "label": "SEHR_GUT", "minimum": 54, "maximum": 60 },

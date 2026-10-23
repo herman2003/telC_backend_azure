@@ -86,17 +86,19 @@ Per-exercise data, not one rule. The server counts; hiding a button is not
 enforcement. A play is spent the moment it starts — a connection that drops at
 0:15 costs it, exactly as the recording would keep playing in the room.
 
-The table is B1/B2. **A1/A2 Hören is one continuous official recording for the
-whole block, played once** — every Teil and every repeat is inside the file,
-so there is no per-Teil play. The play is recorded on the block itself
-(`exam_attempt_blocks.hoeren_played_at`), and the recording is named by the
-Modelltest's id rather than a `listening_exercises` row. The app learns it from
-the Hören block content's `recording: { audioId, playsAllowed: 1 }` field,
-which only A1/A2 carry — B1/B2 keep naming a recording per Teil. Asking to play before
-the recording has been uploaded is refused (`HOEREN_AUDIO_NOT_READY`) without
-spending the play. Pause, seek and restart are disallowed by the paper
-(`modelltests.format.hoerenDelivery`) but only the app can enforce those: once
-the file is streamed, the server cannot see the player.
+The table is B1/B2. **A1/A2 Hören is one official recording per Teil, each
+played once.** telc's repeats are inside the file — at A2, Teil 1 and Teil 3
+are heard twice and Teil 2 once, all within a single play — so a second play
+would be a third and fourth hearing. Each A1/A2 Teil names its recording the
+way a B1/B2 Teil does (`audioId`, `playsAllowed: 1` in the block content), so
+the app plays both levels the same way; the `audioId` is the Teil's own
+`exam_sections` id rather than a `listening_exercises` row, and plays are
+counted in the same `exam_audio_plays` table. Addresses and lengths live in
+`modelltests.format.hoerenDelivery.recordings`, never in content the candidate
+receives. Asking to play a Teil whose recording is not uploaded is refused
+(`HOEREN_AUDIO_NOT_READY`) without spending the play. Pause, seek and restart
+are disallowed by the paper but only the app can enforce those: once the file
+is streamed, the server cannot see the player.
 
 Exam audio is **served, never bundled** — decided 2026-09-24 with the Flutter
 team. Asking to play returns a link signed with an HMAC over

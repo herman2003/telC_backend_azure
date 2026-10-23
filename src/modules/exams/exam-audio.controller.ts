@@ -66,7 +66,7 @@ export class ExamAudioController {
     });
     const url = exercise
       ? exercise.audio_url
-      : await this.audio.wholeBlockRecordingUrl(claims.audioId);
+      : await this.audio.teilRecordingUrl(claims.audioId);
     if (!url) {
       throw new BadRequestException('AUDIO_UNAVAILABLE');
     }

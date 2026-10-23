@@ -142,23 +142,23 @@ describe('ExamAudioController', () => {
   describe('a recording with no listening_exercises row', () => {
     beforeEach(() => {
       prisma.listeningExercise.findUnique.mockResolvedValue(null);
-      audio.wholeBlockRecordingUrl = jest
+      audio.teilRecordingUrl = jest
         .fn()
-        .mockResolvedValue('https://cdn.example/a2-complete.mp3');
+        .mockResolvedValue('https://cdn.example/a2-teil1.mp3');
     });
 
     it('asks the service for its address and proxies it', async () => {
       await controller.stream('a-token', response);
 
-      expect(audio.wholeBlockRecordingUrl).toHaveBeenCalledWith('audio-1');
+      expect(audio.teilRecordingUrl).toHaveBeenCalledWith('audio-1');
       expect(fetchImpl).toHaveBeenCalledWith(
-        'https://cdn.example/a2-complete.mp3',
+        'https://cdn.example/a2-teil1.mp3',
       );
       expect(response.status).not.toHaveBeenCalledWith(302);
     });
 
     it('refuses when the service knows no address either', async () => {
-      audio.wholeBlockRecordingUrl.mockResolvedValue(null);
+      audio.teilRecordingUrl.mockResolvedValue(null);
 
       await expect(controller.stream('a-token', response)).rejects.toThrow(
         'AUDIO_UNAVAILABLE',

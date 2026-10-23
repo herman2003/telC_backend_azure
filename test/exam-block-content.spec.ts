@@ -203,12 +203,6 @@ describe('ExamBlockContentService', () => {
       expect(json).not.toContain('bundled_audio_asset');
       expect(json).not.toContain('.mp3');
     });
-
-    it('names its recordings per Teil only, never a whole-block one', async () => {
-      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
-
-      expect(content).not.toHaveProperty('recording');
-    });
   });
 
   describe('Schreiben', () => {
@@ -311,6 +305,7 @@ describe('ExamBlockContentService', () => {
 
   describe('the generic model (A1/A2)', () => {
     const genericSection = (over: Record<string, unknown> = {}) => ({
+      id: 'section-lesen-1',
       sectionId: 'LESEN_1',
       aufgabentyp: 'EINZELAUSWAHL',
       teil: 1,
@@ -369,9 +364,12 @@ describe('ExamBlockContentService', () => {
       expect(writing.getExerciseByModelltest).not.toHaveBeenCalled();
     });
 
-    it('serves Hören from the generic model, with no per-Teil recording', async () => {
+    it('serves each Hören Teil with its own recording, the way B1/B2 do', async () => {
       genericContent.sectionsFor.mockResolvedValue({
-        HOEREN: [genericSection({ sectionId: 'HOEREN_1' })],
+        HOEREN: [
+          genericSection({ id: 'hoeren-1-id', sectionId: 'HOEREN_1', teil: 1 }),
+          genericSection({ id: 'hoeren-2-id', sectionId: 'HOEREN_2', teil: 2 }),
+        ],
         LESEN: [],
         SPRACHBAUSTEINE: [],
         SCHREIBEN: [],
@@ -383,30 +381,15 @@ describe('ExamBlockContentService', () => {
 
       expect(Object.keys(content.sections)).toEqual(['HOEREN']);
       expect(listening.getExamTeil).not.toHaveBeenCalled();
-      // One recording for the whole block, so no Teil names one of its own.
-      const teile = JSON.stringify(content.sections);
-      expect(teile).not.toContain('audioId');
-      expect(teile).not.toContain('playsAllowed');
-    });
-
-    it("names the block's one recording, by the id the play endpoint spends against", async () => {
-      genericContent.sectionsFor.mockResolvedValue({
-        HOEREN: [genericSection({ sectionId: 'HOEREN_1' })],
-        LESEN: [],
-        SPRACHBAUSTEINE: [],
-        SCHREIBEN: [],
-        SPRECHEN: [],
-      });
-      prisma.examAttempt.findUnique.mockResolvedValue(a2Attempt('HOEREN'));
-
-      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
-
-      expect(content.recording).toEqual({
-        audioId: 'a2-mt-8',
-        playsAllowed: 1,
-      });
+      // Each Teil names the id POST .../audio/{audioId}/play spends against,
+      // and is played once: telc's repeats are inside the file.
+      expect((content.sections as any).HOEREN).toEqual([
+        expect.objectContaining({ audioId: 'hoeren-1-id', playsAllowed: 1 }),
+        expect.objectContaining({ audioId: 'hoeren-2-id', playsAllowed: 1 }),
+      ]);
       // An id to ask for a play, never an address to play from.
       expect(JSON.stringify(content)).not.toContain('.mp3');
+      expect(content).not.toHaveProperty('recording');
     });
 
     it('names no recording outside the Hören block', async () => {
@@ -427,7 +410,7 @@ describe('ExamBlockContentService', () => {
         'LESEN_SCHREIBEN',
       );
 
-      expect(content).not.toHaveProperty('recording');
+      expect(JSON.stringify(content)).not.toContain('audioId');
     });
 
     it('strips every item solution, same claim as the B1/B2 path', async () => {

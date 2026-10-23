@@ -545,13 +545,12 @@ shape clients receive did not change.
 
 **Gap found while closing break 10, since fixed:** a live sitting's block
 content (`ExamBlockContentService`) and Hören playback (`ExamAudioService`)
-both read only the B1 tables. Both now branch on the generic model (#114,
-#115). A1/A2 Hören is one continuous recording played once per block — the
-rule is in `docs/domains/exam-simulator.md`. Two things remain for A2 Hören:
-the block content does not yet tell the app which `audioId` to ask to play
-(the Modelltest's id, which no student-facing response carries), and the
-real recording has to be uploaded and its URL set in
-`modelltests.format.hoerenDelivery.audioUrl`.
+both read only the B1 tables. Both now branch on the generic model. A1/A2
+Hören is one recording per Teil, played once each, named and counted exactly
+like B1/B2's — the rule is in `docs/domains/exam-simulator.md`. A2
+Modelltest 1's three recordings are uploaded (R2,
+`a2-hoeren-mt/a2-mt-1-hoeren/`). An earlier design with one recording for the
+whole block (#115, #116) was replaced before it served a real play.
 
 ### Net effect
 
@@ -743,7 +742,7 @@ center.
 | 4 | At least one Modelltest imported, `level` set, content verified against the source | ✅ Modelltest 1 |
 | 5 | All five skill endpoints return a DTO for it | ✅ |
 | 6 | Catalogue and `of-the-week` resolve; a student of another level is refused | ✅ |
-| 7 | Center exam picker lists it; a sitting times and marks with that level rows | ⚠️ picker, block content, scoring and the one-play mechanism done; Hören cannot play yet — the app is not told which recording to ask for, and the recording is not uploaded (Break 13) |
+| 7 | Center exam picker lists it; a sitting times and marks with that level rows | ✅ picker, block content, scoring, and Hören played per Teil from the uploaded recordings (verified over HTTP, `bruno/A2 Level`) |
 | 8 | Readiness returns a number, and a perfect student reaches `ready` | ✅ |
 | 9 | Live Room opens; training audio metering writes a play row | ⚠️ not evaluated — Live Room (Break 1) is a separate subsystem, outside Phase 3 |
 

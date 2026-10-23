@@ -255,21 +255,34 @@ export function validateSection(raw) {
   }
 }
 
-/**
- * `format.hoerenDelivery` — Exam Day's continuous-recording contract.
- * Optional: a source file with no Hören (none exist yet, but the shape
- * doesn't require it) simply omits it.
- */
-export const HOEREN_DELIVERY = z.object({
-  deliveryMode: z.literal('CONTINUOUS_OFFICIAL_RECORDING'),
+/** One Teil's official recording. URL and duration are null until uploaded. */
+export const HOEREN_RECORDING = z.object({
+  teil: z.number().int().positive(),
   audioAssetKey: z.string().min(1),
   audioUrl: z.string().nullable(),
   durationSeconds: z.number().positive().nullable(),
+});
+
+/**
+ * `format.hoerenDelivery` — Exam Day's Hören contract for the generic model:
+ * one recording per Teil, each played once. telc's repeats ("Sie hören jeden
+ * Text zweimal") are inside the file, so a second play would be a third and
+ * fourth hearing. Optional: a source with no Hören simply omits it.
+ */
+export const HOEREN_DELIVERY = z.object({
+  deliveryMode: z.literal('PER_TEIL_RECORDINGS'),
   playsAllowed: z.literal(1),
   pauseAllowed: z.literal(false),
   seekAllowed: z.literal(false),
   restartAllowed: z.literal(false).optional(),
-  teilOrder: z.array(z.string().min(1)).min(1),
+  recordings: z
+    .array(HOEREN_RECORDING)
+    .min(1)
+    .refine(
+      (recordings) =>
+        new Set(recordings.map((r) => r.teil)).size === recordings.length,
+      { message: 'each Teil has at most one recording' },
+    ),
 });
 
 export const GRADE_BAND = z.object({

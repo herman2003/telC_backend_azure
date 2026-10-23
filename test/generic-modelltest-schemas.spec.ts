@@ -236,44 +236,78 @@ describe('validateFormatAndAssets', () => {
     return JSON.parse(stdout) as { format: unknown; assets: unknown };
   };
 
+  const delivery = (over: Record<string, unknown> = {}) => ({
+    deliveryMode: 'PER_TEIL_RECORDINGS',
+    playsAllowed: 1,
+    pauseAllowed: false,
+    seekAllowed: false,
+    restartAllowed: false,
+    recordings: [
+      {
+        teil: 1,
+        audioAssetKey: 'teil1.mp3',
+        audioUrl: null,
+        durationSeconds: null,
+      },
+      {
+        teil: 2,
+        audioAssetKey: 'teil2.mp3',
+        audioUrl: 'https://cdn/t2.mp3',
+        durationSeconds: 303,
+      },
+    ],
+    ...over,
+  });
+
   it('accepts a valid hoerenDelivery and gradeBands', () => {
     const result = run({
       format: {
-        hoerenDelivery: {
-          deliveryMode: 'CONTINUOUS_OFFICIAL_RECORDING',
-          audioAssetKey: 'a2/modelltest-1/hoeren/complete.mp3',
-          audioUrl: null,
-          durationSeconds: null,
-          playsAllowed: 1,
-          pauseAllowed: false,
-          seekAllowed: false,
-          restartAllowed: false,
-          teilOrder: ['HOEREN_1'],
-        },
+        hoerenDelivery: delivery(),
         gradeBands: [{ label: 'SEHR_GUT', minimum: 54, maximum: 60 }],
       },
     });
 
     expect(result.format).toMatchObject({
-      hoerenDelivery: { pauseAllowed: false },
+      hoerenDelivery: {
+        pauseAllowed: false,
+        recordings: [{ teil: 1 }, { teil: 2 }],
+      },
     });
     expect(result.assets).toBeNull();
   });
 
   it('rejects pauseAllowed: true -- Exam Day Hören cannot be paused', () => {
     expect(() =>
+      run({ format: { hoerenDelivery: delivery({ pauseAllowed: true }) } }),
+    ).toThrow();
+  });
+
+  it('rejects a second play -- the repeats are inside the file', () => {
+    expect(() =>
+      run({ format: { hoerenDelivery: delivery({ playsAllowed: 2 }) } }),
+    ).toThrow();
+  });
+
+  it('rejects two recordings for the same Teil', () => {
+    expect(() =>
       run({
         format: {
-          hoerenDelivery: {
-            deliveryMode: 'CONTINUOUS_OFFICIAL_RECORDING',
-            audioAssetKey: 'x.mp3',
-            audioUrl: null,
-            durationSeconds: null,
-            playsAllowed: 1,
-            pauseAllowed: true,
-            seekAllowed: false,
-            teilOrder: ['HOEREN_1'],
-          },
+          hoerenDelivery: delivery({
+            recordings: [
+              {
+                teil: 1,
+                audioAssetKey: 'a.mp3',
+                audioUrl: null,
+                durationSeconds: null,
+              },
+              {
+                teil: 1,
+                audioAssetKey: 'b.mp3',
+                audioUrl: null,
+                durationSeconds: null,
+              },
+            ],
+          }),
         },
       }),
     ).toThrow();
