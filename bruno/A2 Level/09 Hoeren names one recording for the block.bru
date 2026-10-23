@@ -1,0 +1,56 @@
+meta {
+  name: 09 Hoeren names one recording for the block
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/HOEREN
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.recording.playsAllowed: eq 1
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+
+  const teile = res.body.sections.HOEREN;
+  if (!Array.isArray(teile) || teile.length !== 3) {
+    throw new Error("A2 Hoeren has three Teile, got " + JSON.stringify(teile));
+  }
+
+  // One recording for the whole block, never one per Teil.
+  const perTeil = JSON.stringify(teile);
+  if (perTeil.includes("audioId") || perTeil.includes("playsAllowed")) {
+    throw new Error("an A2 Teil must not name a recording of its own");
+  }
+  if (!res.body.recording || !res.body.recording.audioId) {
+    throw new Error("the block must name its one recording, got " + JSON.stringify(res.body.recording));
+  }
+
+  // Questions, never answers or an address to play from.
+  const whole = JSON.stringify(res.body);
+  if (whole.includes("solution") || whole.includes("isCorrect")) {
+    throw new Error("the candidate was served an answer key");
+  }
+  if (whole.includes(".mp3")) {
+    throw new Error("the candidate was served the recording's address");
+  }
+
+  bru.setEnvVar("a2RecordingId", res.body.recording.audioId);
+}
+
+docs {
+  The field the Flutter app needs to show the one Hören play button
+  (PR #116). Captures {{a2RecordingId}} for 10.
+}

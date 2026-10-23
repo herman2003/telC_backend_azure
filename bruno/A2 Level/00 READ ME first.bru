@@ -1,0 +1,51 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 0
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+docs {
+  A2 Exam Day, end to end, on A2 Modelltest 1 (catalogue number 8).
+
+  WHAT THIS CHECKS
+  A2 content lives in the generic model (exam_sections), not B1's tables.
+  This walks a real A2 sitting through the HTTP API: the picker offers the
+  paper as A2, the sitting takes A2 from it, Hören runs first for 20 minutes
+  and names ONE recording for the whole block, Lesen und Schreiben runs
+  second for 50 minutes, and submitting it auto-scores Lesen and Schreiben
+  Teil 1 while sending Schreiben Teil 2 to a person.
+
+  BEFORE YOU START
+  1. Rebuild the fixture (it adds the A2 student and seat):
+         node scripts/seed-b2-bruno-fixture.mjs
+     It must print "A2 papers  8" and database ep-misty-sea, never
+     ep-wandering-hall.
+  2. Run the API against that database:  npm run start:testdb
+  3. Center Auth / 03 Login, so {{accessToken}} is set.
+
+  ORDER AND TIMING
+  Run in seq order. 04 creates a sitting that opens three minutes later:
+  run 05 and 06 inside those three minutes, then WAIT until the opensAt in
+  04's response before 07. 06 answering OPENS_AT_IN_PAST means you were
+  too slow (re-run 04, then 05); 07 answering EXAM_NOT_OPEN means too fast
+  (wait, re-run 07).
+
+  A2 BLOCK ORDER IS NOT B2's
+  HOEREN (1) then LESEN_SCHREIBEN (2) — from exam_block_durations for A2.
+  There is no Sprachbausteine at A2.
+
+  EXPECTED UNTIL THE RECORDING IS UPLOADED
+  10 answers 400 HOEREN_AUDIO_NOT_READY. That is the PASS today: A2
+  Modelltest 1 has no recording yet (format.hoerenDelivery.audioUrl is
+  null), and the play must be refused without being spent. Once the file
+  is uploaded and its URL set, 10 must be changed to expect 200.
+
+  RE-RUNNING
+  02 claims the A2 seat. A second run is 409 — re-run the fixture script.
+}

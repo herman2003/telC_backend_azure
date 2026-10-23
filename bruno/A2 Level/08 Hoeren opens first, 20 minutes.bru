@@ -1,0 +1,38 @@
+meta {
+  name: 08 Hoeren opens first, 20 minutes
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/HOEREN/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 400 ? "  (BLOCK_OUT_OF_ORDER would mean A2's block order is wrong: HOEREN is position 1)" : "")
+    );
+  }
+  const minutes =
+    (new Date(res.body.deadlineAt) - new Date(res.body.startedAt)) / 60000;
+  if (minutes !== 20) {
+    throw new Error("A2 Hoeren must run 20 minutes, got " + minutes);
+  }
+}
+
+docs {
+  At A2 Hören is block 1, not block 2 as at B1/B2 — the order comes from
+  exam_block_durations for A2. Starting it first proves that.
+}

@@ -1,0 +1,30 @@
+meta {
+  name: 10 Play is refused until the recording is uploaded
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/audio/{{a2RecordingId}}/play
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 400
+  res.body.message: eq HOEREN_AUDIO_NOT_READY
+}
+
+docs {
+  EXPECTED TODAY: 400 HOEREN_AUDIO_NOT_READY. A2 Modelltest 1 has no
+  recording uploaded yet, and the server must refuse rather than sign a
+  link to nothing — without spending the candidate's one play.
+
+  WHEN THE RECORDING IS UPLOADED (and format.hoerenDelivery.audioUrl set),
+  change this request to expect 200 with playsRemaining 0, and add a second
+  play that expects 400 NO_PLAYS_LEFT.
+}

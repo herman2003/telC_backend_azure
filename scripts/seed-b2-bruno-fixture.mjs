@@ -1,6 +1,6 @@
 /**
- * Rebuilds everything the `bruno/B2 Level` collection needs, on the test
- * database.
+ * Rebuilds everything the `bruno/B2 Level` and `bruno/A2 Level` collections
+ * need, on the test database.
  *
  * WHY THIS EXISTS
  * The integration suites delete shared center and student rows — their own
@@ -48,6 +48,7 @@ const SUB_ID = '0b2f1000-0000-4000-8000-00000000c003';
 const SEATS_ID = '0b2f1000-0000-4000-8000-00000000c004';
 const CODE_B2_ID = '0b2f1000-0000-4000-8000-00000000c005';
 const CODE_B1_ID = '0b2f1000-0000-4000-8000-00000000c006';
+const CODE_A2_ID = '0b2f1000-0000-4000-8000-00000000c007';
 
 /**
  * Only characters from ACTIVATION_CODE_ALPHABET — no 0/O, 1/I/L or U. A code
@@ -55,12 +56,14 @@ const CODE_B1_ID = '0b2f1000-0000-4000-8000-00000000c006';
  */
 const CODE_B2 = 'LQ-BBTT-WXYZ';
 const CODE_B1 = 'LQ-CCTT-WXYZ';
+const CODE_A2 = 'LQ-DDTT-WXYZ';
 
 const CENTER_EMAIL = 'ngeukeualain@gmail.com';
 const CENTER_PASSWORD = 'A-strong-password1';
 const STUDENT_PASSWORD = 'Student-Pass1!';
 const STUDENT_B2_EMAIL = 'ngeukeualain+b2student@gmail.com';
 const STUDENT_B1_EMAIL = 'ngeukeualain+b1student@gmail.com';
+const STUDENT_A2_EMAIL = 'ngeukeualain+a2student@gmail.com';
 
 const client = new pg.Client({ connectionString: url });
 
@@ -122,8 +125,9 @@ async function main() {
     [OWNER_ID, CENTER_ID, CENTER_EMAIL, centerPasswordHash],
   );
 
-  // PAID rather than TRIAL: a trial is one seat, and the collection needs two
-  // students — a B2 one and a B1 one for the refusal checks (05 and 07b).
+  // PAID rather than TRIAL: a trial is one seat, and the collections need
+  // three students — a B2 one, a B1 one for the refusal checks (05 and 07b),
+  // and an A2 one for the A2 Level collection.
   await client.query(
     `INSERT INTO center_subscriptions (id, center_id, plan, paid_until, anchor_day,
                                        created_at, updated_at)
@@ -138,23 +142,25 @@ async function main() {
 
   await client.query(
     `INSERT INTO center_seats (id, center_id, quantity, unit_price_xaf, created_at, updated_at)
-     VALUES ($1, $2, 2, 5000, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+     VALUES ($1, $2, 3, 5000, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
      ON CONFLICT (id) DO UPDATE SET
-       quantity = 2,
+       quantity = 3,
        updated_at = CURRENT_TIMESTAMP`,
     [SEATS_ID, CENTER_ID],
   );
 
   const studentB2 = await upsertStudent(STUDENT_B2_EMAIL, 'Bea');
   const studentB1 = await upsertStudent(STUDENT_B1_EMAIL, 'Bruno');
+  const studentA2 = await upsertStudent(STUDENT_A2_EMAIL, 'Anna');
 
   // The B2 seat is left with NO level. Request 01 of the collection is the one
   // that sets it to B2, and 02 proves redemption copies it onto the student.
-  // The B1 seat carries B1 already, because nothing in this collection tests
-  // setting that one.
+  // The B1 and A2 seats carry their level already, because nothing tests
+  // setting those.
   const codes = [
     [CODE_B2_ID, CODE_B2, null],
     [CODE_B1_ID, CODE_B1, 'B1'],
+    [CODE_A2_ID, CODE_A2, 'A2'],
   ];
   for (const [id, code, level] of codes) {
     await client.query(
@@ -182,17 +188,25 @@ async function main() {
   const mt = await client.query(
     `SELECT number, level FROM modelltests WHERE level = 'B2' ORDER BY number`,
   );
+  const a2 = await client.query(
+    `SELECT number FROM modelltests WHERE level = 'A2' ORDER BY number`,
+  );
 
   console.log('');
   console.log('  center     Goethe Language Center (Bruno fixture)');
   console.log('  login      ' + CENTER_EMAIL + ' / ' + CENTER_PASSWORD);
   console.log('  students   ' + STUDENT_B2_EMAIL + ' (no level yet)');
   console.log('             ' + STUDENT_B1_EMAIL + ' (no level yet)');
+  console.log('             ' + STUDENT_A2_EMAIL + ' (no level yet, seat ' + CODE_A2 + ' is A2)');
   console.log('  password   ' + STUDENT_PASSWORD);
-  console.log('  seats      2    exam slots 5 manual / 5 AI');
+  console.log('  seats      3    exam slots 5 manual / 5 AI');
   console.log(
     '  B2 papers  ' +
       (mt.rowCount ? mt.rows.map((r) => r.number).join(', ') : 'NONE — import Modelltest 7 first'),
+  );
+  console.log(
+    '  A2 papers  ' +
+      (a2.rowCount ? a2.rows.map((r) => r.number).join(', ') : 'NONE — apply the A2 Modelltest 1 migration first'),
   );
   console.log('');
   console.log('Paste into bruno/environments/local.bru:');
@@ -206,7 +220,9 @@ async function main() {
   console.log('  b1StudentEmail: ' + STUDENT_B1_EMAIL);
   console.log('  b1StudentId: ' + studentB1);
   console.log('');
-  console.log('Then in Bruno: Center Auth / 03 Login, then B2 Level / 01.');
+  console.log('  (A2 Level needs nothing pasted: ' + STUDENT_A2_EMAIL + ' / ' + studentA2 + ')');
+  console.log('');
+  console.log('Then in Bruno: Center Auth / 03 Login, then B2 Level / 01 or A2 Level / 01.');
 }
 
 main()

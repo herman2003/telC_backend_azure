@@ -1,0 +1,38 @@
+meta {
+  name: 05 Admit the A2 student
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-sessions/{{a2SittingId}}/participants
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "studentIds": ["{{a2StudentId}}"]
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+}
+
+docs {
+  {{a2StudentId}} was captured by 01. Must run before publish.
+}
