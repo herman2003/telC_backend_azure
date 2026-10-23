@@ -1,6 +1,6 @@
 # Implementation Plan: A1/A2 Hören as one recording per Teil
 
-**Status:** implemented, in review. Design and plan approved 2026-10-23. Archive once merged; the rule lives in `docs/domains/exam-simulator.md`.
+**Status:** archived — implemented in #118 (Bruno cases in #119). History, not a to-do list; the rule lives in `docs/domains/exam-simulator.md`.
 **Weight:** High risk — schema change (drop a column) and a data migration.
 Full gates, independent review in a fresh context, Bruno replay.
 **Supersedes:** the "one whole-block recording" mechanism of #115/#116,
