@@ -1,6 +1,7 @@
 /**
  * A2 Modelltest 1 (Task 5 of docs/plans/active/multi-level-phase-3-generic-model.md)
- * is real telc content, seeded by prisma/migrations/20261023120000_seed_a2_modelltest1.
+ * is real telc content, seeded by prisma/migrations/20261023120000_seed_a2_modelltest1
+ * and picture URLs by 20261024120000_a1_a2_mt1_image_urls.
  * Every answer was cross-checked by hand against the PDF's own Lösungsschlüssel
  * (page 42) before this test was written.
  *
@@ -8,9 +9,14 @@
  * future schema or importer refactor that silently corrupts this content
  * fails here, not in production.
  */
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { PrismaService } from '../../src/shared/services/prisma.service';
+import { GenericExamContentService } from '../../src/shared/services/generic-exam-content.service';
+import { withoutAnswerKey } from '../../src/modules/centers/exam-content';
 
 const prisma = new PrismaService();
+const content = new GenericExamContentService(prisma);
 const MODELLTEST_NUMBER = 8;
 
 afterAll(async () => {
@@ -129,5 +135,66 @@ describe('A2 Modelltest 1 content (real, not synthetic)', () => {
 
     expect(item?.options.find((o) => o.key === 'b')?.is_correct).toBe(true);
     expect(item?.options.filter((o) => o.is_correct)).toHaveLength(1);
+  });
+
+  it('serves R2 picture URLs that match the source file, without the answer key', async () => {
+    const source = JSON.parse(
+      readFileSync(
+        resolve(__dirname, '..', '..', 'content', 'a2-modelltest-1-source.json'),
+        'utf8',
+      ),
+    ) as {
+      assets: { imageUrl: string }[];
+      sections: {
+        HOEREN: {
+          content: { items: { number: number; imageUrl: string }[] };
+        }[];
+        LESEN: {
+          sectionId: string;
+          content: {
+            stimulus?: { imageUrl: string };
+            choices?: { key: string; imageUrl: string }[];
+          };
+        }[];
+      };
+    };
+
+    const modelltest = await prisma.modelltest.findUniqueOrThrow({
+      where: { number: MODELLTEST_NUMBER },
+      select: { id: true, assets: true },
+    });
+    const dbAssets = modelltest.assets as { imageUrl: string }[];
+    expect(dbAssets).toHaveLength(23);
+    expect(dbAssets.map((a) => a.imageUrl).sort()).toEqual(
+      source.assets.map((a) => a.imageUrl).sort(),
+    );
+
+    const hoeren1 = await content.sectionFor(modelltest.id, 'HOEREN', 1);
+    expect(hoeren1?.items.map((i) => i.imageUrl)).toEqual(
+      source.sections.HOEREN[0].content.items.map((i) => i.imageUrl),
+    );
+
+    const lesen1 = await content.sectionFor(modelltest.id, 'LESEN', 1);
+    expect((lesen1?.material as { stimulus: { imageUrl: string } }).stimulus.imageUrl).toBe(
+      source.sections.LESEN.find((s) => s.sectionId === 'LESEN_1')!.content
+        .stimulus!.imageUrl,
+    );
+
+    const lesen3 = await content.sectionFor(modelltest.id, 'LESEN', 3);
+    expect(
+      (lesen3?.material as { choices: { imageUrl: string }[] }).choices.map(
+        (c) => c.imageUrl,
+      ),
+    ).toEqual(
+      source.sections.LESEN.find((s) => s.sectionId === 'LESEN_3')!.content
+        .choices!.map((c) => c.imageUrl),
+    );
+
+    const served = withoutAnswerKey({ HOEREN: [hoeren1], LESEN: [lesen1, lesen3] });
+    const whole = JSON.stringify(served);
+    expect(whole).toContain('a2-modelltest-1-hoeren-1-item1-note.png');
+    expect(whole).toContain('a2-modelltest-1-lesen-1-directory.png');
+    expect(whole).not.toContain('"solution"');
+    expect(whole).not.toContain('"isCorrect"');
   });
 });

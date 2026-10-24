@@ -39,6 +39,30 @@ script:post-response {
   if (whole.includes("solution") || whole.includes("isCorrect")) {
     throw new Error("the candidate was served an answer key");
   }
+
+  const lesen = res.body.sections.LESEN;
+  const schreiben = res.body.sections.SCHREIBEN;
+  const directory = lesen[0].material && lesen[0].material.stimulus &&
+    lesen[0].material.stimulus.imageUrl;
+  if (!directory || !directory.includes("a2-modelltest-1-lesen-1-directory.png")) {
+    throw new Error("Lesen Teil 1 should carry the directory picture URL");
+  }
+  const ad = lesen[2].material && lesen[2].material.choices &&
+    lesen[2].material.choices[0] && lesen[2].material.choices[0].imageUrl;
+  if (!ad || !ad.includes("a2-modelltest-1-lesen-3-ad-a.png")) {
+    throw new Error("Lesen Teil 3 choices should carry their ad picture URLs");
+  }
+  const doc = schreiben[0].material && schreiben[0].material.sourceDocuments &&
+    schreiben[0].material.sourceDocuments[0] &&
+    schreiben[0].material.sourceDocuments[0].imageUrl;
+  if (!doc || !doc.includes("a2-modelltest-1-schreiben-1-personal-data.png")) {
+    throw new Error("Schreiben Teil 1 sourceDocuments should carry picture URLs");
+  }
+  const points = schreiben[1].material && schreiben[1].material.stimulus &&
+    schreiben[1].material.stimulus.imageUrl;
+  if (!points || !points.includes("a2-modelltest-1-schreiben-2-points.png")) {
+    throw new Error("Schreiben Teil 2 should carry the points picture URL");
+  }
 }
 
 docs {

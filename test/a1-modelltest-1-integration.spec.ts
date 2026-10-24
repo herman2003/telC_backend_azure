@@ -1,17 +1,21 @@
 /**
  * A1 Modelltest 1 and the A1 exam rules, against real Postgres
  * (prisma/migrations/20261024100000_seed_a1_modelltest1 +
- * 20261024100100_seed_a1_exam_rules).
+ * 20261024100100_seed_a1_exam_rules +
+ * 20261024120000_a1_a2_mt1_image_urls).
  *
  * The rows are what Exam Day reads; a wrong weight reports a wrong result
  * and raises nothing, so the values are asserted rather than trusted.
  */
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { GenericExamContentService } from '../src/shared/services/generic-exam-content.service';
 import { PrismaService } from '../src/shared/services/prisma.service';
 import {
   markGenericSection,
   pointsOf,
 } from '../src/modules/centers/generic-section-scoring';
+import { withoutAnswerKey } from '../src/modules/centers/exam-content';
 
 const prisma = new PrismaService();
 const content = new GenericExamContentService(prisma);
@@ -167,5 +171,64 @@ describe('A1 Modelltest 1 rows', () => {
 
     expect(mark.correct).toBe(4);
     expect(mark.unrecognised).toEqual([]);
+  });
+
+  it('serves R2 picture URLs that match the source file, without the answer key', async () => {
+    const source = JSON.parse(
+      readFileSync(
+        resolve(__dirname, '..', 'content', 'a1-modelltest-1-source.json'),
+        'utf8',
+      ),
+    ) as {
+      assets: { imageUrl: string }[];
+      sections: {
+        HOEREN: {
+          content: {
+            items: {
+              number: number;
+              options: { key: string; imageUrl: string }[];
+            }[];
+          };
+        }[];
+        SPRECHEN: {
+          sectionId: string;
+          content: {
+            rounds: { cards: { text: string; imageUrl: string }[] }[];
+          };
+        }[];
+      };
+    };
+
+    const modelltest = await prisma.modelltest.findUniqueOrThrow({
+      where: { number: 9 },
+      select: { assets: true },
+    });
+    const dbAssets = modelltest.assets as { imageUrl: string }[];
+    expect(dbAssets.map((a) => a.imageUrl).sort()).toEqual(
+      source.assets.map((a) => a.imageUrl).sort(),
+    );
+
+    const hoeren1 = await content.sectionFor(modelltestId, 'HOEREN', 1);
+    const srcItem1 = source.sections.HOEREN[0].content.items[0];
+    expect(hoeren1?.items[0].options.map((o) => o.imageUrl)).toEqual(
+      srcItem1.options.map((o) => o.imageUrl),
+    );
+
+    const sprechen3 = await content.sectionFor(modelltestId, 'SPRECHEN', 3);
+    const srcCards = source.sections.SPRECHEN.find(
+      (s) => s.sectionId === 'SPRECHEN_3',
+    )!.content.rounds[0].cards;
+    const dbCards = (
+      sprechen3?.material as { rounds: { cards: { imageUrl: string }[] }[] }
+    ).rounds[0].cards;
+    expect(dbCards.map((c) => c.imageUrl).sort()).toEqual(
+      srcCards.map((c) => c.imageUrl).sort(),
+    );
+
+    const served = withoutAnswerKey(hoeren1);
+    const whole = JSON.stringify(served);
+    expect(whole).toContain('a1-modelltest-1-hoeren-1-item1-a.png');
+    expect(whole).not.toContain('"solution"');
+    expect(whole).not.toContain('"isCorrect"');
   });
 });

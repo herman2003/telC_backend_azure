@@ -47,8 +47,14 @@ script:post-response {
   if (whole.includes("solution") || whole.includes("isCorrect")) {
     throw new Error("the candidate was served an answer key");
   }
-  if (whole.includes(".mp3") || whole.includes("r2.dev")) {
+  // Audio stays server-side; phone-note picture URLs on items are fine.
+  if (whole.includes(".mp3") || /audioUrl/i.test(whole)) {
     throw new Error("the candidate was served a recording's address");
+  }
+  const note = teile[0].items && teile[0].items[0] && teile[0].items[0].imageUrl;
+  if (!note || !note.includes("a2-modelltest-1-hoeren-1-item1-note.png")) {
+    throw new Error("Hören Teil 1 items should carry their phone-note picture URLs, got " +
+      JSON.stringify(teile[0].items && teile[0].items[0]));
   }
 
   bru.setEnvVar("a2Teil1AudioId", teile[0].audioId);
