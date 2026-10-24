@@ -15,6 +15,12 @@ type ExamSectionRow = Prisma.ExamSectionGetPayload<{
  */
 export const GENERIC_MODEL_LEVELS: readonly CefrLevel[] = ['A1', 'A2'];
 
+/** Option / item pictures stored in material (no image column on the tables). */
+type MaterialImageMaps = {
+  optionImages?: Record<string, Record<string, string | null>>;
+  itemImages?: Record<string, string | null>;
+};
+
 /** One exam_sections row, with its items and options, as a client reads it. */
 export interface GenericSectionContent {
   /** The `exam_sections` row id. For a Hören Teil it is also the `audioId`
@@ -34,7 +40,15 @@ export interface GenericSectionContent {
     itemNumber: number;
     prompt: string | null;
     solution: unknown;
-    options: { key: string; content: string; isCorrect: boolean }[];
+    /** From material.itemImages when the Teil has per-item pictures. */
+    imageUrl?: string | null;
+    options: {
+      key: string;
+      content: string;
+      isCorrect: boolean;
+      /** From material.optionImages when the Teil has option pictures. */
+      imageUrl?: string | null;
+    }[];
   }[];
 }
 
@@ -105,6 +119,10 @@ export class GenericExamContentService {
   }
 
   private toSectionContent(row: ExamSectionRow): GenericSectionContent {
+    const maps = (row.material ?? {}) as MaterialImageMaps;
+    const optionImages = maps.optionImages ?? {};
+    const itemImages = maps.itemImages ?? {};
+
     return {
       id: row.id,
       sectionId: `${row.skill}_${row.teil}`,
@@ -116,16 +134,22 @@ export class GenericExamContentService {
       scoringMode: row.scoring_mode,
       contentRevision: row.content_revision,
       material: row.material,
-      items: row.items.map((item) => ({
-        itemNumber: item.item_number,
-        prompt: item.prompt,
-        solution: item.solution,
-        options: item.options.map((option) => ({
-          key: option.key,
-          content: option.content,
-          isCorrect: option.is_correct,
-        })),
-      })),
+      items: row.items.map((item) => {
+        const n = String(item.item_number);
+        const byKey = optionImages[n] ?? {};
+        return {
+          itemNumber: item.item_number,
+          prompt: item.prompt,
+          solution: item.solution,
+          imageUrl: itemImages[n] ?? null,
+          options: item.options.map((option) => ({
+            key: option.key,
+            content: option.content,
+            isCorrect: option.is_correct,
+            imageUrl: byKey[option.key] ?? null,
+          })),
+        };
+      }),
     };
   }
 

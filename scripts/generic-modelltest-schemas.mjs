@@ -66,6 +66,8 @@ export const RICHTIG_FALSCH = z
           forItems: z.array(z.number().int().positive()).min(1),
           title: z.string().optional(),
           body: z.string().min(1),
+          /// Sign / letter picture; text in `body` stays as the fallback.
+          imageUrl: z.string().nullable().optional(),
         }),
       )
       .optional(),
@@ -124,6 +126,8 @@ export const KURZANTWORT = z.object({
         number: z.number().int().positive(),
         prompt: z.string().min(1),
         placeholder: z.string().optional(),
+        /// Phone-note / form picture for this item; prompt text is the fallback.
+        imageUrl: z.string().nullable().optional(),
         normalization,
         solution: z.object({
           acceptedAnswers: z.array(z.string().min(1)).min(1),
@@ -204,6 +208,8 @@ export const SICH_VORSTELLEN = z.object({
   prompts: z.array(z.string().min(1)).min(1),
   examinerPrompts: z.array(z.string()).default([]),
   participants: z.number().int().positive(),
+  /// Optional whole-sheet picture of the prompt cards; `prompts` stay as text.
+  imageUrl: z.string().nullable().optional(),
   rubric: z.union([
     z.object({ vorstellen: scale, zusatzfragen: scale }).strict(),
     z.object({ vorstellen: scale, buchstabieren: scale, zahlen: scale }).strict(),
@@ -244,6 +250,8 @@ export const ALLTAGSGESPRAECH = z.object({
     )
     .min(1),
   jokerCards: z.number().int().nonnegative(),
+  /// Optional whole-sheet picture of the card grid; `cards` stay as text.
+  imageUrl: z.string().nullable().optional(),
   rubric: z.object({ perInteractionAct: z.array(z.number()).min(1) }),
 });
 
@@ -255,6 +263,14 @@ export const ETWAS_AUSHANDELN = z.object({
     A: z.array(z.string().min(1)).min(1),
     B: z.array(z.string().min(1)).min(1),
   }),
+  /// Optional per-participant sheet pictures; activity lists stay in
+  /// `participantCards` as text fallback.
+  participantCardSheets: z
+    .object({
+      A: z.object({ imageUrl: z.string().nullable() }),
+      B: z.object({ imageUrl: z.string().nullable() }),
+    })
+    .optional(),
   rubric: z.object({
     erfuellungDerAufgabenstellung: z.array(z.number()).min(1),
     sprachlicheRealisierung: z.array(z.number()).min(1),

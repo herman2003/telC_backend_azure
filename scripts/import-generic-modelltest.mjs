@@ -131,9 +131,24 @@ const { format, assets } = validateFormatAndAssets(source);
  */
 function splitContent(aufgabentyp, content) {
   switch (aufgabentyp) {
-    case 'EINZELAUSWAHL':
+    case 'EINZELAUSWAHL': {
+      // exam_item_options has no image column; option pictures live in
+      // material.optionImages and GenericExamContentService merges them on read.
+      const optionImages = {};
+      for (const item of content.items) {
+        const byKey = {};
+        for (const o of item.options) {
+          if (o.imageUrl) byKey[o.key] = o.imageUrl;
+        }
+        if (Object.keys(byKey).length > 0) {
+          optionImages[String(item.number)] = byKey;
+        }
+      }
       return {
-        material: { stimulus: content.stimulus ?? null },
+        material: {
+          stimulus: content.stimulus ?? null,
+          ...(Object.keys(optionImages).length > 0 ? { optionImages } : {}),
+        },
         items: content.items.map((item) => ({
           itemNumber: item.number,
           prompt: item.prompt,
@@ -145,6 +160,7 @@ function splitContent(aufgabentyp, content) {
           })),
         })),
       };
+    }
     case 'RICHTIG_FALSCH':
       return {
         material: {
@@ -174,9 +190,15 @@ function splitContent(aufgabentyp, content) {
           options: [],
         })),
       };
-    case 'KURZANTWORT':
+    case 'KURZANTWORT': {
+      // exam_items has no image column; per-item pictures (e.g. A2 phone notes)
+      // live in material.itemImages and are merged onto items on read.
+      const itemImages = {};
+      for (const item of content.items) {
+        if (item.imageUrl) itemImages[String(item.number)] = item.imageUrl;
+      }
       return {
-        material: {},
+        material: Object.keys(itemImages).length > 0 ? { itemImages } : {},
         items: content.items.map((item) => ({
           itemNumber: item.number,
           prompt: item.prompt,
@@ -187,6 +209,7 @@ function splitContent(aufgabentyp, content) {
           options: [],
         })),
       };
+    }
     case 'FORMULAR_AUSFUELLEN':
       return {
         material: {

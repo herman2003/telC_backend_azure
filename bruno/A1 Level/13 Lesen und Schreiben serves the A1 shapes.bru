@@ -55,6 +55,23 @@ script:post-response {
   if (whole.includes("solution") || whole.includes("isCorrect")) {
     throw new Error("the candidate was served an answer key");
   }
+
+  const lesen2Opt = lesen[1].items && lesen[1].items[0] && lesen[1].items[0].options &&
+    lesen[1].items[0].options[0] && lesen[1].items[0].options[0].imageUrl;
+  if (!lesen2Opt || !lesen2Opt.includes("a1-modelltest-1-lesen-2-item6-a.png")) {
+    throw new Error("Lesen Teil 2 options should carry their R2 picture URLs");
+  }
+  const sign = lesen[2].material && lesen[2].material.texts &&
+    lesen[2].material.texts[0] && lesen[2].material.texts[0].imageUrl;
+  if (!sign || !sign.includes("a1-modelltest-1-lesen-3-item11.png")) {
+    throw new Error("Lesen Teil 3 texts should carry their sign picture URLs");
+  }
+  const formPic = schreiben[0].material && schreiben[0].material.sourceDocuments &&
+    schreiben[0].material.sourceDocuments[0] &&
+    schreiben[0].material.sourceDocuments[0].imageUrl;
+  if (!formPic || !formPic.includes("a1-modelltest-1-schreiben-1-form.png")) {
+    throw new Error("Schreiben Teil 1 should carry the form picture URL");
+  }
 }
 
 docs {

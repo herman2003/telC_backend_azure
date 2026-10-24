@@ -48,12 +48,87 @@ describe('GenericExamContentService', () => {
           items: [
             expect.objectContaining({
               itemNumber: 1,
-              options: [{ key: 'a', content: 'Antwort', isCorrect: true }],
+              imageUrl: null,
+              options: [
+                {
+                  key: 'a',
+                  content: 'Antwort',
+                  isCorrect: true,
+                  imageUrl: null,
+                },
+              ],
             }),
           ],
         }),
       ]);
       expect(result.SPRACHBAUSTEINE).toEqual([]);
+    });
+
+    it('merges material.optionImages and material.itemImages onto items', async () => {
+      mockPrisma.examSection.findMany.mockResolvedValue([
+        {
+          skill: 'HOEREN',
+          teil: 1,
+          aufgabentyp: 'EINZELAUSWAHL',
+          label: 'Hören Teil 1',
+          instruction: 'Kreuzen Sie an.',
+          max_points: 1,
+          scoring_mode: 'AUTO',
+          content_revision: 'a1-hoeren-1-v1',
+          material: {
+            optionImages: {
+              '1': {
+                a: 'https://cdn.example/a.png',
+                b: 'https://cdn.example/b.png',
+              },
+            },
+          },
+          items: [
+            {
+              item_number: 1,
+              prompt: 'Was kostet der Pullover?',
+              solution: { key: 'a' },
+              options: [
+                { key: 'a', content: '30 €', is_correct: true },
+                { key: 'b', content: '95 €', is_correct: false },
+              ],
+            },
+          ],
+        },
+        {
+          skill: 'HOEREN',
+          teil: 1,
+          aufgabentyp: 'KURZANTWORT',
+          label: 'Hören notes',
+          instruction: 'Ergänzen Sie.',
+          max_points: 1,
+          scoring_mode: 'AUTO',
+          content_revision: 'a2-hoeren-1-v1',
+          material: {
+            itemImages: { '1': 'https://cdn.example/note.png' },
+          },
+          items: [
+            {
+              item_number: 1,
+              prompt: 'Rufnummer',
+              solution: { acceptedAnswers: ['1'] },
+              options: [],
+            },
+          ],
+        },
+      ]);
+
+      // Two HOEREN rows with the same teil is unrealistic; call sectionFor
+      // paths separately by mocking findFirst via sectionsFor grouping.
+      const result = await service.sectionsFor('mt-1');
+      const pictures = result.HOEREN[0];
+      expect(pictures.items[0].options.map((o) => o.imageUrl)).toEqual([
+        'https://cdn.example/a.png',
+        'https://cdn.example/b.png',
+      ]);
+      expect(result.HOEREN[1].items[0].imageUrl).toBe(
+        'https://cdn.example/note.png',
+      );
     });
   });
 

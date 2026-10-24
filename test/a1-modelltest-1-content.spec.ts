@@ -12,6 +12,7 @@ import { resolve } from 'path';
 interface Item {
   number: number;
   solution: { key?: string; value?: boolean };
+  options?: { key: string; text: string; imageUrl?: string | null }[];
 }
 interface Field {
   number: number;
@@ -26,8 +27,16 @@ interface Section {
   content: {
     items?: Item[];
     fields?: Field[];
+    texts?: {
+      forItems: number[];
+      body: string;
+      imageUrl?: string | null;
+    }[];
     rubric?: unknown;
-    rounds?: { topic?: string; cards: { text: string }[] }[];
+    rounds?: {
+      topic?: string;
+      cards: { text: string; imageUrl?: string | null }[];
+    }[];
   };
 }
 
@@ -44,6 +53,7 @@ const source = JSON.parse(
     };
   };
   sections: Record<string, Section[]>;
+  assets: { imageUrl: string; sourcePages: number[] }[];
 };
 
 const sections = Object.values(source.sections).flat();
@@ -206,5 +216,41 @@ describe('A1 Modelltest 1 content', () => {
         ),
       );
     }
+  });
+
+  it('points every Exam Day picture at its R2 object, text kept as fallback', () => {
+    const base =
+      'https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/';
+
+    const hoeren1 = section('HOEREN_1').content.items ?? [];
+    expect(hoeren1).toHaveLength(6);
+    for (const item of hoeren1) {
+      for (const o of item.options ?? []) {
+        expect(o.text.length).toBeGreaterThan(0);
+        expect(o.imageUrl).toBe(
+          `${base}a1-modelltest-1-hoeren-1-item${item.number}-${o.key}.png`,
+        );
+      }
+    }
+
+    const lesen3Texts = section('LESEN_3').content.texts ?? [];
+    expect(lesen3Texts.map((t) => t.imageUrl)).toEqual(
+      [11, 12, 13, 14, 15].map(
+        (n) => `${base}a1-modelltest-1-lesen-3-item${n}.png`,
+      ),
+    );
+
+    const cards = (section('SPRECHEN_3').content.rounds ?? [])[0].cards;
+    expect(
+      cards.every((c) => (c.imageUrl ?? '').includes('sprechen-3-card-')),
+    ).toBe(true);
+
+    expect(source.assets).toHaveLength(46);
+    expect(source.assets.every((a) => a.imageUrl.startsWith(base))).toBe(true);
+    expect(
+      source.assets
+        .filter((a) => a.imageUrl.includes('sprechen-3-card-'))
+        .every((a) => a.sourcePages[0] === 26),
+    ).toBe(true);
   });
 });

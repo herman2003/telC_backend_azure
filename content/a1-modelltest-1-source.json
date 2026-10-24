@@ -97,15 +97,18 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "30,00 €"
+                  "text": "30,00 €",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "95,00 €"
+                  "text": "95,00 €",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-b.png"
                 },
                 {
                   "key": "c",
-                  "text": "19,95 €"
+                  "text": "19,95 €",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-c.png"
                 }
               ],
               "solution": {
@@ -118,15 +121,18 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "15.00 Uhr"
+                  "text": "15.00 Uhr",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "Gleich 17.00 Uhr"
+                  "text": "Gleich 17.00 Uhr",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-b.png"
                 },
                 {
                   "key": "c",
-                  "text": "16.30 Uhr"
+                  "text": "16.30 Uhr",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-c.png"
                 }
               ],
               "solution": {
@@ -139,15 +145,18 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "Pommes"
+                  "text": "Pommes",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "Fisch"
+                  "text": "Fisch",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-b.png"
                 },
                 {
                   "key": "c",
-                  "text": "Wurst"
+                  "text": "Wurst",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-c.png"
                 }
               ],
               "solution": {
@@ -160,15 +169,18 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "In die neunte Klasse (9b)"
+                  "text": "In die neunte Klasse (9b)",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "In die dritte Klasse (3a)"
+                  "text": "In die dritte Klasse (3a)",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-b.png"
                 },
                 {
                   "key": "c",
-                  "text": "In die vierte Klasse (4a)"
+                  "text": "In die vierte Klasse (4a)",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-c.png"
                 }
               ],
               "solution": {
@@ -181,15 +193,18 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "Mit dem Aufzug"
+                  "text": "Mit dem Aufzug",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "Auf der Treppe um die Ecke"
+                  "text": "Auf der Treppe um die Ecke",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-b.png"
                 },
                 {
                   "key": "c",
-                  "text": "Mit der Rolltreppe"
+                  "text": "Mit der Rolltreppe",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-c.png"
                 }
               ],
               "solution": {
@@ -202,15 +217,18 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "In Urlaub ans Meer"
+                  "text": "In Urlaub ans Meer",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "Zur Arbeit"
+                  "text": "Zur Arbeit",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-b.png"
                 },
                 {
                   "key": "c",
-                  "text": "Zur Familie"
+                  "text": "Zur Familie",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-c.png"
                 }
               ],
               "solution": {
@@ -511,11 +529,13 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "www.schiff-ruedesheim.de\nHotel – Pension – Schiff\nEinzel- und Doppelzimmer mit Dusche/WC\nRestaurant mit Rhein-Terrasse\nPreise · über uns · Buchung"
+                  "text": "www.schiff-ruedesheim.de\nHotel – Pension – Schiff\nEinzel- und Doppelzimmer mit Dusche/WC\nRestaurant mit Rhein-Terrasse\nPreise · über uns · Buchung",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item6-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "www.bingen-ruedesheimer.de\nBingen-Rüdesheimer Rheinschiffe\ntäglich von Rüdesheim nach Koblenz\nalle Abfahrtszeiten und Preise hier"
+                  "text": "www.bingen-ruedesheimer.de\nBingen-Rüdesheimer Rheinschiffe\ntäglich von Rüdesheim nach Koblenz\nalle Abfahrtszeiten und Preise hier",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item6-b.png"
                 }
               ],
               "solution": {
@@ -528,11 +548,13 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "www.sprachenfuchs.de\nSprachinstitut Fuchs\nDresden, Prager Str. 4\n– Deutsch – Englisch – Französisch – Russisch\nDie Schule · Die Kurse · Die Preise · Kontakt"
+                  "text": "www.sprachenfuchs.de\nSprachinstitut Fuchs\nDresden, Prager Str. 4\n– Deutsch – Englisch – Französisch – Russisch\nDie Schule · Die Kurse · Die Preise · Kontakt",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item7-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "www.eviva.com\nEviva-Idiomas\nSprachkurse für Deutsche\nSpanisch auf Mallorca, Englisch auf Malta\nUnsere Preise · Unser Unterricht · Buchungen"
+                  "text": "www.eviva.com\nEviva-Idiomas\nSprachkurse für Deutsche\nSpanisch auf Mallorca, Englisch auf Malta\nUnsere Preise · Unser Unterricht · Buchungen",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item7-b.png"
                 }
               ],
               "solution": {
@@ -545,11 +567,13 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "www.DER.com\nDeutsches Reisebüro\nTicketbestellungen und Reservierungen für Flüge weltweit, Deutsche Bahn, Eurobus, 24-Stunden-Service\nE-Mail · Ticketbestellung"
+                  "text": "www.DER.com\nDeutsches Reisebüro\nTicketbestellungen und Reservierungen für Flüge weltweit, Deutsche Bahn, Eurobus, 24-Stunden-Service\nE-Mail · Ticketbestellung",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item8-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "www.RED.com\nReisedienst GmbH\nTicketservice für Theater, Konzerte, Busreisen in Deutschland und nach Polen, Tschechien und Ungarn\nKonzertservice · Theater · Busreisen"
+                  "text": "www.RED.com\nReisedienst GmbH\nTicketservice für Theater, Konzerte, Busreisen in Deutschland und nach Polen, Tschechien und Ungarn\nKonzertservice · Theater · Busreisen",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item8-b.png"
                 }
               ],
               "solution": {
@@ -562,11 +586,13 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "www.bodensee.de\nTouristeninformation\nUrlaubsorte · Hotelservice · Ferienwohnungen · Rundreisen"
+                  "text": "www.bodensee.de\nTouristeninformation\nUrlaubsorte · Hotelservice · Ferienwohnungen · Rundreisen",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item9-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "www.rottenmeier.de\nHans Rottenmeier\nFerienwohnungen am Bodensee\nHäuser · Preise · Kontakte"
+                  "text": "www.rottenmeier.de\nHans Rottenmeier\nFerienwohnungen am Bodensee\nHäuser · Preise · Kontakte",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item9-b.png"
                 }
               ],
               "solution": {
@@ -579,11 +605,13 @@
               "options": [
                 {
                   "key": "a",
-                  "text": "www.reiseauskunft.bahn.de\nab Hamburg 17.02. 12:18 – an Wiesbaden 17.02. 16:52\nDauer 4:34 · 1-mal umsteigen · ICE, S"
+                  "text": "www.reiseauskunft.bahn.de\nab Hamburg 17.02. 12:18 – an Wiesbaden 17.02. 16:52\nDauer 4:34 · 1-mal umsteigen · ICE, S",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item10-a.png"
                 },
                 {
                   "key": "b",
-                  "text": "www.reiseauskunft.bahn.de\nab Wiesbaden 17.02. 07:34 – an Hamburg 17.02. 12:05\nDauer 4:31 · 1-mal umsteigen · S, ICE"
+                  "text": "www.reiseauskunft.bahn.de\nab Wiesbaden 17.02. 07:34 – an Hamburg 17.02. 12:05\nDauer 4:31 · 1-mal umsteigen · S, ICE",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item10-b.png"
                 }
               ],
               "solution": {
@@ -619,35 +647,40 @@
                 11
               ],
               "title": "In der Sprachschule",
-              "body": "In der 10-Uhr-Pause bekommen Sie an der Rezeption ein Frühstückspaket: belegte Brötchen und Getränke für 2 Euro."
+              "body": "In der 10-Uhr-Pause bekommen Sie an der Rezeption ein Frühstückspaket: belegte Brötchen und Getränke für 2 Euro.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item11.png"
             },
             {
               "forItems": [
                 12
               ],
               "title": "An der Post",
-              "body": "Öffnungszeiten:\nmontags–freitags 8.00–12.00 Uhr und 13.00–18.00 Uhr\nsamstags 8.00–12.00 Uhr"
+              "body": "Öffnungszeiten:\nmontags–freitags 8.00–12.00 Uhr und 13.00–18.00 Uhr\nsamstags 8.00–12.00 Uhr",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item12.png"
             },
             {
               "forItems": [
                 13
               ],
               "title": "Am Bahnhof",
-              "body": "Auf dem gesamten Bahnhof ist das Rauchen verboten."
+              "body": "Auf dem gesamten Bahnhof ist das Rauchen verboten.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item13.png"
             },
             {
               "forItems": [
                 14
               ],
               "title": "Am Eingang des Restaurants",
-              "body": "Heute im Bavaria:\nBayerischer Abend\nBrezeln, Weißwürste, Sauerkraut\nVolksmusik, ab 20 Uhr Tanz"
+              "body": "Heute im Bavaria:\nBayerischer Abend\nBrezeln, Weißwürste, Sauerkraut\nVolksmusik, ab 20 Uhr Tanz",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item14.png"
             },
             {
               "forItems": [
                 15
               ],
               "title": "An der Haltestelle",
-              "body": "In der Neujahrsnacht\nBusverkehr bis 23.00 Uhr und von 1.00 Uhr bis 5.00 Uhr alle 30 Minuten"
+              "body": "In der Neujahrsnacht\nBusverkehr bis 23.00 Uhr und von 1.00 Uhr bis 5.00 Uhr alle 30 Minuten",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item15.png"
             }
           ],
           "items": [
@@ -716,7 +749,8 @@
             {
               "type": "TEXT",
               "title": "Bereits ausgefüllte Formularfelder",
-              "body": "BODENSEE-RUNDFAHRT – Anmeldung. Familienname, Vorname: Kadavy, Eva. Urlaubsadresse: Hotel Schönblick. Straße, Hausnummer: Burgstraße 34. PLZ: 78014. Der Reisepreis ist mit der Anmeldung zu bezahlen. Unterschrift: Eva Kadavy."
+              "body": "BODENSEE-RUNDFAHRT – Anmeldung. Familienname, Vorname: Kadavy, Eva. Urlaubsadresse: Hotel Schönblick. Straße, Hausnummer: Burgstraße 34. PLZ: 78014. Der Reisepreis ist mit der Anmeldung zu bezahlen. Unterschrift: Eva Kadavy.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-schreiben-1-form.png"
             }
           ],
           "fields": [
@@ -1063,62 +1097,62 @@
                 {
                   "key": "1",
                   "text": "Äpfel",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-aepfel.png"
                 },
                 {
                   "key": "2",
                   "text": "Fleisch",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-fleisch.png"
                 },
                 {
                   "key": "3",
                   "text": "Laptop",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-laptop.png"
                 },
                 {
                   "key": "4",
                   "text": "Auto",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-auto.png"
                 },
                 {
                   "key": "5",
                   "text": "Banane",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-banane.png"
                 },
                 {
                   "key": "6",
                   "text": "Orangensaft",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-orangensaft.png"
                 },
                 {
                   "key": "7",
                   "text": "Einkaufskorb",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-einkaufskorb.png"
                 },
                 {
                   "key": "8",
                   "text": "Hund",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-hund.png"
                 },
                 {
                   "key": "9",
                   "text": "Schlüssel",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-schluessel.png"
                 },
                 {
                   "key": "10",
                   "text": "Koffer",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-koffer.png"
                 },
                 {
                   "key": "11",
                   "text": "Blumen",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-blumen.png"
                 },
                 {
                   "key": "12",
                   "text": "Kuchen",
-                  "imageUrl": null
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-kuchen.png"
                 }
               ]
             }
@@ -1141,55 +1175,502 @@
   },
   "assets": [
     {
-      "assetKey": "a1-modelltest-1-hoeren-1-pictures",
+      "assetKey": "a1-hoeren-1-item1-a",
       "usedBy": [
         "HOEREN_1"
       ],
       "sourcePages": [
-        8,
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item1-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-a.png",
+      "altText": "Hören Teil 1 item 1 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item1-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item1-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-b.png",
+      "altText": "Hören Teil 1 item 1 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item1-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item1-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-c.png",
+      "altText": "Hören Teil 1 item 1 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item2-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item2-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-a.png",
+      "altText": "Hören Teil 1 item 2 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item2-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item2-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-b.png",
+      "altText": "Hören Teil 1 item 2 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item2-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item2-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-c.png",
+      "altText": "Hören Teil 1 item 2 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item3-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item3-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-a.png",
+      "altText": "Hören Teil 1 item 3 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item3-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item3-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-b.png",
+      "altText": "Hören Teil 1 item 3 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item3-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item3-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-c.png",
+      "altText": "Hören Teil 1 item 3 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item4-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
         9
       ],
       "requiredForTask": false,
       "containsSolution": false,
-      "targetFileName": "a1-modelltest-1-hoeren-1-pictures.png",
-      "imageUrl": null,
-      "altText": "Three pictures per item (prices, clocks, food, classes, stairs/lift, destinations)",
-      "extractionNotes": "Each picture carries a caption; the captions are the option texts."
+      "targetFileName": "a1-modelltest-1-hoeren-1-item4-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-a.png",
+      "altText": "Hören Teil 1 item 4 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
     },
     {
-      "assetKey": "a1-modelltest-1-lesen-2-ads",
+      "assetKey": "a1-hoeren-1-item4-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item4-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-b.png",
+      "altText": "Hören Teil 1 item 4 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item4-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item4-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-c.png",
+      "altText": "Hören Teil 1 item 4 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item5-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item5-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-a.png",
+      "altText": "Hören Teil 1 item 5 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item5-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item5-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-b.png",
+      "altText": "Hören Teil 1 item 5 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item5-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item5-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-c.png",
+      "altText": "Hören Teil 1 item 5 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item6-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item6-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-a.png",
+      "altText": "Hören Teil 1 item 6 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item6-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item6-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-b.png",
+      "altText": "Hören Teil 1 item 6 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item6-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item6-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-c.png",
+      "altText": "Hören Teil 1 item 6 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item6-a",
       "usedBy": [
         "LESEN_2"
       ],
       "sourcePages": [
-        16,
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item6-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item6-a.png",
+      "altText": "Lesen Teil 2 item 6 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item6-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item6-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item6-b.png",
+      "altText": "Lesen Teil 2 item 6 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item7-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item7-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item7-a.png",
+      "altText": "Lesen Teil 2 item 7 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item7-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item7-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item7-b.png",
+      "altText": "Lesen Teil 2 item 7 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item8-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item8-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item8-a.png",
+      "altText": "Lesen Teil 2 item 8 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item8-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item8-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item8-b.png",
+      "altText": "Lesen Teil 2 item 8 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item9-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
         17
       ],
       "requiredForTask": false,
       "containsSolution": false,
-      "targetFileName": "a1-modelltest-1-lesen-2-ads.png",
-      "imageUrl": null,
-      "altText": "Two website screenshots per item, a and b",
-      "extractionNotes": "Written out as option text; layout only."
+      "targetFileName": "a1-modelltest-1-lesen-2-item9-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item9-a.png",
+      "altText": "Lesen Teil 2 item 9 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
     },
     {
-      "assetKey": "a1-modelltest-1-lesen-3-signs",
+      "assetKey": "a1-lesen-2-item9-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item9-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item9-b.png",
+      "altText": "Lesen Teil 2 item 9 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item10-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item10-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item10-a.png",
+      "altText": "Lesen Teil 2 item 10 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item10-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item10-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item10-b.png",
+      "altText": "Lesen Teil 2 item 10 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item11",
       "usedBy": [
         "LESEN_3"
       ],
       "sourcePages": [
-        18,
+        18
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item11.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item11.png",
+      "altText": "Lesen Teil 3 sign for item 11",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item12",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        18
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item12.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item12.png",
+      "altText": "Lesen Teil 3 sign for item 12",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item13",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        18
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item13.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item13.png",
+      "altText": "Lesen Teil 3 sign for item 13",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item14",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
         19
       ],
       "requiredForTask": false,
       "containsSolution": false,
-      "targetFileName": "a1-modelltest-1-lesen-3-signs.png",
-      "imageUrl": null,
-      "altText": "Five signs: language school, post office, station, restaurant, bus stop",
-      "extractionNotes": "Sign wording is in content.texts."
+      "targetFileName": "a1-modelltest-1-lesen-3-item14.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item14.png",
+      "altText": "Lesen Teil 3 sign for item 14",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
     },
     {
-      "assetKey": "a1-modelltest-1-schreiben-1-form",
+      "assetKey": "a1-lesen-3-item15",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        19
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item15.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item15.png",
+      "altText": "Lesen Teil 3 sign for item 15",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-schreiben-1-form",
       "usedBy": [
         "SCHREIBEN_1"
       ],
@@ -1199,24 +1680,189 @@
       "requiredForTask": false,
       "containsSolution": false,
       "targetFileName": "a1-modelltest-1-schreiben-1-form.png",
-      "imageUrl": null,
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-schreiben-1-form.png",
       "altText": "Bodensee-Rundfahrt registration form",
-      "extractionNotes": "Pre-filled fields are in sourceDocuments."
+      "extractionNotes": "Form picture; sourceDocuments body is the fallback."
     },
     {
-      "assetKey": "a1-modelltest-1-sprechen-3-cards",
+      "assetKey": "a1-sprechen-3-aepfel",
       "usedBy": [
         "SPRECHEN_3"
       ],
       "sourcePages": [
-        27
+        26
       ],
       "requiredForTask": false,
       "containsSolution": false,
-      "targetFileName": "a1-modelltest-1-sprechen-3-cards.png",
-      "imageUrl": null,
-      "altText": "Twelve photo cards: apples, meat, laptop, car, banana, orange juice, basket, dog, keys, suitcase, flowers, cake",
-      "extractionNotes": "Picture-only cards; each card text names the object."
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-aepfel.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-aepfel.png",
+      "altText": "Sprechen Teil 3 card: Äpfel",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-fleisch",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-fleisch.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-fleisch.png",
+      "altText": "Sprechen Teil 3 card: Fleisch",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-banane",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-banane.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-banane.png",
+      "altText": "Sprechen Teil 3 card: Banane",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-orangensaft",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-orangensaft.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-orangensaft.png",
+      "altText": "Sprechen Teil 3 card: Orangensaft",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-einkaufskorb",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-einkaufskorb.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-einkaufskorb.png",
+      "altText": "Sprechen Teil 3 card: Einkaufskorb",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-hund",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-hund.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-hund.png",
+      "altText": "Sprechen Teil 3 card: Hund",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-schluessel",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-schluessel.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-schluessel.png",
+      "altText": "Sprechen Teil 3 card: Schlüssel",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-koffer",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-koffer.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-koffer.png",
+      "altText": "Sprechen Teil 3 card: Koffer",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-blumen",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-blumen.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-blumen.png",
+      "altText": "Sprechen Teil 3 card: Blumen",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-kuchen",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-kuchen.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-kuchen.png",
+      "altText": "Sprechen Teil 3 card: Kuchen",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-laptop",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-laptop.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-laptop.png",
+      "altText": "Sprechen Teil 3 card: Laptop",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-auto",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-auto.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-auto.png",
+      "altText": "Sprechen Teil 3 card: Auto",
+      "extractionNotes": "Picture-only card; card text names the object."
     }
   ],
   "extractionWarnings": [
