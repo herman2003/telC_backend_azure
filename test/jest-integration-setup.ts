@@ -29,6 +29,22 @@ import { resolve } from 'path';
 
 config({ path: resolve(process.cwd(), '.env.test') });
 
+// Some .env.test files wrap values in quotes; pg then treats the host as
+// literally `"ep-…"`. Strip one layer of matching quotes after load.
+const unquote = (value: string | undefined): string | undefined => {
+  if (!value) return value;
+  const trimmed = value.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
+};
+process.env.DATABASE_URL = unquote(process.env.DATABASE_URL);
+process.env.DIRECT_URL = unquote(process.env.DIRECT_URL);
+
 if (!process.env.DIRECT_URL) {
   throw new Error(
     'Integration tests require .env.test with DATABASE_URL and DIRECT_URL ' +

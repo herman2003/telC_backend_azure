@@ -328,6 +328,8 @@ model ActivationCode {
 enum EntitlementProduct {
   PREP_PASS
   AI_SPEAKING_CREDIT
+  /// Prepaid training Schreiben AI corrections after Start's free 2/day (ADR 0006).
+  AI_SCHREIBEN_CREDIT
   AI_ASSISTED_LEARNING
 }
 
@@ -453,10 +455,11 @@ enum PaymentKind {
   /// The 1,500 XAF tier. Its own value rather than a flag beside EXAM_SLOTS,
   /// so an invoice reads back as the product that was actually sold.
   EXAM_SLOTS_AI
-  /// The three add-ons. Named identically to `EntitlementProduct`, so an
+  /// Add-ons. Named identically to `EntitlementProduct`, so an
   /// invoice line and the entitlement it granted say the same word.
   PREP_PASS
   AI_SPEAKING_CREDIT
+  AI_SCHREIBEN_CREDIT
   AI_ASSISTED_LEARNING
 }
 

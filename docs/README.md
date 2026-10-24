@@ -35,6 +35,7 @@ rewritten — superseded instead.
 | [0003](adr/0003-prices-carry-vat-and-a-period-is-a-month.md) | prices carry VAT, a period is a calendar month |
 | [0004](adr/0004-independent-user-subscription-b19-deferred.md) | independent user subscriptions deferred |
 | [0005](adr/0005-ai-speaking-assign-from-stock.md) | AI Speaking credits assigned from stock |
+| [0006](adr/0006-ai-schreiben-assign-from-stock.md) | AI Schreiben credits assigned from stock (200 FCFA HT) |
 
 ## domains/ — what the product does
 
@@ -45,6 +46,7 @@ Business rules and approved behaviour, per domain. Not plans.
 [payment-mints-codes](domains/payment-mints-codes.md) ·
 [ai-speaking-credits](domains/ai-speaking-credits.md) ·
 [unused-credit policy](domains/ai-speaking-credits-unused.md) ·
+[ai-schreiben-credits](domains/ai-schreiben-credits.md) ·
 [offres-lerniqo](domains/offres-lerniqo.md) (FR, commercial)
 
 **Exam Day** — [exam-simulator](domains/exam-simulator.md) ·

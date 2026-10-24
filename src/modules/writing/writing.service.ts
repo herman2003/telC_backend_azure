@@ -1,5 +1,6 @@
 import type { CefrLevel } from '@prisma/client';
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
@@ -7,8 +8,11 @@ import {
   Optional,
   Inject,
   ConflictException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
+import { EntitlementSpendService } from '../../shared/services/entitlement-spend.service';
 import type {
   ExerciseAttemptDto,
   SubmitWritingResponseDto,
@@ -39,6 +43,7 @@ export class WritingService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly dailyQuota: WritingDailyQuotaService,
+    private readonly entitlements: EntitlementSpendService,
     @Optional()
     @Inject('WRITING_CORRECTION_QUEUE')
     private readonly correctionQueue?: WritingCorrectionQueue,
@@ -245,11 +250,35 @@ export class WritingService {
       }
     }
 
-    // Start: two training AI corrections per UTC day. Exam attempts are
+    // Start: two free training AI corrections per UTC day, then one
+    // AI_SCHREIBEN_CREDIT per correction (ADR 0006). Exam attempts are
     // counted apart (they set exam_attempt_id). Guests stay on IP rate-limit
-    // only — no Start daily quota (tranche 5).
+    // only — no Start daily quota, no credits (tranche 5).
+    let spendCredit = false;
     if (opts.isGuest !== true) {
-      await this.dailyQuota.assertMaySubmit(studentId);
+      const freeLeft = await this.dailyQuota.remainingToday(studentId);
+      if (freeLeft <= 0) {
+        const decision = await this.entitlements.mayUse(
+          studentId,
+          'AI_SCHREIBEN_CREDIT',
+          new Date(),
+          { allowFree: false },
+        );
+        if (!decision.allowed) {
+          if (decision.reason === 'FROZEN') {
+            throw new ForbiddenException('FROZEN');
+          }
+          throw new HttpException(
+            {
+              messageKey: 'writingDailyLimit',
+              message:
+                'Vous avez utilisé vos 2 corrections Schreiben du jour. Réessayez demain.',
+            },
+            HttpStatus.TOO_MANY_REQUESTS,
+          );
+        }
+        spendCredit = true;
+      }
     }
 
     let stored: {
@@ -300,6 +329,17 @@ export class WritingService {
         status: earlier.status,
         message: 'Submission already received.',
       };
+    }
+
+    // Charge after the attempt exists — same rule as Elena: a failed create
+    // must not spend a credit the centre paid for.
+    if (spendCredit) {
+      await this.entitlements.spend(
+        studentId,
+        'AI_SCHREIBEN_CREDIT',
+        new Date(),
+        { allowFree: false },
+      );
     }
 
     if (this.correctionQueue) {

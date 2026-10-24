@@ -335,6 +335,10 @@ describe('what the student reads', () => {
         freeRemaining: FREE_LIVE_SESSIONS_PER_MONTH - 2,
         creditsAvailable: 10,
       },
+      aiSchreiben: {
+        freeRemaining: 2,
+        creditsAvailable: 0,
+      },
       frozen: false,
     });
   });
@@ -534,5 +538,81 @@ describe('an exam is paid for separately, and spends nothing of the student', ()
 
     await expect(poolOf(center.id)).resolves.toBe(40);
     await expect(capOf(code.id)).resolves.toMatchObject({ used: 0 });
+  });
+});
+
+describe('AI_SCHREIBEN_CREDIT (ADR 0006)', () => {
+  async function fillSchreiben(centerId: string, balance: number) {
+    await prisma.centerEntitlementPool.create({
+      data: {
+        center_id: centerId,
+        product: 'AI_SCHREIBEN_CREDIT',
+        balance,
+      },
+    });
+  }
+
+  async function assignSchreiben(codeId: string, assigned: number) {
+    await prisma.codeEntitlementCap.create({
+      data: {
+        code_id: codeId,
+        product: 'AI_SCHREIBEN_CREDIT',
+        cap: assigned,
+        used: 0,
+      },
+    });
+  }
+
+  const schreibenCap = (codeId: string) =>
+    prisma.codeEntitlementCap.findUniqueOrThrow({
+      where: {
+        code_id_product: {
+          code_id: codeId,
+          product: 'AI_SCHREIBEN_CREDIT',
+        },
+      },
+      select: { cap: true, used: true },
+    });
+
+  const schreibenPool = async (centerId: string) =>
+    (
+      await prisma.centerEntitlementPool.findUniqueOrThrow({
+        where: {
+          center_id_product: {
+            center_id: centerId,
+            product: 'AI_SCHREIBEN_CREDIT',
+          },
+        },
+        select: { balance: true },
+      })
+    ).balance;
+
+  it('burns assigned remaining and leaves the school pool alone', async () => {
+    const { center, student, code } = await makeSeat();
+    await fillSchreiben(center.id, 30);
+    await assignSchreiben(code.id, 5);
+
+    await expect(
+      spend.spend(student.id, 'AI_SCHREIBEN_CREDIT', new Date(), {
+        allowFree: false,
+      }),
+    ).resolves.toBe('CREDIT');
+
+    await expect(schreibenCap(code.id)).resolves.toMatchObject({
+      cap: 4,
+      used: 1,
+    });
+    await expect(schreibenPool(center.id)).resolves.toBe(30);
+  });
+
+  it('refuses when the seat has no assigned credits', async () => {
+    const { center, student } = await makeSeat();
+    await fillSchreiben(center.id, 20);
+
+    await expect(
+      spend.mayUse(student.id, 'AI_SCHREIBEN_CREDIT', new Date(), {
+        allowFree: false,
+      }),
+    ).resolves.toMatchObject({ allowed: false, reason: 'NO_CAP' });
   });
 });

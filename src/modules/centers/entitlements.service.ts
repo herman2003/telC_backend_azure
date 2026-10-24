@@ -34,7 +34,14 @@ const PERIOD_DAYS: Partial<Record<EntitlementProduct, number>> = {
  */
 const CAPPED_PRODUCTS: ReadonlySet<EntitlementProduct> = new Set([
   'AI_SPEAKING_CREDIT',
+  'AI_SCHREIBEN_CREDIT',
 ]);
+
+export function isCappedEntitlementProduct(
+  product: EntitlementProduct,
+): boolean {
+  return CAPPED_PRODUCTS.has(product);
+}
 
 export interface PoolView {
   product: EntitlementProduct;

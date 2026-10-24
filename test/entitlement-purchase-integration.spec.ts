@@ -124,6 +124,24 @@ describe('what a purchase records', () => {
     expect(payment).toMatchObject({ unitPriceXaf: 1_000, amountXaf: 7_080 });
   });
 
+  it('prices AI_SCHREIBEN_CREDIT at 200 a piece', async () => {
+    const center = await makeCenter();
+
+    const payment = await purchases.purchase(center.identity, key(), {
+      product: 'AI_SCHREIBEN_CREDIT',
+      quantity: 40,
+    });
+
+    // 40 × 200 HT = 8 000; TTC = 8 000 × 1.18 = 9 440.
+    expect(payment).toMatchObject({
+      kind: 'AI_SCHREIBEN_CREDIT',
+      quantity: 40,
+      unitPriceXaf: 200,
+      amountXaf: 9_440,
+      status: 'PENDING',
+    });
+  });
+
   it('carries the chosen seats and cap to the webhook', async () => {
     const center = await makeCenter();
     const first = await makeCode(center.id);
