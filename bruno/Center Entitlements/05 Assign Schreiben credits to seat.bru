@@ -1,0 +1,34 @@
+meta {
+  name: 05 Assign Schreiben credits to seat
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/codes/{{codeId}}/entitlements/AI_SCHREIBEN_CREDIT
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "cap": 10
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  Moves Schreiben AI credits from the school pool onto a seat.
+  `cap` = assigned remaining (absolute). Typing 10 means ten on that seat.
+
+  Use after purchase + webhook ACTIVATED.
+  Student then spends after Start's free 2 training corrections / UTC day.
+}

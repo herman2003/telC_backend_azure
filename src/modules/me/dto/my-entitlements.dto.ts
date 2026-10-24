@@ -25,7 +25,28 @@ export class AiSpeakingEntitlementDto {
   @ApiProperty({
     example: 8,
     description:
-      "The smaller of what the center has left and what is left of this seat's cap — what this student can actually spend, rather than two numbers for the app to reconcile.",
+      "Assigned remaining on this seat for AI Speaking credits — what this student can actually spend.",
+  })
+  creditsAvailable: number;
+}
+
+export class AiSchreibenEntitlementDto {
+  @ApiProperty({
+    example: 1,
+    description:
+      "Start's free training Schreiben AI corrections left today (UTC). Two per day, spent before any AI_SCHREIBEN_CREDIT.",
+  })
+  freeRemaining: number;
+
+  @ApiProperty({
+    description: 'When the free Schreiben allowance resets: next UTC midnight.',
+  })
+  resetsAt: Date;
+
+  @ApiProperty({
+    example: 4,
+    description:
+      'Assigned remaining AI_SCHREIBEN_CREDIT on this seat (after free two are used).',
   })
   creditsAvailable: number;
 }
@@ -35,6 +56,8 @@ export class MyEntitlementsDto {
   @ApiProperty({ type: HeldPeriodDto }) aiAssisted: HeldPeriodDto;
   @ApiProperty({ type: AiSpeakingEntitlementDto })
   aiSpeaking: AiSpeakingEntitlementDto;
+  @ApiProperty({ type: AiSchreibenEntitlementDto })
+  aiSchreiben: AiSchreibenEntitlementDto;
 
   @ApiProperty({
     description:

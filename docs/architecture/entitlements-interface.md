@@ -30,10 +30,12 @@ Read §1 and §2. The rest is detail.
 
 | product | how it is held | why |
 |---|---|---|
-| **AI Speaking credits** | unallocated + assigned | buy stock, assign to seats, remove returns unused (ADR 0003) |
+| **AI Speaking credits** | unallocated + assigned | buy stock, assign to seats, remove returns unused (ADR 0005) |
+| **AI Schreiben credits** | unallocated + assigned | same stock pattern for training letter corrections after Start’s free 2/day (ADR 0006) — 200 FCFA HT |
 | **Prep Pass** | pool → assignment | bought in bulk, handed out as 30 days on one seat |
-| **AI Assisted Learning** | pool → assignment | same, a month at a time |
-| **Start's 5 free sessions** | **nothing stored** | derived, see §5 |
+| **AI Assisted Learning** | pool → assignment | same, a month at a time (Block 26 — not letter packs) |
+| **Start's free Elena sessions** | **nothing stored** | derived, see §5 |
+| **Start's free Schreiben AI** | **nothing stored** | 2/UTC day from `writing_attempts`, then Schreiben credits |
 
 ---
 

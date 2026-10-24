@@ -10,6 +10,9 @@ import { StudentEntitlementService } from './student-entitlement.service';
  */
 export const FREE_LIVE_SESSIONS_PER_MONTH = 12;
 
+/** Start includes two AI Schreiben corrections per student per UTC day. */
+export const FREE_WRITING_CORRECTIONS_PER_DAY = 2;
+
 /**
  * Where the free allowance starts counting.
  *
@@ -42,6 +45,13 @@ export function quotaWindowEnd(now = new Date()): Date {
 export function utcDayStart(now = new Date()): Date {
   return new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  );
+}
+
+/** When Start's free Schreiben AI corrections come back (next UTC midnight). */
+export function nextUtcDayStart(now = new Date()): Date {
+  return new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1),
   );
 }
 
@@ -106,15 +116,19 @@ export interface HeldPeriodView {
   expiresAt: Date | null;
 }
 
+export interface CreditBalanceView {
+  freeRemaining: number;
+  resetsAt: Date;
+  /** Assigned remaining on this seat (not unallocated school stock). */
+  creditsAvailable: number;
+}
+
 export interface StudentEntitlementsView {
   prepPass: HeldPeriodView;
   aiAssisted: HeldPeriodView;
-  aiSpeaking: {
-    freeRemaining: number;
-    resetsAt: Date;
-    /** Assigned remaining on this seat (not unallocated school stock). */
-    creditsAvailable: number;
-  };
+  aiSpeaking: CreditBalanceView;
+  /** Training Schreiben AI: Start's free 2/UTC day, then seat credits. */
+  aiSchreiben: CreditBalanceView;
   /** True when the centre's Start subscription has lapsed. Everything above
    *  is what they will have back the moment it is paid. */
   frozen: boolean;
@@ -124,8 +138,10 @@ export interface StudentEntitlementsView {
  *  period. */
 const COUNTED: ReadonlySet<EntitlementProduct> = new Set([
   'AI_SPEAKING_CREDIT',
+  'AI_SCHREIBEN_CREDIT',
 ]);
 
+/** Elena free sessions only. Schreiben free quota lives on writing_attempts. */
 const FREE_ALLOWANCE: Partial<Record<EntitlementProduct, number>> = {
   AI_SPEAKING_CREDIT: FREE_LIVE_SESSIONS_PER_MONTH,
 };
@@ -339,14 +355,19 @@ export class EntitlementSpendService {
     studentId: string,
     now = new Date(),
   ): Promise<StudentEntitlementsView> {
-    const [prepPass, aiAssisted, aiSpeaking] = await Promise.all([
+    const [prepPass, aiAssisted, aiSpeaking, aiSchreiben] = await Promise.all([
       this.mayUse(studentId, 'PREP_PASS', now),
       this.mayUse(studentId, 'AI_ASSISTED_LEARNING', now),
       this.mayUse(studentId, 'AI_SPEAKING_CREDIT', now),
+      this.mayUse(studentId, 'AI_SCHREIBEN_CREDIT', now, { allowFree: false }),
     ]);
 
     // Only a lapsed centre is frozen. A guest has nothing to thaw.
     const frozen = prepPass.reason === 'FROZEN';
+
+    const schreibenFree = frozen
+      ? 0
+      : await this.writingFreeRemaining(studentId, now);
 
     return {
       prepPass: {
@@ -362,8 +383,32 @@ export class EntitlementSpendService {
         resetsAt: aiSpeaking.resetsAt ?? quotaWindowEnd(now),
         creditsAvailable: aiSpeaking.creditsAvailable,
       },
+      aiSchreiben: {
+        freeRemaining: schreibenFree,
+        resetsAt: nextUtcDayStart(now),
+        creditsAvailable: aiSchreiben.creditsAvailable,
+      },
       frozen,
     };
+  }
+
+  /**
+   * Start's free training Schreiben AI corrections left today (UTC).
+   * Kept here so `forStudent` does not need the writing module.
+   */
+  private async writingFreeRemaining(
+    studentId: string,
+    now: Date,
+  ): Promise<number> {
+    const used = await this.prisma.writingAttempt.count({
+      where: {
+        student_id: studentId,
+        exam_attempt_id: null,
+        created_at: { gte: utcDayStart(now) },
+        status: { in: ['pending', 'completed'] },
+      },
+    });
+    return Math.max(0, FREE_WRITING_CORRECTIONS_PER_DAY - used);
   }
 
   /** How many of the month's free sessions are left (monthly budget only). */

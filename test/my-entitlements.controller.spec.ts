@@ -25,6 +25,11 @@ describe('MyEntitlementsController', () => {
           resetsAt: new Date('2026-11-01'),
           creditsAvailable: 8,
         },
+        aiSchreiben: {
+          freeRemaining: 2,
+          resetsAt: new Date('2026-10-25'),
+          creditsAvailable: 5,
+        },
         frozen: false,
       }),
     };
@@ -37,13 +42,14 @@ describe('MyEntitlementsController', () => {
     expect(entitlements.forStudent).toHaveBeenCalledWith('student-1');
   });
 
-  it('returns the three products and the frozen flag in one response', async () => {
+  it('returns the products and the frozen flag in one response', async () => {
     const mine = await controller.mine(student);
 
     expect(mine).toMatchObject({
       prepPass: { active: true },
       aiAssisted: { active: false },
       aiSpeaking: { freeRemaining: 3, creditsAvailable: 8 },
+      aiSchreiben: { freeRemaining: 2, creditsAvailable: 5 },
       frozen: false,
     });
   });

@@ -26,9 +26,18 @@ type SignedCenterIdentity = Pick<
   'centerId' | 'centerUserId'
 >;
 
+/**
+ * Corrections Schreiben IA is on the offer sheet at 200 HT. Flip to `false`
+ * only to withdraw sale without deleting the product (same idea as
+ * `EXAM_AI_SLOTS_FOR_SALE`).
+ */
+export const AI_SCHREIBEN_CREDITS_FOR_SALE = true;
+
 /** What each add-on costs, per unit, in XAF. The offer sheet in one place. */
 export const ENTITLEMENT_PRICE_XAF: Record<EntitlementProduct, number> = {
   AI_SPEAKING_CREDIT: 300,
+  /** 1 credit = 1 training Schreiben AI correction after Start's free 2/day. */
+  AI_SCHREIBEN_CREDIT: 200,
   PREP_PASS: 1_000,
   AI_ASSISTED_LEARNING: 2_000,
 };
@@ -153,6 +162,13 @@ export class EntitlementPurchaseService {
       (!Number.isInteger(order.capPerCode) || order.capPerCode < 1)
     ) {
       throw new BadRequestException('ENTITLEMENT_CAP_INVALID');
+    }
+
+    if (
+      order.product === 'AI_SCHREIBEN_CREDIT' &&
+      !AI_SCHREIBEN_CREDITS_FOR_SALE
+    ) {
+      throw new BadRequestException('AI_SCHREIBEN_CREDIT_NOT_AVAILABLE');
     }
 
     const unitPriceXaf = ENTITLEMENT_PRICE_XAF[order.product];

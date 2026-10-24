@@ -117,6 +117,7 @@ UPDATE center_subscriptions SET paid_until = now() - interval '8 days' WHERE cen
 | Produit | Achat | Après webhook | Assign | Élève |
 |---------|-------|---------------|--------|-------|
 | **Mit Elena** `AI_SPEAKING_CREDIT` | qty crédits @ 300 HT | pool | cap sur code | spend session |
+| **Schreiben IA** `AI_SCHREIBEN_CREDIT` | qty crédits @ 200 HT | pool | cap sur code | spend correction training |
 | **Prep Pass** `PREP_PASS` | qty @ 1000 HT | pool | grant **30 jours** | MT hors semaine OK |
 | **Exam Day** slots | via payments slots | `exam_slots_remaining` | — | sitting OK |
 
@@ -155,7 +156,7 @@ Bruno : `Subscription Access / 05–06`.
 
 - [ ] Webhooks **live** Stripe + Fapshi enregistrés, signature vérifiée
 - [ ] Secrets / price IDs sandbox **absents** de la config prod
-- [ ] Prix = OFFRES : Start 4500, Elena 300, Prep Pass 1000, Exam Day 1000 (HT ; TTC = ×1.18)
+- [ ] Prix = OFFRES : Start 4500, Elena 300, Schreiben IA 200, Prep Pass 1000, Exam Day 1000 (HT ; TTC = ×1.18)
 - [ ] UI n’expose pas Exam Day IA / AI Assisted Learning
 - [ ] Monitoring : erreurs webhook, paiements `PENDING` bloqués, mismatch `paid_until`
 - [ ] 1 paiement réel contrôlé (montant min) puis annulation / remboursement

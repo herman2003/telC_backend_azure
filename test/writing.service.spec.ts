@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { WritingService } from '../src/modules/writing/writing.service';
 import { WritingDailyQuotaService } from '../src/modules/writing/writing-daily-quota.service';
+import { EntitlementSpendService } from '../src/shared/services/entitlement-spend.service';
 import { PrismaService } from '../src/shared/services/prisma.service';
 import type { WritingExerciseStimulus } from '../src/modules/writing/dto';
 
@@ -74,6 +75,12 @@ describe('WritingService', () => {
 
   const mockDailyQuota = {
     assertMaySubmit: jest.fn().mockResolvedValue(undefined),
+    remainingToday: jest.fn().mockResolvedValue(2),
+  };
+
+  const mockEntitlements = {
+    mayUse: jest.fn().mockResolvedValue({ allowed: true, reason: null }),
+    spend: jest.fn().mockResolvedValue('CREDIT'),
   };
 
   beforeEach(async () => {
@@ -82,6 +89,7 @@ describe('WritingService', () => {
         WritingService,
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: WritingDailyQuotaService, useValue: mockDailyQuota },
+        { provide: EntitlementSpendService, useValue: mockEntitlements },
         { provide: 'WRITING_CORRECTION_QUEUE', useValue: mockQueue },
       ],
     }).compile();
@@ -293,7 +301,8 @@ describe('WritingService', () => {
 
       expect(result.attemptId).toBeDefined();
       expect(result.status).toBe('pending');
-      expect(mockDailyQuota.assertMaySubmit).toHaveBeenCalledWith('student-1');
+      expect(mockDailyQuota.remainingToday).toHaveBeenCalledWith('student-1');
+      expect(mockEntitlements.spend).not.toHaveBeenCalled();
       expect(mockPrismaService.writingAttempt.create).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
@@ -328,7 +337,35 @@ describe('WritingService', () => {
         { isGuest: true },
       );
 
-      expect(mockDailyQuota.assertMaySubmit).not.toHaveBeenCalled();
+      expect(mockDailyQuota.remainingToday).not.toHaveBeenCalled();
+      expect(mockEntitlements.mayUse).not.toHaveBeenCalled();
+    });
+
+    it('spends an AI_SCHREIBEN_CREDIT after the free two are used', async () => {
+      mockDailyQuota.remainingToday.mockResolvedValueOnce(0);
+      mockPrismaService.writingExercise.findUnique.mockResolvedValue({
+        id: 'uuid-exercise-1',
+        modelltest_id: 'uuid-modelltest-1',
+      });
+      mockPrismaService.writingAttempt.create.mockResolvedValue({});
+
+      await service.submit('student-1', {
+        exerciseId: 'uuid-exercise-1',
+        content: 'Sehr geehrte Damen und Herren, dritte Korrektur.',
+      });
+
+      expect(mockEntitlements.mayUse).toHaveBeenCalledWith(
+        'student-1',
+        'AI_SCHREIBEN_CREDIT',
+        expect.any(Date),
+        { allowFree: false },
+      );
+      expect(mockEntitlements.spend).toHaveBeenCalledWith(
+        'student-1',
+        'AI_SCHREIBEN_CREDIT',
+        expect.any(Date),
+        { allowFree: false },
+      );
     });
 
     it('throws NotFoundException when exerciseId not in DB', async () => {
