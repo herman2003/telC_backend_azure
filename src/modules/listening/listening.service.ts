@@ -211,7 +211,12 @@ export class ListeningService {
       items: section.items.map((item) => ({
         itemNumber: item.itemNumber,
         prompt: item.prompt,
-        options: item.options.map(({ key, content }) => ({ key, content })),
+        imageUrl: item.imageUrl ?? null,
+        options: item.options.map(({ key, content, imageUrl }) => ({
+          key,
+          content,
+          imageUrl: imageUrl ?? null,
+        })),
       })),
     };
   }

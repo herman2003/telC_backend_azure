@@ -19,13 +19,23 @@ export class ListeningGenericItemDto {
   prompt: string | null;
 
   @ApiPropertyOptional({
+    nullable: true,
+    description: 'Per-item picture (e.g. A2 phone note); text prompt is fallback',
+  })
+  imageUrl?: string | null;
+
+  @ApiPropertyOptional({
     type: 'array',
     items: {
       type: 'object',
-      properties: { key: { type: 'string' }, content: { type: 'string' } },
+      properties: {
+        key: { type: 'string' },
+        content: { type: 'string' },
+        imageUrl: { type: 'string', nullable: true },
+      },
     },
   })
-  options: { key: string; content: string }[];
+  options: { key: string; content: string; imageUrl?: string | null }[];
 }
 
 /**
