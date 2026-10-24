@@ -11,6 +11,7 @@ import {
   GenericExamContentService,
   type GenericSectionContent,
 } from '../../shared/services/generic-exam-content.service';
+import { withoutAnswerKey } from '../centers/exam-content';
 import { trainingFeedbackForSection } from '../centers/generic-section-scoring';
 import type { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
@@ -207,7 +208,9 @@ export class ListeningService {
       })),
       aufgabentyp: section.aufgabentyp,
       sectionId: section.sectionId,
-      material: section.material,
+      // Same deny-list as Exam Day — strips transcript / solution / isCorrect
+      // that import parks under material.media and items.
+      material: withoutAnswerKey(section.material),
       items: section.items.map((item) => ({
         itemNumber: item.itemNumber,
         prompt: item.prompt,

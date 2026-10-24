@@ -225,7 +225,12 @@ describe('ListeningService', () => {
       maxPoints: 5,
       scoringMode: 'AUTO',
       contentRevision: 'a2-mt8-hoeren-1-v1',
-      material: {},
+      material: {
+        media: {
+          audioUrl: 'https://cdn.example/teil1.mp3',
+          transcript: 'SECRET spoken text the student must not see on GET',
+        },
+      },
       items: [
         {
           itemNumber: 1,
@@ -288,8 +293,12 @@ describe('ListeningService', () => {
       expect(result.items?.[1]?.imageUrl).toBe(
         'https://cdn.example/item2.png',
       );
+      expect(result.material).toEqual({
+        media: { audioUrl: 'https://cdn.example/teil1.mp3' },
+      });
       expect(JSON.stringify(result)).not.toContain('isCorrect');
       expect(JSON.stringify(result)).not.toContain('solution');
+      expect(JSON.stringify(result)).not.toContain('SECRET spoken text');
       expect(prisma.listeningExercise.findFirst).not.toHaveBeenCalled();
     });
 
