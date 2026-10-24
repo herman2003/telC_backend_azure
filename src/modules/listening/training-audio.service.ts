@@ -8,6 +8,7 @@ import { createHmac, timingSafeEqual } from 'crypto';
 import { PrismaService } from '../../shared/services/prisma.service';
 import {
   EXAM_AUDIO_SECRET,
+  teilRecordingOf,
   type GrantedPlay,
 } from '../centers/exam-audio.service';
 import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
@@ -29,12 +30,23 @@ export interface TrainingAudioTokenClaims {
  */
 const LINK_LIFETIME_FACTOR = 2;
 
+/** Resolved recording for either B1 tables or A1/A2 exam_sections. */
+interface ResolvedTrainingRecording {
+  audioId: string;
+  modelltestNumber: number;
+  playsAllowed: number;
+  durationSeconds: number;
+  /** Present for B1; generic stream resolves URL at token time. */
+  audioUrl: string | null;
+}
+
 /**
  * Playing a Hören recording in training.
  *
  * Same contract as exam play: server counts, returns a short-lived stream URL,
  * never a durable R2 address. Counter is per student + audio, not per exam
- * attempt.
+ * attempt. `audioId` is either a `listening_exercises.id` (B1/B2) or an
+ * `exam_sections.id` for a Hören Teil (A1/A2).
  */
 @Injectable()
 export class TrainingAudioService {
@@ -49,35 +61,19 @@ export class TrainingAudioService {
     audioId: string,
     opts: { isGuest?: boolean } = {},
   ): Promise<GrantedPlay> {
-    const audio = await this.prisma.listeningExercise.findUnique({
-      where: { id: audioId },
-      select: {
-        id: true,
-        audio_url: true,
-        duration_minutes: true,
-        exam_plays_allowed: true,
-        modelltest: { select: { number: true } },
-      },
-    });
-    if (!audio) throw new NotFoundException('AUDIO_NOT_FOUND');
-    if (!audio.audio_url) {
-      throw new BadRequestException('AUDIO_UNAVAILABLE');
-    }
-    if (!audio.duration_minutes || audio.duration_minutes < 1) {
-      throw new BadRequestException('AUDIO_DURATION_MISSING');
-    }
+    const recording = await this.resolveRecording(audioId);
 
-    assertGuestMayAccessModelltest(opts.isGuest, audio.modelltest.number);
+    assertGuestMayAccessModelltest(opts.isGuest, recording.modelltestNumber);
     if (opts.isGuest !== true) {
       await this.trainingAccess.assertMayAccess(
         studentId,
-        audio.modelltest.number,
+        recording.modelltestNumber,
       );
     }
 
-    const allowed = audio.exam_plays_allowed;
+    const allowed = recording.playsAllowed;
     const expiresAt = new Date(
-      Date.now() + audio.duration_minutes * LINK_LIFETIME_FACTOR * 60 * 1000,
+      Date.now() + recording.durationSeconds * LINK_LIFETIME_FACTOR * 1000,
     );
 
     // Guests have no `students` row, so training_audio_plays FK cannot land.
@@ -136,6 +132,93 @@ export class TrainingAudioService {
       url: `/api/listening/audio?token=${token}`,
       playsRemaining: Math.max(0, allowed - playNumber),
       expiresAt,
+    };
+  }
+
+  /**
+   * Stream URL for a verified training token. B1 rows carry `audio_url`;
+   * A1/A2 resolve from `format.hoerenDelivery` by section id.
+   */
+  async streamUrlFor(audioId: string): Promise<string> {
+    const exercise = await this.prisma.listeningExercise.findUnique({
+      where: { id: audioId },
+      select: { audio_url: true },
+    });
+    if (exercise?.audio_url) return exercise.audio_url;
+
+    const section = await this.prisma.examSection.findUnique({
+      where: { id: audioId },
+      select: {
+        skill: true,
+        teil: true,
+        modelltest: { select: { format: true } },
+      },
+    });
+    if (!section || section.skill !== 'HOEREN') {
+      throw new BadRequestException('AUDIO_UNAVAILABLE');
+    }
+    const url = teilRecordingOf(
+      section.modelltest.format,
+      section.teil,
+    )?.audioUrl;
+    if (!url) throw new BadRequestException('AUDIO_UNAVAILABLE');
+    return url;
+  }
+
+  private async resolveRecording(
+    audioId: string,
+  ): Promise<ResolvedTrainingRecording> {
+    const audio = await this.prisma.listeningExercise.findUnique({
+      where: { id: audioId },
+      select: {
+        id: true,
+        audio_url: true,
+        duration_minutes: true,
+        exam_plays_allowed: true,
+        modelltest: { select: { number: true } },
+      },
+    });
+    if (audio) {
+      if (!audio.audio_url) {
+        throw new BadRequestException('AUDIO_UNAVAILABLE');
+      }
+      if (!audio.duration_minutes || audio.duration_minutes < 1) {
+        throw new BadRequestException('AUDIO_DURATION_MISSING');
+      }
+      return {
+        audioId: audio.id,
+        modelltestNumber: audio.modelltest.number,
+        playsAllowed: audio.exam_plays_allowed,
+        durationSeconds: audio.duration_minutes * 60,
+        audioUrl: audio.audio_url,
+      };
+    }
+
+    const section = await this.prisma.examSection.findUnique({
+      where: { id: audioId },
+      select: {
+        id: true,
+        skill: true,
+        teil: true,
+        modelltest: { select: { number: true, format: true } },
+      },
+    });
+    if (!section || section.skill !== 'HOEREN') {
+      throw new NotFoundException('AUDIO_NOT_FOUND');
+    }
+    const teilRecording = teilRecordingOf(
+      section.modelltest.format,
+      section.teil,
+    );
+    if (!teilRecording) {
+      throw new BadRequestException('HOEREN_AUDIO_NOT_READY');
+    }
+    return {
+      audioId: section.id,
+      modelltestNumber: section.modelltest.number,
+      playsAllowed: 1,
+      durationSeconds: teilRecording.durationSeconds,
+      audioUrl: teilRecording.audioUrl,
     };
   }
 

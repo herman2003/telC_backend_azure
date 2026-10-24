@@ -1,0 +1,42 @@
+meta {
+  name: 04b Log the B1 student in
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{b1StudentEmail}}",
+    "password": "Student-Pass1!",
+    "deviceId": "b1-student-device-1",
+    "deviceName": "Bruno"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  bru.setEnvVar("b1StudentAccessToken", res.body.accessToken);
+}
+
+docs {
+  The SECOND student, the one on a B1 seat. Requests 05 and 07b are the only
+  two that prove a level gate refuses rather than permits, and both need this
+  token.
+
+  It used to be a sentence telling the reader to run Student Activation again
+  with a different email and copy the token across by hand, which is why those
+  two requests were usually skipped. A separate deviceId from the B2 student
+  so the two sessions do not evict each other.
+}

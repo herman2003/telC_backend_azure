@@ -1,0 +1,23 @@
+meta {
+  name: 07g Another student cannot join this sitting
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/api/exams/sessions/{{a2SittingId}}/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2OutsiderToken}}
+}
+assert {
+  res.status: eq 404
+  res.body.message: eq NOT_A_PARTICIPANT
+}
+
+docs {
+  Only students the centre admitted (05) may start the sitting.
+}

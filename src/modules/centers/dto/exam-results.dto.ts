@@ -4,6 +4,7 @@ import {
   IsBoolean,
   IsIn,
   IsInt,
+  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
@@ -14,11 +15,11 @@ import { Trim } from './center-validation.decorators';
 
 export class RecordExamMarkDto {
   @ApiProperty({
-    enum: ['SCHREIBEN', 'SPRECHEN'],
+    enum: Object.values(Skill),
     description:
-      'Only these two. The rest were marked against an answer key, and a person overwriting one would make an exam negotiable.',
+      'B1/B2: Schreiben or Sprechen only (SKILL_NOT_HUMAN_MARKED otherwise). A1/A2: also any automatic Teil the answer key could not decide; a Teil the server already marked is SECTION_MARKED_BY_SERVER.',
   })
-  @IsIn(['SCHREIBEN', 'SPRECHEN'])
+  @IsIn(Object.values(Skill))
   skill: Skill;
 
   @ApiProperty({ example: 1 })
@@ -28,12 +29,12 @@ export class RecordExamMarkDto {
   teil: number;
 
   @ApiProperty({
-    example: 32,
+    example: 32.5,
     description:
-      "In telc's points for that Teil, which is what an examiner writes on the form — not a percentage.",
+      "In telc's points for that Teil, which is what an examiner writes on the form — not a percentage. Whole or half points (the Bewertungsbogen M10 gives 1, 0.5 or 0 per criterion); anything finer is POINTS_INVALID.",
   })
   @Type(() => Number)
-  @IsInt()
+  @IsNumber({ allowNaN: false, allowInfinity: false })
   @Min(0)
   points: number;
 
@@ -108,6 +109,17 @@ export class ExamSchreibenSubmissionDto {
     description: 'text.length when text is present, otherwise 0.',
   })
   characterCount: number;
+
+  @ApiProperty({
+    nullable: true,
+    example: 'Aufgabe A — Bitte um Informationen',
+    description:
+      'Which Schreiben task the letter answers. telc B2 offers two and the ' +
+      'candidate answers one, and criterion I is whether that prompt’s ' +
+      'required points were addressed — so a trainer cannot mark without it. ' +
+      'Null for a sitting recorded before the task was stored.',
+  })
+  task: string | null;
 }
 
 export class ExamAttemptResultDto {

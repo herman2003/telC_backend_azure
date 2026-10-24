@@ -1,0 +1,40 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 0
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+docs {
+  Training (not Exam Day) — one request chain that proves each CEFR level
+  can open its practice paper on the existing skill routes.
+
+  WHAT THIS CHECKS
+  A1 MT 9 and A2 MT 8: Lesen + Hören (generic model `sections` / `items`).
+  B1: catalogue (of-the-week only, no Prep Pass) then Lesen, Hören,
+  Sprachbausteine, Schreiben on that paper.
+  B2 MT 7: Lesen, Hören, Sprachbausteine, Schreiben (B-family shapes).
+  Wrong-level refusal: A1 student cannot open a B2 paper.
+
+  Deeper A1/A2 submit scoring (Lösungsschlüssel / UNRECOGNISED) stays in
+  `bruno/A1 Level` and `bruno/A2 Level` P01–P04. This folder is the
+  per-level smoke matrix.
+
+  BEFORE YOU START
+  1. `node -r ./scripts/env-test-first.cjs scripts/seed-b2-bruno-fixture.mjs`
+     Must print ep-misty-sea and A1/A2/B2 papers.
+  2. `npm run start:testdb`
+  3. Center Auth / 03 Login (sets {{accessToken}} for the B2 seat PATCH).
+
+  ORDER
+  Run in seq. A1/A2/B1 seats already carry their level in the fixture.
+  B2 needs 40 (set seat level) then 41–42 (login + redeem).
+
+  RE-RUNNING
+  Seat redeem is 409 if already claimed — re-run the fixture script.
+}

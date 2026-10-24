@@ -1,0 +1,34 @@
+meta {
+  name: 02 Redeem it and become a B2 student
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/redeem-code
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+body:json {
+  {
+    "code": "{{activationKey}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  The seat's level is copied onto the student inside the same transaction
+  that claims the code, so a code can never be taken without the level
+  arriving with it.
+
+  Run AFTER the student is registered and email-verified. Check the
+  student's profile afterwards (GET /api/auth/me) and expect level B2.
+}

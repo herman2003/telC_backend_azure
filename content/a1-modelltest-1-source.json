@@ -1,0 +1,1874 @@
+{
+  "modelltest": {
+    "level": "A1",
+    "number": 1,
+    "title": "telc Deutsch A1 – Übungstest 1",
+    "examOnly": false,
+    "contentRevision": "a1-modelltest-1-v1",
+    "source": {
+      "documentTitle": "telc Start Deutsch 1, Übungstest 1",
+      "publisher": "telc gGmbH"
+    }
+  },
+  "format": {
+    "hoerenDelivery": {
+      "deliveryMode": "PER_TEIL_RECORDINGS",
+      "playsAllowed": 1,
+      "pauseAllowed": false,
+      "seekAllowed": false,
+      "restartAllowed": false,
+      "recordings": [
+        {
+          "teil": 1,
+          "audioAssetKey": "a1-mt-hoeren/a1-mt-1-hoeren/a1-modelltest-1-hoeren-teil1.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-modelltest-1-hoeren-teil1.mp3",
+          "durationSeconds": 492
+        },
+        {
+          "teil": 2,
+          "audioAssetKey": "a1-mt-hoeren/a1-mt-1-hoeren/a1-modelltest-1-hoeren-teil2.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-modelltest-1-hoeren-teil2.mp3",
+          "durationSeconds": 231
+        },
+        {
+          "teil": 3,
+          "audioAssetKey": "a1-mt-hoeren/a1-mt-1-hoeren/a1-modelltest-1-hoeren-teil3.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-modelltest-1-hoeren-teil3.mp3",
+          "durationSeconds": 292
+        }
+      ]
+    },
+    "gradeBands": [
+      {
+        "label": "SEHR_GUT",
+        "minimum": 54,
+        "maximum": 60
+      },
+      {
+        "label": "GUT",
+        "minimum": 48,
+        "maximum": 53.5
+      },
+      {
+        "label": "BEFRIEDIGEND",
+        "minimum": 42,
+        "maximum": 47.5
+      },
+      {
+        "label": "AUSREICHEND",
+        "minimum": 36,
+        "maximum": 41.5
+      },
+      {
+        "label": "TEILGENOMMEN",
+        "minimum": 0,
+        "maximum": 35.5
+      }
+    ]
+  },
+  "sections": {
+    "HOEREN": [
+      {
+        "sectionId": "HOEREN_1",
+        "fertigkeit": "HOEREN",
+        "label": "Hören",
+        "teil": 1,
+        "title": "Hören, Teil 1",
+        "aufgabentyp": "EINZELAUSWAHL",
+        "contentRevision": "a1-modelltest-1-hoeren-teil-1-v1",
+        "instructions": [
+          "Kreuzen Sie an: a, b oder c.",
+          "Sie hören jeden Text zweimal."
+        ],
+        "position": 1,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 6,
+          "examPart": "WRITTEN"
+        },
+        "media": {
+          "transcript": "Nummer 1\nKunde: Entschuldigung, was kostet dieser Pullover jetzt? Da steht 30 Prozent billiger.\nVerkäuferin: Einen Moment bitte … neunzehn-fünfundneunzig.\nKunde: 19,95 Euro?\nVerkäuferin: Ja, Euro natürlich.\nKunde: Hm, … ok, den nehme ich.\n\nNummer 2\nPassant: Entschuldigen Sie bitte.\nPassantin: Ja bitte.\nPassant: Haben Sie eine Uhr? … Wie spät ist es bitte?\nPassantin: Ja – jetzt ist es gleich 5 Uhr.\nPassant: Was, schon 5. Vielen Dank, Wiedersehen.\n\nNummer 3\nOber: Was wünschen Sie bitte?\nGast: Ich hätte gern die Salatplatte und ein …\nOber: Entschuldigung, die Salatplatte ist leider aus, aber die Bratwurst kann ich Ihnen empfehlen … ganz frisch heute.\nGast: Nein danke … ich esse kein Fleisch. Gibt es etwas ohne Fleisch?\nOber: Ja … nicht mehr viel: Fisch oder … Pommes.\nGast: Fisch … hm … Tja, dann wohl die Pommes.\n\nNummer 4\nKollege: Haben Sie Kinder, Frau Heger?\nKollegin: Ja, einen Sohn.\nKollege: Und wie alt ist er?\nKollegin: Neun Jahre … seit gestern.\nKollege: Ah, dann geht er ja schon zur Schule?\nKollegin: Ja klar, schon in die dritte Klasse.\n\nNummer 5\nKundin: Entschuldigen Sie, wie komme ich denn hier in den zweiten Stock? Die Rolltreppe da vorn ist kaputt.\nVerkäuferin: Da gehen Sie hier rechts um die Ecke und nehmen den Aufzug.\nKundin: Um die Ecke rechts. Danke.\n\nNummer 6\nKollegin: Guten Morgen, Herr Albers. So früh schon bei der Arbeit?\nKollege: Ja, ich habe noch viel zu tun. Morgen fahre ich doch für 3 Wochen weg.\nKollegin: Ach ja, das hab‘ ich vergessen. Wohin fahren Sie denn?\nKollege: Zu meinen Verwandten nach Polen.\nKollegin: Na dann … schöne Zeit."
+        },
+        "content": {
+          "items": [
+            {
+              "number": 1,
+              "prompt": "Was kostet der Pullover?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "30,00 €",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "95,00 €",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-b.png"
+                },
+                {
+                  "key": "c",
+                  "text": "19,95 €",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-c.png"
+                }
+              ],
+              "solution": {
+                "key": "c"
+              }
+            },
+            {
+              "number": 2,
+              "prompt": "Wie spät ist es?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "15.00 Uhr",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "Gleich 17.00 Uhr",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-b.png"
+                },
+                {
+                  "key": "c",
+                  "text": "16.30 Uhr",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-c.png"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 3,
+              "prompt": "Was isst die Frau im Restaurant?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Pommes",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "Fisch",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-b.png"
+                },
+                {
+                  "key": "c",
+                  "text": "Wurst",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-c.png"
+                }
+              ],
+              "solution": {
+                "key": "a"
+              }
+            },
+            {
+              "number": 4,
+              "prompt": "In welche Klasse geht Frau Hegers Sohn?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "In die neunte Klasse (9b)",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "In die dritte Klasse (3a)",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-b.png"
+                },
+                {
+                  "key": "c",
+                  "text": "In die vierte Klasse (4a)",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-c.png"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 5,
+              "prompt": "Wie kommt die Frau in den 2. Stock?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Mit dem Aufzug",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "Auf der Treppe um die Ecke",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-b.png"
+                },
+                {
+                  "key": "c",
+                  "text": "Mit der Rolltreppe",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-c.png"
+                }
+              ],
+              "solution": {
+                "key": "a"
+              }
+            },
+            {
+              "number": 6,
+              "prompt": "Wohin fährt Herr Albers?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "In Urlaub ans Meer",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "Zur Arbeit",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-b.png"
+                },
+                {
+                  "key": "c",
+                  "text": "Zur Familie",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-c.png"
+                }
+              ],
+              "solution": {
+                "key": "c"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "HOEREN_2",
+        "fertigkeit": "HOEREN",
+        "label": "Hören",
+        "teil": 2,
+        "title": "Hören, Teil 2",
+        "aufgabentyp": "RICHTIG_FALSCH",
+        "contentRevision": "a1-modelltest-1-hoeren-teil-2-v1",
+        "instructions": [
+          "Kreuzen Sie an: Richtig (+) oder falsch (–)?",
+          "Sie hören jeden Text einmal."
+        ],
+        "position": 2,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 4,
+          "examPart": "WRITTEN"
+        },
+        "media": {
+          "transcript": "Nummer 7\nLiebe Kunden, zu Weihnachten bieten wir Ihnen Superpreise an … z. B. erstklassiger italienischer Weißwein für 12 Euro 78 die Flasche oder exklusiver argentinischer Rotwein für 9 Euro 68. Besuchen Sie uns im 3. Stock. Frohe Weihnachten.\n\nNummer 8\nLiebe Fahrgäste. Wir sind kurz vor Würzburg. Sicherlich haben Sie schon Hunger. An der nächsten Raststätte halten wir für eine Stunde. Wir treffen uns wieder um halb eins Uhr am Bus, aber bitte pünktlich sein.\n\nNummer 9\nLiebe Fahrgäste! Bitte beachten Sie: Das ist ein außerplanmäßiger Halt. Bitte hier nicht aussteigen. In ein paar Minuten erreichen wir den Bahnhof Bonn – Bad Godesberg.\n\nNummer 10\nHerr Stefan Janda gebucht auf dem Flug LH 737 nach Warschau, wird zum Schalter F7 gebeten. Der Flug wird in ein paar Minuten geschlossen. Herr Janda gebucht nach Warschau bitte nach F7."
+        },
+        "content": {
+          "items": [
+            {
+              "number": 7,
+              "statement": "Die Kunden sollen die Weihnachtsfeier besuchen.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 8,
+              "statement": "Die Fahrgäste sollen sich im Restaurant treffen.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 9,
+              "statement": "Die Fahrgäste sollen im Zug bleiben.",
+              "solution": {
+                "value": true
+              }
+            },
+            {
+              "number": 10,
+              "statement": "Der Herr soll sofort zum Schalter kommen.",
+              "solution": {
+                "value": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "HOEREN_3",
+        "fertigkeit": "HOEREN",
+        "label": "Hören",
+        "teil": 3,
+        "title": "Hören, Teil 3",
+        "aufgabentyp": "EINZELAUSWAHL",
+        "contentRevision": "a1-modelltest-1-hoeren-teil-3-v1",
+        "instructions": [
+          "Kreuzen Sie an: a, b oder c.",
+          "Sie hören jeden Text zweimal."
+        ],
+        "position": 3,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "media": {
+          "transcript": "Nummer 11\nTelefonansagedienst der deutschen Telekom. Die Rufnummer des Teilnehmers hat sich geändert. Bitte rufen Sie die Telefon-Auskunft an unter 11 8 33.\n\nNummer 12\nHallo Jan, hier ist Boris. Du, ich bin noch im Zug. Du holst mich doch vom Bahnhof ab? Ich warte an der Information auf dich.\n\nNummer 13\nMensch Jan, du Penner, hier noch mal Boris. Ich bin jetzt am Bahnhof. Und du? Wo bist du denn? Ich warte schon über 20 Minuten auf dich. Zehn Minuten Zeit hast du noch … bis 2, dann nehme ich ein Taxi.\n\nNummer 14\nGuten Tag, hier Rogalla. Wir können am Samstag leider nicht zu Ihnen kommen. Am Sonntag haben wir aber Zeit. Rufen Sie uns doch bitte zurück, ob Ihnen das passt. Danke.\n\nNummer 15\nHallo Alex. Walter hier. Kannst du schnell mal rüberkommen? Mein Computer hat einen Fehler. Ich kann nichts drucken. Melde dich doch bitte gleich, wenn du nach Hause kommst."
+        },
+        "content": {
+          "items": [
+            {
+              "number": 11,
+              "prompt": "Die Nummer ist:",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "11833"
+                },
+                {
+                  "key": "b",
+                  "text": "11883"
+                },
+                {
+                  "key": "c",
+                  "text": "12833"
+                }
+              ],
+              "solution": {
+                "key": "a"
+              }
+            },
+            {
+              "number": 12,
+              "prompt": "Wo genau treffen sich die Männer?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Am Zug"
+                },
+                {
+                  "key": "b",
+                  "text": "Am Bahnhof"
+                },
+                {
+                  "key": "c",
+                  "text": "An der Information"
+                }
+              ],
+              "solution": {
+                "key": "c"
+              }
+            },
+            {
+              "number": 13,
+              "prompt": "Wie lange will der Mann noch warten?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "20 Minuten"
+                },
+                {
+                  "key": "b",
+                  "text": "2 Minuten"
+                },
+                {
+                  "key": "c",
+                  "text": "10 Minuten"
+                }
+              ],
+              "solution": {
+                "key": "c"
+              }
+            },
+            {
+              "number": 14,
+              "prompt": "An welchem Tag will die Frau kommen?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Am Montag"
+                },
+                {
+                  "key": "b",
+                  "text": "Am Sonntag"
+                },
+                {
+                  "key": "c",
+                  "text": "Am Samstag"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 15,
+              "prompt": "Was ist kaputt?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Der Fernseher"
+                },
+                {
+                  "key": "b",
+                  "text": "Der Computer"
+                },
+                {
+                  "key": "c",
+                  "text": "Das Handy"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "LESEN": [
+      {
+        "sectionId": "LESEN_1",
+        "fertigkeit": "LESEN",
+        "label": "Lesen",
+        "teil": 1,
+        "title": "Lesen, Teil 1",
+        "aufgabentyp": "RICHTIG_FALSCH",
+        "contentRevision": "a1-modelltest-1-lesen-teil-1-v1",
+        "instructions": [
+          "Sind die Aussagen 1–5 richtig (+) oder falsch (–)? Kreuzen Sie an."
+        ],
+        "position": 1,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "media": null,
+        "content": {
+          "texts": [
+            {
+              "forItems": [
+                1,
+                2
+              ],
+              "title": "Brief von Karin",
+              "body": "Hallo Li,\ndanke für deine Mail. Dein Zug kommt hier in Hannover um 12.36 Uhr an. Ich bin ab 12.15 Uhr im Hauptbahnhof und warte auf dich vor der Auskunft.\nDu kannst mich den ganzen Vormittag auf meinem Handy (++49 173 62 205 59) erreichen.\nDeine\nKarin"
+            },
+            {
+              "forItems": [
+                3,
+                4,
+                5
+              ],
+              "title": "Brief von Ralf",
+              "body": "Liebe Carmen, lieber José,\nam kommenden Sonntag habe ich Geburtstag. Ich möchte gerne mit euch feiern und lade euch herzlich zu meiner Party am Samstagabend ein. Wir fangen um 21 Uhr an. Ist das okay für euch? Es werden eine ganze Menge Leute da sein, die ihr auch kennt. Könntet ihr vielleicht einen Salat mitbringen? Und vergesst bitte nicht einen Pullover oder eine Jacke! Wir wollen nämlich draußen im Garten feiern. Ich freue mich sehr auf euch!\nBis zum Wochenende\nRalf"
+            }
+          ],
+          "items": [
+            {
+              "number": 1,
+              "statement": "Lis Zug kommt nach halb eins an.",
+              "solution": {
+                "value": true
+              }
+            },
+            {
+              "number": 2,
+              "statement": "Karin wartet den ganzen Vormittag vor der Auskunft.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 3,
+              "statement": "Ralf hatte am letzten Wochenende Geburtstag.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 4,
+              "statement": "Ralf hat nur zwei oder drei Leute eingeladen.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 5,
+              "statement": "Die Party findet draußen statt.",
+              "solution": {
+                "value": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "LESEN_2",
+        "fertigkeit": "LESEN",
+        "label": "Lesen",
+        "teil": 2,
+        "title": "Lesen, Teil 2",
+        "aufgabentyp": "EINZELAUSWAHL",
+        "contentRevision": "a1-modelltest-1-lesen-teil-2-v1",
+        "instructions": [
+          "Lesen Sie die Texte und die Aufgaben 6–10.",
+          "Welche Anzeige ist interessant für Sie? Kreuzen Sie an: a oder b?"
+        ],
+        "position": 2,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "media": null,
+        "content": {
+          "items": [
+            {
+              "number": 6,
+              "prompt": "Sie möchten mit dem Schiff auf dem Rhein fahren. Wo bekommen Sie Informationen?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "www.schiff-ruedesheim.de\nHotel – Pension – Schiff\nEinzel- und Doppelzimmer mit Dusche/WC\nRestaurant mit Rhein-Terrasse\nPreise · über uns · Buchung",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item6-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "www.bingen-ruedesheimer.de\nBingen-Rüdesheimer Rheinschiffe\ntäglich von Rüdesheim nach Koblenz\nalle Abfahrtszeiten und Preise hier",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item6-b.png"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 7,
+              "prompt": "Sie möchten Deutsch in Deutschland lernen. Wo finden Sie Informationen?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "www.sprachenfuchs.de\nSprachinstitut Fuchs\nDresden, Prager Str. 4\n– Deutsch – Englisch – Französisch – Russisch\nDie Schule · Die Kurse · Die Preise · Kontakt",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item7-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "www.eviva.com\nEviva-Idiomas\nSprachkurse für Deutsche\nSpanisch auf Mallorca, Englisch auf Malta\nUnsere Preise · Unser Unterricht · Buchungen",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item7-b.png"
+                }
+              ],
+              "solution": {
+                "key": "a"
+              }
+            },
+            {
+              "number": 8,
+              "prompt": "Sie möchten ein Zugticket im Internet kaufen. Wo können Sie das?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "www.DER.com\nDeutsches Reisebüro\nTicketbestellungen und Reservierungen für Flüge weltweit, Deutsche Bahn, Eurobus, 24-Stunden-Service\nE-Mail · Ticketbestellung",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item8-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "www.RED.com\nReisedienst GmbH\nTicketservice für Theater, Konzerte, Busreisen in Deutschland und nach Polen, Tschechien und Ungarn\nKonzertservice · Theater · Busreisen",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item8-b.png"
+                }
+              ],
+              "solution": {
+                "key": "a"
+              }
+            },
+            {
+              "number": 9,
+              "prompt": "Sie möchten Informationen über den Bodensee. Wo finden Sie das?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "www.bodensee.de\nTouristeninformation\nUrlaubsorte · Hotelservice · Ferienwohnungen · Rundreisen",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item9-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "www.rottenmeier.de\nHans Rottenmeier\nFerienwohnungen am Bodensee\nHäuser · Preise · Kontakte",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item9-b.png"
+                }
+              ],
+              "solution": {
+                "key": "a"
+              }
+            },
+            {
+              "number": 10,
+              "prompt": "Sie sind in Wiesbaden und möchten mit dem Zug am Mittag in Hamburg sein. Wo finden Sie den richtigen Zug, bei Information a oder b?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "www.reiseauskunft.bahn.de\nab Hamburg 17.02. 12:18 – an Wiesbaden 17.02. 16:52\nDauer 4:34 · 1-mal umsteigen · ICE, S",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item10-a.png"
+                },
+                {
+                  "key": "b",
+                  "text": "www.reiseauskunft.bahn.de\nab Wiesbaden 17.02. 07:34 – an Hamburg 17.02. 12:05\nDauer 4:31 · 1-mal umsteigen · S, ICE",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item10-b.png"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "LESEN_3",
+        "fertigkeit": "LESEN",
+        "label": "Lesen",
+        "teil": 3,
+        "title": "Lesen, Teil 3",
+        "aufgabentyp": "RICHTIG_FALSCH",
+        "contentRevision": "a1-modelltest-1-lesen-teil-3-v1",
+        "instructions": [
+          "Lesen Sie die Texte und die Aufgaben 11–15.",
+          "Kreuzen Sie an: Richtig (+) oder falsch (–)?"
+        ],
+        "position": 3,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "media": null,
+        "content": {
+          "texts": [
+            {
+              "forItems": [
+                11
+              ],
+              "title": "In der Sprachschule",
+              "body": "In der 10-Uhr-Pause bekommen Sie an der Rezeption ein Frühstückspaket: belegte Brötchen und Getränke für 2 Euro.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item11.png"
+            },
+            {
+              "forItems": [
+                12
+              ],
+              "title": "An der Post",
+              "body": "Öffnungszeiten:\nmontags–freitags 8.00–12.00 Uhr und 13.00–18.00 Uhr\nsamstags 8.00–12.00 Uhr",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item12.png"
+            },
+            {
+              "forItems": [
+                13
+              ],
+              "title": "Am Bahnhof",
+              "body": "Auf dem gesamten Bahnhof ist das Rauchen verboten.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item13.png"
+            },
+            {
+              "forItems": [
+                14
+              ],
+              "title": "Am Eingang des Restaurants",
+              "body": "Heute im Bavaria:\nBayerischer Abend\nBrezeln, Weißwürste, Sauerkraut\nVolksmusik, ab 20 Uhr Tanz",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item14.png"
+            },
+            {
+              "forItems": [
+                15
+              ],
+              "title": "An der Haltestelle",
+              "body": "In der Neujahrsnacht\nBusverkehr bis 23.00 Uhr und von 1.00 Uhr bis 5.00 Uhr alle 30 Minuten",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item15.png"
+            }
+          ],
+          "items": [
+            {
+              "number": 11,
+              "statement": "In der Sprachschule können Sie etwas zu essen kaufen.",
+              "solution": {
+                "value": true
+              }
+            },
+            {
+              "number": 12,
+              "statement": "Es ist Samstagnachmittag. Sie können auf der Post Briefmarken kaufen.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 13,
+              "statement": "Sie können hier Zigaretten rauchen.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 14,
+              "statement": "Heute Abend können Sie in diesem Restaurant tanzen.",
+              "solution": {
+                "value": true
+              }
+            },
+            {
+              "number": 15,
+              "statement": "Von 23 Uhr bis 1 Uhr fährt kein Bus.",
+              "solution": {
+                "value": true
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "SCHREIBEN": [
+      {
+        "sectionId": "SCHREIBEN_1",
+        "fertigkeit": "SCHREIBEN",
+        "label": "Schreiben",
+        "teil": 1,
+        "title": "Schreiben, Teil 1",
+        "aufgabentyp": "FORMULAR_AUSFUELLEN",
+        "contentRevision": "a1-modelltest-1-schreiben-teil-1-v1",
+        "instructions": [
+          "Ihre Freundin, Eva Kadavy, macht mit ihrem Mann und ihren beiden Söhnen (8 und 11 Jahre alt) Urlaub in Seeheim. Im Reisebüro bucht sie für den nächsten Sonntag eine Busfahrt um den Bodensee. Frau Kadavy hat keine Kreditkarte.",
+          "Schreiben Sie die fünf fehlenden Informationen in das Formular."
+        ],
+        "position": 1,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "media": null,
+        "content": {
+          "scenario": "Anmeldung für die Bodensee-Rundfahrt für Eva Kadavy.",
+          "sourceDocuments": [
+            {
+              "type": "TEXT",
+              "title": "Bereits ausgefüllte Formularfelder",
+              "body": "BODENSEE-RUNDFAHRT – Anmeldung. Familienname, Vorname: Kadavy, Eva. Urlaubsadresse: Hotel Schönblick. Straße, Hausnummer: Burgstraße 34. PLZ: 78014. Der Reisepreis ist mit der Anmeldung zu bezahlen. Unterschrift: Eva Kadavy.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-schreiben-1-form.png"
+            }
+          ],
+          "fields": [
+            {
+              "number": 1,
+              "label": "Anzahl der Personen",
+              "inputType": "TEXT",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "4",
+                  "vier"
+                ]
+              }
+            },
+            {
+              "number": 2,
+              "label": "Davon Kinder",
+              "inputType": "TEXT",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "2",
+                  "zwei"
+                ]
+              }
+            },
+            {
+              "number": 3,
+              "label": "Urlaubsort (PLZ 78014)",
+              "inputType": "TEXT",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "Seeheim"
+                ]
+              }
+            },
+            {
+              "number": 4,
+              "label": "Zahlungsweise",
+              "inputType": "CHOICE",
+              "choices": [
+                "Bar",
+                "Kreditkarte"
+              ],
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "Bar"
+                ]
+              }
+            },
+            {
+              "number": 5,
+              "label": "Reisetermin",
+              "inputType": "TEXT",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "Sonntag",
+                  "nächsten Sonntag",
+                  "nächster Sonntag",
+                  "am nächsten Sonntag",
+                  "am Sonntag"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "SCHREIBEN_2",
+        "fertigkeit": "SCHREIBEN",
+        "label": "Schreiben",
+        "teil": 2,
+        "title": "Schreiben, Teil 2",
+        "aufgabentyp": "TEXT_SCHREIBEN",
+        "contentRevision": "a1-modelltest-1-schreiben-teil-2-v1",
+        "instructions": [
+          "Schreiben Sie zu jedem Punkt ein bis zwei Sätze (circa 30 Wörter). Vergessen Sie nicht den passenden Anfang und Gruß am Schluss."
+        ],
+        "position": 2,
+        "scoring": {
+          "mode": "MANUAL_WITH_AI_SUGGESTION",
+          "maxPoints": 10,
+          "examPart": "WRITTEN"
+        },
+        "media": null,
+        "content": {
+          "intro": "Schreiben Sie an die Touristeninformation in Dresden.",
+          "instructions": "Schreiben Sie zu jedem Punkt ein bis zwei Sätze (circa 30 Wörter). Vergessen Sie nicht den passenden Anfang und Gruß am Schluss.",
+          "bulletPoints": [
+            "Sie kommen im August nach Dresden.",
+            "Bitten Sie um Informationen über Film, Theater, Museen usw. (Kulturprogramm).",
+            "Bitten Sie um Hoteladressen."
+          ],
+          "selectionRule": {
+            "type": "ALL",
+            "requiredBulletPoints": 3
+          },
+          "wordLimit": {
+            "minimum": null,
+            "recommended": 30,
+            "maximum": null
+          },
+          "closingReminder": "Vergessen Sie Anfang und Gruß nicht.",
+          "rubric": {
+            "contentPoints": {
+              "selectRequired": 3,
+              "pointsPerPoint": [
+                3,
+                1.5,
+                0
+              ]
+            },
+            "communicativeDesign": {
+              "points": [
+                1,
+                0.5,
+                0
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "SPRECHEN": [
+      {
+        "sectionId": "SPRECHEN_1",
+        "fertigkeit": "SPRECHEN",
+        "label": "Sprechen",
+        "teil": 1,
+        "title": "Sprechen, Teil 1 – Sich vorstellen",
+        "aufgabentyp": "SICH_VORSTELLEN",
+        "contentRevision": "a1-modelltest-1-sprechen-teil-1-v1",
+        "instructions": [
+          "Stellen Sie sich mit Hilfe der Stichworte vor.",
+          "Danach buchstabieren Sie etwas und nennen eine Nummer."
+        ],
+        "position": 1,
+        "scoring": {
+          "mode": "MANUAL",
+          "maxPoints": 3,
+          "examPart": "ORAL"
+        },
+        "media": null,
+        "content": {
+          "prompts": [
+            "Name",
+            "Alter",
+            "Land",
+            "Wohnort",
+            "Sprachen",
+            "Beruf",
+            "Hobby"
+          ],
+          "examinerPrompts": [
+            "Können Sie bitte Ihren Familiennamen buchstabieren?",
+            "Und wie ist bitte Ihre Telefonnummer?"
+          ],
+          "participants": 4,
+          "rubric": {
+            "vorstellen": [
+              1,
+              0.5,
+              0
+            ],
+            "buchstabieren": [
+              1,
+              0.5,
+              0
+            ],
+            "zahlen": [
+              1,
+              0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "sectionId": "SPRECHEN_2",
+        "fertigkeit": "SPRECHEN",
+        "label": "Sprechen",
+        "teil": 2,
+        "title": "Sprechen, Teil 2 – Um Informationen bitten und Informationen geben",
+        "aufgabentyp": "FRAGEN_UND_ANTWORTEN",
+        "contentRevision": "a1-modelltest-1-sprechen-teil-2-v1",
+        "instructions": [
+          "Ziehen Sie eine Karte. Stellen Sie eine Frage zum Thema und antworten Sie auf die Frage Ihres Partners/Ihrer Partnerin."
+        ],
+        "position": 2,
+        "scoring": {
+          "mode": "MANUAL",
+          "maxPoints": 6,
+          "examPart": "ORAL"
+        },
+        "media": null,
+        "content": {
+          "rounds": [
+            {
+              "topic": "Essen und Trinken",
+              "cards": [
+                {
+                  "key": "1",
+                  "text": "Frühstück",
+                  "imageUrl": null
+                },
+                {
+                  "key": "2",
+                  "text": "Lieblingsessen",
+                  "imageUrl": null
+                },
+                {
+                  "key": "3",
+                  "text": "Sonntag",
+                  "imageUrl": null
+                },
+                {
+                  "key": "4",
+                  "text": "Bier",
+                  "imageUrl": null
+                },
+                {
+                  "key": "5",
+                  "text": "Fisch",
+                  "imageUrl": null
+                },
+                {
+                  "key": "6",
+                  "text": "Brot",
+                  "imageUrl": null
+                }
+              ]
+            },
+            {
+              "topic": "Einkaufen",
+              "cards": [
+                {
+                  "key": "1",
+                  "text": "Zeitung",
+                  "imageUrl": null
+                },
+                {
+                  "key": "2",
+                  "text": "Kasse",
+                  "imageUrl": null
+                },
+                {
+                  "key": "3",
+                  "text": "Obst",
+                  "imageUrl": null
+                },
+                {
+                  "key": "4",
+                  "text": "Schuhe",
+                  "imageUrl": null
+                },
+                {
+                  "key": "5",
+                  "text": "Buch",
+                  "imageUrl": null
+                },
+                {
+                  "key": "6",
+                  "text": "Stadtplan",
+                  "imageUrl": null
+                }
+              ]
+            }
+          ],
+          "rubric": {
+            "frage": [
+              2,
+              1,
+              0
+            ],
+            "antwort": [
+              1,
+              0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "sectionId": "SPRECHEN_3",
+        "fertigkeit": "SPRECHEN",
+        "label": "Sprechen",
+        "teil": 3,
+        "title": "Sprechen, Teil 3 – Bitten formulieren und darauf reagieren",
+        "aufgabentyp": "BITTEN_UND_REAGIEREN",
+        "contentRevision": "a1-modelltest-1-sprechen-teil-3-v1",
+        "instructions": [
+          "Ziehen Sie zwei Karten. Formulieren Sie eine Bitte und reagieren Sie auf die Bitte Ihres Partners/Ihrer Partnerin."
+        ],
+        "position": 3,
+        "scoring": {
+          "mode": "MANUAL",
+          "maxPoints": 6,
+          "examPart": "ORAL"
+        },
+        "media": null,
+        "content": {
+          "rounds": [
+            {
+              "cards": [
+                {
+                  "key": "1",
+                  "text": "Äpfel",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-aepfel.png"
+                },
+                {
+                  "key": "2",
+                  "text": "Fleisch",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-fleisch.png"
+                },
+                {
+                  "key": "3",
+                  "text": "Laptop",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-laptop.png"
+                },
+                {
+                  "key": "4",
+                  "text": "Auto",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-auto.png"
+                },
+                {
+                  "key": "5",
+                  "text": "Banane",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-banane.png"
+                },
+                {
+                  "key": "6",
+                  "text": "Orangensaft",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-orangensaft.png"
+                },
+                {
+                  "key": "7",
+                  "text": "Einkaufskorb",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-einkaufskorb.png"
+                },
+                {
+                  "key": "8",
+                  "text": "Hund",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-hund.png"
+                },
+                {
+                  "key": "9",
+                  "text": "Schlüssel",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-schluessel.png"
+                },
+                {
+                  "key": "10",
+                  "text": "Koffer",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-koffer.png"
+                },
+                {
+                  "key": "11",
+                  "text": "Blumen",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-blumen.png"
+                },
+                {
+                  "key": "12",
+                  "text": "Kuchen",
+                  "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-kuchen.png"
+                }
+              ]
+            }
+          ],
+          "rubric": {
+            "bitte": [
+              2,
+              1,
+              0
+            ],
+            "reaktion": [
+              1,
+              0.5,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "assetKey": "a1-hoeren-1-item1-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item1-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-a.png",
+      "altText": "Hören Teil 1 item 1 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item1-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item1-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-b.png",
+      "altText": "Hören Teil 1 item 1 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item1-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item1-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item1-c.png",
+      "altText": "Hören Teil 1 item 1 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item2-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item2-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-a.png",
+      "altText": "Hören Teil 1 item 2 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item2-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item2-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-b.png",
+      "altText": "Hören Teil 1 item 2 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item2-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item2-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item2-c.png",
+      "altText": "Hören Teil 1 item 2 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item3-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item3-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-a.png",
+      "altText": "Hören Teil 1 item 3 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item3-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item3-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-b.png",
+      "altText": "Hören Teil 1 item 3 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item3-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item3-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item3-c.png",
+      "altText": "Hören Teil 1 item 3 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item4-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item4-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-a.png",
+      "altText": "Hören Teil 1 item 4 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item4-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item4-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-b.png",
+      "altText": "Hören Teil 1 item 4 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item4-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item4-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item4-c.png",
+      "altText": "Hören Teil 1 item 4 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item5-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item5-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-a.png",
+      "altText": "Hören Teil 1 item 5 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item5-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item5-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-b.png",
+      "altText": "Hören Teil 1 item 5 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item5-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item5-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item5-c.png",
+      "altText": "Hören Teil 1 item 5 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item6-a",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item6-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-a.png",
+      "altText": "Hören Teil 1 item 6 option a",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item6-b",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item6-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-b.png",
+      "altText": "Hören Teil 1 item 6 option b",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-hoeren-1-item6-c",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        9
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-hoeren-1-item6-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-hoeren-1-item6-c.png",
+      "altText": "Hören Teil 1 item 6 option c",
+      "extractionNotes": "Option picture; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item6-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item6-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item6-a.png",
+      "altText": "Lesen Teil 2 item 6 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item6-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item6-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item6-b.png",
+      "altText": "Lesen Teil 2 item 6 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item7-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item7-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item7-a.png",
+      "altText": "Lesen Teil 2 item 7 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item7-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item7-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item7-b.png",
+      "altText": "Lesen Teil 2 item 7 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item8-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item8-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item8-a.png",
+      "altText": "Lesen Teil 2 item 8 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item8-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        16
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item8-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item8-b.png",
+      "altText": "Lesen Teil 2 item 8 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item9-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item9-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item9-a.png",
+      "altText": "Lesen Teil 2 item 9 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item9-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item9-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item9-b.png",
+      "altText": "Lesen Teil 2 item 9 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item10-a",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item10-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item10-a.png",
+      "altText": "Lesen Teil 2 item 10 option a",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-2-item10-b",
+      "usedBy": [
+        "LESEN_2"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-2-item10-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-2-item10-b.png",
+      "altText": "Lesen Teil 2 item 10 option b",
+      "extractionNotes": "Ad screenshot; option text is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item11",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        18
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item11.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item11.png",
+      "altText": "Lesen Teil 3 sign for item 11",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item12",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        18
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item12.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item12.png",
+      "altText": "Lesen Teil 3 sign for item 12",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item13",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        18
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item13.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item13.png",
+      "altText": "Lesen Teil 3 sign for item 13",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item14",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        19
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item14.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item14.png",
+      "altText": "Lesen Teil 3 sign for item 14",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-lesen-3-item15",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        19
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-lesen-3-item15.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-lesen-3-item15.png",
+      "altText": "Lesen Teil 3 sign for item 15",
+      "extractionNotes": "Sign picture; texts[].body is the fallback."
+    },
+    {
+      "assetKey": "a1-schreiben-1-form",
+      "usedBy": [
+        "SCHREIBEN_1"
+      ],
+      "sourcePages": [
+        20
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-schreiben-1-form.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-schreiben-1-form.png",
+      "altText": "Bodensee-Rundfahrt registration form",
+      "extractionNotes": "Form picture; sourceDocuments body is the fallback."
+    },
+    {
+      "assetKey": "a1-sprechen-3-aepfel",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-aepfel.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-aepfel.png",
+      "altText": "Sprechen Teil 3 card: Äpfel",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-fleisch",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-fleisch.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-fleisch.png",
+      "altText": "Sprechen Teil 3 card: Fleisch",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-banane",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-banane.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-banane.png",
+      "altText": "Sprechen Teil 3 card: Banane",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-orangensaft",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-orangensaft.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-orangensaft.png",
+      "altText": "Sprechen Teil 3 card: Orangensaft",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-einkaufskorb",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-einkaufskorb.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-einkaufskorb.png",
+      "altText": "Sprechen Teil 3 card: Einkaufskorb",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-hund",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-hund.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-hund.png",
+      "altText": "Sprechen Teil 3 card: Hund",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-schluessel",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-schluessel.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-schluessel.png",
+      "altText": "Sprechen Teil 3 card: Schlüssel",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-koffer",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-koffer.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-koffer.png",
+      "altText": "Sprechen Teil 3 card: Koffer",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-blumen",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-blumen.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-blumen.png",
+      "altText": "Sprechen Teil 3 card: Blumen",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-kuchen",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-kuchen.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-kuchen.png",
+      "altText": "Sprechen Teil 3 card: Kuchen",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-laptop",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-laptop.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-laptop.png",
+      "altText": "Sprechen Teil 3 card: Laptop",
+      "extractionNotes": "Picture-only card; card text names the object."
+    },
+    {
+      "assetKey": "a1-sprechen-3-auto",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        26
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a1-modelltest-1-sprechen-3-card-auto.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a1-mt-hoeren/a1-mt-1-hoeren/a1-mt-images-1/a1-modelltest-1-sprechen-3-card-auto.png",
+      "altText": "Sprechen Teil 3 card: Auto",
+      "extractionNotes": "Picture-only card; card text names the object."
+    }
+  ],
+  "extractionWarnings": [
+    "SCHREIBEN_1 field 5 (Reisetermin): the key accepts \"the date of next Sunday\" or \"Sonntag\". A date cannot be fixed in advance, so any answer other than the listed Sunday forms goes to the examiner.",
+    "SCHREIBEN_1: telc ignores spelling mistakes in words but not in numbers. A misspelt word is unrecognised, not wrong, so it reaches the examiner.",
+    "SPRECHEN_3 cards are photos only; the card texts are our names for the objects, not printed telc wording.",
+    "Hören, Teil 1 and Lesen, Teil 1–3 examples (Beispiel) are not items and are left out."
+  ]
+}

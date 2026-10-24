@@ -1,4 +1,17 @@
-export type SpeakingLevel = 'B1';
+import type { CefrLevel } from '@prisma/client';
+
+/**
+ * A Live Room is opened at a CEFR level, not at B1.
+ *
+ * This was the literal `'B1'`, which made the level a protocol constant: a
+ * student on any other level got a 400 from the validators below, on a
+ * feature Start sells as unlimited. Whether a level has topics is a content
+ * question — answered by `pickTopic`, with a reason — rather than a shape the
+ * request is allowed to have.
+ *
+ * Only B1 topics exist today. Adding B2's is a data change in this file.
+ */
+export type SpeakingLevel = CefrLevel;
 
 export interface SpeakingTopic {
   id: string;
@@ -811,6 +824,167 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
       'Wo lernen Sie neue Menschen kennen?',
       'Was erleichtert ein erstes Gespräch?',
       'Wie bleibt man in Kontakt?',
+    ],
+  },
+
+  // ─── B2 ──────────────────────────────────────────────────────────────────
+  //
+  // telc B2 Teil 2 is a Diskussion: a controversial societal question, read as
+  // a short press text and then argued with a partner. The register is a step
+  // up from B1's everyday choices — policy and principle rather than personal
+  // preference — and the first card mirrors the theme of Uebungstest 1 so the
+  // level is anchored to a real paper.
+  //
+  // Ten to start. A Live Room pairs two students, so the controversy is
+  // carried as the two sides they argue.
+  {
+    id: 'b2-t2-001',
+    level: 'B2',
+    teil: 2,
+    title: 'Getrennte Schulen für Mädchen und Jungen',
+    positionA:
+      'Getrennter Unterricht gibt Mädchen in Naturwissenschaften mehr Raum und bessere Chancen.',
+    positionB:
+      'Koedukation bereitet auf eine gemischte Gesellschaft vor; Trennung verstärkt Rollenbilder.',
+    followUpQuestions: [
+      'Welche Erfahrungen haben Sie mit gemischten Klassen gemacht?',
+      'Woran könnte Chancengleichheit im Unterricht sonst scheitern?',
+      'Welche Lösung halten Sie für realistisch?',
+    ],
+  },
+  {
+    id: 'b2-t2-002',
+    level: 'B2',
+    teil: 2,
+    title: 'Homeoffice oder Präsenzpflicht',
+    positionA:
+      'Wer seine Arbeit von zu Hause erledigen kann, sollte selbst entscheiden dürfen.',
+    positionB:
+      'Ohne gemeinsame Präsenz leiden Zusammenarbeit, Einarbeitung und Zusammenhalt.',
+    followUpQuestions: [
+      'Was geht verloren, wenn ein Team sich kaum noch sieht?',
+      'Wie ließe sich beides sinnvoll verbinden?',
+      'Wer sollte diese Entscheidung treffen?',
+    ],
+  },
+  {
+    id: 'b2-t2-003',
+    level: 'B2',
+    teil: 2,
+    title: 'Tempolimit auf Autobahnen',
+    positionA:
+      'Ein allgemeines Tempolimit senkt Unfallzahlen und Emissionen sofort und ohne Kosten.',
+    positionB:
+      'Der Nutzen ist gering, und die freie Geschwindigkeitswahl ist eine Frage der Eigenverantwortung.',
+    followUpQuestions: [
+      'Welche Argumente überzeugen Sie am meisten?',
+      'Wie wird das in Ihrem Herkunftsland geregelt?',
+      'Welche Massnahmen wären wirksamer?',
+    ],
+  },
+  {
+    id: 'b2-t2-004',
+    level: 'B2',
+    teil: 2,
+    title: 'Handyverbot an Schulen',
+    positionA:
+      'Ein Verbot während der Schulzeit schützt Konzentration und das soziale Miteinander.',
+    positionB:
+      'Schule muss den verantwortungsvollen Umgang mit Medien lehren, nicht verbieten.',
+    followUpQuestions: [
+      'Wo verläuft die Grenze zwischen Schutz und Bevormundung?',
+      'Welche Rolle sollten die Eltern spielen?',
+      'Wie ließe sich ein Verbot überhaupt durchsetzen?',
+    ],
+  },
+  {
+    id: 'b2-t2-005',
+    level: 'B2',
+    teil: 2,
+    title: 'Bedingungsloses Grundeinkommen',
+    positionA:
+      'Ein Grundeinkommen sichert Existenz und Würde und macht Menschen unabhängiger.',
+    positionB:
+      'Es ist kaum finanzierbar und schwächt die Bereitschaft zu arbeiten.',
+    followUpQuestions: [
+      'Was würde sich an Ihrer eigenen Lebensplanung ändern?',
+      'Wie ließe sich so etwas finanzieren?',
+      'Welche Gruppen würden am meisten profitieren?',
+    ],
+  },
+  {
+    id: 'b2-t2-006',
+    level: 'B2',
+    teil: 2,
+    title: 'Studiengebühren',
+    positionA:
+      'Wer studiert, profitiert persönlich davon und kann sich angemessen beteiligen.',
+    positionB:
+      'Gebühren halten gerade ärmere Begabte vom Studium ab; Bildung ist eine Gemeinschaftsaufgabe.',
+    followUpQuestions: [
+      'Wie ist der Hochschulzugang in Ihrem Land organisiert?',
+      'Welche Folgen hat Chancengleichheit für eine Gesellschaft?',
+      'Gäbe es einen Mittelweg?',
+    ],
+  },
+  {
+    id: 'b2-t2-007',
+    level: 'B2',
+    teil: 2,
+    title: 'Videoüberwachung im öffentlichen Raum',
+    positionA:
+      'Kameras an belebten Orten verhindern Straftaten und helfen bei der Aufklärung.',
+    positionB:
+      'Dauerhafte Beobachtung greift in die Privatsphäre ein, ohne die Ursachen zu lösen.',
+    followUpQuestions: [
+      'Fühlen Sie sich durch Kameras sicherer oder beobachtet?',
+      'Wer sollte Zugriff auf solche Aufnahmen haben?',
+      'Welche Alternativen sehen Sie?',
+    ],
+  },
+  {
+    id: 'b2-t2-008',
+    level: 'B2',
+    teil: 2,
+    title: 'Höhere Steuern auf Fleisch',
+    positionA:
+      'Wenn Fleisch seine wahren Umweltkosten trägt, ändert sich der Konsum spürbar.',
+    positionB:
+      'Eine solche Steuer trifft vor allem Haushalte mit wenig Geld und bevormundet beim Essen.',
+    followUpQuestions: [
+      'Wie stark beeinflussen Preise Ihr eigenes Einkaufsverhalten?',
+      'Welche Verantwortung tragen Erzeuger und Handel?',
+      'Welche Massnahme wäre gerechter?',
+    ],
+  },
+  {
+    id: 'b2-t2-009',
+    level: 'B2',
+    teil: 2,
+    title: 'Soziale Netzwerke erst ab 16 Jahren',
+    positionA:
+      'Eine Altersgrenze schützt Jugendliche vor Druck, Sucht und Mobbing.',
+    positionB:
+      'Verbote sind leicht zu umgehen; Begleitung und Medienbildung wirken besser.',
+    followUpQuestions: [
+      'Ab welchem Alter halten Sie Netzwerke für vertretbar?',
+      'Wer trägt die Verantwortung: Plattform, Eltern oder Staat?',
+      'Was hat Ihnen selbst als Jugendlicher geholfen?',
+    ],
+  },
+  {
+    id: 'b2-t2-010',
+    level: 'B2',
+    teil: 2,
+    title: 'Soziales Pflichtjahr',
+    positionA:
+      'Ein verpflichtendes Jahr stärkt den Zusammenhalt und öffnet neue Perspektiven.',
+    positionB:
+      'Pflicht widerspricht dem Gedanken des Engagements und verzögert Ausbildung und Beruf.',
+    followUpQuestions: [
+      'Würden Sie sich freiwillig engagieren?',
+      'Welche Bereiche bräuchten solche Hilfe am dringendsten?',
+      'Wie ließe sich Engagement anders fördern?',
     ],
   },
 ];

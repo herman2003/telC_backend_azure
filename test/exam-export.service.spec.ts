@@ -179,6 +179,35 @@ describe('ExamExportService', () => {
       });
     });
 
+    it('blanks the written half when an A1/A2 automatic Teil awaits review', async () => {
+      // At A1/A2 Hören can wait for an examiner too. A written total without
+      // it is not the written score.
+      results.forSession.mockResolvedValue({
+        sessionId: 'session-1',
+        candidates: [
+          candidate({
+            outcome: 'INCOMPLETE',
+            awaiting: ['HOEREN'],
+            written: { points: 30, maxPoints: 45, percent: 67, passed: true },
+          }),
+        ],
+        summary: {
+          candidates: 1,
+          awaitingMarks: 1,
+          released: 0,
+          passed: 0,
+          failed: 0,
+        },
+      });
+
+      const exported = await service.forSession(CENTER, 'session-1');
+
+      expect(exported.rows[0]).toMatchObject({
+        writtenPoints: null,
+        awaiting: ['HOEREN'],
+      });
+    });
+
     it('carries a candidate who never turned up, with no numbers', async () => {
       results.forSession.mockResolvedValue({
         sessionId: 'session-1',

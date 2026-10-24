@@ -1,0 +1,51 @@
+meta {
+  name: 10 Live Room opens at B2
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/speaking/rooms?level=B2
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  if (res.body.topic.level !== "B2") {
+    throw new Error("a B2 room must get a B2 topic, got " + res.body.topic.level);
+  }
+  if (!String(res.body.topic.id).startsWith("b2-")) {
+    throw new Error("topic id should name its level: " + res.body.topic.id);
+  }
+}
+
+docs {
+  THIS WAS A 400 BEFORE THIS PHASE. The level validator accepted only B1, so
+  a B2 student could not open a Live Room at all — on a feature Start sells
+  as unlimited.
+
+  It must never hand back a B1 topic. A level with no topics of its own is
+  refused with NO_TOPICS_FOR_LEVEL instead: try ?level=A1, which has none
+  yet, and expect that rather than a 500 or a B1 card.
+
+  Check the route against the mapped list in the boot log if this 404s — the
+  rooms controller is under /api/speaking.
+}

@@ -1,0 +1,32 @@
+meta {
+  name: 31 B1 redeem seat
+  type: http
+  seq: 31
+}
+
+post {
+  url: {{baseUrl}}/api/auth/redeem-code
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+body:json {
+  {
+    "code": "{{b1ActivationKey}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+      (res.getStatus() === 409 ? "  (re-run seed-b2-bruno-fixture.mjs)" : ""));
+  }
+}

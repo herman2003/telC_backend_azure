@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import pLimit from 'p-limit';
@@ -63,6 +64,7 @@ import { GeminiService } from '../speaking/services/gemini.service';
             exerciseId: string;
             content: string;
             createdAt: string;
+            level: CefrLevel;
           }) => {
             // p-limit schedules asynchronously and returns immediately, so the
             // heavy correction never blocks the HTTP response. Fire-and-forget:

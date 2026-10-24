@@ -12,6 +12,10 @@ const mockPrisma = {
   },
 };
 
+const mockGenericContent = {
+  sectionsFor: jest.fn(),
+};
+
 const TRAINING_ROWS = [
   { id: 'mt1-uuid', number: 1, title: 'Modelltest 1', level: 'B1' as const },
   { id: 'mt2-uuid', number: 2, title: 'Modelltest 2', level: 'B1' as const },
@@ -65,6 +69,7 @@ describe('ModelltestsService', () => {
     service = new ModelltestsService(
       mockPrisma as never,
       mockAccess as never,
+      mockGenericContent as never,
       mockLesen as never,
       mockSprachbausteine as never,
       mockListening as never,
@@ -398,9 +403,7 @@ describe('ModelltestsService', () => {
       );
       expect(JSON.stringify(result.sections.HOEREN)).not.toContain('audioUrl');
       expect(result.sections.SCHREIBEN).toEqual({ id: 'w1', stimulus: '…' });
-      expect(result.sections.SPRECHEN).toEqual([
-        { part: 1, title: 'Teil 1' },
-      ]);
+      expect(result.sections.SPRECHEN).toEqual([{ part: 1, title: 'Teil 1' }]);
       expect(mockLesen.getExercise).toHaveBeenCalledWith(1);
       expect(mockSprachbausteine.getExercise).toHaveBeenCalledWith(1);
       expect(mockWriting.getExerciseByModelltest).toHaveBeenCalledWith(1);
@@ -409,6 +412,63 @@ describe('ModelltestsService', () => {
         expect(mockListening.getExamTeil).toHaveBeenCalledWith(1, part);
         expect(mockListening.getAnswerKey).toHaveBeenCalledWith(1, part);
       }
+    });
+
+    it('reads the generic model for an A2 Modelltest, never the B1 skill services', async () => {
+      mockPrisma.modelltest.findMany.mockResolvedValue([
+        {
+          id: 'a2-mt-uuid',
+          number: 100,
+          title: 'A2 Modelltest 1',
+          level: 'A2',
+        },
+      ]);
+      mockGenericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [],
+        LESEN: [
+          {
+            sectionId: 'LESEN_1',
+            aufgabentyp: 'EINZELAUSWAHL',
+            teil: 1,
+            label: 'Lesen Teil 1',
+            instruction: 'Kreuzen Sie an.',
+            maxPoints: 5,
+            scoringMode: 'AUTO',
+            material: { stimulus: null },
+            items: [
+              {
+                itemNumber: 1,
+                prompt: 'Frage?',
+                solution: { key: 'a' },
+                options: [{ key: 'a', content: 'Antwort', isCorrect: true }],
+              },
+            ],
+          },
+        ],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+
+      const result = await service.getOfTheWeekContent(daysAfterEpoch(0));
+
+      expect(result.number).toBe(100);
+      expect(result.sections.LESEN).toEqual([
+        expect.objectContaining({
+          sectionId: 'LESEN_1',
+          aufgabentyp: 'EINZELAUSWAHL',
+          maxPoints: 5,
+          scoringMode: 'AUTO',
+        }),
+      ]);
+      // A2 has no Sprachbausteine -- an empty list, not a crash or null.
+      expect(result.sections.SPRACHBAUSTEINE).toEqual([]);
+      expect(mockGenericContent.sectionsFor).toHaveBeenCalledWith('a2-mt-uuid');
+      expect(mockLesen.getExercise).not.toHaveBeenCalled();
+      expect(mockSprachbausteine.getExercise).not.toHaveBeenCalled();
+      expect(mockListening.getExamTeil).not.toHaveBeenCalled();
+      expect(mockWriting.getExerciseByModelltest).not.toHaveBeenCalled();
+      expect(mockSpeaking.getTeils).not.toHaveBeenCalled();
     });
   });
 });

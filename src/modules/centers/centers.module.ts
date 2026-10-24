@@ -20,6 +20,7 @@ import { ExamGradingService } from './exam-grading.service';
 import { ExamReleaseService } from './exam-release.service';
 import { ExamExportService } from './exam-export.service';
 import { NotificationsService } from '../../shared/services/notifications.service';
+import { GenericExamContentService } from '../../shared/services/generic-exam-content.service';
 import { EntitlementPurchaseService } from './entitlement-purchase.service';
 import { EntitlementsService } from './entitlements.service';
 import { ExamSlotsService } from './exam-slots.service';
@@ -98,6 +99,7 @@ import { ListeningService } from '../listening/listening.service';
     CenterSupportService,
     ExamSessionsService,
     ExamModelltestsService,
+    GenericExamContentService,
     LesenService,
     SprachbausteineService,
     ListeningService,

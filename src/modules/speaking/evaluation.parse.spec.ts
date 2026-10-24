@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import { EvaluationService } from './services/evaluation.service';
 
 describe('EvaluationService.parseResponse (M10)', () => {
@@ -22,6 +23,7 @@ describe('EvaluationService.parseResponse (M10)', () => {
         "areas_for_improvement": "Grammatik.",
         "corrections": []
       }`,
+      'B1',
       1,
     );
 
@@ -47,6 +49,7 @@ describe('EvaluationService.parseResponse (M10)', () => {
         "evaluation_text": "Hallo!",
         "corrections": []
       }`,
+      'B1',
       2,
     );
 
@@ -71,9 +74,58 @@ describe('EvaluationService.parseResponse (M10)', () => {
           "evaluation_text": "Hallo!",
           "corrections": []
         }`,
+        'B1',
         1,
       ),
     ).toThrow('EVALUATION_PARSE_FAILED');
+  });
+});
+
+describe('the prompt names the level it is rating', () => {
+  type PromptBuilder = {
+    buildPrompt: (level: CefrLevel, teil: number, transcript: string) => string;
+  };
+  const promptFor = (level: CefrLevel, teil: number) => {
+    const service = Object.create(
+      EvaluationService.prototype,
+    ) as EvaluationService;
+    return (service as unknown as PromptBuilder).buildPrompt(
+      level,
+      teil,
+      'Ein Transkript.',
+    );
+  };
+
+  /**
+   * B1 Teil 1 is Einander kennenlernen, worth 15. At B2 that task is the
+   * unscored introduction and Teil 1 is Ueber Erfahrungen sprechen, worth 25.
+   * A prompt that names B1 and B1's Teile therefore rates a B2 candidate
+   * against the wrong task and the wrong maximum, and returns fluent German
+   * feedback about something they were never asked to do.
+   */
+  it('rates B2 Teil 1 as Ueber Erfahrungen sprechen, out of 25', () => {
+    const prompt = promptFor('B2', 1);
+
+    expect(prompt).toContain('telc Deutsch B2');
+    expect(prompt).not.toContain('telc Deutsch B1');
+    expect(prompt).toContain('Erfahrungen');
+    expect(prompt).not.toContain('Einander kennenlernen');
+    expect(prompt).toContain('max 25');
+  });
+
+  it('rates B2 Teil 2 as a Diskussion, not as a topic talk', () => {
+    const prompt = promptFor('B2', 2);
+
+    expect(prompt).toContain('Diskussion');
+    expect(prompt).toContain('max 25');
+  });
+
+  it('still names B1 and its Teile at B1', () => {
+    const prompt = promptFor('B1', 1);
+
+    expect(prompt).toContain('telc Deutsch B1');
+    expect(prompt).toContain('Einander kennenlernen');
+    expect(prompt).toContain('max 15');
   });
 });
 
@@ -83,9 +135,14 @@ describe('EvaluationService Teil 3 context', () => {
       EvaluationService.prototype,
     ) as EvaluationService;
     type PromptBuilder = {
-      buildPrompt: (teil: number, transcript: string) => string;
+      buildPrompt: (
+        level: CefrLevel,
+        teil: number,
+        transcript: string,
+      ) => string;
     };
     const prompt = (service as unknown as PromptBuilder).buildPrompt(
+      'B1',
       3,
       'Lass uns am Samstag treffen.',
     );

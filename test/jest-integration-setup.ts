@@ -38,7 +38,15 @@ if (!process.env.DIRECT_URL) {
 
 // Refuse to run against anything that is not the scratch branch. An integration
 // suite that truncates center tables must never reach the live database.
-if (/ep-wandering-hall/.test(process.env.DIRECT_URL)) {
+//
+// The endpoint itself is defined once, in scripts/production-endpoint.cjs, so a
+// move cannot disarm this guard while leaving the other two looking healthy.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { isProduction } = require('../scripts/production-endpoint.cjs') as {
+  isProduction: (url: string) => boolean;
+};
+
+if (isProduction(process.env.DIRECT_URL)) {
   throw new Error(
     'DIRECT_URL points at the live database. Integration tests must target a ' +
       'disposable branch.',

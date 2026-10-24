@@ -1,0 +1,34 @@
+meta {
+  name: 07 Start the A2 sitting
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/exams/sessions/{{a2SittingId}}/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run 01)" : "")
+    );
+  }
+  bru.setEnvVar("a2AttemptId", res.body.id ?? res.body.attemptId);
+}
+
+docs {
+  Student token from here on. EXAM_NOT_OPEN means opensAt has not passed
+  yet — wait and re-run.
+}

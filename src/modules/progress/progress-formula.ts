@@ -8,25 +8,19 @@ import type { Skill } from '@prisma/client';
  * student's history at once, with nothing to migrate.
  */
 
-/** Teils per skill in telc B1. A Teil never attempted counts 0 (D38). */
+/**
+ * Teils per skill, still used only by `session-of-day.ts` to pick a Teil
+ * number to recommend. B1-shaped (known gap for A2 — Schreiben has 2 Teile
+ * there, not 1 — tracked separately, not fixed here: picking a slightly
+ * wrong Teil to *suggest* practising is not the "can never reach ready" bug
+ * this file's own weights fix is for).
+ */
 export const TEILS_PER_SKILL: Record<Skill, number> = {
   HOEREN: 3,
   LESEN: 3,
   SPRACHBAUSTEINE: 2,
   SCHREIBEN: 1,
   SPRECHEN: 3,
-};
-
-/**
- * Official telc Deutsch B1 / Zertifikat Deutsch point caps (Übungstest grid).
- * Change them here and nowhere else.
- */
-export const SKILL_MAX_POINTS: Record<Skill, number> = {
-  LESEN: 75,
-  SPRACHBAUSTEINE: 30,
-  HOEREN: 75,
-  SCHREIBEN: 45,
-  SPRECHEN: 75,
 };
 
 export const WRITTEN_SKILLS: Skill[] = [
@@ -36,16 +30,36 @@ export const WRITTEN_SKILLS: Skill[] = [
   'SCHREIBEN',
 ];
 
-export const WRITTEN_MAX = 225;
-export const ORAL_MAX = 75;
-export const TOTAL_MAX = 300;
-
-/** 60 % of each half: 135 / 225 written, 45 / 75 oral. */
-export const PASS_WRITTEN_POINTS = 135;
-export const PASS_ORAL_POINTS = 45;
-
-/** Kept for callers/docs: 60 % of a half. Prefer the point thresholds above. */
+/**
+ * telc's pass bar is 60 % at every level (A1/A2 of the combined total,
+ * B1/B2 of each half) — confirmed against every seeded `exam_pass_rules`
+ * row, so this one constant is safe to keep level-invariant. Used by
+ * `session-of-day.ts` for training-vs-exam mode, not for a pass verdict.
+ */
 export const PASS_MARK = 60;
+
+/**
+ * What a level's exam is worth, read from `exam_section_weights` and
+ * `exam_pass_rules` by the caller — never hardcoded here. A skill this
+ * level doesn't have (e.g. A2's missing Sprachbausteine) is simply absent
+ * from `skillMaxPoints`/`teilsPerSkill`, which `skillPoints`/`skillScores`
+ * below treat as "not offered", not zero-attempted.
+ */
+export interface ProgressWeights {
+  /** Sum of the skill's Teile `max_points`, for this level. */
+  skillMaxPoints: Partial<Record<Skill, number>>;
+  /** How many Teile this level gives the skill, for averaging. */
+  teilsPerSkill: Partial<Record<Skill, number>>;
+  writtenMax: number;
+  oralMax: number;
+  totalMax: number;
+  passRule: {
+    type: 'TOTAL_PERCENT' | 'PART_PERCENT';
+    minimumPercent: number | null;
+    writtenPercent: number | null;
+    oralPercent: number | null;
+  };
+}
 
 /** Under this many attempts in total, readiness is not a number yet. */
 export const MIN_ATTEMPTS_FOR_READINESS = 5;
@@ -77,13 +91,22 @@ export type SkillScores = Record<Skill, number | null>;
 /**
  * Skill score = mean of its Teil scores, a Teil never attempted counting 0.
  * A skill with no attempt at all is null: "not practised yet", never 0 %.
+ * A skill this level doesn't offer (`teilsPerSkill` has no entry) is null
+ * too, regardless of stray attempt rows — never a division by zero.
  */
-export function skillScores(teils: TeilScore[]): SkillScores {
+export function skillScores(
+  teils: TeilScore[],
+  weights: Pick<ProgressWeights, 'teilsPerSkill'>,
+): SkillScores {
   const result = {} as SkillScores;
   for (const skill of SKILLS) {
+    const teilCount = weights.teilsPerSkill[skill] ?? 0;
+    if (teilCount === 0) {
+      result[skill] = null;
+      continue;
+    }
     const own = teils.filter(
-      (t) =>
-        t.skill === skill && t.teil >= 1 && t.teil <= TEILS_PER_SKILL[skill],
+      (t) => t.skill === skill && t.teil >= 1 && t.teil <= teilCount,
     );
     if (own.length === 0) {
       result[skill] = null;
@@ -92,7 +115,7 @@ export function skillScores(teils: TeilScore[]): SkillScores {
     const sum = own.reduce((total, t) => total + t.score, 0);
     // Not rounded: the pass mark is decided on the exact score (59.67 is not
     // 60). Round with `roundScores` only for display.
-    result[skill] = sum / TEILS_PER_SKILL[skill];
+    result[skill] = sum / teilCount;
   }
   return result;
 }
@@ -108,9 +131,13 @@ export function roundScores(scores: SkillScores): SkillScores {
 }
 
 /** Exact telc points for one skill from its percent score (null → 0). */
-export function skillPoints(skills: SkillScores, skill: Skill): number {
+export function skillPoints(
+  skills: SkillScores,
+  skill: Skill,
+  weights: ProgressWeights,
+): number {
   const percent = skills[skill] ?? 0;
-  return (percent / 100) * SKILL_MAX_POINTS[skill];
+  return (percent / 100) * (weights.skillMaxPoints[skill] ?? 0);
 }
 
 export interface Readiness {
@@ -131,9 +158,16 @@ export interface Readiness {
 }
 
 /**
- * Readiness mirrors telc Deutsch B1 scoring: written (225) and oral (75),
- * each needing 60 % (135 / 45). Skills never practised count 0 here
- * (option C): a student who skips speaking is not ready.
+ * Readiness mirrors the student's level: written and oral halves, each out
+ * of that level's own point caps (`weights`). Skills never practised count 0
+ * here (option C): a student who skips speaking is not ready.
+ *
+ * "Ready" follows the level's own pass rule — B1/B2 need 60 % of *each*
+ * half (`PART_PERCENT`); A1/A2 need 60 % of the *combined* total
+ * (`TOTAL_PERCENT`), the same distinction `exam-result.service.ts`'s
+ * verdict makes. Using B1/B2's per-half rule for an A-level student would
+ * make them permanently unready the moment they skip one skill, even at a
+ * perfect combined score.
  *
  * Takes the exact skill scores from `skillScores`, never the rounded ones:
  * rounding first would let 59.67 pass.
@@ -141,6 +175,7 @@ export interface Readiness {
 export function readiness(
   skills: SkillScores,
   totalAttempts: number,
+  weights: ProgressWeights,
 ): Readiness {
   if (totalAttempts < MIN_ATTEMPTS_FOR_READINESS) {
     return {
@@ -156,22 +191,32 @@ export function readiness(
 
   let pointsWritten = 0;
   for (const skill of WRITTEN_SKILLS) {
-    pointsWritten += skillPoints(skills, skill);
+    pointsWritten += skillPoints(skills, skill, weights);
   }
-  const pointsOral = skillPoints(skills, 'SPRECHEN');
+  const pointsOral = skillPoints(skills, 'SPRECHEN', weights);
   const pointsTotal = pointsWritten + pointsOral;
 
-  const written = (pointsWritten / WRITTEN_MAX) * 100;
-  const oral = (pointsOral / ORAL_MAX) * 100;
-  const score = (pointsTotal / TOTAL_MAX) * 100;
+  const written =
+    weights.writtenMax > 0 ? (pointsWritten / weights.writtenMax) * 100 : 0;
+  const oral = weights.oralMax > 0 ? (pointsOral / weights.oralMax) * 100 : 0;
+  const score =
+    weights.totalMax > 0 ? (pointsTotal / weights.totalMax) * 100 : 0;
+
+  // Compared on exact points: 134.9 is not a pass.
+  const ready =
+    weights.passRule.type === 'PART_PERCENT'
+      ? pointsWritten >=
+          weights.writtenMax * ((weights.passRule.writtenPercent ?? 0) / 100) &&
+        pointsOral >=
+          weights.oralMax * ((weights.passRule.oralPercent ?? 0) / 100)
+      : pointsTotal >=
+        weights.totalMax * ((weights.passRule.minimumPercent ?? 0) / 100);
 
   return {
     score: Math.round(score),
     written: Math.round(written),
     oral: Math.round(oral),
-    // Compared on exact points: 134.9 is not a pass.
-    ready:
-      pointsWritten >= PASS_WRITTEN_POINTS && pointsOral >= PASS_ORAL_POINTS,
+    ready,
     pointsTotal: Math.round(pointsTotal),
     pointsWritten: Math.round(pointsWritten),
     pointsOral: Math.round(pointsOral),

@@ -1,6 +1,59 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 import { ExamScoringService } from '../src/modules/centers/exam-scoring.service';
 
+/** telc's block composition per level, as seeded in exam_section_weights
+ *  (verified by querying .env.test directly — B1 and B2 share every
+ *  WRITTEN row, which is why they look identical here). */
+const BLOCK_SECTIONS_BY_LEVEL: Record<
+  string,
+  Record<string, { skill: string; teil: number; max_points?: number }[]>
+> = {
+  B1: {
+    LESEN_SPRACHBAUSTEINE: [
+      { skill: 'LESEN', teil: 1 },
+      { skill: 'LESEN', teil: 2 },
+      { skill: 'LESEN', teil: 3 },
+      { skill: 'SPRACHBAUSTEINE', teil: 1 },
+      { skill: 'SPRACHBAUSTEINE', teil: 2 },
+    ],
+    HOEREN: [
+      { skill: 'HOEREN', teil: 1 },
+      { skill: 'HOEREN', teil: 2 },
+      { skill: 'HOEREN', teil: 3 },
+    ],
+    SCHREIBEN: [{ skill: 'SCHREIBEN', teil: 1 }],
+  },
+  B2: {
+    LESEN_SPRACHBAUSTEINE: [
+      { skill: 'LESEN', teil: 1 },
+      { skill: 'LESEN', teil: 2 },
+      { skill: 'LESEN', teil: 3 },
+      { skill: 'SPRACHBAUSTEINE', teil: 1 },
+      { skill: 'SPRACHBAUSTEINE', teil: 2 },
+    ],
+    HOEREN: [
+      { skill: 'HOEREN', teil: 1 },
+      { skill: 'HOEREN', teil: 2 },
+      { skill: 'HOEREN', teil: 3 },
+    ],
+    SCHREIBEN: [{ skill: 'SCHREIBEN', teil: 1 }],
+  },
+  A2: {
+    HOEREN: [
+      { skill: 'HOEREN', teil: 1, max_points: 5 },
+      { skill: 'HOEREN', teil: 2, max_points: 5 },
+      { skill: 'HOEREN', teil: 3, max_points: 5 },
+    ],
+    LESEN_SCHREIBEN: [
+      { skill: 'LESEN', teil: 1, max_points: 5 },
+      { skill: 'LESEN', teil: 2, max_points: 5 },
+      { skill: 'LESEN', teil: 3, max_points: 5 },
+      { skill: 'SCHREIBEN', teil: 1, max_points: 5 },
+      { skill: 'SCHREIBEN', teil: 2, max_points: 10 },
+    ],
+  },
+};
+
 /**
  * Scoring a submitted block.
  *
@@ -15,6 +68,7 @@ describe('ExamScoringService', () => {
   const MODELLTEST = 'mt-1';
 
   let prisma: any;
+  let genericContent: any;
   let lesen: any;
   let sprachbausteine: any;
   let listening: any;
@@ -36,6 +90,16 @@ describe('ExamScoringService', () => {
       // Reading this at all is the mistake the exam must not make.
       get studentActivity(): never {
         throw new Error('An exam must never write training activity');
+      },
+      // telc's block composition per level, as seeded in exam_section_weights
+      // (verified against .env.test: B1 and B2 share every WRITTEN row).
+      examSectionWeight: {
+        findMany: jest.fn(
+          ({ where }: { where: { level: string; block: string } }) =>
+            Promise.resolve(
+              BLOCK_SECTIONS_BY_LEVEL[where.level]?.[where.block] ?? [],
+            ),
+        ),
       },
     };
     lesen = {
@@ -61,8 +125,10 @@ describe('ExamScoringService', () => {
       deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
     };
     correction = { runCorrection: jest.fn().mockResolvedValue(undefined) };
+    genericContent = { sectionFor: jest.fn() };
     service = new ExamScoringService(
       prisma,
+      genericContent,
       lesen,
       sprachbausteine,
       listening,
@@ -77,6 +143,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {
@@ -105,6 +172,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
@@ -120,6 +188,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
@@ -133,6 +202,71 @@ describe('ExamScoringService', () => {
         'SPRACHBAUSTEINE_2',
       ]);
     });
+
+    it('covers the three Teile of Hören, in order', async () => {
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        level: 'B1',
+        gradingTier: 'MANUAL',
+        block: 'HOEREN',
+        answers: {},
+      });
+
+      expect(scored.map((s) => `${s.skill}_${s.teil}`)).toEqual([
+        'HOEREN_1',
+        'HOEREN_2',
+        'HOEREN_3',
+      ]);
+    });
+
+    it('covers Schreiben as its own, single-Teil block', async () => {
+      prisma.writingAttempt = {
+        create: jest.fn().mockResolvedValue({}),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      prisma.writingExercise = {
+        findFirst: jest.fn().mockResolvedValue({ id: 'task-a' }),
+      };
+
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        level: 'B1',
+        gradingTier: 'MANUAL',
+        block: 'SCHREIBEN',
+        answers: {},
+      });
+
+      expect(scored.map((s) => `${s.skill}_${s.teil}`)).toEqual([
+        'SCHREIBEN_1',
+      ]);
+    });
+
+    it("reads the sitting's own level, not a fixed one", async () => {
+      // A B2 sitting must not be scored against B1's composition — this was
+      // the point of moving BLOCK_SECTIONS into the database.
+      await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 7,
+        level: 'B2',
+        gradingTier: 'MANUAL',
+        block: 'HOEREN',
+        answers: {},
+      });
+
+      expect(prisma.examSectionWeight.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { level: 'B2', block: 'HOEREN' },
+        }),
+      );
+    });
   });
 
   describe('what it writes', () => {
@@ -144,6 +278,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: { LESEN_1: { '1': 'a' } },
@@ -174,6 +309,7 @@ describe('ExamScoringService', () => {
           studentId: STUDENT,
           modelltestId: MODELLTEST,
           modelltestNumber: 2,
+          level: 'B1',
           gradingTier: 'MANUAL',
           block: 'LESEN_SPRACHBAUSTEINE',
           answers: { LESEN_1: { '1': 'a' } },
@@ -187,6 +323,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
@@ -204,6 +341,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: { HOEREN_1: { q1: 'a', q2: 'b', q3: 'c', q4: 'd', q5: 'x' } },
@@ -224,6 +362,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: {},
@@ -252,6 +391,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'LESEN_SPRACHBAUSTEINE',
         answers: {},
@@ -270,6 +410,7 @@ describe('ExamScoringService', () => {
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'HOEREN',
         answers: {},
@@ -281,21 +422,95 @@ describe('ExamScoringService', () => {
   });
 
   describe('the AI tier', () => {
-    const writeSchreiben = (gradingTier: 'MANUAL' | 'AI') => {
+    const writeSchreiben = (
+      gradingTier: 'MANUAL' | 'AI',
+      extra: Record<string, unknown> = {},
+      writingExercise?: { findFirst: jest.Mock },
+    ) => {
       prisma.writingAttempt = {
         create: jest.fn().mockResolvedValue({ attempt_id: 'writing-1' }),
         deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      prisma.writingExercise = writingExercise ?? {
+        findFirst: jest.fn().mockResolvedValue({
+          id: 'task-a',
+          part: 1,
+          title: 'Bitte um Informationen',
+        }),
       };
       return service.scoreBlock({
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier,
         block: 'SCHREIBEN',
-        answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },
+        answers: {
+          SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren', ...extra },
+        },
       });
     };
+
+    /**
+     * The trainer has to know which Aufgabe the letter answers.
+     *
+     * telc B2 offers two Schreiben tasks and the candidate answers exactly
+     * one. The attempt recorded only `exam-<modelltestId>`, so a trainer
+     * opening the marking screen saw a letter with no way to tell which
+     * prompt it was written for — and criterion I is precisely whether the
+     * required points of that prompt were addressed.
+     *
+     * Storing the chosen task's own id also repairs the AI tier. The
+     * placeholder was passed to runCorrection as its exerciseId, where
+     * getExercise cannot resolve it, so the suggestion was generated with no
+     * task at all and no Leitpunkte cap.
+     */
+    it('records the chosen task, not a placeholder', async () => {
+      await writeSchreiben('MANUAL', { taskId: 'task-a' });
+
+      expect(prisma.writingAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ exercise_id: 'task-a' }),
+        }),
+      );
+    });
+
+    it('falls back to the single task when the client names none', async () => {
+      // B1 has one Schreiben task and clients that predate the choice send no
+      // taskId. The attempt must still name a resolvable exercise.
+      await writeSchreiben('MANUAL');
+
+      expect(prisma.writingAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ exercise_id: 'task-a' }),
+        }),
+      );
+    });
+
+    it('gives the model a resolvable exercise id', async () => {
+      await writeSchreiben('AI', { taskId: 'task-a' });
+
+      expect(correction.runCorrection).toHaveBeenCalledWith(
+        expect.objectContaining({ exerciseId: 'task-a' }),
+      );
+    });
+
+    it('refuses a task that belongs to another Modelltest', async () => {
+      // The id arrives from the candidate's client. Resolving it without
+      // scoping to this Modelltest would let a submission name any task in
+      // the catalogue and be marked against a prompt it never saw.
+      const scopedMiss = { findFirst: jest.fn().mockResolvedValue(null) };
+
+      await expect(
+        writeSchreiben('MANUAL', { taskId: 'someone-elses-task' }, scopedMiss),
+      ).rejects.toThrow();
+      expect(scopedMiss.findFirst).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({ modelltest_id: MODELLTEST }),
+        }),
+      );
+    });
 
     it('asks the model for a suggestion when the center bought it', async () => {
       await writeSchreiben('AI');
@@ -352,12 +567,16 @@ describe('ExamScoringService', () => {
         deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
       };
       prisma.writingAttempt = writing;
+      prisma.writingExercise = {
+        findFirst: jest.fn().mockResolvedValue({ id: 'task-a' }),
+      };
 
       const scored = await service.scoreBlock({
         attemptId: ATTEMPT,
         studentId: STUDENT,
         modelltestId: MODELLTEST,
         modelltestNumber: 2,
+        level: 'B1',
         gradingTier: 'MANUAL',
         block: 'SCHREIBEN',
         answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },
@@ -376,6 +595,323 @@ describe('ExamScoringService', () => {
           data: expect.objectContaining({ exam_attempt_id: ATTEMPT }),
         }),
       );
+    });
+  });
+
+  describe('the generic model (A1/A2)', () => {
+    const genericSection = (over: Record<string, unknown>) => ({
+      sectionId: 'LESEN_1',
+      aufgabentyp: 'EINZELAUSWAHL',
+      teil: 1,
+      label: 'Lesen Teil 1',
+      instruction: '',
+      maxPoints: 5,
+      scoringMode: 'AUTO',
+      material: {},
+      items: [
+        { itemNumber: 1, prompt: null, solution: { key: 'a' }, options: [] },
+        { itemNumber: 2, prompt: null, solution: { key: 'b' }, options: [] },
+      ],
+      ...over,
+    });
+
+    beforeEach(() => {
+      // Where every A1/A2 automatic mark is frozen at submit.
+      prisma.examSectionResult = {
+        findUnique: jest.fn().mockResolvedValue(null),
+        upsert: jest.fn().mockResolvedValue({}),
+        delete: jest.fn().mockResolvedValue({}),
+      };
+    });
+
+    it('scores Lesen against the generic model, never the B1 answer-key service', async () => {
+      prisma.writingAttempt = {
+        create: jest
+          .fn()
+          .mockResolvedValue({ attempt_id: 'writing-generic-0' }),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      genericContent.sectionFor.mockResolvedValue(genericSection({}));
+
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 8,
+        level: 'A2',
+        gradingTier: 'MANUAL',
+        block: 'LESEN_SCHREIBEN',
+        answers: { LESEN_1: { '1': 'a', '2': 'wrong' } },
+      });
+
+      expect(genericContent.sectionFor).toHaveBeenCalledWith(
+        MODELLTEST,
+        'LESEN',
+        1,
+      );
+      expect(lesen.getSubmissionRules).not.toHaveBeenCalled();
+      expect(scored).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ skill: 'LESEN', teil: '1', score: 50 }),
+        ]),
+      );
+      // Frozen as the Teil's mark: 1 of 2 right, 2.5 of its 5 points.
+      expect(prisma.examSectionResult.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({
+            skill: 'LESEN',
+            teil: 1,
+            points: 2.5,
+            graded_by: 'SERVER',
+          }),
+        }),
+      );
+    });
+
+    it('auto-scores a FORMULAR_AUSFUELLEN Schreiben Teil as a frozen mark, not a writing row', async () => {
+      prisma.writingAttempt = {
+        create: jest
+          .fn()
+          .mockResolvedValue({ attempt_id: 'writing-generic-1' }),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      genericContent.sectionFor.mockImplementation(
+        (_modelltestId: string, skill: string, teil: number) => {
+          if (skill === 'LESEN') return Promise.resolve(genericSection({}));
+          return Promise.resolve(
+            genericSection({
+              sectionId: 'SCHREIBEN_1',
+              aufgabentyp: 'FORMULAR_AUSFUELLEN',
+              teil: 1,
+              scoringMode: 'AUTO',
+              items: [
+                {
+                  itemNumber: 1,
+                  prompt: 'Name',
+                  solution: {
+                    acceptedAnswers: ['Müller'],
+                    normalization: {
+                      trim: true,
+                      ignoreCase: false,
+                      unicodeNormalization: 'NFC',
+                      numericAnswersStrict: false,
+                      fuzzyMatchingAllowed: false,
+                      unrecognizedAnswerPolicy: 'MANUAL_REVIEW',
+                    },
+                  },
+                  options: [],
+                },
+              ],
+            }),
+          );
+        },
+      );
+
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 8,
+        level: 'A2',
+        gradingTier: 'MANUAL',
+        block: 'LESEN_SCHREIBEN',
+        answers: { SCHREIBEN_1: { '1': 'Müller' } },
+      });
+
+      expect(
+        scored.find((s) => s.skill === 'SCHREIBEN' && s.teil === '1'),
+      ).toMatchObject({ score: 100, pending: false });
+      expect(prisma.examSectionResult.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({
+            skill: 'SCHREIBEN',
+            teil: 1,
+            points: 5,
+            graded_by: 'SERVER',
+          }),
+        }),
+      );
+      // The form's answers stay on the block. A writing row would be read
+      // as the letter, and its score as an AI suggestion.
+      expect(prisma.writingAttempt.create).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ exercise_id: 'SCHREIBEN_1' }),
+        }),
+      );
+      expect(correction.runCorrection).not.toHaveBeenCalled();
+    });
+
+    describe('an answer the key does not recognise', () => {
+      const normalization = {
+        trim: true,
+        ignoreCase: true,
+        unicodeNormalization: 'NFC',
+        numericAnswersStrict: true,
+        fuzzyMatchingAllowed: false,
+        unrecognizedAnswerPolicy: 'MANUAL_REVIEW',
+      };
+      const submitForm = (answer: string) => {
+        prisma.writingAttempt = {
+          create: jest.fn().mockResolvedValue({ attempt_id: 'w' }),
+          deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+        };
+        genericContent.sectionFor.mockImplementation(
+          (_m: string, skill: string, teil: number) => {
+            if (skill === 'SCHREIBEN' && teil === 1) {
+              return Promise.resolve(
+                genericSection({
+                  sectionId: 'SCHREIBEN_1',
+                  aufgabentyp: 'FORMULAR_AUSFUELLEN',
+                  teil: 1,
+                  items: [
+                    {
+                      itemNumber: 1,
+                      prompt: 'Reisetermin',
+                      solution: { acceptedAnswers: ['Sonntag'], normalization },
+                      options: [],
+                    },
+                  ],
+                }),
+              );
+            }
+            if (skill === 'SCHREIBEN') {
+              return Promise.resolve(
+                genericSection({
+                  sectionId: 'SCHREIBEN_2',
+                  teil: 2,
+                  aufgabentyp: 'TEXT_SCHREIBEN',
+                  scoringMode: 'MANUAL',
+                  items: [],
+                }),
+              );
+            }
+            return Promise.resolve(genericSection({}));
+          },
+        );
+        return service.scoreBlock({
+          attemptId: ATTEMPT,
+          studentId: STUDENT,
+          modelltestId: MODELLTEST,
+          modelltestNumber: 8,
+          level: 'A2',
+          gradingTier: 'MANUAL',
+          block: 'LESEN_SCHREIBEN',
+          answers: { SCHREIBEN_1: { '1': answer } },
+        });
+      };
+      const formKey = {
+        attempt_id_skill_teil: {
+          attempt_id: ATTEMPT,
+          skill: 'SCHREIBEN',
+          teil: 1,
+        },
+      };
+
+      it('leaves the Teil waiting for the examiner instead of marking it wrong', async () => {
+        const scored = await submitForm('Sontag');
+
+        expect(
+          scored.find((s) => s.skill === 'SCHREIBEN' && s.teil === '1'),
+        ).toMatchObject({ pending: true });
+        expect(prisma.examSectionResult.upsert).not.toHaveBeenCalledWith(
+          expect.objectContaining({ where: formKey }),
+        );
+      });
+
+      it('withdraws a server mark a previous scoring of this block left', async () => {
+        prisma.examSectionResult.findUnique.mockResolvedValue({
+          graded_by: 'SERVER',
+        });
+
+        await submitForm('Sontag');
+
+        expect(prisma.examSectionResult.delete).toHaveBeenCalledWith({
+          where: formKey,
+        });
+      });
+
+      it('never overwrites a mark an examiner gave when a block is scored again', async () => {
+        // A re-run of a failed submit after the examiner already marked it.
+        prisma.examSectionResult.findUnique.mockResolvedValue({
+          graded_by: 'trainer-1',
+        });
+
+        await submitForm('Sonntag');
+
+        expect(prisma.examSectionResult.upsert).not.toHaveBeenCalled();
+        expect(prisma.examSectionResult.delete).not.toHaveBeenCalled();
+      });
+    });
+
+    it('still routes a TEXT_SCHREIBEN Schreiben Teil to a person, resolved via the exam_section, not WritingExercise', async () => {
+      prisma.writingAttempt = {
+        create: jest
+          .fn()
+          .mockResolvedValue({ attempt_id: 'writing-generic-2' }),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      genericContent.sectionFor.mockImplementation(
+        (_modelltestId: string, skill: string) => {
+          if (skill === 'LESEN') return Promise.resolve(genericSection({}));
+          return Promise.resolve(
+            genericSection({
+              sectionId: 'SCHREIBEN_2',
+              aufgabentyp: 'TEXT_SCHREIBEN',
+              teil: 2,
+              scoringMode: 'MANUAL_WITH_AI_SUGGESTION',
+              items: [],
+            }),
+          );
+        },
+      );
+
+      const scored = await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 8,
+        level: 'A2',
+        gradingTier: 'AI',
+        block: 'LESEN_SCHREIBEN',
+        answers: { SCHREIBEN_2: { text: 'Liebe Frau Müller,' } },
+      });
+
+      expect(
+        scored.find((s) => s.skill === 'SCHREIBEN' && s.teil === '2'),
+      ).toMatchObject({ score: null, pending: true });
+      expect(prisma.writingAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ exercise_id: 'SCHREIBEN_2' }),
+        }),
+      );
+      expect(prisma.writingExercise).toBeUndefined();
+      expect(correction.runCorrection).toHaveBeenCalledWith(
+        expect.objectContaining({ exerciseId: 'SCHREIBEN_2', level: 'A2' }),
+      );
+    });
+
+    it('B1 Schreiben routing is unchanged -- still unconditionally a person, scoring_mode never consulted', async () => {
+      prisma.writingAttempt = {
+        create: jest.fn().mockResolvedValue({}),
+        deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
+      };
+      prisma.writingExercise = {
+        findFirst: jest.fn().mockResolvedValue({ id: 'task-a' }),
+      };
+
+      await service.scoreBlock({
+        attemptId: ATTEMPT,
+        studentId: STUDENT,
+        modelltestId: MODELLTEST,
+        modelltestNumber: 2,
+        level: 'B1',
+        gradingTier: 'MANUAL',
+        block: 'SCHREIBEN',
+        answers: { SCHREIBEN_1: { text: 'Sehr geehrte Damen und Herren' } },
+      });
+
+      expect(genericContent.sectionFor).not.toHaveBeenCalled();
+      expect(prisma.writingExercise.findFirst).toHaveBeenCalled();
     });
   });
 });

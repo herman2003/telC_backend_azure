@@ -1,0 +1,37 @@
+meta {
+  name: P01 Practice Lesen GET
+  type: http
+  seq: 100
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=8
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const body = res.body;
+  if (!Array.isArray(body.sections) || body.sections.length !== 3) {
+    throw new Error("expected sections[3], got " + JSON.stringify(body.sections));
+  }
+  if (body.teil1 || body.teil2 || body.teil3) {
+    throw new Error("B1 teil1/2/3 must be absent for A2 practice");
+  }
+  bru.setEnvVar("a2PracticeLesenRevision", body.contentRevision);
+}
+
+docs {
+  Training Lesen for A2 MT 8. Needs A2 login + seat (01+02).
+}

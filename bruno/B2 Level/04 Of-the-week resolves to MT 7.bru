@@ -1,0 +1,29 @@
+meta {
+  name: 04 Of-the-week resolves to MT 7
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/modelltests/of-the-week
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.number: eq 7
+  res.body.level: eq B2
+}
+
+docs {
+  The weekly rotation draws from the student's own level. With one B2 paper
+  the pool has one member, so it resolves to 7 and stays there — expected,
+  and it starts rotating once there are more B2 papers.
+
+  This is also what Start sells: the Modelltest de la semaine.
+}

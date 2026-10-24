@@ -992,6 +992,8 @@ model Modelltest {
   examSessions                  ExamSession[]
   vocab_occurrences             VocabOccurrence[]
   vocab_exercises               VocabExercise[]
+  /// A1/A2 only, today — B1/B2 content stays in the tables above.
+  examSections                  ExamSection[]
 
   /// Kept out of the training catalogue, so an exam sitting can use material
   /// no student has seen. False for everything that exists today.
@@ -999,6 +1001,24 @@ model Modelltest {
 
   /// CEFR exam this Modelltest prepares for (Option A: student.level must match).
   level CefrLevel @default(B1)
+
+  /// Level-wide content metadata not already authoritative elsewhere:
+  /// Hören's Exam Day delivery contract (continuous recording, no pause/
+  /// seek/restart) and grade bands. Deliberately does NOT duplicate
+  /// totalPoints/writtenPoints/oralPoints/passRule — those are already
+  /// authoritative in `exam_section_weights`/`exam_pass_rules` (Phase 1),
+  /// and storing them twice would be two sources of truth that can drift.
+  /// Null for B1/B2 and for any A1/A2 Modelltest imported before this
+  /// field existed. Never queried into — read verbatim by whatever Exam
+  /// Day Hören playback eventually consumes it.
+  format Json?
+
+  /// Visual-asset manifest from the source file (`assetKey`, `sourcePages`,
+  /// `extractionNotes`, etc.) — bookkeeping for whoever uploads the actual
+  /// images, not the images themselves. Individual `imageUrl` references
+  /// inside a section's own `material`/`content` are preserved there
+  /// regardless of this field. Null when the source carried none.
+  assets Json?
 
   @@index([level, exam_only])
   @@map("modelltests")
@@ -1027,10 +1047,9 @@ model ListeningExercise {
   exam_plays_allowed Int      @default(1)
   created_at         DateTime @default(now()) @db.Timestamptz(6)
 
-  modelltest    Modelltest          @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
-  questions     ListeningQuestion[]
-  attempts      ListeningAttempt[]
-  trainingPlays TrainingAudioPlay[]
+  modelltest Modelltest          @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
+  questions  ListeningQuestion[]
+  attempts   ListeningAttempt[]
 
   @@unique([modelltest_id, part])
   @@index([modelltest_id])
@@ -1045,12 +1064,16 @@ model ListeningExercise {
 model TrainingAudioPlay {
   id         String @id @default(uuid())
   student_id String
+  /// The `listening_exercises` row this counts plays of. Plain column, no
+  /// FK — same precedent as `ExamAudioPlay.audio_id` above. A2/A1 Hören
+  /// lives in the generic content model (`exam_sections`), which has no
+  /// `listening_exercises` row to point at; a non-nullable FK would make
+  /// this row impossible to write at all for those levels.
   audio_id   String @db.Uuid
 
   plays_used Int @default(0)
 
-  student Student           @relation(fields: [student_id], references: [id], onDelete: Cascade)
-  audio   ListeningExercise @relation(fields: [audio_id], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
   @@unique([student_id, audio_id])
   @@map("training_audio_plays")
@@ -1110,10 +1133,22 @@ model WritingExercise {
   // See Modelltest.created_at — same hand-written-migration origin.
   created_at        DateTime @default(now()) @db.Timestamptz(6)
 
+  /// Which Schreiben task of the Modelltest this is.
+  ///
+  /// B1 asks for one letter, so every row written before B2 is part 1. telc
+  /// B2 offers two tasks and the candidate answers exactly one, which is why
+  /// the key is no longer the Modelltest alone.
+  part Int @default(1)
+
+  /// Shared by every task of a one-of-N choice, and null when there is no
+  /// choice. It is what tells a reader that two rows are alternatives rather
+  /// than two pieces of work to hand in.
+  choice_group_id String?
+
   modelltest_id String     @db.Uuid
   modelltest    Modelltest @relation(fields: [modelltest_id], references: [id])
 
-  @@unique([modelltest_id])
+  @@unique([modelltest_id, part])
   @@map("writing_exercises")
 }
 
@@ -1328,6 +1363,9 @@ enum ExamBlock {
   LESEN_SPRACHBAUSTEINE
   HOEREN
   SCHREIBEN
+  /// A1/A2 only — Lesen and Schreiben sat as one timed block. Not referenced
+  /// by any B1/B2 row.
+  LESEN_SCHREIBEN
 }
 
 /// How long a block lasts, per level, as telc specifies it.
@@ -1345,6 +1383,31 @@ model ExamBlockDuration {
 
   @@unique([level, block])
   @@map("exam_block_durations")
+}
+
+enum PassRuleType {
+  TOTAL_PERCENT
+  PART_PERCENT
+}
+
+/// How a level's pass/fail verdict is computed. B1/B2 require 60% of written
+/// AND 60% of oral, scored independently. A1/A2 require 60% of the combined
+/// total — a candidate strong on paper and weak orally still passes, which
+/// PART_PERCENT would wrongly fail. See docs/architecture/multi-level.md
+/// Part 4.
+model ExamPassRule {
+  level CefrLevel @id
+
+  type PassRuleType
+
+  /// TOTAL_PERCENT only.
+  minimum_percent Int?
+
+  /// PART_PERCENT only.
+  written_percent Int?
+  oral_percent    Int?
+
+  @@map("exam_pass_rules")
 }
 
 /// A center's exam sitting: one Modelltest, a named list of candidates, and a
@@ -1489,7 +1552,8 @@ model ExamAttemptBlock {
 model ExamAudioPlay {
   id         String @id @default(uuid())
   attempt_id String
-  /// The `listening_exercises` row this counts plays of.
+  /// The recording this counts plays of: a `listening_exercises` id (B1/B2)
+  /// or an A1/A2 Hören Teil's `exam_sections` id. Plain column, no FK.
   audio_id   String @db.Uuid
 
   plays_used Int @default(0)
@@ -1525,9 +1589,134 @@ model ExamSectionWeight {
   /// telc's points for this Teil.
   max_points Int
   part       ExamPart
+  /// Which timed written block this Teil is sat in. Null for ORAL rows —
+  /// Sprechen is not part of any `ExamBlock`; it is scored outside
+  /// `scoreBlock`. Lets `BLOCK_SECTIONS` (exam-scoring.service.ts) be a query
+  /// over these rows instead of a hardcoded map — needed because A1/A2 put
+  /// Lesen and Schreiben in one block (`LESEN_SCHREIBEN`), unlike B1/B2.
+  block      ExamBlock?
 
   @@unique([level, skill, teil])
   @@map("exam_section_weights")
+}
+
+/// The discriminator for a generic-model section's shape. Eight written
+/// types cover every level; see docs/ideas/modelltest-content-contract.md
+/// for the `material`/`solution` shape each one takes.
+enum Aufgabentyp {
+  // Written — auto-scored
+  EINZELAUSWAHL
+  RICHTIG_FALSCH
+  ZUORDNUNG
+  KURZANTWORT
+  FORMULAR_AUSFUELLEN
+  LUECKENTEXT_EINZELAUSWAHL
+  LUECKENTEXT_WORTBANK
+  // Written — human/AI scored
+  TEXT_SCHREIBEN
+  // Oral
+  SICH_VORSTELLEN
+  FRAGEN_UND_ANTWORTEN
+  BITTEN_UND_REAGIEREN
+  ALLTAGSGESPRAECH
+  ETWAS_AUSHANDELN
+  UEBER_EIN_THEMA_SPRECHEN
+  UEBER_ERFAHRUNGEN_SPRECHEN
+  DISKUSSION
+  GEMEINSAM_PLANEN
+}
+
+/// How a section's mark is produced. Not a boolean "scored" flag: the A2
+/// review found `SCHREIBEN_2` and every `SPRECHEN` section must never be
+/// AUTO, and `MANUAL_WITH_AI_SUGGESTION` (an AI suggestion beside an empty
+/// human mark, never counted toward the verdict — exam-grading.service.ts's
+/// existing convention) is a distinct case from plain `MANUAL`.
+enum ScoringMode {
+  AUTO
+  MANUAL
+  MANUAL_WITH_AI_SUGGESTION
+  /// A B2-style unscored Sprechen intro. Never produces an activity or
+  /// section-result row.
+  NOT_SCORED
+}
+
+/// A1/A2 content, stored generically rather than in B1's per-Teil tables:
+/// A-level task types (`KURZANTWORT`, `FORMULAR_AUSFUELLEN`) have no table
+/// there and no analogue. B1/B2 never read this model.
+///
+/// `material` holds everything the `aufgabentyp` needs beyond its items —
+/// the passage, the form's source documents, the Sprechen rubric and cards,
+/// grade bands, visual-asset references. Validated by a Zod schema keyed on
+/// `aufgabentyp`, at import only. The discipline that keeps it safe is one
+/// rule: never write a `WHERE` that reaches inside it. The day that's
+/// needed, that field has earned a column.
+model ExamSection {
+  id            String      @id @default(uuid())
+  modelltest_id String      @db.Uuid
+  skill         Skill
+  /// 0 for an unscored intro (a B2-style `SICH_VORSTELLEN` before the
+  /// scored Teil 1 at a level that needs one).
+  teil          Int
+  aufgabentyp   Aufgabentyp
+  label         String
+  instruction   String
+  /// telc's points for this Teil. Always whole — a fractional mark is a
+  /// human examiner's actual score (exam_section_results.points), never
+  /// this section's maximum.
+  max_points    Int
+  scoring_mode  ScoringMode
+  material      Json
+
+  /// Globally unique: `(level, paper-number, skill, teil)`, not reused
+  /// across a correction — a correction is a new revision.
+  content_revision String  @unique
+  /// Set on both halves of a B2-style one-of-two Schreiben choice.
+  choice_group_id  String?
+  sort_order       Int
+
+  modelltest Modelltest @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
+  items      ExamItem[]
+
+  @@unique([modelltest_id, skill, teil])
+  @@index([modelltest_id])
+  @@map("exam_sections")
+}
+
+model ExamItem {
+  id          String  @id @default(uuid())
+  section_id  String
+  item_number Int
+  /// Null for TEXT_SCHREIBEN and every oral type — nothing to prompt on a
+  /// per-item basis; the section's own `instruction`/`material` carries it.
+  prompt      String?
+  /// Shape depends on the section's `aufgabentyp` — a single key
+  /// (`ZUORDNUNG`, `LUECKENTEXT_WORTBANK`), or accepted answers plus a
+  /// normalization rule (`KURZANTWORT`, `FORMULAR_AUSFUELLEN`). Null for
+  /// TEXT_SCHREIBEN and oral types. Validated at import, read verbatim at
+  /// scoring time — never queried into.
+  solution    Json?
+  sort_order  Int
+
+  section ExamSection      @relation(fields: [section_id], references: [id], onDelete: Cascade)
+  options ExamItemOption[]
+
+  @@unique([section_id, item_number])
+  @@map("exam_items")
+}
+
+model ExamItemOption {
+  id         String  @id @default(uuid())
+  item_id    String
+  /// "a" | "b" | "c", a word-bank letter, or a `ZUORDNUNG` choice key.
+  key        String
+  content    String
+  is_correct Boolean @default(false)
+  sort_order Int
+
+  item ExamItem @relation(fields: [item_id], references: [id], onDelete: Cascade)
+
+  @@unique([item_id, key])
+  @@map("exam_item_options")
 }
 
 /// A mark a person gave.
@@ -1549,8 +1738,15 @@ model ExamSectionResult {
   /// Out of the Teil's `max_points`, not a percentage: an examiner marks in
   /// telc's points, and converting on the way in would lose the number they
   /// actually wrote down.
-  points    Int
-  /// The center user who gave it.
+  ///
+  /// Float, not Decimal: telc's own Bewertungsbogen M10 only ever produces
+  /// multiples of 0.5 (1, 0.5, 0 per criterion), which binary64 represents
+  /// exactly. A Decimal column would force every read site in this codebase
+  /// — already typed `number` throughout — to convert with `.toNumber()`
+  /// for no precision this domain needs.
+  points    Float
+  /// The center user who gave it, or `SERVER` for an A1/A2 automatic Teil
+  /// the answer key decided at submit (see exam-result.service SERVER_GRADER).
   graded_by String
   graded_at DateTime @default(now())
   /// What the examiner wants remembered — an oral date, a note on why.

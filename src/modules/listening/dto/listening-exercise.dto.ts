@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class ListeningQuestionDto {
   @ApiProperty({ example: 'q41' })
@@ -10,11 +10,42 @@ export class ListeningQuestionDto {
   prompt: string;
 }
 
+/** One item of an A1/A2 Hören Teil (keys stripped on GET; scored on submit). */
+export class ListeningGenericItemDto {
+  @ApiProperty()
+  itemNumber: number;
+
+  @ApiPropertyOptional({ nullable: true })
+  prompt: string | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    description: 'Per-item picture (e.g. A2 phone note); text prompt is fallback',
+  })
+  imageUrl?: string | null;
+
+  @ApiPropertyOptional({
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        key: { type: 'string' },
+        content: { type: 'string' },
+        imageUrl: { type: 'string', nullable: true },
+      },
+    },
+  })
+  options: { key: string; content: string; imageUrl?: string | null }[];
+}
+
 /**
  * One Hören Teil as training serves it — same fields as exam `getExamTeil`.
  *
  * No durable audio URL: the client spends a play via
  * `POST /api/listening/audio/:audioId/play`, then streams through the API.
+ *
+ * A1/A2 add `aufgabentyp` + `items` (authoritative). B1 keeps `questions` as
+ * Richtig/Falsch prompts only.
  */
 export class ListeningExerciseDto {
   @ApiProperty({
@@ -47,8 +78,32 @@ export class ListeningExerciseDto {
 
   @ApiProperty({
     description:
-      'Richtig(+)/falsch(−) statements. No options array — student answers each with "+" or "−".',
+      'Richtig(+)/falsch(−) statements (B1/B2). For A1/A2 prefer `items`.',
     type: [ListeningQuestionDto],
   })
   questions: ListeningQuestionDto[];
+
+  @ApiPropertyOptional({
+    description: 'A1/A2: Aufgabenart of this Teil',
+    example: 'KURZANTWORT',
+  })
+  aufgabentyp?: string;
+
+  @ApiPropertyOptional({
+    description: 'A1/A2: e.g. HOEREN_1',
+    example: 'HOEREN_1',
+  })
+  sectionId?: string;
+
+  @ApiPropertyOptional({
+    description: 'A1/A2: section material (word banks, texts, …)',
+  })
+  material?: unknown;
+
+  @ApiPropertyOptional({
+    description:
+      'A1/A2: authoritative items (no answer key on GET — scored on submit)',
+    type: [ListeningGenericItemDto],
+  })
+  items?: ListeningGenericItemDto[];
 }
