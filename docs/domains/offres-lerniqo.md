@@ -225,6 +225,26 @@ au launch**.
 
 ---
 
+## Pilote Exam Day — essai gratuit centre
+
+Offre d’essai pour les centres (pas un plan étudiant). Une fois par centre.
+
+| | |
+|--|--|
+| **Durée** | **14 jours** (horloge au bouton « démarrer l’essai ») |
+| **Places Start** | **3** codes (Start complet, prix 0) |
+| **Exam Day** | **6** places manuelles (2 sessions × 3 candidats) |
+| **Mit Elena** | **9** crédits (stock centre, à assigner) |
+| **Corrections Schreiben IA** | **6** crédits (stock centre, à assigner) |
+| **Prep Pass** | non inclus |
+| **Achats add-ons / Exam Day pendant l’essai** | non — seul l’achat de places Start (conversion) est ouvert |
+| **Après J14 sans paiement** | accès coupé ; slots et crédits d’essai restants annulés |
+| **Ensuite** | à partir de **10 places** Start + add-ons au tarif catalogue |
+
+Détail contrat : `docs/contracts/center-dashboard-sync.md` § D3.
+
+---
+
 ## Comment ça se complète
 
 ```

@@ -6,21 +6,28 @@ import {
   TRIAL_DURATION_DAYS,
 } from '../src/modules/centers/center-trial.service';
 import { ACTIVATION_CODE_PATTERN } from '../src/modules/centers/activation-code-format';
+import {
+  TRIAL_ELENA_CREDITS,
+  TRIAL_EXAM_SLOTS,
+  TRIAL_PACKAGE_SEATS,
+  TRIAL_SCHREIBEN_CREDITS,
+} from '../src/modules/centers/trial-package';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 /**
- * Starting the free trial.
+ * Starting Pilote Exam Day.
  *
  * The clock starts when the manager presses the button, not when a student
- * first redeems: a school should know when its trial ends the moment it has a
- * code to hand out, and the code's own expiry is that same date.
+ * first redeems: a school should know when its trial ends the moment it has
+ * codes to hand out, and each code's expiry is that same date.
  */
 describe('CenterTrialService.start', () => {
   const identity = { centerUserId: 'owner-1', centerId: 'center-1' } as never;
 
   let prisma: any;
   let service: CenterTrialService;
+  let codeSeq: number;
 
   const subscription = (over: Record<string, unknown> = {}) => ({
     trial_started_at: null,
@@ -30,30 +37,43 @@ describe('CenterTrialService.start', () => {
   });
 
   beforeEach(() => {
+    codeSeq = 0;
     prisma = {
       centerSubscription: {
         findUnique: jest.fn().mockResolvedValue(subscription()),
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
       },
+      centerSeat: {
+        upsert: jest.fn().mockResolvedValue({ quantity: TRIAL_PACKAGE_SEATS }),
+      },
+      center: {
+        update: jest.fn().mockResolvedValue({}),
+      },
+      centerEntitlementPool: {
+        upsert: jest.fn().mockResolvedValue({}),
+      },
       activationCode: {
-        create: jest.fn(async ({ data }: any) => ({
-          id: 'code-1',
-          status: 'ACTIVATED',
-          student_id: null,
-          linked_name: null,
-          linked_email: null,
-          connected_at: null,
-          level: null,
-          created_at: new Date(),
-          ...data,
-        })),
+        create: jest.fn(async ({ data }: any) => {
+          codeSeq += 1;
+          return {
+            id: `code-${codeSeq}`,
+            status: 'ACTIVATED',
+            student_id: null,
+            linked_name: null,
+            linked_email: null,
+            connected_at: null,
+            level: null,
+            created_at: new Date(),
+            ...data,
+          };
+        }),
       },
       $transaction: jest.fn(async (work: any) => work(prisma)),
     };
     service = new CenterTrialService(prisma);
   });
 
-  it('starts a 14-day clock and issues exactly one code ending with it', async () => {
+  it('starts a 14-day clock, sets 3 seats, and issues 3 codes ending with it', async () => {
     const before = Date.now();
 
     const result = await service.start(identity);
@@ -63,28 +83,70 @@ describe('CenterTrialService.start', () => {
     const ends = write.data.trial_ends_at as Date;
 
     expect(TRIAL_DURATION_DAYS).toBe(14);
+    expect(TRIAL_PACKAGE_SEATS).toBe(3);
     expect(started.getTime()).toBeGreaterThanOrEqual(before);
     expect(ends.getTime() - started.getTime()).toBe(14 * DAY_MS);
 
-    expect(prisma.activationCode.create).toHaveBeenCalledTimes(1);
-    const code = prisma.activationCode.create.mock.calls[0][0].data;
-    expect(code).toEqual(
-      expect.objectContaining({
+    expect(prisma.centerSeat.upsert).toHaveBeenCalledWith({
+      where: { center_id: 'center-1' },
+      create: {
         center_id: 'center-1',
-        expires_at: ends,
-      }),
-    );
-    expect(code.code).toMatch(ACTIVATION_CODE_PATTERN);
+        quantity: 3,
+        unit_price_xaf: 0,
+      },
+      update: { quantity: 3 },
+    });
+
+    expect(prisma.activationCode.create).toHaveBeenCalledTimes(3);
+    for (const call of prisma.activationCode.create.mock.calls) {
+      expect(call[0].data).toEqual(
+        expect.objectContaining({
+          center_id: 'center-1',
+          expires_at: ends,
+        }),
+      );
+      expect(call[0].data.code).toMatch(ACTIVATION_CODE_PATTERN);
+    }
 
     expect(result.trialEndsAt).toEqual(ends);
-    expect(result.code).toEqual(
+    expect(result.codes).toHaveLength(3);
+    expect(result.codes[0]).toEqual(
       expect.objectContaining({
-        code: code.code,
         status: 'activated',
         planId: 'start',
         expiresAt: ends,
       }),
     );
+  });
+
+  it('grants 6 Exam Day slots and Elena / Schreiben pools', async () => {
+    await service.start(identity);
+
+    expect(prisma.center.update).toHaveBeenCalledWith({
+      where: { id: 'center-1' },
+      data: { exam_slots_remaining: { increment: TRIAL_EXAM_SLOTS } },
+    });
+    expect(TRIAL_EXAM_SLOTS).toBe(6);
+
+    expect(prisma.centerEntitlementPool.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        create: expect.objectContaining({
+          product: 'AI_SPEAKING_CREDIT',
+          balance: TRIAL_ELENA_CREDITS,
+        }),
+      }),
+    );
+    expect(TRIAL_ELENA_CREDITS).toBe(9);
+
+    expect(prisma.centerEntitlementPool.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        create: expect.objectContaining({
+          product: 'AI_SCHREIBEN_CREDIT',
+          balance: TRIAL_SCHREIBEN_CREDITS,
+        }),
+      }),
+    );
+    expect(TRIAL_SCHREIBEN_CREDITS).toBe(6);
   });
 
   it('claims the trial with a predicate, so two presses cannot start two', async () => {
@@ -124,7 +186,6 @@ describe('CenterTrialService.start', () => {
   });
 
   it('answers the loser of a race as already used, and issues nothing', async () => {
-    // Both requests read "no trial yet"; the predicate lets only one through.
     prisma.centerSubscription.updateMany.mockResolvedValue({ count: 0 });
 
     await expect(service.start(identity)).rejects.toThrow(
@@ -133,7 +194,7 @@ describe('CenterTrialService.start', () => {
     expect(prisma.activationCode.create).not.toHaveBeenCalled();
   });
 
-  it('draws a new code when the random one is already taken', async () => {
+  it('draws new codes when a random one is already taken', async () => {
     let attempts = 0;
     prisma.$transaction.mockImplementation(async (work: any) => {
       attempts += 1;
@@ -143,8 +204,6 @@ describe('CenterTrialService.start', () => {
           {
             code: 'P2002',
             clientVersion: 'test',
-            // The shape a real P2002 has with the driver adapter: no \`target\`,
-            // the column under driverAdapterError (see prisma-errors.spec.ts).
             meta: {
               modelName: 'ActivationCode',
               driverAdapterError: {
@@ -164,7 +223,8 @@ describe('CenterTrialService.start', () => {
     const result = await service.start(identity);
 
     expect(attempts).toBe(2);
-    expect(result.code.code).toMatch(ACTIVATION_CODE_PATTERN);
+    expect(result.codes).toHaveLength(3);
+    expect(result.codes[0].code).toMatch(ACTIVATION_CODE_PATTERN);
   });
 
   it('refuses a center with no subscription, which is a fault not a state', async () => {

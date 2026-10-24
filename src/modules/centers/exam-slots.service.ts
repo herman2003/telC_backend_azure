@@ -11,6 +11,8 @@ import {
   isIdempotencyViolation,
   type SignedCenterIdentity,
 } from './payment-shared';
+import { TrialAddonGate } from './trial-addon-gate';
+import { TrialGiftVoidService } from './trial-gift-void.service';
 import { amountWithVatXaf, splitVatXaf } from './vat';
 
 /** One candidate, one sitting, marked by people. */
@@ -94,10 +96,16 @@ export interface ExamSlotPaymentView {
  */
 @Injectable()
 export class ExamSlotsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly trialAddonGate: TrialAddonGate,
+    private readonly trialGiftVoid: TrialGiftVoidService,
+  ) {}
 
   /** Both pools: a center may hold some of each. */
   async balance(identity: SignedCenterIdentity): Promise<ExamSlotBalance> {
+    await this.trialGiftVoid.voidIfExpiredUnpaidTrial(identity.centerId);
+
     const center = await this.prisma.center.findUniqueOrThrow({
       where: { id: identity.centerId },
       select: {
@@ -154,6 +162,7 @@ export class ExamSlotsService {
     // The same gate as seats. Taking money needs a country for the currency,
     // a city for support and a phone to chase an unpaid invoice.
     await assertCenterProfileComplete(this.prisma, identity);
+    await this.trialAddonGate.assertMayBuyAddons(identity.centerId);
 
     try {
       const amounts = splitVatXaf(quote.quantity * quote.unitPriceXaf);

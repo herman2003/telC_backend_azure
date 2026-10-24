@@ -17,8 +17,8 @@ headers {
 script:post-response {
   if (res.getStatus() === 201) {
     const body = res.getBody();
-    if (body.code && body.code.code) {
-      bru.setEnvVar("activationKey", body.code.code);
+    if (body.codes && body.codes[0] && body.codes[0].code) {
+      bru.setEnvVar("activationKey", body.codes[0].code);
     }
   }
 }
@@ -26,12 +26,11 @@ script:post-response {
 assert {
   res.status: eq 201
   res.body.trialEndsAt: isDefined
-  res.body.code: isDefined
-  res.body.code.code: isDefined
+  res.body.codes: isDefined
 }
 
 docs {
-  Starts the 14-day free trial and issues its one activation code.
+  Starts Pilote Exam Day (14-day free trial) and issues **three** activation codes.
 
   Run `Center Auth / 03 Login` first. Fresh center must be at TRIAL_PENDING
   (`01 Get subscription`).
@@ -39,8 +38,9 @@ docs {
   ## What this does
 
   - Sets `trial_started_at` / `trial_ends_at` (now + 14 days).
-  - Mints **one** activation code with `expiresAt` = `trialEndsAt`.
-  - Captures `{{activationKey}}` for `Student Activation / 01 Activate`.
+  - Sets seats to **3** and mints **three** codes with `expiresAt` = `trialEndsAt`.
+  - Grants **6** manual Exam Day slots, **9** Mit Elena credits, **6** Schreiben IA credits (pools).
+  - Captures `{{activationKey}}` = first code for `Student Activation / 01 Activate`.
 
   The clock starts **here**, on the manager button — not at first student
   activation. Re-read `01 Get subscription` after: `status` TRIAL,
@@ -51,7 +51,8 @@ docs {
   - Second call → 409 TRIAL_ALREADY_USED
   - Center that already paid → 409 ALREADY_PAID
   - No Authorization → 401
+  - Exam Day / entitlement purchase while on trial → 409 TRIAL_ADDONS_NOT_FOR_SALE
 
-  Then: activate the student with the captured key, then
+  Then: activate a student with the captured key, then
   `Subscription Access / 02 Learn`.
 }

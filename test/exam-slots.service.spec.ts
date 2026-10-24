@@ -6,6 +6,9 @@ import {
   ExamSlotsService,
   MAX_EXAM_SLOTS_PER_ORDER,
 } from '../src/modules/centers/exam-slots.service';
+import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
+import { TrialAddonGate } from '../src/modules/centers/trial-addon-gate';
+import { TrialGiftVoidService } from '../src/modules/centers/trial-gift-void.service';
 
 /**
  * Buying the right to run an exam.
@@ -40,6 +43,15 @@ describe('ExamSlotsService', () => {
           exam_slots_remaining: 7,
           exam_ai_slots_remaining: 0,
         }),
+        update: jest.fn(),
+      },
+      centerSubscription: {
+        findUnique: jest.fn().mockResolvedValue({
+          plan: 'PAID',
+          trial_started_at: null,
+          trial_ends_at: null,
+          paid_until: new Date('2099-01-01T00:00:00.000Z'),
+        }),
       },
       centerUser: { findFirst: jest.fn().mockResolvedValue(completeManager) },
       payment: {
@@ -52,8 +64,14 @@ describe('ExamSlotsService', () => {
         })),
         findUnique: jest.fn(),
       },
+      $transaction: jest.fn(async (work: any) => work(prisma)),
     };
-    service = new ExamSlotsService(prisma);
+    const policy = new SubscriptionPolicyService();
+    service = new ExamSlotsService(
+      prisma,
+      new TrialAddonGate(prisma, policy),
+      new TrialGiftVoidService(prisma, policy),
+    );
   });
 
   describe('what a slot costs', () => {
@@ -133,6 +151,20 @@ describe('ExamSlotsService', () => {
   });
 
   describe('buying them', () => {
+    it('refuses while the centre is still on an unpaid trial', async () => {
+      prisma.centerSubscription.findUnique.mockResolvedValue({
+        plan: 'TRIAL',
+        trial_started_at: new Date(),
+        trial_ends_at: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+        paid_until: null,
+      });
+
+      await expect(service.purchase(identity, 5, 'key-1')).rejects.toThrow(
+        'TRIAL_ADDONS_NOT_FOR_SALE',
+      );
+      expect(prisma.payment.create).not.toHaveBeenCalled();
+    });
+
     it('writes the purchase against the signed center, marked as slots', async () => {
       const payment = await service.purchase(identity, 5, 'key-1');
 

@@ -29,6 +29,7 @@ import { EntitlementPurchaseService } from '../src/modules/centers/entitlement-p
 import { EntitlementSpendService, FREE_LIVE_SESSIONS_PER_MONTH } from '../src/shared/services/entitlement-spend.service';
 import { StudentEntitlementService } from '../src/shared/services/student-entitlement.service';
 import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
+import { TrialAddonGate } from '../src/modules/centers/trial-addon-gate';
 
 const prisma = new PrismaService();
 const policy = new SubscriptionPolicyService();
@@ -42,7 +43,10 @@ const redemption = new CodeRedemptionService(
   emailStub as never,
 );
 const activation = new PaymentActivationService(prisma, policy);
-const purchases = new EntitlementPurchaseService(prisma);
+const purchases = new EntitlementPurchaseService(
+  prisma,
+  new TrialAddonGate(prisma, policy),
+);
 const spend = new EntitlementSpendService(
   prisma,
   new StudentEntitlementService(prisma, policy),
@@ -139,21 +143,26 @@ describe('a school, from its first 4,500 to a spent credit', () => {
     const school = await makeSchool();
     const student = await makeStudent();
 
-    // ---- 1. The trial. One seat, one code, fourteen days.
+    // ---- 1. Pilote Exam Day. Three seats, three codes, fourteen days.
     const trial = await trials.start(school.identity);
-    expect(trial.code.code).toMatch(/^LQ-[A-Z0-9]{4}-[A-Z0-9]{4}$/);
+    expect(trial.codes).toHaveLength(3);
+    expect(trial.codes[0].code).toMatch(/^LQ-[A-Z0-9]{4}-[A-Z0-9]{4}$/);
 
-    // ---- 2. The student redeems it, through the real route.
-    await redemption.redeem({ studentId: student.id }, trial.code.code, 'ip');
+    // ---- 2. The student redeems one, through the real route.
+    await redemption.redeem(
+      { studentId: student.id },
+      trial.codes[0].code,
+      'ip',
+    );
 
     const onTrial = await seatOf(student.id);
-    expect(onTrial.id).toBe(trial.code.id);
+    expect(onTrial.id).toBe(trial.codes[0].id);
     expect(onTrial.expires_at).not.toBeNull(); // a trial seat has its own clock
 
     // ---- 3. The school pays: ten seats at 4,500.
     await paymentSucceeds(school.id, 'SEATS', SEATS, START_PRICE_XAF);
 
-    // Ten codes to hand out, where before this there was one.
+    // Ten codes to hand out (retired trial codes do not count).
     const live = await prisma.activationCode.count({
       where: { center_id: school.id, status: { not: 'DEACTIVATED' } },
     });
@@ -253,8 +262,12 @@ describe('a school, from its first 4,500 to a spent credit', () => {
     const student = await makeStudent();
 
     const trial = await trials.start(school.identity);
-    await redemption.redeem({ studentId: student.id }, trial.code.code, 'ip');
-    const staleId = trial.code.id;
+    await redemption.redeem(
+      { studentId: student.id },
+      trial.codes[0].code,
+      'ip',
+    );
+    const staleId = trial.codes[0].id;
 
     await paymentSucceeds(school.id, 'SEATS', SEATS, START_PRICE_XAF);
 
@@ -291,7 +304,11 @@ describe('a school, from its first 4,500 to a spent credit', () => {
     const student = await makeStudent();
 
     const trial = await trials.start(school.identity);
-    await redemption.redeem({ studentId: student.id }, trial.code.code, 'ip');
+    await redemption.redeem(
+      { studentId: student.id },
+      trial.codes[0].code,
+      'ip',
+    );
     await paymentSucceeds(school.id, 'SEATS', SEATS, START_PRICE_XAF);
 
     const seat = await seatOf(student.id);

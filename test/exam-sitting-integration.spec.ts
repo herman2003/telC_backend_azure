@@ -15,6 +15,8 @@ import { ExamAudioService } from '../src/modules/centers/exam-audio.service';
 import { ExamSessionsService } from '../src/modules/centers/exam-sessions.service';
 import { ExamParticipantsService } from '../src/modules/centers/exam-participants.service';
 import { NotificationsService } from '../src/shared/services/notifications.service';
+import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
+import { TrialGiftVoidService } from '../src/modules/centers/trial-gift-void.service';
 
 const prisma = new PrismaService();
 const policy = new ExamSessionPolicyService();
@@ -25,6 +27,7 @@ const participants = new ExamParticipantsService(
   prisma,
   policy,
   new NotificationsService(prisma),
+  new TrialGiftVoidService(prisma, new SubscriptionPolicyService()),
 );
 
 const MINUTE = 60 * 1000;

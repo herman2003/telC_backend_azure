@@ -16,6 +16,7 @@ import {
   assertCenterProfileComplete,
   isIdempotencyViolation,
 } from './payment-shared';
+import { TrialAddonGate } from './trial-addon-gate';
 import { amountWithVatXaf, splitVatXaf } from './vat';
 
 // Both halves: the profile gate reads the signed manager's phone, and
@@ -87,7 +88,10 @@ export interface EntitlementPaymentView {
  */
 @Injectable()
 export class EntitlementPurchaseService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly trialAddonGate: TrialAddonGate,
+  ) {}
 
   async purchase(
     identity: SignedCenterIdentity,
@@ -107,6 +111,7 @@ export class EntitlementPurchaseService {
     // The same gate as seats and exam slots: taking money needs a country for
     // the currency, a city for support and a phone to chase an unpaid invoice.
     await assertCenterProfileComplete(this.prisma, identity);
+    await this.trialAddonGate.assertMayBuyAddons(identity.centerId);
 
     try {
       const amounts = splitVatXaf(quote.quantity * quote.unitPriceXaf);

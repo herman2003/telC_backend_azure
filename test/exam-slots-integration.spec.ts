@@ -17,6 +17,8 @@ import { NotificationsService } from '../src/shared/services/notifications.servi
 import { ExamSessionPolicyService } from '../src/modules/centers/exam-session-policy.service';
 import { PaymentCheckoutService } from '../src/modules/centers/payment-checkout.service';
 import { PaymentWebhookService } from '../src/modules/centers/payment-webhook.service';
+import { TrialAddonGate } from '../src/modules/centers/trial-addon-gate';
+import { TrialGiftVoidService } from '../src/modules/centers/trial-gift-void.service';
 import {
   FakePaymentProvider,
   FAKE_SIGNATURE_HEADER,
@@ -27,11 +29,11 @@ import { registryOf } from '../src/modules/centers/payment-providers/payment-pro
 const SECRET = 'a-long-enough-fake-webhook-secret-for-tests';
 
 const prisma = new PrismaService();
-const slots = new ExamSlotsService(prisma);
-const activation = new PaymentActivationService(
-  prisma,
-  new SubscriptionPolicyService(),
-);
+const subscriptionPolicy = new SubscriptionPolicyService();
+const trialAddonGate = new TrialAddonGate(prisma, subscriptionPolicy);
+const trialGiftVoid = new TrialGiftVoidService(prisma, subscriptionPolicy);
+const slots = new ExamSlotsService(prisma, trialAddonGate, trialGiftVoid);
+const activation = new PaymentActivationService(prisma, subscriptionPolicy);
 const provider = new FakePaymentProvider(SECRET);
 const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
 const webhooks = new PaymentWebhookService(
@@ -45,6 +47,7 @@ const participants = new ExamParticipantsService(
   prisma,
   policy,
   new NotificationsService(prisma),
+  trialGiftVoid,
 );
 
 const HOUR = 60 * 60 * 1000;
@@ -70,7 +73,13 @@ async function makeCenter(over: Record<string, unknown> = {}) {
       country_code: 'CM',
       city_id: 'douala',
       logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
-      subscription: { create: { plan: 'TRIAL' } },
+      // Paid Start so Exam Day purchase is allowed (blocked on unpaid trial).
+      subscription: {
+        create: {
+          plan: 'PAID',
+          paid_until: new Date(Date.now() + 30 * DAY),
+        },
+      },
       ...over,
     },
   });
@@ -158,13 +167,13 @@ describe('buying exam slots', () => {
     // The whole reason activation branches. A center buying exam slots has
     // not thereby paid for its students to learn.
     const { center, identity } = await makeCenter();
+    const before = await subscriptionOf(center.id);
     const payment = await slots.purchase(identity, 5, 'key-1');
 
     await activation.activate(payment.id);
 
     const subscription = await subscriptionOf(center.id);
-    expect(subscription.plan).toBe('TRIAL');
-    expect(subscription.paid_until).toBeNull();
+    expect(subscription.paid_until?.getTime()).toBe(before.paid_until?.getTime());
   });
 
   it('leaves the seat row alone', async () => {
@@ -272,11 +281,9 @@ describe('buying exam slots', () => {
       exam_slots_remaining: 0,
       exam_ai_slots_remaining: 5,
     });
-    // And the subscription is where it was.
-    await expect(subscriptionOf(center.id)).resolves.toMatchObject({
-      plan: 'TRIAL',
-      paid_until: null,
-    });
+    // And the subscription period is untouched by an exam-slot activation.
+    const subscription = await subscriptionOf(center.id);
+    expect(subscription.paid_until).not.toBeNull();
   });
 
   it('refuses to sell AI slots at launch', async () => {
