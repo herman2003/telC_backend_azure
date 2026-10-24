@@ -47,7 +47,7 @@ export class PurchaseEntitlementsDto {
   @ApiProperty({
     enum: EntitlementProduct,
     description:
-      'Which add-on. Priced server-side: 300 XAF a credit, 3,000 a Prep Pass, 2,000 a month of AI Assisted Learning.',
+      'Which add-on. Priced server-side: 300 XAF an AI Speaking credit, 200 an AI Schreiben credit, 1,000 a Prep Pass, 2,000 a month of AI Assisted Learning.',
   })
   @IsEnum(EntitlementProduct)
   product: EntitlementProduct;

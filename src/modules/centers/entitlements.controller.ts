@@ -36,7 +36,10 @@ import { CenterAuthGuard } from './guards/center-auth.guard';
 import { CenterErrorResponseDto } from './dto/center-error-response.dto';
 import { RateLimitService } from '../../shared/services/rate-limit.service';
 import { EntitlementPurchaseService } from './entitlement-purchase.service';
-import { EntitlementsService } from './entitlements.service';
+import {
+  EntitlementsService,
+  isCappedEntitlementProduct,
+} from './entitlements.service';
 import {
   CappedCodesPageDto,
   CappedCodesQueryDto,
@@ -157,7 +160,7 @@ export class EntitlementsController {
   @ApiOperation({
     summary: 'Assign credits to a seat, or give it a period',
     description:
-      'For AI_SPEAKING_CREDIT this sets assigned remaining on the seat and moves the delta from/to the unallocated school pool (typing 12 means twelve). For PREP_PASS and AI_ASSISTED_LEARNING it takes one from the pool and grants the period, counted from now.',
+      'For AI_SPEAKING_CREDIT and AI_SCHREIBEN_CREDIT this sets assigned remaining on the seat and moves the delta from/to the unallocated school pool (typing 12 means twelve). For PREP_PASS and AI_ASSISTED_LEARNING it takes one from the pool and grants the period, counted from now.',
   })
   @ApiParam({ name: 'product', enum: EntitlementProduct })
   @ApiBadRequestResponse({
@@ -179,7 +182,7 @@ export class EntitlementsController {
     // Which of the two this means is decided by the product, not by the
     // caller: a cap on a Prep Pass and a period of credits are both nonsense,
     // and letting a client ask for either would mean answering nonsense.
-    return chosen === 'AI_SPEAKING_CREDIT'
+    return isCappedEntitlementProduct(chosen)
       ? this.entitlements.setCap(user, codeId, chosen, dto.cap)
       : this.entitlements.grantPeriod(user, codeId, chosen);
   }
@@ -189,7 +192,7 @@ export class EntitlementsController {
   @ApiOperation({
     summary: 'Return unused AI Speaking credits to the school pool',
     description:
-      'For AI_SPEAKING_CREDIT, unused assigned credits go back to unallocated stock and the seat is cleared. Never a card refund. Prep Pass revoke returns unused time to the pool; already-spent sessions stay spent.',
+      'For AI_SPEAKING_CREDIT and AI_SCHREIBEN_CREDIT, unused assigned credits go back to unallocated stock and the seat is cleared. Never a card refund. Prep Pass revoke returns unused time to the pool; already-spent sessions stay spent.',
   })
   @ApiParam({ name: 'product', enum: EntitlementProduct })
   @ApiNotFoundResponse({

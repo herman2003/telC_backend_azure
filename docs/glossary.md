@@ -95,10 +95,15 @@ is derived from the timestamps on read.
 level, chosen by a rotation.
 
 **Entitlement** (`EntitlementProduct`) — an add-on bought per student:
-`PREP_PASS`, `AI_SPEAKING_CREDIT`, `AI_ASSISTED_LEARNING`. A centre buys them
-into a pool and grants them to individual seats. One pot per product rather
-than one balance, because a centre may hold passes and credits at once and
-neither may be spent as the other.
+`PREP_PASS`, `AI_SPEAKING_CREDIT`, `AI_SCHREIBEN_CREDIT` (200 FCFA HT),
+`AI_ASSISTED_LEARNING` (shell only). A centre buys them into a pool and grants
+them to individual seats. One pot per product rather than one balance, because
+a centre may hold passes and credits at once and neither may be spent as the
+other.
+
+**AI Schreiben credit** — one prepaid unit (200 FCFA HT) for one **training**
+Schreiben AI correction after Start’s free two per UTC day. Assign-from-stock
+like AI Speaking. Spec: `domains/ai-schreiben-credits.md`. Not Exam Day marking.
 
 **Prep Pass** — opens every Modelltest of the student's level at once instead
 of one per week. A 30-day grant (`PREP_PASS_DAYS`). Enforced by

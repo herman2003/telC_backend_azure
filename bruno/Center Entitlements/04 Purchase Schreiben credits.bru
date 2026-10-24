@@ -1,0 +1,47 @@
+meta {
+  name: 04 Purchase Schreiben credits
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/entitlements/purchase
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+  Idempotency-Key: {{idempotencyKey}}
+}
+
+body:json {
+  {
+    "product": "AI_SCHREIBEN_CREDIT",
+    "quantity": 40
+  }
+}
+
+script:post-response {
+  if (res.getStatus() === 201) {
+    bru.setEnvVar("paymentId", res.getBody().id);
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.status: eq PENDING
+  res.body.kind: eq AI_SCHREIBEN_CREDIT
+  res.body.quantity: eq 40
+  res.body.unitPriceXaf: eq 200
+  res.body.amountXaf: eq 9440
+}
+
+docs {
+  Buy 40 Corrections Schreiben IA credits @ 200 HT (= 8 000 HT, 9 440 TTC).
+
+  Grants nothing until webhook. Then assign with
+  `05 Assign Schreiben credits to seat`.
+
+  Run `Center Auth / 03 Login` first. Change `{{idempotencyKey}}` each purchase.
+}

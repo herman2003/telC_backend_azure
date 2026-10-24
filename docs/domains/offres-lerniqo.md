@@ -10,6 +10,7 @@ Lerniqo = une offre principale (**Start**) + des add-ons en complément.
 > **Prep Pass = s'entraîner**
 > **Exam Day = se tester**
 > **Mit Elena = pratiquer davantage l'oral avec l'IA**
+> **Corrections Schreiben IA = corriger davantage à l'écrit avec l'IA**
 
 ---
 
@@ -19,6 +20,7 @@ Lerniqo = une offre principale (**Start**) + des add-ons en complément.
 |-------|------|--------|
 | **Lerniqo Start** | 4 500 FCFA / élève / mois | Launch |
 | **Mit Elena sprechen** | 300 FCFA / crédit | Launch |
+| **Corrections Schreiben IA** | 200 FCFA / crédit | Launch |
 | **Prep Pass** | 1 000 FCFA / élève / 30 jours | Launch |
 | **Exam Day** (manuel) | 1 000 FCFA / candidat / examen | Launch |
 
@@ -29,7 +31,7 @@ Lerniqo = une offre principale (**Start**) + des add-ons en complément.
 | Offre | Note |
 |-------|------|
 | **Exam Day IA** (1 500 FCFA) | Code déjà livré — **gardé, pas vendu** |
-| **AI Assisted Learning** | Entitlement prévu — **pas construit / pas vendu** |
+| **AI Assisted Learning** | Entitlement prévu — **pas construit / pas vendu** (accompagnement multi-compétences, **pas** des packs de corrections) |
 
 ---
 
@@ -68,7 +70,8 @@ semaine. Les **sujets** Schreiben et Sprechen sont sur Start pour tous les MT,
 par décision produit (détail plus bas).
 
 > **Prep Pass ne débloque aucune IA.** La correction IA Schreiben reste sur
-> les quotas Start (2 / jour) et Mit Elena sprechen reste sur les crédits AI
+> les quotas Start (2 / jour), puis — une fois vendu — sur les crédits
+> **Corrections Schreiben IA**. Mit Elena sprechen reste sur les crédits AI
 > Speaking. Lire un sujet n’est pas le faire corriger.
 
 ### Modelltest de la semaine (inclus Start)
@@ -94,7 +97,7 @@ Ce que cette règle **ne** débloque **pas** :
 
 | | Reste comme avant |
 |---|---|
-| **Correction IA Schreiben** | quotas Start (2 / jour). Lire un sujet n’est pas le faire corriger |
+| **Correction IA Schreiben** | quotas Start (2 / jour), puis crédits Corrections Schreiben IA (200 FCFA). Lire un sujet n’est pas le faire corriger |
 | **Mit Elena sprechen** | crédits AI Speaking |
 | **Lesen, Hören, Sprachbausteine des autres MT** | Prep Pass |
 | **Catalogue MT complet** (`GET /api/modelltests`) | Prep Pass — hors MT de la semaine |
@@ -153,6 +156,26 @@ Exemple : 100 crédits = 100 sessions de 5 minutes = 30 000 FCFA.
 
 ---
 
+## 2b. Corrections Schreiben IA — 200 FCFA / crédit
+
+Add-on. Corrections IA training **au-delà** des 2 / jour Start
+(ADR 0006, `docs/domains/ai-schreiben-credits.md`).
+
+| | |
+|--|--|
+| **1 crédit** | **1 correction IA** training (`POST /api/writing/submit`) |
+| **Prix** | **200 FCFA** HT |
+| **Ordre** | d’abord les **2 corrections / jour** Start, puis 1 crédit |
+| **Achat** | Le centre achète un stock, puis **assigne** aux sièges |
+| **Non inclus** | Exam Day (notation humaine / suggestions Exam Day IA séparées) |
+| **Invités** | Pas de crédits — limite IP uniquement |
+
+Même mécanique stock → assignation → retrait que Mit Elena.
+
+Exemple : 40 crédits = 40 corrections = **8 000 FCFA** HT (~9 440 TTC).
+
+---
+
 ## 3. Prep Pass — 1 000 FCFA / élève / 30 jours
 
 Add-on. Paiement unique. Pour **s’entraîner sur le pool** des séries Modelltest
@@ -168,7 +191,8 @@ telc (pas seulement le MT de la semaine).
 - Accès pendant **30 jours** à partir de l’assignation
 - Exercices refaisables
 - Ce n’est **pas** un examen blanc complet (→ Exam Day)
-- **Sans IA** : l’IA orale / correction reste Start et Mit Elena
+- **Sans IA** : l’IA orale / correction reste Start, Mit Elena et
+  Corrections Schreiben IA
 
 ---
 
@@ -201,14 +225,34 @@ au launch**.
 
 ---
 
+## Pilote Exam Day — essai gratuit centre
+
+Offre d’essai pour les centres (pas un plan étudiant). Une fois par centre.
+
+| | |
+|--|--|
+| **Durée** | **14 jours** (horloge au bouton « démarrer l’essai ») |
+| **Places Start** | **3** codes (Start complet, prix 0) |
+| **Exam Day** | **6** places manuelles (2 sessions × 3 candidats) |
+| **Mit Elena** | **9** crédits (stock centre, à assigner) |
+| **Corrections Schreiben IA** | **6** crédits (stock centre, à assigner) |
+| **Prep Pass** | non inclus |
+| **Achats add-ons / Exam Day pendant l’essai** | non — seul l’achat de places Start (conversion) est ouvert |
+| **Après J14 sans paiement** | accès coupé ; slots et crédits d’essai restants annulés |
+| **Ensuite** | à partir de **10 places** Start + add-ons au tarif catalogue |
+
+Détail contrat : `docs/contracts/center-dashboard-sync.md` § D3.
+
+---
+
 ## Comment ça se complète
 
 ```
-Start              Prep Pass           Exam Day            Mit Elena
-─────────────      ─────────────       ─────────────       ─────────────
-Apprendre          Pool MT complet     Se tester           Oral IA libre
-MT de la semaine   Hören/Lesen/SB      Examen blanc        Thèmes Lerniqo
-Live Room + IA     Sans IA             Dashboard centre    Crédits
+Start         Prep Pass      Exam Day       Mit Elena      Schreiben IA
+─────────     ─────────      ─────────      ─────────      ─────────────
+Apprendre     Pool MT        Se tester      Oral IA libre  Corrections
+MT semaine    Hören/Lesen/SB Examen blanc   Thèmes Lerniqo après les 2/j
+Live + IA     Sans IA        Dashboard      300/crédit     200/crédit
 ```
 
 Tous les add-ons viennent **en complément de Start**.

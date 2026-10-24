@@ -9,6 +9,7 @@ import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-pay
 import { PrismaService } from '../../shared/services/prisma.service';
 import { ExamSessionPolicyService } from './exam-session-policy.service';
 import { NotificationsService } from '../../shared/services/notifications.service';
+import { TrialGiftVoidService } from './trial-gift-void.service';
 
 /**
  * Which pool a tier is paid out of.
@@ -64,6 +65,7 @@ export class ExamParticipantsService {
     private readonly prisma: PrismaService,
     private readonly policy: ExamSessionPolicyService,
     private readonly notifications: NotificationsService,
+    private readonly trialGiftVoid: TrialGiftVoidService,
   ) {}
 
   /**
@@ -218,6 +220,8 @@ export class ExamParticipantsService {
     sessionId: string,
     tier: ExamGradingTier = 'MANUAL',
   ): Promise<PublishResult> {
+    await this.trialGiftVoid.voidIfExpiredUnpaidTrial(identity.centerId);
+
     const session = await this.load(identity, sessionId);
     if (session.cancelled_at) throw new BadRequestException('EXAM_CANCELLED');
     if (session.published_at) {

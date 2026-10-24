@@ -50,7 +50,8 @@ docs {
   ## What one registration creates
 
   Four rows, in one transaction: the center, its owner, its subscription, and
-  its single trial seat — `center_seats(START, 1, 0)`. A trial is an ordinary
+  a placeholder seat — `center_seats(START, 1, 0)`. Pilote Exam Day bumps
+  seats to 3 when the manager starts the trial. A trial seat is an ordinary
   seat row priced at zero rather than a flag, so nothing downstream needs an
   "unless they are on trial" branch. Check it with
   `Center Subscription / 02 Get usage`: `seatsLimit` is 1 and `perTier` has one

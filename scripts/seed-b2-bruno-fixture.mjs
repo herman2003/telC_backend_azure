@@ -32,7 +32,20 @@ const { isProduction, hostOf } = require('./production-endpoint.cjs');
 
 config({ path: '.env.test' });
 
-const url = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
+/** Some .env.test files wrap values in quotes; strip one layer. */
+const unquote = (value) => {
+  if (!value) return value;
+  const trimmed = value.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
+};
+
+const url = unquote(process.env.DIRECT_URL ?? process.env.DATABASE_URL);
 if (!url) {
   console.error('No DIRECT_URL in .env.test.');
   process.exit(1);
@@ -102,13 +115,21 @@ async function main() {
 
   await client.query('BEGIN');
 
+  // Profile fields are required before any purchase (country, city, phone,
+  // logo) — otherwise Bruno entitlement / payment smokes get
+  // CENTER_PROFILE_INCOMPLETE. Same values as the purchase integration fixture.
   await client.query(
-    `INSERT INTO centers (id, name, exam_slots_remaining, exam_ai_slots_remaining,
+    `INSERT INTO centers (id, name, country_code, city_id, logo_url,
+                          exam_slots_remaining, exam_ai_slots_remaining,
                           created_at, updated_at)
-     VALUES ($1, 'Goethe Language Center (Bruno fixture)', 5, 5,
-             CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+     VALUES ($1, 'Goethe Language Center (Bruno fixture)', 'CM', 'douala',
+             'https://cdn.lerniqo.tech/center-logos/bruno-fixture.png',
+             5, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
      ON CONFLICT (id) DO UPDATE SET
        name = EXCLUDED.name,
+       country_code = EXCLUDED.country_code,
+       city_id = EXCLUDED.city_id,
+       logo_url = EXCLUDED.logo_url,
        exam_slots_remaining = 5,
        exam_ai_slots_remaining = 5,
        updated_at = CURRENT_TIMESTAMP`,
@@ -117,13 +138,14 @@ async function main() {
 
   await client.query(
     `INSERT INTO center_users (id, center_id, role, first_name, last_name, email,
-                               password_hash, email_verified,
+                               phone, password_hash, email_verified,
                                created_at, updated_at, last_seen_at)
-     VALUES ($1, $2, 'OWNER', 'Alain', 'Ngeukeu', $3, $4, true,
+     VALUES ($1, $2, 'OWNER', 'Alain', 'Ngeukeu', $3, '+237600000001', $4, true,
              CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
      ON CONFLICT (id) DO UPDATE SET
        password_hash = EXCLUDED.password_hash,
        email = EXCLUDED.email,
+       phone = EXCLUDED.phone,
        email_verified = true,
        updated_at = CURRENT_TIMESTAMP`,
     [OWNER_ID, CENTER_ID, CENTER_EMAIL, centerPasswordHash],
@@ -238,6 +260,7 @@ async function main() {
   console.log('  (A1 Level needs nothing pasted: ' + STUDENT_A1_EMAIL + ' / ' + studentA1 + ')');
   console.log('');
   console.log('Then in Bruno: Center Auth / 03 Login, then B2 Level / 01, A2 Level / 01 or A1 Level / 01.');
+  console.log('Payments / entitlements: profile is complete (CM / douala / phone / logo).');
 }
 
 main()

@@ -39,6 +39,11 @@ const listening = new ListeningService(prisma, genericContent);
 const writing = new WritingService(
   prisma,
   new WritingDailyQuotaService(prisma),
+  // Golden fixtures only read exercises; spend is unused here.
+  {
+    mayUse: async () => ({ allowed: false }),
+    spend: async () => null,
+  } as never,
 );
 const speaking = new SpeakingService(prisma);
 

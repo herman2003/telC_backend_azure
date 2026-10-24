@@ -11,16 +11,22 @@ import {
   toActivationCodeView,
   type ActivationCodeView,
 } from './activation-code-view';
+import {
+  TRIAL_DURATION_DAYS,
+  TRIAL_ELENA_CREDITS,
+  TRIAL_EXAM_SLOTS,
+  TRIAL_PACKAGE_SEATS,
+  TRIAL_SCHREIBEN_CREDITS,
+} from './trial-package';
 
-/** The free trial lasts fourteen days — a product rule, not a default. */
-export const TRIAL_DURATION_DAYS = 14;
+export { TRIAL_DURATION_DAYS } from './trial-package';
 
 /**
  * How many times a colliding random code is redrawn before giving up.
  *
  * At 30^8 combinations a single collision is already unlikely; three in a row
  * means something other than chance, and the caller should hear about it
- * rather than loop.
+ * rather than loop. Retries the whole claim (three codes), not one code.
  */
 const CODE_DRAW_ATTEMPTS = 3;
 
@@ -33,19 +39,16 @@ type SignedCenterIdentity = Pick<
 
 export interface TrialStarted {
   trialEndsAt: Date;
-  code: ActivationCodeView;
+  codes: ActivationCodeView[];
 }
 
 /**
- * Starts a center's free trial: the clock, and the one code that goes with it.
+ * Starts Pilote Exam Day: the clock, three Start seats/codes, Exam Day slots
+ * and AI credit pools.
  *
- * The clock starts HERE, when the manager presses the button, rather than at a
- * student's first redemption. A school should know when its trial ends the
- * moment it has a code to hand out, and the code's expiry is that same date —
- * two clocks that could disagree would be one too many.
- *
- * The trial's seat already exists: registration creates it as a Start seat at
- * zero price. What this adds is the date and the value a student types.
+ * The clock starts HERE, when the manager presses the button. Registration
+ * only leaves a placeholder seat; this call sets quantity to three and mints
+ * the codes, so a centre that never starts a trial does not hold the pack.
  */
 @Injectable()
 export class CenterTrialService {
@@ -61,15 +64,10 @@ export class CenterTrialService {
       throw new NotFoundException('CENTER_SUBSCRIPTION_NOT_FOUND');
     }
 
-    // Paid first: a center that has bought seats is past the trial, and saying
-    // "trial already used" to one that never took it would be untrue.
     if (subscription.paid_until !== null) {
       throw new ConflictException('ALREADY_PAID');
     }
 
-    // Includes every center whose trial the old activation-key path started.
-    // Their clock is never touched here, so moving the start of the trial to
-    // this button cannot restart a trial that is already running.
     if (subscription.trial_started_at !== null) {
       throw new ConflictException('TRIAL_ALREADY_USED');
     }
@@ -84,19 +82,12 @@ export class CenterTrialService {
         ) {
           throw error;
         }
-        // The transaction rolled back with the collision, trial claim
-        // included, so the next attempt starts from exactly the same state.
       }
     }
   }
 
   /**
-   * One transaction: claim the trial, then issue its code.
-   *
-   * Together so a trial can never exist without its code or a code without its
-   * trial. The claim is a predicated update — only a subscription with no
-   * trial and no payment moves — so two presses of the button arriving at once
-   * start one trial, and the loser is told so instead of getting a second code.
+   * One transaction: claim the trial, set seats, mint codes, grant gifts.
    */
   private async claimTrial(centerId: string): Promise<TrialStarted> {
     return this.prisma.$transaction(async (tx) => {
@@ -118,17 +109,64 @@ export class CenterTrialService {
         throw new ConflictException('TRIAL_ALREADY_USED');
       }
 
-      const code = await tx.activationCode.create({
-        data: {
+      await tx.centerSeat.upsert({
+        where: { center_id: centerId },
+        create: {
           center_id: centerId,
-          code: generateActivationCode(),
-          // A trial seat is an ordinary Start seat at zero price, so a trial
-          // student and a paid Start student differ only in the clock.
-          expires_at: endsAt,
+          quantity: TRIAL_PACKAGE_SEATS,
+          unit_price_xaf: 0,
         },
+        update: { quantity: TRIAL_PACKAGE_SEATS },
       });
 
-      return { trialEndsAt: endsAt, code: toActivationCodeView(code) };
+      const codes: ActivationCodeView[] = [];
+      for (let i = 0; i < TRIAL_PACKAGE_SEATS; i++) {
+        const code = await tx.activationCode.create({
+          data: {
+            center_id: centerId,
+            code: generateActivationCode(),
+            expires_at: endsAt,
+          },
+        });
+        codes.push(toActivationCodeView(code));
+      }
+
+      await tx.center.update({
+        where: { id: centerId },
+        data: { exam_slots_remaining: { increment: TRIAL_EXAM_SLOTS } },
+      });
+
+      await tx.centerEntitlementPool.upsert({
+        where: {
+          center_id_product: {
+            center_id: centerId,
+            product: 'AI_SPEAKING_CREDIT',
+          },
+        },
+        create: {
+          center_id: centerId,
+          product: 'AI_SPEAKING_CREDIT',
+          balance: TRIAL_ELENA_CREDITS,
+        },
+        update: { balance: { increment: TRIAL_ELENA_CREDITS } },
+      });
+
+      await tx.centerEntitlementPool.upsert({
+        where: {
+          center_id_product: {
+            center_id: centerId,
+            product: 'AI_SCHREIBEN_CREDIT',
+          },
+        },
+        create: {
+          center_id: centerId,
+          product: 'AI_SCHREIBEN_CREDIT',
+          balance: TRIAL_SCHREIBEN_CREDITS,
+        },
+        update: { balance: { increment: TRIAL_SCHREIBEN_CREDITS } },
+      });
+
+      return { trialEndsAt: endsAt, codes };
     });
   }
 }

@@ -20,7 +20,14 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const ENTITLEMENT_KINDS = new Set<string>([
   'PREP_PASS',
   'AI_SPEAKING_CREDIT',
+  'AI_SCHREIBEN_CREDIT',
   'AI_ASSISTED_LEARNING',
+]);
+
+/** Prepaid credit products that auto-assign from purchase metadata. */
+const STOCK_CREDIT_PRODUCTS = new Set<EntitlementProduct>([
+  'AI_SPEAKING_CREDIT',
+  'AI_SCHREIBEN_CREDIT',
 ]);
 
 interface CapTargets {
@@ -307,9 +314,10 @@ export class PaymentActivationService {
    * one seat had been deactivated would leave the centre paying for nothing.
    * A seat that cannot be assigned is skipped; those units stay unallocated.
    *
-   * For AI Speaking (ADR 0003), each successful assign moves `capPerCode` from
-   * the pool onto the seat. Prep Pass / AI Assisted Learning only use the
-   * pool (period grants happen later); metadata caps are ignored for them.
+   * For AI Speaking / AI Schreiben credits (ADR 0005 / 0006), each successful
+   * assign moves `capPerCode` from the pool onto the seat. Prep Pass / AI
+   * Assisted Learning only use the pool (period grants happen later); metadata
+   * caps are ignored for them.
    *
    * `metadata` is treated as untrusted: only codes that still exist, still
    * belong to this centre and are not deactivated get an assignment.
@@ -328,7 +336,7 @@ export class PaymentActivationService {
       update: { balance: { increment: quantity } },
     });
 
-    if (product !== 'AI_SPEAKING_CREDIT') return;
+    if (!STOCK_CREDIT_PRODUCTS.has(product)) return;
 
     const targets = readCapTargets(metadata);
     if (!targets) return;

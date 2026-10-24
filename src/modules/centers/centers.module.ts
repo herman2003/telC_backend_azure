@@ -47,6 +47,8 @@ import { CenterAuthGuard } from './guards/center-auth.guard';
 import { CenterSubscriptionGuard } from './guards/center-subscription.guard';
 import { CentersService } from './centers.service';
 import { CenterTrialService } from './center-trial.service';
+import { TrialAddonGate } from './trial-addon-gate';
+import { TrialGiftVoidService } from './trial-gift-void.service';
 import { CenterActivationCodesController } from './center-activation-codes.controller';
 import { CenterActivationCodesService } from './center-activation-codes.service';
 import { CodeRedemptionController } from './code-redemption.controller';
@@ -94,6 +96,8 @@ import { ListeningService } from '../listening/listening.service';
     CenterProfileService,
     CenterSubscriptionService,
     CenterTrialService,
+    TrialAddonGate,
+    TrialGiftVoidService,
     CenterActivationCodesService,
     CodeRedemptionService,
     CenterSupportService,

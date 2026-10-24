@@ -15,10 +15,15 @@ import {
   FREE_LIVE_SESSIONS_PER_MONTH,
 } from '../src/shared/services/entitlement-spend.service';
 import { StudentEntitlementService } from '../src/shared/services/student-entitlement.service';
+import { TrialGiftVoidService } from '../src/modules/centers/trial-gift-void.service';
 
 const prisma = new PrismaService();
 const policy = new SubscriptionPolicyService();
-const entitlements = new EntitlementsService(prisma, policy);
+const entitlements = new EntitlementsService(
+  prisma,
+  policy,
+  new TrialGiftVoidService(prisma, policy),
+);
 const spend = new EntitlementSpendService(
   prisma,
   new StudentEntitlementService(prisma, policy),
