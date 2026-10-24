@@ -45,6 +45,12 @@ const EXEMPT: Record<string, string> = {
   // should still be told their exam result is ready — especially then, since
   // the exam was paid for per candidate and separately from the monthly plan.
   NotificationsController: 'a notification is not a lesson',
+  // Same reason as NotificationsController: registering a device and quiet
+  // hours is how the inbox can still reach someone whose monthly plan lapsed.
+  // Blocking here would silence exam-result push while the inbox itself stays
+  // open.
+  PushController:
+    'push delivery is not a lesson; a blocked student still needs a device',
   // The screen that explains why nothing else works. A student whose center
   // has lapsed must be able to read what is waiting for them — the response
   // carries `frozen: true` and the real balances, so the app can say "your
