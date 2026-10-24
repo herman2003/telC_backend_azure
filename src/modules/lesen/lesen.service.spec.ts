@@ -13,12 +13,19 @@ describe('LesenService answer security', () => {
     studentActivity: { create: jest.fn() },
     $transaction: jest.fn((work: any) => work(prisma)),
   };
+  const genericContent = {
+    sectionsFor: jest.fn(),
+    sectionFor: jest.fn(),
+  };
   let service: LesenService;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new LesenService(prisma);
-    prisma.modelltest.findUnique.mockResolvedValue({ id: 'mt-1' });
+    service = new LesenService(prisma, genericContent as never);
+    prisma.modelltest.findUnique.mockResolvedValue({
+      id: 'mt-1',
+      level: 'B1',
+    });
     prisma.lesenAttempt.findUnique.mockResolvedValue(null);
     prisma.lesenAttempt.create.mockResolvedValue({});
     prisma.student.findUnique.mockResolvedValue({ id: 'student-1' });
@@ -88,9 +95,9 @@ describe('LesenService answer security', () => {
     mockExerciseRows();
     const result = await service.getExercise(1);
 
-    expect(result.teil1.texts[0].correctTitleId).toBe('title-a');
-    expect(result.teil2.questions[0].correctOptionId).toBe('6a');
-    expect(result.teil3.situations[0].correctAnswer).toBe('a');
+    expect(result.teil1!.texts[0].correctTitleId).toBe('title-a');
+    expect(result.teil2!.questions[0].correctOptionId).toBe('6a');
+    expect(result.teil3!.situations[0].correctAnswer).toBe('a');
   });
 
   it('marks a Teil 3 situation with no matching announcement as X', async () => {
@@ -108,7 +115,7 @@ describe('LesenService answer security', () => {
     });
     const result = await service.getExercise(1);
 
-    expect(result.teil3.situations[0].correctAnswer).toBe('X');
+    expect(result.teil3!.situations[0].correctAnswer).toBe('X');
   });
 
   it('never leaks raw database column names', async () => {
@@ -140,17 +147,17 @@ describe('LesenService answer security', () => {
     const teil1 = await service.submit(guest, {
       ...base,
       teil_id: '1',
-      answers: { '1': exercise.teil1.texts[0].correctTitleId },
+      answers: { '1': exercise.teil1!.texts[0].correctTitleId },
     });
     const teil2 = await service.submit(guest, {
       ...base,
       teil_id: '2',
-      answers: { '6': exercise.teil2.questions[0].correctOptionId },
+      answers: { '6': exercise.teil2!.questions[0].correctOptionId },
     });
     const teil3 = await service.submit(guest, {
       ...base,
       teil_id: '3',
-      answers: { '11': exercise.teil3.situations[0].correctAnswer },
+      answers: { '11': exercise.teil3!.situations[0].correctAnswer },
     });
 
     expect(teil1.score).toBe(100);
@@ -274,11 +281,129 @@ describe('LesenService answer security', () => {
       }),
     ).rejects.toThrow('Lesen Teil not found');
   });
+
+  describe('A1/A2 generic model', () => {
+    const genericSections = [
+      {
+        id: 'lesen-1',
+        sectionId: 'LESEN_1',
+        aufgabentyp: 'RICHTIG_FALSCH',
+        teil: 1,
+        label: 'Lesen 1',
+        instruction: 'Richtig oder falsch?',
+        maxPoints: 5,
+        scoringMode: 'AUTO',
+        contentRevision: 'a1-lesen-1-v1',
+        material: {},
+        items: [
+          {
+            itemNumber: 1,
+            prompt: 'Satz 1',
+            solution: { value: true },
+            options: [],
+          },
+          {
+            itemNumber: 2,
+            prompt: 'Satz 2',
+            solution: { value: false },
+            options: [],
+          },
+        ],
+      },
+      {
+        id: 'lesen-2',
+        sectionId: 'LESEN_2',
+        aufgabentyp: 'EINZELAUSWAHL',
+        teil: 2,
+        label: 'Lesen 2',
+        instruction: 'Wählen Sie.',
+        maxPoints: 5,
+        scoringMode: 'AUTO',
+        contentRevision: 'a1-lesen-2-v1',
+        material: {},
+        items: [
+          {
+            itemNumber: 1,
+            prompt: 'Q',
+            solution: { key: 'a' },
+            options: [{ key: 'a', content: 'A', isCorrect: true }],
+          },
+        ],
+      },
+      {
+        id: 'lesen-3',
+        sectionId: 'LESEN_3',
+        aufgabentyp: 'RICHTIG_FALSCH',
+        teil: 3,
+        label: 'Lesen 3',
+        instruction: 'I',
+        maxPoints: 5,
+        scoringMode: 'AUTO',
+        contentRevision: 'a1-lesen-3-v1',
+        material: {},
+        items: [],
+      },
+    ];
+
+    beforeEach(() => {
+      prisma.modelltest.findUnique.mockResolvedValue({
+        id: 'a1-mt',
+        level: 'A1',
+      });
+      genericContent.sectionsFor.mockResolvedValue({
+        LESEN: genericSections,
+        HOEREN: [],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+      genericContent.sectionFor.mockImplementation(
+        async (_id: string, _skill: string, teil: number) =>
+          genericSections.find((s) => s.teil === teil) ?? null,
+      );
+    });
+
+    it('GET exercise returns sections with keys and omits B1 teil fields', async () => {
+      const result = await service.getExercise(9);
+      expect(result.contentRevision).toBe('a1-lesen-1-v1');
+      expect(result.sections).toHaveLength(3);
+      expect(result.sections?.[0].items[0].solution).toEqual({ value: true });
+      expect(result.teil1).toBeUndefined();
+      expect(result.teil2).toBeUndefined();
+      expect(result.teil3).toBeUndefined();
+      expect(prisma.lesenTeil1Exercise.findFirst).not.toHaveBeenCalled();
+    });
+
+    it('submit scores a generic Lesen Teil and records activity', async () => {
+      const result = await service.submit(student, {
+        id: 'attempt',
+        exercise_type_id: 'reading',
+        teil_id: '1',
+        modelltestNumber: 9,
+        tested_at: 'now',
+        answers: { '1': true, '2': true },
+      });
+      expect(result.score).toBe(50);
+      expect(result.outcomes).toEqual([
+        { itemNumber: 1, outcome: 'CORRECT' },
+        { itemNumber: 2, outcome: 'WRONG' },
+      ]);
+      expect(prisma.lesenAttempt.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          modelltest_id: 'a1-mt',
+          teil_id: '1',
+          score: 50,
+        }),
+      });
+    });
+  });
 });
 
 describe('LesenService history (D29)', () => {
   const prisma: any = {
-    modelltest: { findUnique: jest.fn().mockResolvedValue({ id: 'mt-1' }) },
+    modelltest: {
+      findUnique: jest.fn().mockResolvedValue({ id: 'mt-1', level: 'B1' }),
+    },
     lesenAttempt: { findMany: jest.fn() },
     $queryRaw: jest.fn().mockResolvedValue([
       {
@@ -290,7 +415,10 @@ describe('LesenService history (D29)', () => {
       },
     ]),
   };
-  const service = new LesenService(prisma);
+  const service = new LesenService(prisma, {
+    sectionsFor: jest.fn(),
+    sectionFor: jest.fn(),
+  } as never);
 
   it('lists stored attempts in the shape the other modules use', async () => {
     prisma.lesenAttempt.findMany.mockResolvedValue([
@@ -331,7 +459,7 @@ describe('LesenService history (D29)', () => {
 
     expect(prisma.modelltest.findUnique).toHaveBeenCalledWith({
       where: { number: 1 },
-      select: { id: true },
+      select: { id: true, level: true },
     });
     expect(teils.map((teil) => teil.progress)).toEqual([0, 0, 100]);
     expect(teils[2]).toMatchObject({ id: '3', attempts: 1, bestScore: 67 });

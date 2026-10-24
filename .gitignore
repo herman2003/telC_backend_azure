@@ -42,7 +42,6 @@ yarn-error.log*
 .superpowers/
 
 /generated/prisma
-docs/api-contract.md
 # .github holds agent config that stays local, but workflows must be tracked
 .github/*
 !.github/workflows/

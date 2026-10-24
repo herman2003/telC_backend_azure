@@ -1,0 +1,1472 @@
+{
+  "modelltest": {
+    "level": "A2",
+    "number": 1,
+    "title": "telc Deutsch A2 – Übungstest 1",
+    "examOnly": false,
+    "contentRevision": "a2-modelltest-1-v1",
+    "source": {
+      "documentTitle": "telc Deutsch A2 Übungstest 1 (Start Deutsch 2)",
+      "edition": "10. Auflage 2024",
+      "publisher": "telc gGmbH"
+    }
+  },
+  "format": {
+    "hoerenDelivery": {
+      "deliveryMode": "PER_TEIL_RECORDINGS",
+      "playsAllowed": 1,
+      "pauseAllowed": false,
+      "seekAllowed": false,
+      "restartAllowed": false,
+      "recordings": [
+        {
+          "teil": 1,
+          "audioAssetKey": "a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil1.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil1.mp3",
+          "durationSeconds": 401
+        },
+        {
+          "teil": 2,
+          "audioAssetKey": "a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil2.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil2.mp3",
+          "durationSeconds": 304
+        },
+        {
+          "teil": 3,
+          "audioAssetKey": "a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil3.mp3",
+          "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-modelltest-1-hoeren-teil3.mp3",
+          "durationSeconds": 399
+        }
+      ]
+    },
+    "gradeBands": [
+      {
+        "label": "SEHR_GUT",
+        "minimum": 54,
+        "maximum": 60
+      },
+      {
+        "label": "GUT",
+        "minimum": 48,
+        "maximum": 53.5
+      },
+      {
+        "label": "BEFRIEDIGEND",
+        "minimum": 42,
+        "maximum": 47.5
+      },
+      {
+        "label": "AUSREICHEND",
+        "minimum": 36,
+        "maximum": 41.5
+      },
+      {
+        "label": "TEILGENOMMEN",
+        "minimum": 0,
+        "maximum": 35.5
+      }
+    ]
+  },
+  "sections": {
+    "HOEREN": [
+      {
+        "sectionId": "HOEREN_1",
+        "fertigkeit": "HOEREN",
+        "label": "Hören",
+        "teil": 1,
+        "title": "Hören, Teil 1",
+        "aufgabentyp": "KURZANTWORT",
+        "contentRevision": "a2-modelltest-1-hoeren-teil-1-v1",
+        "instructions": [
+          "Sie hören fünf Ansagen am Telefon. Zu jedem Text gibt es eine Aufgabe.",
+          "Ergänzen Sie die Telefonnotizen. Sie hören jeden Text zweimal."
+        ],
+        "position": 1,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "media": {
+          "transcript": "Beispiel: Guten Tag, Herr Hersel. Hier ist das Autohaus Unger. Sie können Ihr Auto morgen ab 8:30 Uhr hier abholen. Auf Wiederhören.\n\nNummer 1: Die gewünschte Nummer lautet 168 85 38, die Vorwahl ist 069. Wenn Sie eine weitere Nummer wünschen oder verbunden werden wollen, bleiben Sie bitte am Apparat.\n\nNummer 2: Mensch, Nana. Hier ist Dimitri. Jetzt rufe ich schon zum dritten Mal an und du bist immer noch nicht da. Wir sind doch heute Abend verabredet. Leider muss ich noch länger arbeiten, das heißt, wir können uns heute Abend nicht treffen. Aber passt es dir vielleicht morgen? Ruf mich doch bitte auf dem Handy an.\n\nNummer 3: Hallo, Ingo. Hier ist Sascha. Ich rufe an wegen des Computerkurses. Hast du einen Stift? Also, er findet statt am Dienstag um 18 Uhr, Raum 136. Ich warte am Eingang auf dich, ok?\n\nNummer 4: Also … Sie wollen morgen Mittag nach Köln. Hier ist Ihre Verbindung. Sie fahren um 11:45 Uhr ab Frankfurt und sind um 14:00 Uhr in Köln. Der Preis ohne Bahn-Card beträgt 45 Euro.\n\nNummer 5: Gudrun Stock, Firma Keller. Frau Stefanovic, wir wissen, dass Sie Urlaub haben, aber leider ist Frau Müller krank geworden. Können Sie nächste Woche vielleicht an zwei Tagen reinkommen, und zwar am Dienstagvormittag und Donnerstagnachmittag. Rufen Sie mich bitte auf jeden Fall zurück."
+        },
+        "content": {
+          "items": [
+            {
+              "number": 1,
+              "prompt": "Telefonauskunft – Vorwahl: 069 – Rufnummer",
+              "placeholder": "________",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "168 85 38",
+                  "16885 38",
+                  "168 8538",
+                  "16885338",
+                  "168-85-38"
+                ]
+              },
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item1-note.png"
+            },
+            {
+              "number": 2,
+              "prompt": "Dimitri zurückrufen – Treffen, wann? – nicht",
+              "placeholder": "________",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "heute",
+                  "heute Abend"
+                ]
+              },
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item2-note.png"
+            },
+            {
+              "number": 3,
+              "prompt": "Sascha – Treffpunkt mit Sascha – Wo?",
+              "placeholder": "________",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "Eingang",
+                  "am Eingang"
+                ]
+              },
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item3-note.png"
+            },
+            {
+              "number": 4,
+              "prompt": "Frankfurt > Köln – Abfahrt 11:45 Uhr – Preis",
+              "placeholder": "________",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "45 Euro",
+                  "45€",
+                  "45 €"
+                ]
+              },
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item4-note.png"
+            },
+            {
+              "number": 5,
+              "prompt": "Firma Keller – Arbeit, wann? Dienstagvormittag +",
+              "placeholder": "________",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "Donnerstagnachmittag"
+                ]
+              },
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item5-note.png"
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "HOEREN_2",
+        "fertigkeit": "HOEREN",
+        "label": "Hören",
+        "teil": 2,
+        "title": "Hören, Teil 2",
+        "aufgabentyp": "EINZELAUSWAHL",
+        "contentRevision": "a2-modelltest-1-hoeren-teil-2-v1",
+        "instructions": [
+          "Sie hören fünf Informationen aus dem Radio. Zu jedem Text gibt es eine Aufgabe.",
+          "Kreuzen Sie an: a, b oder c. Sie hören jeden Text einmal."
+        ],
+        "position": 2,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "media": {
+          "transcript": "Beispiel: Guten Abend, liebe Hörerinnen und Hörer, an diesem schönen Freitagabend. In wenigen Sekunden ist es 18:00 Uhr. Sie hören das Zeitzeichen für 18:00 Uhr.\n\nNummer 6: Hier ist der Westdeutsche Rundfunk. Nach den Nachrichten hören Sie das Mittagsmagazin. Um 15 Uhr folgt Lilliputz, das Kinderprogramm, um 16 Uhr dann Boulevard Europa …\n\nNummer 7: Der Wetterbericht. Heute bleibt es tagsüber weiter schön, bis 25º C. Gegen Abend Gewitterneigung, vor allem im Voralpenland werden starke Gewitter erwartet. Morgen dann nass und kühler.\n\nNummer 8: Eine Verkehrsdurchsage. Achtung, Autofahrer auf der Autobahn A2 Karlsruhe – Basel, in der Nähe von Freiburg: Fahren Sie langsam. Ein Schwein läuft über die Autobahn bei Kilometer 87 Nähe der Ausfahrt Freiburg.\n\nNummer 9: Und jetzt noch ein Geburtstagsgruß: Josef Hallhuber hat heute Geburtstag. Josef wird heute 17 Jahre alt: Ja, mit 17 hat man noch Träume. Alles Gute und viel Glück wünschen dir deine Eltern und Geschwister und natürlich das gesamte Radio-Energy-Team.\n\nNummer 10: 9:40 Uhr. Wie jeden Morgen um diese Zeit unser Gewinnspiel. Heute unsere Frage zum Urlaubsbeginn: Wohin reisen die Deutschen am liebsten? a) Nach Italien. b) Nach Österreich. Oder c) Nach Deutschland. Rufen Sie uns an unter 23 23 23 und gewinnen Sie eine Reise für 2 Personen an die Ostsee."
+        },
+        "content": {
+          "items": [
+            {
+              "number": 6,
+              "prompt": "Was kommt nachmittags um drei Uhr?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "das Mittagsprogramm"
+                },
+                {
+                  "key": "b",
+                  "text": "eine Sendung für Kinder"
+                },
+                {
+                  "key": "c",
+                  "text": "Nachrichten"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 7,
+              "prompt": "Wie wird das Wetter morgen?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Es gibt ein Gewitter."
+                },
+                {
+                  "key": "b",
+                  "text": "Es gibt Regen."
+                },
+                {
+                  "key": "c",
+                  "text": "Es wird warm."
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 8,
+              "prompt": "Wer oder was läuft auf der Straße?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "ein Autofahrer"
+                },
+                {
+                  "key": "b",
+                  "text": "ein Kind"
+                },
+                {
+                  "key": "c",
+                  "text": "ein Tier"
+                }
+              ],
+              "solution": {
+                "key": "c"
+              }
+            },
+            {
+              "number": 9,
+              "prompt": "Wer gratuliert zum Geburtstag?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Josef, ein junger Mann"
+                },
+                {
+                  "key": "b",
+                  "text": "Josefs Familie"
+                },
+                {
+                  "key": "c",
+                  "text": "Josefs Kollege aus dem Radio"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 10,
+              "prompt": "Was kann man gewinnen?",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "eine Reise"
+                },
+                {
+                  "key": "b",
+                  "text": "ein Buch"
+                },
+                {
+                  "key": "c",
+                  "text": "ein Spiel"
+                }
+              ],
+              "solution": {
+                "key": "a"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "HOEREN_3",
+        "fertigkeit": "HOEREN",
+        "label": "Hören",
+        "teil": 3,
+        "title": "Hören, Teil 3",
+        "aufgabentyp": "ZUORDNUNG",
+        "contentRevision": "a2-modelltest-1-hoeren-teil-3-v1",
+        "instructions": [
+          "Sie hören ein Gespräch. Zu diesem Gespräch gibt es fünf Aufgaben.",
+          "Ordnen Sie zu und notieren Sie den Buchstaben. Sie hören den Text zweimal."
+        ],
+        "position": 3,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "media": {
+          "transcript": "Herr Greiner: Ach, da ist ja schon unsere Praktikantin. Guten Morgen, mein Name ist Greiner. Ich bin der Chef hier und darf Sie in unserer Firma herzlich begrüßen.\nPraktikantin: Guten Morgen.\nHerr Greiner: Tja, am besten gehen wir erst mal durchs Haus und ich stelle Ihnen die Kolleginnen und Kollegen vor. Das hier ist mein Büro. Schon mein Großvater, der die Firma aufgebaut hat, arbeitete hier im ersten Stock in diesem Zimmer.\nPraktikantin: Aha.\n[Nummer: 11, 12, 13, 14, 15]\nHerr Greiner: Mal sehen, ob Frau Klinger schon da ist … Nein, noch nicht … Sie ist die Leiterin der Exportabteilung. Sie sitzt hier gleich gegenüber von meinem Büro.\nPraktikantin: Ich kann ja später noch einmal vorbeikommen.\nHerr Greiner: Ja, ja. Gehen wir mal runter … Herrn Greiner junior haben Sie ja heute Morgen sicher schon gesehen. Er sitzt am Empfang.\nPraktikantin: Greiner junior?\nHerr Greiner: Ja, das ist mein Sohn.\nPraktikantin: Ach?! Das ist ja ein richtiger Familienbetrieb.\nHerr Greiner: Kann man so sagen, ja. Mein Sohn lernt gerade alle Abteilungen kennen. So wie Sie. Seine erste Station ist der Empfang. So, und das hier, das ist die Teeküche.\nPraktikantin: Kann ich die auch benutzen?\nHerr Greiner: Klar. Kaffee und Tee sind immer da. Das hier neben der Teeküche ist übrigens der Kopierraum. Wenn Sie etwas zum Kopieren haben, machen Sie das bitte hier.\nPraktikantin: Huch.\nHerr Greiner: Vorsicht, da steht ja ein kaputter Stuhl herum. Na sowas. Der gehört eigentlich in die Werkstatt. Leider ist unser Hausarbeiter schon zwei Tage krank. Er kümmert sich normalerweise darum, dass hier im Haus alles an seinem Platz ist. Wenn Sie also etwas brauchen. Sie finden ihn normalerweise in der Werkstatt.\nPraktikantin: Ja, und wo werde ich arbeiten?\nHerr Greiner: Unsere Praktikantinnen sitzen immer im Zimmer von unserem Computerspezialisten, Herrn Schuster. Der Computerraum ist im Keller.\nPraktikantin: Im Keller?\nHerr Greiner: Ja, aber keine Angst. Es ist ein schöner, heller Raum. Wir gehen sofort mal runter. Aber vorher stelle ich Ihnen noch Frau Schuster, meine Sekretärin, vor. Sie sitzt im Moment nicht bei mir oben, sondern da hinten im Schreibbüro, Zimmer 2. … Ihr Raum wird gerade renoviert."
+        },
+        "content": {
+          "leftLabel": "Wen?",
+          "rightLabel": "Wo?",
+          "allowNoMatch": false,
+          "choices": [
+            {
+              "key": "a",
+              "title": "im ersten Stock"
+            },
+            {
+              "key": "b",
+              "title": "gegenüber dem Chefbüro"
+            },
+            {
+              "key": "c",
+              "title": "am Empfang"
+            },
+            {
+              "key": "d",
+              "title": "neben der Teeküche"
+            },
+            {
+              "key": "e",
+              "title": "im Kopierraum"
+            },
+            {
+              "key": "f",
+              "title": "in der Werkstatt"
+            },
+            {
+              "key": "g",
+              "title": "über dem Computerraum"
+            },
+            {
+              "key": "h",
+              "title": "im Keller"
+            },
+            {
+              "key": "i",
+              "title": "im Schreibbüro"
+            }
+          ],
+          "items": [
+            {
+              "number": 11,
+              "prompt": "Leiterin Export",
+              "solution": {
+                "choiceKey": "b"
+              }
+            },
+            {
+              "number": 12,
+              "prompt": "Sohn vom Chef",
+              "solution": {
+                "choiceKey": "c"
+              }
+            },
+            {
+              "number": 13,
+              "prompt": "Hausarbeiter",
+              "solution": {
+                "choiceKey": "f"
+              }
+            },
+            {
+              "number": 14,
+              "prompt": "Praktikantin",
+              "solution": {
+                "choiceKey": "h"
+              }
+            },
+            {
+              "number": 15,
+              "prompt": "Sekretärin",
+              "solution": {
+                "choiceKey": "i"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "LESEN": [
+      {
+        "sectionId": "LESEN_1",
+        "fertigkeit": "LESEN",
+        "label": "Lesen",
+        "teil": 1,
+        "title": "Lesen, Teil 1",
+        "aufgabentyp": "EINZELAUSWAHL",
+        "contentRevision": "a2-modelltest-1-lesen-teil-1-v1",
+        "instructions": [
+          "Lesen Sie die Aufgaben 1–5 und die Information. Kreuzen Sie an: a, b oder c."
+        ],
+        "position": 1,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "content": {
+          "stimulus": {
+            "type": "TEXT",
+            "title": "KAUFHAUS WALDHEIM",
+            "body": "4. Stock: SB-Restaurant | Wickelraum | Garderobe | Toilette | Fundbüro | Fernsprecher\n3. Stock: Computer | Technik | Software | Foto | Optiker | Video | Radio | TV-Hi-Fi | Erste Hilfe | Autozubehör | Fahrräder | Sportartikel | Bade- und Strandmoden\n2. Stock: Betten | Matratze | Bett- und Tischwaren | Frottierwaren | Gardinen | Dekostoffe | Herrenbekleidung | Spielwaren | Kinderwagen | Kinderbekleidung | Schreibwaren/Bücher\n1. Stock: Damenbekleidung | Pelze | Schuhe | Stock und Schirm | Nachtwäsche | Alles für die Küche | Glas | Porzellan | Beleuchtung | Elektroartikel\nErdgeschoss: Kosmetik | Handarbeiten | Kurzwaren | Putz- und Waschmittel | Wechselkasse | Tax-Free-Service | Friseursalon",
+            "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-1-directory.png"
+          },
+          "items": [
+            {
+              "number": 1,
+              "prompt": "Sie suchen ein Buch für Ihre 12-jährige Nichte.",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Erdgeschoss"
+                },
+                {
+                  "key": "b",
+                  "text": "2. Stock"
+                },
+                {
+                  "key": "c",
+                  "text": "anderes Stockwerk"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 2,
+              "prompt": "Sie möchten einen Reiseführer über Berlin kaufen.",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Erdgeschoss"
+                },
+                {
+                  "key": "b",
+                  "text": "2. Stock"
+                },
+                {
+                  "key": "c",
+                  "text": "anderes Stockwerk"
+                }
+              ],
+              "solution": {
+                "key": "b"
+              }
+            },
+            {
+              "number": 3,
+              "prompt": "Sie haben gestern im Kaufhaus Ihre Geldbörse verloren.",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Erdgeschoss"
+                },
+                {
+                  "key": "b",
+                  "text": "3. Stock"
+                },
+                {
+                  "key": "c",
+                  "text": "anderes Stockwerk"
+                }
+              ],
+              "solution": {
+                "key": "c"
+              }
+            },
+            {
+              "number": 4,
+              "prompt": "Sie möchten Seife kaufen.",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Erdgeschoss"
+                },
+                {
+                  "key": "b",
+                  "text": "3. Stock"
+                },
+                {
+                  "key": "c",
+                  "text": "anderes Stockwerk"
+                }
+              ],
+              "solution": {
+                "key": "a"
+              }
+            },
+            {
+              "number": 5,
+              "prompt": "Sie möchten eine Sonnenbrille kaufen.",
+              "options": [
+                {
+                  "key": "a",
+                  "text": "Erdgeschoss"
+                },
+                {
+                  "key": "b",
+                  "text": "2. Stock"
+                },
+                {
+                  "key": "c",
+                  "text": "anderes Stockwerk"
+                }
+              ],
+              "solution": {
+                "key": "c"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "LESEN_2",
+        "fertigkeit": "LESEN",
+        "label": "Lesen",
+        "teil": 2,
+        "title": "Lesen, Teil 2",
+        "aufgabentyp": "RICHTIG_FALSCH",
+        "contentRevision": "a2-modelltest-1-lesen-teil-2-v1",
+        "instructions": [
+          "Lesen Sie den Text und die Aufgaben 6–10. Sind die Aussagen richtig (+) oder falsch (–)? Kreuzen Sie an."
+        ],
+        "position": 2,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "content": {
+          "stimulus": {
+            "type": "TEXT",
+            "title": "Peter Nohlen: Hochzeit in Las Vegas",
+            "body": "Der deutsche Popsänger Peter Nohlen (48) und seine Patricia (23) werden bald Hochzeit feiern. Darüber freut sich nicht nur Patricia selbst – auch ihre Mutter Maria Luisa García Concha (48) ist erleichtert: „Ich bin froh, dass er sie endlich heiraten will.“\nPatricias Mutter machte sich Sorgen, weil ihre Tochter schon zwei Jahre mit Peter in einem Haus zusammenlebt. Peter ist nach drei gescheiterten Ehen und unzähligen Affären nicht gerade ein Wunschkandidat für Schwiegermütter. Maria Luisa stellte Nachforschungen über den blonden Peter aus Berlin an. Mit positivem Ausgang: „Patricia hat im Leben immer eine gute Wahl getroffen. Wenn sie mit Peter glücklich ist, soll er mir als Schwiegersohn willkommen sein“, so ihre Mutter.\nUnd dann gibt Maria Luisa ihrem Schwiegersohn in spe auch gleich den ersten Rat mit auf den Weg: „Heiraten ist mehr als nur nach Las Vegas fahren. Ich möchte, dass er meine Tochter glücklich macht, und außerdem möchte ich bald Oma werden.“"
+          },
+          "items": [
+            {
+              "number": 6,
+              "statement": "Peter Nohlen wird bald heiraten.",
+              "solution": {
+                "value": true
+              }
+            },
+            {
+              "number": 7,
+              "statement": "Maria Luisa ist gegen die Hochzeit.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 8,
+              "statement": "Peter war mit Patricia vor zwei Jahren schon einmal verheiratet.",
+              "solution": {
+                "value": false
+              }
+            },
+            {
+              "number": 9,
+              "statement": "Peter ist genauso alt wie seine neue Schwiegermutter.",
+              "solution": {
+                "value": true
+              }
+            },
+            {
+              "number": 10,
+              "statement": "Maria Luisa wünscht sich ein Enkelkind.",
+              "solution": {
+                "value": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "LESEN_3",
+        "fertigkeit": "LESEN",
+        "label": "Lesen",
+        "teil": 3,
+        "title": "Lesen, Teil 3",
+        "aufgabentyp": "ZUORDNUNG",
+        "contentRevision": "a2-modelltest-1-lesen-teil-3-v1",
+        "instructions": [
+          "Lesen Sie die Anzeigen a–h und die Aufgaben 11–15. Welche Anzeige passt zu welcher Situation? Für eine Aufgabe gibt es keine Lösung. Schreiben Sie hier den Buchstaben x."
+        ],
+        "position": 3,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "content": {
+          "leftLabel": "Situation",
+          "rightLabel": "Anzeige",
+          "allowNoMatch": true,
+          "noMatchKey": "x",
+          "choices": [
+            {
+              "key": "a",
+              "title": "www.bahn.de",
+              "body": "Genießen Sie schöne Ferien in Deutschland mit uns. Wir bringen Sie in alle Städte. Günstige Ski-Reisen mit Sparmöglichkeiten für Ihre Geldbörse!",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-a.png"
+            },
+            {
+              "key": "b",
+              "title": "www.reiserat.com",
+              "body": "Reisegebiete, Bundesländer. Flussreisen (Rhein, Main, Donau). Ferienhaus online buchen. Interaktive Deutschlandkarte.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-b.png"
+            },
+            {
+              "key": "c",
+              "title": "www.goodjob.de",
+              "body": "Auslandsjobs. Weltweit Stellenangebote – für junge Deutsche im Ausland: Festanstellung, Teilzeit, mit freier Zeiteinteilung. Auch Schüler- und Studentenjobs.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-c.png"
+            },
+            {
+              "key": "d",
+              "title": "www.schneider.de",
+              "body": "Dr. Schneiders Sprachreisen. Ihr Spezialist für erfolgreiche Sprach-Weiterbildung in: Großbritannien, Portugal, Spanien, Frankreich und den USA.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-d.png"
+            },
+            {
+              "key": "e",
+              "title": "www.sprachtreff.de",
+              "body": "SPRACHTREFF. Sprachreisen, Sprachkurse für Erwachsene und Schüler, Schülersprachreisen in Deutschland und aller Welt. Dazu viele Freizeitangebote.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-e.png"
+            },
+            {
+              "key": "f",
+              "title": "Urlaub in Deutschland",
+              "body": "Luxus-Hotels. Ferienwohnungen und Ferienhäuser. Mietwagen mit Fahrer. Gehobene internationale Gastronomie. Infos unter www.inforeisen.de",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-f.png"
+            },
+            {
+              "key": "g",
+              "title": "Billig reisen",
+              "body": "Online-Preisvergleich aller Anbieter für Deutschland-Reisen. Kurzurlaub, Rundreisen mit Pkw oder Caravan, Ferienhäuser/Ferienwohnungen, Mietwagen. www.inforeisen.de",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-g.png"
+            },
+            {
+              "key": "h",
+              "title": "www.germanembassy-india.org",
+              "body": "Arbeiten in Deutschland. Zollvorschriften. Studieren in Deutschland. Schüler- und Jugendaustausch.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-h.png"
+            }
+          ],
+          "items": [
+            {
+              "number": 11,
+              "prompt": "Sie möchten in Deutschland studieren und in den Semesterferien Geld verdienen. Sie suchen Informationen.",
+              "solution": {
+                "choiceKey": "h"
+              }
+            },
+            {
+              "number": 12,
+              "prompt": "Ein Freund plant eine Deutschlandreise mit dem Mietwagen. Er sucht die günstigsten Preise.",
+              "solution": {
+                "choiceKey": "g"
+              }
+            },
+            {
+              "number": 13,
+              "prompt": "Sie lieben gutes Essen und möchten einen Kochkurs machen.",
+              "solution": {
+                "choiceKey": null
+              }
+            },
+            {
+              "number": 14,
+              "prompt": "Ihre Freundin möchte Urlaub in Deutschland machen und Deutsch lernen.",
+              "solution": {
+                "choiceKey": "e"
+              }
+            },
+            {
+              "number": 15,
+              "prompt": "Sie möchten eine Rundreise durch Deutschland machen und mit dem Zug von Stadt zu Stadt fahren.",
+              "solution": {
+                "choiceKey": "a"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "SCHREIBEN": [
+      {
+        "sectionId": "SCHREIBEN_1",
+        "fertigkeit": "SCHREIBEN",
+        "label": "Schreiben",
+        "teil": 1,
+        "title": "Schreiben, Teil 1",
+        "aufgabentyp": "FORMULAR_AUSFUELLEN",
+        "contentRevision": "a2-modelltest-1-schreiben-teil-1-v1",
+        "instructions": [
+          "Ihr Bekannter Miguel möchte im Internet Deutsch lernen und muss für die Anmeldung ein Formular ausfüllen. Er bittet Sie um Hilfe.",
+          "Schreiben Sie die fünf fehlenden Informationen in das Formular."
+        ],
+        "position": 1,
+        "scoring": {
+          "mode": "AUTO",
+          "maxPoints": 5,
+          "examPart": "WRITTEN"
+        },
+        "content": {
+          "scenario": "Anmeldung bei der Sprachschule DEUTSCH ONLINE für Miguel Del Sol.",
+          "sourceDocuments": [
+            {
+              "type": "TEXT",
+              "title": "Persönliche Angaben",
+              "body": "Name: DEL SOL / Vorname: MIGUEL / geb. am: 18.10.1972 / geb. in: VALPARAÍSO / wohnhaft in: Avenida de la Paz, 25, Santiago (Chile)",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-1-personal-data.png"
+            },
+            {
+              "type": "TEXT",
+              "title": "Bankkarte",
+              "body": "BANCO DE LOS ANDES, MIGUEL DEL SOL, Mastercard, Nr. 3382 9824 8045 2670, gültig: 12/2023–11/2025",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-1-bank-card.png"
+            },
+            {
+              "type": "TEXT",
+              "title": "Biografie",
+              "body": "Miguel hat Medizin studiert und lebt in Santiago. Er ist verheiratet mit Natalie (28) und hat zwei Töchter. Er ist Arzt und spielt in seiner Freizeit gerne Fußball. Seine Muttersprache ist Spanisch und er spricht auch sehr gut Französisch, aber noch gar kein Deutsch.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-1-biography.png"
+            },
+            {
+              "type": "TEXT",
+              "title": "Bereits ausgefüllte Formularfelder",
+              "body": "Familienname: Del Sol. Vorname: Miguel. Land: Chile. Straße: Avenida de la Paz, 25. Nationalität: chilenisch. Geschlecht: männlich. Beruf: Arzt. Muttersprache: Spanisch.",
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-1-form.png"
+            }
+          ],
+          "fields": [
+            {
+              "number": 1,
+              "label": "Wohnort",
+              "inputType": "TEXT",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "Santiago"
+                ]
+              }
+            },
+            {
+              "number": 2,
+              "label": "Geburtsdatum",
+              "inputType": "DATE",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "18.10.1972"
+                ]
+              }
+            },
+            {
+              "number": 3,
+              "label": "Geburtsort",
+              "inputType": "TEXT",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "Valparaiso",
+                  "Valparaíso"
+                ]
+              }
+            },
+            {
+              "number": 4,
+              "label": "Familienstand",
+              "inputType": "TEXT",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "verheiratet"
+                ]
+              }
+            },
+            {
+              "number": 5,
+              "label": "Fremdsprachen",
+              "inputType": "TEXT",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": {
+                "acceptedAnswers": [
+                  "Französisch"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sectionId": "SCHREIBEN_2",
+        "fertigkeit": "SCHREIBEN",
+        "label": "Schreiben",
+        "teil": 2,
+        "title": "Schreiben, Teil 2",
+        "aufgabentyp": "TEXT_SCHREIBEN",
+        "contentRevision": "a2-modelltest-1-schreiben-teil-2-v1",
+        "instructions": [
+          "Schreiben Sie zu jedem der drei gewählten Punkte ein bis zwei Sätze. Vergessen Sie nicht den passenden Anfang und den Gruß am Schluss."
+        ],
+        "position": 2,
+        "scoring": {
+          "mode": "MANUAL_WITH_AI_SUGGESTION",
+          "maxPoints": 10,
+          "examPart": "WRITTEN"
+        },
+        "content": {
+          "intro": "Ihre Bekannte Paola heiratet nächsten Monat Stefan. Die Hochzeit ist in Berlin. Paola hat Sie eingeladen. Antworten Sie mit einem Brief.",
+          "instructions": "Hier finden Sie vier Punkte. Wählen Sie drei aus. Schreiben Sie zu jedem dieser drei Punkte ein bis zwei Sätze auf den Antwortbogen. Vergessen Sie nicht den passenden Anfang und den Gruß am Schluss.",
+          "bulletPoints": [
+            "jemanden mitbringen",
+            "Geschenk",
+            "Stefan",
+            "Übernachtung in Berlin"
+          ],
+          "selectionRule": {
+            "type": "CHOOSE_N_OR_OWN",
+            "requiredBulletPoints": 3,
+            "allowOwnPoint": false
+          },
+          "wordLimit": {
+            "minimum": null,
+            "recommended": 40,
+            "maximum": null
+          },
+          "closingReminder": "Vergessen Sie Anrede und Gruß nicht.",
+          "rubric": {
+            "contentPoints": {
+              "selectRequired": 3,
+              "pointsPerPoint": [
+                3,
+                1.5,
+                0
+              ]
+            },
+            "communicativeDesign": {
+              "points": [
+                1,
+                0.5,
+                0
+              ]
+            }
+          },
+          "stimulus": {
+            "type": "IMAGE",
+            "body": null,
+            "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-2-points.png"
+          }
+        }
+      }
+    ],
+    "SPRECHEN": [
+      {
+        "sectionId": "SPRECHEN_1",
+        "fertigkeit": "SPRECHEN",
+        "label": "Sprechen",
+        "teil": 1,
+        "title": "Sprechen, Teil 1 — Sich vorstellen",
+        "aufgabentyp": "SICH_VORSTELLEN",
+        "contentRevision": "a2-modelltest-1-sprechen-teil-1-v1",
+        "instructions": [
+          "Stellen Sie sich mit Hilfe der Stichworte vor."
+        ],
+        "position": 1,
+        "scoring": {
+          "mode": "MANUAL",
+          "maxPoints": 3,
+          "examPart": "ORAL"
+        },
+        "content": {
+          "prompts": [
+            "Name",
+            "Alter",
+            "Land",
+            "Wohnort",
+            "Sprachen",
+            "Beruf",
+            "Hobby"
+          ],
+          "examinerPrompts": [],
+          "participants": 2,
+          "rubric": {
+            "vorstellen": [
+              1,
+              0.5,
+              0
+            ],
+            "zusatzfragen": [
+              2,
+              1,
+              0
+            ]
+          },
+          "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-sprechen-1-prompts.png"
+        }
+      },
+      {
+        "sectionId": "SPRECHEN_2",
+        "fertigkeit": "SPRECHEN",
+        "label": "Sprechen",
+        "teil": 2,
+        "title": "Sprechen, Teil 2 — Ein Alltagsgespräch führen",
+        "aufgabentyp": "ALLTAGSGESPRAECH",
+        "contentRevision": "a2-modelltest-1-sprechen-teil-2-v1",
+        "instructions": [
+          "Ziehen Sie je drei Karten, davon jeder eine Jokerkarte mit dem Fragezeichen „…?“. Stellen Sie abwechselnd Fragen und beantworten Sie sie."
+        ],
+        "position": 2,
+        "scoring": {
+          "mode": "MANUAL",
+          "maxPoints": 6,
+          "examPart": "ORAL"
+        },
+        "content": {
+          "topic": "Tagesablauf",
+          "cards": [
+            {
+              "key": "was",
+              "text": "Was …?"
+            },
+            {
+              "key": "wo",
+              "text": "Wo …?"
+            },
+            {
+              "key": "wann",
+              "text": "Wann …?"
+            },
+            {
+              "key": "wohin",
+              "text": "Wohin …?"
+            },
+            {
+              "key": "joker1",
+              "text": "…?"
+            },
+            {
+              "key": "joker2",
+              "text": "…?"
+            },
+            {
+              "key": "wie_oft",
+              "text": "Wie oft …?"
+            },
+            {
+              "key": "wie_lange",
+              "text": "Wie lange …?"
+            }
+          ],
+          "jokerCards": 2,
+          "rubric": {
+            "perInteractionAct": [
+              1,
+              0.5,
+              0
+            ]
+          },
+          "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-sprechen-2-cards.png"
+        }
+      },
+      {
+        "sectionId": "SPRECHEN_3",
+        "fertigkeit": "SPRECHEN",
+        "label": "Sprechen",
+        "teil": 3,
+        "title": "Sprechen, Teil 3 — Etwas aushandeln",
+        "aufgabentyp": "ETWAS_AUSHANDELN",
+        "contentRevision": "a2-modelltest-1-sprechen-teil-3-v1",
+        "instructions": [
+          "Sie suchen ein neues Hobby. Was können Sie zusammen machen? Was machen Sie? Wann? Warum? Warum nicht? Finden Sie zwei passende Aktivitäten."
+        ],
+        "position": 3,
+        "scoring": {
+          "mode": "MANUAL",
+          "maxPoints": 6,
+          "examPart": "ORAL"
+        },
+        "content": {
+          "topic": "Ein neues Hobby",
+          "goal": "Finden Sie zwei passende Aktivitäten.",
+          "prompts": [
+            "Was?",
+            "Wann?",
+            "Warum?",
+            "Warum nicht?"
+          ],
+          "participantCards": {
+            "A": [
+              "Singen",
+              "Tanzen",
+              "Malen",
+              "Fußball spielen"
+            ],
+            "B": [
+              "Musik machen",
+              "Fotografieren",
+              "Tischtennis spielen",
+              "Kochkurs machen"
+            ]
+          },
+          "rubric": {
+            "erfuellungDerAufgabenstellung": [
+              3,
+              1.5,
+              0
+            ],
+            "sprachlicheRealisierung": [
+              3,
+              1.5,
+              0
+            ]
+          },
+          "participantCardSheets": {
+            "A": {
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-sprechen-3-a.png"
+            },
+            "B": {
+              "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-sprechen-3-b.png"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "assetKey": "a2-modelltest-1-hoeren-1-item1-note",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-hoeren-1-item1-note.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item1-note.png",
+      "altText": "Hören Teil 1 telephone note 1",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-hoeren-1-item2-note",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-hoeren-1-item2-note.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item2-note.png",
+      "altText": "Hören Teil 1 telephone note 2",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-hoeren-1-item3-note",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-hoeren-1-item3-note.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item3-note.png",
+      "altText": "Hören Teil 1 telephone note 3",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-hoeren-1-item4-note",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-hoeren-1-item4-note.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item4-note.png",
+      "altText": "Hören Teil 1 telephone note 4",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-hoeren-1-item5-note",
+      "usedBy": [
+        "HOEREN_1"
+      ],
+      "sourcePages": [
+        8
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-hoeren-1-item5-note.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-hoeren-1-item5-note.png",
+      "altText": "Hören Teil 1 telephone note 5",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-1-directory",
+      "usedBy": [
+        "LESEN_1"
+      ],
+      "sourcePages": [
+        13
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-1-directory.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-1-directory.png",
+      "altText": "Kaufhaus Waldheim floor directory",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-3-ad-a",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-3-ad-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-a.png",
+      "altText": "Lesen Teil 3 advertisement a",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-3-ad-b",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-3-ad-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-b.png",
+      "altText": "Lesen Teil 3 advertisement b",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-3-ad-c",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-3-ad-c.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-c.png",
+      "altText": "Lesen Teil 3 advertisement c",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-3-ad-d",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-3-ad-d.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-d.png",
+      "altText": "Lesen Teil 3 advertisement d",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-3-ad-e",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-3-ad-e.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-e.png",
+      "altText": "Lesen Teil 3 advertisement e",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-3-ad-f",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-3-ad-f.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-f.png",
+      "altText": "Lesen Teil 3 advertisement f",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-3-ad-g",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-3-ad-g.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-g.png",
+      "altText": "Lesen Teil 3 advertisement g",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-lesen-3-ad-h",
+      "usedBy": [
+        "LESEN_3"
+      ],
+      "sourcePages": [
+        17
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-3-ad-h.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-lesen-3-ad-h.png",
+      "altText": "Lesen Teil 3 advertisement h",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-schreiben-1-personal-data",
+      "usedBy": [
+        "SCHREIBEN_1"
+      ],
+      "sourcePages": [
+        18
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-schreiben-1-personal-data.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-1-personal-data.png",
+      "altText": "Schreiben Teil 1 personal-data",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-schreiben-1-bank-card",
+      "usedBy": [
+        "SCHREIBEN_1"
+      ],
+      "sourcePages": [
+        18
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-schreiben-1-bank-card.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-1-bank-card.png",
+      "altText": "Schreiben Teil 1 bank-card",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-schreiben-1-biography",
+      "usedBy": [
+        "SCHREIBEN_1"
+      ],
+      "sourcePages": [
+        18
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-schreiben-1-biography.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-1-biography.png",
+      "altText": "Schreiben Teil 1 biography",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-schreiben-1-form",
+      "usedBy": [
+        "SCHREIBEN_1"
+      ],
+      "sourcePages": [
+        19
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-schreiben-1-form.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-1-form.png",
+      "altText": "Schreiben Teil 1 form",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-schreiben-2-points",
+      "usedBy": [
+        "SCHREIBEN_2"
+      ],
+      "sourcePages": [
+        20
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-schreiben-2-points.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-schreiben-2-points.png",
+      "altText": "Schreiben Teil 2 content-point boxes",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-sprechen-1-prompts",
+      "usedBy": [
+        "SPRECHEN_1"
+      ],
+      "sourcePages": [
+        22
+      ],
+      "requiredForTask": false,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-sprechen-1-prompts.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-sprechen-1-prompts.png",
+      "altText": "Sprechen Teil 1 prompt cards",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-sprechen-2-cards",
+      "usedBy": [
+        "SPRECHEN_2"
+      ],
+      "sourcePages": [
+        23
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-sprechen-2-cards.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-sprechen-2-cards.png",
+      "altText": "Sprechen Teil 2 question-word cards",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-sprechen-3-a",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        24
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-sprechen-3-a.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-sprechen-3-a.png",
+      "altText": "Sprechen Teil 3 participant A sheet",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    },
+    {
+      "assetKey": "a2-modelltest-1-sprechen-3-b",
+      "usedBy": [
+        "SPRECHEN_3"
+      ],
+      "sourcePages": [
+        25
+      ],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-sprechen-3-b.png",
+      "imageUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/a2-hoeren-mt/a2-mt-1-hoeren/a2-mt-1/a2-modelltest-1-sprechen-3-b.png",
+      "altText": "Sprechen Teil 3 participant B sheet",
+      "extractionNotes": "Uploaded to R2; text in section content is the fallback."
+    }
+  ],
+  "extractionWarnings": [
+    "durationSeconds for the Hören complete recording is unknown -- no MP3 exists yet to measure.",
+    "HOEREN_1 item solutions include minor formatting variants of the phone number (spacing) as accepted answers beyond the single literal Lösungsschlüssel string -- flagged for human review before going live, since the official key gives only one exact form.",
+    "SCHREIBEN_1 field 3 (Geburtsort) accepts both the accented 'Valparaíso' (as printed in the bio) and the unaccented 'Valparaiso' (as printed in the official Lösungsschlüssel) -- the PDF itself is inconsistent between the two pages."
+  ]
+}

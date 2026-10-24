@@ -1,0 +1,32 @@
+meta {
+  name: 17 The examiner marks the letter, in half points
+  type: http
+  seq: 36
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a1AttemptId}}/marks
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "skill": "SCHREIBEN",
+    "teil": 2,
+    "points": 7.5
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.points: eq 7.5
+}
+
+docs {
+  Schreiben Teil 2, out of 10: 3 + 3 + 1.5 for the three points, plus 0 for Kommunikative Gestaltung = 7.5, a real mark in halves.
+}

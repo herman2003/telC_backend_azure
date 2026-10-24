@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SubmitListeningResponseDto {
   @ApiProperty({
@@ -11,12 +11,29 @@ export class SubmitListeningResponseDto {
   @ApiProperty({ description: 'Server-computed percentage score', example: 80 })
   score: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description:
-      'Correct answer per question. "+" = richtig, "−" = falsch. ' +
-      'Frontend computes per-question verdicts by comparing submitted answers against this key.',
+      'B1/B2: correct answer per question ("+" / "−"). Absent for A1/A2 — use outcomes/review.',
     example: { q41: '-', q42: '+', q43: '-', q44: '+', q45: '+' },
     additionalProperties: { type: 'string', enum: ['+', '-'] },
   })
-  answerKey: Record<string, string>;
+  answerKey?: Record<string, string>;
+
+  @ApiPropertyOptional({
+    description: 'A1/A2: per-item outcome from markGenericSection',
+  })
+  outcomes?: Array<{
+    itemNumber: number;
+    outcome: 'CORRECT' | 'WRONG' | 'UNRECOGNISED';
+  }>;
+
+  @ApiPropertyOptional({
+    description:
+      'A1/A2: key material for UNRECOGNISED free-text items (training self-check)',
+  })
+  review?: Array<{
+    itemNumber: number;
+    acceptedAnswers?: string[];
+    solution?: unknown;
+  }>;
 }

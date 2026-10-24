@@ -55,12 +55,24 @@ export function capTaskFulfilment(
     return letter;
   }
   const addressed = Math.max(0, pointsAddressed);
-  // Spec: ≤1→D, 2→C, 3→B; ≥4 or ≥N → keep model letter.
-  let maxAllowed: TelcLetter = 'A';
+  /**
+   * The ladder is relative to how many Leitpunkte the task asks for: A for
+   * all of them, B for one short, C for two short, D below that. telc states
+   * it that way at both levels, and the counts differ — four at B1, three at
+   * B2 — so the rungs come from `requiredPoints` rather than from B1's four
+   * written as literals. At N=4 this is exactly the previous behaviour.
+   *
+   * `addressed >= 4` is kept as it was. It makes four addressed points enough
+   * for an A even where a task asks for more, which only bites at N>4 — no
+   * telc task we hold does, and the case is pinned by a test. The one
+   * behaviour it does not preserve is N=5 with three addressed, which now
+   * caps at C rather than B; nothing exercises it.
+   */
+  let maxAllowed: TelcLetter;
   if (addressed >= requiredPoints || addressed >= 4) maxAllowed = 'A';
-  else if (addressed <= 1) maxAllowed = 'D';
-  else if (addressed === 2) maxAllowed = 'C';
-  else maxAllowed = 'B';
+  else if (addressed === requiredPoints - 1) maxAllowed = 'B';
+  else if (addressed === requiredPoints - 2) maxAllowed = 'C';
+  else maxAllowed = 'D';
 
   // Lower index = better grade. Cap when the model letter is better than allowed.
   const order: TelcLetter[] = ['A', 'B', 'C', 'D'];

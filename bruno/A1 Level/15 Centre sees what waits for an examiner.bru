@@ -1,0 +1,64 @@
+meta {
+  name: 15 Centre sees what waits for an examiner
+  type: http
+  seq: 33
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a1AttemptId}}/result
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.outcome: eq INCOMPLETE
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+  const r = res.body;
+  const awaiting = [...r.awaiting].sort().join(",");
+  if (awaiting !== "SCHREIBEN,SPRECHEN") {
+    throw new Error("expected SCHREIBEN,SPRECHEN awaiting, got " + awaiting);
+  }
+
+  const by = {};
+  for (const s of r.sections) by[s.skill + "_" + s.teil] = s;
+  const expected = { HOEREN_1: 6, HOEREN_2: 4, HOEREN_3: 4, LESEN_1: 5, LESEN_2: 4, LESEN_3: 5 };
+  for (const [k, points] of Object.entries(expected)) {
+    if (by[k].points !== points || by[k].markedBy !== "SERVER") {
+      throw new Error(k + " should be " + points + " by SERVER, got " + JSON.stringify(by[k]));
+    }
+  }
+  for (const k of ["SCHREIBEN_1", "SCHREIBEN_2", "SPRECHEN_1"]) {
+    if (by[k].points !== null) throw new Error(k + " should have no mark yet");
+  }
+
+  const review = r.review.find((x) => x.skill === "SCHREIBEN" && x.teil === 1);
+  if (!review) throw new Error("the form should be listed for review");
+  if (review.provisionalPoints !== 4) {
+    throw new Error("4 of 5 fields were recognised as right, got " + review.provisionalPoints);
+  }
+  if (JSON.stringify(review.unrecognised) !== JSON.stringify([{ itemNumber: 3, answer: "Seheim" }])) {
+    throw new Error("unexpected unrecognised answers " + JSON.stringify(review.unrecognised));
+  }
+
+  if (!r.schreibenSubmission || !String(r.schreibenSubmission.text).startsWith("Sehr geehrte")) {
+    throw new Error("the examiner should see the letter, got " + JSON.stringify(r.schreibenSubmission));
+  }
+}
+
+docs {
+  The key decided Hören and Lesen at submit (6 + 4 + 4, 5 + 4 + 5). The
+  form waits on "Seheim"; the letter and the oral wait for a person.
+}

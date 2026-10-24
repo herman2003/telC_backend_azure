@@ -1,0 +1,53 @@
+meta {
+  name: P02 Practice Lesen submit Teil 1
+  type: http
+  seq: 101
+}
+
+post {
+  url: {{baseUrl}}/api/reading/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "modelltestNumber": 8,
+    "id": "bruno-a2-practice-lesen-1",
+    "exercise_type_id": "reading",
+    "teil_id": "1",
+    "tested_at": "2026-10-24T00:00:00.000Z",
+    "answers": {
+      "1": "a",
+      "2": "a",
+      "3": "a",
+      "4": "a",
+      "5": "a"
+    }
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  if (typeof res.body.score !== "number") {
+    throw new Error("expected numeric score");
+  }
+  if (!Array.isArray(res.body.outcomes)) {
+    throw new Error("expected outcomes");
+  }
+}
+
+docs {
+  A2 Lesen 1 is EINZELAUSWAHL — any keys produce a score; outcomes prove generic scoring ran.
+}

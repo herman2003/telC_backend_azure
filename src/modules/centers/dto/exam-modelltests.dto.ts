@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CefrLevel } from '@prisma/client';
 
 export class ExamModelltestDto {
   @ApiProperty({ example: 2 })
@@ -6,6 +7,14 @@ export class ExamModelltestDto {
 
   @ApiProperty({ example: 'Modelltest 2' })
   title: string;
+
+  /**
+   * Which exam this paper is. A manager choosing a sitting is choosing a CEFR
+   * level, and the picker used to return the number and title alone — so the
+   * choice was made blind, and the candidates found out at the sitting.
+   */
+  @ApiProperty({ enum: CefrLevel, example: 'B1' })
+  level: CefrLevel;
 }
 
 /**

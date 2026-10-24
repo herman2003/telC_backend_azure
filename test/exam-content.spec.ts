@@ -62,6 +62,25 @@ describe('exam content carries no answers', () => {
       ]);
     });
 
+    it("strips the generic model's (A1/A2) per-item solution", () => {
+      // GenericSectionContent's items[].solution is the A1/A2 answer key --
+      // {key:'a'}, {value:true}, {acceptedAnswers:[...]}, {choiceKey:'b'}.
+      // Not a /correct.../-named field, so this guards a shape the DTO scan
+      // below (B1-specific dto/ directories) cannot see.
+      const stripped = withoutAnswerKey({
+        itemNumber: 1,
+        prompt: 'Frage?',
+        solution: { key: 'a' },
+        options: [{ key: 'a', content: 'Antwort', isCorrect: true }],
+      });
+
+      expect(stripped).toEqual({
+        itemNumber: 1,
+        prompt: 'Frage?',
+        options: [{ key: 'a', content: 'Antwort' }],
+      });
+    });
+
     it('leaves dates alone rather than emptying them', () => {
       // A Date walked as a plain object comes back as {}, and the exam
       // renders with no dates in it.

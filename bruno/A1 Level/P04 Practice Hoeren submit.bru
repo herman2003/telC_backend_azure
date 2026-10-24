@@ -1,0 +1,53 @@
+meta {
+  name: P04 Practice Hoeren submit
+  type: http
+  seq: 103
+}
+
+post {
+  url: {{baseUrl}}/api/listening/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "modelltestNumber": 9,
+    "type": "1",
+    "timed": false,
+    "content_revision": "{{a1PracticeHoerenRevision}}",
+    "answers": {
+      "1": "c",
+      "2": "b",
+      "3": "a",
+      "4": "b",
+      "5": "a",
+      "6": "c"
+    }
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  if (typeof res.body.score !== "number") {
+    throw new Error("expected numeric score");
+  }
+  if (!Array.isArray(res.body.outcomes)) {
+    throw new Error("expected outcomes for A1 Hören practice");
+  }
+}
+
+docs {
+  Needs P03 first (content_revision). A1 Hören 1 keys: c b a b a c. Play (POST .../audio/:id/play) is optional here — report blocked in the PR if R2 audio is missing in .env.test.
+}

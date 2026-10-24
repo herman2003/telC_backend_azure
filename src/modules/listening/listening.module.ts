@@ -7,12 +7,14 @@ import { TrainingAudioService } from './training-audio.service';
 import { EXAM_AUDIO_SECRET } from '../centers/exam-audio.service';
 import { AuthModule } from '../auth/auth.module';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
+import { GenericExamContentService } from '../../shared/services/generic-exam-content.service';
 
 @Module({
   imports: [AuthModule, SubscriptionAccessModule],
   controllers: [ListeningController, TrainingAudioController],
   providers: [
     ListeningService,
+    GenericExamContentService,
     TrainingAudioService,
     {
       provide: EXAM_AUDIO_SECRET,

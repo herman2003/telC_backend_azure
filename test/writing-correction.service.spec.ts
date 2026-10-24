@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { WritingCorrectionService } from '../src/modules/writing/writing-correction.service';
@@ -74,6 +75,10 @@ describe('WritingCorrectionService', () => {
     exerciseId: 'uuid-exercise-1',
     content: 'Ich habe geschrieben einen Brief.',
     createdAt: new Date(Date.now() - 120000).toISOString(),
+    // `as const` so the literal stays 'B1' rather than widening to string:
+    // this is a standalone const, so it gets no contextual typing from
+    // CorrectionJobData.
+    level: 'B1' as const,
   };
 
   const validModelJson = `{
@@ -179,6 +184,46 @@ describe('WritingCorrectionService', () => {
       await service.runCorrection(jobData);
 
       expect(mockPrismaService.studentActivity.create).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('the writing prompt names the level it is rating', () => {
+    type PromptBuilder = {
+      buildWritingPrompt: (
+        content: string,
+        exercise: unknown,
+        level: CefrLevel,
+      ) => string;
+    };
+    const promptFor = (level: CefrLevel) =>
+      (service as unknown as PromptBuilder).buildWritingPrompt(
+        'Sehr geehrte Damen und Herren,',
+        null,
+        level,
+      );
+
+    /**
+     * The points conversion was already right for B2 — three criteria,
+     * A/B/C/D to 5/3/1/0, times three to 45 — which is why this looked like a
+     * non-issue. The booklet shows it is not: B2's criterion II bands are A
+     * "B2 gut erfuellt", B "B2 erfuellt", C "B1", D "A2 oder darunter". At B2,
+     * solidly-B1 writing is a C. A prompt that tells the model it is rating
+     * B1 anchors it to the wrong standard, returns A or B for that same text,
+     * and the correct conversion then produces a confidently wrong mark.
+     */
+    it('tells the model it is rating B2, and what a C means there', () => {
+      const prompt = promptFor('B2');
+
+      expect(prompt).toContain('telc Deutsch B2');
+      expect(prompt).not.toContain('telc Deutsch B1');
+      expect(prompt).toMatch(/B1/); // as the C band, not as the exam
+    });
+
+    it('still names B1 at B1', () => {
+      const prompt = promptFor('B1');
+
+      expect(prompt).toContain('telc Deutsch B1');
+      expect(prompt).not.toContain('telc Deutsch B2');
     });
   });
 

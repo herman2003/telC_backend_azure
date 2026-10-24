@@ -59,11 +59,11 @@ parcours indépendant. Documenter le design cible pour reprise ultérieure.
   centres.  
 - Aucun endpoint étudiant-billing dans cette passe.  
 - Quand le produit active les indépendants, reprendre cet ADR +
-  `docs/STRIPE_LOCAL_SETUP.md`.
+  `docs/guides/stripe-local.md`.
 
 ## Références
 
-- D35 / B19 — `docs/CENTER_FRONTEND_SYNC_DECISIONS.md`  
+- D35 / B19 — `docs/contracts/center-dashboard-sync.md`  
 - D27 factures — numéros `INV-YYYY-NNNN`  
 - Stripe Billing best practices — `.agents/skills/stripe-best-practices`
 

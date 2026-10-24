@@ -1,0 +1,31 @@
+meta {
+  name: 41 B2 student login
+  type: http
+  seq: 41
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{studentEmail}}",
+    "password": "Student-Pass1!",
+    "deviceId": "training-b2-device",
+    "deviceName": "Bruno Training"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  bru.setEnvVar("studentAccessToken", res.body.accessToken);
+}

@@ -1,0 +1,62 @@
+meta {
+  name: 14d3 Hoeren runs 20 minutes, not 30
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{b2AttemptId}}/blocks/HOEREN/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  // THE number this phase exists to get right.
+  //
+  // telc runs B2 Hoerverstehen for 20 minutes against B1's 30, and it is the
+  // only value that differs between the two levels. The deadline is computed
+  // from exam_block_durations by the SITTING's level, so a B2 sitting that
+  // fell back to B1's rows shows 30 here and nothing else in the collection
+  // would notice.
+  //
+  // The previous version of this request asserted `level: eq B2` on the
+  // sitting and left the minutes to a human to check elsewhere. A request
+  // named for a number that does not assert that number is worse than no
+  // request: it reports a verdict it never measured.
+  const minutes =
+    (new Date(res.body.deadlineAt) - new Date(res.body.startedAt)) / 60000;
+  if (minutes !== 20) {
+    throw new Error(
+      "B2 Hoeren must run 20 minutes, got " + minutes +
+        (minutes === 30 ? "  — that is B1's row: the sitting is being timed at the wrong level" : "")
+    );
+  }
+
+  // remainingSeconds is computed against server time rather than the
+  // deadline arithmetic above, so it catches a clock the deadline alone
+  // would not. A few seconds of slack for the round trip.
+  if (res.body.remainingSeconds > 1200 || res.body.remainingSeconds < 1185) {
+    throw new Error("remainingSeconds should be ~1200, got " + res.body.remainingSeconds);
+  }
+}
+
+docs {
+  Run after 14d2. With no B2 rows seeded at all this is 404
+  EXAM_TIMINGS_MISSING rather than a wrong number, which is the better
+  failure of the two.
+}

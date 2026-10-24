@@ -1,0 +1,64 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 0
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+docs {
+  B2 as a second CEFR level — phase 26.
+
+  WHAT THIS CHECKS
+  A B2 seat gets the whole Start experience on Modelltest 7, and a centre
+  can run a B2 Exam Day sitting that is timed and marked as B2 rather than
+  as B1.
+
+  BEFORE YOU START
+  1. Run the API against the disposable database, not production:
+         .\scripts\start-dev-testdb.ps1
+     It prints the database host. It must NOT be ep-wandering-hall.
+  2. Modelltest 7 must be imported on that database:
+         npm run modelltest:verify -- --level B2 --number 7
+     Expect "Modelltest 7 (B2) verified."
+  3. A centre signed in (Center Auth / 03 Login) so {{accessToken}} is set,
+     and an activation code minted so {{codeId}} is set.
+  4. TWO students, not one:
+       {{studentAccessToken}}    on a seat set to B2  (requests 01-02)
+       {{b1StudentAccessToken}}  on a seat left at B1
+     The B1 student is what requests 05 and 07b need, and they are the only
+     two that prove a level gate exists rather than that B2 content exists.
+
+  ORDER
+  Requests run in seq order, which is now strictly increasing with no
+  duplicates. It did not used to be: six pairs shared a seq, and two of them
+  — the sitting edit and the Hoeren timing check — acted on the same sitting
+  and asserted opposite levels, so one of the two failed depending on which
+  the runner happened to pick first.
+
+  01 and 02 put a B2 student on a seat. Everything after depends on
+  {{studentAccessToken}} belonging to that student.
+
+  RE-RUNNING
+  Not idempotent. 01 needs a code still in `activated`; a second run is 409
+  INVALID_CODE_TRANSITION. Mint a fresh code and reset {{codeId}} before
+  running the collection again.
+
+  THE EXAM CHAIN (14a-14h)
+  Blocks open in telc order and each must be started AND submitted before
+  the next: LESEN_SPRACHBAUSTEINE, then HOEREN, then SCHREIBEN. 14d1-14d4
+  do the first two. They are not optional scaffolding — 14d3 is where the
+  20-minute Hoeren deadline is asserted, which is the one value that
+  separates B2 from B1.
+
+  WHAT WOULD HAVE FAILED BEFORE THIS PHASE
+  - 10 Live Room: 400, because the level validator accepted only B1
+  - 12 Create B2 sitting: level stamped B1 whatever paper was chosen
+  - 14d3 Hoeren 20 minutes: timed with B1's 30
+  - 07 Schreiben both tasks: only one of the two offered
+  - 09 Vocab pack: empty
+}

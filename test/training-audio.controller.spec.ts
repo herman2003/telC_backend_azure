@@ -11,19 +11,16 @@ describe('TrainingAudioController', () => {
   };
 
   let audio: any;
-  let prisma: any;
   let fetchImpl: jest.Mock;
   let response: any;
   let controller: TrainingAudioController;
 
   beforeEach(() => {
-    audio = { verify: jest.fn().mockReturnValue(claims) };
-    prisma = {
-      listeningExercise: {
-        findUnique: jest.fn().mockResolvedValue({
-          audio_url: 'https://cdn.example/teil1.mp3',
-        }),
-      },
+    audio = {
+      verify: jest.fn().mockReturnValue(claims),
+      streamUrlFor: jest
+        .fn()
+        .mockResolvedValue('https://cdn.example/teil1.mp3'),
     };
     fetchImpl = jest.fn().mockResolvedValue({
       ok: true,
@@ -42,7 +39,7 @@ describe('TrainingAudioController', () => {
       send: jest.fn(),
       status: jest.fn().mockReturnThis(),
     };
-    controller = new TrainingAudioController(audio, prisma, fetchImpl);
+    controller = new TrainingAudioController(audio, fetchImpl);
   });
 
   it('carries no JWT guard, because a player cannot send one', () => {
@@ -58,9 +55,7 @@ describe('TrainingAudioController', () => {
     await controller.stream('a-token', response);
 
     expect(audio.verify).toHaveBeenCalledWith('a-token');
-    expect(prisma.listeningExercise.findUnique).toHaveBeenCalledWith(
-      expect.objectContaining({ where: { id: 'audio-1' } }),
-    );
+    expect(audio.streamUrlFor).toHaveBeenCalledWith('audio-1');
     expect(fetchImpl).toHaveBeenCalledWith('https://cdn.example/teil1.mp3');
     expect(response.send).toHaveBeenCalled();
     expect(response.setHeader).toHaveBeenCalledWith(

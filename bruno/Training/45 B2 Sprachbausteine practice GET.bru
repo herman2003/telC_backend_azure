@@ -1,0 +1,28 @@
+meta {
+  name: 45 B2 Sprachbausteine practice GET
+  type: http
+  seq: 45
+}
+
+get {
+  url: {{baseUrl}}/api/sprachbausteine/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  if (!res.body.teil1 || !res.body.teil2) {
+    throw new Error("B2 Sprachbausteine expects teil1 and teil2");
+  }
+}

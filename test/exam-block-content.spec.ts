@@ -40,6 +40,7 @@ describe('ExamBlockContentService', () => {
   };
 
   let prisma: any;
+  let genericContent: any;
   let lesen: any;
   let sprachbausteine: any;
   let listening: any;
@@ -49,7 +50,7 @@ describe('ExamBlockContentService', () => {
   const attemptRow = (over: Record<string, unknown> = {}) => ({
     id: ATTEMPT,
     student_id: STUDENT,
-    session: { modelltest: { number: 2 } },
+    session: { modelltest: { id: 'mt-2', number: 2, level: 'B1' } },
     blocks: [
       {
         block: 'LESEN_SPRACHBAUSTEINE',
@@ -85,8 +86,10 @@ describe('ExamBlockContentService', () => {
         .fn()
         .mockResolvedValue({ id: 'w1', prompt: 'Schreiben Sie eine E-Mail' }),
     };
+    genericContent = { sectionsFor: jest.fn() };
     service = new ExamBlockContentService(
       prisma,
+      genericContent,
       lesen,
       sprachbausteine,
       listening,
@@ -297,6 +300,141 @@ describe('ExamBlockContentService', () => {
       await expect(
         service.getBlockContent(STUDENT, ATTEMPT, 'LESEN_SPRACHBAUSTEINE'),
       ).rejects.toThrow('EXAM_ATTEMPT_NOT_FOUND');
+    });
+  });
+
+  describe('the generic model (A1/A2)', () => {
+    const genericSection = (over: Record<string, unknown> = {}) => ({
+      id: 'section-lesen-1',
+      sectionId: 'LESEN_1',
+      aufgabentyp: 'EINZELAUSWAHL',
+      teil: 1,
+      label: 'Lesen Teil 1',
+      instruction: 'Kreuzen Sie an.',
+      maxPoints: 5,
+      scoringMode: 'AUTO',
+      material: {},
+      items: [
+        {
+          itemNumber: 1,
+          prompt: 'Frage?',
+          solution: { key: 'a' },
+          options: [{ key: 'a', content: 'Antwort', isCorrect: true }],
+        },
+      ],
+      ...over,
+    });
+
+    const a2Attempt = (block: string) =>
+      attemptRow({
+        session: { modelltest: { id: 'a2-mt-8', number: 8, level: 'A2' } },
+        blocks: [
+          {
+            block,
+            started_at: new Date(Date.now() - 60_000),
+            deadline_at: new Date(Date.now() + HOUR),
+            submitted_at: null,
+            answers: {},
+          },
+        ],
+      });
+
+    it('serves Lesen and Schreiben for LESEN_SCHREIBEN, from the generic model', async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [],
+        LESEN: [genericSection({})],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [genericSection({ sectionId: 'SCHREIBEN_1' })],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        a2Attempt('LESEN_SCHREIBEN'),
+      );
+
+      const content = await service.getBlockContent(
+        STUDENT,
+        ATTEMPT,
+        'LESEN_SCHREIBEN',
+      );
+
+      expect(genericContent.sectionsFor).toHaveBeenCalledWith('a2-mt-8');
+      expect(Object.keys(content.sections)).toEqual(['LESEN', 'SCHREIBEN']);
+      expect(lesen.getExercise).not.toHaveBeenCalled();
+      expect(sprachbausteine.getExercise).not.toHaveBeenCalled();
+      expect(writing.getExerciseByModelltest).not.toHaveBeenCalled();
+    });
+
+    it('serves each Hören Teil with its own recording, the way B1/B2 do', async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [
+          genericSection({ id: 'hoeren-1-id', sectionId: 'HOEREN_1', teil: 1 }),
+          genericSection({ id: 'hoeren-2-id', sectionId: 'HOEREN_2', teil: 2 }),
+        ],
+        LESEN: [],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(a2Attempt('HOEREN'));
+
+      const content = await service.getBlockContent(STUDENT, ATTEMPT, 'HOEREN');
+
+      expect(Object.keys(content.sections)).toEqual(['HOEREN']);
+      expect(listening.getExamTeil).not.toHaveBeenCalled();
+      // Each Teil names the id POST .../audio/{audioId}/play spends against,
+      // and is played once: telc's repeats are inside the file.
+      expect((content.sections as any).HOEREN).toEqual([
+        expect.objectContaining({ audioId: 'hoeren-1-id', playsAllowed: 1 }),
+        expect.objectContaining({ audioId: 'hoeren-2-id', playsAllowed: 1 }),
+      ]);
+      // An id to ask for a play, never an address to play from.
+      expect(JSON.stringify(content)).not.toContain('.mp3');
+      expect(content).not.toHaveProperty('recording');
+    });
+
+    it('names no recording outside the Hören block', async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [],
+        LESEN: [genericSection({})],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        a2Attempt('LESEN_SCHREIBEN'),
+      );
+
+      const content = await service.getBlockContent(
+        STUDENT,
+        ATTEMPT,
+        'LESEN_SCHREIBEN',
+      );
+
+      expect(JSON.stringify(content)).not.toContain('audioId');
+    });
+
+    it('strips every item solution, same claim as the B1/B2 path', async () => {
+      genericContent.sectionsFor.mockResolvedValue({
+        HOEREN: [],
+        LESEN: [genericSection({})],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        a2Attempt('LESEN_SCHREIBEN'),
+      );
+
+      const content = await service.getBlockContent(
+        STUDENT,
+        ATTEMPT,
+        'LESEN_SCHREIBEN',
+      );
+
+      const json = JSON.stringify(content);
+      expect(json).not.toContain('solution');
+      expect(json).not.toContain('isCorrect');
+      expect(json).toContain('Antwort');
     });
   });
 });

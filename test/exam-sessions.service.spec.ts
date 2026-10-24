@@ -47,7 +47,9 @@ describe('ExamSessionsService', () => {
         count: jest.fn().mockResolvedValue(1),
         update: jest.fn().mockImplementation(({ data }) => row(data)),
       },
-      modelltest: { findUnique: jest.fn().mockResolvedValue({ id: 'mt-1' }) },
+      modelltest: {
+        findUnique: jest.fn().mockResolvedValue({ id: 'mt-1', level: 'B1' }),
+      },
       get student() {
         throw new Error('Students are reached through the participant list');
       },
@@ -67,6 +69,51 @@ describe('ExamSessionsService', () => {
       expect(prisma.examSession.create).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({ center_id: 'center-1' }),
+        }),
+      );
+    });
+
+    /**
+     * The sitting takes its level from the paper, not from a constant.
+     *
+     * Everything downstream reads `session.level`: the block timings a
+     * candidate is given, the weights their answers are marked against, and
+     * the per-Teil ceiling a trainer may enter. A stamped level that disagreed
+     * with the paper would time and mark a B2 sitting by B1's rules and raise
+     * nothing at all — the rows it needed would exist, just for the wrong
+     * level.
+     */
+    it('takes the level from the chosen Modelltest', async () => {
+      prisma.modelltest.findUnique.mockResolvedValue({
+        id: 'mt-7',
+        level: 'B2',
+      });
+
+      await service.create(identity, {
+        name: 'Examen B2 — Octobre',
+        modelltestNumber: 7,
+        opensAt: future,
+        accessWindowHours: 48,
+      });
+
+      expect(prisma.examSession.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ level: 'B2' }),
+        }),
+      );
+    });
+
+    it('still stamps B1 for a B1 Modelltest', async () => {
+      await service.create(identity, {
+        name: 'Examen B1 — Octobre',
+        modelltestNumber: 2,
+        opensAt: future,
+        accessWindowHours: 48,
+      });
+
+      expect(prisma.examSession.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ level: 'B1' }),
         }),
       );
     });
@@ -189,6 +236,32 @@ describe('ExamSessionsService', () => {
   });
 
   describe('changing one', () => {
+    /**
+     * Swapping the paper of a draft swaps its level too.
+     *
+     * The create path and this one both resolve a Modelltest, and only the
+     * first was stamping a level. A draft moved from a B1 paper to a B2 one
+     * would keep `level: 'B1'` beside B2 content, and the sitting would then
+     * be timed and marked by B1's rows without anything failing.
+     */
+    it('moves the level with the Modelltest', async () => {
+      prisma.modelltest.findUnique.mockResolvedValue({
+        id: 'mt-7',
+        level: 'B2',
+      });
+
+      await service.update(identity, 'session-1', { modelltestNumber: 7 });
+
+      expect(prisma.examSession.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            modelltest_id: 'mt-7',
+            level: 'B2',
+          }),
+        }),
+      );
+    });
+
     it('lets a draft be renamed', async () => {
       await service.update(identity, 'session-1', { name: 'Examen final B1' });
 

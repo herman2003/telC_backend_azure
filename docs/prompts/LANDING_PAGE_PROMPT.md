@@ -2,7 +2,7 @@
 
 **For:** the coding agent or developer working in the Lerniqo landing site.
 **Backend state:** branch `dev` of `telC_backend_azure`, 2026-09-26.
-**Source of truth for prices:** `docs/OFFRES_LERNIQO.md` in the backend repo.
+**Source of truth for prices:** `docs/domains/offres-lerniqo.md` in the backend repo.
 
 The offer is now five products, not one. The site should say so, and it should
 take one number from the API rather than hard-coding it.
@@ -18,10 +18,13 @@ work on its own.
 | | Price | One line |
 |---|---|---|
 | **Lerniqo Start** | **4 500 FCFA / élève / mois** | apprendre — la plateforme, les cours, le suivi, et Sprechen IA Light |
-| **Prep Pass** | **3 000 FCFA / élève / 60 jours**, paiement unique | s'entraîner — 20+ exercices par compétence, refaisables |
+| **Prep Pass** | **1 000 FCFA / élève / 30 jours**, paiement unique | s'entraîner — le pool Lesen / Hören / Sprachbausteine au-delà du MT de la semaine |
 | **Exam Day** | **1 000 FCFA / candidat / examen**, à l'usage | se tester — un vrai examen blanc telc, chronométré et corrigé |
-| **AI Assisted Learning** | **2 000 FCFA / élève / mois** | être accompagné — l'IA explique, guide et corrige pendant l'apprentissage |
 | **AI Speaking** | **300 FCFA / crédit** (1 crédit = 1 session de 5 min) | pratiquer l'oral davantage avec l'IA |
+
+> **Pas vendu au launch :** AI Assisted Learning (2 000 FCFA / élève / mois) —
+> entitlement prévu, **pas construit**. Ne pas le mettre sur la page. Voir
+> `../domains/offres-lerniqo.md`.
 
 The positioning line the founder uses, and the clearest thing on the page:
 

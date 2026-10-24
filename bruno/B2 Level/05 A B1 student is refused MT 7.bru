@@ -1,0 +1,32 @@
+meta {
+  name: 05 A B1 student is refused MT 7
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 403
+  res.body.message: eq LEVEL_MISMATCH
+}
+
+docs {
+  REQUIRED, not optional. An earlier version of this file ended with "skip
+  this request if you have only the B2 student to hand" — but every other
+  request here only shows that B2 content exists. This is the one that shows
+  content of one level does NOT open for a student of another, and Prep Pass
+  does not widen it. Skipping it tests nothing about the level gate.
+
+  Needs a SECOND student on a B1 seat. Set {{b1StudentAccessToken}} by
+  running Student Activation again with a code left at B1. Request 07b uses
+  the same token.
+}

@@ -109,6 +109,34 @@ describe('ExamReleaseService', () => {
       expect(JSON.stringify(stored)).not.toContain('Letter for the trainer');
     });
 
+    it("keeps an A1/A2 examiner's review list out of a single candidate's snapshot", async () => {
+      // The single release asks with the center's id, which is what makes
+      // the result carry `review`: provisional points and the answers the
+      // key could not decide. Those are the examiner's working.
+      results.forAttempt.mockResolvedValue(
+        resultOf({
+          review: [
+            {
+              skill: 'HOEREN',
+              teil: 1,
+              maxPoints: 5,
+              provisionalPoints: 4,
+              unrecognised: [{ itemNumber: 5, answer: 'Donerstagnachmittag' }],
+            },
+          ],
+        }),
+      );
+
+      await service.releaseAttempt(identity, 'attempt-1', {
+        allowIncomplete: true,
+      });
+
+      const stored = prisma.examAttempt.update.mock.calls[0][0].data
+        .released_result as Record<string, unknown>;
+      expect(stored).not.toHaveProperty('review');
+      expect(JSON.stringify(stored)).not.toContain('Donerstagnachmittag');
+    });
+
     it('releases every candidate in the sitting', async () => {
       const released = await service.releaseSession(identity, 'session-1');
 

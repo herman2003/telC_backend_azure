@@ -59,6 +59,7 @@ describe('WritingService', () => {
   const mockPrismaService = {
     writingExercise: {
       findUnique: jest.fn(),
+      findMany: jest.fn(),
     },
     writingAttempt: {
       findMany: jest.fn(),
@@ -90,6 +91,90 @@ describe('WritingService', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  describe('getExerciseByModelltest', () => {
+    /**
+     * B1 asks for one letter. B2 offers two tasks and the candidate answers
+     * exactly one, both carrying the same choiceGroupId.
+     *
+     * The response keeps its existing shape so a client that knows nothing of
+     * a choice still renders the first task: `choices` is an addition, present
+     * only when there is in fact a choice to make. The answer is submitted
+     * with the chosen task's own id, which the submit path already resolves.
+     */
+    it('returns one task and no choice for B1', async () => {
+      mockPrismaService.writingExercise.findMany.mockResolvedValue([
+        { ...FAKE_EXERCISE, part: 1, choice_group_id: null },
+      ]);
+
+      const result = await service.getExerciseByModelltest(1);
+
+      expect(result.part).toBe(1);
+      expect(result.title).toBe('E-Mail / Brief');
+      expect(result.choices).toBeUndefined();
+      expect(result.choiceGroupId).toBeUndefined();
+    });
+
+    it('offers both tasks of a B2 choice, first one at the top level', async () => {
+      mockPrismaService.writingExercise.findMany.mockResolvedValue([
+        {
+          ...FAKE_EXERCISE,
+          id: 'uuid-b2-a',
+          part: 1,
+          title: 'Bitte um Informationen',
+          choice_group_id: 'b2-modelltest-1-schreiben',
+        },
+        {
+          ...FAKE_EXERCISE,
+          id: 'uuid-b2-b',
+          part: 2,
+          title: 'Beschwerde',
+          choice_group_id: 'b2-modelltest-1-schreiben',
+        },
+      ]);
+
+      const result = await service.getExerciseByModelltest(7);
+
+      // Unchanged shape: the first task is still the response itself.
+      expect(result.id).toBe('uuid-b2-a');
+      expect(result.part).toBe(1);
+      expect(result.choiceGroupId).toBe('b2-modelltest-1-schreiben');
+
+      // And both are offered, each addressable by its own id.
+      expect(result.choices).toHaveLength(2);
+      expect(result.choices?.map((task) => task.id)).toEqual([
+        'uuid-b2-a',
+        'uuid-b2-b',
+      ]);
+      expect(result.choices?.map((task) => task.part)).toEqual([1, 2]);
+      expect(result.choices?.map((task) => task.title)).toEqual([
+        'Bitte um Informationen',
+        'Beschwerde',
+      ]);
+      // No recursion: a task inside the choice carries no choice of its own.
+      expect(result.choices?.every((task) => task.choices === undefined)).toBe(
+        true,
+      );
+    });
+
+    it('reports the real part rather than always 1', async () => {
+      mockPrismaService.writingExercise.findMany.mockResolvedValue([
+        { ...FAKE_EXERCISE, part: 2, choice_group_id: null },
+      ]);
+
+      const result = await service.getExerciseByModelltest(7);
+
+      expect(result.part).toBe(2);
+    });
+
+    it('404s when the Modelltest has no Schreiben task', async () => {
+      mockPrismaService.writingExercise.findMany.mockResolvedValue([]);
+
+      await expect(service.getExerciseByModelltest(99)).rejects.toThrow(
+        NotFoundException,
+      );
+    });
   });
 
   describe('getExercise', () => {

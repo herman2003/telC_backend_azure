@@ -64,10 +64,13 @@ export class ExamAudioController {
       where: { id: claims.audioId },
       select: { audio_url: true },
     });
-    if (!exercise?.audio_url) {
+    const url = exercise
+      ? exercise.audio_url
+      : await this.audio.teilRecordingUrl(claims.audioId);
+    if (!url) {
       throw new BadRequestException('AUDIO_UNAVAILABLE');
     }
 
-    await proxyAudioFromUrl(this.fetcher, exercise.audio_url, response);
+    await proxyAudioFromUrl(this.fetcher, url, response);
   }
 }

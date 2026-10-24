@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { PrismaService } from '../../shared/services/prisma.service';
+import { GENERIC_MODEL_LEVELS } from '../../shared/services/generic-exam-content.service';
 
 /** The secret the play links are signed with. Injected rather than read here
  *  so the service can be built in a test without a ConfigService. */
@@ -35,6 +36,37 @@ export interface AudioTokenClaims {
  * the time anyone uses it.
  */
 const LINK_LIFETIME_FACTOR = 2;
+
+/** What a play needs to know about a recording, from either track. */
+interface Recording {
+  playsAllowed: number;
+  durationSeconds: number;
+}
+
+/**
+ * One A1/A2 Hören Teil's recording, read from
+ * `modelltests.format.hoerenDelivery.recordings`. Validated once at import
+ * (`scripts/generic-modelltest-schemas.mjs`), so only presence is checked
+ * here. Null when that Teil's recording has not been uploaded yet.
+ * Shared with training play so Exam Day and practice resolve the same way.
+ */
+export function teilRecordingOf(
+  format: unknown,
+  teil: number,
+): { audioUrl: string; durationSeconds: number } | null {
+  const recordings = (
+    format as { hoerenDelivery?: { recordings?: unknown } } | null
+  )?.hoerenDelivery?.recordings;
+  if (!Array.isArray(recordings)) return null;
+  const recording = (recordings as Record<string, unknown>[]).find(
+    (r) => r.teil === teil,
+  );
+  const audioUrl = recording?.audioUrl;
+  const durationSeconds = recording?.durationSeconds;
+  if (typeof audioUrl !== 'string' || audioUrl === '') return null;
+  if (typeof durationSeconds !== 'number' || durationSeconds <= 0) return null;
+  return { audioUrl, durationSeconds };
+}
 
 /**
  * Playing a Hören recording in an exam.
@@ -74,7 +106,12 @@ export class ExamAudioService {
         student_id: true,
         // The sitting's Modelltest, so a play can be checked against the exam
         // it belongs to rather than against any recording that exists.
-        session: { select: { modelltest_id: true } },
+        session: {
+          select: {
+            modelltest_id: true,
+            modelltest: { select: { level: true, format: true } },
+          },
+        },
         blocks: {
           where: { block: 'HOEREN' },
           select: { deadline_at: true, submitted_at: true },
@@ -97,6 +134,19 @@ export class ExamAudioService {
       throw new BadRequestException('BLOCK_EXPIRED');
     }
 
+    const { modelltest_id: modelltestId, modelltest } = attempt.session;
+    const recording = GENERIC_MODEL_LEVELS.includes(modelltest.level)
+      ? await this.teilRecording(audioId, modelltestId, modelltest.format)
+      : await this.listeningRecording(audioId, modelltestId);
+
+    return this.spend(attemptId, audioId, recording);
+  }
+
+  /** B1/B2: a `listening_exercises` row per Teil. */
+  private async listeningRecording(
+    audioId: string,
+    modelltestId: string,
+  ): Promise<Recording> {
     const audio = await this.prisma.listeningExercise.findUnique({
       where: { id: audioId },
       select: {
@@ -111,7 +161,7 @@ export class ExamAudioService {
     // Without this a candidate could spend a play on any listening exercise
     // id — including the one next month's sitting will use — and stream a
     // future exam's recording during this one.
-    if (audio.modelltest_id !== attempt.session.modelltest_id) {
+    if (audio.modelltest_id !== modelltestId) {
       throw new BadRequestException('AUDIO_NOT_IN_EXAM');
     }
     if (!audio.duration_minutes || audio.duration_minutes < 1) {
@@ -120,8 +170,44 @@ export class ExamAudioService {
       throw new BadRequestException('AUDIO_DURATION_MISSING');
     }
 
-    const allowed = audio.exam_plays_allowed;
+    return {
+      playsAllowed: audio.exam_plays_allowed,
+      durationSeconds: audio.duration_minutes * 60,
+    };
+  }
 
+  /**
+   * A1/A2: one recording per Hören Teil, named by that Teil's own
+   * `exam_sections` id; its address and length live in the Modelltest's
+   * `format.hoerenDelivery`. Played once — telc's repeats are in the file.
+   */
+  private async teilRecording(
+    audioId: string,
+    modelltestId: string,
+    format: unknown,
+  ): Promise<Recording> {
+    const section = await this.prisma.examSection.findUnique({
+      where: { id: audioId },
+      select: { modelltest_id: true, skill: true, teil: true },
+    });
+    if (!section) throw new NotFoundException('AUDIO_NOT_FOUND');
+    if (section.modelltest_id !== modelltestId || section.skill !== 'HOEREN') {
+      throw new BadRequestException('AUDIO_NOT_IN_EXAM');
+    }
+    // Refused before the play is spent: signing a link to a file nobody has
+    // uploaded would cost the candidate their one play on nothing.
+    const recording = teilRecordingOf(format, section.teil);
+    if (!recording) throw new BadRequestException('HOEREN_AUDIO_NOT_READY');
+
+    return { playsAllowed: 1, durationSeconds: recording.durationSeconds };
+  }
+
+  /** Spends one play of a recording, from either track, and signs its link. */
+  private async spend(
+    attemptId: string,
+    audioId: string,
+    { playsAllowed, durationSeconds }: Recording,
+  ): Promise<GrantedPlay> {
     // The counter row is made first, at zero, so that the claim below is the
     // only thing deciding whether a play is spent.
     //
@@ -143,7 +229,7 @@ export class ExamAudioService {
       where: {
         attempt_id: attemptId,
         audio_id: audioId,
-        plays_used: { lt: allowed },
+        plays_used: { lt: playsAllowed },
       },
       data: { plays_used: { increment: 1 } },
     });
@@ -158,16 +244,37 @@ export class ExamAudioService {
     const playNumber = row.plays_used;
 
     const expiresAt = new Date(
-      Date.now() + audio.duration_minutes * LINK_LIFETIME_FACTOR * 60 * 1000,
+      Date.now() + durationSeconds * LINK_LIFETIME_FACTOR * 1000,
     );
     const token = this.signFor({ attemptId, audioId, playNumber, expiresAt });
 
     return {
       audioId,
       url: `/api/exams/audio?token=${token}`,
-      playsRemaining: Math.max(0, allowed - playNumber),
+      playsRemaining: Math.max(0, playsAllowed - playNumber),
       expiresAt,
     };
+  }
+
+  /**
+   * The address behind a token whose recording is not a `listening_exercises`
+   * row: an A1/A2 Hören Teil's, by its section id. Null when there is none.
+   * Only `teilRecording` lets a section id be signed, so a token cannot be
+   * pointed here without the secret.
+   */
+  async teilRecordingUrl(sectionId: string): Promise<string | null> {
+    const section = await this.prisma.examSection.findUnique({
+      where: { id: sectionId },
+      select: {
+        teil: true,
+        skill: true,
+        modelltest: { select: { format: true } },
+      },
+    });
+    if (!section || section.skill !== 'HOEREN') return null;
+    return (
+      teilRecordingOf(section.modelltest.format, section.teil)?.audioUrl ?? null
+    );
   }
 
   /** Signs one play. Public so a test can make an expired link without

@@ -1,0 +1,38 @@
+meta {
+  name: 13 A1 Hoeren practice GET
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/listening/exercise?modelltest=9&teil=1
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const body = res.body;
+  if (!body.audioId || !body.aufgabentyp || !Array.isArray(body.items)) {
+    throw new Error("A1 Hören practice needs audioId, aufgabentyp, items");
+  }
+  if (body.playsAllowed !== 1) {
+    throw new Error("A1 training Hören playsAllowed must be 1");
+  }
+  const pic = body.items[0] && body.items[0].options && body.items[0].options[0] &&
+    body.items[0].options[0].imageUrl;
+  if (!pic || !String(pic).includes("a1-modelltest-1-hoeren-1-item1-a.png")) {
+    throw new Error("A1 Hören practice should carry option imageUrls, got " +
+      JSON.stringify(body.items[0] && body.items[0].options));
+  }
+}

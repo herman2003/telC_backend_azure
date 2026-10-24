@@ -1,0 +1,847 @@
+{
+  "hoeren": [
+    {
+      "audioId": "<id:1>",
+      "contentRevision": "modelltest-2-hoeren-teil1-v1",
+      "imagePath": "",
+      "playsAllowed": 1,
+      "questions": [
+        {
+          "id": "q41",
+          "prompt": "Carlos Ramirez findet die Auswahl an Speisen in der Kantine seiner Firma sehr gut."
+        },
+        {
+          "id": "q42",
+          "prompt": "Julia Reichelt bringt Essen von zu Hause mit, um Geld zu sparen."
+        },
+        {
+          "id": "q43",
+          "prompt": "Marcus Thon geht mittags am liebsten ohne Kollegen essen."
+        },
+        {
+          "id": "q44",
+          "prompt": "Vera Ingelhoff wünscht sich mehr vegetarische Gerichte in der Kantine."
+        },
+        {
+          "id": "q45",
+          "prompt": "Alexej Romanow geht heute öfter zum Imbiss als früher."
+        }
+      ]
+    },
+    {
+      "audioId": "<id:2>",
+      "contentRevision": "modelltest-2-hoeren-teil2-v1",
+      "imagePath": "",
+      "playsAllowed": 1,
+      "questions": [
+        {
+          "id": "q46",
+          "prompt": "Frau Rose kannte die Pläne für einen Fitnessraum schon seit mehreren Wochen."
+        },
+        {
+          "id": "q47",
+          "prompt": "Herr Trommler schlägt vor, auch die Meinung der Kollegen einzuholen."
+        },
+        {
+          "id": "q48",
+          "prompt": "Frau Rose findet, dass das Geld eher für andere Zwecke ausgegeben werden sollte."
+        },
+        {
+          "id": "q49",
+          "prompt": "Herr Trommler denkt, dass man die Kosten niedrig halten kann."
+        },
+        {
+          "id": "q50",
+          "prompt": "Viele Mitarbeiter in der Firma haben Rückenbeschwerden."
+        },
+        {
+          "id": "q51",
+          "prompt": "Herr Trommler meint, dass es weniger Fehlstunden wegen Krankheit gibt, wenn die Mitarbeiter Sport machen."
+        },
+        {
+          "id": "q52",
+          "prompt": "Frau Rose schlägt vor, dass die Mitarbeiter einen Tag pro Woche Sport machen sollten."
+        },
+        {
+          "id": "q53",
+          "prompt": "Der Fitnessraum kann weit entfernt von den Büros eingerichtet werden."
+        },
+        {
+          "id": "q54",
+          "prompt": "Frau Rose denkt, dass man andere Möglichkeiten suchen sollte, um Sport zu treiben."
+        },
+        {
+          "id": "q55",
+          "prompt": "Für Ralf Trommler ist Sport im Anschluss an die Arbeit eine gute Alternative."
+        }
+      ]
+    },
+    {
+      "audioId": "<id:3>",
+      "contentRevision": "modelltest-2-hoeren-teil3-v1",
+      "imagePath": "",
+      "playsAllowed": 1,
+      "questions": [
+        {
+          "id": "q56",
+          "prompt": "Sie sollen während des Gesprächs etwas aufschreiben."
+        },
+        {
+          "id": "q57",
+          "prompt": "Bei der Veranstaltung geht es auch um die Beschriftung von Lebensmitteln."
+        },
+        {
+          "id": "q58",
+          "prompt": "Herr Schneider hatte die Ware am letzten Mittwoch bestellt."
+        },
+        {
+          "id": "q59",
+          "prompt": "Der nächste Zug nach Frankfurt fährt in 20 Minuten."
+        },
+        {
+          "id": "q60",
+          "prompt": "Das Auslieferungsfahrzeug hatte eine Panne."
+        }
+      ]
+    }
+  ],
+  "lesen": {
+    "contentRevision": "modelltest-2-lesen-teil2-v1",
+    "issuedAt": "<volatile>",
+    "teil1": {
+      "instruction": "Lesen Sie die folgenden fünf Texte. Es fehlt jeweils der Betreff. Entscheiden Sie, welcher Betreff (a–j) am besten zu welcher Betreffzeile (1–5) passt.\nTragen Sie Ihre Lösungen für die Aufgaben 1–5 in den Antwortbogen ein.",
+      "label": "Leseverstehen, Teil 1",
+      "texts": [
+        {
+          "an": "Manfred Ulmen, Büro & Co.",
+          "body": "Gesendet: 22.5.2015, 14:27\n\nSehr geehrter Herr Ulmen,\nvielen Dank für Ihre E-Mail und Ihren Terminvorschlag. Gerne können wir uns am Freitag um 12 Uhr in unserem Konferenzraum treffen, um über eine mögliche Bestellung neuer Büromöbel zu sprechen.\n\nMit freundlichen Grüßen\nW. Jung\nFilialleiter Novo-Bank Neustadt",
+          "correctTitleId": "<id:4>",
+          "id": "1",
+          "von": "Wilfried Jung, Novo-Bank"
+        },
+        {
+          "an": null,
+          "body": "Sehr geehrte Damen und Herren,\nwir bestätigen den Erhalt Ihrer Reklamation bezüglich Ihrer Telefonkosten. Wir werden die Angelegenheit umgehend prüfen und melden uns innerhalb der nächsten 14 Tage wieder bei Ihnen. Sollten Sie in der Zwischenzeit Fragen haben, stehen wir Ihnen unter unserer kostenlosen Hotline gerne zur Verfügung.\n\nMit freundlichen Grüßen\nTelefix GmbH",
+          "correctTitleId": "<id:5>",
+          "id": "2",
+          "von": null
+        },
+        {
+          "an": null,
+          "body": "Sehr geehrte Frau Thang,\nwie Sie wissen, benutzen wir seit vielen Jahren in unserem Hotel die Geschirrserie „Sommerbrise“. Da in der Zwischenzeit wieder einige Sachen kaputt gegangen sind, würden wir gerne folgende Geschirrteile bestellen:\n\n30 Teller (groß), Nr. 321-TL\n15 Teller (tief), Nr. 321-TT\n20 Salatteller, Nr. 321-ST\n\nIch hoffe, die Serie wird noch immer produziert. Bitte bestätigen Sie doch so schnell wie möglich die Bestellung. Vielen Dank!\n\nMit freundlichen Grüßen\nJoachim Sauer\nRestaurant „Zum Anker“",
+          "correctTitleId": "<id:6>",
+          "id": "3",
+          "von": null
+        },
+        {
+          "an": null,
+          "body": "Liebe Marion,\nwir hatten uns für morgen um 10 Uhr verabredet, um in Raum R001 gemeinsam an der Präsentation für die Betriebsversammlung zu arbeiten. Leider muss ich nun morgen Früh noch etwas für meinen Kollegen erledigen, der krank ist. Das wird so bis zum Mittag dauern, deshalb würde ich mich gerne erst gegen 14 Uhr treffen. Wäre das okay für dich?\n\nLiebe Grüße\nChristina",
+          "correctTitleId": "<id:7>",
+          "id": "4",
+          "von": null
+        },
+        {
+          "an": "alle",
+          "body": "Gesendet: 25.5.2015, 14:23\n\nLiebe Kolleginnen und Kollegen,\nam kommenden Montag wird unser Kollege Rolf Groß nach 35 Jahren Firmenzugehörigkeit in den Ruhestand verabschiedet. Die Feier beginnt gegen 10 Uhr und endet mit einem gemeinsamen Mittagessen um 12.30 Uhr.\nWer noch etwas Geld in das Sparschwein tun möchte, das wir Rolf am Montag schenken, kann sich noch bis Freitag bei mir melden.\n\nKollegiale Grüße\nMaria Olbas (Betriebsrat)",
+          "correctTitleId": "<id:8>",
+          "id": "5",
+          "von": "Maria Olbas"
+        }
+      ],
+      "titles": [
+        {
+          "content": "Abschiedsfeier",
+          "id": "<id:8>"
+        },
+        {
+          "content": "Beschwerde",
+          "id": "<id:9>"
+        },
+        {
+          "content": "Eingangsbestätigung",
+          "id": "<id:5>"
+        },
+        {
+          "content": "Erstbestellung",
+          "id": "<id:10>"
+        },
+        {
+          "content": "Firmenjubiläum",
+          "id": "<id:11>"
+        },
+        {
+          "content": "Krankmeldung",
+          "id": "<id:12>"
+        },
+        {
+          "content": "Nachbestellung",
+          "id": "<id:6>"
+        },
+        {
+          "content": "Termin verschieben?",
+          "id": "<id:7>"
+        },
+        {
+          "content": "Terminabsage",
+          "id": "<id:13>"
+        },
+        {
+          "content": "Terminbestätigung",
+          "id": "<id:4>"
+        }
+      ]
+    },
+    "teil2": {
+      "cautionNote": "Achtung!\nDie Aufgaben stehen nicht immer in der gleichen Reihenfolge wie die Informationen im Text.",
+      "content": "Betreff: Re: Aw: Re: Mängel bei Renovierungsarbeiten\nGesendet: 06.03. um 07:35 Uhr\n\nSehr geehrte Frau Scheuer,\nvielen Dank für die Terminbestätigung. Den gewünschten Kostenvoranschlag erhalten Sie bis spätestens morgen mit gesonderter Mail.\n\nMit freundlichen Grüßen\nRalf Hubert",
+      "instruction": "Lesen Sie die E-Mails und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig?\nMarkieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
+      "label": "Leseverstehen, Teil 2",
+      "questions": [
+        {
+          "content": "Herr Hubert",
+          "correctOptionId": "6c",
+          "id": "6",
+          "options": [
+            {
+              "content": "bringt den Kostenvoranschlag am 9.3. persönlich vorbei.",
+              "id": "6a"
+            },
+            {
+              "content": "informiert Frau Scheuer innerhalb von 24 Stunden telefonisch über die Kosten.",
+              "id": "6b"
+            },
+            {
+              "content": "schickt am 6. oder 7. März einen Kostenvoranschlag.",
+              "id": "6c"
+            }
+          ]
+        },
+        {
+          "content": "Nach dem Verlegen des Bodens",
+          "correctOptionId": "7a",
+          "id": "7",
+          "options": [
+            {
+              "content": "hat die Vorgesetzte von Frau Scheuer die Arbeiten geprüft.",
+              "id": "7a"
+            },
+            {
+              "content": "hat Frau Scheuer die Arbeiten überprüft.",
+              "id": "7b"
+            },
+            {
+              "content": "wurden die Arbeiten von Herrn Huberts Vorgesetztem geprüft.",
+              "id": "7c"
+            }
+          ]
+        },
+        {
+          "content": "Die Schäden am Boden",
+          "correctOptionId": "8c",
+          "id": "8",
+          "options": [
+            {
+              "content": "sind durch Mitarbeiter des Reisebüros entstanden.",
+              "id": "8a"
+            },
+            {
+              "content": "werden am 09.03. von Herrn Hubert repariert.",
+              "id": "8b"
+            },
+            {
+              "content": "wurden von einer anderen Firma verursacht.",
+              "id": "8c"
+            }
+          ]
+        },
+        {
+          "content": "Herr Hubert",
+          "correctOptionId": "9c",
+          "id": "9",
+          "options": [
+            {
+              "content": "bietet einen Termin für die Reparatur des Bodens an.",
+              "id": "9a"
+            },
+            {
+              "content": "denkt, dass die Chefin des Reisebüros für den Kratzer verantwortlich ist.",
+              "id": "9b"
+            },
+            {
+              "content": "schreibt, dass der Boden ohne Beschädigung verlegt wurde.",
+              "id": "9c"
+            }
+          ]
+        },
+        {
+          "content": "Frau Scheuer beschwert sich, weil",
+          "correctOptionId": "10b",
+          "id": "10",
+          "options": [
+            {
+              "content": "die Kunden wegen der mangelhaften Renovierung nicht mehr kommen.",
+              "id": "10a"
+            },
+            {
+              "content": "die Malerarbeiten nicht richtig ausgeführt wurden.",
+              "id": "10b"
+            },
+            {
+              "content": "Herr Hubert einen Kratzer in die Eingangstür gemacht hat.",
+              "id": "10c"
+            }
+          ]
+        }
+      ],
+      "quotedThread": "Margit Scheuer schrieb am 05.03. um 14:12 Uhr\n> Sehr geehrter Herr Hubert,\n> gerne bestätige ich den Termin am 09.03. für das Nachstreichen der Wand. Wegen des Kratzers im Boden\n> muss ich mich bei Ihnen entschuldigen: Von meiner Chefin habe ich erfahren, dass der Kratzer im Boden bei\n> der Lieferung eines neuen Schranks vorgestern entstanden ist. Der Schaden wird von der Versicherung des\n> Lieferanten bezahlt. Machen Sie mir doch bitte einen Kostenvoranschlag für die Reparatur des Bodens.\n>\n> Mit freundlichen Grüßen\n> Margit Scheuer\n\nRalf Hubert schrieb am 05.03. um 08:01 Uhr:\n>> Sehr geehrte Frau Scheuer,\n>> es tut mir sehr leid, dass Sie mit unserer Arbeit nicht ganz zufrieden sind. Natürlich werden wir noch einmal\n>> in Ihr Reisebüro kommen und die Wand oberhalb des Regals richtig streichen. Würde es Ihnen am 09.03.\n>> gegen 10 Uhr passen? Den Kratzer im Boden können wir aber leider nicht als Mangel akzeptieren: Wir\n>> haben den Boden bereits vor 3 Tagen verlegt, und Ihre Chefin hat schriftlich bestätigt, dass die Arbeit\n>> ordnungsgemäß ausgeführt wurde. Vor 3 Tagen war noch kein Kratzer im Boden.\n>>\n>> Mit freundlichen Grüßen\n>> Ralf Hubert (Hubert Renovierungen)\n\nMargit Scheuer schrieb am 04.03. um 12:49 Uhr:\n>>> Sehr geehrter Herr Hubert,\n>>> gestern Abend haben Sie ja die Renovierungsarbeiten in unserem Reisebüro abgeschlossen. Leider sind\n>>> wir nicht ganz zufrieden und müssen uns daher bei Ihnen beschweren.\n>>> Die neuen Böden in unserem Büro sehen zwar sehr gut aus, aber an einer Stelle ist ein großer Kratzer in\n>>> der Oberfläche (direkt am Eingang!). Außerdem wurden die Wände nicht richtig gestrichen: Über dem\n>>> Regal sieht man leider noch alte Farbe. Wir haben starken Kundenverkehr, und natürlich fallen diese\n>>> Mängel sofort negativ auf. Wir möchten Sie daher bitten, die Mängel innerhalb einer Woche zu beseitigen.\n>>> Vielen Dank im Voraus.\n>>>\n>>> Mit freundlichen Grüßen\n>>> Margit Scheuer (TipTop-Reisen GmbH)",
+      "receiver": "M. Scheuer <margit.scheuer@tiptopreisen.eu>",
+      "sender": "R. Hubert <ralf.hubert@hubert-renovierung.de>"
+    },
+    "teil3": {
+      "announcements": [
+        {
+          "content": "Wir führen Elektroinstallationen schnell und fachgerecht aus – von der Lampe bis zum Herd. Natürlich verlegen wir bei Bedarf auch neue Stromleitungen. Rabatte für Großkunden.\nElektriker Peter Reimann,\nTel. 0140/922 911 900",
+          "id": "a",
+          "title": "Elektroinstallationen"
+        },
+        {
+          "content": "Zuverlässiger Dienstleister seit vielen Jahren, mehrere Großkunden. Angebot flexibel nach Ihren Bedürfnissen (Reinigung von Möbeln, Böden und Fenstern, Müllentsorgung, Versorgung von Pflanzen etc.).\nInfos: Herr Paul, 0800/190921",
+          "id": "b",
+          "title": "Meininger – Dienstleistungen rund ums Büro"
+        },
+        {
+          "content": "PCs, Notebooks, Monitore und mehr gibt es nur bei uns zum besten Preis. Super Angebote für Firmenkunden, sprechen Sie uns an!\nKostenlose Hotline: Tel. 0800/100 200 999\nwww.elektronik-mars.de",
+          "id": "c",
+          "title": "Elektronikgroßmarkt Mars"
+        },
+        {
+          "content": "Mittelständisches Unternehmen sucht Aushilfe auf Stundenbasis für Tätigkeiten wie das Kopieren und Sortieren von Unterlagen, Abtippen von Diktaten etc. Interesse?\nRufen Sie an: 0889/299293-0",
+          "id": "d",
+          "title": "Hilfe im Büro"
+        },
+        {
+          "content": "Sie arbeiten viel am Schreibtisch? Sie brauchen mehr Bewegung? Lauftreff in der Innenstadt, jeden Di. und Do. ab 18.30 Uhr. Anfänger willkommen. Laufrouten durch den Stadtpark.\nInfos: Ingo Schmoll, Tel. 0179/660 123",
+          "id": "e",
+          "title": "Bewegung statt sitzen"
+        },
+        {
+          "content": "Umschläge (in allen Größen)\nSchreibgeräte (Bleistifte, Kulis, Füller etc.)\nKleingeräte (Locher, Hefter usw.)\nPapier (bis DIN A1 auf Lager)\nUnd vieles mehr!\nwww.bueroweltmarkus.eu",
+          "id": "f",
+          "title": "Bürowelt Markus"
+        },
+        {
+          "content": "mit langjähriger Erfahrung im Reinigen von Innen- und Außenbereichen gesucht, pünktlich und zuverlässig. Bitte neues Betätigungsfeld ab sofort.\nTel. 0176/555090909",
+          "id": "g",
+          "title": "Reinigungskraft"
+        },
+        {
+          "content": "Wir gestalten Ihre Büroräume neu mit schönen Tapeten und frischen Farben. Arbeiten können auch am Wochenende ausgeführt werden.\nKontakt: anfrage@malermeister-limm.eu",
+          "id": "h",
+          "title": "Altes in neuem Gewand"
+        },
+        {
+          "content": "… weiß bequeme Möbel zu schätzen.\nUnser Möbelhaus ist spezialisiert auf Büromöbel, auch für Großkunden.\nNeuen Katalog jetzt anfordern!\nProBüro GmbH, 01805/132097",
+          "id": "i",
+          "title": "Wer viel am Schreibtisch arbeitet, ..."
+        },
+        {
+          "content": "Kurs für alle, die sich über gesundes Arbeiten informieren wollen: gesunder Arbeitsplatz, sich richtig bewegen, Stress vermeiden. 3 x Mo. 18–21 Uhr, Teilnahmegebühr 75 Euro, Übernahme durch Arbeitgeber möglich. Infos & Anmeldung:\nwww.bildungsakademie-neustadt.de",
+          "id": "j",
+          "title": "Gesund im Beruf"
+        },
+        {
+          "content": "Erledige Büroarbeiten (Abtippen, Ablage, Korrespondenz usw.) auf selbstständiger Basis, zuverlässig und pünktlich. Noch freie Kapazitäten (ca. 10 Std./Woche).",
+          "id": "k",
+          "title": "Büroarbeiten"
+        },
+        {
+          "content": "Was? Außenanlagen wie Bürgersteige, Einfahrten, Parkplätze usw.\nWann? Reinigung ist ganz nach Bedarf rund um die Uhr möglich.\nWer? Reinigungsdienst Weber,\ninfo@reinigungsdienstweber.de",
+          "id": "l",
+          "title": "Wir reinigen für Sie!"
+        }
+      ],
+      "instruction": "Lesen Sie die Situationen 11–20 und die Anzeigen a–l. Finden Sie für jede Situation die passende Anzeige.\nSie können jede Anzeige nur einmal benutzen.\nMarkieren Sie Ihre Lösungen für die Aufgaben 11–20 auf dem Antwortbogen.\nWenn Sie zu einer Situation keine Anzeige finden, markieren Sie ein X.",
+      "label": "Leseverstehen, Teil 3",
+      "situations": [
+        {
+          "content": "Ihr Unternehmen braucht neue Computer und Sie wollen ein Angebot einholen.",
+          "correctAnswer": "c",
+          "id": "11"
+        },
+        {
+          "content": "Sie möchten den Gemeinschaftsraum in Ihrer Firma neu tapezieren lassen.",
+          "correctAnswer": "h",
+          "id": "12"
+        },
+        {
+          "content": "Ihr kleines Unternehmen sucht jemanden, der für fünf Stunden pro Woche bei der Büroarbeit hilft.",
+          "correctAnswer": "k",
+          "id": "13"
+        },
+        {
+          "content": "Sie suchen neue Bürostühle für Ihr Unternehmen.",
+          "correctAnswer": "i",
+          "id": "14"
+        },
+        {
+          "content": "Sie suchen eine Stelle als Bürokraft in Teil- oder Vollzeit.",
+          "correctAnswer": "X",
+          "id": "15"
+        },
+        {
+          "content": "Sie suchen jemanden, der den Firmenparkplatz in Ordnung hält.",
+          "correctAnswer": "l",
+          "id": "16"
+        },
+        {
+          "content": "Sie möchten Druckerpapier bestellen.",
+          "correctAnswer": "f",
+          "id": "17"
+        },
+        {
+          "content": "Sie suchen einen Dienstleister für die Reinigung der Bürofenster.",
+          "correctAnswer": "b",
+          "id": "18"
+        },
+        {
+          "content": "Sie wollen in Ihrem Unternehmen eine neue Beleuchtungsanlage anbringen lassen.",
+          "correctAnswer": "a",
+          "id": "19"
+        },
+        {
+          "content": "Sie möchten Informationen darüber, was Sie gegen Stress am Arbeitsplatz tun können.",
+          "correctAnswer": "j",
+          "id": "20"
+        }
+      ]
+    }
+  },
+  "schreiben": {
+    "bulletPoints": [
+      "beschreiben Sie die geplante Feier",
+      "welche Leistungen Sie wünschen",
+      "fragen Sie nach Kosten und Terminen",
+      "fragen Sie nach bisherigen Kunden (wer, Zufriedenheit, ...)"
+    ],
+    "closingReminder": "Bevor Sie den Brief schreiben, überlegen Sie sich die passende Reihenfolge der Punkte, eine passende Einleitung und einen passenden Schluss. Vergessen Sie auch nicht Datum und Anrede.",
+    "id": "<id:14>",
+    "intro": "Sie lesen folgende Anzeige:",
+    "part": 1,
+    "prepDurationSeconds": 120,
+    "registerChecklist": [
+      "Betreff",
+      "Anrede",
+      "Einleitung",
+      "Schluss"
+    ],
+    "stimulus": {
+      "body": "Wir bieten Ihnen alles, was Sie für eine tolle Kinderparty brauchen, z. B.:",
+      "callToAction": "Wir haben auch für Ihre Party das passende Programm – sprechen Sie uns an!",
+      "contact": {
+        "lines": [
+          "Schlossweg 213, 92280 Neudorf",
+          "E-Mail: info@miniparty.eu"
+        ],
+        "name": "Mini-Party"
+      },
+      "features": [
+        "Clown „Pedro“ mit seinen Luftballon-Tieren",
+        "Mini-Hüpfburg",
+        "Schminken und Verkleiden (Kostüme inklusive)",
+        "Spiele für Kinder zwischen 3 und 13 Jahren",
+        "Singen mit „Caruso“, dem singenden Clown",
+        "Zauberer „Merlin“"
+      ],
+      "heading": "Große Party für die Kleinen!",
+      "imageUrl": null,
+      "subheading": "Kindergeburtstage, Sommerfeste und vieles mehr ..."
+    },
+    "subtitle": "Formeller Brief",
+    "taskInstructions": "Sie arbeiten in einem Kindergarten. Die Kindergartenleiterin plant eine Feier. Schreiben Sie einen Brief an den Party-Veranstalter. Bitten Sie um Informationen und schreiben Sie etwas zu den folgenden vier Punkten:",
+    "taskType": "brief",
+    "title": "E-Mail / Brief",
+    "writingDurationMinutes": 30
+  },
+  "sprachbausteine": {
+    "contentRevision": "modelltest-2-sprachbausteine-teil1-v1",
+    "issuedAt": "<volatile>",
+    "teil1": {
+      "body": "Information: Neue Schließanlage\n\nIm kommenden Monat -21- in unserem Bürogebäude eine neue Schließanlage eingebaut. Wir möchten Sie schon jetzt -22- die wichtigsten Änderungen informieren.\n\nBis zum Ende dieses Monats kann jeder Mitarbeiter in der Personalabteilung -23- persönliche Zugangskarte abholen. Sie müssen bei der Abholung persönlich erscheinen und auch eine Quittung -24-.\n\nAb dem kommenden Monat können Sie den Haupteingang im Erdgeschoss sowie die Türen zu den Büros im ersten und zweiten Stock nur noch -25- Ihrer Zugangskarte öffnen. Einige Mitarbeiter (u. a. Abteilungsleiter) haben noch einen Schlüssel -26- den Haupteingang. Bitte geben Sie diese Schlüssel -27-, nachdem die neue Schließanlage eingebaut wurde.\n\nDie Bedienung -28- Schließanlage ist ganz leicht: Halten Sie Ihre Zugangskarte einfach an das Lesegerät und die Tür wird automatisch geöffnet. Sollten Sie Probleme mit der Karte haben, -29- Sie sich jederzeit an die Mitarbeiter am Empfang wenden.\n\nWichtig: Wenn Sie Ihre Zugangskarte verlieren oder die Karte -30- wird, melden Sie sich bitte sofort beim Empfang! Wir müssen Ihre Karte dann sperren lassen.",
+      "durationMinutes": 18,
+      "gaps": [
+        {
+          "correctOptionId": "21a",
+          "id": "21",
+          "options": [
+            {
+              "content": "wird",
+              "id": "21a"
+            },
+            {
+              "content": "würde",
+              "id": "21b"
+            },
+            {
+              "content": "wurde",
+              "id": "21c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "22c",
+          "id": "22",
+          "options": [
+            {
+              "content": "an",
+              "id": "22a"
+            },
+            {
+              "content": "für",
+              "id": "22b"
+            },
+            {
+              "content": "über",
+              "id": "22c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "23b",
+          "id": "23",
+          "options": [
+            {
+              "content": "ihre",
+              "id": "23a"
+            },
+            {
+              "content": "seine",
+              "id": "23b"
+            },
+            {
+              "content": "unsere",
+              "id": "23c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "24a",
+          "id": "24",
+          "options": [
+            {
+              "content": "unterschreiben",
+              "id": "24a"
+            },
+            {
+              "content": "unterschrieben",
+              "id": "24b"
+            },
+            {
+              "content": "zu unterschreiben",
+              "id": "24c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "25c",
+          "id": "25",
+          "options": [
+            {
+              "content": "aus",
+              "id": "25a"
+            },
+            {
+              "content": "bei",
+              "id": "25b"
+            },
+            {
+              "content": "mit",
+              "id": "25c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "26a",
+          "id": "26",
+          "options": [
+            {
+              "content": "für",
+              "id": "26a"
+            },
+            {
+              "content": "nach",
+              "id": "26b"
+            },
+            {
+              "content": "über",
+              "id": "26c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "27a",
+          "id": "27",
+          "options": [
+            {
+              "content": "ab",
+              "id": "27a"
+            },
+            {
+              "content": "an",
+              "id": "27b"
+            },
+            {
+              "content": "zu",
+              "id": "27c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "28a",
+          "id": "28",
+          "options": [
+            {
+              "content": "der",
+              "id": "28a"
+            },
+            {
+              "content": "des",
+              "id": "28b"
+            },
+            {
+              "content": "die",
+              "id": "28c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "29a",
+          "id": "29",
+          "options": [
+            {
+              "content": "können",
+              "id": "29a"
+            },
+            {
+              "content": "möchten",
+              "id": "29b"
+            },
+            {
+              "content": "müssen",
+              "id": "29c"
+            }
+          ]
+        },
+        {
+          "correctOptionId": "30c",
+          "id": "30",
+          "options": [
+            {
+              "content": "gestehlt",
+              "id": "30a"
+            },
+            {
+              "content": "gestiehlt",
+              "id": "30b"
+            },
+            {
+              "content": "gestohlen",
+              "id": "30c"
+            }
+          ]
+        }
+      ],
+      "imageUrl": "",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 21–30. Welche Lösung (a, b oder c) ist jeweils richtig?\nMarkieren Sie Ihre Lösungen für die Aufgaben 21–30 auf dem Antwortbogen.",
+      "label": "Sprachbausteine, Teil 1"
+    },
+    "teil2": {
+      "body": "Papierbörse GmbH\nVerkauf\nSchlossweg 180\n10130 Berlin\n\nPallhuber & Söhne\nEinkauf\nKirchstraße 1\n70900 Neudorf\n\n20.04.2015\n\nReklamation\n\nSehr geehrte Damen und Herren,\n\nam 03.04. haben wir bei Ihnen 100 Kartons Papier (Format DIN A4) sowie 50 Pakete Briefumschläge (Format C4) -31-.\n\nVor zwei Tagen haben wir Ihre -32- erhalten, aber leider war sie nicht vollständig. Wir haben nur 95 Kartons Papier und 40 Pakete Briefumschläge -33-. Natürlich haben wir sofort bei Ihnen angerufen, aber leider haben wir niemanden -34-. Deshalb beschweren wir uns nun schriftlich bei Ihnen. Bitte -35- Sie uns die fehlende Ware innerhalb einer Woche zu.\n\nWir sind -36- seit 5 Jahren Kunde bei Ihnen. In der Vergangenheit waren wir auch immer sehr zufrieden mit dem Versand sowie der Qualität der -37-. Wir hoffen, dass derartige -38- in Zukunft nicht mehr vorkommen.\n\nBitte antworten Sie uns -39- und bestätigen Sie den Erhalt dieser Reklamation. Gerne können Sie sich auch telefonisch bei uns -40-. Unsere Rufnummer haben Sie ja.\n\nMit freundlichen Grüßen\nK. Meyer",
+      "durationMinutes": 18,
+      "gaps": [
+        {
+          "correctWordId": "wc",
+          "id": "31"
+        },
+        {
+          "correctWordId": "wg",
+          "id": "32"
+        },
+        {
+          "correctWordId": "wd",
+          "id": "33"
+        },
+        {
+          "correctWordId": "we",
+          "id": "34"
+        },
+        {
+          "correctWordId": "wm",
+          "id": "35"
+        },
+        {
+          "correctWordId": "wb",
+          "id": "36"
+        },
+        {
+          "correctWordId": "wo",
+          "id": "37"
+        },
+        {
+          "correctWordId": "wl",
+          "id": "38"
+        },
+        {
+          "correctWordId": "wn",
+          "id": "39"
+        },
+        {
+          "correctWordId": "wi",
+          "id": "40"
+        }
+      ],
+      "imageUrl": "",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 31–40. Benutzen Sie die Wörter a–o.\nJedes Wort passt nur einmal.\nMarkieren Sie Ihre Lösungen für die Aufgaben 31–40 auf dem Antwortbogen.",
+      "label": "Sprachbausteine, Teil 2",
+      "wordBank": [
+        {
+          "content": "ANTWORT",
+          "id": "wa",
+          "letter": "a"
+        },
+        {
+          "content": "BEREITS",
+          "id": "wb",
+          "letter": "b"
+        },
+        {
+          "content": "BESTELLT",
+          "id": "wc",
+          "letter": "c"
+        },
+        {
+          "content": "ERHALTEN",
+          "id": "wd",
+          "letter": "d"
+        },
+        {
+          "content": "ERREICHT",
+          "id": "we",
+          "letter": "e"
+        },
+        {
+          "content": "GEHÖRT",
+          "id": "wf",
+          "letter": "f"
+        },
+        {
+          "content": "LIEFERUNG",
+          "id": "wg",
+          "letter": "g"
+        },
+        {
+          "content": "MEISTENS",
+          "id": "wh",
+          "letter": "h"
+        },
+        {
+          "content": "MELDEN",
+          "id": "wi",
+          "letter": "i"
+        },
+        {
+          "content": "NACHTRÄGLICH",
+          "id": "wj",
+          "letter": "j"
+        },
+        {
+          "content": "NOCH",
+          "id": "wk",
+          "letter": "k"
+        },
+        {
+          "content": "PROBLEME",
+          "id": "wl",
+          "letter": "l"
+        },
+        {
+          "content": "SENDEN",
+          "id": "wm",
+          "letter": "m"
+        },
+        {
+          "content": "UMGEHEND",
+          "id": "wn",
+          "letter": "n"
+        },
+        {
+          "content": "WAREN",
+          "id": "wo",
+          "letter": "o"
+        }
+      ]
+    }
+  },
+  "sprechen": [
+    {
+      "durationMinutes": 10,
+      "examImagePath": null,
+      "id": 1,
+      "imagePath": "",
+      "instructions": "Die Prüfenden können außerdem noch weitere Fragen stellen.",
+      "part": 1,
+      "prepDurationSeconds": 300,
+      "subtitle": "Teilnehmer/in A und B",
+      "title": "Mündlicher Ausdruck – Teil 1 Kontaktaufnahme",
+      "topicDescription": "Unterhalten Sie sich mit Ihrer Partnerin bzw. Ihrem Partner über folgende Themen:",
+      "topicPoints": [
+        "Name",
+        "woher sie oder er kommt",
+        "wie sie oder er wohnt (Wohnung, Haus, Garten, ...)",
+        "Familie",
+        "wo sie oder er Deutsch gelernt hat",
+        "was sie oder er macht (Beruf, Arbeit, Ausbildung, ...)",
+        "Sprachen (welche? wie lange? warum?)",
+        "Zusätzliche Prüferfrage: was Ihnen an Ihrem Beruf besonders gut gefällt",
+        "Zusätzliche Prüferfrage: wie und wo Sie gern Ihren Urlaub verbringen"
+      ],
+      "topicTitle": "Kontaktaufnahme"
+    },
+    {
+      "durationMinutes": 15,
+      "examImagePath": null,
+      "id": 2,
+      "imagePath": "",
+      "instructions": "Sie haben in einer Zeitung etwas zum Thema „Auswirkungen des Bahnstreiks“ gelesen. Berichten Sie Ihrer Partnerin bzw. Ihrem Partner, welche Informationen Sie haben.\nIhre Partnerin bzw. Ihr Partner hat zum gleichen Thema andere Informationen und berichtet auch darüber. Unterhalten Sie sich danach über das Thema. Erzählen Sie von persönlichen Erfahrungen, stellen Sie Fragen und reagieren Sie auf Fragen Ihrer Partnerin bzw. Ihres Partners.",
+      "part": 2,
+      "prepDurationSeconds": 300,
+      "subtitle": "",
+      "title": "Mündlicher Ausdruck – Teil 2 Gespräch über ein Thema",
+      "topicDescription": "Sie haben in einer Zeitung etwas zum Thema „Auswirkungen des Bahnstreiks“ gelesen. Berichten Sie Ihrer Partnerin bzw. Ihrem Partner, welche Informationen Sie haben.\nIhre Partnerin bzw. Ihr Partner hat zum gleichen Thema andere Informationen und berichtet auch darüber. Unterhalten Sie sich danach über das Thema. Erzählen Sie von persönlichen Erfahrungen, stellen Sie Fragen und reagieren Sie auf Fragen Ihrer Partnerin bzw. Ihres Partners.",
+      "topicPoints": [
+        "Teilnehmer/in A — Nicole Siepenkotten (35 Jahre, Netzwerk-Installateurin): Ich bin Spezialistin für Netzwerke in einer IT-Firma. Meine Arbeit ist fast immer vor Ort bei den Kunden zu erledigen, also bin ich täglich in einer anderen Richtung unserer Region unterwegs. Ich fahre immer mit der Bahn. Und jetzt der Streik! Mein supermodernes Smartphone hilft mir aber, die letzten noch funktionierenden Verbindungen herauszufinden! Und so habe ich eigentlich keine wirklichen Probleme.",
+        "Teilnehmer/in B — Marc Heidinger (23 Jahre, Student): Ich studiere Mathematik und Informatik. Für mich ist es sehr wichtig, neben dem Studium noch ein Halbtagspraktikum in einer IT-Firma machen zu können. Da ich aber aus finanziellen Gründen noch bei meinen Eltern auf dem Dorf lebe, ist der Streik für mich eine Katastrophe. Die S-Bahn als einzige Verbindung in die Großstadt fährt momentan nur noch gelegentlich. Wenn ich mit Bussen fahre und dreimal umsteige, brauche ich zweieinhalb Stunden. Das ist sehr anstrengend."
+      ],
+      "topicTitle": "Auswirkungen des Bahnstreiks"
+    },
+    {
+      "durationMinutes": 5,
+      "examImagePath": null,
+      "id": 3,
+      "imagePath": "",
+      "instructions": "Entscheiden Sie zuerst, was Sie machen möchten und warum.\nTragen Sie Ihrem Partner Ihre Ideen vor und begründen Sie sie.\nReagieren Sie auf die Ideen Ihres Partners bzw. Ihrer Partnerin und die Begründungen.\nEinigen Sie sich auf einen gemeinsamen Programmvorschlag.",
+      "part": 3,
+      "prepDurationSeconds": 300,
+      "subtitle": "Teilnehmer/in A und B",
+      "title": "Mündlicher Ausdruck – Teil 3 Gemeinsam eine Aufgabe lösen",
+      "topicDescription": "Nächsten Monat hat ein Kollege Firmenjubiläum, er arbeitet schon seit 30 Jahren in der Firma. Sie sollen eine kleine Feier für ihn planen.\nHier einige Punkte, die Ihnen bei der Planung helfen:",
+      "topicPoints": [
+        "Wo feiern?",
+        "Essen/Getränke kaufen, bestellen oder mitbringen?",
+        "Welche Dekoration (Tischdecken, Bilder, Luftballons, ...)?",
+        "Geschenk für den Kollegen (was für ein Geschenk/wer kauft es)?",
+        "Begrüßung/Rede (wer und wie lang?)"
+      ],
+      "topicTitle": "Firmenjubiläum planen"
+    }
+  ]
+}

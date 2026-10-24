@@ -22,7 +22,10 @@ describe('ExamAudioService', () => {
   const runningHoeren = (over: Record<string, unknown> = {}) => ({
     id: ATTEMPT,
     student_id: STUDENT,
-    session: { modelltest_id: 'mt-1' },
+    session: {
+      modelltest_id: 'mt-1',
+      modelltest: { level: 'B1', format: null },
+    },
     blocks: [
       {
         block: 'HOEREN',
@@ -273,6 +276,188 @@ describe('ExamAudioService', () => {
       const minutes = (expiresAt.getTime() - Date.now()) / 60_000;
       expect(minutes).toBeGreaterThan(11);
       expect(minutes).toBeLessThan(13);
+    });
+  });
+
+  describe('A1/A2: one recording per Teil, played once', () => {
+    const A2_MODELLTEST = '22222222-2222-4222-8222-222222222222';
+    const TEIL_2 = '33333333-3333-4333-8333-333333333333';
+    const delivery = (teil2: Record<string, unknown> = {}) => ({
+      hoerenDelivery: {
+        deliveryMode: 'PER_TEIL_RECORDINGS',
+        playsAllowed: 1,
+        recordings: [
+          {
+            teil: 1,
+            audioUrl: 'https://cdn.example/a2-teil1.mp3',
+            durationSeconds: 401,
+          },
+          {
+            teil: 2,
+            audioUrl: 'https://cdn.example/a2-teil2.mp3',
+            durationSeconds: 304,
+            ...teil2,
+          },
+        ],
+      },
+    });
+    const a2Attempt = (format: unknown) => ({
+      ...runningHoeren(),
+      session: {
+        modelltest_id: A2_MODELLTEST,
+        modelltest: { level: 'A2', format },
+      },
+    });
+    const teil2Section = (over: Record<string, unknown> = {}) => ({
+      modelltest_id: A2_MODELLTEST,
+      skill: 'HOEREN',
+      teil: 2,
+      ...over,
+    });
+
+    beforeEach(() => {
+      prisma.examAttempt.findUnique.mockResolvedValue(a2Attempt(delivery()));
+      prisma.examSection = {
+        findUnique: jest.fn().mockResolvedValue(teil2Section()),
+      };
+    });
+
+    it("spends the Teil's one play on the same counter B1/B2 use", async () => {
+      const granted = await service.play(STUDENT, ATTEMPT, TEIL_2);
+
+      expect(granted).toMatchObject({ audioId: TEIL_2, playsRemaining: 0 });
+      expect(granted.url).toContain('token=');
+      expect(prisma.listeningExercise.findUnique).not.toHaveBeenCalled();
+      expect(prisma.examAudioPlay.updateMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            attempt_id: ATTEMPT,
+            audio_id: TEIL_2,
+            plays_used: { lt: 1 },
+          }),
+        }),
+      );
+    });
+
+    it('refuses a second play of the same Teil', async () => {
+      prisma.examAudioPlay.updateMany.mockResolvedValue({ count: 0 });
+
+      await expect(service.play(STUDENT, ATTEMPT, TEIL_2)).rejects.toThrow(
+        'NO_PLAYS_LEFT',
+      );
+    });
+
+    it('grants exactly one of two taps arriving together', async () => {
+      prisma.examAudioPlay.updateMany
+        .mockResolvedValueOnce({ count: 1 })
+        .mockResolvedValueOnce({ count: 0 });
+
+      const results = await Promise.allSettled([
+        service.play(STUDENT, ATTEMPT, TEIL_2),
+        service.play(STUDENT, ATTEMPT, TEIL_2),
+      ]);
+
+      expect(results.filter((r) => r.status === 'fulfilled')).toHaveLength(1);
+      const refused = results.filter(
+        (r): r is PromiseRejectedResult => r.status === 'rejected',
+      );
+      expect(refused).toHaveLength(1);
+      expect(String(refused[0].reason)).toContain('NO_PLAYS_LEFT');
+    });
+
+    it('refuses a Teil that does not exist', async () => {
+      prisma.examSection.findUnique.mockResolvedValue(null);
+
+      await expect(service.play(STUDENT, ATTEMPT, TEIL_2)).rejects.toThrow(
+        'AUDIO_NOT_FOUND',
+      );
+    });
+
+    it("refuses another paper's Teil", async () => {
+      prisma.examSection.findUnique.mockResolvedValue(
+        teil2Section({ modelltest_id: 'another-modelltest' }),
+      );
+
+      await expect(service.play(STUDENT, ATTEMPT, TEIL_2)).rejects.toThrow(
+        'AUDIO_NOT_IN_EXAM',
+      );
+      expect(prisma.examAudioPlay.create).not.toHaveBeenCalled();
+    });
+
+    it('refuses a section of this paper that is not a Hören Teil', async () => {
+      prisma.examSection.findUnique.mockResolvedValue(
+        teil2Section({ skill: 'LESEN' }),
+      );
+
+      await expect(service.play(STUDENT, ATTEMPT, TEIL_2)).rejects.toThrow(
+        'AUDIO_NOT_IN_EXAM',
+      );
+    });
+
+    it('refuses, without spending the play, a Teil whose recording is not uploaded', async () => {
+      prisma.examAttempt.findUnique.mockResolvedValue(
+        a2Attempt(delivery({ audioUrl: null, durationSeconds: null })),
+      );
+
+      await expect(service.play(STUDENT, ATTEMPT, TEIL_2)).rejects.toThrow(
+        'HOEREN_AUDIO_NOT_READY',
+      );
+      expect(prisma.examAudioPlay.create).not.toHaveBeenCalled();
+      expect(prisma.examAudioPlay.updateMany).not.toHaveBeenCalled();
+    });
+
+    it("lasts about twice that Teil's recording, same as B1/B2", async () => {
+      const granted = await service.play(STUDENT, ATTEMPT, TEIL_2);
+      const token = new URL(granted.url, 'https://api.test').searchParams.get(
+        'token',
+      )!;
+
+      const { expiresAt, audioId } = service.verify(token);
+      const seconds = (expiresAt.getTime() - Date.now()) / 1000;
+      expect(audioId).toBe(TEIL_2);
+      expect(seconds).toBeGreaterThan(600);
+      expect(seconds).toBeLessThanOrEqual(608);
+    });
+
+    describe('teilRecordingUrl', () => {
+      beforeEach(() => {
+        prisma.examSection.findUnique.mockResolvedValue({
+          ...teil2Section(),
+          modelltest: { format: delivery() },
+        });
+      });
+
+      it("gives that Teil's recording address", async () => {
+        await expect(service.teilRecordingUrl(TEIL_2)).resolves.toBe(
+          'https://cdn.example/a2-teil2.mp3',
+        );
+      });
+
+      it('is null for an id that is no section', async () => {
+        prisma.examSection.findUnique.mockResolvedValue(null);
+
+        await expect(service.teilRecordingUrl(TEIL_2)).resolves.toBeNull();
+      });
+
+      it('is null for a section that is not a Hören Teil', async () => {
+        prisma.examSection.findUnique.mockResolvedValue({
+          ...teil2Section({ skill: 'LESEN' }),
+          modelltest: { format: delivery() },
+        });
+
+        await expect(service.teilRecordingUrl(TEIL_2)).resolves.toBeNull();
+      });
+
+      it('is null while that Teil has not been uploaded', async () => {
+        prisma.examSection.findUnique.mockResolvedValue({
+          ...teil2Section(),
+          modelltest: {
+            format: delivery({ audioUrl: null, durationSeconds: null }),
+          },
+        });
+
+        await expect(service.teilRecordingUrl(TEIL_2)).resolves.toBeNull();
+      });
     });
   });
 });

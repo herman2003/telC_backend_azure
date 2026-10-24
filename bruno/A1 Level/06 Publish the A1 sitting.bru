@@ -1,0 +1,33 @@
+meta {
+  name: 06 Publish the A1 sitting
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/exam-sessions/{{a1SittingId}}/publish
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+}
+
+docs {
+  Spends one of the centre's Exam Day slots. Then wait until opensAt
+  passes before 07.
+}

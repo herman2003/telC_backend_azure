@@ -1,0 +1,25 @@
+meta {
+  name: 10a A second play of Teil 1 is refused
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/audio/{{a1Teil1AudioId}}/play
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 400
+  res.body.message: eq NO_PLAYS_LEFT
+}
+
+docs {
+  The rule this whole mechanism exists for. telc's repeats are inside the
+  file; a second play would be a third and fourth hearing.
+}

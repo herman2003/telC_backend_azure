@@ -1,0 +1,23 @@
+meta {
+  name: 07b Lesen und Schreiben cannot open before Hoeren
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/blocks/LESEN_SCHREIBEN/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+assert {
+  res.status: eq 400
+  res.body.message: eq BLOCK_OUT_OF_ORDER
+}
+
+docs {
+  At A1 Hören is block 1. Run before 08, while no block is open.
+}

@@ -1,17 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsIn,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   Matches,
   MaxLength,
 } from 'class-validator';
-// `import type`: the decorated `level?` signature emits metadata, and with
-// isolatedModules a value import of a type-only symbol is a compile error.
-import type { SpeakingLevel } from '../speaking-topics.data';
-
-const SPEAKING_LEVELS: SpeakingLevel[] = ['B1'];
+import { CefrLevel } from '@prisma/client';
 
 export class FindPartnerDto {
   /**
@@ -30,13 +26,13 @@ export class FindPartnerDto {
   displayName: string;
 
   @ApiPropertyOptional({
-    enum: SPEAKING_LEVELS,
+    enum: CefrLevel,
     default: 'B1',
     description:
-      'Only B1 exists today, and every topic is B1. The field is here so ' +
-      'adding levels later is a data change rather than a protocol change.',
+      'The level to be paired at. Only B1 has topics today; a level without ' +
+      'them is refused with a reason when the room is opened, not here.',
   })
   @IsOptional()
-  @IsIn(SPEAKING_LEVELS)
-  level?: SpeakingLevel;
+  @IsEnum(CefrLevel)
+  level?: CefrLevel;
 }

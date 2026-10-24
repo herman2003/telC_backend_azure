@@ -1,0 +1,61 @@
+meta {
+  name: 11 Submit Hoeren
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/HOEREN/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+body:json {
+  {
+    "answers": {
+      "HOEREN_1": {
+        "1": "168 85 38",
+        "2": "heute",
+        "3": "am Eingang",
+        "4": "45 Euro",
+        "5": "Donerstagnachmittag"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const teile = res.body.sections.map((s) => s.skill + "_" + s.teil).join(",");
+  if (teile !== "HOEREN_1,HOEREN_2,HOEREN_3") {
+    throw new Error("A2 Hoeren should mark three Teile, got " + teile);
+  }
+  const by = {};
+  for (const s of res.body.sections) by[s.skill + "_" + s.teil] = s;
+  // Teil 1 is free text: "Donerstagnachmittag" matches no accepted answer,
+  // so the Teil waits for the examiner instead of losing the point.
+  if (by.HOEREN_1.pending !== true) {
+    throw new Error("HOEREN_1 should wait for the examiner, got " + JSON.stringify(by.HOEREN_1));
+  }
+  if (by.HOEREN_2.pending !== false || by.HOEREN_3.pending !== false) {
+    throw new Error("Teile 2 and 3 are closed answers: decided by the key");
+  }
+}
+
+docs {
+  Teil 1's answers are the real key except item 5, misspelled the way a
+  candidate would ("Donerstagnachmittag"). telc accepts misspellings that
+  no accepted-answer list can enumerate, so the Teil goes to the examiner
+  (decision B). Teile 2 and 3 are left unanswered: closed answers, marked
+  0 by the key. Closes block 1 so LESEN_SCHREIBEN may open.
+}

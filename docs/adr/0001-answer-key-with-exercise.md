@@ -3,7 +3,7 @@
 **Status:** accepted
 **Date:** 2026-09-09
 **Reverses:** `7678440` (2026-08-21)
-**Spec:** [ANSWER_KEY_WITH_EXERCISE_SPEC.md](../ANSWER_KEY_WITH_EXERCISE_SPEC.md)
+**Spec:** [ANSWER_KEY_WITH_EXERCISE_SPEC.md](../domains/answer-key-with-exercise.md)
 
 ---
 
