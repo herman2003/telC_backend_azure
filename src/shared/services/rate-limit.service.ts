@@ -183,10 +183,14 @@ export class RateLimitService {
     });
   }
 
-  /**
-   * Rate limit for POST /api/writing/submit per student.
-   * Throws 429 when exceeded.
-   */
+  /** Limit installation and notification preference writes per learner. */
+  checkPushWriteLimit(studentId: string): void | Promise<void> {
+    return this.enforceDistributed([
+      { key: `push-write:${studentId}`, max: 30, ttlSeconds: 60 },
+    ]);
+  }
+
+  /** Rate limit for POST /api/writing/submit per student; throws 429. */
   checkWritingSubmitLimit(studentId: string): void | Promise<void> {
     return this.enforceDistributed([
       {
