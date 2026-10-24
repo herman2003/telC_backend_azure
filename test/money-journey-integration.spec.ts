@@ -30,6 +30,12 @@ import { EntitlementSpendService, FREE_LIVE_SESSIONS_PER_MONTH } from '../src/sh
 import { StudentEntitlementService } from '../src/shared/services/student-entitlement.service';
 import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
 import { TrialAddonGate } from '../src/modules/centers/trial-addon-gate';
+import {
+  TRIAL_ELENA_CREDITS,
+  TRIAL_EXAM_SLOTS,
+  TRIAL_PACKAGE_SEATS,
+  TRIAL_SCHREIBEN_CREDITS,
+} from '../src/modules/centers/trial-package';
 
 const prisma = new PrismaService();
 const policy = new SubscriptionPolicyService();
@@ -145,8 +151,28 @@ describe('a school, from its first 4,500 to a spent credit', () => {
 
     // ---- 1. Pilote Exam Day. Three seats, three codes, fourteen days.
     const trial = await trials.start(school.identity);
-    expect(trial.codes).toHaveLength(3);
+    expect(trial.codes).toHaveLength(TRIAL_PACKAGE_SEATS);
     expect(trial.codes[0].code).toMatch(/^LQ-[A-Z0-9]{4}-[A-Z0-9]{4}$/);
+    await expect(
+      prisma.center.findUniqueOrThrow({
+        where: { id: school.id },
+        select: { exam_slots_remaining: true },
+      }),
+    ).resolves.toEqual({ exam_slots_remaining: TRIAL_EXAM_SLOTS });
+    await expect(
+      prisma.centerEntitlementPool.findMany({
+        where: { center_id: school.id },
+        select: { product: true, balance: true },
+      }),
+    ).resolves.toEqual(
+      expect.arrayContaining([
+        { product: 'AI_SPEAKING_CREDIT', balance: TRIAL_ELENA_CREDITS },
+        { product: 'AI_SCHREIBEN_CREDIT', balance: TRIAL_SCHREIBEN_CREDITS },
+      ]),
+    );
+    await expect(
+      prisma.centerEntitlementPool.count({ where: { center_id: school.id } }),
+    ).resolves.toBe(2);
 
     // ---- 2. The student redeems one, through the real route.
     await redemption.redeem(
@@ -191,10 +217,13 @@ describe('a school, from its first 4,500 to a spent credit', () => {
     // 40 x 300 HT, plus the 18% VAT every provider amount now carries.
     expect(order.amountXaf).toBe(14_160);
 
-    // Still nothing granted: the manager has only said what they want.
+    // Purchase not activated yet: trial Elena stock is still the only balance.
     await expect(
-      prisma.centerEntitlementPool.count({ where: { center_id: school.id } }),
-    ).resolves.toBe(0);
+      prisma.centerEntitlementPool.findFirstOrThrow({
+        where: { center_id: school.id, product: 'AI_SPEAKING_CREDIT' },
+        select: { balance: true },
+      }),
+    ).resolves.toEqual({ balance: TRIAL_ELENA_CREDITS });
 
     await activation.activate(order.id);
 
@@ -218,14 +247,16 @@ describe('a school, from its first 4,500 to a spent credit', () => {
       });
     }
 
-    // Free sessions run; unallocated stock is untouched (40 bought,
-    // 10 already assigned to this seat → 30 left in the school pool).
+    // Free sessions run; unallocated stock is untouched.
+    // Trial kept 9 Elena on convert + 40 bought − 10 assigned → 39.
     await expect(
       prisma.centerEntitlementPool.findFirstOrThrow({
-        where: { center_id: school.id },
+        where: { center_id: school.id, product: 'AI_SPEAKING_CREDIT' },
         select: { balance: true },
       }),
-    ).resolves.toEqual({ balance: 30 });
+    ).resolves.toEqual({
+      balance: TRIAL_ELENA_CREDITS + 40 - 10,
+    });
 
     // ---- 6. The next session spends an assigned credit (not the pool).
     const sixth = await spend.mayUse(student.id, 'AI_SPEAKING_CREDIT');
@@ -233,12 +264,15 @@ describe('a school, from its first 4,500 to a spent credit', () => {
 
     await spend.spend(student.id, 'AI_SPEAKING_CREDIT');
 
+    // Seat burned one credit; unallocated Elena stock unchanged.
     await expect(
       prisma.centerEntitlementPool.findFirstOrThrow({
-        where: { center_id: school.id },
+        where: { center_id: school.id, product: 'AI_SPEAKING_CREDIT' },
         select: { balance: true },
       }),
-    ).resolves.toEqual({ balance: 30 });
+    ).resolves.toEqual({
+      balance: TRIAL_ELENA_CREDITS + 40 - 10,
+    });
 
     await expect(
       prisma.codeEntitlementCap.findFirstOrThrow({
@@ -338,12 +372,15 @@ describe('a school, from its first 4,500 to a spent credit', () => {
     );
 
     // Nothing taken. Unallocated stock and the seat assignment wait.
+    // Trial Elena (9) survived conversion; 40 bought − 10 assigned → 39.
     await expect(
       prisma.centerEntitlementPool.findFirstOrThrow({
-        where: { center_id: school.id },
+        where: { center_id: school.id, product: 'AI_SPEAKING_CREDIT' },
         select: { balance: true },
       }),
-    ).resolves.toEqual({ balance: 30 });
+    ).resolves.toEqual({
+      balance: TRIAL_ELENA_CREDITS + 40 - 10,
+    });
     await expect(
       prisma.codeEntitlementCap.findFirstOrThrow({
         where: { code_id: seat.id },
