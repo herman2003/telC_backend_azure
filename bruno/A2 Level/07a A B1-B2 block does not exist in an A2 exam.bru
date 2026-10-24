@@ -1,0 +1,23 @@
+meta {
+  name: 07a A B1-B2 block does not exist in an A2 exam
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/LESEN_SPRACHBAUSTEINE/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+assert {
+  res.status: eq 400
+  res.body.message: eq BLOCK_NOT_IN_EXAM
+}
+
+docs {
+  A2 has no Sprachbausteine. The block list comes from exam_block_durations for the sitting's level.
+}

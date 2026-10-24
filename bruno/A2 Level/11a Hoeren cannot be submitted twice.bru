@@ -1,0 +1,23 @@
+meta {
+  name: 11a Hoeren cannot be submitted twice
+  type: http
+  seq: 26
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/HOEREN/submit
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+assert {
+  res.status: eq 400
+  res.body.message: eq BLOCK_ALREADY_SUBMITTED
+}
+
+docs {
+  The first submit is the submission.
+}

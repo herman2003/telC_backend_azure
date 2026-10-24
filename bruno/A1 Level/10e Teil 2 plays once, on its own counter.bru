@@ -1,0 +1,36 @@
+meta {
+  name: 10e Teil 2 plays once, on its own counter
+  type: http
+  seq: 23
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/audio/{{a1Teil2AudioId}}/play
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.playsRemaining: eq 0
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  // About twice Teil 2's 231 seconds.
+  const seconds = (new Date(res.body.expiresAt) - Date.now()) / 1000;
+  if (seconds < 450 || seconds > 470) {
+    throw new Error("Teil 2's link should live about 462 s, got " + Math.round(seconds));
+  }
+}
+
+docs {
+  Spending Teil 1 (10) must not have spent Teil 2. Teil 2 is heard once
+  (telc: "Sie hören jeden Text einmal").
+}

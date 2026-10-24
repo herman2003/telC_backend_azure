@@ -1,0 +1,44 @@
+meta {
+  name: 03 Exam picker offers A1 Modelltest 9
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-modelltests
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+
+  const mt9 = res.body.find((m) => m.number === 9);
+  if (!mt9) {
+    throw new Error(
+      "A1 Modelltest 9 is not offered — its exam_sections must cover every " +
+        "exam_section_weights row for A1 (GenericExamContentService.isComplete)"
+    );
+  }
+  if (mt9.level !== "A1") {
+    throw new Error("the picker must say A1, got " + mt9.level);
+  }
+}
+
+docs {
+  Needs both A1 migrations: the paper (exam_sections) and the rules
+  (exam_section_weights). Without the rules A1 is never complete.
+}

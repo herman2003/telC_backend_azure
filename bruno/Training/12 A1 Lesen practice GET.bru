@@ -1,0 +1,35 @@
+meta {
+  name: 12 A1 Lesen practice GET
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=9
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const body = res.body;
+  if (!Array.isArray(body.sections) || body.sections.length !== 3) {
+    throw new Error("A1 Lesen practice expects sections[3], got " + JSON.stringify(body.sections));
+  }
+  if (body.teil1 || body.teil2 || body.teil3) {
+    throw new Error("A1 must not use B1 teil1/teil2/teil3 shape");
+  }
+  if (!body.sections[0].items || body.sections[0].items[0].solution == null) {
+    throw new Error("ADR 0001: practice Lesen must ship solution on items");
+  }
+}

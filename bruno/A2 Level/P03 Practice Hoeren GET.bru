@@ -1,0 +1,35 @@
+meta {
+  name: P03 Practice Hoeren GET
+  type: http
+  seq: 102
+}
+
+get {
+  url: {{baseUrl}}/api/listening/exercise?modelltest=8&teil=1
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const body = res.body;
+  if (!body.audioId || body.aufgabentyp !== "KURZANTWORT" || !Array.isArray(body.items)) {
+    throw new Error("expected A2 Hören 1 KURZANTWORT with items — got " + JSON.stringify(body));
+  }
+  bru.setEnvVar("a2PracticeHoerenAudioId", body.audioId);
+  bru.setEnvVar("a2PracticeHoerenRevision", body.contentRevision);
+}
+
+docs {
+  A2 Hören Teil 1 is KURZANTWORT — items are authoritative, not B1 +/- questions alone.
+}

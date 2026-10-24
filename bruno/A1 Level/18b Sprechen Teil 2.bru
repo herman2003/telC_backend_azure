@@ -1,0 +1,32 @@
+meta {
+  name: 18b Sprechen Teil 2
+  type: http
+  seq: 38
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a1AttemptId}}/marks
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "skill": "SPRECHEN",
+    "teil": 2,
+    "points": 4
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.points: eq 4
+}
+
+docs {
+  Two questions and two answers, out of 6.
+}

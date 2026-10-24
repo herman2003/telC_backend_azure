@@ -412,7 +412,7 @@ the shape the previous author built toward, and it holds.
 | 2 | **Sprechen AI evaluation** (Start) | `evaluation.service.ts:264-318` — prompt hard-codes *telc Deutsch B1*, B1 Teil names, `maxPts = teil===1 ? 15 : 30` | a B2 student practising Teil 1 is graded as B1 Teil 1, out of 15 instead of 25 | key context and max points on `(level, teil)`, or better on `aufgabentyp` |
 | 3 | **Exam Day** | `exam-sessions.service.ts:18` `EXAM_LEVEL = 'B1'` | session stamped B1 whatever paper is chosen, so a B2 sitting gets B1 timings and weights, silently | take `level` from `modelltest.level` |
 | 4 | **Exam Modelltest picker** | `exam-modelltests.service.ts:59` | lists `{number,title}` with no level; a manager picks a CEFR level blind | add `level`, filter by it |
-| 5 | **Readiness / Suivi** (Start) | `progress-formula.ts:24` — `SKILL_MAX_POINTS`, `WRITTEN_MAX=225`, `TOTAL_MAX=300` | A1 has no Sprachbausteine and a 60-point exam; unpractised skills count 0, so **an A1 student can never be marked ready** | read `exam_section_weights` rows instead of constants |
+| 5 | ✅ **Fixed** (Phase 3 Task 1) — Readiness / Suivi (Start) | `progress-formula.ts` | — | `progress.service.ts` reads `exam_section_weights`/`exam_pass_rules`; constants removed from the production path |
 | 6 | **Exam pass verdict** | `exam-result.service.ts:6` | part-rule applied to A1/A2, which use a total rule, so a passing candidate is marked `FAILED` | read `exam_pass_rules` |
 | 7 | **Guest demo access** | `guest-modelltest-access.ts:8` allowlist `{1, 2}` | guests only ever see B1 papers 1–2 | decide per level, or keep B1-only deliberately |
 
@@ -471,14 +471,14 @@ in a different set of tables.
 | Exam attempt + blocks | `(skill, teil)` strings | ✅ |
 | Exam section results / grading | `exam_section_weights` rows | ✅ |
 | Vocab occurrences | `modelltest_id` | ✅ |
-| **Training audio metering** | **FK to `listening_exercises`** | ❌ **break 8** |
-| **Listening attempt link** | FK to `listening_exercises` | ⚠️ **break 9** |
-| **Exam block composition** | hard-coded constant | ❌ **break 10** |
-| **Exam Modelltest picker** | `some {}` on 12 B1 relations | ❌ **break 11** |
+| Training audio metering | FK to `listening_exercises`, dropped | ✅ break 8 fixed |
+| Listening attempt link | FK to `listening_exercises`, nullable | ✅ break 9 — accepted null, as proposed |
+| Exam block composition + Schreiben routing | `exam_section_weights.block` + per-section `scoring_mode` | ✅ break 10 fixed |
+| Exam Modelltest picker | per-level completeness via `GenericExamContentService.isComplete` | ✅ break 11 fixed |
 | **Activity writer** | rejects `teil < 1` | ⚠️ **break 12** |
-| Weekly full content assembly | calls the five B1 skill services | ❌ **break 13** |
+| Weekly full content assembly | branches on `modelltest.level` | ✅ break 13 fixed |
 
-### Break 8 — training audio metering cannot cover A1/A2
+### Break 8 — training audio metering cannot cover A1/A2 ✅ fixed
 
 `TrainingAudioPlay.audio_id` is a **non-nullable foreign key** to
 `ListeningExercise` (`onDelete: Cascade`). A1/A2 Hören lives in the generic
@@ -499,57 +499,32 @@ A1/A2 Hören genuinely cannot reuse `listening_exercises`: their Hören Teile ar
 only `prompt` + `correct_answer` with **no options table**. B1/B2 Hören is
 `RICHTIG_FALSCH` throughout, which is why one string sufficed.
 
-### Break 9 — listening attempt loses its content link
+### Break 9 — listening attempt loses its content link ✅ accepted (no fix needed)
 
-`ListeningAttempt.listening_exercise_id` is a nullable FK with
-`onDelete: Restrict`. A1/A2 attempts would set it `null` and rely on
-`content_revision`, which the schema already documents as the fallback for rows
-whose revision names no Modelltest. Tolerable, but it weakens analysis.
+`ListeningAttempt.listening_exercise_id` stayed a nullable FK, left `null`
+deliberately rather than dropped — exam scoring never sets it for any
+attempt, generic-model or not, only the plain `exercise_id` string. Confirmed
+while implementing Phase 3 Task 7: nothing to change here.
 
-**Fix:** same as break 8 — plain column, no FK — or accept `null` deliberately
-and say so in the comment.
+### Break 10 — Exam Day cannot assemble an A1/A2 sitting ✅ fixed
 
-### Break 10 — Exam Day cannot assemble an A1/A2 sitting
+`enum ExamBlock` gained `LESEN_SCHREIBEN`. `exam_section_weights` gained a
+`block` column, and `exam-scoring.service.ts`'s block composition is a query
+over it instead of the old hard-coded `BLOCK_SECTIONS` map.
 
-Two problems, both constants:
+Schreiben routing turned out wider than "skill vs. `aufgabentyp`": every
+skill, not only Schreiben, needs to branch for a generic-model level, since
+none of the B1/B2 answer-key services know about `exam_sections`. `scoreSection()`
+now branches once on `GENERIC_MODEL_LEVELS`; Schreiben within that branch
+routes by the section's own `scoring_mode` (`FORMULAR_AUSFUELLEN` auto-scores,
+`TEXT_SCHREIBEN` goes to a person). See Phase 3 Task 7, below.
 
-1. `enum ExamBlock` has only `LESEN_SPRACHBAUSTEINE`, `HOEREN`, `SCHREIBEN`.
-   A1/A2 need **`LESEN_SCHREIBEN`**, which does not exist.
-2. `exam-scoring.service.ts:51` hard-codes the block composition:
+### Break 11 — A1/A2 Modelltests never reach the exam picker ✅ fixed
 
-```ts
-const BLOCK_SECTIONS: Record<ExamBlock, { skill: ExamSkill; teil: string }[]> = {
-  LESEN_SPRACHBAUSTEINE: [LESEN 1, LESEN 2, LESEN 3, SPRACHBAUSTEINE 1, SPRACHBAUSTEINE 2],
-  HOEREN:                [HOEREN 1, HOEREN 2, HOEREN 3],
-  SCHREIBEN:             [SCHREIBEN 1],
-};
-```
-
-That is B1/B2's structure written as code. A1/A2 put Lesen and Schreiben in one
-block, and their Schreiben has **two** Teile where Teil 1
-(`FORMULAR_AUSFUELLEN`) is auto-scorable while the current code routes all
-`SCHREIBEN` to human grading via `storeWriting`.
-
-**Fix:** add `LESEN_SCHREIBEN` to the enum, add a `block` column to
-`exam_section_weights`, and derive `BLOCK_SECTIONS` from those rows. The table
-already holds `(level, skill, teil, max_points, part)` — `block` is the one
-missing field, and with it the composition becomes a query instead of a
-constant. Route Schreiben to auto-scoring or human grading on `aufgabentyp`,
-not on skill.
-
-This is the same bug class as Part 5: a level's rule as a constant.
-
-### Break 11 — A1/A2 Modelltests never reach the exam picker
-
-`COMPLETE_EXAM_MODELLTEST_WHERE` requires `some {}` on twelve B1 relations,
-including `sprachbausteineExercises`. **A1 and A2 have no Sprachbausteine**, so
-an A-level paper can never satisfy it and will not appear in a center's exam
-catalogue or preview.
-
-B2 passes all twelve checks unchanged.
-
-**Fix:** make completeness a per-level check — every section the level's
-`exam_section_weights` rows name must have content, in whichever track holds it.
+Completeness is now a per-level check: `GenericExamContentService.isComplete`
+compares `exam_section_weights` against `exam_sections` for a generic-model
+level; B2's original twelve-relation `COMPLETE_EXAM_MODELLTEST_WHERE` check
+runs unchanged for B1/B2 (equality-tested).
 
 ### Break 12 — the activity writer rejects Teil 0
 
@@ -561,16 +536,21 @@ throws.
 **Fix:** never write an activity for an unscored section, and keep the guard.
 The guard is correct; the caller must not reach it.
 
-### Break 13 — the content seam, and where the branch lives
+### Break 13 — the content seam, and where the branch lives ✅ fixed
 
-`modelltests.service.ts` assembles full weekly content by calling the five B1
-skill services. For an A1/A2 paper those services read the B1 tables and return
-nothing.
+`GenericExamContentService` is the one place the branch lives, shared by
+`ModelltestsService` (training content) and `ExamModelltestsService` (the
+exam catalogue and manager preview) — not duplicated into either. The DTO
+shape clients receive did not change.
 
-**This is the one unavoidable cost of two tracks**, and it is bounded: the
-branch goes in the service layer that already builds the DTOs, keyed on
-`modelltest.level`. The DTO shape the clients receive does not change, so the
-Flutter app and the center dashboard need no change for storage at all.
+**Gap found while closing break 10, since fixed:** a live sitting's block
+content (`ExamBlockContentService`) and Hören playback (`ExamAudioService`)
+both read only the B1 tables. Both now branch on the generic model. A1/A2
+Hören is one recording per Teil, played once each, named and counted exactly
+like B1/B2's — the rule is in `docs/domains/exam-simulator.md`. A2
+Modelltest 1's three recordings are uploaded (R2,
+`a2-hoeren-mt/a2-mt-1-hoeren/`). An earlier design with one recording for the
+whole block (#115, #116) was replaced before it served a real play.
 
 ### Net effect
 
@@ -704,9 +684,13 @@ B2 student sees only MT 7 in the catalogue, a B1 student gets
 
 ---
 
-### Phase 3 — the generic model and A2
+### Phase 3 — the generic model and A2 ✅ implemented
 
 Entirely additive in the DB. B1 and B2 keep reading the existing tables.
+Tasks 0-7 of `docs/plans/active/multi-level-phase-3-generic-model.md` (now
+archived to `docs/archive/`) are merged to `dev`. Break 10's fix ended up
+wider than the plan's "Schreiben by `aufgabentyp`" framing — see Break 10
+above and Break 13's "open gap" note for what Phase 3 did not cover.
 
 **DB**
 
@@ -736,9 +720,17 @@ byte-identical.
 
 ### Phase 4 — A1
 
-Importer run only. No migration, no schema change, no new code path — A1 uses
-the same infrastructure as A2 with different rows. If phase 4 needs code,
-phase 3 was built wrong.
+No schema change and no new code path in `src/` — A1 uses the same
+infrastructure as A2 with different rows. What it did need, and why:
+
+- the A1 rules migration (`20261024100100_seed_a1_exam_rules`), which A2's
+  rules migration had deliberately left out until A1 content existed;
+- four additive content shapes in the importer's Zod schemas, because the A1
+  paper differs from A2's: two topics in Sprechen Teil 2, picture cards in
+  Teil 3, the V/B/Z rubric in Teil 1, texts tied to items in Richtig/Falsch,
+  and the choices of a form field (`docs/ideas/modelltest-content-contract.md`).
+
+A1 Modelltest 1 is catalogue number 9 (`content/a1-modelltest-1-source.json`).
 
 ---
 
@@ -748,17 +740,17 @@ A level is not sellable until all nine pass. This exists to prevent the
 half-launched level, which is the error class most likely to reach a paying
 center.
 
-| | Check |
-|---|---|
-| 1 | `exam_block_durations` rows exist for the level |
-| 2 | `exam_section_weights` rows exist, with `block`, summing to the level total |
-| 3 | `exam_pass_rules` row exists |
-| 4 | At least one Modelltest imported, `level` set, content verified against the source |
-| 5 | All five skill endpoints return a DTO for it |
-| 6 | Catalogue and `of-the-week` resolve; a student of another level is refused |
-| 7 | Center exam picker lists it; a sitting times and marks with that level rows |
-| 8 | Readiness returns a number, and a perfect student reaches `ready` |
-| 9 | Live Room opens; training audio metering writes a play row |
+| | Check | A2 | A1 |
+|---|---|---|---|
+| 1 | `exam_block_durations` rows exist for the level | ✅ | ✅ |
+| 2 | `exam_section_weights` rows exist, with `block`, summing to the level total | ✅ | ✅ 60 |
+| 3 | `exam_pass_rules` row exists | ✅ | ✅ |
+| 4 | At least one Modelltest imported, `level` set, content verified against the source | ✅ Modelltest 1 | ✅ Modelltest 1 (number 9), golden-tested against the Lösungsschlüssel |
+| 5 | All five skill endpoints return a DTO for it | ✅ Lesen+Hören practice via generic model on the existing routes; SB empty (no skill); Schreiben/Sprechen practice still later | ✅ same as A2 for Lesen+Hören practice; Exam Day was already ✅ |
+| 6 | Catalogue and `of-the-week` resolve; a student of another level is refused | ✅ | ⚠️ refusal ✅ (`bruno/A1 Level` 03a); catalogue not checked |
+| 7 | Center exam picker lists it; a sitting times and marks with that level rows | ✅ picker, block content, scoring, and Hören played per Teil from the uploaded recordings (verified over HTTP, `bruno/A2 Level`) | ✅ the same, through to PASSED over HTTP (`bruno/A1 Level`) |
+| 8 | Readiness returns a number, and a perfect student reaches `ready` | ✅ | ⚠️ not checked |
+| 9 | Live Room opens; training audio metering writes a play row | ⚠️ not evaluated — Live Room (Break 1) is a separate subsystem, outside Phase 3 | ⚠️ not evaluated, as A2 |
 
 Checks 8 and 9 are the two that fail silently. Both are in the list for that
 reason.

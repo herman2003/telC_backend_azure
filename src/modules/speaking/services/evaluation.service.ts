@@ -4,7 +4,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import type { Prisma } from '@prisma/client';
+import type { CefrLevel, Prisma } from '@prisma/client';
 import { GeminiService } from './gemini.service';
 import { AiUsageService } from '../../../shared/services/ai-usage.service';
 import { RateLimitService } from '../../../shared/services/rate-limit.service';
@@ -19,6 +19,7 @@ import {
 import {
   buildTelcSprechenRating,
   criterionPercent,
+  m10MaxPoints,
   isTelcLetter,
   scoreFromM10Points,
   type TelcSprechenCriteria,
@@ -115,17 +116,22 @@ export class EvaluationService {
 
     // Before the quota and the model: an unknown Modelltest is the caller's
     // mistake, and must not cost the student a session.
-    const modelltest = studentId
-      ? await this.prisma.modelltest.findUnique({
-          where: { number: attempt.modelltestNumber ?? 1 },
-          select: { id: true },
-        })
-      : null;
-    if (studentId && !modelltest) {
+    //
+    // Resolved for every caller, not only a signed-in one, because its `level`
+    // decides which M10 table the letters are converted against. A guest used
+    // to skip this and be rated as B1 by default; a default is exactly how a
+    // B2 candidate gets marked against the wrong grid, so the Modelltest has
+    // to exist for anyone asking.
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: attempt.modelltestNumber ?? 1 },
+      select: { id: true, level: true },
+    });
+    if (!modelltest) {
       throw new NotFoundException(
         `Modelltest ${attempt.modelltestNumber ?? 1} not found`,
       );
     }
+    const level = modelltest.level;
 
     // A token naming nobody has nobody to charge, which is the same choice
     // StudentSubscriptionGuard makes for the same reason. Refusing here would
@@ -150,9 +156,9 @@ export class EvaluationService {
       await this.rateLimit.checkAiEvaluationLimit(studentId);
     }
 
-    const prompt = this.buildPrompt(teilNumber, transcript);
+    const prompt = this.buildPrompt(level, teilNumber, transcript);
     const raw = await this.callWithTimeout(prompt);
-    const evaluation = this.parseResponse(raw, teilNumber);
+    const evaluation = this.parseResponse(raw, level, teilNumber);
 
     if (studentId) {
       // `recordDelivered`, not `record`: the student already has their result,
@@ -261,11 +267,18 @@ export class EvaluationService {
     return row.evaluation as unknown as SpeakingEvaluationResponseDto;
   }
 
-  private buildPrompt(teilNumber: number, transcript: string): string {
-    const context = this.getTeilContext(teilNumber);
-    const maxPts = teilNumber === 1 ? 15 : 30;
+  private buildPrompt(
+    level: CefrLevel,
+    teilNumber: number,
+    transcript: string,
+  ): string {
+    const context = this.getTeilContext(level, teilNumber);
+    // From the same table the letters are converted against, so the maximum
+    // the model is told matches the one the backend applies. The wording below
+    // still names B1 and B1's Teile; keying that on the level is task 6.
+    const maxPts = m10MaxPoints(level, teilNumber);
 
-    return `You are an expert rater for telc Deutsch B1 Mündlicher Ausdruck (Bewertungsbogen M10), Teil ${teilNumber}.
+    return `You are an expert rater for telc Deutsch ${level} Mündlicher Ausdruck (Bewertungsbogen M10), Teil ${teilNumber}.
 
 **TEIL ${teilNumber} CONTEXT:**
 ${context}
@@ -309,12 +322,27 @@ Also provide:
 }`;
   }
 
-  private getTeilContext(teilNumber: number): string {
-    const contexts: Record<number, string> = {
+  /**
+   * What the candidate was asked to do, per level and Teil.
+   *
+   * The Teil numbers do not mean the same thing at both levels. `Einander
+   * kennenlernen` is B1's scored Teil 1 and B2's unscored introduction, so
+   * B2's Teil 1 is a different task entirely. Keyed on the Teil alone, a B2
+   * candidate was rated against B1's opener and told about it in fluent
+   * German.
+   */
+  private getTeilContext(level: CefrLevel, teilNumber: number): string {
+    const b1: Record<number, string> = {
       1: 'Teil 1 — Einander kennenlernen: personal introduction and background (self, hobbies, work, daily life).',
       2: 'Teil 2 — Über ein Thema sprechen: opinion and experience on a topic; give examples and elaborate.',
       3: 'Teil 3 — Gemeinsam etwas planen: plan an activity together (appointments, options, agree on next steps). This is NOT a debate.',
     };
+    const b2: Record<number, string> = {
+      1: 'Teil 1 — Über Erfahrungen sprechen: the candidate chose one experience topic and speaks about it for up to 1½ minutes, then answers the partner’s questions. Expect a sustained, structured account with examples, not a question-and-answer introduction.',
+      2: 'Teil 2 — Diskussion: a controversial text was read. Expect the candidate to address the text, then exchange opinions, arguments and experiences with the partner, and work towards possible solutions.',
+      3: 'Teil 3 — Gemeinsam etwas planen: plan an activity together and respond to the partner’s proposals (options, agreement, next steps). This is NOT a debate.',
+    };
+    const contexts = level === 'B2' ? b2 : b1;
     return contexts[teilNumber] ?? contexts[1];
   }
 
@@ -351,6 +379,7 @@ Also provide:
 
   parseResponse(
     response: string,
+    level: CefrLevel,
     teilNumber: number,
   ): SpeakingEvaluationResponseDto {
     try {
@@ -366,7 +395,7 @@ Also provide:
         pronunciation: this.readLetter(p, 'pronunciation'),
       };
 
-      const telcRating = buildTelcSprechenRating(criteria, teilNumber);
+      const telcRating = buildTelcSprechenRating(criteria, level, teilNumber);
       const overall = scoreFromM10Points(
         telcRating.points,
         telcRating.maxPoints,
@@ -397,16 +426,19 @@ Also provide:
       const scores: ScoresDto = {
         grammar: criterionPercent(
           criteria.formalAccuracy,
+          level,
           teilNumber,
           'formalAccuracy',
         ),
         vocabulary: criterionPercent(
           criteria.expression,
+          level,
           teilNumber,
           'expression',
         ),
         coherence: criterionPercent(
           criteria.taskFulfilment,
+          level,
           teilNumber,
           'taskFulfilment',
         ),

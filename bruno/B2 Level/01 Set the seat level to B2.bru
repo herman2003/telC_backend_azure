@@ -1,0 +1,34 @@
+meta {
+  name: 01 Set the seat level to B2
+  type: http
+  seq: 1
+}
+
+patch {
+  url: {{baseUrl}}/api/centers/me/activation-codes/{{codeId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "level": "B2"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.level: eq B2
+}
+
+docs {
+  The centre decides the level of a seat before handing the code out. Only
+  while the code is still `activated` — once connected it is 409
+  INVALID_CODE_TRANSITION.
+
+  {{codeId}} comes from Center Activation Codes / 01 List codes.
+}

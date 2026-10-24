@@ -1,0 +1,53 @@
+meta {
+  name: P02 Practice Lesen submit Teil 1
+  type: http
+  seq: 101
+}
+
+post {
+  url: {{baseUrl}}/api/reading/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "modelltestNumber": 9,
+    "id": "bruno-a1-practice-lesen-1",
+    "exercise_type_id": "reading",
+    "teil_id": "1",
+    "tested_at": "2026-10-24T00:00:00.000Z",
+    "answers": {
+      "1": true,
+      "2": false,
+      "3": false,
+      "4": false,
+      "5": true
+    }
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  if (typeof res.body.score !== "number") {
+    throw new Error("expected numeric score, got " + JSON.stringify(res.body));
+  }
+  if (!Array.isArray(res.body.outcomes) || res.body.outcomes.length !== 5) {
+    throw new Error("expected 5 outcomes, got " + JSON.stringify(res.body.outcomes));
+  }
+}
+
+docs {
+  Scores A1 Lesen Teil 1 (RICHTIG_FALSCH) with markGenericSection. Answers match the Lösungsschlüssel for MT 9.
+}

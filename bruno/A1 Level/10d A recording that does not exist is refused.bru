@@ -1,0 +1,23 @@
+meta {
+  name: 10d A recording that does not exist is refused
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/audio/00000000-0000-4000-8000-000000000000/play
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+assert {
+  res.status: eq 404
+  res.body.message: eq AUDIO_NOT_FOUND
+}
+
+docs {
+  A made-up audioId spends nothing and plays nothing.
+}

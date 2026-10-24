@@ -86,6 +86,20 @@ Per-exercise data, not one rule. The server counts; hiding a button is not
 enforcement. A play is spent the moment it starts — a connection that drops at
 0:15 costs it, exactly as the recording would keep playing in the room.
 
+The table is B1/B2. **A1/A2 Hören is one official recording per Teil, each
+played once.** telc's repeats are inside the file — at A1 and A2, Teil 1 and
+Teil 3 are heard twice and Teil 2 once, all within a single play — so a second play
+would be a third and fourth hearing. Each A1/A2 Teil names its recording the
+way a B1/B2 Teil does (`audioId`, `playsAllowed: 1` in the block content), so
+the app plays both levels the same way; the `audioId` is the Teil's own
+`exam_sections` id rather than a `listening_exercises` row, and plays are
+counted in the same `exam_audio_plays` table. Addresses and lengths live in
+`modelltests.format.hoerenDelivery.recordings`, never in content the candidate
+receives. Asking to play a Teil whose recording is not uploaded is refused
+(`HOEREN_AUDIO_NOT_READY`) without spending the play. Pause, seek and restart
+are disallowed by the paper but only the app can enforce those: once the file
+is streamed, the server cannot see the player.
+
 Exam audio is **served, never bundled** — decided 2026-09-24 with the Flutter
 team. Asking to play returns a link signed with an HMAC over
 `(attemptId, audioId, playNumber, expiry)`, and the app downloads it in full
@@ -158,7 +172,25 @@ after the oral — and a student sees only what has been released.
 
 The real telc rule, since this is a simulation: **60% of the written block and
 60% of the oral**, not one combined average. Decided on exact scores; rounded
-only for display.
+only for display. That is B1/B2. **A1/A2 pass on the combined total: 60% of
+the 60 points**, with no separate oral bar (`exam_pass_rules`).
+
+### Who marks what at A1/A2
+
+- **The answer key**, at submit: every automatic Teil whose answers it can
+  decide. That mark is frozen then (`exam_section_results`, `graded_by =
+  SERVER`) so a later key correction cannot change a result already given,
+  and no person can change it — an exam is not negotiable.
+- **The examiner**: Schreiben Teil 2 (the letter), Sprechen, and **any
+  automatic Teil with a free-text answer the key did not recognise**. telc
+  accepts misspellings ("Donerstach" for "Donnerstag") that no list of
+  accepted answers can hold, so such an answer is never marked wrong by the
+  machine: the Teil waits, and the examiner sees the unrecognised answers and
+  what the recognised ones are worth. An empty answer is simply wrong, and
+  so is a wrong pick in a form field with printed choices (A1: *Bar* or
+  *Kreditkarte*) — the candidate chose, nothing is left to read.
+- Schreiben is marked once its block (Lesen und Schreiben) is submitted;
+  Sprechen has no block. Marks are whole or half points.
 
 ---
 
@@ -172,7 +204,7 @@ anything; the other two render what it says.
 | Sessions | the five-step wizard, the session list, the detail page; Modelltest picker via `GET /api/centers/me/exam-modelltests` and content preview via `GET /api/centers/me/exam-modelltests/:number` (full paper, no answer keys) | — | owns them |
 | Participants | the picker, from the center's own students | — | the access rule |
 | Timing | shows the window it chose | counts down a deadline it was given | sets and enforces it |
-| Grading | types Schreiben and Sprechen scores | — | scores the rest, decides pass |
+| Grading | types Schreiben and Sprechen scores, and at A1/A2 any Teil listed in the result's `review` | — | scores the rest, decides pass |
 | Results | table, detail, CSV, PDF, print | the student's own result | ships the numbers |
 | Notifications | — | the bell, the list | writes them |
 

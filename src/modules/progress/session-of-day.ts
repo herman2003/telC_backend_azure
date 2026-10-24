@@ -46,7 +46,11 @@ export function sessionOfDay(
   teils: TeilScore[],
   input: SessionOfDayInput,
 ): SessionOfDay {
-  const scores = skillScores(teils);
+  // Known gap: still B1-shaped (TEILS_PER_SKILL), unlike progress.service.ts's
+  // own call which reads the student's level. Picking a slightly wrong Teil
+  // to *suggest* for an A2 student is not the readiness-blocking bug fixed
+  // elsewhere in this file's module.
+  const scores = skillScores(teils, { teilsPerSkill: TEILS_PER_SKILL });
   const practised = SKILLS.filter((skill) => scores[skill] !== null);
 
   const skill =
@@ -63,8 +67,7 @@ export function sessionOfDay(
   const exactWeakness = teilScoreOrZero(skill, teil, teils);
   const weaknessPercent = Math.round(exactWeakness);
   const mode: SessionMode = exactWeakness < PASS_MARK ? 'training' : 'exam';
-  const maxListens =
-    skill === 'HOEREN' ? (mode === 'exam' ? 2 : 3) : null;
+  const maxListens = skill === 'HOEREN' ? (mode === 'exam' ? 2 : 3) : null;
 
   return {
     moduleId: SKILL_ID[skill],

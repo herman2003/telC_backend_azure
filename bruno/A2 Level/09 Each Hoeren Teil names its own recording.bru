@@ -1,0 +1,68 @@
+meta {
+  name: 09 Each Hoeren Teil names its own recording
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/HOEREN
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+
+  const teile = res.body.sections.HOEREN;
+  if (!Array.isArray(teile) || teile.length !== 3) {
+    throw new Error("A2 Hoeren has three Teile, got " + JSON.stringify(teile));
+  }
+
+  // The same shape as B1/B2: each Teil names the recording to ask for and
+  // allows one play (telc's repeats are inside the file).
+  const ids = new Set();
+  for (const teil of teile) {
+    if (!teil.audioId || teil.playsAllowed !== 1) {
+      throw new Error("each Teil needs its own audioId and playsAllowed 1, got " +
+        JSON.stringify({ audioId: teil.audioId, playsAllowed: teil.playsAllowed }));
+    }
+    ids.add(teil.audioId);
+  }
+  if (ids.size !== 3) {
+    throw new Error("the three Teile must name three different recordings");
+  }
+
+  // Questions, never answers or an address to play from.
+  const whole = JSON.stringify(res.body);
+  if (whole.includes("solution") || whole.includes("isCorrect")) {
+    throw new Error("the candidate was served an answer key");
+  }
+  // Audio stays server-side; phone-note picture URLs on items are fine.
+  if (whole.includes(".mp3") || /audioUrl/i.test(whole)) {
+    throw new Error("the candidate was served a recording's address");
+  }
+  const note = teile[0].items && teile[0].items[0] && teile[0].items[0].imageUrl;
+  if (!note || !note.includes("a2-modelltest-1-hoeren-1-item1-note.png")) {
+    throw new Error("Hören Teil 1 items should carry their phone-note picture URLs, got " +
+      JSON.stringify(teile[0].items && teile[0].items[0]));
+  }
+
+  bru.setEnvVar("a2Teil1AudioId", teile[0].audioId);
+  bru.setEnvVar("a2Teil2AudioId", teile[1].audioId);
+  bru.setEnvVar("a2Teil3AudioId", teile[2].audioId);
+}
+
+docs {
+  Exactly what the Flutter Hören sequencer reads for B1/B2, so A2 plays
+  through the same code. Captures the three Teile's ids for 10 and 10e-10f.
+}

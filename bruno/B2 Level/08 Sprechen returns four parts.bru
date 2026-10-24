@@ -1,0 +1,54 @@
+meta {
+  name: 08 Sprechen returns four parts
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/api/speaking/teils?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  // Status first. Without this an expired access token — they last fifteen
+  // minutes — is reported as whatever the body assertion happens to say,
+  // which sent somebody hunting for missing content that was never missing.
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+
+  const parts = res.body.map((t) => t.part).sort((a, b) => a - b);
+  if (parts.join(",") !== "0,1,2,3") {
+    throw new Error("expected parts 0,1,2,3 and got " + parts.join(","));
+  }
+  const intro = res.body.find((t) => t.part === 0);
+  if (!/kennenlernen/i.test(intro.title)) {
+    throw new Error("part 0 should be Einander kennenlernen, got " + intro.title);
+  }
+  const teil1 = res.body.find((t) => t.part === 1);
+  if (/kennenlernen/i.test(teil1.title)) {
+    throw new Error("B2 Teil 1 is Ueber Erfahrungen sprechen, not the introduction");
+  }
+}
+
+docs {
+  Part 0 is the unscored `Einander kennenlernen`. The same task is B1's
+  SCORED Teil 1, which is why nothing keys behaviour on the Teil number
+  alone — a B2 candidate practising Teil 1 is doing Ueber Erfahrungen
+  sprechen, out of 25, not an introduction out of 15.
+
+  The app should show part 0 as practice and not offer to score it. Asking
+  for an evaluation of it is a 400 from the DTO (Min 1, Max 3).
+}

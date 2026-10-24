@@ -1,0 +1,24 @@
+meta {
+  name: 50 A1 refused a B2 paper
+  type: http
+  seq: 50
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 403
+  res.body.message: eq LEVEL_MISMATCH
+}
+
+docs {
+  Level gate: an A1 seat must not receive B2 MT 7 practice content.
+}

@@ -5,6 +5,10 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
 import { LesenService } from '../lesen/lesen.service';
 import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
 import { ListeningService } from '../listening/listening.service';
@@ -27,6 +31,7 @@ export class ModelltestsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly trainingAccess: TrainingModelltestAccessService,
+    private readonly genericContent: GenericExamContentService,
     private readonly lesen: LesenService,
     private readonly sprachbausteine: SprachbausteineService,
     private readonly listening: ListeningService,
@@ -144,6 +149,20 @@ export class ModelltestsService {
     });
     const n = weekly.number;
 
+    if (GENERIC_MODEL_LEVELS.includes(weekly.level)) {
+      const bySkill = await this.genericContent.sectionsFor(weekly.id);
+      return {
+        ...weekly,
+        sections: {
+          LESEN: bySkill.LESEN,
+          SPRACHBAUSTEINE: bySkill.SPRACHBAUSTEINE,
+          HOEREN: bySkill.HOEREN,
+          SCHREIBEN: bySkill.SCHREIBEN,
+          SPRECHEN: bySkill.SPRECHEN,
+        },
+      };
+    }
+
     const [lesen, sprachbausteine, hoerenTeile, schreiben, sprechen] =
       await Promise.all([
         this.lesen.getExercise(n),
@@ -173,6 +192,15 @@ export class ModelltestsService {
     };
   }
 
+  /**
+   * Known gap, not fixed here: for a generic-model level (A1/A2) every
+   * `exercises.*` list below is empty, since none of those eight relations
+   * exist for that level. `ModelltestExercisesDto` is a fixed per-table
+   * shape (not `unknown`, unlike `getOfTheWeekContent`'s `sections`), so
+   * widening it to carry generic-model ids is a DTO change this task's
+   * scope (docs/plans/active/multi-level-phase-3-generic-model.md Task 4)
+   * deliberately doesn't make. Empty lists, not a crash or wrong data.
+   */
   async getByNumber(
     number: number,
     opts: { isGuest?: boolean; studentId?: string } = {},

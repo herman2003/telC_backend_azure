@@ -1,0 +1,44 @@
+meta {
+  name: 14h Centre reads the Schreiben task name
+  type: http
+  seq: 30
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{b2AttemptId}}/result
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+  const task = res.body.schreibenSubmission?.task;
+  if (task !== "Aufgabe A — Bitte um Informationen") {
+    throw new Error("expected Aufgabe A's title, got " + JSON.stringify(task));
+  }
+}
+
+docs {
+  Not the sitting-level /exam-sessions/{id}/results (that's the roster, one
+  row per candidate, no submission text). schreibenSubmission lives on this
+  per-attempt endpoint.
+
+  What matters: schreibenSubmission.task should read
+  "Aufgabe A — Bitte um Informationen", not a bare modelltest id. That is
+  the whole point of request 14f naming taskId — a trainer must be able to
+  tell which of the two Aufgaben a submission answered, since criterion I is
+  exactly whether that prompt's required points were addressed.
+}

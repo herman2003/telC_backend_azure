@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import {
   Injectable,
   NotFoundException,
@@ -26,6 +27,8 @@ export interface WritingCorrectionQueue {
     exerciseId: string;
     content: string;
     createdAt: string;
+    /** The exam whose criteria the letter is rated against. */
+    level: CefrLevel;
   }): Promise<unknown>;
 }
 
@@ -73,10 +76,15 @@ export class WritingService {
   async getExerciseByModelltest(
     modelltestNumber: number,
   ): Promise<WritingExerciseDto> {
-    let row: Awaited<ReturnType<typeof this.prisma.writingExercise.findFirst>>;
+    // Every task of the Modelltest, not the first one. B1 has a single letter;
+    // telc B2 presents two and the candidate answers exactly one, so a
+    // `findFirst` would have handed a B2 candidate whichever row came back and
+    // hidden the other.
+    let rows: Awaited<ReturnType<typeof this.prisma.writingExercise.findMany>>;
     try {
-      row = await this.prisma.writingExercise.findFirst({
+      rows = await this.prisma.writingExercise.findMany({
         where: { modelltest: { number: modelltestNumber } },
+        orderBy: { part: 'asc' },
       });
     } catch {
       throw new NotFoundException({
@@ -86,7 +94,7 @@ export class WritingService {
         messageKey: 'writingExerciseNotFound',
       });
     }
-    if (!row) {
+    if (rows.length === 0) {
       throw new NotFoundException({
         statusCode: 404,
         error: 'Not Found',
@@ -94,7 +102,16 @@ export class WritingService {
         messageKey: 'writingExerciseNotFound',
       });
     }
-    return this.mapExerciseRow(row);
+
+    const tasks = rows.map((row) => this.mapExerciseRow(row));
+    const [first] = tasks;
+
+    // `choices` only when there is a choice, so a B1 response is exactly what
+    // it has always been and a client that knows nothing of one is unaffected.
+    const choiceGroupId = rows[0].choice_group_id ?? undefined;
+    if (tasks.length === 1 && !choiceGroupId) return first;
+
+    return { ...first, choiceGroupId, choices: tasks };
   }
 
   /**
@@ -164,11 +181,22 @@ export class WritingService {
   ): Promise<SubmitWritingResponseDto> {
     const { exerciseId, content } = dto;
 
-    let exercise: { id: string; modelltest_id: string | null } | null;
+    let exercise: {
+      id: string;
+      modelltest_id: string | null;
+      modelltest: { level: CefrLevel } | null;
+    } | null;
     try {
       exercise = await this.prisma.writingExercise.findUnique({
         where: { id: exerciseId },
-        select: { id: true, modelltest_id: true },
+        // `level` with it: the correction is rated against the criteria of the
+        // exam the task belongs to, and the caller is the only place that
+        // knows which that is without guessing.
+        select: {
+          id: true,
+          modelltest_id: true,
+          modelltest: { select: { level: true } },
+        },
       });
     } catch {
       throw new NotFoundException({
@@ -282,6 +310,9 @@ export class WritingService {
           exerciseId,
           content: content.trim(),
           createdAt,
+          // From the task's own Modelltest. A training task that belongs to
+          // no Modelltest is B1, which is every row that predates levels.
+          level: exercise.modelltest?.level ?? 'B1',
         });
       } catch (err) {
         this.logger.warn(
@@ -307,10 +338,15 @@ export class WritingService {
     task_instructions: string;
     bullet_points: string[];
     closing_reminder: string | null;
+    part?: number;
+    choice_group_id?: string | null;
   }): WritingExerciseDto {
     return {
       id: row.id,
-      part: 1,
+      // Was hard-coded to 1, which was true of every B1 row and wrong for the
+      // second task of a B2 choice. Still 1 for a row written before the
+      // column existed.
+      part: row.part ?? 1,
       title: row.title,
       subtitle: row.subtitle ?? undefined,
       taskType: row.task_type as 'brief' | 'forumsbeitrag',

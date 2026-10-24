@@ -46,12 +46,11 @@ export class SubmitListeningDto {
 
   @ApiProperty({
     description:
-      'Map of question id → "+" (richtig) or "−" (falsch). At least one entry required.',
+      'B1/B2: question id → "+" / "−". A1/A2: itemNumber (string) → value by aufgabentyp. At least one entry required.',
     example: { q41: '+', q42: '+', q43: '-', q44: '+', q45: '-' },
-    additionalProperties: { type: 'string', enum: ['+', '-'] },
   })
   @IsObject({ message: 'answers must be an object' })
-  answers: Record<string, string>;
+  answers: Record<string, unknown>;
 
   @ClientAttemptId()
   attemptId?: string;

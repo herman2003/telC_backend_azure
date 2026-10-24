@@ -1,0 +1,56 @@
+meta {
+  name: 11 Submit Hoeren
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/blocks/HOEREN/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+body:json {
+  {
+    "answers": {
+      "HOEREN_1": { "1": "c", "2": "b", "3": "a", "4": "b", "5": "a", "6": "c" },
+      "HOEREN_2": { "7": false, "8": false, "9": true, "10": true },
+      "HOEREN_3": { "11": "a", "12": "c", "13": "a", "14": "b", "15": "b" }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const by = {};
+  for (const s of res.body.sections) by[s.skill + "_" + s.teil] = s;
+  const teile = Object.keys(by).join(",");
+  if (teile !== "HOEREN_1,HOEREN_2,HOEREN_3") {
+    throw new Error("A1 Hoeren should mark three Teile, got " + teile);
+  }
+  // All closed answers: the key decides every Teil, nothing waits.
+  for (const k of ["HOEREN_1", "HOEREN_2", "HOEREN_3"]) {
+    if (by[k].pending !== false) {
+      throw new Error(k + " is closed answers, decided by the key: " + JSON.stringify(by[k]));
+    }
+  }
+  if (by.HOEREN_1.score !== 100 || by.HOEREN_2.score !== 100 || by.HOEREN_3.score !== 80) {
+    throw new Error("expected 100 / 100 / 80, got " +
+      [by.HOEREN_1.score, by.HOEREN_2.score, by.HOEREN_3.score].join(" / "));
+  }
+}
+
+docs {
+  The Lösungsschlüssel, except item 13 (key: c, sent: a). Richtig/falsch
+  answers are booleans. Expected marks: Teil 1 6/6, Teil 2 4/4, Teil 3 4/5.
+}

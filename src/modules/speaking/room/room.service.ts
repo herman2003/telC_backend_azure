@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { randomInt, randomUUID } from 'crypto';
 import { ACTIVATION_CODE_ALPHABET } from '../../centers/activation-code-format';
 import { ROOM_CODE_LENGTH } from './constants';
@@ -227,7 +227,20 @@ export class RoomService {
     }
 
     if (candidates.length === 0) {
-      throw new Error(`No speaking topics configured for level ${level}`);
+      /**
+       * A level whose topics have not been written yet.
+       *
+       * A bare Error here became a 500 on the controller and an unhandled
+       * failure on the gateway: a student told nothing, and a paging alert for
+       * what is only a content gap. Stated as a reason the client can show,
+       * and never by falling back to another level's topic — a B2 candidate
+       * handed a B1 debate card is worse than being told to wait.
+       */
+      throw new NotFoundException({
+        message: 'NO_TOPICS_FOR_LEVEL',
+        messageKey: 'noTopicsForLevel',
+        level,
+      });
     }
 
     const selected = candidates[Math.floor(Math.random() * candidates.length)];

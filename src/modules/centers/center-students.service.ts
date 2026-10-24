@@ -139,7 +139,7 @@ export class CenterStudentsService {
    * The account, the password the student chose, and every attempt they ever
    * submitted survive. Deleting would destroy a person's work because an
    * administrator edited a roster, and would discard exactly the former
-   * student that `ARCHITECTURE-B2B2C.md` describes as worth keeping in touch
+   * student that `docs/architecture/b2b2c.md` describes as worth keeping in touch
    * with. It also matches `Student.center_id` already being ON DELETE SET NULL.
    */
   async remove(

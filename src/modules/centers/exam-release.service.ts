@@ -32,7 +32,7 @@ export interface ReleaseOptions {
 
 export type ReleasedResult = Omit<
   ExamResultView,
-  'releasedAt' | 'suggestions' | 'schreibenSubmission'
+  'releasedAt' | 'suggestions' | 'schreibenSubmission' | 'review'
 > & {
   releasedAt: Date;
 };
@@ -215,9 +215,13 @@ export class ExamReleaseService {
     // candidate already wrote the letter; shipping it back on the release
     // snapshot is noise, and AI suggestions beside a trainer's mark are an
     // argument, not a result.
+    // The same goes for an A1/A2 review list: provisional points and the
+    // answers the key could not decide are the examiner's working, not the
+    // candidate's result.
     const released: Record<string, unknown> = { ...result };
     delete released.suggestions;
     delete released.schreibenSubmission;
+    delete released.review;
 
     await tx.examAttempt.update({
       where: { id: result.attemptId },

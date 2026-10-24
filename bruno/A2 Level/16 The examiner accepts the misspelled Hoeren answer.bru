@@ -1,0 +1,32 @@
+meta {
+  name: 16 The examiner accepts the misspelled Hoeren answer
+  type: http
+  seq: 35
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a2AttemptId}}/marks
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "skill": "HOEREN",
+    "teil": 1,
+    "points": 5
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.points: eq 5
+}
+
+docs {
+  Hören Teil 1 waited for review (15). The examiner reads "Donerstagnachmittag", accepts it, and gives the Teil its full 5 points.
+}

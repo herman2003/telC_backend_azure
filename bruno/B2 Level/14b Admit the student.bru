@@ -1,0 +1,39 @@
+meta {
+  name: 14b Admit the student
+  type: http
+  seq: 20
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-sessions/{{b2SittingId}}/participants
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "studentIds": ["{{studentId}}"]
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Center Auth / 03 Login)" : "")
+    );
+  }
+}
+
+docs {
+  {{studentId}} is the B2 student from Step 8 (Redeem it and become a B2
+  student). Must run before publish, or there is no one to admit.
+}

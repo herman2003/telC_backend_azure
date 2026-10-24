@@ -51,10 +51,12 @@ export class LesenSubmitRequestDto {
 
   @ApiProperty({
     type: 'object',
-    additionalProperties: { type: 'string' },
+    additionalProperties: true,
+    description:
+      'B1/B2: string answers per question id. A1/A2: itemNumber → value by aufgabentyp (may be boolean for Richtig/Falsch).',
   })
   @IsObject()
-  answers!: Record<string, string>;
+  answers!: Record<string, unknown>;
 
   @ClientAttemptId()
   attemptId?: string;
@@ -76,4 +78,22 @@ export class LesenSubmitResponseDto {
 
   @ApiProperty()
   score!: number;
+
+  @ApiPropertyOptional({
+    description: 'A1/A2: per-item outcome from markGenericSection',
+  })
+  outcomes?: Array<{
+    itemNumber: number;
+    outcome: 'CORRECT' | 'WRONG' | 'UNRECOGNISED';
+  }>;
+
+  @ApiPropertyOptional({
+    description:
+      'A1/A2: key material for UNRECOGNISED free-text items (training self-check)',
+  })
+  review?: Array<{
+    itemNumber: number;
+    acceptedAnswers?: string[];
+    solution?: unknown;
+  }>;
 }
