@@ -1,0 +1,32 @@
+meta {
+  name: 33 B1 Hoeren practice GET
+  type: http
+  seq: 33
+}
+
+get {
+  url: {{baseUrl}}/api/listening/exercise?modelltest={{b1ModelltestNumber}}&teil=1
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const body = res.body;
+  if (!body.audioId || !Array.isArray(body.questions)) {
+    throw new Error("B1 Hören practice needs audioId + questions");
+  }
+  if (body.audioUrl) {
+    throw new Error("training must not ship a raw audioUrl");
+  }
+}

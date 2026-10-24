@@ -230,19 +230,26 @@ describe('ListeningService', () => {
         {
           itemNumber: 1,
           prompt: 'Frage 1',
+          imageUrl: null,
           solution: { key: 'a' },
           options: [
-            { key: 'a', content: 'A', isCorrect: true },
-            { key: 'b', content: 'B', isCorrect: false },
+            {
+              key: 'a',
+              content: 'A',
+              imageUrl: 'https://cdn.example/a.png',
+              isCorrect: true,
+            },
+            { key: 'b', content: 'B', imageUrl: null, isCorrect: false },
           ],
         },
         {
           itemNumber: 2,
           prompt: 'Frage 2',
+          imageUrl: 'https://cdn.example/item2.png',
           solution: { key: 'b' },
           options: [
-            { key: 'a', content: 'A', isCorrect: false },
-            { key: 'b', content: 'B', isCorrect: true },
+            { key: 'a', content: 'A', imageUrl: null, isCorrect: false },
+            { key: 'b', content: 'B', imageUrl: null, isCorrect: true },
           ],
         },
       ],
@@ -268,11 +275,19 @@ describe('ListeningService', () => {
       expect(result.items?.[0]).toEqual({
         itemNumber: 1,
         prompt: 'Frage 1',
+        imageUrl: null,
         options: [
-          { key: 'a', content: 'A' },
-          { key: 'b', content: 'B' },
+          {
+            key: 'a',
+            content: 'A',
+            imageUrl: 'https://cdn.example/a.png',
+          },
+          { key: 'b', content: 'B', imageUrl: null },
         ],
       });
+      expect(result.items?.[1]?.imageUrl).toBe(
+        'https://cdn.example/item2.png',
+      );
       expect(JSON.stringify(result)).not.toContain('isCorrect');
       expect(JSON.stringify(result)).not.toContain('solution');
       expect(prisma.listeningExercise.findFirst).not.toHaveBeenCalled();

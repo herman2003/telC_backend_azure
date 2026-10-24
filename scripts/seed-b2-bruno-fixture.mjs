@@ -1,6 +1,6 @@
 /**
- * Rebuilds everything the `bruno/B2 Level`, `bruno/A2 Level` and
- * `bruno/A1 Level` collections
+ * Rebuilds everything the `bruno/B2 Level`, `bruno/A2 Level`,
+ * `bruno/A1 Level` and `bruno/Training` collections
  * need, on the test database.
  *
  * WHY THIS EXISTS

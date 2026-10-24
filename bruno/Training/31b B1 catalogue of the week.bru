@@ -1,0 +1,40 @@
+meta {
+  name: 31b B1 catalogue of the week
+  type: http
+  seq: 31
+}
+
+get {
+  url: {{baseUrl}}/api/modelltests
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  if (!res.body.length) {
+    throw new Error("B1 student sees no papers — did 31 redeem?");
+  }
+  if (res.body.some((m) => m.level !== "B1")) {
+    throw new Error("non-B1 paper in B1 catalogue: " +
+      res.body.map((m) => m.number + "/" + m.level).join(", "));
+  }
+  // Without Prep Pass this list is only the weekly rotation paper.
+  bru.setEnvVar("b1ModelltestNumber", String(res.body[0].number));
+}
+
+docs {
+  Same idea as B2 Level / 04d: do not hard-code MT 6 — without Prep Pass
+  Lesen/Hören/Sprachbausteine answer PREP_PASS_REQUIRED for any other paper.
+  Writing has no PrepPassGuard (known hole); 35 still uses this number.
+}

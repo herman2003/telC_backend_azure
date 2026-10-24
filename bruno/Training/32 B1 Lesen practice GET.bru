@@ -1,0 +1,36 @@
+meta {
+  name: 32 B1 Lesen practice GET
+  type: http
+  seq: 32
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest={{b1ModelltestNumber}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const body = res.body;
+  if (!body.teil1 || !body.teil2 || !body.teil3) {
+    throw new Error("B1 Lesen practice expects teil1/teil2/teil3, got " +
+      Object.keys(body).join(","));
+  }
+  if (Array.isArray(body.sections)) {
+    throw new Error("B1 must not use A1/A2 sections[] shape");
+  }
+  if (!body.teil1.texts.every((x) => x.correctTitleId)) {
+    throw new Error("ADR 0001: B1 Lesen Teil 1 must ship correctTitleId");
+  }
+}

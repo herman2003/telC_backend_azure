@@ -1,0 +1,31 @@
+meta {
+  name: 44 B2 Hoeren practice GET
+  type: http
+  seq: 44
+}
+
+get {
+  url: {{baseUrl}}/api/listening/exercise?modelltest=7&teil=1
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  if (!res.body.audioId || !Array.isArray(res.body.questions)) {
+    throw new Error("B2 Hören practice needs audioId + questions");
+  }
+  if (res.body.questions.length !== 5) {
+    throw new Error("B2 Hören Teil 1 should have 5 questions");
+  }
+}

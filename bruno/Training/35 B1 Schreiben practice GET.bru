@@ -1,0 +1,32 @@
+meta {
+  name: 35 B1 Schreiben practice GET
+  type: http
+  seq: 35
+}
+
+get {
+  url: {{baseUrl}}/api/writing/exercise?modelltest={{b1ModelltestNumber}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  // B1 is a single Aufgabe — no `choices` array (that is B2's shape).
+  if (Array.isArray(res.body.choices)) {
+    throw new Error("B1 Schreiben must not offer a choices array");
+  }
+  if (res.body.part == null && !res.body.id) {
+    throw new Error("expected a B1 writing exercise body, got " + JSON.stringify(res.body));
+  }
+}
