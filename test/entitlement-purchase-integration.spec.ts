@@ -9,13 +9,15 @@ import { PrismaService } from '../src/shared/services/prisma.service';
 import { EntitlementPurchaseService } from '../src/modules/centers/entitlement-purchase.service';
 import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
 import { PaymentActivationService } from '../src/modules/centers/payment-activation.service';
+import { TrialAddonGate } from '../src/modules/centers/trial-addon-gate';
 
 const prisma = new PrismaService();
-const purchases = new EntitlementPurchaseService(prisma);
-const activation = new PaymentActivationService(
+const subscriptionPolicy = new SubscriptionPolicyService();
+const purchases = new EntitlementPurchaseService(
   prisma,
-  new SubscriptionPolicyService(),
+  new TrialAddonGate(prisma, subscriptionPolicy),
 );
+const activation = new PaymentActivationService(prisma, subscriptionPolicy);
 
 async function wipe() {
   // Managers first: center_users has no cascade, so deleting the centre out
@@ -43,7 +45,12 @@ async function makeCenter(complete = true) {
             logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
           }
         : {}),
-      subscription: { create: { plan: 'TRIAL' } },
+      subscription: {
+        create: {
+          plan: 'PAID',
+          paid_until: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        },
+      },
     },
   });
   const manager = await prisma.centerUser.create({

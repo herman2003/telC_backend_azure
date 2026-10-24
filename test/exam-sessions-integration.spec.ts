@@ -12,12 +12,19 @@ import { ExamSessionsService } from '../src/modules/centers/exam-sessions.servic
 import { ExamParticipantsService } from '../src/modules/centers/exam-participants.service';
 import { ExamSessionPolicyService } from '../src/modules/centers/exam-session-policy.service';
 import { NotificationsService } from '../src/shared/services/notifications.service';
+import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
+import { TrialGiftVoidService } from '../src/modules/centers/trial-gift-void.service';
 
 const prisma = new PrismaService();
 const policy = new ExamSessionPolicyService();
 const sessions = new ExamSessionsService(prisma, policy);
 const notifications = new NotificationsService(prisma);
-const participants = new ExamParticipantsService(prisma, policy, notifications);
+const participants = new ExamParticipantsService(
+  prisma,
+  policy,
+  notifications,
+  new TrialGiftVoidService(prisma, new SubscriptionPolicyService()),
+);
 
 const identity = (centerId: string) =>
   ({ centerId, centerUserId: `${centerId}-owner` }) as never;

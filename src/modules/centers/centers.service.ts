@@ -19,6 +19,7 @@ const VERIFICATION_TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
  * It is also comfortably below the ten-seat paid minimum, so converting never
  * trips the student floor.
  */
+/** Placeholder until Pilote Exam Day starts (then set to 3). */
 const TRIAL_SEATS = 1;
 
 /**

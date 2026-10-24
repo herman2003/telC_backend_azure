@@ -139,48 +139,58 @@ out.
 
 ---
 
-## D3. The free trial is 14 days and 1 seat (= 1 activation code)
+## D3. Free trial = Pilote Exam Day (14 days, 3 seats)
 
-**Decided:** 2026-09-16
-**Status:** decided, not built
+**Decided:** 2026-09-16 (1 seat); **revised:** 2026-10-24 (Pilote Exam Day)
+**Status:** decided — package implemented in the backend
 
 ### What we adopt
 
-- **One seat, one code.** The backend's existing rule (`TRIAL_SEATS = 1` in
-  `centers.service.ts`) stands. Starting the trial creates exactly **one**
-  `demo_30` activation code, never more. This follows D1: one seat is one code.
-- **14 days.** Every trial code expires at `trialEndsAt`, which is the trial
-  start plus 14 days.
-- **What the code gives:** the trial seat is an ordinary `START` seat priced at
-  0 XAF (the backend's existing model), so a trial student has exactly the
-  Start plan's access and quotas. `demo_30` is only the code's label.
-- **One trial per center.** It is refused if the center already had one
-  (`TRIAL_ALREADY_USED`) or has already paid (`ALREADY_PAID`).
-- **Expiry needs no job (D2):** from `trialEndsAt` the center reads `unpaid`,
-  the code can no longer be redeemed (`CODE_EXPIRED`), and the connected
-  student loses access because entitlement is checked per request.
+- **Three seats, three codes — at trial start, not at registration.**
+  Registration still creates a placeholder seat row. Pressing the trial button
+  sets `center_seats.quantity = 3` and mints **three** activation codes. This
+  follows D1: one seat is one code. Centres that register and never start a
+  trial do not hold three pilot seats.
+- **14 days.** Every trial code expires at `trialEndsAt` (start + 14 days).
+- **Full Start on each seat.** Ordinary Start seats at 0 XAF — same access and
+  quotas as a paid Start student; only the clock differs.
+- **Pilote gifts (same transaction as the clock):**
+  - **6** manual Exam Day slots (`exam_slots_remaining`) — enough for two
+    sittings of three candidates
+  - **9** Mit Elena credits in the centre pool (`AI_SPEAKING_CREDIT`)
+  - **6** Corrections Schreiben IA credits in the pool (`AI_SCHREIBEN_CREDIT`)
+  - Centre assigns credits from the pool like a paid customer; nothing is
+    auto-assigned to codes
+  - **No Prep Pass** in the trial
+- **No add-on / Exam Day purchases during trial** (`TRIAL` or `TRIAL_PENDING`).
+  Seat payments (`SEATS`) stay allowed so the centre can convert.
+- **One trial per center.** Refused if already used (`TRIAL_ALREADY_USED`) or
+  already paid (`ALREADY_PAID`).
+- **Expiry (D2 + void):** from `trialEndsAt` the centre is unpaid/blocked,
+  codes cannot be redeemed (`CODE_EXPIRED`), connected students lose learning
+  access. Leftover trial Exam Day slots and the two AI pools are **voided**
+  (lazy cleanup when `BLOCKED` and `paid_until` is null) so a later seat
+  payment does not resurrect free gifts. Mid-trial conversion keeps remaining
+  gifts and retires dated trial codes as today.
 
-### Frontend changes this requires
+### API
 
-The frontend currently has no real trial: it issues 10 codes
-(`DEMO_TRIAL_SEATS = MIN_SEATS`), dates them +30 days, and never checks the
-date again.
+`POST /api/centers/me/trial` returns `{ trialEndsAt, codes }` — **`codes` is an
+array of three**, not a single `code`.
 
-- `DEMO_TRIAL_SEATS` → **1**. The Users page seat summary shows 1 bought.
-- `computeExpiresAt("trial")` +30 → **+14**, and the "Demo 30 Tage" /
-  "30 days" labels in `de`, `en`, `fr`.
-- Stop creating codes in the browser; codes come from the backend.
-- Read `trialEndsAt` from `GET /api/centers/me` and show a countdown, an
-  expired state, and a "trial ended, choose a plan" prompt.
+### Frontend
+
+- Seat summary after trial start: **3** bought.
+- Countdown from `trialEndsAt` on `GET /api/centers/me`.
+- Hand out three codes; guide two Exam Day sittings.
+- Do not offer Exam Day / Elena / Schreiben purchase while on trial.
 
 ### When the clock starts
 
-**Decided:** the 14-day clock starts **when the manager presses the trial
-button** (`POST /api/centers/me/trial`), not at the first student redemption.
-`trialStartedAt` and `trialEndsAt` are set by that call, in the same
-transaction that creates the one trial code, so the code's `expiresAt` is known
-the moment it exists. This replaces the backend's current behaviour, where the
-first student activation starts the clock.
+The 14-day clock starts **when the manager presses the trial button**
+(`POST /api/centers/me/trial`), not at the first student redemption.
+`trialStartedAt`, `trialEndsAt`, the three codes, seats = 3, and the gifts are
+set in that one transaction.
 
 ---
 
@@ -355,7 +365,7 @@ nobody can pay yet. When payment is built, a successful payment must also:
 
 ### Still open (numbers inside the model, not the model)
 
-- **B1** Is the 10-seat minimum right, given the trial is 1 seat (a jump from
+- **B1** Is the 10-seat minimum right, given the trial is 3 seats (a jump from
   free to 45,000 XAF/month)?
 - **B2** The minimum charge for small pro rata payments — needs Notch Pay's
   real fee and minimum amount.

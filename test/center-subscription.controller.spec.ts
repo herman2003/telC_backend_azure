@@ -52,7 +52,11 @@ describe('CenterSubscriptionController contract', () => {
     trials = {
       start: jest.fn().mockResolvedValue({
         trialEndsAt: '2027-01-15T00:00:00.000Z',
-        code: { id: 'code-1', code: 'LQ-7K2P-94QX', status: 'activated' },
+        codes: [
+          { id: 'code-1', code: 'LQ-7K2P-94QX', status: 'activated' },
+          { id: 'code-2', code: 'LQ-AAAA-BBBB', status: 'activated' },
+          { id: 'code-3', code: 'LQ-CCCC-DDDD', status: 'activated' },
+        ],
       }),
     };
 
@@ -137,7 +141,8 @@ describe('CenterSubscriptionController contract', () => {
         .expect(201);
 
       expect(trials.start).toHaveBeenCalledWith(signedIdentity);
-      expect(response.body.code.code).toBe('LQ-7K2P-94QX');
+      expect(response.body.codes).toHaveLength(3);
+      expect(response.body.codes[0].code).toBe('LQ-7K2P-94QX');
     });
 
     it('ignores a body: which center is asking comes from the token alone', async () => {

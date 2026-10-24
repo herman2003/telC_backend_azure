@@ -51,9 +51,9 @@ export class CenterSubscriptionController {
   @Post('trial')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
-    summary: 'Start the free trial',
+    summary: 'Start the free trial (Pilote Exam Day)',
     description:
-      'Starts a 14-day trial now and issues its one activation code, which expires with it. The clock starts at this call rather than at the first student redemption, so the school knows the end date the moment it has a code to hand out. One trial per center: a second call answers TRIAL_ALREADY_USED, and a center that has paid answers ALREADY_PAID. Two calls arriving together start one trial. The trial seat is a Start seat at zero price.',
+      'Starts a 14-day Pilote Exam Day trial: sets seats to 3, issues three activation codes (each expires with the trial), grants 6 manual Exam Day slots plus 9 Mit Elena and 6 Schreiben IA credits in the centre pools. The clock starts at this call rather than at the first student redemption. One trial per center: a second call answers TRIAL_ALREADY_USED, and a center that has paid answers ALREADY_PAID. Two calls arriving together start one trial. Trial seats are Start at zero price. Add-on / Exam Day purchases are refused while on trial; seat payments stay open for conversion.',
   })
   @ApiCreatedResponse({ type: TrialStartedDto })
   @ApiConflictResponse({

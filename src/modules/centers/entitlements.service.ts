@@ -7,6 +7,7 @@ import { Prisma, type EntitlementProduct } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { SubscriptionPolicyService } from './subscription-policy.service';
+import { TrialGiftVoidService } from './trial-gift-void.service';
 
 type SignedCenterIdentity = Pick<CenterAccessTokenPayload, 'centerId'>;
 
@@ -97,6 +98,7 @@ export class EntitlementsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly policy: SubscriptionPolicyService,
+    private readonly trialGiftVoid: TrialGiftVoidService,
   ) {}
 
   /**
@@ -110,6 +112,8 @@ export class EntitlementsService {
   async overview(
     identity: SignedCenterIdentity,
   ): Promise<EntitlementsOverview> {
+    await this.trialGiftVoid.voidIfExpiredUnpaidTrial(identity.centerId);
+
     const [pools, capped, assigned, frozen] = await Promise.all([
       this.prisma.centerEntitlementPool.findMany({
         where: { center_id: identity.centerId },

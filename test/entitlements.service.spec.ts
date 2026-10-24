@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
 import { EntitlementsService } from '../src/modules/centers/entitlements.service';
 import { SubscriptionPolicyService } from '../src/modules/centers/subscription-policy.service';
+import { TrialGiftVoidService } from '../src/modules/centers/trial-gift-void.service';
 
 /**
  * What a centre holds, and who may draw on it.
@@ -58,7 +59,12 @@ describe('EntitlementsService', () => {
       },
       $transaction: jest.fn((work: any) => work(prisma)),
     };
-    service = new EntitlementsService(prisma, new SubscriptionPolicyService());
+    const policy = new SubscriptionPolicyService();
+    service = new EntitlementsService(
+      prisma,
+      policy,
+      new TrialGiftVoidService(prisma, policy),
+    );
   });
 
   describe('assigning credits', () => {

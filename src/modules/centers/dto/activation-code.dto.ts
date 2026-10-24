@@ -104,16 +104,16 @@ export class TrialStartedDto {
     type: String,
     format: 'date-time',
     description:
-      'Fourteen days from the moment the trial was started. The code below expires at the same instant.',
+      'Fourteen days from the moment the trial was started. Every code below expires at the same instant.',
   })
   trialEndsAt: Date;
 
   @ApiProperty({
-    type: ActivationCodeDto,
+    type: [ActivationCodeDto],
     description:
-      'The one code the trial comes with. Re-read `GET /api/centers/me` for the account state it changed.',
+      'The three Pilote Exam Day codes. Re-read `GET /api/centers/me` for the account state it changed.',
   })
-  code: ActivationCodeDto;
+  codes: ActivationCodeDto[];
 }
 
 /** What a reset of this code would cost, shown before the manager acts (D39). */
