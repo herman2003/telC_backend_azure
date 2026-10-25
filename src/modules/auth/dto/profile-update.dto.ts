@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsEmail,
   IsEnum,
@@ -24,7 +25,18 @@ export class ProfileUpdateDto {
   @ApiPropertyOptional({ format: 'email', example: 'ada@example.com' })
   @IsOptional()
   @IsEmail({}, { message: 'Email must be a valid email address' })
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.toLowerCase().trim() : value,
+  )
   email?: string;
+
+  @ApiPropertyOptional({
+    format: 'password',
+    description: 'Required when changing email; proves the caller owns the session account.',
+  })
+  @IsOptional()
+  @IsString()
+  currentPassword?: string;
 
   @ApiPropertyOptional({
     enum: CefrLevel,

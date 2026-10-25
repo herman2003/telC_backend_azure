@@ -19,6 +19,14 @@ export class AuthStudentDto {
 
   @ApiPropertyOptional({
     nullable: true,
+    format: 'email',
+    description:
+      'New address awaiting confirmation; null when none is pending.',
+  })
+  pendingEmail?: string | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
     enum: ['A1', 'A2', 'B1', 'B2'],
     description:
       'Returned by the profile update; read it from GET /api/progress/me.',

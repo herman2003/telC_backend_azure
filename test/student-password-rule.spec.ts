@@ -31,7 +31,8 @@ describe('the student password rule (T2)', () => {
 
   const reset = (newPassword: string) =>
     refusal(ResetPasswordRequestDto, {
-      token: 'token',
+      email: 'awa@example.com',
+      token: '123456',
       newPassword,
       deviceId: 'device-1',
     });

@@ -1,0 +1,27 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 0
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+docs {
+  Student password reset and email-change checks (High auth hardening).
+
+  Prep:
+  1. `npm run start:testdb` and a seeded student (`studentEmail` /
+     `Student-Pass1!` from the B2 Bruno fixture).
+  2. For reset: run 01 Forgot, paste the six-digit code from the inbox into
+     `studentResetCode`, then 02 Reset.
+  3. For email change: run Student Activation / 00 Login first so
+     `studentAccessToken` is set. 04 Patch needs a free address in
+     `studentPendingEmail`. Paste the verification token from that inbox into
+     `verificationToken`, then 05 Confirm pending email.
+
+  03 is a pure validation check (no seed side effects).
+}
