@@ -317,11 +317,7 @@ export class AuthService {
     }
 
     const updatedStudent = await this.applyEmailVerification(student);
-    return this.issueAuthResponse(
-      updatedStudent,
-      dto.deviceId,
-      dto.deviceName,
-    );
+    return this.issueAuthResponse(updatedStudent, dto.deviceId, dto.deviceName);
   }
 
   async verifyEmailPublic(token: string): Promise<{ verified: true }> {

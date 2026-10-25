@@ -25,14 +25,15 @@ export class ProfileUpdateDto {
   @ApiPropertyOptional({ format: 'email', example: 'ada@example.com' })
   @IsOptional()
   @IsEmail({}, { message: 'Email must be a valid email address' })
-  @Transform(({ value }) =>
+  @Transform(({ value }: { value: unknown }) =>
     typeof value === 'string' ? value.toLowerCase().trim() : value,
   )
   email?: string;
 
   @ApiPropertyOptional({
     format: 'password',
-    description: 'Required when changing email; proves the caller owns the session account.',
+    description:
+      'Required when changing email; proves the caller owns the session account.',
   })
   @IsOptional()
   @IsString()

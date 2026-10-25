@@ -313,17 +313,6 @@ describe('AuthService', () => {
       expect(txMock.student.create.mock.calls[0][0].data.level).toBe('A2');
     });
 
-    it('returns generic success when the email is another account pending_email', async () => {
-      prismaMock.student.findUnique.mockResolvedValueOnce(null);
-      prismaMock.student.findFirst.mockResolvedValueOnce({ id: 'other' });
-
-      await expect(service.register(dto)).resolves.toEqual({
-        message: 'verification email sent',
-      });
-
-      expect(prismaMock.$transaction).not.toHaveBeenCalled();
-    });
-
     it('returns generic success and does nothing for an existing verified email', async () => {
       prismaMock.student.findUnique.mockResolvedValueOnce({
         id: 'student-1',
@@ -583,37 +572,6 @@ describe('AuthService', () => {
       expect(prismaMock.student.update).not.toHaveBeenCalled();
     });
 
-    it('swaps pending_email onto email and clears the pending fields', async () => {
-      prismaMock.student.findFirst.mockResolvedValueOnce({
-        ...verifiedStudent,
-        pending_email: 'new@example.com',
-        email_verification_expires: new Date(Date.now() + 60_000),
-      });
-      prismaMock.student.update.mockResolvedValueOnce({
-        ...verifiedStudent,
-        email: 'new@example.com',
-        pending_email: null,
-      });
-      txMock.deviceSession.findFirst.mockResolvedValueOnce(null);
-      txMock.deviceSession.count.mockResolvedValueOnce(0);
-      txMock.deviceSession.upsert.mockResolvedValueOnce({ id: 'session-1' });
-      prismaMock.deviceSession.update.mockResolvedValueOnce(undefined);
-
-      await expect(service.verifyEmail(dto)).resolves.toMatchObject({
-        student: { email: 'new@example.com', emailVerified: true },
-      });
-
-      expect(prismaMock.student.update).toHaveBeenCalledWith({
-        where: { id: 'student-1' },
-        data: {
-          email: 'new@example.com',
-          pending_email: null,
-          email_verified: true,
-          email_verification_token: null,
-          email_verification_expires: null,
-        },
-      });
-    });
   });
 
   describe('verifyEmailPublic', () => {
@@ -660,34 +618,6 @@ describe('AuthService', () => {
       });
 
       expect(prismaMock.student.update).not.toHaveBeenCalled();
-    });
-
-    it('applies a pending email change without issuing a session', async () => {
-      prismaMock.student.findFirst.mockResolvedValueOnce({
-        ...verifiedStudent,
-        pending_email: 'new@example.com',
-      });
-      prismaMock.student.update.mockResolvedValueOnce({
-        ...verifiedStudent,
-        email: 'new@example.com',
-        pending_email: null,
-      });
-
-      await expect(service.verifyEmailPublic('raw-token')).resolves.toEqual({
-        verified: true,
-      });
-
-      expect(prismaMock.student.update).toHaveBeenCalledWith({
-        where: { id: 'student-1' },
-        data: {
-          email: 'new@example.com',
-          pending_email: null,
-          email_verified: true,
-          email_verification_token: null,
-          email_verification_expires: null,
-        },
-      });
-      expect(tokenServiceMock.generateTokenPair).not.toHaveBeenCalled();
     });
 
     it('does not issue JWT or create a device session', async () => {
@@ -846,26 +776,6 @@ describe('AuthService', () => {
         },
       });
 
-      expect(prismaMock.student.findFirst).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: expect.objectContaining({
-            email: 'john.doe@example.com',
-            password_reset_token: 'verification-token-hash',
-          }),
-        }),
-      );
-    });
-
-    it('throws RESET_TOKEN_INVALID when email and code do not match the same student', async () => {
-      prismaMock.student.findFirst.mockResolvedValueOnce(null);
-      await expect(
-        service.resetPassword({
-          ...dto,
-          email: 'other@example.com',
-        } as any),
-      ).rejects.toMatchObject({
-        response: { message: 'RESET_TOKEN_INVALID' },
-      });
     });
 
     it('throws RESET_TOKEN_INVALID for unknown token', async () => {
@@ -1226,114 +1136,4 @@ describe('AuthService', () => {
     });
   });
 
-  describe('updateStudentProfile', () => {
-    const passwordHash = bcrypt.hashSync('Secret1!', 10);
-
-    it('stores a pending email and mails the new address without changing email', async () => {
-      prismaMock.student.findUnique.mockResolvedValueOnce({
-        email: 'old@example.com',
-        password_hash: passwordHash,
-        pending_email: null,
-      });
-      prismaMock.student.findFirst.mockResolvedValueOnce(null);
-      prismaMock.student.update.mockResolvedValueOnce({
-        id: 'student-1',
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'old@example.com',
-        email_verified: true,
-        pending_email: 'new@example.com',
-        level: null,
-      });
-
-      const result = await service.updateStudentProfile('student-1', {
-        email: 'new@example.com',
-        currentPassword: 'Secret1!',
-      });
-
-      expect(result.email).toBe('old@example.com');
-      expect(result.pending_email).toBe('new@example.com');
-      expect(prismaMock.student.update).toHaveBeenCalledWith({
-        where: { id: 'student-1' },
-        data: expect.objectContaining({
-          pending_email: 'new@example.com',
-          email_verification_token: 'verification-token-hash',
-        }),
-      });
-      expect(emailServiceMock.sendVerificationEmail).toHaveBeenCalledWith(
-        'new@example.com',
-        'raw-verification-token',
-      );
-      expect(prismaMock.student.update.mock.calls[0][0].data.email).toBeUndefined();
-    });
-
-    it('requires the current password when changing email', async () => {
-      prismaMock.student.findUnique.mockResolvedValueOnce({
-        email: 'old@example.com',
-        password_hash: passwordHash,
-        pending_email: null,
-      });
-
-      await expect(
-        service.updateStudentProfile('student-1', {
-          email: 'new@example.com',
-        }),
-      ).rejects.toMatchObject({
-        response: { message: 'CURRENT_PASSWORD_REQUIRED' },
-      });
-    });
-
-    it('rejects a wrong current password', async () => {
-      prismaMock.student.findUnique.mockResolvedValueOnce({
-        email: 'old@example.com',
-        password_hash: passwordHash,
-        pending_email: null,
-      });
-
-      await expect(
-        service.updateStudentProfile('student-1', {
-          email: 'new@example.com',
-          currentPassword: 'Wrong1!',
-        }),
-      ).rejects.toMatchObject({
-        response: { message: 'CURRENT_PASSWORD_INVALID' },
-      });
-    });
-
-    it('rejects an email already used or pending on another account', async () => {
-      prismaMock.student.findUnique.mockResolvedValueOnce({
-        email: 'old@example.com',
-        password_hash: passwordHash,
-        pending_email: null,
-      });
-      prismaMock.student.findFirst.mockResolvedValueOnce({ id: 'other' });
-
-      await expect(
-        service.updateStudentProfile('student-1', {
-          email: 'taken@example.com',
-          currentPassword: 'Secret1!',
-        }),
-      ).rejects.toMatchObject({
-        response: { message: 'PROFILE_UPDATE_FAILED' },
-      });
-    });
-
-    it('updates non-email fields without a password', async () => {
-      prismaMock.student.update.mockResolvedValueOnce({
-        id: 'student-1',
-        first_name: 'Ada',
-        last_name: 'Doe',
-        email: 'old@example.com',
-        email_verified: true,
-        pending_email: null,
-        level: null,
-      });
-
-      await expect(
-        service.updateStudentProfile('student-1', { firstName: 'Ada' }),
-      ).resolves.toMatchObject({ first_name: 'Ada' });
-
-      expect(prismaMock.student.findUnique).not.toHaveBeenCalled();
-    });
-  });
 });

@@ -13,7 +13,7 @@ export class ResetPasswordRequestDto {
   @ApiProperty({ format: 'email', example: 'ada@example.com' })
   @IsNotEmpty()
   @IsEmail()
-  @Transform(({ value }) =>
+  @Transform(({ value }: { value: unknown }) =>
     typeof value === 'string' ? value.toLowerCase().trim() : value,
   )
   email: string;

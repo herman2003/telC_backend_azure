@@ -15,7 +15,6 @@ export const AUTH_ERROR_MESSAGES: Record<string, string> = {
   TOKEN_MISMATCH: 'Refresh token mismatch.',
   NO_PROFILE_FIELDS: 'No profile fields provided.',
   PROFILE_UPDATE_FAILED: 'Profile update failed.',
-  CURRENT_PASSWORD_REQUIRED:
-    'Current password is required to change email.',
+  CURRENT_PASSWORD_REQUIRED: 'Current password is required to change email.',
   CURRENT_PASSWORD_INVALID: 'Current password is incorrect.',
 };

@@ -312,9 +312,7 @@ describe('RateLimitService', () => {
 
     it('allows 60 requests from one IP in the window', () => {
       for (let i = 0; i < 60; i++) {
-        expect(() =>
-          service.checkPartnerCentersLimit('1.2.3.4'),
-        ).not.toThrow();
+        expect(() => service.checkPartnerCentersLimit('1.2.3.4')).not.toThrow();
       }
     });
 
@@ -339,9 +337,7 @@ describe('RateLimitService', () => {
       for (let i = 0; i < 60; i++) {
         service.checkPartnerCentersLimit('1.1.1.1');
       }
-      expect(() =>
-        service.checkPartnerCentersLimit('2.2.2.2'),
-      ).not.toThrow();
+      expect(() => service.checkPartnerCentersLimit('2.2.2.2')).not.toThrow();
     });
   });
 
