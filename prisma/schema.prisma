@@ -36,6 +36,9 @@ model Student {
   email_verified             Boolean   @default(false)
   email_verification_token   String?
   email_verification_expires DateTime?
+  /// New address awaiting confirmation via the verification token. Login and
+  /// recovery keep using `email` until verify swaps this in.
+  pending_email              String?   @unique
   password_reset_token       String?
   password_reset_expires     DateTime?
 

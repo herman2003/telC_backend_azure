@@ -67,6 +67,7 @@ interface StudentResponseDto {
   lastName: string | null;
   email: string | null;
   emailVerified: boolean;
+  pendingEmail?: string | null;
   level?: 'A1' | 'A2' | 'B1' | 'B2' | null;
 }
 
@@ -220,7 +221,10 @@ export class AuthController {
     @Body() dto: ResetPasswordRequestDto,
     @Ip() ip: string,
   ): Promise<AuthTokenResponse> {
-    await this.rateLimitService.checkResetPasswordLimit(ip || 'unknown');
+    await this.rateLimitService.checkResetPasswordLimit(
+      ip || 'unknown',
+      dto.email,
+    );
     return this.authService.resetPassword(dto);
   }
 
@@ -421,6 +425,7 @@ export class AuthController {
         firstName: profileDto.firstName,
         lastName: profileDto.lastName,
         email: profileDto.email,
+        currentPassword: profileDto.currentPassword,
         level: profileDto.level,
       },
     );
@@ -453,6 +458,7 @@ export class AuthController {
         lastName: updated.last_name,
         email: updated.email,
         emailVerified: updated.email_verified,
+        pendingEmail: updated.pending_email ?? null,
         level: updated.level ?? null,
       },
     };
