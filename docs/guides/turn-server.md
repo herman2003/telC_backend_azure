@@ -1,7 +1,8 @@
 # How to set up a TURN server (start to finish)
 
-A practical runbook based on what we did for the Sprechen Room. Follow it next
-time to do it yourself. It explains *why* at each step, not just the commands.
+A practical runbook for the Sprechen Room. **Preferred path: Cloudflare
+Realtime TURN** (managed). Self-hosted coturn on a DigitalOcean droplet remains
+documented below as rollback.
 
 ---
 
@@ -20,7 +21,7 @@ That's where **STUN** and **TURN** come in:
 | | STUN | TURN |
 |---|---|---|
 | Job | "What's my public IP?" (helps punch through simple NAT) | **Relays** the media when a direct path is impossible |
-| Cost | Free (Google public STUN) | You run/pay for a server (it forwards real traffic) |
+| Cost | Free | Relayed GB (Cloudflare) or your VM bandwidth (coturn) |
 | Enough when | Home Wi-Fi, friendly NAT | 4G, corporate, strict NAT, different networks |
 
 **Symptom that you need TURN:** in the browser the connection goes
@@ -28,27 +29,61 @@ That's where **STUN** and **TURN** come in:
 Signaling looks perfect in your backend logs, but the call never connects.
 That means: no relay path. **You need a TURN server.**
 
-A TURN server is just **one small Linux VM running `coturn`**, reachable from the
-internet, that both browsers connect to with a temporary username/password.
+---
+
+## 1. Preferred: Cloudflare Realtime TURN
+
+No VM. Global anycast. First **1,000 GB/month** free, then **$0.05/GB** egress.
+STUN at `stun.cloudflare.com` is free and unlimited.
+Docs: https://developers.cloudflare.com/realtime/turn/
+
+### 1a. Dashboard
+
+1. Cloudflare Dashboard → **Realtime** → **TURN Server**.
+2. Add the Realtime subscription if prompted ($0 due now; overage only).
+3. **Create** a TURN key (e.g. `lerniqo-speaking`).
+4. Copy **Turn Token ID** and **API Token** once — keep them server-side only.
+
+Smoke-test (expect HTTP 201):
+
+```bash
+curl -i https://rtc.live.cloudflare.com/v1/turn/keys/$TURN_KEY_ID/credentials/generate-ice-servers \
+  -H "Authorization: Bearer $TURN_KEY_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"ttl": 3600}'
+```
+
+### 1b. Backend env
+
+```
+TURN_ENABLED=true
+TURN_PROVIDER=cloudflare
+CLOUDFLARE_TURN_KEY_ID=<Turn Token ID>
+CLOUDFLARE_TURN_API_TOKEN=<API Token>
+TURN_CREDENTIAL_TTL_SECONDS=3600
+```
+
+You do **not** need `TURN_URLS` / `TURN_STATIC_AUTH_SECRET` for Cloudflare.
+`GET /api/speaking/rooms/ice-servers` calls Cloudflare’s generate-ice-servers
+API and returns the same response shape the Flutter client already uses.
+
+Rollback to the droplet: set `TURN_PROVIDER=coturn` and restore the coturn env
+vars below. Tear down the DO droplet only after room calls look good for a week.
 
 ---
 
-## 1. Pick where to run it
+## 2. Alternative: self-hosted coturn (rollback)
 
 You need a VM with a **public IP** and open UDP ports. A managed app host
-(Azure App Service, Heroku, Vercel) can't do this — they don't give you raw UDP.
+(DigitalOcean App Platform, Azure App Service) can't do this — no raw UDP.
 
-We used a **DigitalOcean droplet** because:
-- The GitHub Student Pack gives **$200 credit/year** → effectively free.
+We previously used a **DigitalOcean droplet** because:
+- The GitHub Student Pack gives **$200 credit/year** → effectively free for a while.
 - coturn needs almost no CPU/RAM; the **$6/mo** plan (1 GB, 1 TB transfer) is plenty.
-- Bandwidth (the only thing that scales) is cheap and generous there.
-
-Managed TURN (Twilio/Metered) also exists, but it costs real money and the
-student credit doesn't apply — self-hosting wins here.
 
 ---
 
-## 2. Create the droplet
+## 2a. Create the droplet
 
 DigitalOcean → Create → Droplet:
 - **Image:** Ubuntu 24.04 LTS
@@ -67,7 +102,7 @@ The **private** key stays on your machine. Later, `ssh root@<IP>` just works.
 
 ---
 
-## 3. Install coturn
+## 2b. Install coturn
 
 ```bash
 ssh root@<DROPLET_IP>
@@ -78,7 +113,7 @@ service that auto-starts on boot.)
 
 ---
 
-## 4. Configure coturn
+## 2c. Configure coturn
 
 **Generate a shared secret** (you'll also put this in your backend):
 ```bash
@@ -116,7 +151,7 @@ systemctl is-active coturn      # → "active"
 
 ---
 
-## 5. Open the firewall
+## 2d. Open the firewall
 
 ```bash
 ufw allow 22/tcp            # SSH (allow FIRST so you don't lock yourself out)
@@ -129,7 +164,7 @@ ufw status                  # verify
 
 ---
 
-## 6. Test the relay (the proof it works)
+## 2e. Test the relay (the proof it works)
 
 You test from a real browser, because that exercises your actual network/NAT.
 
@@ -153,7 +188,7 @@ see `host`/`srflx`, the secret or firewall is wrong.
 
 ---
 
-## 7. Backend integration (hand credentials to the app)
+## 2f. Backend integration (coturn env)
 
 The browser must **never** hold the static secret. Instead the backend mints a
 short-lived credential per request. This is the *exact same* HMAC formula coturn
@@ -164,11 +199,12 @@ username   = "<unixExpiry>:<userId>"          # expiry = now + ttl (e.g. 3600s)
 credential = base64( HMAC_SHA1( SECRET, username ) )
 ```
 
-**Backend config (env vars)** — e.g. in Azure App Service settings:
+**Backend config (env vars)** — e.g. in App Platform / `.env.test`:
 ```
 TURN_ENABLED=true
+TURN_PROVIDER=coturn
 TURN_URLS=turn:64.226.72.102:3478?transport=udp,turn:64.226.72.102:3478?transport=tcp
-TURN_STATIC_AUTH_SECRET=<the same secret from §4>
+TURN_STATIC_AUTH_SECRET=<the same secret from §2c>
 TURN_CREDENTIAL_TTL_SECONDS=3600
 ```
 
@@ -193,7 +229,7 @@ falls back to plain STUN if it fails, and refreshes before `ttlSeconds`.
 
 ---
 
-## 8. Verify end to end
+## 3. Verify end to end
 
 ```bash
 BASE=https://your-backend
@@ -211,7 +247,7 @@ should reach `connectionState: connected` with a `typ relay` candidate.
 
 ---
 
-## 9. Maintenance & gotchas
+## 4. Maintenance & gotchas
 
 - **Keep coturn patched:** `apt update && apt upgrade -y coturn` occasionally
   (it's security-sensitive; there have been CVEs).
@@ -226,7 +262,7 @@ should reach `connectionState: connected` with a `typ relay` candidate.
 
 ---
 
-## 10. Quick command reference (copy-paste)
+## 5. Coturn quick command reference (copy-paste)
 
 ```bash
 # on the droplet, fresh Ubuntu:
