@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class LesenTeil1TextDto {
   @ApiProperty()
@@ -23,4 +23,10 @@ export class LesenTeil1TextDto {
       'submitted to POST /submit.',
   })
   correctTitleId!: string;
+
+  @ApiPropertyOptional({
+    description:
+      'Authored Training Corrigé package when present. docs/contracts/training-correction-package.md',
+  })
+  correction?: Record<string, unknown>;
 }

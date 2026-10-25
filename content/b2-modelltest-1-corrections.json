@@ -1,0 +1,452 @@
+{
+  "modelltestNumber": 1,
+  "level": "B2",
+  "paperTitle": "telc Deutsch B2 – Übungstest 1",
+  "hoeren": {
+    "teil1": {
+      "41": {
+        "evidence": "Danach plane die Bundesregierung die maximale Kündigungsfrist auch für langjährige Mieter von 12 auf 6 Monate herabzusetzen. Für Vermieter ändere sich dagegen nichts.",
+        "whyCorrect": "Für Mieter soll die Kündigungsfrist kürzer werden. Für Vermieter bleibt sie unverändert.",
+        "whyOppositeFails": "FALSCH würde diesen ausdrücklich genannten Unterschied übersehen.",
+        "learningPoint": "„Dagegen“ zeigt hier einen Gegensatz zwischen Mietern und Vermietern.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "42": {
+        "evidence": "In Ostdeutschland stehen immer mehr Wohnungen leer. Vor allem in den Plattenbauten wächst das Überangebot – einem Bericht des Nachrichtenmagazins „Der Spiegel“ zufolge – dramatisch. Das Blatt zitiert eine Studie, nach der in den kommenden Jahren über eine Million Wohnungen abgerissen werden müssten.",
+        "whyCorrect": "In Ostdeutschland gibt es zu viele unbewohnte Wohnungen. Deshalb wird der Abriss vieler Wohnungen erwartet.",
+        "whyOppositeFails": "FALSCH passt nicht zum ausdrücklich beschriebenen Leerstand und geplanten Abriss.",
+        "learningPoint": "„Leer stehen“ bedeutet bei Wohnungen: nicht bewohnt sein.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "43": {
+        "evidence": "Alle Waldbrände in Griechenland sind gelöscht. Dies berichtet der griechische Rundfunk. Auch die Hitzewelle ist vorbei.",
+        "whyCorrect": "Sowohl die Waldbrände als auch die Hitzewelle sind beendet.",
+        "whyOppositeFails": "FALSCH würde bedeuten, dass mindestens eines der beiden Ereignisse noch andauert. Das widerspricht dem Text.",
+        "learningPoint": "„Sowohl … als auch“ verbindet zwei Informationen, die beide gelten.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "44": {
+        "evidence": "Die Bergungsarbeiten wurden fortgesetzt.",
+        "whyCorrect": "Die Arbeiten gingen weiter. Sie wurden nicht eingestellt.",
+        "whyOppositeFails": "RICHTIG würde einen Abbruch der Bergungsarbeiten bestätigen. Der Hörtext sagt das Gegenteil.",
+        "learningPoint": "„Fortsetzen“ bedeutet weitermachen; „einstellen“ bedeutet hier aufhören.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "45": {
+        "evidence": "Dabei wurden fünf Menschen getötet, 18 wurden verletzt.",
+        "whyCorrect": "Es gab Tote und Verletzte. Damit entstand nicht nur Sachschaden.",
+        "whyOppositeFails": "RICHTIG würde bedeuten, dass keine Menschen verletzt oder getötet wurden.",
+        "learningPoint": "„Sachschaden“ betrifft Gegenstände, nicht verletzte Menschen.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    },
+    "teil2": {
+      "46": {
+        "evidence": "Hier auf dem Zugspitzgipfel haben wir circa ein Meter Schnee, etwas weiter unten liegt ein dreiviertel Meter.",
+        "whyCorrect": "Auf dem Gipfel liegt ungefähr ein Meter Schnee.",
+        "whyOppositeFails": "FALSCH würde die ausdrücklich genannte Schneehöhe auf dem Gipfel verneinen.",
+        "learningPoint": "Achte darauf, zu welchem Ort eine Zahl gehört: Gipfel oder weiter unten.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "47": {
+        "evidence": "Allerdings ohne Skibetrieb muss ich sagen, gell.",
+        "whyCorrect": "Trotz des Schnees gibt es momentan keinen Skibetrieb.",
+        "whyOppositeFails": "RICHTIG würde Schnee automatisch mit der Möglichkeit zum Skifahren gleichsetzen.",
+        "learningPoint": "„Allerdings“ kündigt häufig eine wichtige Einschränkung an.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "48": {
+        "evidence": "Nein, die Schneefallgrenze liegt circa bei 2000 Meter. Darunter ist alles grün.",
+        "whyCorrect": "Auf die Frage nach Schnee in Garmisch-Partenkirchen antwortet Herr Werner mit „Nein“. Schnee liegt erst weiter oben.",
+        "whyOppositeFails": "RICHTIG würde die verneinende Antwort und die grünen tieferen Lagen übersehen.",
+        "learningPoint": "Unterscheide das Wetter im Tal vom Wetter auf dem Berg.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "49": {
+        "evidence": "Ab Montag soll’s besser werden.",
+        "whyCorrect": "Für den Beginn der kommenden Woche wird eine Wetterbesserung erwartet.",
+        "whyOppositeFails": "FALSCH würde diese positive Wettervorhersage verneinen.",
+        "learningPoint": "„Soll“ kann eine Vorhersage oder eine Information aus anderer Quelle ausdrücken.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "50": {
+        "evidence": "Wir hoffen allerdings schon, dass wir am Sonntag besseres Wetter bekommen. Denn an der Bergstation der Alpschützbahn tritt der Tridentiner Bergchor auf. Da wird eine Messe gefeiert und wir hoffen natürlich auf einigermaßen schönes Wetter.",
+        "whyCorrect": "Für Sonntag ist an der Bergstation eine Messe vorgesehen, also ein Gottesdienst.",
+        "whyOppositeFails": "FALSCH würde die angekündigte Messe an der Bergstation verneinen.",
+        "learningPoint": "„Messe“ bedeutet hier Gottesdienst, nicht Ausstellung.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "51": {
+        "evidence": "Die Zugspitze sieht man zurzeit, wenn ich aus meinem Bürofenster rausschaue.",
+        "whyCorrect": "Herr Werner kann die Zugspitze sehen. Sie ist momentan nicht vollständig im Nebel verborgen.",
+        "whyOppositeFails": "RICHTIG würde behaupten, dass die Zugspitze nicht erkennbar ist.",
+        "learningPoint": "Die Frage der Interviewerin ist noch keine bestätigte Information. Entscheidend ist die Antwort.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "52": {
+        "evidence": "Also, genügend Alternativen, wo man auch bei Schlechtwetter was machen kann. Es gibt dreimal täglich Kurkonzerte und so. Es wird den Leuten nicht langweilig.",
+        "whyCorrect": "Auch bei schlechtem Wetter gibt es ausreichend Freizeitangebote.",
+        "whyOppositeFails": "FALSCH würde bedeuten, dass die Gäste bei schlechtem Wetter nicht genügend Möglichkeiten haben.",
+        "learningPoint": "„Alternativen“ sind andere Möglichkeiten, wenn der ursprüngliche Plan nicht passt.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "53": {
+        "evidence": "Der Sommer kommt ja noch, da bin ich ganz optimistisch.",
+        "whyCorrect": "Herr Werner erwartet besseres Wetter und bleibt zuversichtlich.",
+        "whyOppositeFails": "RICHTIG würde ihm eine negative Erwartung zuschreiben. Er äußert sich ausdrücklich optimistisch.",
+        "learningPoint": "„Optimistisch“ bedeutet: mit einer positiven Entwicklung rechnen.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "54": {
+        "evidence": "Nein, im Juli nicht. Aber dafür im Juno und im August. Das gab’s also immer wieder mal.",
+        "whyCorrect": "In früheren Jahren gab es im Juni und August Schnee.",
+        "whyOppositeFails": "FALSCH würde die ausdrücklich genannten früheren Schneefälle verneinen.",
+        "learningPoint": "„Juno“ ist eine alternative Bezeichnung für Juni und hilft, Juni und Juli akustisch zu unterscheiden.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "55": {
+        "evidence": "Das ist doch herrlich hier auf dem Gipfel: Ein Geschenk vom lieben Gott ist das. Da möchte ich mit keinem tauschen, der da drunten in irgendeinem Büro hockt.",
+        "whyCorrect": "Herr Werner bewertet seinen Arbeitsplatz sehr positiv und möchte ihn nicht tauschen.",
+        "whyOppositeFails": "FALSCH würde Unzufriedenheit ausdrücken. Seine Aussagen zeigen das Gegenteil.",
+        "learningPoint": "„Mit niemandem tauschen wollen“ kann starke Zufriedenheit ausdrücken.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    },
+    "teil3": {
+      "56": {
+        "evidence": "Sie erreichen uns von Montag bis Freitag von 8–18 Uhr sowie Samstag von 9–17 Uhr.",
+        "whyCorrect": "Der Service ist nur zu bestimmten Geschäftszeiten erreichbar.",
+        "whyOppositeFails": "RICHTIG würde eine Erreichbarkeit von 24 Stunden täglich bestätigen.",
+        "learningPoint": "„Rund um die Uhr“ bedeutet: jederzeit, auch nachts.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "57": {
+        "evidence": "Allerdings müssen die Fans bei Eintrittspreisen bis zu 100 Euro für Ihren Klassik-Genuss doch gehörig in die Tasche greifen.",
+        "whyCorrect": "Genannt werden Preise bis 100 Euro, nicht Preise ab 200 Euro.",
+        "whyOppositeFails": "RICHTIG würde sowohl die genannte Summe als auch die Preisgrenze verändern.",
+        "learningPoint": "„Ab“ bezeichnet eine Untergrenze, „bis zu“ eine Obergrenze.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "58": {
+        "evidence": "Infos auf unserer Homepage im Servicebereich unter www.upline.de.",
+        "whyCorrect": "Informationen zum neuen Tarif stehen auf der Internetseite.",
+        "whyOppositeFails": "FALSCH würde diese ausdrücklich genannte Informationsmöglichkeit verneinen.",
+        "learningPoint": "Achte darauf, wofür unterschiedliche Kontaktwege genannt werden.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "59": {
+        "evidence": "Hier ist Musik aus aller Welt zu hören, live und vom Plattenteller.",
+        "whyCorrect": "Im Park wird internationale Musik angeboten. Das Programm ist nicht auf japanische Musiker beschränkt.",
+        "whyOppositeFails": "RICHTIG würde aus dem Schwerpunkt Japan eine ausschließliche Beschränkung machen.",
+        "learningPoint": "Ein „Schwerpunkt“ schließt andere Themen oder Herkunftsländer nicht aus.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "60": {
+        "evidence": "Neben Musik, Kabarett und Literatur gibt es außerdem auch jede Menge Stände mit internationalen Spezialitäten und kulinarischen Schmankerln aus Hessen beim 24. Festival im Garten im Schlosspark Freudenberg in Wiesbaden.",
+        "whyCorrect": "Zusätzlich zum Kulturprogramm gibt es internationale Speisen und Spezialitäten aus Hessen.",
+        "whyOppositeFails": "FALSCH würde das ausdrücklich genannte gastronomische Angebot übersehen.",
+        "learningPoint": "„Kulinarisch“ bezieht sich auf Essen und Genuss.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    }
+  },
+  "lesen": {
+    "teil1": {
+      "1": {
+        "evidence": "Es ist ein herrliches Stück Deutschland ohne besonders große Städte, eine Gegend, die Natur pur bietet. Daher wundert es nicht, dass man hier einige Kurorte findet wie Bad Arolsen oder Bad Wildungen oder den Luftkurort Edertal-Kleinern. Apropos Edertal: Der zwölf Quadratkilometer große Edersee gehört zu den vier schönen „blauen Augen“ des Kreises.",
+        "whyCorrect": "Der Text stellt eine hessische Region mit Natur, Kurorten und Seen vor.",
+        "whyCompetingFails": "j — „Zu Gast bei den Fürsten“ passt nur zu einzelnen Informationen über Schlösser und Adel. Es erfasst nicht das gesamte Thema.",
+        "learningPoint": "Wähle die Überschrift, die den ganzen Text abdeckt, nicht nur ein auffälliges Detail."
+      },
+      "2": {
+        "evidence": "Sie suchen im Watt nach Vermissten, klären über Gefahren auf, verhindern Diebstähle und Sachbeschädigungen.",
+        "whyCorrect": "Die Polizisten arbeiten am Strand und schützen dort die Urlauber.",
+        "whyCompetingFails": "c — „Freiheit und Natur – nach sechs Wochen harter Arbeit“ passt nicht: Die sechs Wochen bezeichnen den Einsatz, nicht einen anschließenden Urlaub.",
+        "learningPoint": "„Im Dienst sein“ bedeutet arbeiten, hier als Polizistin oder Polizist."
+      },
+      "3": {
+        "evidence": "Ein besonders beliebtes Ziel ist Schweden: So kann man am Ufer des Flusses Klarälven in der Provinz Värmland selbst ein Floß bauen. Das dauert drei bis sechs Stunden, anschließend macht man darauf Urlaub.",
+        "whyCorrect": "Die Urlauber bauen zuerst ein Floß und reisen anschließend damit auf einem schwedischen Fluss.",
+        "whyCompetingFails": "c — „Freiheit und Natur – nach sechs Wochen harter Arbeit“ nennt die falsche Dauer. Der Floßbau dauert Stunden, nicht sechs Wochen.",
+        "learningPoint": "Zeitangaben können zwei ähnlich klingende Überschriften klar unterscheiden."
+      },
+      "4": {
+        "evidence": "Denn der Verdienst wird gespendet. Die Jugendlichen wählen selbst ein Projekt aus, an das sie die Gelder spenden wollen. Einzige Bedingung: Es muss ein Projekt sein, von dem Jugendliche profitieren.",
+        "whyCorrect": "Jugendliche arbeiten und spenden ihren Lohn für Projekte, die anderen Jugendlichen helfen.",
+        "whyCompetingFails": "e — „Kinderarbeit in Deutschland: Jugendliche werden zur Arbeit gezwungen“ passt nicht. Der Text beschreibt Engagement und selbst ausgewählte Hilfsprojekte, keinen Arbeitszwang.",
+        "learningPoint": "Unterscheide zwischen denen, die arbeiten, und denen, die vom Geld profitieren."
+      },
+      "5": {
+        "evidence": "Der Fluss hatte einfach zu wenig Wasser, da konnten wir mit dem großen Kreuzfahrtschiff nicht weiterfahren!",
+        "whyCorrect": "Wegen des niedrigen Wasserstands kann die Schiffsreise nicht fortgesetzt werden. Die Reise geht anschließend mit dem Bus weiter.",
+        "whyCompetingFails": "g — „Schaden an Kreuzfahrtschiff verhindert Weiterfahrt“ nennt die falsche Ursache. Beschrieben wird Wassermangel, kein Schaden am Schiff.",
+        "learningPoint": "Suche bei Reiseproblemen gezielt nach der Ursache."
+      }
+    },
+    "teil2": {
+      "6": {
+        "evidence": "So vertreten 70 % der Bevölkerung die Auffassung, dass Freizeit in erster Linie eine Zeit ist, in der man tun und lassen kann, was einem Spaß macht.",
+        "whyCorrect": "Die Mehrheit verbindet Freizeit mit der Freiheit, eigene Wünsche und Interessen zu verfolgen.",
+        "whyDistractorsFail": {
+          "b": "Der Text beschreibt ausdrücklich ein positives Freizeitverständnis.",
+          "c": "Freizeit dient nicht ausschließlich dem Ausruhen oder Schlafen."
+        },
+        "learningPoint": "„In erster Linie“ bedeutet hauptsächlich."
+      },
+      "7": {
+        "evidence": "Bei Freizeit denken die meisten erst einmal an den eigenen Spaß.",
+        "whyCorrect": "Für die Mehrheit stehen persönliche Interessen und Freude im Mittelpunkt.",
+        "whyDistractorsFail": {
+          "b": "Eine Aufbesserung des Einkommens wird nicht als hauptsächliche Freizeitnutzung beschrieben.",
+          "c": "Erholung für die Arbeit gehört dazu, erklärt aber nicht mehr das vorherrschende Freizeitverständnis."
+        },
+        "learningPoint": "Unterscheide zwischen einer möglichen Funktion und dem Hauptzweck."
+      },
+      "8": {
+        "evidence": "Die Deutschen haben ihre Freizeit bestens organisiert: samstags auf die Piste und sonntags mit der Familie. Fast jeder dritte Bundesbürger reserviert regelmäßig einen Wochentag für Familie oder Ausgehen, für Sport oder Faulenzen.",
+        "whyCorrect": "Der Text beschreibt feste Tage und regelmäßig geplante Freizeitaktivitäten.",
+        "whyDistractorsFail": {
+          "a": "„Nur an Wochenenden“ ist zu absolut. Auch andere feste Wochentage werden genannt.",
+          "b": "„Gar nicht“ widerspricht der ausdrücklich beschriebenen Organisation."
+        },
+        "learningPoint": "Prüfe absolute Wörter wie „nur“, „immer“ oder „gar nicht“ besonders genau."
+      },
+      "9": {
+        "evidence": "Den sonntäglichen Terminkalender bestimmen dann bei der Mehrheit der Befragten die beiden „F“: Faulenzen und Familie.",
+        "whyCorrect": "Am Sonntag stehen bei vielen die Familie und das Ausruhen im Vordergrund.",
+        "whyDistractorsFail": {
+          "a": "Der Samstag wird als Hauptausgehtag beschrieben.",
+          "b": "Für den Sonntag nennt der Text hier Familie, nicht Freunde oder Kollegen."
+        },
+        "learningPoint": "„Faulenzen“ bedeutet, sich ohne größere Aktivität auszuruhen."
+      },
+      "10": {
+        "evidence": "Freizeitrituale, bisher kaum erforscht, hatten im Alltagsleben der Bevölkerung schon immer ihren festen Platz.",
+        "whyCorrect": "„Bisher kaum erforscht“ bedeutet, dass es bislang nur wenige wissenschaftliche Untersuchungen dazu gibt.",
+        "whyDistractorsFail": {
+          "a": "Rituale geben Halt und stabilisieren das Zusammenleben. Eine Schwächung wird nicht beschrieben.",
+          "b": "Der Text betont ihre wichtige Funktion für Familien."
+        },
+        "learningPoint": "„Kaum“ bedeutet sehr wenig, nicht vollständig gar nichts."
+      }
+    },
+    "teil3": {
+      "11": {
+        "evidence": "Auf dem Göta-Kanal sind drei historische Schiffe unterwegs: „Juno“, „Wilhelm Tham“ und „Diana“.",
+        "whyCorrect": "Das Angebot ermöglicht eine Schiffsreise in Schweden und passt damit zum Wunsch des Bekannten.",
+        "whyCompetingFails": "j bietet Informationen über Ägypten und Nilkreuzfahrten, nicht über Schweden.",
+        "learningPoint": "Bei Reiseangeboten müssen sowohl das Land als auch die Reiseart passen."
+      },
+      "12": {
+        "evidence": "Trainer vermitteln effektives Gleiten, Bremsen, Kurvenfahren, Fallen – alles für fortgeschrittene Skater, die ihre Technik verbessern wollen.",
+        "whyCorrect": "Der Freund kann bereits skaten und möchte seine Technik verbessern. Dafür ist der Fortgeschrittenenkurs gedacht.",
+        "whyCompetingFails": "g richtet sich vor allem an Anfänger, die das Inline-Skaten erst lernen möchten.",
+        "learningPoint": "„Sich perfektionieren“ bedeutet, vorhandene Fähigkeiten weiterzuentwickeln."
+      },
+      "13": {
+        "evidence": "Gesundheit: Wasser, auch zum Zähneputzen, sollten Sie nur aus verschlossenen Flaschen benutzen. Welche Impfung nötig ist, erfahren Sie am Impftelefon: 0 40 / 42 81 88 00.",
+        "whyCorrect": "Der Ägypten-Text enthält Gesundheitshinweise und eine Informationsstelle für notwendige Impfungen.",
+        "whyCompetingFails": "e hilft bei Einreisepapieren, informiert aber nicht über Gesundheitsrisiken.",
+        "learningPoint": "Unterscheide Reiseformalitäten von gesundheitlicher Reisevorbereitung."
+      },
+      "14": {
+        "evidence": "Bisher gab es dafür keine festen Prüfkriterien, doch jetzt kommt das Gütezeichen „Kontrollierte Natur-Kosmetik BDHI“, das vom Bundesverband Deutscher Industrie- und Handelsunternehmen (BDHI) vergeben wird.",
+        "whyCorrect": "Kein Info-Text bietet einen Kurs über Naturkosmetik an. Der thematisch passende Text l informiert lediglich über ein Gütezeichen.",
+        "whyCompetingFails": "l enthält zwar „Naturkosmetik“, aber kein Kursangebot.",
+        "learningPoint": "Ein gemeinsames Thema reicht nicht: Auch die gesuchte Leistung muss angeboten werden."
+      },
+      "15": {
+        "evidence": "Jetzt neu: Auslandsreisen zu Hilfsprojekten in anderen Ländern (mit sozialer Tätigkeit, z. B. Hilfe in Schulen o. Ä.) – Reisen, Lernen, Gutes tun! Für Jugendliche ab 15 Jahren.",
+        "whyCorrect": "Die 17-Jährige erfüllt die Altersbedingung und kann bei Hilfsprojekten im Ausland mitarbeiten.",
+        "whyCompetingFails": "d sammelt durch einen Lauf Geld für Forschung. Es bietet keine Mitarbeit bei Hilfsprojekten im Ausland.",
+        "learningPoint": "Prüfe neben dem Thema auch Alter, Ort und Art der Tätigkeit."
+      },
+      "16": {
+        "evidence": "Und dazu ein großes Angebot für alle, die im Urlaub aktiv werden wollen: geführte Wanderungen im Tannheimer Tal, Radeln, Mountainbiken, Surfen, Bootsfahrten und Baden am klaren Haldensee, Tennisspielen und dann Relaxen im Wellness-Bereich – Entspannung pur!",
+        "whyCorrect": "Das Hotel bietet zahlreiche sportliche Aktivitäten für den Urlaub an.",
+        "whyCompetingFails": "k beschreibt vor allem einen ruhigen Ort und Fischgerichte, kein vergleichbares Sportangebot.",
+        "learningPoint": "Eine Aufzählung kann zeigen, ob ein Angebot mehrere passende Aktivitäten enthält."
+      },
+      "17": {
+        "evidence": "Engagierte Skater werden benötigt, die Skating-Regeln erklären oder bei der Verkehrsregelung helfen.",
+        "whyCorrect": "Gesucht werden Helfer, die eine Inline-Skate-Veranstaltung unterstützen.",
+        "whyCompetingFails": "c informiert über Veranstaltungen, sucht aber keine Helfer für deren Organisation.",
+        "learningPoint": "„Mitwirken“ bedeutet aktiv mithelfen, nicht nur teilnehmen."
+      },
+      "18": {
+        "evidence": "Sie wollen bald zu Ihrer ersten Inliner-Tour starten? Anfänger sollten die wichtigsten Techniken (beim Gleiten, Bremsen und Fallen) vorher üben und Körperhaltung und Balance trainieren.",
+        "whyCorrect": "Der Text richtet sich ausdrücklich an Anfänger und nennt passende Lernmöglichkeiten.",
+        "whyCompetingFails": "b ist für Fortgeschrittene gedacht, die ihre vorhandene Technik verbessern möchten.",
+        "learningPoint": "„Einsteiger“ und „Anfänger“ bezeichnen Menschen ohne größere Vorkenntnisse."
+      },
+      "19": {
+        "evidence": "Wichtige Infos zu Skate-Hallen und -Bahnen, Veranstaltungen, zu regelmäßigen Inline-Treffpunkten von Flensburg bis Passau enthält der „ActionGuide Inline-Skating“",
+        "whyCorrect": "Der genannte Ratgeber informiert über Veranstaltungen und Treffpunkte in verschiedenen Teilen Deutschlands.",
+        "whyCompetingFails": "h beschreibt nur eine konkrete Veranstaltung in Mainz. Gesucht ist eine überregionale Informationsquelle.",
+        "learningPoint": "„Von Flensburg bis Passau“ steht hier für ein Angebot in ganz Deutschland."
+      },
+      "20": {
+        "evidence": "Inzwischen holen Agenturen die Visa kurzfristig ein, überbringen sie persönlich oder hinterlegen sie am Flughafen.",
+        "whyCorrect": "Der Visumservice beschafft kurzfristig benötigte Einreisepapiere.",
+        "whyCompetingFails": "j informiert zwar über Ägypten, bietet aber keine Beschaffung von Reisepapieren an.",
+        "learningPoint": "„Ein Visum einholen“ bedeutet, eine Einreisegenehmigung zu beschaffen."
+      }
+    }
+  },
+  "sprachbausteine": {
+    "teil1": {
+      "21": {
+        "evidence": "ich habe schon ein ganz schlechtes Gewissen, denn eigentlich wollte ich dir schon vor zwei Monaten schreiben.",
+        "whyCorrect": "„Eigentlich“ bezeichnet die ursprüngliche Absicht. Andrea wollte früher schreiben, hat es aber nicht getan.",
+        "whyDistractorsFail": {
+          "a": "außerdem: Fügt eine weitere Information hinzu, drückt aber nicht die unerfüllte ursprüngliche Absicht aus.",
+          "c": "überhaupt: Bedeutet hier eher „grundsätzlich“ und passt weniger zur Entschuldigung für die Verspätung."
+        },
+        "learningPoint": "„Eigentlich wollte ich früher kommen, aber der Zug hatte Verspätung.“"
+      },
+      "22": {
+        "evidence": "Wenn man sich auf eine Prüfung vorbereitet, hat man überhaupt keine Zeit mehr für seine Hobbys",
+        "whyCorrect": "Die allgemeine Aussage mit „man“ wird im Hauptsatz mit „man“ fortgeführt.",
+        "whyDistractorsFail": {
+          "a": "er: Bezieht sich normalerweise auf eine bestimmte männliche Person. Hier wird allgemein über Menschen gesprochen.",
+          "b": "es: Passt nicht als Fortführung der Person, die sich auf eine Prüfung vorbereitet und Hobbys hat."
+        },
+        "learningPoint": "„Wenn man viel arbeitet, braucht man auch Pausen.“"
+      },
+      "23": {
+        "evidence": "Mein Freund, mit dessen Hilfe es mir überhaupt nur möglich war, diese ganze Zeit zu überstehen",
+        "whyCorrect": "„Dessen“ ist das Genitiv-Relativpronomen zu „mein Freund“. Gemeint ist die Hilfe dieses Freundes.",
+        "whyDistractorsFail": {
+          "a": "der: Drückt hier nicht die Zugehörigkeit der Hilfe zum Freund aus.",
+          "c": "seiner: Ist ein Possessivwort, aber nicht das benötigte Relativpronomen zur Verbindung mit „mein Freund“."
+        },
+        "learningPoint": "„Das ist mein Nachbar, mit dessen Tochter ich studiere.“"
+      },
+      "24": {
+        "evidence": "diese ganze Zeit zu überstehen",
+        "whyCorrect": "„Überstehen“ bedeutet, eine schwierige oder anstrengende Zeit zu bewältigen.",
+        "whyDistractorsFail": {
+          "a": "übersetzen: Bedeutet beispielsweise, einen Text in eine andere Sprache zu übertragen.",
+          "c": "übertragen: Bedeutet beispielsweise weitergeben oder senden, nicht eine schwierige Zeit bewältigen."
+        },
+        "learningPoint": "„Mit ihrer Hilfe habe ich die schwierige Phase überstanden.“"
+      },
+      "25": {
+        "evidence": "In deinem letzten Brief hast du mich gefragt, ob ich Lust hätte, mit dir zusammen ein Wochenende in London zu verbringen.",
+        "whyCorrect": "„Ob“ leitet eine indirekte Ja-Nein-Frage ein: Habe ich Lust oder nicht?",
+        "whyDistractorsFail": {
+          "a": "dass: Leitet eine Aussage ein, nicht die hier wiedergegebene Entscheidungsfrage.",
+          "b": "falls: Leitet eine Bedingung ein und verändert die Bedeutung."
+        },
+        "learningPoint": "„Sie fragt, ob ich morgen Zeit habe.“"
+      },
+      "26": {
+        "evidence": "mal ein paar Tage lang mit einer Freundin etwas Tolles zu unternehmen.",
+        "whyCorrect": "„Etwas unternehmen“ bedeutet, eine Aktivität zu machen, zum Beispiel gemeinsam auszugehen oder zu verreisen.",
+        "whyDistractorsFail": {
+          "b": "verbringen: Man verbringt beispielsweise Zeit oder einen Urlaub, aber hier nicht „etwas Tolles“.",
+          "c": "verplanen: Bezieht sich auf das Einteilen verfügbarer Zeit oder Mittel und passt nicht zur gemeinten gemeinsamen Aktivität."
+        },
+        "learningPoint": "„Wollen wir am Wochenende etwas zusammen unternehmen?“"
+      },
+      "27": {
+        "evidence": "Ich würde mich ganz besonders für die Tate Gallery und das Filmmuseum interessieren.",
+        "whyCorrect": "Die Verbindung „ganz besonders“ verstärkt das Interesse an diesen beiden Orten.",
+        "whyDistractorsFail": {
+          "b": "recht: „Recht besonders“ ist hier keine übliche Verstärkung des besonderen Interesses.",
+          "c": "zwar: Kündigt normalerweise eine Einschränkung oder einen Gegensatz an. Ein solcher Anschluss fehlt hier."
+        },
+        "learningPoint": "„Für moderne Kunst interessiere ich mich ganz besonders.“"
+      },
+      "28": {
+        "evidence": "Ich würde mich ganz besonders für die Tate Gallery und das Filmmuseum interessieren.",
+        "whyCorrect": "Die feste Verbindung lautet „sich für etwas interessieren“.",
+        "whyDistractorsFail": {
+          "a": "auf: Gehört nicht zur Verbindung mit „sich interessieren“.",
+          "c": "in: Wird hier ebenfalls nicht von „sich interessieren“ verlangt."
+        },
+        "learningPoint": "„Ich interessiere mich für Geschichte.“"
+      },
+      "29": {
+        "evidence": "Mach doch einfach ein paar Vorschläge, wann du Zeit hast.",
+        "whyCorrect": "„Doch“ macht die Aufforderung freundlich und ermunternd. Andrea bittet Daniela um Terminvorschläge.",
+        "whyDistractorsFail": {
+          "a": "bestimmt: Bedeutet etwa „auf jeden Fall“ und setzt eine andere, hier wenig passende Betonung.",
+          "c": "sicher: Drückt Sicherheit oder Gewissheit aus, nicht die freundliche Ermunterung."
+        },
+        "learningPoint": "„Komm doch morgen vorbei!“ ist eine freundliche Einladung."
+      },
+      "30": {
+        "evidence": "Ich bin sicher, dass wir uns auf ein Wochenende einigen können.",
+        "whyCorrect": "Das Verb lautet „sich einigen“. Zum Subjekt „wir“ gehört das Reflexivpronomen „uns“.",
+        "whyDistractorsFail": {
+          "a": "euch: Gehört zum Subjekt „ihr“.",
+          "b": "sich: Gehört beispielsweise zu „sie“ oder zur höflichen Anrede „Sie“, nicht zu „wir“."
+        },
+        "learningPoint": "„Wir einigen uns auf einen Termin.“"
+      }
+    },
+    "teil2": {
+      "31": {
+        "evidence": "Nach Angaben des Statistischen Bundesamtes in Wiesbaden",
+        "whyCorrect": "„Nach Angaben“ nennt die Quelle einer Information und bedeutet hier „laut den Angaben“.",
+        "whyCompetingFails": "c — AUFGRUND würde die Angaben als Ursache oder Grundlage hervorheben. Hier wird die Informationsquelle genannt.",
+        "learningPoint": "„Nach Angaben der Polizei wurde niemand verletzt.“"
+      },
+      "32": {
+        "evidence": "wird die Bevölkerungszahl in Deutschland in den nächsten Jahrzehnten drastisch sinken.",
+        "whyCorrect": "„Drastisch“ beschreibt einen sehr starken Rückgang. Dazu passt die anschließend genannte deutliche Abnahme der Bevölkerungszahl.",
+        "whyCompetingFails": "e — BESCHEIDEN bezeichnet eher ein geringes Ausmaß und passt nicht zum beschriebenen starken Rückgang.",
+        "learningPoint": "„Die Zahl der Bewerbungen ist drastisch gesunken.“"
+      },
+      "33": {
+        "evidence": "Die Statistiker rechnen damit, dass die Zahl der Deutschen bis zum Jahr 2050 von jetzt 82 Millionen auf nur noch 65 Millionen zurückgehen wird.",
+        "whyCorrect": "„Mit etwas rechnen“ bedeutet hier, eine Entwicklung zu erwarten. „Damit, dass“ verbindet diese Erwartung mit einem Nebensatz.",
+        "whyCompetingFails": "g — ERHÖHEN passt weder zur Verbindung „damit, dass“ noch zur Bedeutung einer erwarteten Entwicklung.",
+        "learningPoint": "„Wir rechnen damit, dass die Kosten steigen.“"
+      },
+      "34": {
+        "evidence": "Das Gesundheitssystem und die Altersversorgung werden aufgrund dieser Entwicklung vor großen Problemen stehen und möglicherweise nicht mehr bezahlbar sein.",
+        "whyCorrect": "Die veränderte Bevölkerungsstruktur wird als Ursache der Probleme genannt. „Aufgrund“ stellt diesen Zusammenhang her.",
+        "whyCompetingFails": "j — NACH würde vor allem eine zeitliche Abfolge ausdrücken. Hier geht es um die Ursache; außerdem ist NACH bereits in Lücke 31 verwendet.",
+        "learningPoint": "„Aufgrund der hohen Nachfrage gibt es einen Zusatztermin.“"
+      },
+      "35": {
+        "evidence": "Das durchschnittliche Lebensalter für Frauen wird bis 2050 auf 84, das der Männer auf 78 Jahre steigen.",
+        "whyCorrect": "Das Lebensalter nimmt zu. Dafür verwendet man hier das Verb „steigen“ ohne zusätzliches Objekt.",
+        "whyCompetingFails": "g — ERHÖHEN würde in dieser Bedeutung „sich erhöhen“ verlangen. Das notwendige „sich“ steht nicht im Satz.",
+        "learningPoint": "„Die Temperatur steigt.“ – „Die Temperatur erhöht sich.“"
+      },
+      "36": {
+        "evidence": "Die Auswirkungen auf das politische und gesellschaftliche Leben in Deutschland im Jahr 2050 lassen sich unschwer erahnen.",
+        "whyCorrect": "„Unschwer“ bedeutet „ohne große Schwierigkeit“. Die Folgen lassen sich also leicht vorstellen.",
+        "whyCompetingFails": "n — ÜBERHEBLICH bedeutet arrogant und beschreibt nicht, wie leicht man Folgen erkennen kann.",
+        "learningPoint": "„Das lässt sich unschwer erkennen“ bedeutet: Das ist leicht zu erkennen."
+      },
+      "37": {
+        "evidence": "werden sich Politik und Geschäftswelt auf diesen Personenkreis einstellen.",
+        "whyCorrect": "Die feste Verbindung lautet „sich auf jemanden oder etwas einstellen“. Gemeint ist, sich an dessen Bedürfnisse anzupassen.",
+        "whyCompetingFails": "a — AN passt nicht zu „sich einstellen“. Mit einem anderen Verb wäre „sich an etwas anpassen“ möglich.",
+        "learningPoint": "„Wir müssen uns auf neue Bedingungen einstellen.“"
+      },
+      "38": {
+        "evidence": "dass sich Politiker mehr für die alten Wähler interessieren werden.",
+        "whyCorrect": "Das Verb „sich interessieren“ verlangt hier „für“ mit Akkusativ.",
+        "whyCompetingFails": "a — AN passt nicht zu diesem Verb. Richtig wäre dagegen die andere Verbindung „Interesse an etwas haben“.",
+        "learningPoint": "„Sie interessiert sich für Politik.“"
+      },
+      "39": {
+        "evidence": "da Arbeitnehmer den größten Teil ihres Einkommens in die Kranken- und Rentenversicherungen statt in den Konsum stecken müssen.",
+        "whyCorrect": "„Statt“ stellt zwei alternative Verwendungen des Geldes gegenüber: Versicherungsbeiträge anstelle von Konsumausgaben.",
+        "whyCompetingFails": "b — AUF kann die beiden Verwendungen hier nicht passend verbinden. Die Formulierung „auf in den Konsum“ ist in diesem Satz falsch.",
+        "learningPoint": "„Ich investiere das Geld in eine Weiterbildung statt in ein neues Auto.“"
+      },
+      "40": {
+        "evidence": "Diese Probleme könne man nur beheben",
+        "whyCorrect": "„Probleme beheben“ bedeutet, Probleme zu lösen oder ihre Ursachen zu beseitigen.",
+        "whyCompetingFails": "g — ERHÖHEN würde eine Zunahme ausdrücken. Gesucht ist eine Möglichkeit, die beschriebenen Probleme zu lösen.",
+        "learningPoint": "„Der Techniker hat die Störung behoben.“"
+      }
+    }
+  }
+}

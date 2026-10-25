@@ -1,0 +1,296 @@
+{
+  "modelltestNumber": 1,
+  "level": "A1",
+  "paperTitle": "telc Deutsch A1 – Übungstest 1",
+  "hoeren": {
+    "teil1": {
+      "1": {
+        "evidence": "Kunde: 19,95 Euro? Verkäuferin: Ja, Euro natürlich.",
+        "whyCorrect": "Die Verkäuferin bestätigt den Preis: neunzehn Euro und fünfundneunzig Cent.",
+        "whyDistractorsFail": {
+          "a": "30,00 €: Dreißig ist hier die Prozentangabe, nicht der Preis.",
+          "b": "95,00 €: Fünfundneunzig sind hier die Cent, nicht die Euro."
+        },
+        "learningPoint": "Höre bei Preisen auf Euro und Cent.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "2": {
+        "evidence": "Ja – jetzt ist es gleich 5 Uhr.",
+        "whyCorrect": "„Gleich fünf“ passt zur Antwort „Gleich 17.00 Uhr“.",
+        "whyDistractorsFail": {
+          "a": "15.00 Uhr: Das ist drei Uhr.",
+          "c": "16.30 Uhr: Das ist halb fünf, nicht gleich fünf."
+        },
+        "learningPoint": "„Gleich fünf“ bedeutet: Es ist kurz vor fünf.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "3": {
+        "evidence": "Fisch … hm … Tja, dann wohl die Pommes.",
+        "whyCorrect": "Am Ende entscheidet sich die Frau für Pommes.",
+        "whyDistractorsFail": {
+          "b": "Fisch: Fisch wird angeboten, aber nicht gewählt.",
+          "c": "Wurst: Die Frau sagt, dass sie kein Fleisch isst."
+        },
+        "learningPoint": "Höre bis zum Ende. Wichtig ist die letzte Entscheidung.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "4": {
+        "evidence": "Ja klar, schon in die dritte Klasse.",
+        "whyCorrect": "Der Sohn besucht die dritte Klasse.",
+        "whyDistractorsFail": {
+          "a": "Neunte Klasse: Neun ist sein Alter, nicht seine Klasse.",
+          "c": "Vierte Klasse: Diese Klasse wird nicht genannt."
+        },
+        "learningPoint": "Alter und Schulklasse sind zwei verschiedene Informationen.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "5": {
+        "evidence": "Da gehen Sie hier rechts um die Ecke und nehmen den Aufzug.",
+        "whyCorrect": "Die Verkäuferin erklärt den Weg zum Aufzug.",
+        "whyDistractorsFail": {
+          "b": "Treppe: „Um die Ecke“ beschreibt den Weg. Danach soll die Frau den Aufzug nehmen.",
+          "c": "Rolltreppe: Die Rolltreppe ist kaputt."
+        },
+        "learningPoint": "„Der Aufzug“ heißt auch „der Lift“.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "6": {
+        "evidence": "Zu meinen Verwandten nach Polen.",
+        "whyCorrect": "Herr Albers besucht seine Verwandten. Das sind Menschen aus seiner Familie.",
+        "whyDistractorsFail": {
+          "a": "Ans Meer: Eine Reise ans Meer wird nicht genannt.",
+          "b": "Zur Arbeit: Er ist jetzt bei der Arbeit. Morgen fährt er zu seiner Familie."
+        },
+        "learningPoint": "„Verwandte“ sind zum Beispiel Eltern, Geschwister, Tanten oder Onkel.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    },
+    "teil2": {
+      "7": {
+        "evidence": "Liebe Kunden, zu Weihnachten bieten wir Ihnen Superpreise an; Besuchen Sie uns im 3. Stock.",
+        "whyCorrect": "Die Kunden sollen zu den Verkaufsangeboten kommen. Eine Weihnachtsfeier wird nicht angekündigt.",
+        "whyOppositeFails": "„Zu Weihnachten“ nennt hier den Anlass für die Angebote, keine Feier.",
+        "learningPoint": "Weihnachten und Weihnachtsfeier bedeuten nicht dasselbe.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "8": {
+        "evidence": "Wir treffen uns wieder um halb eins Uhr am Bus, aber bitte pünktlich sein.",
+        "whyCorrect": "Der Treffpunkt ist am Bus, nicht im Restaurant.",
+        "whyOppositeFails": "Die Fahrgäste können etwas essen. Treffen sollen sie sich aber am Bus.",
+        "learningPoint": "Achte genau auf den Treffpunkt.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "9": {
+        "evidence": "Bitte hier nicht aussteigen.",
+        "whyCorrect": "Die Fahrgäste sollen im Zug bleiben.",
+        "whyOppositeFails": "Der Zug hält zwar. Trotzdem dürfen die Fahrgäste hier nicht aussteigen.",
+        "learningPoint": "„Nicht aussteigen“ bedeutet: im Fahrzeug bleiben.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "10": {
+        "evidence": "Herr Stefan Janda gebucht auf dem Flug LH 737 nach Warschau, wird zum Schalter F7 gebeten. Der Flug wird in ein paar Minuten geschlossen.",
+        "whyCorrect": "Herr Janda soll schnell zum Schalter kommen. Es bleibt nur wenig Zeit.",
+        "whyOppositeFails": "Er soll nicht später kommen oder weiter warten. Der Flug wird bald geschlossen.",
+        "learningPoint": "„In ein paar Minuten“ bedeutet: sehr bald.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    },
+    "teil3": {
+      "11": {
+        "evidence": "Bitte rufen Sie die Telefon-Auskunft an unter 11 8 33.",
+        "whyCorrect": "Die genannten Zahlengruppen ergeben 11833.",
+        "whyDistractorsFail": {
+          "b": "11883: Hier steht eine zusätzliche Acht statt der ersten Drei.",
+          "c": "12833: Hier ist die zweite Ziffer falsch."
+        },
+        "learningPoint": "Höre bei Telefonnummern jede Ziffer genau.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "12": {
+        "evidence": "Ich warte an der Information auf dich.",
+        "whyCorrect": "Die Information ist der genaue Treffpunkt.",
+        "whyDistractorsFail": {
+          "a": "Am Zug: Boris nennt nicht den Zug als Treffpunkt.",
+          "b": "Am Bahnhof: Das ist der allgemeine Ort. Gefragt wird aber: Wo genau?"
+        },
+        "learningPoint": "„Wo genau?“ fragt nach einem bestimmten Platz.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "13": {
+        "evidence": "Zehn Minuten Zeit hast du noch … bis 2, dann nehme ich ein Taxi.",
+        "whyCorrect": "Boris möchte noch zehn Minuten warten.",
+        "whyDistractorsFail": {
+          "a": "20 Minuten: So lange wartet er schon.",
+          "b": "2 Minuten: Zwei ist hier die Uhrzeit, nicht die Wartezeit."
+        },
+        "learningPoint": "Unterscheide „schon gewartet“ und „noch warten“.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "14": {
+        "evidence": "Wir können am Samstag leider nicht zu Ihnen kommen. Am Sonntag haben wir aber Zeit.",
+        "whyCorrect": "Die Frau möchte am Sonntag kommen.",
+        "whyDistractorsFail": {
+          "a": "Montag: Dieser Tag wird nicht genannt.",
+          "c": "Samstag: Für Samstag sagt sie ausdrücklich ab."
+        },
+        "learningPoint": "Nach einer Absage kann ein neuer Termin folgen.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "15": {
+        "evidence": "Mein Computer hat einen Fehler. Ich kann nichts drucken.",
+        "whyCorrect": "Walter nennt ein Problem mit seinem Computer.",
+        "whyDistractorsFail": {
+          "a": "Fernseher: Ein Fernseher wird nicht genannt.",
+          "c": "Handy: Ein kaputtes Handy wird nicht genannt."
+        },
+        "learningPoint": "„Einen Fehler haben“ bedeutet hier: nicht richtig funktionieren.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    }
+  },
+  "lesen": {
+    "teil1": {
+      "1": {
+        "evidence": "Dein Zug kommt hier in Hannover um 12.36 Uhr an.",
+        "whyCorrect": "Halb eins ist 12.30 Uhr. Der Zug kommt sechs Minuten später.",
+        "whyOppositeFails": "12.36 Uhr liegt nach 12.30 Uhr, nicht davor.",
+        "learningPoint": "„Halb eins“ bedeutet 12.30 Uhr."
+      },
+      "2": {
+        "evidence": "Ich bin ab 12.15 Uhr im Hauptbahnhof und warte auf dich vor der Auskunft.",
+        "whyCorrect": "Karin wartet ab 12.15 Uhr dort. Sie wartet nicht den ganzen Vormittag.",
+        "whyOppositeFails": "Den ganzen Vormittag kann Li sie auf dem Handy erreichen. Das ist etwas anderes.",
+        "learningPoint": "„Erreichbar sein“ bedeutet nicht, an einem bestimmten Ort zu warten."
+      },
+      "3": {
+        "evidence": "am kommenden Sonntag habe ich Geburtstag.",
+        "whyCorrect": "Ralfs Geburtstag kommt erst noch. Er war nicht am letzten Wochenende.",
+        "whyOppositeFails": "„Kommend“ bedeutet zukünftig. „Letztes Wochenende“ liegt in der Vergangenheit.",
+        "learningPoint": "Unterscheide „kommenden Sonntag“ und „letzten Sonntag“."
+      },
+      "4": {
+        "evidence": "Es werden eine ganze Menge Leute da sein, die ihr auch kennt.",
+        "whyCorrect": "Ralf erwartet viele Leute, nicht nur zwei oder drei.",
+        "whyOppositeFails": "Carmen und José sind zwei Gäste. Sie sind aber nicht die einzigen Gäste.",
+        "learningPoint": "„Eine ganze Menge“ bedeutet: viele."
+      },
+      "5": {
+        "evidence": "Wir wollen nämlich draußen im Garten feiern.",
+        "whyCorrect": "Die Feier soll im Garten stattfinden, also draußen.",
+        "whyOppositeFails": "Im Text steht ausdrücklich „draußen“.",
+        "learningPoint": "„Draußen“ ist das Gegenteil von „drinnen“."
+      }
+    },
+    "teil2": {
+      "6": {
+        "evidence": "Bingen-Rüdesheimer Rheinschiffe; täglich von Rüdesheim nach Koblenz; alle Abfahrtszeiten und Preise hier",
+        "whyCorrect": "Anzeige b informiert über Schifffahrten und deren Abfahrtszeiten.",
+        "whyDistractorsFail": {
+          "a": "„Schiff“ ist hier Teil des Hotelnamens. Die Anzeige bietet Zimmer und ein Restaurant an."
+        },
+        "learningPoint": "Ein einzelnes Wort im Namen reicht nicht. Lies das ganze Angebot."
+      },
+      "7": {
+        "evidence": "Sprachinstitut Fuchs; Dresden, Prager Str. 4; Deutsch",
+        "whyCorrect": "Die Schule in Dresden bietet Deutschunterricht an.",
+        "whyDistractorsFail": {
+          "b": "Dort gibt es Spanisch auf Mallorca und Englisch auf Malta. „Für Deutsche“ bedeutet nicht „Deutschunterricht“."
+        },
+        "learningPoint": "„Deutsch lernen“ und „Kurse für Deutsche“ sind nicht dasselbe."
+      },
+      "8": {
+        "evidence": "Ticketbestellungen und Reservierungen für Flüge weltweit, Deutsche Bahn, Eurobus, 24-Stunden-Service",
+        "whyCorrect": "Anzeige a bietet ausdrücklich Tickets für die Deutsche Bahn an.",
+        "whyDistractorsFail": {
+          "b": "Dort werden Theater, Konzerte und Busreisen genannt, keine Zugtickets."
+        },
+        "learningPoint": "Prüfe, für welches Verkehrsmittel ein Ticket angeboten wird."
+      },
+      "9": {
+        "evidence": "Touristeninformation; Urlaubsorte; Hotelservice; Ferienwohnungen; Rundreisen",
+        "whyCorrect": "Die Touristeninformation bietet verschiedene Informationen über den Bodensee.",
+        "whyDistractorsFail": {
+          "b": "Diese Seite bietet speziell Ferienwohnungen an. Anzeige a passt besser zu allgemeinen Reiseinformationen."
+        },
+        "learningPoint": "Eine Touristeninformation hilft bei verschiedenen Fragen zu einem Reiseziel."
+      },
+      "10": {
+        "evidence": "ab Wiesbaden 17.02. 07:34 – an Hamburg 17.02. 12:05",
+        "whyCorrect": "Der Zug fährt in Wiesbaden ab und kommt mittags in Hamburg an.",
+        "whyDistractorsFail": {
+          "a": "Dieser Zug fährt in die andere Richtung: von Hamburg nach Wiesbaden."
+        },
+        "learningPoint": "„Ab“ bezeichnet die Abfahrt. „An“ bezeichnet die Ankunft."
+      }
+    },
+    "teil3": {
+      "11": {
+        "evidence": "In der 10-Uhr-Pause bekommen Sie an der Rezeption ein Frühstückspaket: belegte Brötchen und Getränke für 2 Euro.",
+        "whyCorrect": "In der Sprachschule kann man Brötchen und Getränke kaufen.",
+        "whyOppositeFails": "Das Frühstückspaket ist ausdrücklich ein Essensangebot.",
+        "learningPoint": "„Für 2 Euro“ nennt den Preis."
+      },
+      "12": {
+        "evidence": "samstags 8.00–12.00 Uhr",
+        "whyCorrect": "Am Samstag ist die Post nur bis zwölf Uhr geöffnet. Am Nachmittag ist sie geschlossen.",
+        "whyOppositeFails": "Die Öffnung bis achtzehn Uhr gilt nur von Montag bis Freitag.",
+        "learningPoint": "Lies zuerst den Wochentag und dann die Uhrzeit."
+      },
+      "13": {
+        "evidence": "Auf dem gesamten Bahnhof ist das Rauchen verboten.",
+        "whyCorrect": "Man darf dort nicht rauchen.",
+        "whyOppositeFails": "„Verboten“ bedeutet nicht „erlaubt“.",
+        "learningPoint": "„Verboten“ bedeutet: Das darf man nicht."
+      },
+      "14": {
+        "evidence": "Volksmusik, ab 20 Uhr Tanz",
+        "whyCorrect": "Heute Abend kann man dort ab zwanzig Uhr tanzen.",
+        "whyOppositeFails": "Die Anzeige nennt nicht nur Essen und Musik, sondern auch Tanz.",
+        "learningPoint": "„Ab 20 Uhr“ bedeutet: beginnend um zwanzig Uhr."
+      },
+      "15": {
+        "evidence": "Busverkehr bis 23.00 Uhr und von 1.00 Uhr bis 5.00 Uhr alle 30 Minuten",
+        "whyCorrect": "Zwischen dreiundzwanzig und ein Uhr gibt es eine Pause. Danach fahren wieder Busse.",
+        "whyOppositeFails": "„Alle 30 Minuten“ gilt hier für den Zeitraum von ein bis fünf Uhr.",
+        "learningPoint": "Achte bei Fahrplänen auch auf die Zeit zwischen zwei angegebenen Zeiträumen."
+      }
+    }
+  },
+  "schreiben": {
+    "teil1": {
+      "1": {
+        "evidence": "Ihre Freundin, Eva Kadavy, macht mit ihrem Mann und ihren beiden Söhnen (8 und 11 Jahre alt) Urlaub in Seeheim.",
+        "whyCorrect": "Eva, ihr Mann und zwei Söhne sind zusammen vier Personen.",
+        "whyOtherAnswersFail": "Zwei zählt nur die Kinder. Acht und elf sind die Alter der Kinder.",
+        "learningPoint": "„Anzahl der Personen“ meint alle teilnehmenden Menschen."
+      },
+      "2": {
+        "evidence": "mit ihrem Mann und ihren beiden Söhnen (8 und 11 Jahre alt)",
+        "whyCorrect": "Eva hat zwei Söhne dabei. Beide sind Kinder.",
+        "whyOtherAnswersFail": "Vier ist die gesamte Personenzahl. Hier werden nur die Kinder gezählt.",
+        "learningPoint": "„Davon Kinder“ bedeutet: Wie viele dieser Personen sind Kinder?"
+      },
+      "3": {
+        "evidence": "Urlaub in Seeheim.",
+        "whyCorrect": "Die Familie macht in Seeheim Urlaub.",
+        "whyOtherAnswersFail": "Der Bodensee ist das Ziel der Rundfahrt. „Hotel Schönblick“ ist der Hotelname.",
+        "learningPoint": "Ort, Hotelname und Reiseziel können verschiedene Angaben sein."
+      },
+      "4": {
+        "evidence": "Frau Kadavy hat keine Kreditkarte.",
+        "whyCorrect": "Im Formular stehen „Bar“ und „Kreditkarte“. Ohne Kreditkarte passt hier „Bar“.",
+        "whyOtherAnswersFail": "„Kreditkarte“ widerspricht der Information über Frau Kadavy.",
+        "learningPoint": "„Bar bezahlen“ bedeutet: mit Bargeld bezahlen."
+      },
+      "5": {
+        "evidence": "Im Reisebüro bucht sie für den nächsten Sonntag eine Busfahrt um den Bodensee.",
+        "whyCorrect": "Die Rundfahrt ist für den nächsten Sonntag gebucht.",
+        "whyOtherAnswersFail": "Ein anderer Wochentag passt nicht. Ein festes Kalenderdatum steht nicht im Aufgabentext.",
+        "learningPoint": "„Reisetermin“ fragt hier nach dem Tag der Fahrt."
+      }
+    }
+  },
+  "openEnded": {
+    "note": "Schreiben T2 and Sprechen packages are examples/checklists — not closed auto keys. Stored for later wiring; not applied to exam_items."
+  }
+}

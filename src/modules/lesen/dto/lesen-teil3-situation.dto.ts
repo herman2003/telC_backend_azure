@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class LesenTeil3SituationDto {
   @ApiProperty()
@@ -20,4 +20,10 @@ export class LesenTeil3SituationDto {
       'Correct announcements[].id for this situation, or "X" when none fits.',
   })
   correctAnswer!: string;
+
+  @ApiPropertyOptional({
+    description:
+      'Authored Training Corrigé package when present. docs/contracts/training-correction-package.md',
+  })
+  correction?: Record<string, unknown>;
 }

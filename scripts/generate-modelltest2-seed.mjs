@@ -347,7 +347,7 @@ for (const part of Object.values(sections.hoeren)) {
   RETURNING "id" INTO exercise_id;
   DELETE FROM "listening_questions" WHERE "exercise_id" = exercise_id;
   INSERT INTO "listening_questions"
-    ("exercise_id", "question_number", "prompt", "correct_answer", "sort_order") VALUES
+    ("exercise_id", "question_number", "prompt", "correct_answer", "sort_order", "correction") VALUES
 ${values(
   part.questions.map((question) => [
     'exercise_id',
@@ -355,6 +355,7 @@ ${values(
     q(question.prompt),
     q(question.correctAnswer),
     question.sortOrder,
+    question.correction ? json(question.correction) : 'NULL',
   ]),
 )};
 `);
