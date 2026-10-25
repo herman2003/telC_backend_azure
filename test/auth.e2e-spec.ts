@@ -457,7 +457,8 @@ describe('AuthController (e2e)', () => {
     await request(app.getHttpServer())
       .post('/api/auth/reset-password')
       .send({
-        token: 'reset-token',
+        email: 'john.doe@example.com',
+        token: '123456',
         newPassword: 'NewPassword123!',
         deviceId: 'device-1',
       })

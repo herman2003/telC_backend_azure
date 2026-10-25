@@ -123,7 +123,7 @@ jobs:
       # only way this number goes up is by someone deciding it should.
       - name: Lint (no new errors)
         run: |
-          BASELINE=942
+          BASELINE=896
           npx eslint "{src,apps,libs,test}/**/*.ts" -f json > eslint.json || true
           COUNT=$(node -e "const r=require('./eslint.json');let e=0;for(const f of r)e+=f.errorCount;console.log(e)")
           echo "eslint reported $COUNT error(s); baseline is $BASELINE"

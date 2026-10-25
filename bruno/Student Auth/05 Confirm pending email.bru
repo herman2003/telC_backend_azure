@@ -1,0 +1,28 @@
+meta {
+  name: 05 Confirm pending email
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/auth/verify-email-public
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "token": "{{verificationToken}}"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.verified: eq true
+}
+
+docs {
+  Public verify applies a pending swap when `pending_email` is set. After this,
+  login uses `studentPendingEmail`. Update `studentEmail` in the env if you
+  keep testing with the new address.
+}

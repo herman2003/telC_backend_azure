@@ -60,9 +60,9 @@ export class RoomController {
   @ApiOperation({
     summary: 'Get STUN/TURN ICE servers with ephemeral TURN credentials',
   })
-  getIceServers(
+  async getIceServers(
     @Request() req: { student: AccessTokenPayload },
-  ): IceServersResponseDto {
+  ): Promise<IceServersResponseDto> {
     const studentId = req.student?.studentId ?? 'anonymous';
     return this.turnCredentialsService.getIceServers(studentId);
   }
