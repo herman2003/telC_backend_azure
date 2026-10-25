@@ -455,7 +455,7 @@ for (const [name, part] of Object.entries(sections.hoeren)) {
   RETURNING "id" INTO exercise_id;
   DELETE FROM "listening_questions" WHERE "exercise_id" = exercise_id;
   INSERT INTO "listening_questions"
-    ("exercise_id", "question_number", "prompt", "correct_answer", "sort_order", "correction") VALUES
+    ("exercise_id", "question_number", "prompt", "correct_answer", "sort_order") VALUES
 ${values(
   part.questions.map((item) => [
     'exercise_id',
@@ -463,11 +463,11 @@ ${values(
     q(item.prompt),
     q(hoerenAnswer(item.correctAnswer, `Hören ${name} Q${item.questionNumber}`)),
     item.sortOrder,
-    item.correction ? json(item.correction) : 'NULL',
   ]),
 )};
 `);
 }
+// Training Corrigé packages: applied after column ADD via apply-*-corrections scripts.
 
 // ─── Schreiben ──────────────────────────────────────────────────────────────
 //
