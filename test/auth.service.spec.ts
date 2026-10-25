@@ -288,6 +288,7 @@ describe('AuthService', () => {
 
     it('returns generic success for a new email', async () => {
       prismaMock.student.findUnique.mockResolvedValueOnce(null);
+      prismaMock.student.findFirst.mockResolvedValueOnce(null);
       txMock.student.create.mockResolvedValueOnce({ id: 'student-1' });
 
       await expect(service.register(dto)).resolves.toEqual({
@@ -304,6 +305,7 @@ describe('AuthService', () => {
 
     it('stores the level the student declares at sign-up (D38)', async () => {
       prismaMock.student.findUnique.mockResolvedValueOnce(null);
+      prismaMock.student.findFirst.mockResolvedValueOnce(null);
       txMock.student.create.mockResolvedValueOnce({ id: 'student-1' });
 
       await service.register({ ...dto, level: 'A2' });
@@ -412,6 +414,7 @@ describe('AuthService', () => {
 
     it('throws 502 and rolls back if email sending fails', async () => {
       prismaMock.student.findUnique.mockResolvedValueOnce(null);
+      prismaMock.student.findFirst.mockResolvedValueOnce(null);
       txMock.student.create.mockResolvedValueOnce({ id: 'student-1' });
       emailServiceMock.sendVerificationEmail.mockRejectedValueOnce(
         new Error('smtp down'),
@@ -469,6 +472,7 @@ describe('AuthService', () => {
           lastName: 'Doe',
           email: 'john.doe@example.com',
           emailVerified: true,
+          pendingEmail: null,
         },
       });
 
@@ -494,6 +498,7 @@ describe('AuthService', () => {
           lastName: 'Doe',
           email: 'john.doe@example.com',
           emailVerified: true,
+          pendingEmail: null,
         },
       });
 
@@ -523,6 +528,7 @@ describe('AuthService', () => {
           lastName: 'Doe',
           email: 'john.doe@example.com',
           emailVerified: true,
+          pendingEmail: null,
         },
       });
 
@@ -565,6 +571,7 @@ describe('AuthService', () => {
       });
       expect(prismaMock.student.update).not.toHaveBeenCalled();
     });
+
   });
 
   describe('verifyEmailPublic', () => {
@@ -734,8 +741,9 @@ describe('AuthService', () => {
 
   describe('resetPassword', () => {
     const dto = {
-      token: 'reset-token',
-      newPassword: 'newpassword123',
+      email: 'john.doe@example.com',
+      token: '123456',
+      newPassword: 'Newpass1!',
       deviceId: 'device-1',
       deviceName: 'Pixel',
     };
@@ -764,8 +772,10 @@ describe('AuthService', () => {
           lastName: 'Doe',
           email: 'john.doe@example.com',
           emailVerified: true,
+          pendingEmail: null,
         },
       });
+
     });
 
     it('throws RESET_TOKEN_INVALID for unknown token', async () => {
@@ -1125,4 +1135,5 @@ describe('AuthService', () => {
       expect(tokenServiceMock.generateTokenPair).not.toHaveBeenCalled();
     });
   });
+
 });

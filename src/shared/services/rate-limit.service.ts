@@ -22,6 +22,8 @@ export class RateLimitService {
   private readonly verifyEmailPublicWindowSeconds: number;
   private readonly resetPasswordMaxAttempts: number;
   private readonly resetPasswordWindowSeconds: number;
+  /** Center reset / change-password — kept separate from the tighter student spray budget. */
+  private readonly centerResetPasswordMaxAttempts: number;
   private readonly guestSessionMaxAttempts: number;
   private readonly guestSessionWindowSeconds: number;
   private readonly writingGuestSubmitMaxAttempts: number;
@@ -75,7 +77,7 @@ export class RateLimitService {
     this.verifyEmailPublicWindowSeconds = verifyEmailPublicWindowMinutes * 60;
 
     this.resetPasswordMaxAttempts = parseInt(
-      process.env.RATE_LIMIT_RESET_PASSWORD_MAX_ATTEMPTS || '20',
+      process.env.RATE_LIMIT_RESET_PASSWORD_MAX_ATTEMPTS || '5',
       10,
     );
     const resetPasswordWindowMinutes = parseInt(
@@ -83,6 +85,11 @@ export class RateLimitService {
       10,
     );
     this.resetPasswordWindowSeconds = resetPasswordWindowMinutes * 60;
+
+    this.centerResetPasswordMaxAttempts = parseInt(
+      process.env.RATE_LIMIT_CENTER_RESET_PASSWORD_MAX_ATTEMPTS || '20',
+      10,
+    );
 
     this.guestSessionMaxAttempts = parseInt(
       process.env.RATE_LIMIT_GUEST_SESSION_MAX_ATTEMPTS || '10',
@@ -279,7 +286,7 @@ export class RateLimitService {
     return this.enforceDistributed([
       {
         key: `ratelimit:centers:reset-password:ip:${ip}`,
-        max: this.resetPasswordMaxAttempts,
+        max: this.centerResetPasswordMaxAttempts,
         ttlSeconds: this.resetPasswordWindowSeconds,
       },
     ]);
@@ -297,7 +304,7 @@ export class RateLimitService {
     return this.enforceDistributed([
       {
         key: `ratelimit:centers:change-password:user:${centerUserId}`,
-        max: this.resetPasswordMaxAttempts,
+        max: this.centerResetPasswordMaxAttempts,
         ttlSeconds: this.resetPasswordWindowSeconds,
       },
     ]);
@@ -442,13 +449,18 @@ export class RateLimitService {
 
   /**
    * Rate limit for POST /api/auth/reset-password. Throws 429 when exceeded.
-   * Key is typically the requester's IP address. Defends against random-spray
-   * brute-force against the 6-digit reset-code space.
+   * IP and email buckets both apply — defends spray against the 6-digit code
+   * space even when many IPs are used against one inbox.
    */
-  checkResetPasswordLimit(key: string): void | Promise<void> {
+  checkResetPasswordLimit(ip: string, email: string): void | Promise<void> {
     return this.enforceDistributed([
       {
-        key: `ratelimit:auth:reset-password:${key}`,
+        key: `ratelimit:auth:reset-password:ip:${ip}`,
+        max: this.resetPasswordMaxAttempts,
+        ttlSeconds: this.resetPasswordWindowSeconds,
+      },
+      {
+        key: `ratelimit:auth:reset-password:email:${email.trim().toLowerCase()}`,
         max: this.resetPasswordMaxAttempts,
         ttlSeconds: this.resetPasswordWindowSeconds,
       },

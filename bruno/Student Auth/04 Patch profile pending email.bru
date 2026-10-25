@@ -1,0 +1,33 @@
+meta {
+  name: 04 Patch profile pending email
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/auth/profile
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{studentAccessToken}}
+}
+
+body:json {
+  {
+    "email": "{{studentPendingEmail}}",
+    "currentPassword": "Student-Pass1!"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.student.pendingEmail: eq {{studentPendingEmail}}
+}
+
+docs {
+  Login email stays on the student object; `pendingEmail` is the new address.
+  Confirmation mail goes to `studentPendingEmail` — paste its token into
+  `verificationToken` for 05. Run Student Activation / 00 Login first.
+}

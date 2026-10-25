@@ -1,13 +1,29 @@
-import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  Matches,
+} from 'class-validator';
 import { StrongPassword } from '../../../shared/strong-password.decorator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class ResetPasswordRequestDto {
+  @ApiProperty({ format: 'email', example: 'ada@example.com' })
+  @IsNotEmpty()
+  @IsEmail()
+  @Transform(({ value }: { value: unknown }) =>
+    typeof value === 'string' ? value.toLowerCase().trim() : value,
+  )
+  email: string;
+
   @ApiProperty({
-    description: 'One-time token received through the password-recovery email.',
+    description: 'Six-digit one-time code from the password-recovery email.',
   })
   @IsNotEmpty()
   @IsString()
+  @Matches(/^[0-9]{6}$/, { message: 'Reset code must be six digits' })
   token: string;
 
   @ApiProperty({

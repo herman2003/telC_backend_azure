@@ -312,9 +312,7 @@ describe('RateLimitService', () => {
 
     it('allows 60 requests from one IP in the window', () => {
       for (let i = 0; i < 60; i++) {
-        expect(() =>
-          service.checkPartnerCentersLimit('1.2.3.4'),
-        ).not.toThrow();
+        expect(() => service.checkPartnerCentersLimit('1.2.3.4')).not.toThrow();
       }
     });
 
@@ -339,26 +337,26 @@ describe('RateLimitService', () => {
       for (let i = 0; i < 60; i++) {
         service.checkPartnerCentersLimit('1.1.1.1');
       }
-      expect(() =>
-        service.checkPartnerCentersLimit('2.2.2.2'),
-      ).not.toThrow();
+      expect(() => service.checkPartnerCentersLimit('2.2.2.2')).not.toThrow();
     });
   });
 
   describe('checkResetPasswordLimit', () => {
-    it('allows requests up to the default limit (20)', () => {
-      for (let i = 0; i < 20; i++) {
-        expect(() => service.checkResetPasswordLimit('1.2.3.4')).not.toThrow();
+    it('allows requests up to the default limit (5) per IP', () => {
+      for (let i = 0; i < 5; i++) {
+        expect(() =>
+          service.checkResetPasswordLimit('1.2.3.4', `user${i}@example.com`),
+        ).not.toThrow();
       }
     });
 
-    it('throws 429 RATE_LIMIT_EXCEEDED on the 21st request from the same key', () => {
-      for (let i = 0; i < 20; i++) {
-        service.checkResetPasswordLimit('1.2.3.4');
+    it('throws 429 RATE_LIMIT_EXCEEDED on the 6th request from the same IP', () => {
+      for (let i = 0; i < 5; i++) {
+        service.checkResetPasswordLimit('1.2.3.4', `user${i}@example.com`);
       }
 
       try {
-        service.checkResetPasswordLimit('1.2.3.4');
+        service.checkResetPasswordLimit('1.2.3.4', 'other@example.com');
         fail('expected HttpException');
       } catch (err) {
         expect(err).toBeInstanceOf(HttpException);
@@ -369,11 +367,29 @@ describe('RateLimitService', () => {
       }
     });
 
-    it('isolates limits per key', () => {
-      for (let i = 0; i < 20; i++) {
-        service.checkResetPasswordLimit('1.1.1.1');
+    it('throws 429 when the same email exceeds the budget across IPs', () => {
+      for (let i = 0; i < 5; i++) {
+        service.checkResetPasswordLimit(`1.1.1.${i}`, 'same@example.com');
       }
-      expect(() => service.checkResetPasswordLimit('2.2.2.2')).not.toThrow();
+
+      try {
+        service.checkResetPasswordLimit('9.9.9.9', 'same@example.com');
+        fail('expected HttpException');
+      } catch (err) {
+        expect(err).toBeInstanceOf(HttpException);
+        expect((err as HttpException).getStatus()).toBe(
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
+      }
+    });
+
+    it('isolates limits per IP', () => {
+      for (let i = 0; i < 5; i++) {
+        service.checkResetPasswordLimit('1.1.1.1', `a${i}@example.com`);
+      }
+      expect(() =>
+        service.checkResetPasswordLimit('2.2.2.2', 'fresh@example.com'),
+      ).not.toThrow();
     });
 
     it('uses a different cache namespace than checkForgotPasswordLimit', () => {
@@ -381,7 +397,9 @@ describe('RateLimitService', () => {
         service.checkForgotPasswordLimit('1.2.3.4');
       }
       // forgot-password exhausted; reset-password still has its own budget.
-      expect(() => service.checkResetPasswordLimit('1.2.3.4')).not.toThrow();
+      expect(() =>
+        service.checkResetPasswordLimit('1.2.3.4', 'ada@example.com'),
+      ).not.toThrow();
     });
   });
 });

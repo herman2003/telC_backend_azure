@@ -24,6 +24,7 @@ import {
   StudentEntitlementService,
   type StudentEntitlement,
 } from '../../shared/services/student-entitlement.service';
+import { isUniqueViolationOn } from '../../shared/prisma-errors';
 
 const VERIFICATION_TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -45,6 +46,7 @@ type VerificationStudentRecord = {
   last_name: string | null;
   email: string | null;
   email_verified: boolean;
+  pending_email?: string | null;
   email_verification_expires: Date | null;
   password_hash?: string | null;
   password_reset_expires?: Date | null;
@@ -55,6 +57,7 @@ type AuthStudentRecord = {
   first_name: string | null;
   last_name: string | null;
   email: string | null;
+  pending_email?: string | null;
 };
 
 @Injectable()
@@ -115,12 +118,26 @@ export class AuthService {
   }
 
   async register(dto: RegisterRequestDto): Promise<{ message: string }> {
+    const GENERIC = { message: 'verification email sent' };
+
     const existingStudent = (await this.prisma.student.findUnique({
       where: { email: dto.email },
     })) as VerificationStudentRecord | null;
 
     if (existingStudent?.email_verified) {
-      return { message: 'verification email sent' };
+      return GENERIC;
+    }
+
+    // Address reserved as someone else's pending change — same generic reply
+    // as a verified collision so register cannot invent a second owner.
+    if (!existingStudent) {
+      const pendingHolder = await this.prisma.student.findFirst({
+        where: { pending_email: dto.email },
+        select: { id: true },
+      });
+      if (pendingHolder) {
+        return GENERIC;
+      }
     }
 
     const rawToken = this.tokenCrypto.generateToken();
@@ -171,31 +188,43 @@ export class AuthService {
         }
       });
 
-      return { message: 'verification email sent' };
+      return GENERIC;
     }
 
     const passwordHash = await bcrypt.hash(dto.password, 10);
 
-    await this.prisma.$transaction(async (tx) => {
-      await tx.student.create({
-        data: {
-          first_name: dto.firstName,
-          last_name: dto.lastName,
-          email: dto.email,
-          level: dto.level ?? null,
-          password_hash: passwordHash,
-          email_verified: false,
-          email_verification_token: tokenHash,
-          email_verification_expires: expiresAt,
-        },
-      });
+    try {
+      await this.prisma.$transaction(async (tx) => {
+        await tx.student.create({
+          data: {
+            first_name: dto.firstName,
+            last_name: dto.lastName,
+            email: dto.email,
+            level: dto.level ?? null,
+            password_hash: passwordHash,
+            email_verified: false,
+            email_verification_token: tokenHash,
+            email_verification_expires: expiresAt,
+          },
+        });
 
-      try {
-        await this.emailService.sendVerificationEmail(dto.email, rawToken);
-      } catch {
-        throw new BadGatewayException('EMAIL_DELIVERY_FAILED');
+        try {
+          await this.emailService.sendVerificationEmail(dto.email, rawToken);
+        } catch {
+          throw new BadGatewayException('EMAIL_DELIVERY_FAILED');
+        }
+      });
+    } catch (err) {
+      if (err instanceof BadGatewayException) throw err;
+      // Race: another row took email or pending_email between our checks.
+      if (
+        isUniqueViolationOn(err, 'email') ||
+        isUniqueViolationOn(err, 'pending_email')
+      ) {
+        return GENERIC;
       }
-    });
+      throw err;
+    }
 
     return { message: 'verification email sent' };
   }
@@ -212,6 +241,7 @@ export class AuthService {
         first_name: true,
         last_name: true,
         email: true,
+        pending_email: true,
       },
     })) as VerificationStudentRecord | null;
 
@@ -286,20 +316,8 @@ export class AuthService {
       throw new BadRequestException('VERIFICATION_TOKEN_EXPIRED');
     }
 
-    if (!student.email_verified) {
-      const updatedStudent = await this.prisma.student.update({
-        where: { id: student.id },
-        data: { email_verified: true },
-      });
-
-      return this.issueAuthResponse(
-        updatedStudent,
-        dto.deviceId,
-        dto.deviceName,
-      );
-    }
-
-    return this.issueAuthResponse(student, dto.deviceId, dto.deviceName);
+    const updatedStudent = await this.applyEmailVerification(student);
+    return this.issueAuthResponse(updatedStudent, dto.deviceId, dto.deviceName);
   }
 
   async verifyEmailPublic(token: string): Promise<{ verified: true }> {
@@ -323,14 +341,45 @@ export class AuthService {
       throw new BadRequestException('VERIFICATION_TOKEN_EXPIRED');
     }
 
-    if (!student.email_verified) {
-      await this.prisma.student.update({
-        where: { id: student.id },
-        data: { email_verified: true },
-      });
+    await this.applyEmailVerification(student);
+    return { verified: true };
+  }
+
+  /**
+   * Completes either first-time email verification or a pending email change.
+   * Pending swap wins when both would apply (a change always has pending_email).
+   */
+  private async applyEmailVerification(
+    student: VerificationStudentRecord,
+  ): Promise<VerificationStudentRecord> {
+    if (student.pending_email) {
+      try {
+        return (await this.prisma.student.update({
+          where: { id: student.id },
+          data: {
+            email: student.pending_email,
+            pending_email: null,
+            email_verified: true,
+            email_verification_token: null,
+            email_verification_expires: null,
+          },
+        })) as VerificationStudentRecord;
+      } catch (err) {
+        if (isUniqueViolationOn(err, 'email')) {
+          throw new BadRequestException('PROFILE_UPDATE_FAILED');
+        }
+        throw err;
+      }
     }
 
-    return { verified: true };
+    if (!student.email_verified) {
+      return (await this.prisma.student.update({
+        where: { id: student.id },
+        data: { email_verified: true },
+      })) as VerificationStudentRecord;
+    }
+
+    return student;
   }
 
   async forgotPassword(
@@ -373,9 +422,10 @@ export class AuthService {
   async resetPassword(
     dto: import('./dto/reset-password-request.dto').ResetPasswordRequestDto,
   ): Promise<AuthTokenResponse> {
+    const email = dto.email.trim().toLowerCase();
     const tokenHash = this.tokenCrypto.hashToken(dto.token);
     const student = (await this.prisma.student.findFirst({
-      where: { password_reset_token: tokenHash },
+      where: { email, password_reset_token: tokenHash },
       select: {
         id: true,
         first_name: true,
@@ -556,6 +606,7 @@ export class AuthService {
         lastName: student.last_name,
         email: student.email ?? '',
         emailVerified: true,
+        pendingEmail: student.pending_email ?? null,
       },
       ...(subscription ? { subscription } : {}),
     };
@@ -662,7 +713,8 @@ export class AuthService {
   }
 
   /**
-   * Update student profile details
+   * Update student profile details. Email changes are pending until verified:
+   * the current address stays authoritative for login and recovery.
    */
   async updateStudentProfile(
     studentId: string,
@@ -670,29 +722,107 @@ export class AuthService {
       firstName?: string;
       lastName?: string;
       email?: string;
+      currentPassword?: string;
       level?: CefrLevel;
     },
   ): Promise<Student> {
     const data: {
       first_name?: string;
       last_name?: string;
-      email?: string;
+      pending_email?: string;
+      email_verification_token?: string;
+      email_verification_expires?: Date;
       level?: CefrLevel;
       updated_at: Date;
     } = { updated_at: new Date() };
 
     if (updates.firstName?.trim()) data.first_name = updates.firstName.trim();
     if (updates.lastName?.trim()) data.last_name = updates.lastName.trim();
-    if (updates.email?.trim()) data.email = updates.email.trim().toLowerCase();
     if (updates.level) data.level = updates.level;
+
+    let verificationRawToken: string | null = null;
+    let pendingEmailForMail: string | null = null;
+
+    if (updates.email?.trim()) {
+      const nextEmail = updates.email.trim().toLowerCase();
+      const current = await this.prisma.student.findUnique({
+        where: { id: studentId },
+        select: {
+          email: true,
+          password_hash: true,
+          pending_email: true,
+        },
+      });
+
+      if (!current) {
+        throw new BadRequestException('PROFILE_UPDATE_FAILED');
+      }
+
+      if (nextEmail !== (current.email ?? '').toLowerCase()) {
+        if (!updates.currentPassword) {
+          throw new BadRequestException('CURRENT_PASSWORD_REQUIRED');
+        }
+        if (!current.password_hash) {
+          throw new BadRequestException('CURRENT_PASSWORD_INVALID');
+        }
+        const passwordOk = await bcrypt.compare(
+          updates.currentPassword,
+          current.password_hash,
+        );
+        if (!passwordOk) {
+          throw new BadRequestException('CURRENT_PASSWORD_INVALID');
+        }
+
+        const conflict = await this.prisma.student.findFirst({
+          where: {
+            id: { not: studentId },
+            OR: [{ email: nextEmail }, { pending_email: nextEmail }],
+          },
+          select: { id: true },
+        });
+        if (conflict) {
+          throw new BadRequestException('PROFILE_UPDATE_FAILED');
+        }
+
+        verificationRawToken = this.tokenCrypto.generateToken();
+        data.pending_email = nextEmail;
+        data.email_verification_token =
+          this.tokenCrypto.hashToken(verificationRawToken);
+        data.email_verification_expires = new Date(
+          Date.now() + VERIFICATION_TOKEN_TTL_MS,
+        );
+        pendingEmailForMail = nextEmail;
+      }
+    }
 
     try {
       const student = await this.prisma.student.update({
         where: { id: studentId },
         data,
       });
+
+      if (verificationRawToken && pendingEmailForMail) {
+        try {
+          await this.emailService.sendVerificationEmail(
+            pendingEmailForMail,
+            verificationRawToken,
+          );
+        } catch (err) {
+          this.logger.warn(
+            `updateStudentProfile: verification email failed for ${pendingEmailForMail}: ${(err as Error).message}`,
+          );
+          throw new BadGatewayException('EMAIL_DELIVERY_FAILED');
+        }
+      }
+
       return student as unknown as Student;
-    } catch {
+    } catch (err) {
+      if (
+        err instanceof BadGatewayException ||
+        err instanceof BadRequestException
+      ) {
+        throw err;
+      }
       throw new BadRequestException('PROFILE_UPDATE_FAILED');
     }
   }
