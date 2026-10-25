@@ -67,7 +67,13 @@
           "an": null,
           "body": "Wer ist der typische Computerfan? Das B.A.T. Freizeitforschungsinstitut Hamburg ermittelte einige Eigenschaften: Er ist männlich, jung und hat einen höheren Schulabschluss. Bei der Beschäftigung am heimischen Computer stehen Textverarbeitung und Spiele ganz oben, es folgen private Buchhaltung, Grafikprogramme und Tabellenkalkulation.",
           "sortOrder": 0,
-          "correctTitleKey": "i"
+          "correctTitleKey": "i",
+          "correction": {
+            "evidence": "Wer ist der typische Computerfan? Das B.A.T. Freizeitforschungsinstitut Hamburg ermittelte einige Eigenschaften: Er ist männlich, jung und hat einen höheren Schulabschluss.",
+            "whyCorrect": "Der Text beschreibt die Eigenschaften typischer Computernutzer. Dazu passt die Überschrift über eine Umfrage zur Computernutzung.",
+            "whyCompetingFails": "c nennt Frauen als Computerfans. Im Text wird der typische Computerfan ausdrücklich als männlich beschrieben.",
+            "learningPoint": "Achte bei einer Überschrift auf die Hauptaussage und nicht nur auf das gemeinsame Wort „Computer“."
+          }
         },
         {
           "textNumber": 2,
@@ -75,7 +81,13 @@
           "an": null,
           "body": "„Bahn&Bike“ heißt ein 222-seitiger Prospekt, den die Deutsche Bahn AG in Zusammenarbeit mit der Deutschen Zentrale für Tourismus herausgebracht hat und der wichtige Informationen für jene bereitstellt, die ihren Radurlaub mit Bahnfahren verbinden wollen. Das Motto lautet: Hin mit der Bahn – das Rad vor Ort mieten. Der Prospekt enthält Angaben zur Streckenlänge und Wegbeschaffenheit, Adressen von Verleihstationen, verweist auf Sehenswürdigkeiten sowie Unterkünfte und wird durch Karten ergänzt. Die Broschüre kostet 5 Euro und ist im Buchhandel beziehungsweise an Fahrkartenschaltern zu beziehen.",
           "sortOrder": 1,
-          "correctTitleKey": "d"
+          "correctTitleKey": "d",
+          "correction": {
+            "evidence": "der wichtige Informationen für jene bereitstellt, die ihren Radurlaub mit Bahnfahren verbinden wollen.",
+            "whyCorrect": "Der Prospekt informiert Menschen, die Bahnfahren und Radurlaub verbinden möchten.",
+            "whyCompetingFails": "g behauptet, dass Fahrradurlaub immer beliebter wird. Einen solchen Anstieg beschreibt der Text nicht.",
+            "learningPoint": "„Informationen über ein Angebot“ und „wachsende Beliebtheit“ sind unterschiedliche Aussagen."
+          }
         },
         {
           "textNumber": 3,
@@ -83,7 +95,13 @@
           "an": null,
           "body": "Ausführliche Informationen zum Thema „Schlafstörungen“ finden Sie im gleichnamigen Patientenratgeber von Dr. med. Fritz Hohagen. Sie erfahren, was den Schlaf stört und was Sie dagegen unternehmen können. Für 9,95 Euro erhalten Sie das Buch in Apotheken oder direkt beim Wort&Bild Verlag, 82065 Baierbrunn.",
           "sortOrder": 2,
-          "correctTitleKey": "b"
+          "correctTitleKey": "b",
+          "correction": {
+            "evidence": "Ausführliche Informationen zum Thema „Schlafstörungen“ finden Sie im gleichnamigen Patientenratgeber von Dr. med. Fritz Hohagen.",
+            "whyCorrect": "Ein Ratgeber informiert über Schlafprobleme. Die Überschrift nennt genau dieses Buchthema.",
+            "whyCompetingFails": "e handelt von billigen Schlaftabletten. Angeboten wird hier ein Ratgeber, kein Medikament.",
+            "learningPoint": "Ein „Ratgeber“ ist ein Buch mit Informationen und praktischen Hinweisen."
+          }
         },
         {
           "textNumber": 4,
@@ -91,7 +109,13 @@
           "an": null,
           "body": "Jetzt wird für Familien Reisen mit der Bahn zwischen Österreich und Deutschland noch ein gutes Stück günstiger. Denn ab 6. Oktober gibt es den Familien-Super-Sparpreis. Ein echter Traumpreis für die ganze Familie – vom Baby bis zum Großpapa – da kann man wirklich sparen. Der Familien-Super-Sparpreis gilt für Familien, bestehend aus ein oder zwei Erwachsenen (Eltern, auch Großeltern) und deren Kindern/Enkelkindern bis zum vollendeten 17. Lebensjahr, wobei mindestens ein Kind/Enkelkind an der Reise teilnehmen muss.",
           "sortOrder": 3,
-          "correctTitleKey": "f"
+          "correctTitleKey": "f",
+          "correction": {
+            "evidence": "Jetzt wird für Familien Reisen mit der Bahn zwischen Österreich und Deutschland noch ein gutes Stück günstiger.",
+            "whyCorrect": "Der Text stellt einen günstigeren Fahrpreis für Familien vor.",
+            "whyCompetingFails": "a behauptet, dass immer mehr Familien mit der Bahn reisen. Der Text beschreibt einen Preisvorteil, keine steigende Zahl von Reisenden.",
+            "learningPoint": "„Günstiger“ bedeutet hier „billiger“."
+          }
         },
         {
           "textNumber": 5,
@@ -99,7 +123,13 @@
           "an": null,
           "body": "Touristen zwischen 14 und 29 Jahren sowie zwischen 40 und 49 Jahren haben ein besonders großes Interesse an der Kultur des jeweiligen Reiselandes, während die Gruppe der 30- bis 39-jährigen im Urlaub „eine Kulturpause einlegt“. Dies geht aus der neuesten Analyse der Forschungsgemeinschaft Urlaub und Reisen e. V. hervor. Urlauber aus Ostdeutschland, so die Studie, zeigen wiederum mehr Kulturinteresse als Reisende aus dem Westen. Grundsätzlich gelte: Je höher das Einkommen und die Schulbildung sind, umso mehr besteht im Urlaub der Wunsch, Land und Leute kennenzulernen.",
           "sortOrder": 4,
-          "correctTitleKey": "h"
+          "correctTitleKey": "h",
+          "correction": {
+            "evidence": "Touristen zwischen 14 und 29 Jahren sowie zwischen 40 und 49 Jahren haben ein besonders großes Interesse an der Kultur des jeweiligen Reiselandes, während die Gruppe der 30- bis 39-jährigen im Urlaub „eine Kulturpause einlegt“.",
+            "whyCorrect": "Verschiedene Altersgruppen interessieren sich unterschiedlich stark für Kultur im Urlaub.",
+            "whyCompetingFails": "j handelt von mehr Reisen in den Westen. Der Text vergleicht Kulturinteressen und beschreibt keinen solchen Reisetrend.",
+            "learningPoint": "„Während“ kann einen Gegensatz zwischen zwei Gruppen ausdrücken."
+          }
         }
       ]
     },
@@ -136,7 +166,16 @@
               "isCorrect": true,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "In einem fünfmonatigen Kurs lernen sie, das in der Schule Gelernte in die Praxis umzusetzen.",
+            "whyCorrect": "Die Teilnehmer wenden ihr Schulwissen praktisch an. Sie sammeln Erfahrungen mit der Büroarbeit.",
+            "whyDistractorsFail": {
+              "a": "Die kaufmännische Ausbildung haben die beschriebenen Teilnehmer bereits abgeschlossen.",
+              "b": "Es geht um die praktische Anwendung des Gelernten, nicht um versäumten Schulstoff."
+            },
+            "learningPoint": "„Etwas in die Praxis umsetzen“ bedeutet, Wissen tatsächlich anzuwenden."
+          }
         },
         {
           "questionNumber": 7,
@@ -161,7 +200,16 @@
               "isCorrect": true,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Gleichzeitig wird ihnen bei der Jobsuche geholfen.",
+            "whyCorrect": "Die Büro-Werkstatt unterstützt die Teilnehmer dabei, eine Arbeitsstelle zu finden.",
+            "whyDistractorsFail": {
+              "a": "Beschrieben wird die Unterstützung behinderter Teilnehmer, nicht ein Hilfsangebot für Arbeitslose ohne Behinderung.",
+              "b": "Genannt wird Hilfe bei der Jobsuche, keine Vorbereitung auf Abschlussprüfungen."
+            },
+            "learningPoint": "„Jobsuche“ und „eine Arbeit finden“ gehören zum gleichen Thema."
+          }
         },
         {
           "questionNumber": 8,
@@ -186,7 +234,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Zwar wären die Firmen gesetzlich verpflichtet, pro 25 Beschäftigte einen Behinderten einzustellen. Die meisten Firmen nützen jedoch die Möglichkeit, sich „freizukaufen“ (die sogenannte „Ausgleichstaxe“ beträgt rund 150 Euro monatlich).",
+            "whyCorrect": "Die Firmen müssen eine Person mit Behinderung einstellen oder die genannte monatliche Gebühr bezahlen.",
+            "whyDistractorsFail": {
+              "a": "Die Antwort nennt nur die Zahlung und lässt die Möglichkeit der Einstellung weg.",
+              "c": "Die Gebühr wird als Alternative zur Einstellung beschrieben, nicht als Zahlung für jede beschäftigte Person mit Behinderung."
+            },
+            "learningPoint": "„Jedoch“ zeigt hier eine Alternative zur zuerst genannten Verpflichtung."
+          }
         },
         {
           "questionNumber": 9,
@@ -211,7 +268,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Immerhin haben wir seit der Vereinsgründung vor drei Jahren ein Drittel unserer Leute untergebracht.",
+            "whyCorrect": "Für ein Drittel der Teilnehmer wurde eine Arbeitsstelle gefunden.",
+            "whyDistractorsFail": {
+              "b": "Von gespartem Geld für den Verein steht hier nichts.",
+              "c": "Ein Drittel bezeichnet die vermittelten Teilnehmer, keine Senkung der Steuern."
+            },
+            "learningPoint": "„Untergebracht“ bedeutet hier: eine Arbeitsstelle vermittelt."
+          }
         },
         {
           "questionNumber": 10,
@@ -236,7 +302,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "wollte nicht länger hinnehmen, dass ihre behinderten Schüler erst ausgebildet werden, um dann als Arbeitnehmer nicht gebraucht zu werden.",
+            "whyCorrect": "Die Lehrerin wollte erreichen, dass ihre ausgebildeten Schüler auch eine Arbeit finden.",
+            "whyDistractorsFail": {
+              "b": "Ihr Problem war die fehlende Beschäftigung der Schüler, nicht ihr eigener Unterricht.",
+              "c": "Nicht die Lehrerin wird als nicht gebraucht beschrieben, sondern ihre ausgebildeten Schüler als Arbeitnehmer."
+            },
+            "learningPoint": "„Etwas nicht länger hinnehmen“ bedeutet, eine Situation nicht mehr akzeptieren zu wollen."
+          }
         }
       ]
     },
@@ -324,70 +399,130 @@
           "content": "Sie möchten mit Freunden in einem Restaurant essen. Da das Wetter schön ist, möchten Sie gerne draußen sitzen.",
           "noMatch": false,
           "correctAnnouncementKey": "b",
-          "sortOrder": 0
+          "sortOrder": 0,
+          "correction": {
+            "evidence": "Bei schönem Wetter Gartenbetrieb",
+            "whyCorrect": "Das italienische Restaurant bietet bei gutem Wetter Plätze im Garten. Das passt zum Essen im Freien.",
+            "whyCompetingFails": "f nennt eine Kneipe mit Biergarten. b nennt ausdrücklich ein Restaurant und dessen Gartenbetrieb.",
+            "learningPoint": "„Gartenbetrieb“ bedeutet hier, dass Gäste draußen im Garten bedient werden."
+          }
         },
         {
           "situationNumber": 12,
           "content": "Sie möchten heute nicht selbst kochen, sondern lieber ein warmes Essen kaufen und mit nach Hause nehmen.",
           "noMatch": false,
           "correctAnnouncementKey": "a",
-          "sortOrder": 1
+          "sortOrder": 1,
+          "correction": {
+            "evidence": "Alle Gerichte auch zum Mitnehmen und Heimservice",
+            "whyCorrect": "Man kann ein Gericht kaufen und mit nach Hause nehmen.",
+            "whyCompetingFails": "b bietet Mittagsmenüs an, nennt aber keine Möglichkeit zum Mitnehmen.",
+            "learningPoint": "„Zum Mitnehmen“ bedeutet, das Essen außerhalb des Restaurants zu essen."
+          }
         },
         {
           "situationNumber": 13,
           "content": "In den Sommerferien möchten Sie gerne in die USA fliegen. Sie brauchen dort auch eine Unterkunft.",
           "noMatch": false,
           "correctAnnouncementKey": "d",
-          "sortOrder": 2
+          "sortOrder": 2,
+          "correction": {
+            "evidence": "Der Flug- und Hotelspezialist; Hotelvermittlung – Rundreisen – Sommertermine nach USA noch Plätze frei",
+            "whyCorrect": "Das Reisebüro bietet Flüge und Hotelvermittlung an. Außerdem nennt es freie Sommertermine für die USA.",
+            "whyCompetingFails": "j bietet Campmobile in den USA und Kanada an. Einen Flug mit Hotelvermittlung nennt diese Anzeige nicht.",
+            "learningPoint": "Prüfe alle Bedingungen der Situation: Reiseziel, Reisezeit und Unterkunft."
+          }
         },
         {
           "situationNumber": 14,
           "content": "Reisebüros bieten billigere Flüge an, wenn man in letzter Minute bucht. Sie suchen so einen Flug.",
           "noMatch": true,
           "correctAnnouncementKey": null,
-          "sortOrder": 3
+          "sortOrder": 3,
+          "correction": {
+            "evidence": "Anzeige j: „Früh buchen lohnt!“",
+            "whyCorrect": "Keine Anzeige bietet ausdrücklich einen günstigen Flug bei einer Buchung in letzter Minute an.",
+            "whyCompetingFails": "j wirbt gerade für frühes Buchen und bietet Campmobile an, keine Last-Minute-Flüge.",
+            "learningPoint": "„Früh buchen“ ist das Gegenteil von „in letzter Minute buchen“."
+          }
         },
         {
           "situationNumber": 15,
           "content": "Ihre Tochter, die studiert, möchte in die USA fliegen. Sie suchen einen billigen Flug für sie.",
           "noMatch": false,
           "correctAnnouncementKey": "e",
-          "sortOrder": 4
+          "sortOrder": 4,
+          "correction": {
+            "evidence": "Für Studenten/Jugendliche; New York/Boston; Los Angeles",
+            "whyCorrect": "Die Anzeige richtet sich an Studierende und Jugendliche und nennt Flugziele in den USA.",
+            "whyCompetingFails": "d bietet zwar USA-Reisen an, nennt aber kein besonderes Angebot für Studierende.",
+            "learningPoint": "Die Zielgruppe eines Angebots kann entscheidend sein."
+          }
         },
         {
           "situationNumber": 16,
           "content": "Ihr Sohn ist schlecht in Mathematik und braucht deshalb noch Unterricht außerhalb der Schule.",
           "noMatch": false,
           "correctAnnouncementKey": "i",
-          "sortOrder": 5
+          "sortOrder": 5,
+          "correction": {
+            "evidence": "Nachhilfe in Mathe-Physik mit viel Geduld u. Erfahrung von Gymnasiallehrer",
+            "whyCorrect": "Gesucht wird zusätzlicher Mathematikunterricht. Die Anzeige bietet genau solche Nachhilfe an.",
+            "whyCompetingFails": "h bietet Vorbereitung in Latein, Englisch, Französisch und Deutsch an, aber keine Mathematik.",
+            "learningPoint": "„Nachhilfe“ ist zusätzlicher Unterricht zur Unterstützung beim Lernen."
+          }
         },
         {
           "situationNumber": 17,
           "content": "Das Kind Ihrer Freunde hat Probleme beim Sprechen und braucht deshalb Hilfe.",
           "noMatch": false,
           "correctAnnouncementKey": "k",
-          "sortOrder": 6
+          "sortOrder": 6,
+          "correction": {
+            "evidence": "Für Erwachsene und Kinder mit (Sprach-)Schwierigkeiten",
+            "whyCorrect": "Die Anzeige richtet sich ausdrücklich auch an Kinder mit Sprachschwierigkeiten.",
+            "whyCompetingFails": "l bietet Sprachunterricht an. Das ist nicht dasselbe wie gezielte Hilfe bei Sprachschwierigkeiten.",
+            "learningPoint": "Unterscheide zwischen dem Lernen einer Fremdsprache und Schwierigkeiten beim Sprechen."
+          }
         },
         {
           "situationNumber": 18,
           "content": "Sie haben einen jungen Franzosen zu Besuch. Sie möchten, dass er in einen Deutschkurs geht.",
           "noMatch": false,
           "correctAnnouncementKey": "l",
-          "sortOrder": 7
+          "sortOrder": 7,
+          "correction": {
+            "evidence": "Deutsch als Fremdsprache · Fremdsprachen · Kindersprachkurse",
+            "whyCorrect": "Der französische Besucher soll Deutsch lernen. Dafür passt „Deutsch als Fremdsprache“.",
+            "whyCompetingFails": "h nennt Vorbereitung auf eine Nachprüfung. Das ist kein allgemeines Deutschkursangebot für einen ausländischen Besucher.",
+            "learningPoint": "„Deutsch als Fremdsprache“ bezeichnet Deutschunterricht für Menschen mit einer anderen Erstsprache."
+          }
         },
         {
           "situationNumber": 19,
           "content": "Sie möchten, dass Ihr Sohn in einen Jugendclub geht.",
           "noMatch": true,
           "correctAnnouncementKey": null,
-          "sortOrder": 8
+          "sortOrder": 8,
+          "correction": {
+            "evidence": "Deutsche und ausländische Jugendliche in München ist das Thema, das der Internationale Stammtisch am Montag, den 4. September, um 19.30 Uhr im Ratskeller „Moriskengewölbe“ (Marienplatz) diskutieren wird.",
+            "whyCorrect": "Keine Anzeige bietet einen Jugendclub an, den der Sohn besuchen könnte.",
+            "whyCompetingFails": "g nennt Jugendliche als Thema einer Diskussion. Die Anzeige beschreibt keinen Jugendclub.",
+            "learningPoint": "Menschen können das Thema einer Veranstaltung sein, ohne deren Zielgruppe zu sein."
+          }
         },
         {
           "situationNumber": 20,
           "content": "Sie interessieren sich für die Probleme ausländischer Jugendlicher in Deutschland.",
           "noMatch": false,
           "correctAnnouncementKey": "g",
-          "sortOrder": 9
+          "sortOrder": 9,
+          "correction": {
+            "evidence": "Deutsche und ausländische Jugendliche in München ist das Thema, das der Internationale Stammtisch am Montag, den 4. September, um 19.30 Uhr im Ratskeller „Moriskengewölbe“ (Marienplatz) diskutieren wird.",
+            "whyCorrect": "Die Veranstaltung behandelt deutsche und ausländische Jugendliche in München. Das passt zum gesuchten Thema.",
+            "whyCompetingFails": "l bietet Sprachkurse an, keine Diskussion über die Situation ausländischer Jugendlicher.",
+            "learningPoint": "„Ein Thema diskutieren“ bedeutet, sich darüber auszutauschen und verschiedene Ansichten zu besprechen."
+          }
         }
       ]
     },
@@ -421,7 +556,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Wie du ja weißt, wollte ich eigentlich nach Paris, aber das hat dann leider nicht geklappt.",
+            "whyCorrect": "Wunsch und Ergebnis stehen im Gegensatz. Diesen Gegensatz verbindet „aber“.",
+            "whyDistractorsFail": {
+              "b": "„Denn“ nennt einen Grund, keinen Gegensatz.",
+              "c": "„Sondern“ korrigiert normalerweise eine vorherige Verneinung. Eine solche Verneinung steht hier nicht."
+            },
+            "learningPoint": "„Ich wollte kommen, aber ich war krank.“"
+          }
         },
         {
           "gapKey": "22",
@@ -446,7 +590,16 @@
               "isCorrect": true,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "bei einer Firma in Straßburg",
+            "whyCorrect": "Nach „bei“ steht der Dativ. „Firma“ ist feminin: bei einer Firma.",
+            "whyDistractorsFail": {
+              "a": "Das ist hier nicht die benötigte Dativform.",
+              "b": "Diese Form passt nicht zum Dativ Singular von „Firma“."
+            },
+            "learningPoint": "„Sie arbeitet bei einer Bank.“"
+          }
         },
         {
           "gapKey": "23",
@@ -471,7 +624,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Dort bin ich drei Monate geblieben.",
+            "whyCorrect": "Das Perfekt von „bleiben“ wird mit „sein“ gebildet: ich bin geblieben.",
+            "whyDistractorsFail": {
+              "b": "„Bleiben“ bildet hier kein Perfekt mit „haben“.",
+              "c": "„Wurde geblieben“ ist hier keine passende Verbform."
+            },
+            "learningPoint": "„Ich bin gestern zu Hause geblieben.“"
+          }
         },
         {
           "gapKey": "24",
@@ -496,7 +658,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Die Arbeit war sehr anstrengend",
+            "whyCorrect": "Nach „war“ beschreibt das Adjektiv die Arbeit. Es bekommt hier keine Endung.",
+            "whyDistractorsFail": {
+              "b": "Diese Endung passt hier nicht.",
+              "c": "Auch diese Endung passt hier nicht."
+            },
+            "learningPoint": "„Der Kurs ist interessant.“"
+          }
         },
         {
           "gapKey": "25",
@@ -521,7 +692,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "hat mir aber trotzdem sehr gut gefallen.",
+            "whyCorrect": "Die Arbeit war anstrengend, gefiel ihm aber dennoch. „Trotzdem“ drückt diesen Gegensatz aus.",
+            "whyDistractorsFail": {
+              "b": "„Wegen“ braucht eine passende Ergänzung und kann hier nicht allein stehen.",
+              "c": "„Weshalb“ passt nicht in diese Satzstellung."
+            },
+            "learningPoint": "„Es regnet. Ich gehe trotzdem spazieren.“"
+          }
         },
         {
           "gapKey": "26",
@@ -546,7 +726,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Ich habe in dieser Zeit in verschiedenen Abteilungen gearbeitet",
+            "whyCorrect": "„In dieser Zeit“ bezeichnet den Zeitraum, während dessen er dort gearbeitet hat.",
+            "whyDistractorsFail": {
+              "a": "„Bis“ bezeichnet einen Endpunkt, nicht den gesamten genannten Zeitraum.",
+              "c": "„Nach dieser Zeit“ würde bedeuten, dass die Arbeit erst anschließend stattfand."
+            },
+            "learningPoint": "„In dieser Woche habe ich viel gelernt.“"
+          }
         },
         {
           "gapKey": "27",
@@ -571,7 +760,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "nicht nur etwas über die Herstellung von Fernsehgeräten gelernt, sondern auch über den Verkauf.",
+            "whyCorrect": "Zum Hilfsverb „habe“ gehört das Partizip „gelernt“.",
+            "whyDistractorsFail": {
+              "b": "Der Infinitiv bildet hier nicht das Perfekt.",
+              "c": "Das ist eine Präteritumform und passt nicht zu „habe“."
+            },
+            "learningPoint": "„Ich habe viel über Computer gelernt.“"
+          }
         },
         {
           "gapKey": "28",
@@ -596,7 +794,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Und die Kollegen, mit denen ich am meisten zu tun hatte, waren wirklich sehr nett.",
+            "whyCorrect": "„Mit“ verlangt den Dativ. Das Relativpronomen für „die Kollegen“ lautet im Dativ Plural „denen“.",
+            "whyDistractorsFail": {
+              "a": "Das ist eine Singularform, aber „Kollegen“ steht im Plural.",
+              "c": "Nach „mit“ wird hier die Dativform benötigt."
+            },
+            "learningPoint": "„Das sind Freunde, mit denen ich oft telefoniere.“"
+          }
         },
         {
           "gapKey": "29",
@@ -621,7 +828,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Nach dem Praktikum habe ich noch zwei Wochen Urlaub bei meinen Freunden gemacht.",
+            "whyCorrect": "„Bei“ verlangt den Dativ. Im Plural heißt es „bei meinen Freunden“.",
+            "whyDistractorsFail": {
+              "a": "Diese Form passt hier nicht zum Dativ Plural.",
+              "c": "Auch diese Form passt nicht zum Dativ Plural von „Freunde“."
+            },
+            "learningPoint": "„Ich wohne bei meinen Eltern.“"
+          }
         },
         {
           "gapKey": "30",
@@ -646,7 +862,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Darüber erzähle ich dir bald mehr",
+            "whyCorrect": "Man erzählt jemandem etwas. Fritz spricht Karin mit „du“ an; die passende Dativform ist „dir“.",
+            "whyDistractorsFail": {
+              "b": "Das ist die höfliche Anrede. Der Brief verwendet „du“.",
+              "c": "Das würde „uns selbst“ als Empfänger nennen, nicht Karin."
+            },
+            "learningPoint": "„Ich erzähle dir morgen von meiner Reise.“"
+          }
         }
       ]
     },
@@ -737,61 +962,121 @@
           "gapKey": "31",
           "gapNumber": 31,
           "correctWordKey": "h",
-          "sortOrder": 0
+          "sortOrder": 0,
+          "correction": {
+            "evidence": "ich habe Ihre Anzeige gelesen und interessiere mich sehr für Ihr Angebot.",
+            "whyCorrect": "Die feste Verbindung lautet „sich für etwas interessieren“.",
+            "whyCompetingFails": "c — dafür: „Dafür“ ersetzt eine Ergänzung. Hier folgt die Ergänzung „Ihr Angebot“ bereits ausdrücklich.",
+            "learningPoint": "Merke die Verbindung: sich für einen Kurs interessieren."
+          }
         },
         {
           "gapKey": "32",
           "gapNumber": 32,
           "correctWordKey": "i",
-          "sortOrder": 1
+          "sortOrder": 1,
+          "correction": {
+            "evidence": "und hätte deshalb gerne noch nähere Informationen.",
+            "whyCorrect": "„Hätte gerne“ formuliert einen Wunsch höflich. Der Schreiber möchte weitere Informationen bekommen.",
+            "whyCompetingFails": "a — besonders: Das Wort betont etwas, bildet hier aber nicht die gemeinte Wunschform „hätte gerne“.",
+            "learningPoint": "„Ich hätte gerne …“ ist eine höfliche Form für „Ich möchte …“."
+          }
         },
         {
           "gapKey": "33",
           "gapNumber": 33,
           "correctWordKey": "a",
-          "sortOrder": 2
+          "sortOrder": 2,
+          "correction": {
+            "evidence": "Meine Frau und mich interessiert ganz besonders das Freizeitprogramm für Kinder",
+            "whyCorrect": "„Ganz besonders“ betont, dass das Kinderprogramm für die Familie sehr wichtig ist.",
+            "whyCompetingFails": "i — gerne: „Interessiert ganz gerne“ ist hier keine passende Verbindung.",
+            "learningPoint": "„Besonders“ hebt etwas aus mehreren Dingen hervor."
+          }
         },
         {
           "gapKey": "34",
           "gapNumber": 34,
           "correctWordKey": "b",
-          "sortOrder": 3
+          "sortOrder": 3,
+          "correction": {
+            "evidence": "da wir zwei Kinder (3 und 8 Jahre) haben.",
+            "whyCorrect": "„Da“ nennt den Grund für das Interesse am Kinderprogramm. Das Verb steht am Ende.",
+            "whyCompetingFails": "g — deshalb: Danach müsste hier ein Hauptsatz folgen: „deshalb haben wir …“. Im Text steht aber „wir … haben“.",
+            "learningPoint": "„Da“ kann wie „weil“ einen Grund einleiten."
+          }
         },
         {
           "gapKey": "35",
           "gapNumber": 35,
           "correctWordKey": "o",
-          "sortOrder": 4
+          "sortOrder": 4,
+          "correction": {
+            "evidence": "Gibt es Schwimm- und Tenniskurse für Kinder und wenn ja, was kosten sie?",
+            "whyCorrect": "„Wenn ja“ bedeutet: Falls es solche Kurse gibt, möchte der Schreiber den Preis wissen.",
+            "whyCompetingFails": "n — wann: „Wann“ fragt nach einem Zeitpunkt. Hier wird eine Bedingung ausgedrückt.",
+            "learningPoint": "„Wenn ja“ bezieht sich auf eine zuvor gestellte Ja-Nein-Frage."
+          }
         },
         {
           "gapKey": "36",
           "gapNumber": 36,
           "correctWordKey": "l",
-          "sortOrder": 5
+          "sortOrder": 5,
+          "correction": {
+            "evidence": "Wie viel müssten wir pro Woche für unsere Kinder bezahlen?",
+            "whyCorrect": "Gefragt wird nach dem Betrag, den die Familie bezahlen müsste. „Müssten“ formuliert die Frage höflich.",
+            "whyCompetingFails": "j — könnten: Das würde nach einer Möglichkeit fragen. Die Lösung fragt nach der notwendigen Zahlung.",
+            "learningPoint": "„Müssten bezahlen“ bedeutet hier: Dieser Betrag wäre zu zahlen."
+          }
         },
         {
           "gapKey": "37",
           "gapNumber": 37,
           "correctWordKey": "m",
-          "sortOrder": 6
+          "sortOrder": 6,
+          "correction": {
+            "evidence": "Und schließlich noch eine letzte Frage:",
+            "whyCorrect": "„Schließlich“ leitet den letzten Punkt der Anfrage ein. Dazu passt „eine letzte Frage“.",
+            "whyCompetingFails": "d — damals: Das Wort verweist auf eine frühere Zeit. Hier geht es um den Abschluss der Fragen.",
+            "learningPoint": "„Schließlich“ kann „zum Schluss“ bedeuten."
+          }
         },
         {
           "gapKey": "38",
           "gapNumber": 38,
           "correctWordKey": "g",
-          "sortOrder": 7
+          "sortOrder": 7,
+          "correction": {
+            "evidence": "Wir haben einen kleinen Hund, von dem sich meine Kinder nicht trennen können und den wir deshalb auch mitnehmen müssten.",
+            "whyCorrect": "Die Kinder können sich nicht vom Hund trennen. Deshalb müsste die Familie ihn mitnehmen.",
+            "whyCompetingFails": "d — damals: Das würde eine frühere Zeit nennen, aber nicht den Grund für das Mitnehmen ausdrücken.",
+            "learningPoint": "„Deshalb“ verbindet einen vorher genannten Grund mit seiner Folge."
+          }
         },
         {
           "gapKey": "39",
           "gapNumber": 39,
           "correctWordKey": "e",
-          "sortOrder": 8
+          "sortOrder": 8,
+          "correction": {
+            "evidence": "Bitte schreiben Sie uns so bald wie möglich, damit wir uns bald entscheiden können.",
+            "whyCorrect": "„Damit“ nennt das Ziel der erbetenen Antwort: Die Familie möchte sich bald entscheiden können.",
+            "whyCompetingFails": "g — deshalb: „Deshalb“ leitet keinen solchen Nebensatz mit dem Verb am Ende ein.",
+            "learningPoint": "„Damit“ beantwortet hier die Frage: Wozu soll die Person bald schreiben?"
+          }
         },
         {
           "gapKey": "40",
           "gapNumber": 40,
           "correctWordKey": "f",
-          "sortOrder": 9
+          "sortOrder": 9,
+          "correction": {
+            "evidence": "Außerdem wären wir Ihnen sehr dankbar, wenn Sie uns einige Prospekte oder Bilder Ihrer Pension sowie der Umgebung zusenden würden.",
+            "whyCorrect": "Die Verbindung lautet „jemandem dankbar sein“. Der Schreiber drückt höflich aus, dass er sich über die Unterlagen freuen würde.",
+            "whyCompetingFails": "i — gerne: „Gerne“ ersetzt hier nicht das benötigte Adjektiv in „Ihnen dankbar sein“.",
+            "learningPoint": "„Wir wären Ihnen dankbar, wenn …“ ist eine höfliche Bitte."
+          }
         }
       ]
     },
@@ -808,31 +1093,81 @@
             "questionNumber": 41,
             "prompt": "Die Sprecherin muss im Haushalt fast alles alleine machen.",
             "correctAnswer": "+",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "Na, eigentlich mach alles ich, ich bin zu Haus, daher koch ich, ich wasch ab, ich bügle, ich versorge das Kind",
+              "whyCorrect": "Die Sprecherin sagt, dass sie praktisch alles macht. Sie nennt mehrere Aufgaben: kochen, abwaschen, bügeln und das Kind versorgen.",
+              "whyOppositeFails": "„Falsch“ passt nicht, weil sie ausdrücklich beschreibt, dass die Hausarbeit hauptsächlich bei ihr liegt.",
+              "learningPoint": "„Fast alles“ bedeutet nicht „wirklich alles“. Kleine Ausnahmen machen die Aussage nicht falsch.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 42,
             "prompt": "Der Sprecher wäscht das Geschirr und die Wäsche.",
             "correctAnswer": "-",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "Dafür wäscht meine Frau eben ab ähm ... Wäsche waschen mach ich nicht so gerne das macht sie",
+              "whyCorrect": "Seine Frau wäscht ab und übernimmt auch die Wäsche. Die Aussage ordnet diese Aufgaben der falschen Person zu.",
+              "whyOppositeFails": "„Richtig“ würde bedeuten, dass er beide Aufgaben übernimmt. Im Text übernimmt sie seine Frau.",
+              "learningPoint": "„Abwaschen“ bedeutet Geschirr reinigen. „Wäsche waschen“ betrifft Kleidung. Achte bei beiden Aufgaben darauf, wer sie macht.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 43,
             "prompt": "Die Sprecherin ist berufstätig und hat keine Zeit für die Hausarbeit.",
             "correctAnswer": "-",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "mein Mann ist voll berufstätig, ich bin zu Hause mit unseren zwei kleinen Kindern, 3 und 5 Jahre alt",
+              "whyCorrect": "„Voll berufstätig“ bezieht sich auf ihren Mann. Die Sprecherin beschreibt sich selbst als zu Hause mit den Kindern.",
+              "whyOppositeFails": "„Richtig“ würde die Berufstätigkeit der Sprecherin zuordnen. In dieser Textstelle spricht sie aber über ihren Mann.",
+              "learningPoint": "Achte auf den Wechsel zwischen „mein Mann“ und „ich“. Eine Information kann stimmen, aber in der Aufgabe der falschen Person zugeordnet sein.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 44,
             "prompt": "Der Sprecher teilt sich mit seiner Partnerin die Arbeit je nach Situation auf.",
             "correctAnswer": "+",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "Puh, wissen Sie, bei uns ist das eigentlich ganz unterschiedlich, das hängt von der Situation ab.",
+              "whyCorrect": "Er erklärt, dass die Aufteilung unterschiedlich ist und von der Situation abhängt. Das entspricht „je nach Situation“.",
+              "whyOppositeFails": "„Falsch“ passt nicht: Seine Aussage bestätigt ausdrücklich, dass die Situation die Aufteilung bestimmt.",
+              "learningPoint": "„Je nach Situation“ und „von der Situation abhängen“ drücken hier denselben Gedanken aus.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 45,
             "prompt": "Die Sprecherin ist froh, dass ihr Mann so viele Hausarbeiten übernimmt.",
             "correctAnswer": "-",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Also mein Mann, der ist ziemlich faul, der macht überhaupt nur, was ihm Spaß macht.",
+              "whyCorrect": "Sie kritisiert ihren Mann als faul. Ihre Worte zeigen Unzufriedenheit und keine Freude über seine Hilfe.",
+              "whyOppositeFails": "„Richtig“ würde Zufriedenheit ausdrücken. Die negative Beschreibung ihres Mannes widerspricht dem.",
+              "learningPoint": "Achte auf wertende Wörter: „ziemlich faul“ zeigt deutlich eine negative Haltung.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-3-hoeren-teil1.mp3",
@@ -851,61 +1186,161 @@
             "questionNumber": 46,
             "prompt": "Der Sportverein plant eine große Feier.",
             "correctAnswer": "+",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "Der Turn- und Sportverein Neustadt wird in diesem Jahr 100 Jahre alt und feiert diesen Geburtstag mit einem großen Programm.",
+              "whyCorrect": "Der Verein feiert seinen hundertsten Geburtstag mit einem großen Programm. Das bestätigt die geplante große Feier.",
+              "whyOppositeFails": "„Falsch“ widerspricht der ausdrücklich genannten Geburtstagsfeier.",
+              "learningPoint": "„Ein Jubiläum feiern“ bedeutet, einen besonderen Jahrestag zu feiern.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 47,
             "prompt": "Der Journalist unterhält sich mit einer Vertreterin des Sportvereins.",
             "correctAnswer": "+",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "Ich begrüße dazu heute hier im Studio eine Vertreterin des Turn- und Sportvereins Neustadt, Frau Seiffert.",
+              "whyCorrect": "Der Journalist stellt seine Gesprächspartnerin als Vertreterin des Vereins vor.",
+              "whyOppositeFails": "Sie wird ausdrücklich als Vertreterin genannt. Deshalb passt „falsch“ nicht.",
+              "learningPoint": "Eine „Vertreterin“ spricht hier für eine Organisation.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 48,
             "prompt": "Viele Papiere aus den Anfängen des Vereins sind im Krieg verloren gegangen.",
             "correctAnswer": "-",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "Unglaublich, dass trotz der zwei Kriege in diesem Jahrhundert solche Papiere und Unterlagen noch vorhanden sind.",
+              "whyCorrect": "Die alten Unterlagen sind noch vorhanden. Die Aussage über verlorene Papiere passt dazu nicht.",
+              "whyOppositeFails": "„Richtig“ würde einen Verlust bestätigen. Die Textstelle betont dagegen, dass die Unterlagen erhalten geblieben sind.",
+              "learningPoint": "„Noch vorhanden“ bedeutet: etwas gibt es weiterhin.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 49,
             "prompt": "Der Verein veröffentlicht jedes Jahr eine Festzeitung.",
             "correctAnswer": "-",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "So konnten wir in unserer Festzeitung zum 100. Geburtstag das Programm von der ersten Hauptversammlung des Vereins veröffentlichen.",
+              "whyCorrect": "Genannt wird eine Festzeitung zum hundertsten Geburtstag. Eine Veröffentlichung jedes Jahr wird nicht genannt.",
+              "whyOppositeFails": "„Richtig“ würde die zusätzliche Information „jedes Jahr“ bestätigen. Dafür gibt es im Gespräch keinen Beleg.",
+              "learningPoint": "Achte auf Häufigkeitsangaben: „zum Geburtstag“ bedeutet nicht automatisch „jedes Jahr“.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 50,
             "prompt": "Der Verein hatte von Anfang an auch Frauen als Mitglieder.",
             "correctAnswer": "-",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Am Anfang war Sport reine Männersache. Es hat 16 Jahre gedauert, bis bei uns die ersten Frauen dazukamen.",
+              "whyCorrect": "Frauen kamen erst nach sechzehn Jahren dazu. Sie waren nicht von Anfang an Mitglieder.",
+              "whyOppositeFails": "„Richtig“ widerspricht dem ausdrücklich genannten späteren Eintritt der Frauen.",
+              "learningPoint": "„Von Anfang an“ bedeutet: bereits seit dem Beginn.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 51,
             "prompt": "Heute gibt es im Verein mehr Frauen als Männer.",
             "correctAnswer": "+",
-            "sortOrder": 5
+            "sortOrder": 5,
+            "correction": {
+              "evidence": "Über 50 Prozent der Mitglieder sind Frauen, d. h. mehr als 1000 der insgesamt 2000 Mitglieder.",
+              "whyCorrect": "Mehr als die Hälfte der Mitglieder sind Frauen. Deshalb gibt es mehr Frauen als Männer.",
+              "whyOppositeFails": "„Falsch“ passt nicht zu der Angabe „über 50 Prozent“.",
+              "learningPoint": "„Über 50 Prozent“ bedeutet „mehr als die Hälfte“.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 52,
             "prompt": "Im Verein kann man Sport im Freien und in der Halle treiben.",
             "correctAnswer": "+",
-            "sortOrder": 6
+            "sortOrder": 6,
+            "correction": {
+              "evidence": "Ihr Verein hat ja hier in Neustadt eine schöne Anlage mit Sportplätzen im Freien und einer großen Halle.",
+              "whyCorrect": "Es gibt Sportplätze draußen und eine Halle. Beide Möglichkeiten werden genannt.",
+              "whyOppositeFails": "„Falsch“ würde die ausdrücklich genannten Sportmöglichkeiten nicht berücksichtigen.",
+              "learningPoint": "„Im Freien“ bedeutet „draußen“.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 53,
             "prompt": "Die Mitglieder müssen die Kosten für ihren Verein alleine tragen.",
             "correctAnswer": "-",
-            "sortOrder": 7
+            "sortOrder": 7,
+            "correction": {
+              "evidence": "50 Prozent des Geldes, das wir brauchen, bekommen wir durch unsere Mitglieder, in Form von Mitgliedsbeiträgen, den Rest bekommen wir von der Stadt und vom Deutschen Sportbund dazu.",
+              "whyCorrect": "Die Mitglieder finanzieren nur einen Teil. Auch die Stadt und der Deutsche Sportbund geben Geld.",
+              "whyOppositeFails": "„Richtig“ würde bedeuten, dass die Mitglieder alles bezahlen. Das widerspricht der zusätzlichen Finanzierung.",
+              "learningPoint": "„Den Rest“ bezeichnet den noch fehlenden Teil einer Gesamtmenge.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 54,
             "prompt": "Der Sportverein bietet auch Schwimmkurse an.",
             "correctAnswer": "-",
-            "sortOrder": 8
+            "sortOrder": 8,
+            "correction": {
+              "evidence": "Im Grunde genommen bieten wir fast jede Sportart an, außer Schwimmen.",
+              "whyCorrect": "Schwimmen wird ausdrücklich ausgeschlossen. Deshalb bietet der Verein keine Schwimmkurse an.",
+              "whyOppositeFails": "„Richtig“ würde das Wort „außer“ übergehen.",
+              "learningPoint": "„Außer“ nennt eine Ausnahme: fast alles, aber gerade diese Sache nicht.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 55,
             "prompt": "Einige Leute, die im Verein ausgebildet wurden, arbeiten dort heute als Lehrer.",
             "correctAnswer": "+",
-            "sortOrder": 9
+            "sortOrder": 9,
+            "correction": {
+              "evidence": "Wir bilden ja viele Leute aus, die später Sport studieren oder Leistungssport machen. Diese Leute bitten wir oft, im eigenen Verein zu unterrichten.",
+              "whyCorrect": "Der Verein bildet Menschen aus und bittet diese später, dort zu unterrichten. Das entspricht der Aussage.",
+              "whyOppositeFails": "„Falsch“ würde die Verbindung zwischen Ausbildung und Unterricht im Verein übersehen.",
+              "learningPoint": "„Unterrichten“ bedeutet, anderen etwas beizubringen.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-3-hoeren-teil2.mp3",
@@ -924,31 +1359,81 @@
             "questionNumber": 56,
             "prompt": "Das Büro ist in der Schillerstraße.",
             "correctAnswer": "+",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "Überqueren Sie die Königstraße, bleiben Sie aber in der Schillerstraße. Wir sind dann ein Stückchen weiter, gegenüber vom Kino Gloria.",
+              "whyCorrect": "Man soll in der Schillerstraße bleiben. Dort liegt das gesuchte Büro etwas weiter.",
+              "whyOppositeFails": "„Falsch“ könnte durch die erwähnte Königstraße entstehen. Diese wird aber nur überquert.",
+              "learningPoint": "„Eine Straße überqueren“ bedeutet nicht, in diese Straße einzubiegen.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 57,
             "prompt": "Der Film „Sommer“ läuft im Filmcasino.",
             "correctAnswer": "-",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "City Kino 1: „Sommer“, 18 Uhr 45 und 21 Uhr",
+              "whyCorrect": "„Sommer“ läuft im City Kino 1, nicht im Filmcasino.",
+              "whyOppositeFails": "„Richtig“ würde den Film dem falschen Kino zuordnen.",
+              "learningPoint": "Verbinde beim Hören den Filmtitel mit dem passenden Kino.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 58,
             "prompt": "Im Süden Bayerns wird es am Nachmittag schön und nicht sehr warm.",
             "correctAnswer": "+",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "Südbayern: Anfangs noch vereinzelt Regen, später zunehmend sonnig mit Höchsttemperaturen bis 18 Grad.",
+              "whyCorrect": "Später wird es sonniger. Die Höchsttemperatur von achtzehn Grad passt zu „nicht sehr warm“.",
+              "whyOppositeFails": "„Falsch“ würde den Wechsel zum sonnigen Wetter oder die genannte Temperatur übersehen.",
+              "learningPoint": "„Anfangs“ und „später“ zeigen, wie sich das Wetter im Laufe des Tages verändert.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 59,
             "prompt": "Im Zugrestaurant können Sie auch Zeitungen kaufen.",
             "correctAnswer": "-",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "Unser Zugrestaurant finden Sie zwischen der 1. und 2. Wagenklasse, wo Sie das Speisewagen-Team ab 11.30 Uhr gern zum Mittagessen erwartet.",
+              "whyCorrect": "Im Zugrestaurant wird Mittagessen angeboten. Ein Zeitungsverkauf wird in der Ansage nicht genannt.",
+              "whyOppositeFails": "„Richtig“ würde ein zusätzliches Angebot behaupten, für das die Ansage keinen Beleg liefert.",
+              "learningPoint": "Entscheide nach der Ansage, nicht danach, was man möglicherweise in einem Zug kaufen kann.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 60,
             "prompt": "Damenröcke kosten heute 39 Euro.",
             "correctAnswer": "+",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Ja, bei uns gibt’s zum Beispiel damenhafte Röcke für nur 39 Euro",
+              "whyCorrect": "Für die Röcke wird genau der Preis von neununddreißig Euro genannt.",
+              "whyOppositeFails": "„Falsch“ widerspricht dem ausdrücklich genannten Preis.",
+              "learningPoint": "Ordne bei mehreren Angeboten jeden Preis dem richtigen Kleidungsstück zu.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-3-hoeren-teil3.mp3",

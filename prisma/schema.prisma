@@ -778,6 +778,8 @@ model LesenTeil2Question {
   questionNumber Int
   prompt         String
   sortOrder      Int
+  /// Training Corrigé package. See docs/contracts/training-correction-package.md
+  correction Json?
 
   exercise LesenTeil2Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
   options  LesenTeil2Option[]
@@ -823,6 +825,8 @@ model SprachbausteineGap {
   gap_key     String
   gap_number  Int
   sort_order  Int
+  /// Training Corrigé package. See docs/contracts/training-correction-package.md
+  correction Json?
 
   exercise SprachbausteineExercise    @relation(fields: [exercise_id], references: [id], onDelete: Cascade)
   options  SprachbausteineGapOption[]
@@ -883,6 +887,8 @@ model SprachbausteineTeil2Gap {
   gapNumber     Int
   correctWordId String @db.Uuid
   sortOrder     Int
+  /// Training Corrigé package. See docs/contracts/training-correction-package.md
+  correction Json?
 
   exercise    SprachbausteineTeil2Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
   correctWord SprachbausteineTeil2Word     @relation(fields: [correctWordId], references: [id], onDelete: Restrict)
@@ -917,6 +923,8 @@ model LesenTeil1Text {
   body           String
   sortOrder      Int
   correctTitleId String  @db.Uuid
+  /// Training Corrigé package. See docs/contracts/training-correction-package.md
+  correction Json?
 
   exercise     LesenTeil1Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
   correctTitle LesenTeil1Title    @relation("CorrectTitle", fields: [correctTitleId], references: [id])
@@ -974,6 +982,8 @@ model LesenTeil3Situation {
   noMatch               Boolean @default(false)
   correctAnnouncementId String? @db.Uuid
   sortOrder             Int
+  /// Training Corrigé package. See docs/contracts/training-correction-package.md
+  correction Json?
 
   exercise            LesenTeil3Exercise      @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
   correctAnnouncement LesenTeil3Announcement? @relation(fields: [correctAnnouncementId], references: [id], onDelete: Restrict)
@@ -1096,6 +1106,9 @@ model ListeningQuestion {
   prompt          String
   correct_answer  String
   sort_order      Int
+  /// Authored Training Corrigé package (evidence, whyCorrect, …). Null when
+  /// the paper has no package yet. Shape: docs/contracts/training-correction-package.md
+  correction Json?
 
   exercise ListeningExercise @relation(fields: [exercise_id], references: [id], onDelete: Cascade)
 
@@ -1705,6 +1718,8 @@ model ExamItem {
   /// TEXT_SCHREIBEN and oral types. Validated at import, read verbatim at
   /// scoring time — never queried into.
   solution    Json?
+  /// Training Corrigé package. See docs/contracts/training-correction-package.md
+  correction  Json?
   sort_order  Int
 
   section ExamSection      @relation(fields: [section_id], references: [id], onDelete: Cascade)

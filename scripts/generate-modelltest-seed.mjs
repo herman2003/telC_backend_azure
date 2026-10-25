@@ -367,6 +367,10 @@ ${values(
 )};
 `);
 }
+// Training Corrigé packages live in source JSON but are applied after the
+// correction columns exist (scripts/apply-mt*-corrections-testdb.mjs). Do not
+// emit them into historical seed migrations — those timestamps predate the
+// column ADD and would break fresh `prisma migrate`.
 
 // Schreiben
 const writing = sections.schreiben;

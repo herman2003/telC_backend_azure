@@ -23,6 +23,10 @@ import { submitOnce } from '../student-activity/submit-once';
 import { historyFields, teilStats } from '../student-activity/student-history';
 import type { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
+import {
+  correctionMapFromGenericItems,
+  optionalCorrection,
+} from '../../shared/training-correction';
 
 const LETTERS = ['a', 'b', 'c'];
 
@@ -148,12 +152,14 @@ export class LesenService {
       // correctTitleId is the raw title uuid, which is exactly what titles[].id
       // exposes and what getSubmissionRules() scores against. Same value, no
       // translation — unlike Teil 2 and Teil 3, which compose letters.
+      const correction = optionalCorrection(t.correction);
       return {
         id: String(t.textNumber),
         von: t.von,
         an: t.an,
         body: t.body,
         correctTitleId: t.correctTitleId,
+        ...(correction ? { correction } : {}),
       };
     });
 
@@ -204,6 +210,7 @@ export class LesenService {
       // the same key now; a test asserts they agree.
       const correct = q.options.find((o) => o.isCorrect);
 
+      const correction = optionalCorrection(q.correction);
       return {
         id: String(q.questionNumber),
         content: q.prompt,
@@ -211,6 +218,7 @@ export class LesenService {
           ? `${q.questionNumber}${LETTERS[correct.sortOrder]}`
           : '',
         options,
+        ...(correction ? { correction } : {}),
       };
     });
 
@@ -260,12 +268,14 @@ export class LesenService {
       // letterMap was already built above for the announcement ids and until now
       // was never read. "X" marks the situation no announcement answers, which
       // telc Teil 3 always includes.
+      const correction = optionalCorrection(s.correction);
       return {
         id: String(s.situationNumber),
         content: s.content,
         correctAnswer: s.noMatch
           ? 'X'
           : (letterMap.get(s.correctAnnouncementId ?? '') ?? ''),
+        ...(correction ? { correction } : {}),
       };
     });
 
@@ -372,12 +382,14 @@ export class LesenService {
     }
     const feedback = trainingFeedbackForSection(section, dto.answers);
     const score = feedback.percent;
+    const correction = correctionMapFromGenericItems(section.items);
 
     if (caller.isGuest) {
       return {
         score,
         outcomes: feedback.outcomes,
         review: feedback.review,
+        ...(correction ? { correction } : {}),
       };
     }
 
@@ -425,6 +437,7 @@ export class LesenService {
       score,
       outcomes: feedback.outcomes,
       review: feedback.review,
+      ...(correction ? { correction } : {}),
     };
   }
 

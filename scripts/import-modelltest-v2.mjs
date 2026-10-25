@@ -467,6 +467,7 @@ ${values(
 )};
 `);
 }
+// Training Corrigé packages: applied after column ADD via apply-*-corrections scripts.
 
 // ─── Schreiben ──────────────────────────────────────────────────────────────
 //

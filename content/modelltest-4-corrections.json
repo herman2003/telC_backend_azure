@@ -1,0 +1,451 @@
+{
+  "modelltestNumber": 4,
+  "paperTitle": "Modelltest 4 – Leben in der Stadt",
+  "hoeren": {
+    "teil1": {
+      "41": {
+        "evidence": "Seit letztem Frühjahr fahre ich meistens mit dem Fahrrad zur Arbeit.",
+        "whyCorrect": "„Meistens“ bestätigt, dass sie normalerweise das Fahrrad nimmt.",
+        "whyOppositeFails": "Bei schlechtem Wetter nimmt sie zwar den Bus. Das Fahrrad bleibt aber ihr übliches Verkehrsmittel.",
+        "learningPoint": "„Normalerweise“ bedeutet nicht „immer“. Ausnahmen sind möglich.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "42": {
+        "evidence": "Wenn ich abends nach Hause komme, suche ich manchmal zwanzig Minuten, bis ich einen freien Platz finde.",
+        "whyCorrect": "Die Parkplatzsuche dauert manchmal zwanzig Minuten. Er findet also nicht leicht einen Parkplatz.",
+        "whyOppositeFails": "„Leicht“ passt nicht zu der beschriebenen langen Suche.",
+        "learningPoint": "Achte auf Zeitangaben: Sie können zeigen, dass etwas schwierig ist.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "43": {
+        "evidence": "Obst, Gemüse, Käse und Brot kaufe ich meistens dort, weil die Sachen frisch sind und ich viele Verkäufer inzwischen persönlich kenne.",
+        "whyCorrect": "Mit „dort“ meint sie den Wochenmarkt. Dort kauft sie meistens die genannten Lebensmittel.",
+        "whyOppositeFails": "Dass sie Getränke und Haushaltsartikel im Supermarkt kauft, widerspricht der Aussage nicht.",
+        "learningPoint": "Achte darauf, worauf sich Wörter wie „dort“ beziehen.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "44": {
+        "evidence": "Klar, manchmal ist es laut, aber ich möchte im Moment auf keinen Fall außerhalb wohnen.",
+        "whyCorrect": "Er möchte ausdrücklich nicht außerhalb der Stadt wohnen.",
+        "whyOppositeFails": "Seine Freunde wohnen gern auf dem Land. Diese Vorliebe darf man ihm nicht zuordnen.",
+        "learningPoint": "„Auf keinen Fall“ drückt eine starke Ablehnung aus.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "45": {
+        "evidence": "Zum Glück haben mich meine Nachbarn gleich zu einem kleinen Fest im Innenhof eingeladen. Dort habe ich viele Leute aus dem Haus kennengelernt.",
+        "whyCorrect": "Durch die Einladung ihrer Nachbarn konnte sie andere Hausbewohner kennenlernen.",
+        "whyOppositeFails": "Anfangs kannte sie kaum jemanden. Nach dem Fest hatte sich das geändert.",
+        "learningPoint": "Unterscheide zwischen der Situation am Anfang und der Situation heute.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    },
+    "teil2": {
+      "46": {
+        "evidence": "Es gab zwar schon einzelne Vereine und Angebote, aber bisher keinen gemeinsamen Treffpunkt. Deshalb wollte die Stadt einen Ort schaffen, an dem sich die Bewohner kennenlernen und gemeinsam etwas machen können.",
+        "whyCorrect": "Der fehlende gemeinsame Treffpunkt war ein Grund für die Einrichtung des Zentrums.",
+        "whyOppositeFails": "Einzelne Vereine gab es schon. Sie ersetzten aber keinen gemeinsamen Treffpunkt.",
+        "learningPoint": "„Deshalb“ zeigt die Folge eines vorher genannten Grundes.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "47": {
+        "evidence": "Wir bieten auch verschiedene Kurse und Beratungen an. Es gibt zum Beispiel Deutschkurse, Computerkurse, einen offenen Treff für Eltern mit kleinen Kindern und zweimal pro Woche eine Hausaufgabenhilfe für Schülerinnen und Schüler.",
+        "whyCorrect": "Neben Freizeitangeboten gibt es auch Unterricht, Beratung und Lernhilfe.",
+        "whyOppositeFails": "Das Wort „nur“ schließt diese weiteren Angebote aus. Deshalb ist die Aussage falsch.",
+        "learningPoint": "Prüfe Wörter wie „nur“ besonders genau.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "48": {
+        "evidence": "Für die meisten offenen Veranstaltungen muss man sich nicht anmelden. Bei Kursen mit begrenzter Teilnehmerzahl ist eine Anmeldung natürlich notwendig.",
+        "whyCorrect": "Eine Anmeldung ist nicht für alle Veranstaltungen nötig. Sie wird bei bestimmten Kursen verlangt.",
+        "whyOppositeFails": "„Für alle“ widerspricht der ausdrücklich genannten Möglichkeit, ohne Anmeldung zu kommen.",
+        "learningPoint": "Unterscheide zwischen „alle“, „die meisten“ und „einige“.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "49": {
+        "evidence": "Für einige Kurse, zum Beispiel den Kochkurs oder bestimmte Computerkurse, gibt es eine kleine Teilnahmegebühr. Diese liegt meistens zwischen fünf und fünfzehn Euro.",
+        "whyCorrect": "Für bestimmte Kurse muss man eine kleine Gebühr bezahlen.",
+        "whyOppositeFails": "Viele kostenlose Angebote bedeuten nicht, dass alle Kurse kostenlos sind.",
+        "learningPoint": "„Teilnahmegebühr“ ist Geld, das man für die Teilnahme bezahlt.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "50": {
+        "evidence": "Der größte Teil der Kosten wird von der Stadt übernommen. Zusätzlich bekommen wir Geld von einigen sozialen Organisationen.",
+        "whyCorrect": "Vor allem die Stadt finanziert das Zentrum. Private Unternehmen sind nicht die einzigen Geldgeber.",
+        "whyOppositeFails": "„Ausschließlich“ würde alle anderen Geldgeber ausschließen. Die Stadt und soziale Organisationen werden aber ausdrücklich genannt.",
+        "learningPoint": "„Ausschließlich“ bedeutet „nur“.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "51": {
+        "evidence": "aber ohne Ehrenamtliche könnten wir unser Programm gar nicht anbieten. Zurzeit helfen uns etwa 25 Menschen regelmäßig.",
+        "whyCorrect": "Ungefähr fünfundzwanzig Menschen helfen regelmäßig ehrenamtlich mit.",
+        "whyOppositeFails": "Fest angestellte Mitarbeiter und ehrenamtliche Helfer arbeiten beide im Zentrum.",
+        "learningPoint": "„Ehrenamtlich“ bedeutet, freiwillig und normalerweise ohne Bezahlung zu arbeiten.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "52": {
+        "evidence": "Außerdem bieten wir einmal im Monat eine Smartphone-Sprechstunde an. Dort erklären Ehrenamtliche zum Beispiel, wie man Nachrichten verschickt, Fotos speichert oder eine Fahrkarte mit dem Handy kauft.",
+        "whyCorrect": "Ältere Menschen erhalten praktische Hilfe bei der Smartphone-Nutzung.",
+        "whyOppositeFails": "Die genannten Erklärungen sind genau solche Hilfen. Deshalb passt „falsch“ nicht.",
+        "learningPoint": "Eine „Sprechstunde“ kann auch eine Zeit für Beratung zu technischen Fragen sein.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "53": {
+        "evidence": "Freitags am frühen Abend haben wir einen offenen Jugendtreff.",
+        "whyCorrect": "Der Jugendtreff findet freitags statt, nicht sonntags.",
+        "whyOppositeFails": "„Sonntags“ nennt den falschen Wochentag.",
+        "learningPoint": "„Freitags“ bedeutet: regelmäßig am Freitag.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "54": {
+        "evidence": "Sonntags ist das Zentrum geschlossen, außer wenn eine besondere Veranstaltung stattfindet.",
+        "whyCorrect": "An gewöhnlichen Sonntagen ist geschlossen. Nur besondere Veranstaltungen bilden eine Ausnahme.",
+        "whyOppositeFails": "Die Ausnahme ändert nichts an der normalen Sonntagsregel.",
+        "learningPoint": "„Außer wenn“ leitet eine Ausnahme ein.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "55": {
+        "evidence": "Wenn alles gut läuft, möchten wir im nächsten Frühjahr einen kleinen Gemeinschaftsgarten hinter dem Gebäude anlegen.",
+        "whyCorrect": "Der Garten ist ein Plan für das nächste Frühjahr. Er wird nicht als bereits vorhanden beschrieben.",
+        "whyOppositeFails": "„Bereits“ verwechselt einen Zukunftsplan mit der heutigen Situation.",
+        "learningPoint": "„Möchten“ und eine zukünftige Zeitangabe zeigen hier einen Plan.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    },
+    "teil3": {
+      "56": {
+        "evidence": "Wegen einer internen Veranstaltung schließen wir heute bereits um 16 Uhr. Morgen sind wir wieder wie gewohnt von 9 bis 19 Uhr für Sie da.",
+        "whyCorrect": "Heute schließt die Bibliothek um sechzehn Uhr. Die gewöhnliche Schließzeit ist neunzehn Uhr.",
+        "whyOppositeFails": "Die normalen Öffnungszeiten gelten laut Ansage erst morgen wieder.",
+        "learningPoint": "„Bereits um“ betont hier, dass etwas früher als üblich passiert.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "57": {
+        "evidence": "Wegen Bauarbeiten fährt die Linie heute nicht bis zum Hauptbahnhof.",
+        "whyCorrect": "Der Hauptbahnhof wird heute nicht mit dieser Straßenbahnlinie erreicht.",
+        "whyOppositeFails": "„Fährt bis zum Hauptbahnhof“ widerspricht der ausdrücklichen Verneinung.",
+        "learningPoint": "Überhöre bei Durchsagen das Wort „nicht“ nicht.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "58": {
+        "evidence": "Am Nachmittag muss besonders im Stadtgebiet mit kräftigem Regen gerechnet werden.",
+        "whyCorrect": "Für den Nachmittag wird starker Regen angekündigt. Es bleibt also nicht trocken.",
+        "whyOppositeFails": "Trockenes Wetter wird nur für den Vormittag genannt.",
+        "learningPoint": "Ordne Wetterangaben dem richtigen Tagesabschnitt zu.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "59": {
+        "evidence": "Zwischen 14 und 18 Uhr können Kinder dort kostenlos an einem Malworkshop teilnehmen. Die Eltern müssen ihre Kinder vorher am Informationsstand im Erdgeschoss anmelden.",
+        "whyCorrect": "Die Teilnahme ist für Kinder kostenlos. Eine Anmeldung ist trotzdem erforderlich.",
+        "whyOppositeFails": "Eine notwendige Anmeldung bedeutet nicht, dass die Teilnahme Geld kostet.",
+        "learningPoint": "„Kostenlos“ und „ohne Anmeldung“ sind unterschiedliche Bedingungen.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "60": {
+        "evidence": "Das für heute Abend geplante Konzert am See muss wegen des starken Windes leider ausfallen.",
+        "whyCorrect": "Das Konzert findet heute Abend wegen des Windes nicht statt.",
+        "whyOppositeFails": "„Geplant“ bedeutet nicht, dass die Veranstaltung tatsächlich stattfindet. Die Absage ist entscheidend.",
+        "learningPoint": "„Ausfallen“ bedeutet bei einer Veranstaltung: nicht stattfinden.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    }
+  },
+  "lesen": {
+    "teil1": {
+      "1": {
+        "evidence": "Eine aktuelle Umfrage zeigt, dass besonders Menschen zwischen 20 und 35 Jahren häufiger Bus, Bahn oder Fahrrad benutzen. Wenn sie doch einmal ein Auto benötigen, mieten sie für einige Stunden ein Fahrzeug über einen Carsharing-Anbieter.",
+        "whyCorrect": "Der Text hebt junge Erwachsene und ihre Nutzung von Carsharing hervor. Dazu passt die vorgegebene Überschrift f.",
+        "whyCompetingFails": "a ist ebenfalls thematisch nah, aber allgemeiner. f nennt zusätzlich die hervorgehobene Altersgruppe und Carsharing.",
+        "learningPoint": "Vergleiche ähnliche Überschriften danach, welche die besonderen Informationen des Textes aufgreift."
+      },
+      "2": {
+        "evidence": "Auf einer früheren Parkfläche im Stadtteil Nord wächst seit diesem Frühjahr Gemüse. Rund 30 Bewohnerinnen und Bewohner haben dort gemeinsam Beete angelegt.",
+        "whyCorrect": "Die Bewohner bauen gemeinsam Gemüse im Stadtteil an. Das passt zu gemeinsamem Gärtnern.",
+        "whyCompetingFails": "Prüfhinweis: d passt ebenfalls direkt zum Text: Eine frühere Parkfläche wird von Nachbarn zum Garten gemacht. Der Text grenzt d und i nicht eindeutig voneinander ab. Die vorgegebene Lösung bleibt i.",
+        "learningPoint": "„Ein Beet anlegen“ bedeutet, eine Fläche zum Anbauen von Pflanzen vorzubereiten."
+      },
+      "3": {
+        "evidence": "Über die Internetseite der Bibliothek stehen jetzt auch E-Books, Hörbücher und mehrere Zeitungen zur Verfügung.",
+        "whyCorrect": "Die Bibliothek bietet zusätzliche Medien über das Internet an. Das ist eine Erweiterung ihres digitalen Angebots.",
+        "whyCompetingFails": "h behauptet einen Besucherrückgang. Über sinkende Besucherzahlen steht im Text nichts.",
+        "learningPoint": "„Jetzt auch“ zeigt häufig, dass ein Angebot erweitert wurde."
+      },
+      "4": {
+        "evidence": "Ab 14 Uhr treten verschiedene Musikgruppen auf. Vereine aus dem Viertel informieren über ihre Arbeit und Restaurants bieten Spezialitäten aus unterschiedlichen Ländern an.",
+        "whyCorrect": "Musik, Vereine und Essen gehören zum Programm des Stadtteilfests.",
+        "whyCompetingFails": "e handelt von kostenlosen Busfahrten. „Der Eintritt ist frei“ bezieht sich hier auf das Fest, nicht auf den Busverkehr.",
+        "learningPoint": "Prüfe, worauf sich eine Information wie „kostenlos“ oder „frei“ bezieht."
+      },
+      "5": {
+        "evidence": "Die Stadtverwaltung möchte in den kommenden Jahren rund 180 neue Wohnungen bauen. Das neue Wohngebiet soll auf einem alten Firmengelände nur wenige Minuten vom Hauptbahnhof entfernt entstehen.",
+        "whyCorrect": "Geplant sind neue Wohnungen in der Nähe des Hauptbahnhofs.",
+        "whyCompetingFails": "d handelt von einem Gemeinschaftsgarten auf einem Parkplatz. Hier geht es um Wohnungsbau auf einem Firmengelände.",
+        "learningPoint": "„Soll entstehen“ zeigt hier, dass etwas geplant und noch nicht fertig ist."
+      }
+    },
+    "teil2": {
+      "6": {
+        "evidence": "Der wichtigste Grund für die Entscheidung waren die Kosten.",
+        "whyCorrect": "Die Familie verkaufte das Auto hauptsächlich aus finanziellen Gründen.",
+        "whyDistractorsFail": {
+          "a": "Ein zu kleines Auto wird nicht als Grund genannt.",
+          "c": "Eine persönliche Ablehnung des Autofahrens durch Tobias wird nicht als Hauptgrund genannt."
+        },
+        "learningPoint": "„Der wichtigste Grund“ entspricht in einer Frage oft „hauptsächlich“."
+      },
+      "7": {
+        "evidence": "Heute fährt Tobias mit dem Fahrrad zur Arbeit. Bei schlechtem Wetter nimmt er den Bus.",
+        "whyCorrect": "Sein übliches Verkehrsmittel ist das Fahrrad. Der Bus ist die Alternative bei schlechtem Wetter.",
+        "whyDistractorsFail": {
+          "b": "Die Straßenbahn benutzt Anna an ihren Bürotagen.",
+          "c": "Zu Fuß gehen die Kinder zur Schule. Das ist nicht Tobias’ beschriebener Arbeitsweg."
+        },
+        "learningPoint": "Achte darauf, welcher Person ein Verkehrsmittel zugeordnet wird."
+      },
+      "8": {
+        "evidence": "Etwa zweimal im Monat benötigt sie eines, zum Beispiel für größere Einkäufe oder für einen Besuch bei den Großeltern auf dem Land. Dann reservieren die Bergers über eine App ein Carsharing-Fahrzeug.",
+        "whyCorrect": "Die Familie nutzt Carsharing gelegentlich für größere Einkäufe und besondere Fahrten.",
+        "whyDistractorsFail": {
+          "a": "Die Nutzung erfolgt ungefähr zweimal monatlich, nicht täglich für den Arbeitsweg.",
+          "c": "Eine Beschränkung auf Schulferien wird nicht genannt."
+        },
+        "learningPoint": "„Etwa zweimal im Monat“ beschreibt eine ungefähre Häufigkeit."
+      },
+      "9": {
+        "evidence": "Am Anfang mussten alle ihre Gewohnheiten ändern. Besonders beim Einkaufen war mehr Planung notwendig.",
+        "whyCorrect": "Vor allem die Einkäufe mussten anders organisiert werden.",
+        "whyDistractorsFail": {
+          "a": "Eine notwendige Änderung der Arbeitszeiten wird nicht beschrieben.",
+          "b": "Ein Schulwechsel der Kinder wird nicht genannt."
+        },
+        "learningPoint": "„Mehr Planung“ kann in einer Antwort als „andere Organisation“ ausgedrückt werden."
+      },
+      "10": {
+        "evidence": "Wir bewegen uns deutlich mehr. Früher sind wir selbst kurze Strecken mit dem Auto gefahren. Heute gehen wir zu Fuß oder nehmen das Fahrrad.",
+        "whyCorrect": "Anna nennt mehr Bewegung im Alltag als zusätzlichen Vorteil.",
+        "whyDistractorsFail": {
+          "b": "Häufigere Reisen werden nicht als Vorteil genannt.",
+          "c": "Mehr Freizeit für die Kinder wird nicht erwähnt."
+        },
+        "learningPoint": "„Ein weiterer Vorteil“ bedeutet: ein zusätzlicher positiver Punkt."
+      }
+    },
+    "teil3": {
+      "11": {
+        "evidence": "Reparaturen aller Fahrradtypen. Kleine Reparaturen oft noch am selben Tag.",
+        "whyCorrect": "RADFIX repariert Fahrräder und bietet für kleine Schäden häufig eine schnelle Reparatur.",
+        "whyCompetingFails": "n/a",
+        "learningPoint": "„Oft noch am selben Tag“ ist eine Möglichkeit, aber keine Garantie für jede Reparatur."
+      },
+      "12": {
+        "evidence": "Deutsch sprechen und neue Menschen kennenlernen. Jeden Dienstag ab 18.30 Uhr im Kulturzentrum Nord.",
+        "whyCorrect": "Das Sprachcafé verbindet regelmäßiges Deutschsprechen mit neuen Kontakten.",
+        "whyCompetingFails": "b bietet Hilfe bei digitalen Bibliotheksangeboten, kein regelmäßiges Sprachcafé.",
+        "learningPoint": "„Jeden Dienstag“ zeigt, dass ein Angebot regelmäßig stattfindet."
+      },
+      "13": {
+        "evidence": "Zimmer und kleine Wohnungen für Studierende und Auszubildende.",
+        "whyCorrect": "Die Anzeige richtet sich an Studierende und bietet kleine Wohnungen an. Eine konkrete Miete wird nicht genannt.",
+        "whyCompetingFails": "n/a",
+        "learningPoint": "Prüfe bei Wohnungsanzeigen sowohl die Wohnungsart als auch die Zielgruppe."
+      },
+      "14": {
+        "evidence": "Frisches Obst, Gemüse, Brot, Käse und regionale Produkte. Jeden Mittwoch und Samstag von 7 bis 13 Uhr.",
+        "whyCorrect": "Der Wochenmarkt bietet frisches Gemüse an und findet auch samstags statt.",
+        "whyCompetingFails": "c findet zwar am Wochenende statt, ist aber ein Flohmarkt für Kleidung, Bücher und Haushaltswaren.",
+        "learningPoint": "Das passende Datum allein reicht nicht. Auch das Warenangebot muss passen."
+      },
+      "15": {
+        "evidence": "Entdecken Sie die Altstadt mit einer erfahrenen Stadtführerin. Samstags um 11 Uhr.",
+        "whyCorrect": "Eine Stadtführerin zeigt samstags die Altstadt. Das passt zum Besuch der Freunde.",
+        "whyCompetingFails": "j ist ein Musikangebot am Freitag und keine Stadtführung am Samstag.",
+        "learningPoint": "„Sich etwas zeigen lassen“ bedeutet hier, an einer geführten Besichtigung teilzunehmen."
+      },
+      "16": {
+        "evidence": "Auto nur dann bezahlen, wenn Sie es brauchen. Fahrzeuge an über 25 Stationen in der Stadt. Buchung per App. Ab 4,50 Euro pro Stunde.",
+        "whyCorrect": "CityCar bietet Autos zur zeitweisen Nutzung an. Der Stundenpreis passt zu einem Bedarf für wenige Stunden.",
+        "whyCompetingFails": "a repariert Fahrräder und bietet keine Autos zur Miete an.",
+        "learningPoint": "„Pro Stunde“ zeigt, dass die Nutzung nach Zeit berechnet wird."
+      },
+      "17": {
+        "evidence": "Sie benötigen Hilfe beim Einkaufen oder bei kleinen Arbeiten im Haushalt? Ehrenamtliche aus Ihrem Stadtteil unterstützen ältere und kranke Menschen.",
+        "whyCorrect": "Die Nachbarschaftshilfe unterstützt ältere Menschen ausdrücklich auch beim Einkaufen.",
+        "whyCompetingFails": "g bietet Lebensmittel zum Kauf an, aber keine Einkaufshilfe für die Nachbarin.",
+        "learningPoint": "Unterscheide zwischen einer Einkaufsmöglichkeit und Unterstützung beim Einkaufen."
+      },
+      "18": {
+        "evidence": "Freitagabend ab 19 Uhr Live-Musik im Stadtpark. Eintritt frei.",
+        "whyCorrect": "Die Veranstaltung bietet am gewünschten Freitagabend kostenlose Musik.",
+        "whyCompetingFails": "e ist ebenfalls kostenlos, findet aber dienstags statt und bietet ein Sprachcafé statt eines Konzerts.",
+        "learningPoint": "„Eintritt frei“ bedeutet, dass man für den Zugang nichts bezahlt."
+      },
+      "19": {
+        "evidence": "Anzeige b: „Jeden Mittwoch um 16 Uhr erklären wir die Nutzung unserer digitalen Bibliothek.“",
+        "whyCorrect": "Keine Anzeige bietet eine Anleitung zum Fahrkartenkauf mit dem Smartphone an.",
+        "whyCompetingFails": "b bietet digitale Hilfe, aber nur zur Bibliotheksnutzung. Auch die App-Buchung bei d betrifft Autos, keine Fahrkarten für Bus und Bahn.",
+        "learningPoint": "Ein allgemeines Stichwort wie „digital“ reicht nicht. Die konkrete Hilfe muss zur Situation passen."
+      },
+      "20": {
+        "evidence": "Sie haben nach der Arbeit wenig Zeit? Lernen Sie einfache Gerichte kennen, die in weniger als 30 Minuten fertig sind. Donnerstags 18–20 Uhr.",
+        "whyCorrect": "Der Kochkurs richtet sich an Menschen mit wenig Zeit nach der Arbeit und vermittelt schnelle Gerichte.",
+        "whyCompetingFails": "g verkauft Lebensmittel, bietet aber keinen Kochunterricht an.",
+        "learningPoint": "„Zubereiten“ bedeutet bei Lebensmitteln: zum Essen fertig machen."
+      }
+    }
+  },
+  "sprachbausteine": {
+    "teil1": {
+      "21": {
+        "evidence": "Am Anfang war alles ein bisschen schwierig, weil ich hier fast niemanden kannte.",
+        "whyCorrect": "Dass Daniel kaum jemanden kannte, erklärt die Schwierigkeiten. „Weil“ leitet diesen Grund ein.",
+        "whyDistractorsFail": {
+          "b": "obwohl: Das würde einen Gegensatz ausdrücken. Hier wird ein Grund genannt.",
+          "c": "damit: Das würde ein Ziel ausdrücken, nicht die Ursache."
+        },
+        "learningPoint": "„Ich bleibe zu Hause, weil ich krank bin.“"
+      },
+      "22": {
+        "evidence": "Inzwischen gefällt mir das Leben in der Stadt aber sehr gut.",
+        "whyCorrect": "Für das Leben innerhalb einer Stadt verwendet man „in der Stadt“.",
+        "whyDistractorsFail": {
+          "a": "auf: „Auf der Stadt“ ist hier keine passende Ortsangabe.",
+          "c": "an: „An der Stadt“ beschreibt hier nicht den gemeinten Lebensort."
+        },
+        "learningPoint": "„Meine Schwester wohnt in der Stadt.“"
+      },
+      "23": {
+        "evidence": "Zur Arbeit fahre ich meistens mit der Straßenbahn, weil ich morgens keine Lust habe, im Stau zu stehen.",
+        "whyCorrect": "Daniel beschreibt seinen jetzigen Alltag. Dazu passt das Präsens „fahre“.",
+        "whyDistractorsFail": {
+          "b": "fuhr: Das ist Vergangenheit. Der Abschnitt beschreibt seine heutige Gewohnheit.",
+          "c": "gefahren: Dieses Partizip braucht hier ein Hilfsverb, zum Beispiel „bin“."
+        },
+        "learningPoint": "„Ich fahre jeden Morgen mit dem Bus.“"
+      },
+      "24": {
+        "evidence": "Die Haltestelle ist nur fünf Minuten von meiner Wohnung entfernt.",
+        "whyCorrect": "Die Verbindung lautet „von einem Ort entfernt“. Nach „von“ steht der Dativ.",
+        "whyDistractorsFail": {
+          "b": "für: Das passt nicht zur Entfernungsangabe.",
+          "c": "gegen: Auch diese Präposition passt nicht zur Verbindung mit „entfernt“."
+        },
+        "learningPoint": "„Die Schule ist zehn Minuten von unserem Haus entfernt.“"
+      },
+      "25": {
+        "evidence": "Letzten Samstag war ich auf einem großen Wochenmarkt.",
+        "whyCorrect": "„Letzten Samstag“ nennt einen vergangenen Zeitpunkt. Die Vergangenheitsform von „bin“ lautet hier „war“.",
+        "whyDistractorsFail": {
+          "b": "bin: Das Präsens passt nicht zum berichteten vergangenen Besuch.",
+          "c": "wäre: Das würde etwas Gedachtes oder Bedingtes ausdrücken. Daniel berichtet von einem tatsächlichen Besuch."
+        },
+        "learningPoint": "„Gestern war ich im Museum.“"
+      },
+      "26": {
+        "evidence": "Dort konnte man nicht nur Lebensmittel kaufen, sondern auch Musik hören und verschiedene Gerichte probieren.",
+        "whyCorrect": "Die feste Verbindung „nicht nur …, sondern auch …“ ergänzt weitere Möglichkeiten.",
+        "whyDistractorsFail": {
+          "b": "oder: Das würde eine Auswahl ausdrücken, nicht diese Ergänzung.",
+          "c": "denn: Das würde einen Grund einleiten und passt nicht zur Verbindung „nicht nur … auch“."
+        },
+        "learningPoint": "„Sie spricht nicht nur Deutsch, sondern auch Französisch.“"
+      },
+      "27": {
+        "evidence": "Eine ältere Dame, die direkt neben mir wohnt, hat mich schon zum Kaffee eingeladen.",
+        "whyCorrect": "Das Relativpronomen bezieht sich auf „eine ältere Dame“ und ist das Subjekt von „wohnt“. Deshalb heißt es „die“.",
+        "whyDistractorsFail": {
+          "b": "der: Das ist hier nicht die benötigte Form für ein weibliches Subjekt.",
+          "c": "den: Auch diese Form passt nicht zum weiblichen Subjekt im Singular."
+        },
+        "learningPoint": "„Das ist die Frau, die neben uns wohnt.“"
+      },
+      "28": {
+        "evidence": "Sie kennt das Viertel seit vielen Jahren und hat mir einige interessante Orte empfohlen.",
+        "whyCorrect": "Nach „hat“ braucht man für das Perfekt das Partizip „empfohlen“.",
+        "whyDistractorsFail": {
+          "b": "empfehlen: Das ist der Infinitiv, nicht das benötigte Partizip.",
+          "c": "empfiehlt: Das ist eine Präsensform und passt nicht nach „hat“."
+        },
+        "learningPoint": "„Mein Freund hat mir ein gutes Restaurant empfohlen.“"
+      },
+      "29": {
+        "evidence": "Dann werde ich dir alles zeigen.",
+        "whyCorrect": "„Werde“ mit dem Infinitiv „zeigen“ kündigt an, was Daniel beim zukünftigen Besuch tun wird.",
+        "whyDistractorsFail": {
+          "a": "kann: Prüfhinweis: „Dann kann ich dir alles zeigen“ ist ebenfalls grammatisch und inhaltlich möglich.",
+          "c": "würde: Prüfhinweis: Auch „Dann würde ich dir alles zeigen“ ist als vorsichtige Formulierung möglich. Die Aufgabe hat keine eindeutig falschen Alternativen; die vorgegebene Lösung bleibt b."
+        },
+        "learningPoint": "„Morgen werde ich dir die Stadt zeigen.“"
+      },
+      "30": {
+        "evidence": "Schreib mir bald, wann du kommen kannst.",
+        "whyCorrect": "Daniel möchte den Zeitpunkt des Besuchs wissen. Die indirekte Frage beginnt deshalb mit „wann“.",
+        "whyDistractorsFail": {
+          "b": "als: Das leitet hier keine Frage nach dem Besuchstermin ein.",
+          "c": "obwohl: Das würde einen Gegensatz ausdrücken, keine Frage nach der Zeit."
+        },
+        "learningPoint": "„Sag mir bitte, wann der Kurs beginnt.“"
+      }
+    },
+    "teil2": {
+      "31": {
+        "evidence": "ich habe auf Ihrer Internetseite von dem neuen Gemeinschaftsgarten im Stadtteil Süd gelesen und interessiere mich sehr für das Projekt.",
+        "whyCorrect": "Die feste Verbindung lautet „sich für etwas interessieren“.",
+        "whyCompetingFails": "a — aber: Eine Verbindung wie „sich interessieren aber das Projekt“ ist hier nicht möglich. Vor „das Projekt“ wird „für“ benötigt.",
+        "learningPoint": "Merke die Verbindung: sich für ein Angebot interessieren."
+      },
+      "32": {
+        "evidence": "Ich bin vor wenigen Monaten in den Stadtteil gezogen und würde gerne neue Menschen kennenlernen.",
+        "whyCorrect": "„Würde gerne“ formuliert einen Wunsch. Michael möchte neue Menschen kennenlernen.",
+        "whyCompetingFails": "Prüfhinweis: n — auch ist hier ebenfalls möglich. Tauscht man „gerne“ und „auch“ in den Lücken 32 und 39, entstehen ebenfalls verständliche Sätze. Die vorgegebene Lösung bleibt f.",
+        "learningPoint": "„Ich würde gerne …“ bedeutet: Ich möchte etwas tun."
+      },
+      "33": {
+        "evidence": "Außerdem arbeite ich gern im Garten, da ich in meiner jetzigen Wohnung leider keinen eigenen Garten habe.",
+        "whyCorrect": "Nach der vorgegebenen Lösung leitet „da“ eine Begründung ein. Das Verb „habe“ steht am Ende.",
+        "whyCompetingFails": "Prüfhinweis: l — weil ist ebenfalls grammatisch möglich. „Da“ und „weil“ lassen sich zwischen den Lücken 33 und 38 austauschen. Die Lösung ist hier nicht eindeutig.",
+        "learningPoint": "„Da“ und „weil“ können beide einen Grund einleiten."
+      },
+      "34": {
+        "evidence": "Ich möchte deshalb wissen, ob es noch freie Beete gibt und wie man sich anmelden kann.",
+        "whyCorrect": "Michael weiß noch nicht, ob Beete frei sind. „Ob“ leitet diese indirekte Ja-Nein-Frage ein.",
+        "whyCompetingFails": "d — dass würde die Aussage anders darstellen. Hier soll gerade erst geklärt werden, ob freie Beete vorhanden sind.",
+        "learningPoint": "Direkte Frage: „Gibt es freie Plätze?“ Indirekt: „Ich möchte wissen, ob es freie Plätze gibt.“"
+      },
+      "35": {
+        "evidence": "Muss man bereits Erfahrung mit Gartenarbeit haben oder können auch Anfänger teilnehmen?",
+        "whyCorrect": "Gefragt wird, ob die Teilnahme auch für Anfänger möglich ist. Dazu passt das Modalverb „können“.",
+        "whyCompetingFails": "d — dass kann hier nicht das fehlende Verb in der Frage ersetzen.",
+        "learningPoint": "„Können … teilnehmen?“ fragt hier nach einer Teilnahmemöglichkeit."
+      },
+      "36": {
+        "evidence": "Können Sie mir bitte mitteilen, wann diese Treffen stattfinden?",
+        "whyCorrect": "Michael fragt nach dem Zeitpunkt der Treffen. Dafür verwendet man „wann“.",
+        "whyCompetingFails": "m — wenn würde eine Bedingung oder zeitliche Situation einleiten, aber nicht den gewünschten Termin erfragen.",
+        "learningPoint": "„Wann?“ fragt nach einem Zeitpunkt."
+      },
+      "37": {
+        "evidence": "Mich würde auch interessieren, ob jeder sein eigenes Gemüse anbaut oder ob die Gruppe alles gemeinsam pflegt.",
+        "whyCorrect": "Michael fragt nach zwei möglichen Formen der Gartenarbeit: einzeln oder gemeinsam. „Oder“ verbindet diese Alternativen.",
+        "whyCompetingFails": "a — aber drückt einen Gegensatz aus. Hier werden zwei Möglichkeiten zur Auswahl gestellt.",
+        "learningPoint": "„Oder“ verbindet Alternativen."
+      },
+      "38": {
+        "evidence": "Ich könnte hauptsächlich am Wochenende helfen, weil ich unter der Woche bis 18 Uhr arbeite.",
+        "whyCorrect": "Die Arbeitszeit erklärt, warum Michael vor allem am Wochenende helfen kann. „Weil“ nennt diesen Grund.",
+        "whyCompetingFails": "Prüfhinweis: c — da ist hier ebenfalls möglich. Ein Austausch mit Lücke 33 ergibt weiterhin grammatisch richtige Sätze. Die vorgegebene Lösung bleibt l.",
+        "learningPoint": "Bei einem Nebensatz mit „weil“ steht das Verb am Ende."
+      },
+      "39": {
+        "evidence": "Falls Sie noch Unterstützung brauchen, würde ich auch bei Veranstaltungen oder bei der Organisation helfen.",
+        "whyCorrect": "„Auch“ ergänzt weitere Möglichkeiten der Mitarbeit neben der Gartenarbeit.",
+        "whyCompetingFails": "Prüfhinweis: f — gerne ist hier sprachlich ebenfalls möglich. Ein Austausch von „auch“ und „gerne“ zwischen den Lücken 32 und 39 ergibt eine weitere mögliche Lösung. Die vorgegebene Lösung bleibt n.",
+        "learningPoint": "„Auch“ bedeutet hier „zusätzlich“."
+      },
+      "40": {
+        "evidence": "Ich wäre Ihnen sehr dankbar, wenn Sie mir weitere Informationen schicken könnten.",
+        "whyCorrect": "Die Verbindung lautet „jemandem dankbar sein“. Damit formuliert Michael seine Bitte höflich.",
+        "whyCompetingFails": "f — gerne ersetzt hier nicht das benötigte Adjektiv in „Ihnen dankbar sein“.",
+        "learningPoint": "„Ich wäre Ihnen dankbar, wenn …“ ist eine höfliche Bitte."
+      }
+    }
+  }
+}

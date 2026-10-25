@@ -359,6 +359,7 @@ ${values(
 )};
 `);
 }
+// Training Corrigé packages: see generate-modelltest-seed.mjs — not in seed SQL.
 
 // Schreiben
 const writing = sections.schreiben;

@@ -84,6 +84,7 @@ what it cannot express — rules, sequences, conventions.
 | [activation-codes-suspend-reactivate.md](contracts/activation-codes-suspend-reactivate.md) | code lifecycle |
 | [center-student-level-fr.md](contracts/center-student-level-fr.md) | student level (FR checklist) |
 | [sprachbausteine-correction-fr.md](contracts/sprachbausteine-correction-fr.md) | correction note (FR) |
+| [training-correction-package.md](contracts/training-correction-package.md) | Training Corrigé package (Hören pilot; additive `correction`) |
 
 ## guides/ — how to do a thing
 

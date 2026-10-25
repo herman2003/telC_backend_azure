@@ -39,6 +39,9 @@ export const ANSWER_KEY_FIELDS: readonly string[] = [
   // exam-modelltests.service.ts): without this, an A2 exam's answer keys
   // would reach both the live candidate and the manager preview unstripped.
   'solution',
+  // Training Corrigé packages (docs/contracts/training-correction-package.md).
+  // Must never reach an Exam Day candidate or manager preview paper.
+  'correction',
 ];
 
 /**
