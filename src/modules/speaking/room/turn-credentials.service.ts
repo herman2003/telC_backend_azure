@@ -11,8 +11,7 @@ const DEFAULT_STUN_URLS = [
   'stun:stun1.l.google.com:19302',
 ];
 const DEFAULT_TTL_SECONDS = 3600;
-const CLOUDFLARE_GENERATE_URL =
-  'https://rtc.live.cloudflare.com/v1/turn/keys';
+const CLOUDFLARE_GENERATE_URL = 'https://rtc.live.cloudflare.com/v1/turn/keys';
 
 type CloudflareIceServer = {
   urls: string | string[];

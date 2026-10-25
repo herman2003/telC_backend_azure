@@ -119,20 +119,21 @@ describe('TurnCredentialsService', () => {
     it('mints via Cloudflare and flattens urls arrays', async () => {
       fetchSpy.mockResolvedValue({
         ok: true,
-        json: async () => ({
-          iceServers: [
-            { urls: ['stun:stun.cloudflare.com:3478'] },
-            {
-              urls: [
-                'turn:turn.cloudflare.com:3478?transport=udp',
-                'turns:turn.cloudflare.com:443?transport=tcp',
-                'turn:turn.cloudflare.com:53?transport=udp',
-              ],
-              username: 'cf-user',
-              credential: 'cf-pass',
-            },
-          ],
-        }),
+        json: () =>
+          Promise.resolve({
+            iceServers: [
+              { urls: ['stun:stun.cloudflare.com:3478'] },
+              {
+                urls: [
+                  'turn:turn.cloudflare.com:3478?transport=udp',
+                  'turns:turn.cloudflare.com:443?transport=tcp',
+                  'turn:turn.cloudflare.com:53?transport=udp',
+                ],
+                username: 'cf-user',
+                credential: 'cf-pass',
+              },
+            ],
+          }),
       } as Response);
 
       const svc = new TurnCredentialsService(
@@ -147,14 +148,16 @@ describe('TurnCredentialsService', () => {
 
       const res = await svc.getIceServers('student-42');
 
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+      expect(url).toBe(
         'https://rtc.live.cloudflare.com/v1/turn/keys/key-id/credentials/generate-ice-servers',
+      );
+      expect(init.method).toBe('POST');
+      expect(init.body).toBe(JSON.stringify({ ttl: 7200 }));
+      expect(init.headers).toEqual(
         expect.objectContaining({
-          method: 'POST',
-          headers: expect.objectContaining({
-            Authorization: 'Bearer api-token',
-          }),
-          body: JSON.stringify({ ttl: 7200 }),
+          Authorization: 'Bearer api-token',
         }),
       );
       expect(res.iceServers).toEqual([
@@ -186,14 +189,16 @@ describe('TurnCredentialsService', () => {
       const res = await svc.getIceServers('student-42');
 
       expect(fetchSpy).not.toHaveBeenCalled();
-      expect(res.iceServers.every((s) => s.urls.startsWith('stun:'))).toBe(true);
+      expect(res.iceServers.every((s) => s.urls.startsWith('stun:'))).toBe(
+        true,
+      );
     });
 
     it('falls back to STUN-only when Cloudflare returns a non-OK status', async () => {
       fetchSpy.mockResolvedValue({
         ok: false,
         status: 401,
-        text: async () => 'unauthorized',
+        text: () => Promise.resolve('unauthorized'),
       } as Response);
 
       const svc = new TurnCredentialsService(
@@ -207,8 +212,12 @@ describe('TurnCredentialsService', () => {
 
       const res = await svc.getIceServers('student-42');
 
-      expect(res.iceServers.every((s) => s.urls.startsWith('stun:'))).toBe(true);
-      expect(res.iceServers.some((s) => s.urls.startsWith('turn:'))).toBe(false);
+      expect(res.iceServers.every((s) => s.urls.startsWith('stun:'))).toBe(
+        true,
+      );
+      expect(res.iceServers.some((s) => s.urls.startsWith('turn:'))).toBe(
+        false,
+      );
     });
   });
 });
