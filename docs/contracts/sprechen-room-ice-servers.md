@@ -144,7 +144,8 @@ TOKEN=$(curl -s -X POST "$BASE/api/auth/guest" | jq -r .accessToken)
 curl -s -H "Authorization: Bearer $TOKEN" "$BASE/api/speaking/rooms/ice-servers" | jq
 ```
 
-Expected: `iceServers` containing `stun:` and `turn:64.226.72.102:...` entries,
+Expected: `iceServers` containing `stun:` and `turn:` / `turns:` entries
+(Cloudflare `turn.cloudflare.com`, or coturn host when `TURN_PROVIDER=coturn`),
 plus `ttlSeconds: 3600`.
 
 ---

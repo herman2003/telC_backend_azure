@@ -170,30 +170,30 @@ describe('RoomController', () => {
   // ─── GET /api/speaking/rooms/ice-servers ──────────────────────────────────
 
   describe('getIceServers()', () => {
-    it('delegates to TurnCredentialsService with the studentId from the JWT', () => {
+    it('delegates to TurnCredentialsService with the studentId from the JWT', async () => {
       const dto = {
         iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
         ttlSeconds: 3600,
       };
-      mockTurnService.getIceServers.mockReturnValue(dto);
+      mockTurnService.getIceServers.mockResolvedValue(dto);
       const req = {
         student: { studentId: 'student-1', deviceId: 'd1' },
       } as any;
 
-      const result = controller.getIceServers(req);
+      const result = await controller.getIceServers(req);
 
       expect(mockTurnService.getIceServers).toHaveBeenCalledWith('student-1');
       expect(result).toBe(dto);
     });
 
-    it('falls back to "anonymous" when no studentId is present', () => {
-      mockTurnService.getIceServers.mockReturnValue({
+    it('falls back to "anonymous" when no studentId is present', async () => {
+      mockTurnService.getIceServers.mockResolvedValue({
         iceServers: [],
         ttlSeconds: 3600,
       });
       const req = { student: {} } as any;
 
-      controller.getIceServers(req);
+      await controller.getIceServers(req);
 
       expect(mockTurnService.getIceServers).toHaveBeenCalledWith('anonymous');
     });
