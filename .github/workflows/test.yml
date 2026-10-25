@@ -109,32 +109,16 @@ jobs:
       # has to read the code as it was pushed.
       #
       # A ratchet rather than a wall, for the same reason the type-check above is
-      # one: the repo stands at 949 errors across src and test, most of them
-      # `no-unsafe-*` on Prisma results and test fixtures. A gate that demanded
-      # zero today would be red on every push, and a gate that is always red is a
-      # gate everybody learns to scroll past.
+      # one: the repo stands at hundreds of errors across src and test, most of
+      # them `no-unsafe-*` on Prisma results and test fixtures. A gate that
+      # demanded zero today would be red on every push, and a gate that is
+      # always red is a gate everybody learns to scroll past.
       #
-      # What this does catch is the thing that actually happened: a merge reached
-      # dev carrying two unused constants that failed lint locally, and nothing
-      # was watching. Adding two errors moves the count above the baseline and
-      # fails, whatever the baseline is.
-      #
-      # Lower BASELINE whenever the real count drops. It must never be raised: the
-      # only way this number goes up is by someone deciding it should.
+      # Single source of truth: scripts/check-eslint-ratchet.mjs (also run from
+      # the husky pre-push hook). Lower BASELINE there when the real count
+      # drops; never raise it without an explicit decision.
       - name: Lint (no new errors)
-        run: |
-          BASELINE=896
-          npx eslint "{src,apps,libs,test}/**/*.ts" -f json > eslint.json || true
-          COUNT=$(node -e "const r=require('./eslint.json');let e=0;for(const f of r)e+=f.errorCount;console.log(e)")
-          echo "eslint reported $COUNT error(s); baseline is $BASELINE"
-          if [ "$COUNT" -gt "$BASELINE" ]; then
-            echo "::error::$COUNT lint errors, above the baseline of $BASELINE."
-            npx eslint "{src,apps,libs,test}/**/*.ts" || true
-            exit 1
-          fi
-          if [ "$COUNT" -lt "$BASELINE" ]; then
-            echo "::notice::Down to $COUNT. Lower BASELINE in this workflow to $COUNT."
-          fi
+        run: npm run lint:ratchet
 
       - name: Unit tests
         run: npx jest --ci

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Mirrors the CI lint ratchet + typecheck. Keep thin: no jest / integration / e2e.
+npm run lint:ratchet
+npm run typecheck
