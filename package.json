@@ -13,6 +13,8 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "prisma migrate deploy && node -r newrelic dist/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:ratchet": "node scripts/check-eslint-ratchet.mjs",
+    "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -42,7 +44,8 @@
     "vocab:backfill-fr": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-backfill-fr-meanings.ts",
     "vocab:curate-weekly-pack": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-curate-weekly-pack.ts",
     "modelltest:import": "node scripts/import-modelltest-v2.mjs",
-    "modelltest:verify": "node scripts/verify-modelltest.mjs"
+    "modelltest:verify": "node scripts/verify-modelltest.mjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",
