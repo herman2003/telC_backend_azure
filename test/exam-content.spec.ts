@@ -29,6 +29,23 @@ describe('exam content carries no answers', () => {
       expect(stripped).toEqual({ id: '1', von: 'Anna', body: 'Text' });
     });
 
+    it('strips Training correction packages from exam payloads', () => {
+      const stripped = withoutAnswerKey({
+        questions: [{ id: 'q41', prompt: '…' }],
+        correction: {
+          q41: {
+            evidence: 'secret',
+            whyCorrect: 'secret',
+            whyOppositeFails: 'secret',
+            learningPoint: 'secret',
+          },
+        },
+      });
+
+      expect(stripped).not.toHaveProperty('correction');
+      expect(stripped.questions).toEqual([{ id: 'q41', prompt: '…' }]);
+    });
+
     it('reaches answers nested inside arrays', () => {
       const stripped = withoutAnswerKey({
         teil2: {

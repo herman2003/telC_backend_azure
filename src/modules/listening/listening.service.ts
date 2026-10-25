@@ -18,6 +18,8 @@ import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 import type { ListeningExerciseDto } from './dto/listening-exercise.dto';
 import type { SubmitListeningDto } from './dto/submit-listening.dto';
 import type { SubmitListeningResponseDto } from './dto/submit-listening-response.dto';
+import { correctionMapFromQuestions } from './listening-correction';
+import { correctionMapFromGenericItems } from '../../shared/training-correction';
 import { recordActivity } from '../student-activity/student-activity.writer';
 import { submitOnce } from '../student-activity/submit-once';
 import { historyFields, teilStats } from '../student-activity/student-history';
@@ -332,6 +334,7 @@ export class ListeningService {
       dto.answers as Record<string, string>,
       answerKey,
     );
+    const correction = correctionMapFromQuestions(exercise.questions);
     const completedAt = new Date();
     const { attemptId, earlier } = await submitOnce(
       studentId,
@@ -370,7 +373,12 @@ export class ListeningService {
           });
         }),
     );
-    return { attemptId, score: earlier?.score ?? score, answerKey };
+    return {
+      attemptId,
+      score: earlier?.score ?? score,
+      answerKey,
+      ...(correction ? { correction } : {}),
+    };
   }
 
   private async submitGeneric(
@@ -403,6 +411,7 @@ export class ListeningService {
     }
     const feedback = trainingFeedbackForSection(section, dto.answers);
     const score = feedback.percent;
+    const correction = correctionMapFromGenericItems(section.items);
     const completedAt = new Date();
     const { attemptId, earlier } = await submitOnce(
       studentId,
@@ -450,6 +459,7 @@ export class ListeningService {
       score,
       outcomes: feedback.outcomes,
       review: feedback.review,
+      ...(correction ? { correction } : {}),
     };
   }
 

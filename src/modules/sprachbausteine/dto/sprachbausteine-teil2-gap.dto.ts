@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SprachbausteineTeil2GapDto {
   @ApiProperty()
@@ -16,4 +16,10 @@ export class SprachbausteineTeil2GapDto {
     description: 'Correct wordBank id for this gap.',
   })
   correctWordId!: string;
+
+  @ApiPropertyOptional({
+    description:
+      'Authored Training Corrigé package when present. docs/contracts/training-correction-package.md',
+  })
+  correction?: Record<string, unknown>;
 }

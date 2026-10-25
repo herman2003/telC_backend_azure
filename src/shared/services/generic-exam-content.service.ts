@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type { CefrLevel, Prisma, Skill } from '@prisma/client';
 import { PrismaService } from './prisma.service';
+import { optionalCorrection } from '../training-correction';
 
 type ExamSectionRow = Prisma.ExamSectionGetPayload<{
   include: { items: { include: { options: true } } };
@@ -40,6 +41,8 @@ export interface GenericSectionContent {
     itemNumber: number;
     prompt: string | null;
     solution: unknown;
+    /** Training Corrigé when authored. */
+    correction?: Record<string, unknown>;
     /** From material.itemImages when the Teil has per-item pictures. */
     imageUrl?: string | null;
     options: {
@@ -137,10 +140,12 @@ export class GenericExamContentService {
       items: row.items.map((item) => {
         const n = String(item.item_number);
         const byKey = optionImages[n] ?? {};
+        const correction = optionalCorrection(item.correction);
         return {
           itemNumber: item.item_number,
           prompt: item.prompt,
           solution: item.solution,
+          ...(correction ? { correction } : {}),
           imageUrl: itemImages[n] ?? null,
           options: item.options.map((option) => ({
             key: option.key,

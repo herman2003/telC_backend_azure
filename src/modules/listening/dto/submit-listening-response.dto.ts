@@ -36,4 +36,10 @@ export class SubmitListeningResponseDto {
     acceptedAnswers?: string[];
     solution?: unknown;
   }>;
+
+  @ApiPropertyOptional({
+    description:
+      'Training Corrigé packages when stored. B1/B2: keyed like answerKey (q41…). A1/A2: keyed by item number ("1"). See docs/contracts/training-correction-package.md',
+  })
+  correction?: Record<string, Record<string, unknown>>;
 }

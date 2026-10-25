@@ -205,6 +205,7 @@ describe('ListeningService', () => {
       score: 50,
       answerKey: { q41: '-', q42: '+' },
     });
+    expect(result).not.toHaveProperty('correction');
     expect(prisma.listeningAttempt.create).toHaveBeenCalledWith({
       data: expect.objectContaining({
         score: 50,
@@ -212,6 +213,32 @@ describe('ListeningService', () => {
         listening_exercise_id: 'exercise-1',
       }),
     });
+  });
+
+  it('returns authored correction packages keyed like answerKey when present', async () => {
+    const package41 = {
+      evidence: 'Na, eigentlich mach alles ich',
+      whyCorrect: 'Sie macht die Hausarbeit.',
+      whyOppositeFails: 'Falsch widerspricht dem Text.',
+      learningPoint: 'Fast alles erlaubt kleine Ausnahmen.',
+      audioHighlight: { startMs: null, endMs: null },
+    };
+    prisma.listeningExercise.findFirst.mockResolvedValue({
+      ...exercise,
+      questions: [
+        { ...questions[0], correct_answer: '+', correction: package41 },
+        { ...questions[1], correction: null },
+      ],
+    });
+    const result = await service.submit('student-1', {
+      type: '1',
+      modelltestNumber: 1,
+      timed: false,
+      content_revision: exercise.content_revision,
+      answers: { q41: '+', q42: '+' },
+    });
+    expect(result.answerKey).toEqual({ q41: '+', q42: '+' });
+    expect(result.correction).toEqual({ q41: package41 });
   });
 
   describe('A1/A2 generic model', () => {

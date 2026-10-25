@@ -17,6 +17,7 @@ import { submitOnce } from '../student-activity/submit-once';
 import { historyFields, teilStats } from '../student-activity/student-history';
 import type { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
+import { optionalCorrection } from '../../shared/training-correction';
 
 const TEIL_IDS = ['1', '2'];
 
@@ -88,12 +89,14 @@ export class SprachbausteineService {
       // agree; if you change one, change both.
       const correct = gap.options.find((o) => o.is_correct);
 
+      const correction = optionalCorrection(gap.correction);
       return {
         id: gap.gap_key,
         correctOptionId: correct
           ? `${gap.gap_key}${letters[correct.sort_order]}`
           : '',
         options,
+        ...(correction ? { correction } : {}),
       };
     });
 
@@ -146,10 +149,14 @@ export class SprachbausteineService {
         'w' + String.fromCharCode(97 + w.sortOrder),
       ]),
     );
-    const gaps = exercise.gaps.map((g) => ({
-      id: g.gapKey,
-      correctWordId: wordIdByUuid.get(g.correctWordId) ?? '',
-    }));
+    const gaps = exercise.gaps.map((g) => {
+      const correction = optionalCorrection(g.correction);
+      return {
+        id: g.gapKey,
+        correctWordId: wordIdByUuid.get(g.correctWordId) ?? '',
+        ...(correction ? { correction } : {}),
+      };
+    });
 
     return {
       imageUrl: exercise.imageUrl,

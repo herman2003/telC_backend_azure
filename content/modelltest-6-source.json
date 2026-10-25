@@ -67,7 +67,13 @@
           "an": null,
           "sortOrder": 0,
           "correctTitleKey": "h",
-          "body": "Viele Reisende achten bei der Planung ihres Urlaubs inzwischen darauf, wie umweltfreundlich ihre Reise ist. Eine aktuelle Umfrage zeigt, dass sich besonders jüngere Menschen vor der Buchung über Zugverbindungen, regionale Angebote und nachhaltige Hotels informieren. Einige sind sogar bereit, dafür etwas mehr zu bezahlen."
+          "body": "Viele Reisende achten bei der Planung ihres Urlaubs inzwischen darauf, wie umweltfreundlich ihre Reise ist. Eine aktuelle Umfrage zeigt, dass sich besonders jüngere Menschen vor der Buchung über Zugverbindungen, regionale Angebote und nachhaltige Hotels informieren. Einige sind sogar bereit, dafür etwas mehr zu bezahlen.",
+          "correction": {
+            "evidence": "Eine aktuelle Umfrage zeigt, dass sich besonders jüngere Menschen vor der Buchung über Zugverbindungen, regionale Angebote und nachhaltige Hotels informieren.",
+            "whyCorrect": "Der Text beschreibt, wie Reisende vor der Buchung Informationen über umweltfreundliche Angebote suchen.",
+            "whyCompetingFails": "a konzentriert sich auf zunehmende Zugreisen. Hier geht es allgemeiner um Informationen zu verschiedenen nachhaltigen Angeboten.",
+            "learningPoint": "Eine Überschrift sollte das Hauptthema erfassen, nicht nur ein einzelnes Beispiel."
+          }
         },
         {
           "textNumber": 2,
@@ -75,7 +81,13 @@
           "an": null,
           "sortOrder": 1,
           "correctTitleKey": "f",
-          "body": "Immer mehr Menschen möchten im Urlaub unabhängig sein und reisen deshalb ohne Partner oder Freunde. Besonders Städtereisen und kurze Rundreisen werden häufig allein gebucht. Viele Reiseveranstalter reagieren darauf und bieten inzwischen spezielle Programme für Einzelreisende an."
+          "body": "Immer mehr Menschen möchten im Urlaub unabhängig sein und reisen deshalb ohne Partner oder Freunde. Besonders Städtereisen und kurze Rundreisen werden häufig allein gebucht. Viele Reiseveranstalter reagieren darauf und bieten inzwischen spezielle Programme für Einzelreisende an.",
+          "correction": {
+            "evidence": "Immer mehr Menschen möchten im Urlaub unabhängig sein und reisen deshalb ohne Partner oder Freunde.",
+            "whyCorrect": "Der Text beschreibt die zunehmende Beliebtheit des Alleinreisens.",
+            "whyCompetingFails": "d handelt von jungen Menschen und kurzfristigen Buchungen. Beides ist nicht das Thema dieses Textes.",
+            "learningPoint": "„Ohne Partner oder Freunde reisen“ entspricht hier „allein reisen“."
+          }
         },
         {
           "textNumber": 3,
@@ -83,7 +95,13 @@
           "an": null,
           "sortOrder": 2,
           "correctTitleKey": "j",
-          "body": "Familien verbringen ihren Sommerurlaub immer häufiger auf Campingplätzen. Besonders gefragt sind Plätze mit Spielbereichen, Schwimmbädern und kleinen Ferienhäusern. Viele Eltern schätzen, dass Kinder dort schnell andere Kinder kennenlernen und sich viel draußen bewegen können."
+          "body": "Familien verbringen ihren Sommerurlaub immer häufiger auf Campingplätzen. Besonders gefragt sind Plätze mit Spielbereichen, Schwimmbädern und kleinen Ferienhäusern. Viele Eltern schätzen, dass Kinder dort schnell andere Kinder kennenlernen und sich viel draußen bewegen können.",
+          "correction": {
+            "evidence": "Familien verbringen ihren Sommerurlaub immer häufiger auf Campingplätzen.",
+            "whyCorrect": "Die steigende Beliebtheit von Campingplätzen bei Familien wird direkt genannt.",
+            "whyCompetingFails": "g ist allgemeiner und betont entspannten Urlaub mit kleinen Kindern. j nennt genau die beschriebene Unterkunftsart und deren wachsende Beliebtheit.",
+            "learningPoint": "„Immer häufiger“ zeigt eine zunehmende Entwicklung."
+          }
         },
         {
           "textNumber": 4,
@@ -91,7 +109,13 @@
           "an": null,
           "sortOrder": 3,
           "correctTitleKey": "a",
-          "body": "Statt mit dem Auto oder dem Flugzeug fahren immer mehr Reisende mit der Bahn in den Urlaub. Als Gründe nennen sie die Möglichkeit, während der Fahrt zu lesen oder zu arbeiten, sowie die bequemere Ankunft direkt im Stadtzentrum. Besonders bei Reisen innerhalb Deutschlands wächst die Nachfrage."
+          "body": "Statt mit dem Auto oder dem Flugzeug fahren immer mehr Reisende mit der Bahn in den Urlaub. Als Gründe nennen sie die Möglichkeit, während der Fahrt zu lesen oder zu arbeiten, sowie die bequemere Ankunft direkt im Stadtzentrum. Besonders bei Reisen innerhalb Deutschlands wächst die Nachfrage.",
+          "correction": {
+            "evidence": "Statt mit dem Auto oder dem Flugzeug fahren immer mehr Reisende mit der Bahn in den Urlaub.",
+            "whyCorrect": "Der Text berichtet unmittelbar über mehr Urlaubsreisen mit der Bahn.",
+            "whyCompetingFails": "e behauptet günstigere Flugreisen. Der Text beschreibt Vorteile von Bahnreisen, keine sinkenden Flugpreise.",
+            "learningPoint": "„Statt“ stellt eine gewählte Möglichkeit einer anderen gegenüber."
+          }
         },
         {
           "textNumber": 5,
@@ -99,7 +123,13 @@
           "an": null,
           "sortOrder": 4,
           "correctTitleKey": "c",
-          "body": "Eine Reise muss nicht immer weit weg führen. Viele Menschen entdecken während freier Tage ihre eigene Region neu. Sie besuchen Museen, Seen oder Wanderwege in der Nähe und übernachten manchmal sogar in einem Hotel in der eigenen Stadt. Besonders beliebt ist diese Form des Urlaubs bei Menschen, die wenig Zeit haben."
+          "body": "Eine Reise muss nicht immer weit weg führen. Viele Menschen entdecken während freier Tage ihre eigene Region neu. Sie besuchen Museen, Seen oder Wanderwege in der Nähe und übernachten manchmal sogar in einem Hotel in der eigenen Stadt. Besonders beliebt ist diese Form des Urlaubs bei Menschen, die wenig Zeit haben.",
+          "correction": {
+            "evidence": "Viele Menschen entdecken während freier Tage ihre eigene Region neu. Sie besuchen Museen, Seen oder Wanderwege in der Nähe und übernachten manchmal sogar in einem Hotel in der eigenen Stadt.",
+            "whyCorrect": "Die Menschen verbringen ihre freien Tage in der eigenen Region statt an einem entfernten Reiseziel.",
+            "whyCompetingFails": "d handelt von kurzfristigen Buchungen junger Reisender. Darüber steht hier nichts.",
+            "learningPoint": "„Urlaub zu Hause“ kann auch Ausflüge und Übernachtungen in der eigenen Region umfassen."
+          }
         }
       ]
     },
@@ -136,7 +166,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Er war gewohnt, für längere Reisen das Auto zu benutzen, weil er glaubte, damit unabhängiger zu sein.",
+            "whyCorrect": "Michael verband das eigene Auto mit größerer Unabhängigkeit. Deshalb war er zunächst skeptisch.",
+            "whyDistractorsFail": {
+              "b": "Angst vor Zugreisen wird nicht als Grund genannt.",
+              "c": "Eine Ablehnung der Berge wird nicht beschrieben."
+            },
+            "learningPoint": "„Skeptisch sein“ bedeutet, zunächst Zweifel zu haben."
+          }
         },
         {
           "questionNumber": 7,
@@ -161,7 +200,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Während des Urlaubs konnten Gäste mit einer regionalen Gästekarte Busse und einige Bergbahnen kostenlos benutzen.",
+            "whyCorrect": "Die Gästekarte ermöglichte die kostenlose Nutzung bestimmter Verkehrsmittel.",
+            "whyDistractorsFail": {
+              "a": "Eine kostenlose Autovermietung wird nicht genannt.",
+              "c": "Die Familie lieh einmal Fahrräder aus. Täglich kostenlose Fahrräder gehören nicht zum beschriebenen Kartenangebot."
+            },
+            "learningPoint": "„Einige“ begrenzt eine Aussage. Nicht automatisch alle Verkehrsmittel sind eingeschlossen."
+          }
         },
         {
           "questionNumber": 8,
@@ -186,7 +234,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Die Kinder fanden besonders die Zugfahrten spannend und freuten sich darüber, dass beide Eltern während der Fahrt Zeit für sie hatten.",
+            "whyCorrect": "Den Kindern gefiel, dass beide Eltern während der Fahrt für sie da waren.",
+            "whyDistractorsFail": {
+              "a": "Alleinspielen wird nicht als Grund für ihre Freude genannt.",
+              "c": "Ein Besuch beim Zugführer wird nicht erwähnt."
+            },
+            "learningPoint": "„Sich darüber freuen, dass …“ nennt den konkreten Grund für Freude."
+          }
         },
         {
           "questionNumber": 9,
@@ -211,7 +268,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Statt mehrerer großer Koffer nahm jedes Familienmitglied nur eine kleinere Tasche mit.",
+            "whyCorrect": "Die Familie reduzierte ihr Gepäck und benutzte kleinere Taschen.",
+            "whyDistractorsFail": {
+              "b": "Ein vorheriger Versand per Post wird nicht beschrieben.",
+              "c": "Größere Koffer wären das Gegenteil der genannten Veränderung."
+            },
+            "learningPoint": "Vergleiche genau, was ersetzt wird und was stattdessen benutzt wird."
+          }
         },
         {
           "questionNumber": 10,
@@ -236,7 +302,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Entscheidend sei, dass die Region gute Bus- und Bahnverbindungen bietet.",
+            "whyCorrect": "Gute öffentliche Verkehrsverbindungen sind für Michael die wichtige Voraussetzung.",
+            "whyDistractorsFail": {
+              "a": "Eine geringe Entfernung zum Urlaubsziel wird nicht als entscheidend genannt.",
+              "c": "Eine Beschränkung auf zweitägige Reisen wird nicht genannt."
+            },
+            "learningPoint": "„Entscheidend“ bezeichnet den besonders wichtigen Punkt."
+          }
         }
       ]
     },
@@ -324,70 +399,130 @@
           "content": "Sie reisen allein und möchten am Wochenende andere Leute in Ihrem Alter kennenlernen.",
           "noMatch": false,
           "correctAnnouncementKey": "k",
-          "sortOrder": 0
+          "sortOrder": 0,
+          "correction": {
+            "evidence": "Wochenendreisen für Alleinreisende zwischen 25 und 45 Jahren. Gemeinsame Stadtführungen und Abendprogramm.",
+            "whyCorrect": "Das Angebot verbindet Alleinreisen am Wochenende mit gemeinsamen Aktivitäten zum Kennenlernen.",
+            "whyCompetingFails": "b bietet Zimmer an, nennt aber kein gemeinsames Programm für Alleinreisende.",
+            "learningPoint": "Beachte die Altersgruppe: Dieses Angebot richtet sich an Menschen zwischen fünfundzwanzig und fünfundvierzig Jahren."
+          }
         },
         {
           "situationNumber": 12,
           "content": "Sie fahren mit kleinen Kindern in Urlaub und suchen ein Hotel mit Angeboten für Familien.",
           "noMatch": false,
           "correctAnnouncementKey": "a",
-          "sortOrder": 1
+          "sortOrder": 1,
+          "correction": {
+            "evidence": "Familienzimmer, Frühstück inklusive, eigener Spielplatz und direkter Zugang zum See. Kinder bis sechs Jahre übernachten kostenlos.",
+            "whyCorrect": "Das Hotel bietet mehrere Leistungen für Familien mit kleinen Kindern.",
+            "whyCompetingFails": "j bietet zwar ein Kinderprogramm, ist aber ein Campingplatz und kein Hotel.",
+            "learningPoint": "Prüfe neben den Freizeitangeboten auch die gesuchte Unterkunftsart."
+          }
         },
         {
           "situationNumber": 13,
           "content": "Sie möchten nächste Woche spontan verreisen und suchen ein günstiges kurzfristiges Angebot.",
           "noMatch": false,
           "correctAnnouncementKey": "d",
-          "sortOrder": 2
+          "sortOrder": 2,
+          "correction": {
+            "evidence": "Kurzfristig freie Hotelzimmer und Pauschalreisen. Angebote für Abreise innerhalb der nächsten sieben Tage.",
+            "whyCorrect": "Die Angebote passen zu einer spontanen Abreise in der kommenden Woche. Ein konkreter Preis wird nicht genannt.",
+            "whyCompetingFails": "b bietet preiswerte Zimmer, nennt aber kein besonderes kurzfristiges Reiseangebot.",
+            "learningPoint": "„Innerhalb der nächsten sieben Tage“ nennt einen begrenzten Zeitraum ab jetzt."
+          }
         },
         {
           "situationNumber": 14,
           "content": "Sie möchten im Urlaub mehrere Tage mit dem Fahrrad unterwegs sein, haben aber kein eigenes Fahrrad.",
           "noMatch": false,
           "correctAnnouncementKey": "c",
-          "sortOrder": 3
+          "sortOrder": 3,
+          "correction": {
+            "evidence": "Geführte Fahrradtouren durch die Region. Tages- und Mehrtagestouren. Fahrradverleih möglich.",
+            "whyCorrect": "Es gibt mehrtägige Fahrradtouren und die Möglichkeit, ein Fahrrad auszuleihen.",
+            "whyCompetingFails": "e bietet Wanderungen, keine Fahrradtouren mit Fahrradverleih.",
+            "learningPoint": "„Fahrradverleih“ bedeutet, dass man ein Fahrrad vorübergehend nutzen kann."
+          }
         },
         {
           "situationNumber": 15,
           "content": "Sie fahren mit dem Zug in Urlaub und möchten Ihren großen Koffer nicht selbst tragen.",
           "noMatch": false,
           "correctAnnouncementKey": "l",
-          "sortOrder": 4
+          "sortOrder": 4,
+          "correction": {
+            "evidence": "Wir holen Ihre Koffer zu Hause ab und bringen sie direkt in Ihr Hotel.",
+            "whyCorrect": "Der Gepäckservice übernimmt den Transport der Koffer zwischen Wohnung und Hotel.",
+            "whyCompetingFails": "g bietet Fahrten zum Flughafen, keinen Koffertransport ins Urlaubshotel für Bahnreisende.",
+            "learningPoint": "Achte auf die Buchungsfrist: Hier sind mindestens drei Werktage vor Reisebeginn nötig."
+          }
         },
         {
           "situationNumber": 16,
           "content": "Sie möchten Urlaub machen und dabei gleichzeitig Ihr Deutsch verbessern.",
           "noMatch": false,
           "correctAnnouncementKey": "i",
-          "sortOrder": 5
+          "sortOrder": 5,
+          "correction": {
+            "evidence": "Deutsch lernen und die Stadt kennenlernen. Zwei Wochen Sprachkurs mit Unterkunft bei einer Gastfamilie.",
+            "whyCorrect": "Die Sprachreise verbindet Deutschunterricht mit einem Aufenthalt in Wien.",
+            "whyCompetingFails": "k bietet gemeinsame Städtereisen, aber keinen Deutschkurs.",
+            "learningPoint": "Eine „Sprachreise“ verbindet einen Aufenthalt an einem anderen Ort mit Sprachunterricht."
+          }
         },
         {
           "situationNumber": 17,
           "content": "Sie möchten in einer ruhigen Wohnung wohnen und selbst kochen.",
           "noMatch": false,
           "correctAnnouncementKey": "f",
-          "sortOrder": 6
+          "sortOrder": 6,
+          "correction": {
+            "evidence": "Ruhige Lage, Küche, zwei Schlafzimmer und Balkon.",
+            "whyCorrect": "Die Ferienwohnung liegt ruhig und hat eine Küche zum eigenen Kochen.",
+            "whyCompetingFails": "a nennt ein Hotel mit Frühstück. Eine eigene Küche wird dort nicht angeboten.",
+            "learningPoint": "„Mindestaufenthalt fünf Nächte“ bedeutet, dass eine kürzere Buchung nicht zum genannten Angebot gehört."
+          }
         },
         {
           "situationNumber": 18,
           "content": "Sie fliegen sehr früh am Morgen und brauchen eine Fahrt direkt von zu Hause zum Flughafen.",
           "noMatch": false,
           "correctAnnouncementKey": "g",
-          "sortOrder": 7
+          "sortOrder": 7,
+          "correction": {
+            "evidence": "Fahrten von Ihrer Wohnung direkt zum Flughafen und zurück. Buchung telefonisch oder online. Service rund um die Uhr.",
+            "whyCorrect": "Der Transfer fährt direkt von zu Hause zum Flughafen und wird auch zu sehr frühen Zeiten angeboten.",
+            "whyCompetingFails": "l transportiert Koffer ins Hotel, bietet aber keine Personenfahrt zum Flughafen an.",
+            "learningPoint": "„Rund um die Uhr“ bedeutet: zu jeder Tages- und Nachtzeit."
+          }
         },
         {
           "situationNumber": 19,
           "content": "Sie möchten für drei Tage einen Wohnwagen mieten und damit durch Deutschland fahren.",
           "noMatch": true,
           "correctAnnouncementKey": null,
-          "sortOrder": 8
+          "sortOrder": 8,
+          "correction": {
+            "evidence": "Anzeige j: „Stellplätze für Zelte und Wohnmobile.“",
+            "whyCorrect": "Keine Anzeige bietet einen Wohnwagen zur Miete für eine Rundreise an.",
+            "whyCompetingFails": "j bietet Stellplätze auf einem Campingplatz. Ein Stellplatz ist kein Mietfahrzeug.",
+            "learningPoint": "Unterscheide zwischen einem Platz für ein Fahrzeug und der Vermietung des Fahrzeugs."
+          }
         },
         {
           "situationNumber": 20,
           "content": "Sie möchten draußen übernachten und suchen einen Platz für Ihr Zelt.",
           "noMatch": false,
           "correctAnnouncementKey": "j",
-          "sortOrder": 9
+          "sortOrder": 9,
+          "correction": {
+            "evidence": "Stellplätze für Zelte und Wohnmobile. Sanitäranlagen, kleiner Supermarkt und Freizeitprogramm für Kinder.",
+            "whyCorrect": "Der Campingplatz bietet ausdrücklich Plätze zum Aufstellen eines Zeltes.",
+            "whyCompetingFails": "a bietet Hotelzimmer, keine Zeltplätze.",
+            "learningPoint": "Ein „Stellplatz“ ist eine vorgesehene Fläche für ein Zelt oder Fahrzeug."
+          }
         }
       ]
     },
@@ -421,7 +556,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Wir waren zehn Tage in Österreich, wo es uns wirklich sehr gut gefallen hat.",
+            "whyCorrect": "„Wo“ bezieht sich auf den genannten Ort Österreich.",
+            "whyDistractorsFail": {
+              "b": "wann: Das fragt nach einer Zeit, nicht nach einem Ort.",
+              "c": "ob: Das leitet eine indirekte Ja-Nein-Frage ein. Hier wird aber eine Erfahrung an einem Ort beschrieben."
+            },
+            "learningPoint": "„Wir waren in Wien, wo meine Tante wohnt.“"
+          }
         },
         {
           "gapKey": "22",
@@ -446,7 +590,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Wir sind diesmal nicht mit dem Auto gefahren, weil wir die lange Fahrt vermeiden wollten.",
+            "whyCorrect": "Der zweite Satzteil nennt den Grund für die Entscheidung gegen das Auto.",
+            "whyDistractorsFail": {
+              "b": "obwohl: Das würde einen Gegensatz ausdrücken, nicht den genannten Grund.",
+              "c": "sondern: Das passt weder zum Begründungszusammenhang noch zur vorhandenen Wortstellung."
+            },
+            "learningPoint": "„Wir nehmen den Zug, weil wir nicht selbst fahren möchten.“"
+          }
         },
         {
           "gapKey": "23",
@@ -471,7 +624,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Stattdessen haben wir den Zug genommen.",
+            "whyCorrect": "Das Perfekt von „nehmen“ wird mit „haben“ gebildet: wir haben genommen.",
+            "whyDistractorsFail": {
+              "b": "sind: „Nehmen“ bildet hier kein Perfekt mit „sein“.",
+              "c": "wurden: Das passt nicht zur aktiven Handlung „den Zug nehmen“."
+            },
+            "learningPoint": "„Wir haben gestern den Bus genommen.“"
+          }
         },
         {
           "gapKey": "24",
@@ -496,7 +658,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Unser Hotel lag direkt an einem kleinen See.",
+            "whyCorrect": "„An einem See“ beschreibt eine Lage am Seeufer. Bei dieser Ortsangabe steht der Dativ.",
+            "whyDistractorsFail": {
+              "b": "für: Das beschreibt keine passende Lage des Hotels und passt nicht zu „einem“.",
+              "c": "über: Das würde eine Lage oberhalb des Sees ausdrücken. Die vorgegebene Lösung beschreibt die Lage am See."
+            },
+            "learningPoint": "„Das Restaurant liegt an einem Fluss.“"
+          }
         },
         {
           "gapKey": "25",
@@ -521,7 +692,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Am dritten Tag haben wir eine längere Wanderung gemacht.",
+            "whyCorrect": "Die Wanderung wird als vergangenes Urlaubserlebnis erzählt. Das Perfekt lautet „haben … gemacht“.",
+            "whyDistractorsFail": {
+              "b": "sind: „Eine Wanderung machen“ bildet hier das Perfekt mit „haben“.",
+              "c": "hatten: Prüfhinweis: „Hatten … gemacht“ ist grammatisch als Plusquamperfekt möglich. Es würde die Wanderung aus einer anderen Vergangenheitsperspektive betrachten. Die vorgegebene Lösung verwendet das Perfekt."
+            },
+            "learningPoint": "„Am Sonntag haben wir einen Ausflug gemacht.“"
+          }
         },
         {
           "gapKey": "26",
@@ -546,7 +726,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Zum Glück hatten wir Regenjacken dabei.",
+            "whyCorrect": "„Etwas dabeihaben“ bedeutet, es mitgenommen und bei sich zu haben.",
+            "whyDistractorsFail": {
+              "b": "damit: Das bedeutet beispielsweise „mit dieser Sache“ und passt nicht zur gemeinten Verbindung.",
+              "c": "daran: Das bedeutet beispielsweise „an dieser Sache“ und drückt kein Mitführen aus."
+            },
+            "learningPoint": "„Ich habe meinen Reisepass dabei.“"
+          }
         },
         {
           "gapKey": "27",
@@ -571,7 +760,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Besonders gut hat mir gefallen, dass wir viele regionale Gerichte probieren konnten.",
+            "whyCorrect": "Der dass-Satz nennt, was Sandra besonders gut gefallen hat.",
+            "whyDistractorsFail": {
+              "b": "ob: Das würde eine offene Frage ausdrücken. Sandra berichtet aber von einer tatsächlichen Erfahrung.",
+              "c": "als: Das würde einen Zeitpunkt nennen. Gefragt ist hier der Inhalt dessen, was ihr gefallen hat."
+            },
+            "learningPoint": "„Mir hat gefallen, dass alle freundlich waren.“"
+          }
         },
         {
           "gapKey": "28",
@@ -596,7 +794,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Mein Lieblingsessen war eine Suppe, die ich vorher noch nie gegessen hatte.",
+            "whyCorrect": "Zu „hatte“ gehört das Partizip „gegessen“. Gemeinsam bilden sie das Plusquamperfekt.",
+            "whyDistractorsFail": {
+              "b": "essen: Der Infinitiv bildet hier nicht die benötigte Vergangenheitsform.",
+              "c": "aß: Das ist bereits eine gebeugte Vergangenheitsform und passt nicht zu „hatte“."
+            },
+            "learningPoint": "„Ich hatte dieses Gericht vorher noch nie gegessen.“"
+          }
         },
         {
           "gapKey": "29",
@@ -621,7 +828,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Wenn du möchtest, kannst du gern mitkommen.",
+            "whyCorrect": "„Kannst“ bietet Maria die Möglichkeit, freiwillig mitzureisen.",
+            "whyDistractorsFail": {
+              "b": "musst: Das würde eine Verpflichtung statt einer freien Möglichkeit ausdrücken.",
+              "c": "sollst: Das klingt nach einer Aufforderung oder Erwartung. Gemeint ist ein freiwilliges Angebot."
+            },
+            "learningPoint": "„Wenn du Zeit hast, kannst du gern bleiben.“"
+          }
         },
         {
           "gapKey": "30",
@@ -646,7 +862,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Ich zeige dir bald die Fotos, wenn wir uns sehen.",
+            "whyCorrect": "„Wenn“ nennt die Gelegenheit, bei der Sandra die Fotos zeigen möchte.",
+            "whyDistractorsFail": {
+              "b": "obwohl: Ein Gegensatz zwischen dem Treffen und dem Zeigen der Fotos wird nicht ausgedrückt.",
+              "c": "damit: Das würde ein Ziel nennen. Die vorgegebene Lösung beschreibt den Zeitpunkt beziehungsweise die Gelegenheit."
+            },
+            "learningPoint": "„Ich erzähle dir davon, wenn wir uns treffen.“"
+          }
         }
       ]
     },
@@ -737,61 +962,121 @@
           "gapKey": "31",
           "gapNumber": 31,
           "correctWordKey": "e",
-          "sortOrder": 0
+          "sortOrder": 0,
+          "correction": {
+            "evidence": "ich habe Ihre Ferienwohnung im Internet gefunden und interessiere mich sehr für Ihr Angebot.",
+            "whyCorrect": "Die feste Verbindung lautet „sich für etwas interessieren“.",
+            "whyCompetingFails": "b — dafür ersetzt normalerweise die ganze Ergänzung. Hier steht die Ergänzung „Ihr Angebot“ bereits ausdrücklich.",
+            "learningPoint": "Merke die Verbindung: sich für eine Ferienwohnung interessieren."
+          }
         },
         {
           "gapKey": "32",
           "gapNumber": 32,
           "correctWordKey": "g",
-          "sortOrder": 1
+          "sortOrder": 1,
+          "correction": {
+            "evidence": "Meine Frau und ich möchten im August eine Woche in Ihrer Region verbringen und hätten noch einige Fragen.",
+            "whyCorrect": "„Noch einige Fragen“ zeigt, dass vor der Buchung weitere Informationen benötigt werden.",
+            "whyCompetingFails": "Prüfhinweis: a — aber wäre hier ebenfalls sprachlich möglich und würde offene Fragen der Reiseabsicht gegenüberstellen. Die vorgegebene Lösung g ist nicht allein durch die Grammatik erzwungen.",
+            "learningPoint": "„Ich hätte noch eine Frage“ leitet höflich eine zusätzliche Frage ein."
+          }
         },
         {
           "gapKey": "33",
           "gapNumber": 33,
           "correctWordKey": "h",
-          "sortOrder": 2
+          "sortOrder": 2,
+          "correction": {
+            "evidence": "Können Sie mir bitte sagen, ob es eine gute Busverbindung gibt?",
+            "whyCorrect": "Der Schreiber möchte wissen, ob eine gute Verbindung vorhanden ist. Das ist eine indirekte Ja-Nein-Frage.",
+            "whyCompetingFails": "j — welche passt nicht zu „es eine gute Busverbindung gibt“. Das würde eine andere Satzkonstruktion verlangen.",
+            "learningPoint": "„Gibt es einen Bus?“ wird indirekt zu „Ich möchte wissen, ob es einen Bus gibt.“"
+          }
         },
         {
           "gapKey": "34",
           "gapNumber": 34,
           "correctWordKey": "d",
-          "sortOrder": 3
+          "sortOrder": 3,
+          "correction": {
+            "evidence": "Wir reisen mit dem Zug an und würden deshalb ungern ein Auto mieten.",
+            "whyCorrect": "„Deshalb“ stellt die Zuganreise als Grund dafür dar, möglichst kein Auto mieten zu wollen.",
+            "whyCompetingFails": "l — trotzdem würde einen Gegensatz ausdrücken. Die vorgegebene Lösung stellt dagegen einen Grund-Folge-Zusammenhang her.",
+            "learningPoint": "„Ungern“ bedeutet, etwas lieber nicht tun zu wollen."
+          }
         },
         {
           "gapKey": "35",
           "gapNumber": 35,
           "correctWordKey": "j",
-          "sortOrder": 4
+          "sortOrder": 4,
+          "correction": {
+            "evidence": "Außerdem möchten wir wissen, welche Einkaufsmöglichkeiten in der Nähe sind.",
+            "whyCorrect": "Gefragt wird nach den konkreten Einkaufsmöglichkeiten in der Umgebung.",
+            "whyCompetingFails": "h — ob wäre sprachlich möglich, würde aber nur nach deren Vorhandensein fragen. Außerdem wird „ob“ bereits in Lücke 33 benötigt; jedes Wort darf nur einmal verwendet werden.",
+            "learningPoint": "„Welche Möglichkeiten?“ fragt danach, was genau angeboten wird."
+          }
         },
         {
           "gapKey": "36",
           "gapNumber": 36,
           "correctWordKey": "i",
-          "sortOrder": 5
+          "sortOrder": 5,
+          "correction": {
+            "evidence": "Gibt es Wege, die direkt an der Unterkunft beginnen, oder muss man zuerst mit dem Bus fahren?",
+            "whyCorrect": "„Oder“ verbindet zwei Möglichkeiten: direkt loswandern oder zunächst Bus fahren.",
+            "whyCompetingFails": "a — aber würde einen Gegensatz betonen. Hier fragt der Schreiber nach zwei alternativen Möglichkeiten.",
+            "learningPoint": "„Oder“ kann zwei vollständige Fragen miteinander verbinden."
+          }
         },
         {
           "gapKey": "37",
           "gapNumber": 37,
           "correctWordKey": "b",
-          "sortOrder": 6
+          "sortOrder": 6,
+          "correction": {
+            "evidence": "Sind diese im Preis enthalten oder müssen wir dafür bezahlen?",
+            "whyCorrect": "„Dafür“ bezieht sich auf die zuvor genannten Fahrräder und deren Nutzung.",
+            "whyCompetingFails": "o — damit würde „mit dieser Sache“ bedeuten. Gemeint ist aber, Geld für die Fahrräder zu bezahlen.",
+            "learningPoint": "„Dafür bezahlen“ bedeutet, für die zuvor genannte Sache oder Leistung Geld zu zahlen."
+          }
         },
         {
           "gapKey": "38",
           "gapNumber": 38,
           "correctWordKey": "m",
-          "sortOrder": 7
+          "sortOrder": 7,
+          "correction": {
+            "evidence": "Wir haben außerdem einen kleinen Hund. Bitte teilen Sie uns mit, ob Haustiere auch erlaubt sind.",
+            "whyCorrect": "Mit „auch“ ergänzt der Schreiber seine bisherigen Fragen um die Mitnahme eines Haustiers.",
+            "whyCompetingFails": "g — noch wäre grammatisch möglich, würde aber eher nach einer weiterhin bestehenden Erlaubnis fragen. Die vorgegebene Lösung ergänzt mit „auch“ einen weiteren Punkt.",
+            "learningPoint": "„Auch erlaubt“ bedeutet hier, dass die Erlaubnis zusätzlich Haustiere umfassen soll."
+          }
         },
         {
           "gapKey": "39",
           "gapNumber": 39,
           "correctWordKey": "f",
-          "sortOrder": 8
+          "sortOrder": 8,
+          "correction": {
+            "evidence": "Falls die Wohnung in der Woche vom 10. bis 17. August noch frei ist, würden wir sie gerne reservieren.",
+            "whyCorrect": "„Würden gerne“ formuliert den Reservierungswunsch höflich. Voraussetzung ist, dass die Wohnung frei ist.",
+            "whyCompetingFails": "l — trotzdem würde einen Gegensatz zu einem Hindernis betonen. Der Lösungssatz formuliert dagegen einen Wunsch unter einer Bedingung.",
+            "learningPoint": "„Falls“ bedeutet hier „wenn“ und nennt eine Voraussetzung."
+          }
         },
         {
           "gapKey": "40",
           "gapNumber": 40,
           "correctWordKey": "c",
-          "sortOrder": 9
+          "sortOrder": 9,
+          "correction": {
+            "evidence": "Wir wären Ihnen sehr dankbar, wenn Sie uns bald antworten könnten.",
+            "whyCorrect": "Die Verbindung lautet „jemandem dankbar sein“. Damit bittet die Familie höflich um eine baldige Antwort.",
+            "whyCompetingFails": "f — gerne ersetzt hier nicht das benötigte Adjektiv in „Ihnen dankbar sein“.",
+            "learningPoint": "„Wir wären Ihnen dankbar, wenn …“ ist eine höfliche Bitte."
+          }
         }
       ]
     },
@@ -897,31 +1182,81 @@
             "questionNumber": 41,
             "prompt": "Der Sprecher reist innerhalb Europas meistens mit dem Flugzeug.",
             "correctAnswer": "-",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "Deshalb fahre ich innerhalb Europas meistens mit dem Zug.",
+              "whyCorrect": "Innerhalb Europas benutzt er meistens den Zug, nicht das Flugzeug.",
+              "whyOppositeFails": "Das Flugzeug wird nur zum Vergleich der Reisedauer erwähnt. Es ist nicht sein übliches Verkehrsmittel.",
+              "learningPoint": "Entscheidend ist, welches Verkehrsmittel die Person tatsächlich bevorzugt.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 42,
             "prompt": "Die Sprecherin bucht ihren Urlaub heute eher kurzfristig.",
             "correctAnswer": "+",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "Ich schaue meistens erst ein oder zwei Wochen vorher, welche Hotels oder Flüge noch günstig sind.",
+              "whyCorrect": "Sie sucht erst kurz vor der Reise nach Angeboten. Das entspricht einer kurzfristigen Planung.",
+              "whyOppositeFails": "Die Planung mehrere Monate vorher beschreibt ihr früheres Verhalten.",
+              "learningPoint": "Achte auf den Gegensatz zwischen „früher“ und „heute“.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 43,
             "prompt": "Die Familie schläft beim Camping im Zelt.",
             "correctAnswer": "-",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "Wir schlafen allerdings nicht im Zelt, sondern mieten dort ein kleines Ferienhaus.",
+              "whyCorrect": "Die Familie wohnt auf dem Campingplatz in einem Ferienhaus.",
+              "whyOppositeFails": "Ein Aufenthalt auf einem Campingplatz bedeutet nicht automatisch, im Zelt zu schlafen.",
+              "learningPoint": "„Nicht …, sondern …“ korrigiert eine mögliche falsche Vorstellung.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 44,
             "prompt": "Der Sprecher reist gern allein.",
             "correctAnswer": "+",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "Ich reise jedes Jahr allein für ein paar Tage in eine andere Stadt. Viele Freunde verstehen das nicht, aber ich finde es angenehm.",
+              "whyCorrect": "Er beschreibt das Alleinreisen ausdrücklich als angenehm.",
+              "whyOppositeFails": "Seine Freunde verstehen seine Vorliebe nicht. Ihre Meinung ist aber nicht seine eigene.",
+              "learningPoint": "Unterscheide zwischen der Meinung des Sprechers und der Meinung anderer Personen.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 45,
             "prompt": "Die Sprecherin möchte dieses Jahr weniger Gepäck mitnehmen.",
             "correctAnswer": "+",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Dieses Jahr möchte ich versuchen, nur mit einem kleinen Koffer zu reisen.",
+              "whyCorrect": "Sie möchte ihre bisher große Gepäckmenge reduzieren.",
+              "whyOppositeFails": "Dass sie normalerweise zu viel mitnimmt, beschreibt ihre bisherige Gewohnheit, nicht ihren neuen Plan.",
+              "learningPoint": "„Möchte versuchen“ zeigt eine Absicht, noch kein erreichtes Ergebnis.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-6-hoeren/modelltest-6-hoeren-teil1.mp3",
@@ -940,61 +1275,161 @@
             "questionNumber": 46,
             "prompt": "Nachhaltiges Reisen kann bedeuten, häufiger den Zug zu benutzen.",
             "correctAnswer": "+",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "Zum Beispiel kann man für kürzere Strecken den Zug statt des Flugzeugs nehmen",
+              "whyCorrect": "Zugfahren wird als eine Möglichkeit für nachhaltigeres Reisen genannt.",
+              "whyOppositeFails": "Die Aussage behauptet nicht, dass nachhaltige Reisen ausschließlich mit dem Zug stattfinden müssen.",
+              "learningPoint": "„Kann bedeuten“ nennt eine Möglichkeit, keine allgemeine Pflicht.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 47,
             "prompt": "Nachhaltige Reisen sind immer teurer als andere Reisen.",
             "correctAnswer": "-",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "Wer früh plant, findet aber häufig günstige Angebote. Auch kleine Pensionen sind oft nicht teurer als große Hotels.",
+              "whyCorrect": "Nachhaltige Reisen müssen nicht teurer sein. Frühzeitige Planung und kleine Pensionen können günstige Möglichkeiten bieten.",
+              "whyOppositeFails": "„Immer teurer“ ist zu allgemein und widerspricht den genannten Beispielen.",
+              "learningPoint": "Prüfe absolute Wörter wie „immer“ besonders genau.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 48,
             "prompt": "Viele Kunden reisen in Deutschlands Nachbarländer.",
             "correctAnswer": "+",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "Sehr beliebt sind momentan Reisen innerhalb Deutschlands und in die Nachbarländer. Viele unserer Kunden fahren nach Österreich, in die Schweiz oder in die Niederlande.",
+              "whyCorrect": "Reisen in Nachbarländer werden ausdrücklich als beliebt beschrieben.",
+              "whyOppositeFails": "Dass auch Fernreisen angeboten werden, widerspricht der Beliebtheit der Nachbarländer nicht.",
+              "learningPoint": "Ein Anbieter kann mehrere Reisearten anbieten, obwohl einige besonders häufig gebucht werden.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 49,
             "prompt": "Der Reiseveranstalter organisiert ausschließlich Zugreisen.",
             "correctAnswer": "-",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "Dann organisieren wir auch Busreisen oder kombinieren verschiedene Verkehrsmittel.",
+              "whyCorrect": "Der Veranstalter organisiert neben Zugreisen auch andere Reisemöglichkeiten.",
+              "whyOppositeFails": "„Ausschließlich“ würde Busreisen und Kombinationen ausschließen. Diese werden aber ausdrücklich genannt.",
+              "learningPoint": "„Ausschließlich“ bedeutet „nur“.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 50,
             "prompt": "Bei der Auswahl von Hotels spielt auch die Qualität eine Rolle.",
             "correctAnswer": "+",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Aber natürlich schauen wir auch auf Komfort und Qualität.",
+              "whyCorrect": "Neben Umweltaspekten berücksichtigt der Veranstalter auch die Qualität der Unterkünfte.",
+              "whyOppositeFails": "Umweltfreundlichkeit ist nicht das einzige Auswahlkriterium.",
+              "learningPoint": "„Auch“ ergänzt einen weiteren wichtigen Gesichtspunkt.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 51,
             "prompt": "Nachhaltiges Reisen bedeutet laut Herrn Faber, auf Komfort zu verzichten.",
             "correctAnswer": "-",
-            "sortOrder": 5
+            "sortOrder": 5,
+            "correction": {
+              "evidence": "Nachhaltig reisen bedeutet nicht, dass man keinen Komfort haben darf.",
+              "whyCorrect": "Nachhaltigkeit und Komfort können zusammenpassen. Ein Verzicht auf Komfort wird nicht verlangt.",
+              "whyOppositeFails": "Die Aussage behauptet genau den Verzicht, den Herr Faber ausdrücklich zurückweist.",
+              "learningPoint": "Achte bei mehreren Verneinungen genau auf die gesamte Aussage.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 52,
             "prompt": "Heute interessieren sich Menschen verschiedener Altersgruppen für nachhaltiges Reisen.",
             "correctAnswer": "+",
-            "sortOrder": 6
+            "sortOrder": 6,
+            "correction": {
+              "evidence": "Früher waren es vor allem jüngere Menschen. Inzwischen interessieren sich aber Kunden fast aller Altersgruppen dafür.",
+              "whyCorrect": "Heute besteht das Interesse bei Menschen verschiedener Altersgruppen.",
+              "whyOppositeFails": "Die Beschränkung auf jüngere Menschen beschreibt die frühere Situation.",
+              "learningPoint": "„Inzwischen“ zeigt hier eine Veränderung gegenüber früher.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 53,
             "prompt": "Familien fragen häufig nach Reisen ohne eigenes Auto.",
             "correctAnswer": "+",
-            "sortOrder": 7
+            "sortOrder": 7,
+            "correction": {
+              "evidence": "Besonders Familien fragen häufig nach Angeboten, bei denen sie ohne eigenes Auto reisen können.",
+              "whyCorrect": "Familien suchen oft ausdrücklich nach Reisemöglichkeiten ohne eigenen Wagen.",
+              "whyOppositeFails": "Die Aussage wird im Gespräch direkt bestätigt.",
+              "learningPoint": "„Nach einem Angebot fragen“ bedeutet, Informationen oder Möglichkeiten dazu zu suchen.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 54,
             "prompt": "Einige Partnerhotels bieten einen Gepäckservice an.",
             "correctAnswer": "+",
-            "sortOrder": 8
+            "sortOrder": 8,
+            "correction": {
+              "evidence": "Deshalb arbeiten einige unserer Partnerhotels mit einem Gepäckservice zusammen.",
+              "whyCorrect": "Einige Partnerhotels ermöglichen einen Gepäckservice durch Zusammenarbeit mit einem entsprechenden Anbieter.",
+              "whyOppositeFails": "Es ist nicht nötig, dass das Hotel den Transport selbst durchführt. Genannt wird eine Zusammenarbeit.",
+              "learningPoint": "„Mit einem Dienst zusammenarbeiten“ bedeutet nicht, diesen Dienst selbst zu betreiben.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 55,
             "prompt": "Der Reiseveranstalter möchte sein Angebot an Bahnreisen verkleinern.",
             "correctAnswer": "-",
-            "sortOrder": 9
+            "sortOrder": 9,
+            "correction": {
+              "evidence": "Deshalb erweitern wir unser Angebot im kommenden Jahr sogar um mehrere neue Bahnreisen.",
+              "whyCorrect": "Der Veranstalter möchte zusätzliche Bahnreisen anbieten. Das Angebot wird größer.",
+              "whyOppositeFails": "„Verkleinern“ ist das Gegenteil der genannten Erweiterung.",
+              "learningPoint": "„Ein Angebot erweitern“ bedeutet, weitere Möglichkeiten hinzuzufügen.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-6-hoeren/modelltest-6-hoeren-teil2.mp3",
@@ -1013,31 +1448,81 @@
             "questionNumber": 56,
             "prompt": "Der Zug nach Hamburg fährt heute von einem anderen Gleis ab.",
             "correctAnswer": "+",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "Der ICE 812 fährt heute wegen Bauarbeiten nicht von Gleis 7, sondern von Gleis 10.",
+              "whyCorrect": "Der Zug fährt heute von Gleis zehn statt von Gleis sieben.",
+              "whyOppositeFails": "Die unveränderte Abfahrtszeit bedeutet nicht, dass auch das Gleis gleich bleibt.",
+              "learningPoint": "Unterscheide zwischen einer Gleisänderung und einer Zeitänderung.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 57,
             "prompt": "Am Wochenende endet das Frühstück um 10 Uhr.",
             "correctAnswer": "-",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "Am Wochenende können Sie von 8 bis 11 Uhr frühstücken.",
+              "whyCorrect": "Am Wochenende endet das Frühstück um elf Uhr.",
+              "whyOppositeFails": "Zehn Uhr ist die Endzeit von Montag bis Freitag, nicht am Wochenende.",
+              "learningPoint": "Ordne Öffnungs- und Angebotszeiten den richtigen Wochentagen zu.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 58,
             "prompt": "Der Flug nach Madrid startet später als geplant.",
             "correctAnswer": "+",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "der Flug AB 327 nach Madrid verspätet sich um ungefähr 45 Minuten.",
+              "whyCorrect": "Die Verspätung bedeutet, dass der Flug später als ursprünglich geplant starten soll.",
+              "whyOppositeFails": "Eine neue Abflugzeit hebt die Verspätung nicht auf. Sie beschreibt den geänderten Plan.",
+              "learningPoint": "„Sich verspäten“ bedeutet, später als vorgesehen zu kommen oder zu starten.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 59,
             "prompt": "Kinder unter zwölf Jahren müssen für die Führung bezahlen.",
             "correctAnswer": "-",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "Kinder unter zwölf Jahren nehmen kostenlos teil.",
+              "whyCorrect": "Für Kinder unter zwölf Jahren ist die Führung kostenlos.",
+              "whyOppositeFails": "Der allgemeine Preis von fünf Euro gilt nicht für die ausdrücklich genannte kostenlose Kindergruppe.",
+              "learningPoint": "Achte nach einer Preisangabe auf mögliche Ausnahmen.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 60,
             "prompt": "Frau Wagner kann ihre Reiseunterlagen ab morgen abholen.",
             "correctAnswer": "+",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Sie können die Tickets und Hotelinformationen ab morgen bei uns abholen.",
+              "whyCorrect": "Die Abholung ist ab morgen möglich. Tickets und Hotelinformationen gehören zu den Reiseunterlagen.",
+              "whyOppositeFails": "Dass die Unterlagen schon vollständig sind, bedeutet nicht, dass die Abholung bereits heute angeboten wird.",
+              "learningPoint": "„Ab morgen“ nennt den Beginn einer Möglichkeit.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-6-hoeren/modelltest-6-hoeren-teil3.mp3",

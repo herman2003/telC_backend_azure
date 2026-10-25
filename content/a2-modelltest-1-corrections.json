@@ -1,0 +1,283 @@
+{
+  "modelltestNumber": 1,
+  "level": "A2",
+  "paperTitle": "telc Deutsch A2 – Übungstest 1",
+  "hoeren": {
+    "teil1": {
+      "1": {
+        "evidence": "Die gewünschte Nummer lautet 168 85 38, die Vorwahl ist 069.",
+        "whyCorrect": "Die gesuchte Rufnummer ist 168 85 38. Die Vorwahl steht bereits in der Notiz.",
+        "whyOtherAnswersFail": "069 ist nur die Vorwahl. Die früher zusätzlich akzeptierte Folge „16885338“ ist falsch: Sie enthält eine zusätzliche Drei.",
+        "learningPoint": "Leerzeichen können sich ändern. Die Ziffern und ihre Reihenfolge müssen gleich bleiben.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "2": {
+        "evidence": "Leider muss ich noch länger arbeiten, das heißt, wir können uns heute Abend nicht treffen.",
+        "whyCorrect": "In der Notiz steht schon „nicht“. Mit der Antwort entsteht „nicht heute“ oder „nicht heute Abend“.",
+        "whyOtherAnswersFail": "Morgen ist der vorgeschlagene Ersatztermin. Gesucht wird hier aber, wann das Treffen nicht möglich ist.",
+        "learningPoint": "Lies auch die Wörter, die bereits vor der Lücke stehen.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "3": {
+        "evidence": "Ich warte am Eingang auf dich, ok?",
+        "whyCorrect": "Sascha wartet am Eingang. Das ist der Treffpunkt.",
+        "whyOtherAnswersFail": "Raum 136 ist der Kursraum. Achtzehn Uhr ist die Kurszeit. Beides ist nicht der gesuchte Treffpunkt.",
+        "learningPoint": "Unterscheide zwischen Treffpunkt, Veranstaltungsort und Uhrzeit.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "4": {
+        "evidence": "Der Preis ohne Bahn-Card beträgt 45 Euro.",
+        "whyCorrect": "Die Fahrt kostet ohne Bahn-Card fünfundvierzig Euro.",
+        "whyOtherAnswersFail": "11:45 Uhr ist die Abfahrt. 14:00 Uhr ist die Ankunft. Diese Zahlen sind keine Preise.",
+        "learningPoint": "„Beträgt“ bedeutet bei einem Preis: So viel kostet es.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "5": {
+        "evidence": "und zwar am Dienstagvormittag und Donnerstagnachmittag.",
+        "whyCorrect": "Dienstagvormittag steht schon in der Notiz. Ergänzt werden muss der zweite Arbeitstermin.",
+        "whyOtherAnswersFail": "Nur „Donnerstag“ nennt die Tageszeit nicht. „Dienstagvormittag“ würde die bereits vorhandene Angabe wiederholen.",
+        "learningPoint": "Achte bei Terminen auf Wochentag und Tageszeit.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    },
+    "teil2": {
+      "6": {
+        "evidence": "Um 15 Uhr folgt Lilliputz, das Kinderprogramm",
+        "whyCorrect": "Fünfzehn Uhr ist drei Uhr nachmittags. Dann beginnt das Kinderprogramm.",
+        "whyDistractorsFail": {
+          "a": "Das Mittagsmagazin wird für einen früheren Zeitpunkt genannt.",
+          "c": "Die Nachrichten kommen vor dem Mittagsmagazin, nicht als die gesuchte Sendung um fünfzehn Uhr."
+        },
+        "learningPoint": "Verbinde jede Sendung mit ihrer eigenen Uhrzeit.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "7": {
+        "evidence": "Morgen dann nass und kühler.",
+        "whyCorrect": "„Nass“ bedeutet im Wetterbericht hier regnerisches Wetter.",
+        "whyDistractorsFail": {
+          "a": "Die Gewitter werden für heute Abend angekündigt.",
+          "c": "Das warme Wetter bis fünfundzwanzig Grad gehört zu heute. Morgen wird es kühler."
+        },
+        "learningPoint": "Achte bei Wetterberichten besonders auf „heute“, „heute Abend“ und „morgen“.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "8": {
+        "evidence": "Ein Schwein läuft über die Autobahn bei Kilometer 87 Nähe der Ausfahrt Freiburg.",
+        "whyCorrect": "Ein Schwein ist ein Tier. Dieses läuft auf der Autobahn.",
+        "whyDistractorsFail": {
+          "a": "Die Autofahrer werden angesprochen. Sie laufen nicht über die Straße.",
+          "b": "Ein Kind wird nicht genannt."
+        },
+        "learningPoint": "Unterscheide zwischen den angesprochenen Personen und dem gemeldeten Hindernis.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "9": {
+        "evidence": "Alles Gute und viel Glück wünschen dir deine Eltern und Geschwister und natürlich das gesamte Radio-Energy-Team.",
+        "whyCorrect": "Eltern und Geschwister gehören zu Josefs Familie. Sie gratulieren ihm.",
+        "whyDistractorsFail": {
+          "a": "Josef hat Geburtstag. Er ist nicht der Absender des Grußes.",
+          "c": "Das Radio-Team gratuliert ebenfalls. Ein Kollege von Josef wird aber nicht genannt."
+        },
+        "learningPoint": "„Eltern und Geschwister“ kann in einer Antwort als „Familie“ zusammengefasst werden.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "10": {
+        "evidence": "und gewinnen Sie eine Reise für 2 Personen an die Ostsee.",
+        "whyCorrect": "Der Preis des Gewinnspiels ist eine Reise für zwei Personen.",
+        "whyDistractorsFail": {
+          "b": "Ein Buch wird nicht als Gewinn genannt.",
+          "c": "„Gewinnspiel“ beschreibt die Aktion. Der Gewinn ist kein Spiel."
+        },
+        "learningPoint": "„Gewinnspiel“ und „Gewinn“ sind unterschiedliche Dinge.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    },
+    "teil3": {
+      "11": {
+        "evidence": "Sie ist die Leiterin der Exportabteilung. Sie sitzt hier gleich gegenüber von meinem Büro.",
+        "whyCorrect": "Der Chef spricht über sein eigenes Büro. Frau Klinger sitzt gegenüber.",
+        "whyCompetingFails": "a nennt nur das Stockwerk. b nennt die ausdrücklich beschriebene Lage ihres Arbeitsplatzes genauer.",
+        "learningPoint": "„Gegenüber“ bedeutet: auf der anderen Seite.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "12": {
+        "evidence": "Er sitzt am Empfang.; Ja, das ist mein Sohn.",
+        "whyCorrect": "Herr Greiner junior ist der Sohn des Chefs und arbeitet am Empfang.",
+        "whyCompetingFails": "d beschreibt die Lage des Kopierraums neben der Teeküche, nicht den Arbeitsplatz des Sohnes.",
+        "learningPoint": "„Junior“ hilft hier, den Sohn vom Vater zu unterscheiden.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "13": {
+        "evidence": "Sie finden ihn normalerweise in der Werkstatt.",
+        "whyCorrect": "Die Werkstatt ist der gewöhnliche Arbeitsplatz des Hausarbeiters.",
+        "whyCompetingFails": "e nennt den Kopierraum. Dieser wird für Kopierarbeiten vorgestellt, nicht als Arbeitsplatz des Hausarbeiters.",
+        "learningPoint": "„Normalerweise“ beschreibt die übliche Situation. Hier ist der Hausarbeiter gerade krank.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "14": {
+        "evidence": "Unsere Praktikantinnen sitzen immer im Zimmer von unserem Computerspezialisten, Herrn Schuster. Der Computerraum ist im Keller.",
+        "whyCorrect": "Die Praktikantin soll im Computerraum arbeiten. Dieser liegt im Keller.",
+        "whyCompetingFails": "g bedeutet „über dem Computerraum“. Sie arbeitet aber im Computerraum selbst.",
+        "learningPoint": "„Im Raum“ und „über dem Raum“ bezeichnen unterschiedliche Orte.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      },
+      "15": {
+        "evidence": "Sie sitzt im Moment nicht bei mir oben, sondern da hinten im Schreibbüro, Zimmer 2.",
+        "whyCorrect": "Die Sekretärin arbeitet zurzeit im Schreibbüro. Ihr eigener Raum wird renoviert.",
+        "whyCompetingFails": "a passt nicht zur beschriebenen aktuellen Situation. Sie sitzt gerade ausdrücklich nicht oben beim Chef.",
+        "learningPoint": "„Im Moment“ zeigt, dass ein Arbeitsplatz vorübergehend anders sein kann.",
+        "audioHighlight": { "startMs": null, "endMs": null }
+      }
+    }
+  },
+  "lesen": {
+    "teil1": {
+      "1": {
+        "evidence": "Beim 2. Stock steht „Schreibwaren/Bücher“.",
+        "whyCorrect": "Gesucht wird ein Buch. Die Bücherabteilung befindet sich im zweiten Stock.",
+        "whyDistractorsFail": {
+          "a": "Im Erdgeschoss wird keine Bücherabteilung genannt.",
+          "c": "Der richtige zweite Stock steht bereits als Antwort b zur Auswahl."
+        },
+        "learningPoint": "Suche nach der Ware, nicht nur nach dem Alter der Person."
+      },
+      "2": {
+        "evidence": "Beim 2. Stock steht „Schreibwaren/Bücher“.",
+        "whyCorrect": "Ein Reiseführer ist ein Buch. Deshalb passt die Bücherabteilung.",
+        "whyDistractorsFail": {
+          "a": "Im Erdgeschoss wird kein Buchverkauf genannt.",
+          "c": "Die passende Etage ist der zweite Stock und damit Antwort b."
+        },
+        "learningPoint": "Ein „Reiseführer“ kann ein Buch mit Informationen über einen Ort sein."
+      },
+      "3": {
+        "evidence": "Beim 4. Stock steht „Fundbüro“.",
+        "whyCorrect": "Nach einer verlorenen Geldbörse fragt man beim Fundbüro. Es befindet sich im vierten Stock.",
+        "whyDistractorsFail": {
+          "a": "Die Wechselkasse im Erdgeschoss ist kein Fundbüro.",
+          "b": "Im dritten Stock wird kein Fundbüro genannt."
+        },
+        "learningPoint": "Im „Fundbüro“ werden gefundene Gegenstände gesammelt."
+      },
+      "4": {
+        "evidence": "Erdgeschoss: Kosmetik",
+        "whyCorrect": "Seife passt zum Bereich Körperpflege und Kosmetik im Erdgeschoss.",
+        "whyDistractorsFail": {
+          "b": "Im dritten Stock werden vor allem Technik und andere Waren genannt, keine Kosmetik.",
+          "c": "Das passende Erdgeschoss ist bereits Antwort a."
+        },
+        "learningPoint": "In Verzeichnissen steht oft ein Oberbegriff statt jedes einzelnen Produkts."
+      },
+      "5": {
+        "evidence": "Beim 3. Stock steht „Optiker“.",
+        "whyCorrect": "Sonnenbrillen gehören zum Angebot eines Optikers. Der Optiker liegt im dritten Stock.",
+        "whyDistractorsFail": {
+          "a": "Der Optiker liegt nicht im Erdgeschoss.",
+          "b": "Der Optiker liegt nicht im zweiten Stock."
+        },
+        "learningPoint": "„Anderes Stockwerk“ ist richtig, wenn die gesuchte Etage nicht einzeln angeboten wird."
+      }
+    },
+    "teil2": {
+      "6": {
+        "evidence": "Der deutsche Popsänger Peter Nohlen (48) und seine Patricia (23) werden bald Hochzeit feiern.",
+        "whyCorrect": "Peter und Patricia möchten bald heiraten.",
+        "whyOppositeFails": "„Werden bald Hochzeit feiern“ kündigt die kommende Hochzeit ausdrücklich an.",
+        "learningPoint": "„Hochzeit feiern“ bedeutet hier: heiraten."
+      },
+      "7": {
+        "evidence": "Ich bin froh, dass er sie endlich heiraten will.",
+        "whyCorrect": "Maria Luisa freut sich über die geplante Hochzeit. Sie ist nicht dagegen.",
+        "whyOppositeFails": "Ihre früheren Sorgen dürfen nicht mit ihrer jetzigen Zustimmung verwechselt werden.",
+        "learningPoint": "Unterscheide zwischen früheren Sorgen und der heutigen Meinung."
+      },
+      "8": {
+        "evidence": "Patricias Mutter machte sich Sorgen, weil ihre Tochter schon zwei Jahre mit Peter in einem Haus zusammenlebt.",
+        "whyCorrect": "Patricia und Peter wohnen seit zwei Jahren zusammen. Von einer früheren gemeinsamen Ehe steht dort nichts.",
+        "whyOppositeFails": "Zwei Jahre zusammenzuwohnen bedeutet nicht, vor zwei Jahren geheiratet zu haben.",
+        "learningPoint": "„Zusammenleben“ und „verheiratet sein“ sind nicht dasselbe."
+      },
+      "9": {
+        "evidence": "Peter Nohlen (48); ihre Mutter Maria Luisa García Concha (48)",
+        "whyCorrect": "Peter und Maria Luisa sind beide achtundvierzig Jahre alt.",
+        "whyOppositeFails": "Dreiundzwanzig ist Patricias Alter, nicht das Alter ihrer Mutter.",
+        "learningPoint": "Ordne jede Altersangabe der richtigen Person zu."
+      },
+      "10": {
+        "evidence": "und außerdem möchte ich bald Oma werden.",
+        "whyCorrect": "Maria Luisa möchte Großmutter werden. Sie wünscht sich also ein Enkelkind.",
+        "whyOppositeFails": "„Oma werden“ bestätigt den Wunsch nach einem Enkelkind.",
+        "learningPoint": "„Oma“ ist das alltägliche Wort für „Großmutter“."
+      }
+    },
+    "teil3": {
+      "11": {
+        "evidence": "Arbeiten in Deutschland.; Studieren in Deutschland.",
+        "whyCorrect": "Die Anzeige bietet Informationen über Studium und Arbeit in Deutschland. Das passt zu beiden Teilen der Situation.",
+        "whyCompetingFails": "c bietet Stellen für junge Deutsche im Ausland. Gesucht werden aber Informationen für einen Aufenthalt in Deutschland.",
+        "learningPoint": "Prüfe bei Angeboten immer, in welchem Land sie gelten."
+      },
+      "12": {
+        "evidence": "Online-Preisvergleich aller Anbieter für Deutschland-Reisen.; Mietwagen.",
+        "whyCorrect": "Die Seite vergleicht Preise und nennt Mietwagen für Deutschlandreisen.",
+        "whyCompetingFails": "f nennt Mietwagen mit Fahrer und Luxusangebote, aber keinen Preisvergleich für die günstigste Buchung.",
+        "learningPoint": "„Preisvergleich“ bedeutet, die Preise mehrerer Anbieter gegenüberzustellen."
+      },
+      "13": {
+        "evidence": "Anzeige f: „Gehobene internationale Gastronomie.“",
+        "whyCorrect": "Keine Anzeige bietet einen Kochkurs an. Gutes Essen allein erfüllt den Wunsch nach einem Kurs nicht.",
+        "whyCompetingFails": "f nennt Gastronomie, also ein Essensangebot. Unterricht im Kochen wird nicht genannt.",
+        "learningPoint": "Essen genießen und kochen lernen sind zwei verschiedene Wünsche."
+      },
+      "14": {
+        "evidence": "Sprachreisen, Sprachkurse für Erwachsene und Schüler, Schülersprachreisen in Deutschland und aller Welt. Dazu viele Freizeitangebote.",
+        "whyCorrect": "Das Angebot verbindet Sprachlernen in Deutschland mit Freizeitmöglichkeiten.",
+        "whyCompetingFails": "d nennt Sprachreisen in andere Länder. Deutschland steht dort nicht in der Liste.",
+        "learningPoint": "Ein Sprachkurs passt nur, wenn auch das gewünschte Reiseland angeboten wird."
+      },
+      "15": {
+        "evidence": "www.bahn.de; Genießen Sie schöne Ferien in Deutschland mit uns. Wir bringen Sie in alle Städte.",
+        "whyCorrect": "Das Bahnangebot passt zu einer Reise mit dem Zug durch verschiedene deutsche Städte.",
+        "whyCompetingFails": "g nennt Rundreisen mit Pkw oder Caravan, nicht die gesuchte Bahnreise.",
+        "learningPoint": "Das Verkehrsmittel muss zur Situation passen."
+      }
+    }
+  },
+  "schreiben": {
+    "teil1": {
+      "1": {
+        "evidence": "Miguel hat Medizin studiert und lebt in Santiago.",
+        "whyCorrect": "Santiago ist der Ort, in dem Miguel wohnt.",
+        "whyOtherAnswersFail": "Chile ist das Land. Valparaíso ist sein Geburtsort.",
+        "learningPoint": "„Wohnort“ fragt nach dem Ort, an dem man lebt."
+      },
+      "2": {
+        "evidence": "geb. am: 18.10.1972",
+        "whyCorrect": "Das ist Miguels angegebenes Geburtsdatum.",
+        "whyOtherAnswersFail": "Die Gültigkeitsdaten der Bankkarte sind keine Geburtsdaten.",
+        "learningPoint": "„Geb. am“ bedeutet „geboren am“."
+      },
+      "3": {
+        "evidence": "geb. in: VALPARAÍSO",
+        "whyCorrect": "Miguel wurde in Valparaíso geboren. Im Lösungsschlüssel steht der Name ohne Akzent; beide Schreibweisen sind akzeptiert.",
+        "whyOtherAnswersFail": "Santiago ist sein heutiger Wohnort, nicht der angegebene Geburtsort.",
+        "learningPoint": "„Geboren in“ und „wohnhaft in“ können verschiedene Orte nennen."
+      },
+      "4": {
+        "evidence": "Er ist verheiratet mit Natalie (28) und hat zwei Töchter.",
+        "whyCorrect": "Miguel ist verheiratet.",
+        "whyOtherAnswersFail": "„Männlich“ beschreibt das Geschlecht. „Arzt“ bezeichnet seinen Beruf.",
+        "learningPoint": "„Familienstand“ fragt zum Beispiel nach „ledig“ oder „verheiratet“."
+      },
+      "5": {
+        "evidence": "Seine Muttersprache ist Spanisch und er spricht auch sehr gut Französisch, aber noch gar kein Deutsch.",
+        "whyCorrect": "Französisch ist die genannte Fremdsprache, die Miguel bereits spricht.",
+        "whyOtherAnswersFail": "Spanisch ist seine Muttersprache. Deutsch spricht er noch nicht.",
+        "learningPoint": "Eine Muttersprache ist nicht dasselbe wie eine gelernte Fremdsprache."
+      }
+    }
+  },
+  "openEnded": {
+    "note": "Schreiben T2 and Sprechen packages are examples/checklists — not closed auto keys. Stored for later wiring; not applied to exam_items."
+  }
+}

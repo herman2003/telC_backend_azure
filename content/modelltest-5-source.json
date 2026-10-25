@@ -67,7 +67,13 @@
           "an": null,
           "sortOrder": 0,
           "correctTitleKey": "a",
-          "body": "Viele Unternehmen bieten ihren Beschäftigten inzwischen die Möglichkeit, an einigen Tagen pro Woche von zu Hause zu arbeiten. Besonders beliebt ist dieses Modell bei Menschen, die einen langen Arbeitsweg haben. Eine aktuelle Umfrage zeigt, dass viele Beschäftigte zwei oder drei Tage im Büro und den Rest der Woche zu Hause arbeiten möchten."
+          "body": "Viele Unternehmen bieten ihren Beschäftigten inzwischen die Möglichkeit, an einigen Tagen pro Woche von zu Hause zu arbeiten. Besonders beliebt ist dieses Modell bei Menschen, die einen langen Arbeitsweg haben. Eine aktuelle Umfrage zeigt, dass viele Beschäftigte zwei oder drei Tage im Büro und den Rest der Woche zu Hause arbeiten möchten.",
+          "correction": {
+            "evidence": "Viele Unternehmen bieten ihren Beschäftigten inzwischen die Möglichkeit, an einigen Tagen pro Woche von zu Hause zu arbeiten.",
+            "whyCorrect": "Der Text beschreibt ein Arbeitsmodell mit Bürotagen und Tagen zu Hause.",
+            "whyCompetingFails": "d handelt von kürzeren Arbeitszeiten. Hier geht es hauptsächlich um den Arbeitsort, nicht um weniger Stunden.",
+            "learningPoint": "„Teilweise von zu Hause“ bedeutet nicht, die ganze Woche im Homeoffice zu arbeiten."
+          }
         },
         {
           "textNumber": 2,
@@ -75,7 +81,13 @@
           "an": null,
           "sortOrder": 1,
           "correctTitleKey": "c",
-          "body": "Für viele junge Menschen ist ein Praktikum die erste Möglichkeit, einen Beruf genauer kennenzulernen. Sie können dabei praktische Erfahrungen sammeln, Kontakte zu Unternehmen knüpfen und herausfinden, ob der Beruf wirklich zu ihnen passt. Manche Firmen übernehmen gute Praktikanten später sogar als Auszubildende oder feste Mitarbeiter."
+          "body": "Für viele junge Menschen ist ein Praktikum die erste Möglichkeit, einen Beruf genauer kennenzulernen. Sie können dabei praktische Erfahrungen sammeln, Kontakte zu Unternehmen knüpfen und herausfinden, ob der Beruf wirklich zu ihnen passt. Manche Firmen übernehmen gute Praktikanten später sogar als Auszubildende oder feste Mitarbeiter.",
+          "correction": {
+            "evidence": "Manche Firmen übernehmen gute Praktikanten später sogar als Auszubildende oder feste Mitarbeiter.",
+            "whyCorrect": "Aus einem Praktikum kann eine Ausbildung oder eine feste Arbeitsstelle entstehen.",
+            "whyCompetingFails": "b nennt eine neue Ausbildung mit hohen Gehältern. Über solche Gehälter steht im Text nichts.",
+            "learningPoint": "„Jemanden übernehmen“ bedeutet hier, die Person anschließend weiterzubeschäftigen."
+          }
         },
         {
           "textNumber": 3,
@@ -83,7 +95,13 @@
           "an": null,
           "sortOrder": 2,
           "correctTitleKey": "f",
-          "body": "In einer Befragung von mehr als 2.000 Arbeitnehmerinnen und Arbeitnehmern gaben viele an, dass ein gutes Verhältnis zu den Kollegen für sie besonders wichtig ist. Ein angenehmes Arbeitsklima und gegenseitige Unterstützung wurden häufiger genannt als zusätzliche finanzielle Vorteile."
+          "body": "In einer Befragung von mehr als 2.000 Arbeitnehmerinnen und Arbeitnehmern gaben viele an, dass ein gutes Verhältnis zu den Kollegen für sie besonders wichtig ist. Ein angenehmes Arbeitsklima und gegenseitige Unterstützung wurden häufiger genannt als zusätzliche finanzielle Vorteile.",
+          "correction": {
+            "evidence": "Ein angenehmes Arbeitsklima und gegenseitige Unterstützung wurden häufiger genannt als zusätzliche finanzielle Vorteile.",
+            "whyCorrect": "Der Text vergleicht das Arbeitsklima mit finanziellen Vorteilen. Die Zusammenarbeit wird häufiger hervorgehoben.",
+            "whyCompetingFails": "b handelt von einer neuen Ausbildung. Der Text berichtet dagegen über die Prioritäten von Arbeitnehmern.",
+            "learningPoint": "„Häufiger genannt als“ zeigt einen Vergleich zwischen zwei Antworten."
+          }
         },
         {
           "textNumber": 4,
@@ -91,7 +109,13 @@
           "an": null,
           "sortOrder": 3,
           "correctTitleKey": "h",
-          "body": "Neue Computerprogramme, künstliche Intelligenz und digitale Arbeitsprozesse verändern viele Berufe. Deshalb investieren immer mehr Firmen in Schulungen für ihre Mitarbeiter. Auch viele Berufstätige besuchen freiwillig Kurse, um ihre Kenntnisse zu verbessern und beruflich flexibel zu bleiben."
+          "body": "Neue Computerprogramme, künstliche Intelligenz und digitale Arbeitsprozesse verändern viele Berufe. Deshalb investieren immer mehr Firmen in Schulungen für ihre Mitarbeiter. Auch viele Berufstätige besuchen freiwillig Kurse, um ihre Kenntnisse zu verbessern und beruflich flexibel zu bleiben.",
+          "correction": {
+            "evidence": "Deshalb investieren immer mehr Firmen in Schulungen für ihre Mitarbeiter. Auch viele Berufstätige besuchen freiwillig Kurse, um ihre Kenntnisse zu verbessern und beruflich flexibel zu bleiben.",
+            "whyCorrect": "Firmen und Beschäftigte setzen auf Kurse, um mit Veränderungen im Beruf umzugehen.",
+            "whyCompetingFails": "g handelt von neuen Regeln für Online-Bewerbungen. Solche Bewerbungsregeln werden nicht beschrieben.",
+            "learningPoint": "„Weiterbildung“ bedeutet, vorhandene berufliche Kenntnisse zu erweitern."
+          }
         },
         {
           "textNumber": 5,
@@ -99,7 +123,13 @@
           "an": null,
           "sortOrder": 4,
           "correctTitleKey": "j",
-          "body": "Junge Erwachsene bleiben heute oft nicht mehr viele Jahre beim ersten Arbeitgeber. Eine Studie zeigt, dass besonders Beschäftigte unter 30 häufiger die Firma wechseln als ältere Arbeitnehmer. Als Gründe nennen sie bessere Entwicklungsmöglichkeiten, ein höheres Gehalt oder interessantere Aufgaben."
+          "body": "Junge Erwachsene bleiben heute oft nicht mehr viele Jahre beim ersten Arbeitgeber. Eine Studie zeigt, dass besonders Beschäftigte unter 30 häufiger die Firma wechseln als ältere Arbeitnehmer. Als Gründe nennen sie bessere Entwicklungsmöglichkeiten, ein höheres Gehalt oder interessantere Aufgaben.",
+          "correction": {
+            "evidence": "Eine Studie zeigt, dass besonders Beschäftigte unter 30 häufiger die Firma wechseln als ältere Arbeitnehmer.",
+            "whyCorrect": "Junge Beschäftigte wechseln laut Studie häufiger den Arbeitgeber.",
+            "whyCompetingFails": "e handelt von Unternehmen mit Personalbedarf. Der Text beschreibt dagegen das Verhalten junger Arbeitnehmer.",
+            "learningPoint": "„Die Firma wechseln“ bedeutet hier, einen anderen Arbeitgeber zu wählen."
+          }
         }
       ]
     },
@@ -136,7 +166,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "In den Jahren zuvor hatte das Unternehmen immer größere Schwierigkeiten, neue Fachkräfte zu finden. Gleichzeitig berichteten viele Beschäftigte, dass sie sich mehr Zeit für Familie und Freizeit wünschten.",
+            "whyCorrect": "Die Firma wollte Fachkräfte gewinnen und zugleich auf Wünsche der Beschäftigten eingehen.",
+            "whyDistractorsFail": {
+              "b": "Eine Gehaltskürzung war nicht das Ziel. Das Gehalt wurde laut Text nicht reduziert.",
+              "c": "Kunden sollten weiterhin an fünf Tagen jemanden erreichen können."
+            },
+            "learningPoint": "„Gleichzeitig“ verbindet hier zwei Gründe für eine Entscheidung."
+          }
         },
         {
           "questionNumber": 7,
@@ -161,7 +200,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Bevor das neue Modell eingeführt wurde, testete die Firma es zunächst drei Monate lang in zwei Abteilungen.",
+            "whyCorrect": "Vor der Einführung gab es einen begrenzten Test in zwei Abteilungen.",
+            "whyDistractorsFail": {
+              "a": "Nicht alle Mitarbeiter nahmen sofort teil. Zunächst wurde nur in zwei Abteilungen getestet.",
+              "c": "Die Firma musste für Kunden weiterhin an fünf Tagen erreichbar sein."
+            },
+            "learningPoint": "„Zunächst“ bedeutet hier „als ersten Schritt“."
+          }
         },
         {
           "questionNumber": 8,
@@ -186,7 +234,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Obwohl die Beschäftigten insgesamt weniger Stunden arbeiteten, wurden die meisten Aufgaben genauso schnell erledigt wie vorher.",
+            "whyCorrect": "Die meisten Aufgaben wurden trotz geringerer Arbeitszeit weiterhin gleich schnell erledigt.",
+            "whyDistractorsFail": {
+              "b": "Die Krankmeldungen gingen leicht zurück. Sie stiegen nicht stark.",
+              "c": "Beschwerden über schlechtere Qualität werden im Lesetext nicht genannt."
+            },
+            "learningPoint": "„Obwohl“ zeigt einen Gegensatz zwischen einer Erwartung und dem tatsächlichen Ergebnis."
+          }
         },
         {
           "questionNumber": 9,
@@ -211,7 +268,16 @@
               "isCorrect": true,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Sie nutzt den freien Tag häufig für Termine, Einkäufe und Sport. Dadurch habe sie am Wochenende mehr Zeit für ihre Familie.",
+            "whyCorrect": "Sarah erledigt private Aufgaben am freien Tag und gewinnt dadurch Familienzeit am Wochenende.",
+            "whyDistractorsFail": {
+              "a": "Eine deutliche Gehaltserhöhung wird nicht genannt.",
+              "b": "Von weniger beruflicher Verantwortung steht im Text nichts."
+            },
+            "learningPoint": "„Dadurch“ zeigt, welche Folge eine Handlung hat."
+          }
         },
         {
           "questionNumber": 10,
@@ -236,7 +302,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Außerdem sind die Arbeitstage von Montag bis Donnerstag länger geworden. Für Eltern kleiner Kinder kann das manchmal schwierig sein.",
+            "whyCorrect": "Längere einzelne Arbeitstage können Probleme verursachen, besonders bei der Kinderbetreuung.",
+            "whyDistractorsFail": {
+              "a": "Der Text beschreibt nicht, dass die Beschäftigten überhaupt keinen freien Tag mehr haben.",
+              "c": "Eine Pflicht zum Homeoffice an jedem Freitag wird nicht genannt."
+            },
+            "learningPoint": "Weniger Arbeitstage können trotzdem längere einzelne Arbeitstage bedeuten."
+          }
         }
       ]
     },
@@ -324,70 +399,130 @@
           "content": "Sie möchten Ihren Lebenslauf verbessern, bevor Sie sich bei einer Firma bewerben.",
           "noMatch": false,
           "correctAnnouncementKey": "a",
-          "sortOrder": 0
+          "sortOrder": 0,
+          "correction": {
+            "evidence": "Sie möchten sich bewerben, sind aber unsicher bei Lebenslauf und Anschreiben? Wir prüfen Ihre Unterlagen und geben persönliche Tipps.",
+            "whyCorrect": "Der Bewerbungscheck hilft ausdrücklich beim Lebenslauf.",
+            "whyCompetingFails": "g bereitet auf das Vorstellungsgespräch vor, nicht auf die Verbesserung schriftlicher Unterlagen.",
+            "learningPoint": "„Bewerbungsunterlagen“ sind beispielsweise Lebenslauf und Anschreiben."
+          }
         },
         {
           "situationNumber": 12,
           "content": "Sie arbeiten im Büro und müssen lernen, besser mit Tabellen zu arbeiten.",
           "noMatch": false,
           "correctAnnouncementKey": "b",
-          "sortOrder": 1
+          "sortOrder": 1,
+          "correction": {
+            "evidence": "Tabellen erstellen, Berechnungen durchführen und Daten übersichtlich darstellen.",
+            "whyCorrect": "Der Excel-Grundkurs vermittelt die gesuchten Kenntnisse im Umgang mit Tabellen.",
+            "whyCompetingFails": "j behandelt Projektplanung und Teamarbeit. Tabellenarbeit mit Excel wird dort nicht genannt.",
+            "learningPoint": "Suche nach den konkreten Tätigkeiten, die du lernen möchtest."
+          }
         },
         {
           "situationNumber": 13,
           "content": "Sie studieren und möchten nur am Wochenende etwas Geld verdienen.",
           "noMatch": false,
           "correctAnnouncementKey": "c",
-          "sortOrder": 2
+          "sortOrder": 2,
+          "correction": {
+            "evidence": "Wir suchen freundliche Unterstützung am Samstag und Sonntag zwischen 10 und 18 Uhr. Erfahrung ist nicht erforderlich. Ideal für Studierende.",
+            "whyCorrect": "Die Arbeit ist am Wochenende und ausdrücklich für Studierende geeignet.",
+            "whyCompetingFails": "k bietet Arbeit von Montag bis Freitag an. Das passt nicht zu „nur am Wochenende“.",
+            "learningPoint": "Prüfe bei Stellenanzeigen besonders die Arbeitstage."
+          }
         },
         {
           "situationNumber": 14,
           "content": "Sie sprechen schon Deutsch auf B1-Niveau und möchten besser mit Kollegen und Kunden kommunizieren.",
           "noMatch": false,
           "correctAnnouncementKey": "d",
-          "sortOrder": 3
+          "sortOrder": 3,
+          "correction": {
+            "evidence": "Berufsbezogener Deutschkurs für Erwachsene ab Niveau B1. Telefonieren, E-Mails schreiben, Besprechungen und Gespräche mit Kunden.",
+            "whyCorrect": "Der Kurs passt zum vorhandenen B1-Niveau und trainiert Kommunikation im Berufsalltag.",
+            "whyCompetingFails": "a prüft Bewerbungsunterlagen, bietet aber keinen berufsbezogenen Deutschkurs an.",
+            "learningPoint": "„Ab Niveau B1“ nennt die sprachliche Mindestvoraussetzung."
+          }
         },
         {
           "situationNumber": 15,
           "content": "Sie suchen eine technische Arbeitsstelle und möchten mehrere Firmen an einem Tag kennenlernen.",
           "noMatch": false,
           "correctAnnouncementKey": "e",
-          "sortOrder": 4
+          "sortOrder": 4,
+          "correction": {
+            "evidence": "Mehr als 30 Unternehmen stellen sich vor. Informieren Sie sich über Stellen, Praktika und Ausbildungsplätze. Samstag von 10 bis 16 Uhr.",
+            "whyCorrect": "Beim Karrieretag Technik kann man an einem Tag mehrere Unternehmen und deren Angebote kennenlernen.",
+            "whyCompetingFails": "i bietet gezielt Praktikumsangebote für Schüler und Studierende. Gesucht wird hier ein Karrieretag mit mehreren Firmen und Arbeitsstellen.",
+            "learningPoint": "Unterscheide zwischen einer Jobmesse und einer Sammlung von Praktikumsangeboten."
+          }
         },
         {
           "situationNumber": 16,
           "content": "Sie haben bald ein Bewerbungsgespräch und möchten sich darauf vorbereiten, aber nicht zu einem Kurs fahren.",
           "noMatch": false,
           "correctAnnouncementKey": "g",
-          "sortOrder": 5
+          "sortOrder": 5,
+          "correction": {
+            "evidence": "Wie beantworte ich schwierige Fragen? Wie stelle ich meine Stärken vor? Kostenloses Online-Seminar am Donnerstag um 19 Uhr.",
+            "whyCorrect": "Das Online-Seminar bereitet auf Vorstellungsgespräche vor. Eine Anfahrt zum Kurs ist nicht nötig.",
+            "whyCompetingFails": "a konzentriert sich auf Lebenslauf und Anschreiben, nicht auf das Gespräch.",
+            "learningPoint": "„Online-Seminar“ bedeutet, dass die Veranstaltung über das Internet stattfindet."
+          }
         },
         {
           "situationNumber": 17,
           "content": "Sie arbeiten normalerweise von zu Hause, brauchen aber morgen einen ruhigen Arbeitsplatz mit Internet.",
           "noMatch": false,
           "correctAnnouncementKey": "h",
-          "sortOrder": 6
+          "sortOrder": 6,
+          "correction": {
+            "evidence": "Ruhige Arbeitsplätze, schnelles WLAN und Besprechungsräume. Tageskarte 15 Euro. Montag bis Samstag von 8 bis 20 Uhr.",
+            "whyCorrect": "Das Coworking-Angebot bietet einen ruhigen Arbeitsplatz mit Internet und eine Tageskarte.",
+            "whyCompetingFails": "n/a",
+            "learningPoint": "Eine „Tageskarte“ ermöglicht hier die Nutzung für einen einzelnen Tag."
+          }
         },
         {
           "situationNumber": 18,
           "content": "Sie studieren und möchten praktische Berufserfahrung in einem Unternehmen sammeln.",
           "noMatch": false,
           "correctAnnouncementKey": "i",
-          "sortOrder": 7
+          "sortOrder": 7,
+          "correction": {
+            "evidence": "Unternehmen aus der Region bieten Praktika in Büro, Technik, Handel und Pflege an. Angebote für Schülerinnen, Schüler und Studierende.",
+            "whyCorrect": "Die Praktikumsbörse richtet sich auch an Studierende, die praktische Berufserfahrung sammeln möchten.",
+            "whyCompetingFails": "e ist eine Informationsveranstaltung. i nennt direkt passende Praktikumsangebote für Studierende.",
+            "learningPoint": "„Praktische Berufserfahrung sammeln“ ist ein typisches Ziel eines Praktikums."
+          }
         },
         {
           "situationNumber": 19,
           "content": "Sie möchten einen neuen Beruf lernen und suchen einen kostenlosen Kurs, der jeden Vormittag stattfindet.",
           "noMatch": true,
           "correctAnnouncementKey": null,
-          "sortOrder": 8
+          "sortOrder": 8,
+          "correction": {
+            "evidence": "Anzeige j: „Berufsbegleitender Kurs über Planung, Organisation und Teamarbeit. Zwölf Wochen, immer freitagabends und samstags.“",
+            "whyCorrect": "Keine Anzeige bietet einen kostenlosen Kurs zum Erlernen eines neuen Berufs an, der jeden Vormittag stattfindet.",
+            "whyCompetingFails": "j findet freitagabends und samstags statt, nicht täglich am Vormittag. Kostenloser Unterricht wird dort ebenfalls nicht zugesagt.",
+            "learningPoint": "Bei mehreren Bedingungen müssen alle wesentlichen Bedingungen erfüllt sein."
+          }
         },
         {
           "situationNumber": 20,
           "content": "Sie denken über einen Berufswechsel nach und möchten zuerst mit jemandem darüber sprechen.",
           "noMatch": false,
           "correctAnnouncementKey": "l",
-          "sortOrder": 9
+          "sortOrder": 9,
+          "correction": {
+            "evidence": "Sie möchten Ihren Beruf wechseln oder wissen nicht, welche Weiterbildung zu Ihnen passt? Persönliche Beratung nach Terminvereinbarung.",
+            "whyCorrect": "Die Beratung hilft bei der Orientierung vor einem möglichen Berufswechsel.",
+            "whyCompetingFails": "j ist ein bestimmter Weiterbildungskurs, keine persönliche Beratung zur Berufswahl.",
+            "learningPoint": "„Nach Terminvereinbarung“ bedeutet, dass man vorher einen Termin ausmachen muss."
+          }
         }
       ]
     },
@@ -421,7 +556,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Seit zwei Wochen arbeite ich bei einer kleinen Firma, die Software für Hotels entwickelt.",
+            "whyCorrect": "„Die“ bezieht sich auf „Firma“ und ist das Subjekt von „entwickelt“. „Firma“ ist feminin.",
+            "whyDistractorsFail": {
+              "b": "der: Das ist hier nicht die benötigte Form für ein weibliches Subjekt.",
+              "c": "den: Diese Form passt ebenfalls nicht zum weiblichen Subjekt im Singular."
+            },
+            "learningPoint": "„Das ist eine Firma, die Fahrräder verkauft.“"
+          }
         },
         {
           "gapKey": "22",
@@ -446,7 +590,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Am ersten Tag war ich natürlich ziemlich nervös, aber meine neuen Kollegen haben mich sehr freundlich begrüßt.",
+            "whyCorrect": "„Aber“ verbindet die Nervosität mit der positiven Erfahrung beim Empfang.",
+            "whyDistractorsFail": {
+              "b": "denn: Die freundliche Begrüßung wird nicht als Grund für die Nervosität dargestellt.",
+              "c": "sondern: Die passende Verbindung wäre normalerweise „nicht …, sondern …“. Eine solche Verneinung steht hier nicht."
+            },
+            "learningPoint": "„Ich war unsicher, aber meine Kollegin hat mir geholfen.“"
+          }
         },
         {
           "gapKey": "23",
@@ -471,7 +624,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Zuerst hat mir meine Teamleiterin das Büro gezeigt und mich allen vorgestellt.",
+            "whyCorrect": "Das Perfekt von „zeigen“ und „vorstellen“ wird hier mit „haben“ gebildet.",
+            "whyDistractorsFail": {
+              "b": "ist: „Ist“ bildet hier nicht die benötigte Perfektform.",
+              "c": "wird: Für eine Zukunftsform mit „wird“ müsste hier beispielsweise „zeigen“ statt „gezeigt“ stehen."
+            },
+            "learningPoint": "„Mein Kollege hat mir die Maschine gezeigt.“"
+          }
         },
         {
           "gapKey": "24",
@@ -496,7 +658,16 @@
               "isCorrect": true,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Zweimal pro Woche darf ich aber auch zu zu Hause arbeiten.",
+            "whyCorrect": "Nicht begründbar: Mit der vorgegebenen Lösung entsteht zweimal „zu“. Der vervollständigte Satz ist fehlerhaft. (laut Lösungsschlüssel; Vorlagenfehler)",
+            "whyDistractorsFail": {
+              "a": "von: Passt tatsächlich zum vorhandenen Text: „von zu Hause arbeiten“ ist korrekt. Diese Alternative darf nicht als sprachlich falsch erklärt werden.",
+              "b": "bei: „Bei zu Hause arbeiten“ ist hier keine passende Verbindung."
+            },
+            "learningPoint": "„Ich arbeite heute von zu Hause.“"
+          }
         },
         {
           "gapKey": "25",
@@ -521,7 +692,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "weil mein Arbeitsweg fast eine Stunde dauert",
+            "whyCorrect": "„Dauern“ beschreibt die zeitliche Länge des Arbeitswegs.",
+            "whyDistractorsFail": {
+              "b": "braucht: Umgangssprachlich ist die Formulierung verständlich. Die übliche standardsprachliche Verbindung lautet hier „der Arbeitsweg dauert“.",
+              "c": "geht: Für die Dauer dieses Arbeitswegs ist „dauert“ die passende übliche Formulierung."
+            },
+            "learningPoint": "„Die Fahrt dauert zwanzig Minuten.“"
+          }
         },
         {
           "gapKey": "26",
@@ -546,7 +726,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Zum Glück kann ich meine Kollegen immer fragen, wenn ich etwas nicht verstehe.",
+            "whyCorrect": "Anna beschreibt eine Möglichkeit in ihrem heutigen Arbeitsalltag. Dazu passt das Präsens „verstehe“.",
+            "whyDistractorsFail": {
+              "b": "verstanden: Dieses Partizip braucht ein Hilfsverb, zum Beispiel „habe“.",
+              "c": "verstand: Das ist Vergangenheit. Hier wird die gegenwärtige Situation beschrieben."
+            },
+            "learningPoint": "„Ich frage nach, wenn ich etwas nicht verstehe.“"
+          }
         },
         {
           "gapKey": "27",
@@ -571,7 +760,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Nächsten Monat nehme ich außerdem an einer Schulung teil.",
+            "whyCorrect": "Die feste Verbindung lautet „an etwas teilnehmen“. Nach „an“ steht hier der Dativ.",
+            "whyDistractorsFail": {
+              "b": "auf: Das Verb lautet nicht „auf etwas teilnehmen“.",
+              "c": "für: Auch „für“ passt nicht zur festen Verbindung mit „teilnehmen“."
+            },
+            "learningPoint": "„Ich nehme an einem Deutschkurs teil.“"
+          }
         },
         {
           "gapKey": "28",
@@ -596,7 +794,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Was mir bisher am besten gefällt, ist die Atmosphäre im Team.",
+            "whyCorrect": "„Die Atmosphäre“ steht im Singular. Anna beschreibt ihren aktuellen Eindruck, deshalb passt „ist“.",
+            "whyDistractorsFail": {
+              "a": "sind: Die Pluralform passt nicht zu „die Atmosphäre“.",
+              "c": "war: Das würde auf die Vergangenheit verweisen. Der Text beschreibt, was ihr aktuell gefällt."
+            },
+            "learningPoint": "„Was mir besonders gefällt, ist die Zusammenarbeit.“"
+          }
         },
         {
           "gapKey": "29",
@@ -621,7 +828,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Dann werde ich dir auch mein neues Büro zeigen.",
+            "whyCorrect": "„Werde“ mit „zeigen“ kündigt eine Handlung beim zukünftigen Besuch an.",
+            "whyDistractorsFail": {
+              "a": "kann: Prüfhinweis: „Dann kann ich dir auch mein neues Büro zeigen“ ist ebenfalls grammatisch und inhaltlich möglich.",
+              "c": "würde: Prüfhinweis: Auch „Dann würde ich dir auch mein neues Büro zeigen“ ist als vorsichtige Formulierung möglich. Die vorgegebene Lösung bleibt b, ist aber nicht eindeutig."
+            },
+            "learningPoint": "„Morgen werde ich dir meinen Arbeitsplatz zeigen.“"
+          }
         },
         {
           "gapKey": "30",
@@ -646,7 +862,16 @@
               "isCorrect": false,
               "sortOrder": 2
             }
-          ]
+          ],
+          "correction": {
+            "evidence": "Schreib mir, ob du am nächsten Wochenende Zeit hast.",
+            "whyCorrect": "Anna möchte wissen, ob Julia Zeit hat. Das ist eine indirekte Ja-Nein-Frage.",
+            "whyDistractorsFail": {
+              "b": "als: Das leitet hier keine Ja-Nein-Frage ein.",
+              "c": "damit: Das würde ein Ziel ausdrücken, keine Frage nach Julias Verfügbarkeit."
+            },
+            "learningPoint": "„Sag mir bitte, ob du morgen kommen kannst.“"
+          }
         }
       ]
     },
@@ -737,61 +962,121 @@
           "gapKey": "31",
           "gapNumber": 31,
           "correctWordKey": "e",
-          "sortOrder": 0
+          "sortOrder": 0,
+          "correction": {
+            "evidence": "Ich interessiere mich sehr für diesen Kurs und hätte noch einige Fragen.",
+            "whyCorrect": "Die feste Verbindung lautet „sich für etwas interessieren“.",
+            "whyCompetingFails": "o — wegen: Diese Präposition passt nicht zur Verbindung „sich interessieren“. Außerdem würde sie hier nicht zu „diesen Kurs“ passen.",
+            "learningPoint": "Merke: sich für einen Kurs interessieren."
+          }
         },
         {
           "gapKey": "32",
           "gapNumber": 32,
           "correctWordKey": "g",
-          "sortOrder": 1
+          "sortOrder": 1,
+          "correction": {
+            "evidence": "Ich interessiere mich sehr für diesen Kurs und hätte noch einige Fragen.",
+            "whyCorrect": "„Noch einige Fragen“ bedeutet hier, dass der Schreiber zusätzliche Informationen benötigt.",
+            "whyCompetingFails": "Prüfhinweis: d — deshalb wäre hier ebenfalls sinnvoll: „hätte deshalb einige Fragen“. Auch b — auch ist sprachlich möglich. Die vorgegebene Lösung g ist nicht eindeutig.",
+            "learningPoint": "„Noch“ kann in einer Anfrage zusätzliche offene Fragen ankündigen."
+          }
         },
         {
           "gapKey": "33",
           "gapNumber": 33,
           "correctWordKey": "a",
-          "sortOrder": 2
+          "sortOrder": 2,
+          "correction": {
+            "evidence": "Aber habe ich bisher noch keine Weiterbildung in diesem Bereich gemacht.",
+            "whyCorrect": "Nicht begründbar: Als normaler Aussagesatz ist diese Wortstellung nach „aber“ fehlerhaft. Hier müsste es nach „aber“ mit „ich habe“ weitergehen. (laut Lösungsschlüssel; Vorlagenfehler)",
+            "whyCompetingFails": "m — trotzdem könnte vor „habe ich“ stehen. Die vorhandene Wortstellung passt also zu einem Satzadverb, aber nicht zur vorgegebenen Verbindung mit „aber“.",
+            "learningPoint": "„Aber“ verändert die normale Hauptsatzstellung nicht: „Aber ich habe wenig Zeit.“"
+          }
         },
         {
           "gapKey": "34",
           "gapNumber": 34,
           "correctWordKey": "l",
-          "sortOrder": 3
+          "sortOrder": 3,
+          "correction": {
+            "evidence": "Könnten Sie mir bitte mitteilen, welche Vorkenntnisse für die Teilnahme notwendig sind?",
+            "whyCorrect": "Gefragt wird nach der Art der notwendigen Vorkenntnisse. „Welche“ bezieht sich auf das Pluralwort „Vorkenntnisse“.",
+            "whyCompetingFails": "h — ob wäre hier sprachlich möglich, würde aber nur fragen, ob überhaupt Vorkenntnisse nötig sind. Außerdem wird „ob“ in Lücke 35 benötigt; jedes Wort darf nur einmal verwendet werden.",
+            "learningPoint": "„Welche Kenntnisse?“ fragt nach konkreten Kenntnissen."
+          }
         },
         {
           "gapKey": "35",
           "gapNumber": 35,
           "correctWordKey": "h",
-          "sortOrder": 4
+          "sortOrder": 4,
+          "correction": {
+            "evidence": "Außerdem würde ich gern wissen, ob der Unterricht hauptsächlich theoretisch ist oder ob man auch praktische Aufgaben bearbeitet.",
+            "whyCorrect": "Der Schreiber fragt nach zwei Möglichkeiten: theoretischer Unterricht oder praktische Aufgaben.",
+            "whyCompetingFails": "l — welche passt nicht vor „der Unterricht“ und kann diese indirekte Frage nicht einleiten.",
+            "learningPoint": "„Ob … oder ob …“ verbindet zwei Möglichkeiten innerhalb einer indirekten Frage."
+          }
         },
         {
           "gapKey": "36",
           "gapNumber": 36,
           "correctWordKey": "i",
-          "sortOrder": 5
+          "sortOrder": 5,
+          "correction": {
+            "evidence": "Da ich von Montag bis Freitag arbeite, wäre es für mich wichtig zu wissen, wann genau die Unterrichtszeiten sind.",
+            "whyCorrect": "Der Schreiber möchte die genauen Zeiten des Unterrichts erfahren. „Wann“ fragt nach dem Zeitpunkt.",
+            "whyCompetingFails": "k — wenn würde hier nicht die gewünschte indirekte Frage nach den Unterrichtszeiten ausdrücken.",
+            "learningPoint": "Unterscheide „wann?“ für eine Zeitfrage und „wenn“ für eine Bedingung."
+          }
         },
         {
           "gapKey": "37",
           "gapNumber": 37,
           "correctWordKey": "b",
-          "sortOrder": 6
+          "sortOrder": 6,
+          "correction": {
+            "evidence": "Mich interessiert auch, ob die Kursgebühr alle Lernmaterialien enthält.",
+            "whyCorrect": "„Auch“ ergänzt eine weitere Frage zu den bereits genannten Fragen.",
+            "whyCompetingFails": "Prüfhinweis: g — noch ist hier ebenfalls möglich. Tauscht man „auch“ und „noch“ zwischen den Lücken 32 und 37, bleiben beide Sätze verständlich und korrekt.",
+            "learningPoint": "„Auch“ kann einen zusätzlichen Punkt in einer Aufzählung einführen."
+          }
         },
         {
           "gapKey": "38",
           "gapNumber": 38,
           "correctWordKey": "f",
-          "sortOrder": 7
+          "sortOrder": 7,
+          "correction": {
+            "evidence": "Ich würde mich gerne anmelden, wenn noch ein Platz frei ist.",
+            "whyCorrect": "„Würde gerne“ drückt den Wunsch aus, sich anzumelden.",
+            "whyCompetingFails": "b — auch wäre sprachlich ebenfalls möglich, würde aber eine zusätzliche Handlung betonen. „Gerne“ hebt hier den Wunsch hervor; es ist nicht allein durch die Grammatik erzwungen.",
+            "learningPoint": "„Ich würde mich gerne anmelden“ ist eine höfliche Anmeldungsaussicht."
+          }
         },
         {
           "gapKey": "39",
           "gapNumber": 39,
           "correctWordKey": "j",
-          "sortOrder": 8
+          "sortOrder": 8,
+          "correction": {
+            "evidence": "Bitte schicken Sie mir auch Informationen darüber, wie ich mich anmelden kann.",
+            "whyCorrect": "Mit „wie“ wird nach dem Ablauf oder Verfahren der Anmeldung gefragt.",
+            "whyCompetingFails": "i — wann würde nach dem Zeitpunkt der Anmeldung fragen. Das wäre eine andere, grundsätzlich ebenfalls sinnvolle Frage. Der vorgegebene Lösungssatz fragt mit „wie“ nach dem Vorgehen.",
+            "learningPoint": "„Wie melde ich mich an?“ fragt nach den nötigen Schritten."
+          }
         },
         {
           "gapKey": "40",
           "gapNumber": 40,
           "correctWordKey": "c",
-          "sortOrder": 9
+          "sortOrder": 9,
+          "correction": {
+            "evidence": "Ich wäre Ihnen sehr dankbar, wenn Sie mir bald antworten könnten.",
+            "whyCorrect": "Die feste Verbindung lautet „jemandem dankbar sein“. Damit bittet Thomas höflich um eine baldige Antwort.",
+            "whyCompetingFails": "f — gerne kann das benötigte Adjektiv in „Ihnen dankbar sein“ nicht ersetzen.",
+            "learningPoint": "„Ich wäre Ihnen dankbar, wenn …“ ist eine höfliche Bitte."
+          }
         }
       ]
     },
@@ -897,31 +1182,81 @@
             "questionNumber": 41,
             "prompt": "Die Sprecherin arbeitet einmal pro Woche von zu Hause.",
             "correctAnswer": "+",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "Deshalb darf ich inzwischen jeden Mittwoch von zu Hause arbeiten.",
+              "whyCorrect": "Jeden Mittwoch arbeitet sie im Homeoffice. Das entspricht einmal pro Woche.",
+              "whyOppositeFails": "Der lange Arbeitsweg betrifft die anderen Arbeitstage. Der Mittwoch bildet eine Ausnahme.",
+              "learningPoint": "„Jeden Mittwoch“ beschreibt eine regelmäßige wöchentliche Möglichkeit.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 42,
             "prompt": "Der Sprecher darf während seiner Ausbildung noch keine Aufgaben selbst erledigen.",
             "correctAnswer": "-",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "Aber schon nach wenigen Wochen durfte ich viele Aufgaben selbst erledigen.",
+              "whyCorrect": "Er darf bereits selbstständig Aufgaben übernehmen.",
+              "whyOppositeFails": "Dass er zunächst nur zuschauen würde, war seine anfängliche Erwartung. So ist es aber nicht geblieben.",
+              "learningPoint": "Unterscheide zwischen einer früheren Erwartung und der tatsächlichen Entwicklung.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 43,
             "prompt": "Die Sprecherin arbeitet jetzt weniger Stunden als früher.",
             "correctAnswer": "+",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "Seit Januar arbeite ich deshalb nur noch 30 Stunden pro Woche.",
+              "whyCorrect": "„Nur noch“ zeigt, dass sie ihre Arbeitszeit reduziert hat.",
+              "whyOppositeFails": "Sie beschreibt ausdrücklich weniger Arbeitsstunden, nicht gleich viele oder mehr.",
+              "learningPoint": "„Nur noch“ kann eine Verringerung gegenüber früher ausdrücken.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 44,
             "prompt": "Freitags sind normalerweise alle Kollegen gemeinsam im Büro.",
             "correctAnswer": "-",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "Nur am Freitag arbeite ich meistens allein im Büro, weil viele meiner Kollegen an diesem Tag im Homeoffice sind.",
+              "whyCorrect": "Freitags arbeiten viele Kollegen zu Hause. Deshalb sind nicht normalerweise alle zusammen im Büro.",
+              "whyOppositeFails": "Ein gutes Verhältnis und gemeinsame Mittagessen bedeuten nicht, dass alle freitags anwesend sind.",
+              "learningPoint": "Achte auf Ausnahmen, die mit „nur am …“ eingeleitet werden.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 45,
             "prompt": "Der Sprecher schreibt für jede Bewerbung ein passendes Anschreiben.",
             "correctAnswer": "+",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Diesmal informiere ich mich vorher genau über jede Firma und passe mein Anschreiben an die jeweilige Stelle an.",
+              "whyCorrect": "Er verändert das Anschreiben passend zur Firma und zur Stelle.",
+              "whyOppositeFails": "Das wahllose Verschicken vieler Bewerbungen beschreibt seine frühere Vorgehensweise.",
+              "learningPoint": "„Etwas an etwas anpassen“ bedeutet, es passend zu verändern.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-5-hoeren/modelltest-5-hoeren-teil1.mp3",
@@ -940,61 +1275,161 @@
             "questionNumber": 46,
             "prompt": "Die Idee für die Vier-Tage-Woche kam von der Geschäftsleitung.",
             "correctAnswer": "+",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "Die Idee kam tatsächlich von unserer Geschäftsleitung.",
+              "whyCorrect": "Die Geschäftsleitung schlug die Vier-Tage-Woche vor.",
+              "whyOppositeFails": "Wünsche der Beschäftigten spielten ebenfalls eine Rolle. Als Ursprung der Idee wird aber die Geschäftsleitung genannt.",
+              "learningPoint": "Unterscheide zwischen dem Ursprung einer Idee und zusätzlichen Gründen dafür.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 47,
             "prompt": "Alle 120 Mitarbeiter nehmen an dem neuen Arbeitsmodell teil.",
             "correctAnswer": "-",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "Wir haben ungefähr 120 Mitarbeiter. Rund 70 nehmen momentan an dem Modell teil.",
+              "whyCorrect": "Nur ungefähr siebzig von insgesamt hundertzwanzig Mitarbeitern nehmen teil.",
+              "whyOppositeFails": "Die Gesamtzahl der Beschäftigten ist nicht die Teilnehmerzahl.",
+              "learningPoint": "Ordne Zahlen immer der richtigen Gruppe zu.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 48,
             "prompt": "Alle Beschäftigten im Modell haben freitags frei.",
             "correctAnswer": "-",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "Einige haben freitags frei, andere montags oder mittwochs.",
+              "whyCorrect": "Die freien Tage sind unterschiedlich verteilt. Nicht alle haben freitags frei.",
+              "whyOppositeFails": "„Alle“ widerspricht der Aufteilung auf verschiedene Wochentage.",
+              "learningPoint": "„Einige …, andere …“ zeigt Unterschiede innerhalb einer Gruppe.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 49,
             "prompt": "Frau Hoffmann arbeitet an ihren Arbeitstagen länger als früher.",
             "correctAnswer": "+",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "Früher habe ich ungefähr acht Stunden pro Tag gearbeitet. Jetzt sind es von Montag bis Donnerstag meistens etwa neun Stunden.",
+              "whyCorrect": "Pro Arbeitstag arbeitet Frau Hoffmann heute ungefähr eine Stunde länger.",
+              "whyOppositeFails": "Insgesamt weniger Wochenstunden schließen längere einzelne Arbeitstage nicht aus.",
+              "learningPoint": "Unterscheide zwischen Arbeitszeit pro Tag und Arbeitszeit pro Woche.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 50,
             "prompt": "Die Teilnehmer erhalten während des Tests weniger Gehalt.",
             "correctAnswer": "-",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Während des Testprojekts bekommen wir weiterhin unser normales Gehalt.",
+              "whyCorrect": "Das Gehalt bleibt während des Tests gleich.",
+              "whyOppositeFails": "Weniger Arbeitstage bedeuten in diesem Modell ausdrücklich nicht weniger Gehalt.",
+              "learningPoint": "„Weiterhin“ zeigt, dass etwas bestehen bleibt.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 51,
             "prompt": "Die Firma hat unter anderem Besprechungen kürzer gemacht.",
             "correctAnswer": "+",
-            "sortOrder": 5
+            "sortOrder": 5,
+            "correction": {
+              "evidence": "Wir haben viele Besprechungen kürzer gemacht und versuchen, Aufgaben besser zu planen.",
+              "whyCorrect": "Kürzere Besprechungen gehören zu den Veränderungen im Unternehmen.",
+              "whyOppositeFails": "„Falsch“ widerspricht der ausdrücklich genannten Verkürzung.",
+              "learningPoint": "„Unter anderem“ bedeutet, dass ein Beispiel aus mehreren Maßnahmen genannt wird.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 52,
             "prompt": "Das Team von Frau Hoffmann erledigt jetzt deutlich weniger Arbeit.",
             "correctAnswer": "-",
-            "sortOrder": 6
+            "sortOrder": 6,
+            "correction": {
+              "evidence": "Moderator: „Und schaffen Sie tatsächlich genauso viel Arbeit?“ Frau Hoffmann: „In unserem Team ja. In manchen Monaten waren wir sogar etwas schneller.“",
+              "whyCorrect": "Ihr Team schafft weiterhin genauso viel Arbeit. Teilweise war es sogar schneller.",
+              "whyOppositeFails": "Weniger Arbeitszeit darf hier nicht mit weniger erledigter Arbeit verwechselt werden.",
+              "learningPoint": "Arbeitszeit und Arbeitsergebnis sind unterschiedliche Dinge.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 53,
             "prompt": "Frau Hoffmann nutzt ihren freien Tag auch für private Termine.",
             "correctAnswer": "+",
-            "sortOrder": 7
+            "sortOrder": 7,
+            "correction": {
+              "evidence": "Ich erledige oft Arzttermine oder Einkäufe. Manchmal besuche ich meine Eltern.",
+              "whyCorrect": "Arzttermine und Einkäufe sind private Erledigungen, für die sie ihren freien Tag nutzt.",
+              "whyOppositeFails": "Der freie Tag wird ausdrücklich auch für solche persönlichen Aufgaben verwendet.",
+              "learningPoint": "„Termine erledigen“ bedeutet hier, geplante persönliche Angelegenheiten wahrzunehmen.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 54,
             "prompt": "Für Beschäftigte mit kleinen Kindern können die längeren Arbeitstage schwierig sein.",
             "correctAnswer": "+",
-            "sortOrder": 8
+            "sortOrder": 8,
+            "correction": {
+              "evidence": "Die längeren Arbeitstage können anstrengend sein. Besonders Kolleginnen und Kollegen mit kleinen Kindern müssen ihre Betreuung gut organisieren.",
+              "whyCorrect": "Längere Arbeitstage erschweren teilweise die Organisation der Kinderbetreuung.",
+              "whyOppositeFails": "Das Modell hat laut Gespräch nicht nur Vorteile. Gerade für Eltern werden Schwierigkeiten genannt.",
+              "learningPoint": "„Können schwierig sein“ bedeutet nicht, dass alle Betroffenen dieselben Probleme haben.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 55,
             "prompt": "Es steht bereits fest, dass die Vier-Tage-Woche dauerhaft bleibt.",
             "correctAnswer": "-",
-            "sortOrder": 9
+            "sortOrder": 9,
+            "correction": {
+              "evidence": "Das wird im Dezember entschieden. Die Geschäftsleitung wertet gerade Zahlen und Rückmeldungen aus.",
+              "whyCorrect": "Die endgültige Entscheidung steht noch aus. Sie soll im Dezember fallen.",
+              "whyOppositeFails": "Die Hoffnung auf eine dauerhafte Einführung ist keine bereits getroffene Entscheidung.",
+              "learningPoint": "Unterscheide zwischen „hoffen“, „prüfen“ und „entschieden haben“.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-5-hoeren/modelltest-5-hoeren-teil2.mp3",
@@ -1013,31 +1448,81 @@
             "questionNumber": 56,
             "prompt": "Während der technischen Arbeiten funktioniert auch die E-Mail nicht.",
             "correctAnswer": "-",
-            "sortOrder": 0
+            "sortOrder": 0,
+            "correction": {
+              "evidence": "E-Mails können während dieser Zeit weiterhin gesendet und empfangen werden.",
+              "whyCorrect": "E-Mails funktionieren auch während der technischen Arbeiten.",
+              "whyOppositeFails": "Der Ausfall des internen Computersystems betrifft laut Ansage nicht den E-Mail-Verkehr.",
+              "learningPoint": "Übertrage eine Einschränkung nicht automatisch auf alle anderen Dienste.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 57,
             "prompt": "Der Sprachkurs beginnt morgen früher als ursprünglich geplant.",
             "correctAnswer": "+",
-            "sortOrder": 1
+            "sortOrder": 1,
+            "correction": {
+              "evidence": "Der für morgen geplante Kurs Deutsch am Arbeitsplatz beginnt nicht wie angekündigt um 18 Uhr, sondern bereits um 17 Uhr 30.",
+              "whyCorrect": "Der Kurs beginnt eine halbe Stunde früher als angekündigt.",
+              "whyOppositeFails": "Achtzehn Uhr ist die alte Uhrzeit. Entscheidend ist die neue Angabe siebzehn Uhr dreißig.",
+              "learningPoint": "Bei „nicht …, sondern …“ korrigiert die zweite Information die erste.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 58,
             "prompt": "Der Regionalexpress 5 fährt heute nach Köln.",
             "correctAnswer": "-",
-            "sortOrder": 2
+            "sortOrder": 2,
+            "correction": {
+              "evidence": "Der Regionalexpress 5 nach Köln fällt heute wegen einer technischen Störung aus.",
+              "whyCorrect": "Der Regionalexpress 5 fährt heute nicht.",
+              "whyOppositeFails": "Der genannte Ersatzzug ist der Regionalexpress 1, nicht der Regionalexpress 5.",
+              "learningPoint": "Achte bei Ersatzverbindungen besonders auf die Zugnummer.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 59,
             "prompt": "Für Bewerbungsgespräche sollen die Besucher Lebensläufe mitbringen.",
             "correctAnswer": "+",
-            "sortOrder": 3
+            "sortOrder": 3,
+            "correction": {
+              "evidence": "Persönliche Bewerbungsgespräche mit den teilnehmenden Unternehmen gibt es dagegen in Halle 3. Bitte bringen Sie dafür mehrere Kopien Ihres Lebenslaufs mit.",
+              "whyCorrect": "Für die Bewerbungsgespräche sollen Lebenslaufkopien mitgebracht werden.",
+              "whyOppositeFails": "„Dafür“ bezieht sich auf die Bewerbungsgespräche, nicht auf die Vorträge.",
+              "learningPoint": "Prüfe, worauf sich ein Wort wie „dafür“ bezieht.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           },
           {
             "questionNumber": 60,
             "prompt": "Das Vorstellungsgespräch soll am Donnerstag um 14 Uhr stattfinden.",
             "correctAnswer": "+",
-            "sortOrder": 4
+            "sortOrder": 4,
+            "correction": {
+              "evidence": "Es geht um Ihr Vorstellungsgespräch am Donnerstag. Der Termin um 10 Uhr muss leider verschoben werden. Könnten Sie stattdessen am selben Tag um 14 Uhr kommen?",
+              "whyCorrect": "Als Ersatz wird Donnerstag um vierzehn Uhr vorgeschlagen.",
+              "whyOppositeFails": "Zehn Uhr ist die bisherige Uhrzeit. Der vorgeschlagene neue Termin ist am selben Tag um vierzehn Uhr.",
+              "learningPoint": "„Am selben Tag“ bedeutet, dass sich hier nur die Uhrzeit ändern soll.",
+              "audioHighlight": {
+                "startMs": null,
+                "endMs": null
+              }
+            }
           }
         ],
         "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-5-hoeren/modelltest-5-hoeren-teil3.mp3",

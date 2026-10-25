@@ -96,4 +96,10 @@ export class LesenSubmitResponseDto {
     acceptedAnswers?: string[];
     solution?: unknown;
   }>;
+
+  @ApiPropertyOptional({
+    description:
+      'A1/A2 Training: authored Corrigé packages keyed by item number ("1"). See docs/contracts/training-correction-package.md',
+  })
+  correction?: Record<string, Record<string, unknown>>;
 }
