@@ -184,4 +184,16 @@ describe('the application security configuration', () => {
       );
     });
   });
+
+  describe('Swagger UI', () => {
+    it('is not mounted from main.ts (use Bruno for HTTP checks)', () => {
+      const main = readFileSync(
+        join(__dirname, '..', 'src', 'main.ts'),
+        'utf8',
+      );
+
+      expect(main).not.toMatch(/SwaggerModule/);
+      expect(main).not.toMatch(/DocumentBuilder/);
+    });
+  });
 });
