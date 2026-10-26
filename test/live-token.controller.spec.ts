@@ -11,21 +11,13 @@ import { SpeakingService } from '../src/modules/speaking/services/speaking.servi
 import { GeminiService } from '../src/modules/speaking/services/gemini.service';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 
-const TEIL_2 = {
-  id: 2,
-  part: 2,
-  title: 'Teil 2',
-  subtitle: '',
-  topicTitle: 'Arbeit und Freizeit',
-  topicDescription: 'Sprechen Sie über Ihre Arbeit.',
-  topicPoints: ['Ihr Arbeitstag'],
-  durationMinutes: 6,
-  prepDurationSeconds: 60,
-  imagePath: '',
-  examImagePath: null,
+const TOPIC_TEIL_2 = {
+  title: 'Arbeit und Freizeit',
+  description: 'Sprechen Sie über Ihre Arbeit.',
+  points: ['Ihr Arbeitstag'],
 };
 
-const mockSpeakingService = { getTeils: jest.fn() };
+const mockSpeakingService = { resolveExaminerTopic: jest.fn() };
 const mockGeminiService = { mintLiveToken: jest.fn() };
 const mockPromptService = { build: jest.fn() };
 const mockLimitService = {
@@ -73,7 +65,9 @@ describe('LiveTokenController', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-    mockSpeakingService.getTeils.mockResolvedValue([TEIL_2]);
+    mockSpeakingService.resolveExaminerTopic.mockImplementation(
+      async (_mt: number, teil: number) => (teil === 2 ? TOPIC_TEIL_2 : null),
+    );
     mockPromptService.build.mockReturnValue('SYSTEM INSTRUCTION');
     mockGeminiService.mintLiveToken.mockResolvedValue({
       token: 'auth_tokens/xyz',
@@ -150,9 +144,7 @@ describe('LiveTokenController', () => {
   });
 
   it('still mints a token when the Modelltest has no speaking exercise', async () => {
-    mockSpeakingService.getTeils.mockRejectedValue(
-      new NotFoundException('Modelltest 9 not found'),
-    );
+    mockSpeakingService.resolveExaminerTopic.mockResolvedValue(null);
 
     const result = await controller.createLiveToken('1.2.3.4', guestReq, {
       teilNumber: 2,
@@ -165,13 +157,34 @@ describe('LiveTokenController', () => {
   });
 
   it('omits the topic when the Teil is not among the seeded exercises', async () => {
-    mockSpeakingService.getTeils.mockResolvedValue([TEIL_2]);
+    mockSpeakingService.resolveExaminerTopic.mockResolvedValue(null);
 
     const result = await controller.createLiveToken('1.2.3.4', guestReq, {
       teilNumber: 1,
     });
 
     expect(result.topic).toBeUndefined();
+  });
+
+  it('feeds A1/A2 weekly topics from resolveExaminerTopic into Elena', async () => {
+    mockSpeakingService.resolveExaminerTopic.mockResolvedValue({
+      title: 'Tagesablauf',
+      description: 'Ziehen Sie je drei Karten…',
+      points: ['Was …?', 'Wo …?'],
+    });
+
+    const result = await controller.createLiveToken('1.2.3.4', guestReq, {
+      teilNumber: 2,
+      modelltest: 8,
+    });
+
+    expect(mockSpeakingService.resolveExaminerTopic).toHaveBeenCalledWith(8, 2);
+    expect(result.topic).toEqual({
+      title: 'Tagesablauf',
+      description: 'Ziehen Sie je drei Karten…',
+      points: ['Was …?', 'Wo …?'],
+    });
+    expect(mockPromptService.build).toHaveBeenCalledWith(2, result.topic);
   });
 
   describe('what a registered student is allowed', () => {
@@ -337,7 +350,7 @@ describe('LiveTokenController', () => {
         topicId: 'b1-t2-001',
       });
 
-      expect(mockSpeakingService.getTeils).not.toHaveBeenCalled();
+      expect(mockSpeakingService.resolveExaminerTopic).not.toHaveBeenCalled();
       expect(mockPromptService.build).toHaveBeenCalledWith(
         2,
         expect.objectContaining({ title: 'Reisen mit einer Gruppe' }),

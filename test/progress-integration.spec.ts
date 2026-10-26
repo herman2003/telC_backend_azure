@@ -149,6 +149,48 @@ describe('progress against real Postgres', () => {
       result.sessionOfDay.maxListens === null ||
         typeof result.sessionOfDay.maxListens === 'number',
     ).toBe(true);
+    // Home list: attempts is a preview array; total stays numeric.
+    expect(Array.isArray(result.attempts)).toBe(true);
+    expect(result.attempts.length).toBeGreaterThan(0);
+    expect(result.attemptsTotal).toBe(15);
+    expect(result.attempts[0].moduleId).toMatch(
+      /^(hoeren|lesen|sprachbausteine|schreiben|sprechen)$/,
+    );
+    expect(typeof result.attempts[0].teil).toBe('number');
+    expect(typeof result.attempts[0].score).toBe('number');
+    expect(result.attempts[0].relativeTimeKey).toMatch(
+      /^(yesterday|twoDaysAgo|threeDaysAgo|thisWeek)$/,
+    );
+    expect(result.attempts[0].mode).toMatch(/^(exam|training)$/);
+    expect(typeof result.attemptsBelowThreshold).toBe('number');
+  });
+
+  it('lists recent attempts newest-first with relative day keys on /me', async () => {
+    const s = await makeStudent();
+    await attempt(s.id, 'LESEN', 1, 40, daysAgo(3));
+    await attempt(s.id, 'HOEREN', 2, 80, daysAgo(1));
+    await attempt(s.id, 'SCHREIBEN', 1, 55, daysAgo(0));
+
+    const result = await progress.forStudent(s.id, NOW);
+
+    expect(result.attemptsTotal).toBe(3);
+    expect(result.attempts).toHaveLength(3);
+    expect(result.attempts.map((a) => a.moduleId)).toEqual([
+      'schreiben',
+      'hoeren',
+      'lesen',
+    ]);
+    expect(result.attempts[0].moduleId).toBe('schreiben');
+    expect(result.attempts[0].score).toBe(55);
+    expect(result.attempts[0].mode).toBe('training');
+    expect(result.attempts[0].relativeTimeKey).toBe('thisWeek');
+    expect(result.attempts[1].moduleId).toBe('hoeren');
+    expect(result.attempts[1].score).toBe(80);
+    expect(result.attempts[1].mode).toBe('exam');
+    expect(result.attempts[1].relativeTimeKey).toBe('yesterday');
+    expect(result.attempts[2].moduleId).toBe('lesen');
+    expect(result.attempts[2].relativeTimeKey).toBe('threeDaysAgo');
+    expect(result.attemptsBelowThreshold).toBe(2);
   });
 
   it('summarises a center over its own students only', async () => {
