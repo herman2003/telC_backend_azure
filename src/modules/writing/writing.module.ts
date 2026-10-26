@@ -14,6 +14,7 @@ import { AuthModule } from '../auth/auth.module';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
 import { SpeakingModule } from '../speaking/speaking.module';
 import { GeminiService } from '../speaking/services/gemini.service';
+import { GenericExamContentService } from '../../shared/services/generic-exam-content.service';
 
 /**
  * Writing (Schreiben) module.
@@ -25,6 +26,7 @@ import { GeminiService } from '../speaking/services/gemini.service';
   imports: [AuthModule, SubscriptionAccessModule, SpeakingModule],
   controllers: [WritingController],
   providers: [
+    GenericExamContentService,
     WritingService,
     WritingGateway,
     WritingCorrectionService,

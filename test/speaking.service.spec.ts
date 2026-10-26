@@ -1,5 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { SpeakingService } from '../src/modules/speaking/services/speaking.service';
+import type { SpeakingExerciseResponseDto } from '../src/modules/speaking/dto';
 
 describe('SpeakingService', () => {
   const prisma = {
@@ -8,11 +9,12 @@ describe('SpeakingService', () => {
     speakingAttempt: { findMany: jest.fn() },
     $queryRaw: jest.fn(),
   };
+  const genericContent = { sectionsFor: jest.fn() };
   let service: SpeakingService;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new SpeakingService(prisma as any);
+    service = new SpeakingService(prisma as any, genericContent as any);
     prisma.modelltest.findUnique.mockResolvedValue({ id: 'mt-1' });
     prisma.speakingExercise.findMany.mockResolvedValue([
       {
@@ -29,6 +31,86 @@ describe('SpeakingService', () => {
         exam_image_url: null,
       },
     ]);
+  });
+
+  describe('getExerciseByModelltest', () => {
+    it('returns generic SPRECHEN sections for A2 with three Teile', async () => {
+      prisma.modelltest.findUnique.mockResolvedValue({
+        id: 'a2-mt',
+        level: 'A2',
+      });
+      const sprechenSections = [1, 2, 3].map((teil) => ({
+        id: `sprechen-${teil}`,
+        sectionId: `SPRECHEN_${teil}`,
+        aufgabentyp: 'SPRECHEN_AUFGABE',
+        teil,
+        label: `Sprechen ${teil}`,
+        instruction: `Instruction ${teil}`,
+        maxPoints: 10,
+        scoringMode: 'MANUAL',
+        contentRevision: `a2-sprechen-${teil}-v1`,
+        material: teil === 1 ? { topicCard: '/cards/a2-1.png' } : {},
+        items: [],
+      }));
+      genericContent.sectionsFor.mockResolvedValue({
+        LESEN: [],
+        HOEREN: [],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: sprechenSections,
+      });
+
+      const result = (await service.getExerciseByModelltest(
+        10,
+      )) as SpeakingExerciseResponseDto;
+
+      expect(genericContent.sectionsFor).toHaveBeenCalledWith('a2-mt');
+      expect(result.contentRevision).toBe('a2-sprechen-1-v1');
+      expect(result.issuedAt).toEqual(expect.any(String));
+      expect(result.sections).toHaveLength(3);
+      expect(result.sections[0].sectionId).toBe('SPRECHEN_1');
+      expect(result.sections[0].material).toEqual({
+        topicCard: '/cards/a2-1.png',
+      });
+      expect(prisma.speakingExercise.findMany).not.toHaveBeenCalled();
+    });
+
+    it('404s for B1 (use GET /teils)', async () => {
+      prisma.modelltest.findUnique.mockResolvedValue({
+        id: 'b1-mt',
+        level: 'B1',
+      });
+
+      await expect(service.getExerciseByModelltest(1)).rejects.toMatchObject({
+        response: { messageKey: 'speakingExerciseNotFound' },
+      });
+      expect(genericContent.sectionsFor).not.toHaveBeenCalled();
+    });
+
+    it('404s when A2 has no generic SPRECHEN sections', async () => {
+      prisma.modelltest.findUnique.mockResolvedValue({
+        id: 'a2-mt',
+        level: 'A2',
+      });
+      genericContent.sectionsFor.mockResolvedValue({
+        LESEN: [],
+        HOEREN: [],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+
+      await expect(service.getExerciseByModelltest(10)).rejects.toMatchObject({
+        response: { messageKey: 'speakingExerciseNotFound' },
+      });
+    });
+
+    it('404s when the Modelltest does not exist', async () => {
+      prisma.modelltest.findUnique.mockResolvedValue(null);
+      await expect(service.getExerciseByModelltest(99)).rejects.toThrow(
+        NotFoundException,
+      );
+    });
   });
 
   it('selects and maps speaking content by Modelltest', async () => {

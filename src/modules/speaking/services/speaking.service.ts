@@ -1,15 +1,80 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../../shared/services/prisma.service';
-import type { SessionHistoryItemDto, TeilListItemDto } from '../dto';
+import type {
+  SessionHistoryItemDto,
+  SpeakingExerciseResponseDto,
+  TeilListItemDto,
+} from '../dto';
 import {
   historyFields,
   teilStats,
 } from '../../student-activity/student-history';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../../shared/services/generic-exam-content.service';
 
 @Injectable()
 export class SpeakingService {
   private readonly logger = new Logger(SpeakingService.name);
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly genericContent: GenericExamContentService,
+  ) {}
+
+  /**
+   * GET /api/speaking/exercise?modelltest= — A1/A2 generic sections (SPRECHEN).
+   * B1/B2: 404 — clients use GET /api/speaking/teils.
+   */
+  async getExerciseByModelltest(
+    modelltestNumber: number,
+  ): Promise<SpeakingExerciseResponseDto> {
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: modelltestNumber },
+    });
+
+    if (!modelltest) {
+      throw this.exerciseNotFoundForModelltest();
+    }
+
+    if (!GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
+      throw this.exerciseNotFoundForModelltest();
+    }
+
+    const bySkill = await this.genericContent.sectionsFor(modelltest.id);
+    const sections = bySkill.SPRECHEN;
+    if (sections.length === 0) {
+      throw this.exerciseNotFoundForModelltest();
+    }
+    const contentRevision =
+      sections.find((s) => s.teil === 1)?.contentRevision ??
+      sections[0].contentRevision;
+    return {
+      contentRevision,
+      issuedAt: new Date().toISOString(),
+      sections: sections.map((s) => ({
+        id: s.id,
+        sectionId: s.sectionId,
+        aufgabentyp: s.aufgabentyp,
+        teil: s.teil,
+        label: s.label,
+        instruction: s.instruction,
+        maxPoints: s.maxPoints,
+        contentRevision: s.contentRevision,
+        material: s.material,
+        items: s.items,
+      })),
+    };
+  }
+
+  private exerciseNotFoundForModelltest(): NotFoundException {
+    return new NotFoundException({
+      statusCode: 404,
+      error: 'Not Found',
+      message: 'Exercise not found for this Modelltest',
+      messageKey: 'speakingExerciseNotFound',
+    });
+  }
 
   async getTeils(
     modelltestNumber = 1,
