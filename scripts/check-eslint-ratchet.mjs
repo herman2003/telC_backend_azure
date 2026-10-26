@@ -12,7 +12,7 @@ import { readFileSync, unlinkSync } from 'node:fs';
 import { join } from 'node:path';
 
 /** Must match the last known green CI count. Lower when count drops. */
-const BASELINE = 896;
+const BASELINE = 894;
 
 const GLOB = '{src,apps,libs,test}/**/*.ts';
 const reportPath = join(process.cwd(), 'eslint.json');

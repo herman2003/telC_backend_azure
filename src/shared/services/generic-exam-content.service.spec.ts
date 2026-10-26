@@ -1,7 +1,11 @@
 import { GenericExamContentService } from './generic-exam-content.service';
 
 const mockPrisma = {
-  examSection: { findMany: jest.fn(), findUnique: jest.fn(), findFirst: jest.fn() },
+  examSection: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    findFirst: jest.fn(),
+  },
   examSectionWeight: { findMany: jest.fn() },
 };
 

@@ -121,14 +121,16 @@ export class WritingCorrectionService {
       );
     } else {
       try {
-        const prompt = useA12
-          ? this.buildA12WritingPrompt(
-              content,
-              exercise,
-              level,
-              brief!.a12!.rubric,
-            )
-          : this.buildWritingPrompt(content, exercise, level);
+        const a12Brief = brief?.a12;
+        const prompt =
+          useA12 && a12Brief
+            ? this.buildA12WritingPrompt(
+                content,
+                exercise,
+                level,
+                a12Brief.rubric,
+              )
+            : this.buildWritingPrompt(content, exercise, level);
         const responseText = await this.callModelWithTimeout(prompt);
         parsed = useA12
           ? this.parseA12WritingResponse(responseText)
@@ -522,8 +524,7 @@ ${content}
     }
 
     const parsed = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
-    const bandsRaw =
-      parsed.content_point_bands ?? parsed.contentPointBands;
+    const bandsRaw = parsed.content_point_bands ?? parsed.contentPointBands;
     if (!Array.isArray(bandsRaw) || bandsRaw.length === 0) {
       throw new Error('Invalid or missing content_point_bands');
     }
@@ -534,8 +535,7 @@ ${content}
       return b;
     });
 
-    const kgRaw =
-      parsed.communicative_design ?? parsed.communicativeDesign;
+    const kgRaw = parsed.communicative_design ?? parsed.communicativeDesign;
     if (!isA12Band(kgRaw)) {
       throw new Error('Invalid or missing communicative_design');
     }

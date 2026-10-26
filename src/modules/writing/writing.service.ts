@@ -778,9 +778,7 @@ export class WritingService {
     }
     return {
       scheme: 'A1_A2',
-      contentPointBands: o.contentPointBands as Array<
-        'FULL' | 'PARTIAL' | 'NONE'
-      >,
+      contentPointBands: o.contentPointBands.filter(isBand),
       communicativeDesign: o.communicativeDesign,
       points: o.points,
       maxPoints: o.maxPoints,

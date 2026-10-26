@@ -39,7 +39,9 @@ export function isA12Band(value: unknown): value is A12Band {
   return value === 'FULL' || value === 'PARTIAL' || value === 'NONE';
 }
 
-export function parseA12LetterRubric(material: unknown): A12LetterRubric | null {
+export function parseA12LetterRubric(
+  material: unknown,
+): A12LetterRubric | null {
   if (!material || typeof material !== 'object') return null;
   const rubric = (material as { rubric?: unknown }).rubric;
   if (!rubric || typeof rubric !== 'object') return null;
@@ -103,10 +105,7 @@ export function buildA12LetterRating(
   for (const band of bands) {
     points += bandPoints(band, rubric.contentPoints.pointsPerPoint);
   }
-  points += bandPoints(
-    communicativeDesign,
-    rubric.communicativeDesign.points,
-  );
+  points += bandPoints(communicativeDesign, rubric.communicativeDesign.points);
   const cappedMax = maxPoints > 0 ? maxPoints : 10;
   const scorePercent = Math.round((points / cappedMax) * 100);
   return {

@@ -532,6 +532,12 @@ describe('WritingCorrectionService', () => {
   });
 
   describe('A1/A2 TEXT_SCHREIBEN training correction', () => {
+    // Narrow the shared `any` mock so new assertions do not raise the eslint ratchet.
+    const prisma = mockPrismaService as {
+      writingAttempt: { update: jest.Mock };
+      studentActivity: { create: jest.Mock };
+    };
+
     const a12Exercise = {
       ...FAKE_EXERCISE,
       id: 'a1-schreiben-2',
@@ -573,7 +579,7 @@ describe('WritingCorrectionService', () => {
         level: 'A1',
       });
 
-      expect(mockPrismaService.writingAttempt.update).toHaveBeenCalledWith(
+      expect(prisma.writingAttempt.update).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
             score: 85,
@@ -598,7 +604,7 @@ describe('WritingCorrectionService', () => {
           telcRating: undefined,
         }),
       );
-      expect(mockPrismaService.studentActivity.create).toHaveBeenCalledWith({
+      expect(prisma.studentActivity.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           skill: 'SCHREIBEN',
           teil: 2,
@@ -620,10 +626,12 @@ describe('WritingCorrectionService', () => {
       });
 
       expect(mockModelService.generateTextResponse).not.toHaveBeenCalled();
-      expect(mockPrismaService.studentActivity.create).not.toHaveBeenCalled();
-      expect(
-        mockPrismaService.writingAttempt.update.mock.calls[0][0].data.score,
-      ).toBe(75);
+      expect(prisma.studentActivity.create).not.toHaveBeenCalled();
+      expect(prisma.writingAttempt.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ score: 75 }),
+        }),
+      );
     });
   });
 });

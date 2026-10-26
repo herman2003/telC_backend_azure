@@ -70,7 +70,8 @@ describe('LiveTokenController', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
     mockSpeakingService.resolveExaminerTopic.mockImplementation(
-      async (_mt: number, teil: number) => (teil === 2 ? TOPIC_TEIL_2 : null),
+      (_mt: number, teil: number) =>
+        Promise.resolve(teil === 2 ? TOPIC_TEIL_2 : null),
     );
     mockPromptService.build.mockReturnValue('SYSTEM INSTRUCTION');
     mockGeminiService.mintLiveToken.mockResolvedValue({

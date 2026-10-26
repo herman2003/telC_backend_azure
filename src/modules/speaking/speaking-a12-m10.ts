@@ -7,10 +7,7 @@
  */
 
 import type { CefrLevel } from '@prisma/client';
-import {
-  assertScoredTeil,
-  type ScoredTeil,
-} from './speaking-telc-rating';
+import { assertScoredTeil, type ScoredTeil } from './speaking-telc-rating';
 
 export type A12Band = 'FULL' | 'HALF' | 'ZERO' | 'NOT_ASSESSED';
 
@@ -64,9 +61,7 @@ const BY_LEVEL: Record<'A1' | 'A2', Record<ScoredTeil, A12CriterionDef[]>> = {
   A2: { 1: A2_TEIL1, 2: A2_TEIL2, 3: A2_TEIL3 },
 };
 
-export function isA12SpeakingLevel(
-  level: CefrLevel,
-): level is 'A1' | 'A2' {
+export function isA12SpeakingLevel(level: CefrLevel): level is 'A1' | 'A2' {
   return level === 'A1' || level === 'A2';
 }
 

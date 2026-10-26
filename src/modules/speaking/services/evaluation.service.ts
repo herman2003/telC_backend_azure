@@ -191,7 +191,7 @@ export class EvaluationService {
         teilNumber,
         transcript,
         evaluation,
-        { ...attempt, modelltestId: modelltest!.id },
+        { ...attempt, modelltestId: modelltest.id },
       );
       // Lost a race with another copy of the same attempt: answer as it was.
       if (earlier) return this.fromStored(earlier);
