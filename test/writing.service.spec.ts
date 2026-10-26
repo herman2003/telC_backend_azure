@@ -80,6 +80,7 @@ describe('WritingService', () => {
       findUnique: jest.fn(),
       create: jest.fn(),
     },
+    $transaction: jest.fn(),
   };
 
   const mockQueue = {
@@ -533,7 +534,7 @@ describe('WritingService', () => {
         ],
       });
       mockPrismaService.writingAttempt.findUnique.mockResolvedValue(null);
-      mockPrismaService.$transaction = jest.fn(async (fn) =>
+      mockPrismaService.$transaction.mockImplementation(async (fn) =>
         fn({
           writingAttempt: { create: jest.fn().mockResolvedValue({}) },
           student: {
