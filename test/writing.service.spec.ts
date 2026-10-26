@@ -376,6 +376,35 @@ describe('WritingService', () => {
       expect(result[0].dateLabel).toBeDefined();
     });
 
+    it('maps A1/A2 telc_rating to a12Rating (not B1 telcRating)', async () => {
+      mockPrismaService.writingAttempt.findMany.mockResolvedValue([
+        {
+          attempt_id: 'a12-attempt',
+          created_at: new Date('2026-03-04T10:00:00.000Z'),
+          completed_at: new Date('2026-03-04T10:07:00.000Z'),
+          score: 85,
+          telc_rating: {
+            scheme: 'A1_A2',
+            contentPointBands: ['FULL', 'FULL', 'PARTIAL'],
+            communicativeDesign: 'FULL',
+            points: 8.5,
+            maxPoints: 10,
+          },
+        },
+      ]);
+
+      const result = await service.getSessions('student-1');
+
+      expect(result[0].telcRating).toBeUndefined();
+      expect(result[0].a12Rating).toEqual({
+        scheme: 'A1_A2',
+        contentPointBands: ['FULL', 'FULL', 'PARTIAL'],
+        communicativeDesign: 'FULL',
+        points: 8.5,
+        maxPoints: 10,
+      });
+    });
+
     it('passes exerciseId UUID directly to WHERE clause', async () => {
       mockPrismaService.writingAttempt.findMany.mockResolvedValue([]);
 
@@ -510,6 +539,13 @@ describe('WritingService', () => {
         material: {
           bulletPoints: ['Punkt 1', 'Punkt 2', 'Punkt 3'],
           intro: 'Schreiben Sie an die Touristeninformation.',
+          rubric: {
+            contentPoints: {
+              selectRequired: 3,
+              pointsPerPoint: [3, 1.5, 0],
+            },
+            communicativeDesign: { points: [1, 0.5, 0] },
+          },
         },
         items: [],
         modelltestId: 'mt-a1',
@@ -563,6 +599,27 @@ describe('WritingService', () => {
           content: 'should not use letter path',
         }),
       ).rejects.toThrow(NotFoundException);
+      expect(mockQueue.add).not.toHaveBeenCalled();
+    });
+
+    it('422s when A1/A2 TEXT_SCHREIBEN has no rubric', async () => {
+      mockPrismaService.writingExercise.findUnique.mockResolvedValue(null);
+      mockGenericContent.sectionById.mockResolvedValue({
+        id: 'a1-schreiben-2',
+        aufgabentyp: 'TEXT_SCHREIBEN',
+        teil: 2,
+        level: 'A1',
+        modelltestId: 'mt-a1',
+        material: { bulletPoints: ['a', 'b', 'c'] },
+        items: [],
+      });
+
+      await expect(
+        service.submit('student-1', {
+          exerciseId: 'a1-schreiben-2',
+          content: 'Sehr geehrte Damen und Herren...',
+        }),
+      ).rejects.toThrow(UnprocessableEntityException);
       expect(mockQueue.add).not.toHaveBeenCalled();
     });
 

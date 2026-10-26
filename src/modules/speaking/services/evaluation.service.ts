@@ -32,7 +32,6 @@ import {
   isA12Band,
   isA12SpeakingLevel,
   type A12Band,
-  type A12SpeakingRating,
 } from '../speaking-a12-m10';
 
 interface SpeakingAttemptInput {
@@ -461,9 +460,7 @@ Also provide evaluation_text (German, warm, starts with Hallo!), strengths, area
           coherence: overall,
           overall,
         },
-        // Practice estimate: points/maxPoints are official A12 M10; letters
-        // are placeholders so existing clients that require telcRating keep working.
-        telcRating: this.a12AsTelcCompat(rating),
+        // No fake B1 A–D letters — clients must use a12M10 (+ scores.overall).
         a12M10: rating as unknown as Record<string, unknown>,
         corrections,
         strengths: typeof p.strengths === 'string' ? p.strengths : '',
@@ -478,35 +475,6 @@ Also provide evaluation_text (German, warm, starts with Hallo!), strengths, area
       );
       throw new Error('EVALUATION_PARSE_FAILED');
     }
-  }
-
-  /** Compat shim: real A12 detail is in points/maxPoints; letters are unused. */
-  private a12AsTelcCompat(rating: A12SpeakingRating): {
-    expression: 'A' | 'B' | 'C' | 'D';
-    taskFulfilment: 'A' | 'B' | 'C' | 'D';
-    formalAccuracy: 'A' | 'B' | 'C' | 'D';
-    pronunciation: 'A' | 'B' | 'C' | 'D';
-    points: number;
-    maxPoints: number;
-    teilNumber: 1 | 2 | 3;
-  } {
-    const letter =
-      rating.scorePercent >= 85
-        ? 'A'
-        : rating.scorePercent >= 60
-          ? 'B'
-          : rating.scorePercent >= 30
-            ? 'C'
-            : 'D';
-    return {
-      expression: letter,
-      taskFulfilment: letter,
-      formalAccuracy: letter,
-      pronunciation: letter,
-      points: rating.points,
-      maxPoints: rating.maxPoints,
-      teilNumber: rating.teilNumber,
-    };
   }
 
   private async callWithTimeout(prompt: string): Promise<string> {

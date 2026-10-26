@@ -22,6 +22,15 @@ export type TelcRatingPayload = {
   points: number;
 };
 
+/** A1/A2 TEXT_SCHREIBEN half-point rubric result (training AI). */
+export type A12LetterRatingPayload = {
+  scheme: 'A1_A2';
+  contentPointBands: Array<'FULL' | 'PARTIAL' | 'NONE'>;
+  communicativeDesign: 'FULL' | 'PARTIAL' | 'NONE';
+  points: number;
+  maxPoints: number;
+};
+
 /** Payload for correction_ready event (spec §7.2). */
 export interface CorrectionReadyPayload {
   attemptId: string;
@@ -34,6 +43,8 @@ export interface CorrectionReadyPayload {
   diff?: DiffOp[];
   pointsAddressed?: number;
   telcRating?: TelcRatingPayload;
+  /** Present for A1/A2 letter AI; authoritative half-point detail. */
+  a12Rating?: A12LetterRatingPayload;
   durationSeconds?: number;
   corrections?: Array<{
     original: string;

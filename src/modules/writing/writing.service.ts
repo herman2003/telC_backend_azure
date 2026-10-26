@@ -120,17 +120,17 @@ export class WritingService {
       return null;
     }
     const rubric = parseA12LetterRubric(section.material);
+    if (!rubric) {
+      // Fail closed: never hand an A1/A2 letter to the B1 /45 rater.
+      return null;
+    }
     return {
       exercise: this.mapGenericTextSchreiben(section),
-      ...(rubric
-        ? {
-            a12: {
-              rubric,
-              maxPoints: section.maxPoints > 0 ? section.maxPoints : 10,
-              level: section.level,
-            },
-          }
-        : {}),
+      a12: {
+        rubric,
+        maxPoints: section.maxPoints > 0 ? section.maxPoints : 10,
+        level: section.level,
+      },
     };
   }
 
@@ -471,6 +471,14 @@ export class WritingService {
     ) {
       return null;
     }
+    if (!parseA12LetterRubric(section.material)) {
+      throw new UnprocessableEntityException({
+        statusCode: 422,
+        error: 'Unprocessable Entity',
+        message: 'Schreiben letter rubric is missing for this Modelltest',
+        messageKey: 'writingRubricMissing',
+      });
+    }
     return {
       id: section.id,
       modelltest_id: section.modelltestId,
@@ -724,6 +732,7 @@ export class WritingService {
         : undefined,
       pointsAddressed: row.points_addressed ?? undefined,
       telcRating: this.mapTelcRatingForDto(row.telc_rating),
+      a12Rating: this.mapA12RatingForDto(row.telc_rating),
       corrections: this.mapCorrectionsForDto(row.corrections),
     };
   }
@@ -731,6 +740,7 @@ export class WritingService {
   private mapTelcRatingForDto(raw: unknown): ExerciseAttemptDto['telcRating'] {
     if (!raw || typeof raw !== 'object') return undefined;
     const o = raw as Record<string, unknown>;
+    if (o.scheme === 'A1_A2') return undefined;
     const letters = ['A', 'B', 'C', 'D'] as const;
     const ok = (v: unknown): v is (typeof letters)[number] =>
       typeof v === 'string' && (letters as readonly string[]).includes(v);
@@ -747,6 +757,33 @@ export class WritingService {
       communicativeDesign: o.communicativeDesign,
       formalAccuracy: o.formalAccuracy,
       points: o.points,
+    };
+  }
+
+  private mapA12RatingForDto(raw: unknown): ExerciseAttemptDto['a12Rating'] {
+    if (!raw || typeof raw !== 'object') return undefined;
+    const o = raw as Record<string, unknown>;
+    if (o.scheme !== 'A1_A2') return undefined;
+    const bands = ['FULL', 'PARTIAL', 'NONE'] as const;
+    const isBand = (v: unknown): v is (typeof bands)[number] =>
+      typeof v === 'string' && (bands as readonly string[]).includes(v);
+    if (
+      !Array.isArray(o.contentPointBands) ||
+      !o.contentPointBands.every(isBand) ||
+      !isBand(o.communicativeDesign) ||
+      typeof o.points !== 'number' ||
+      typeof o.maxPoints !== 'number'
+    ) {
+      return undefined;
+    }
+    return {
+      scheme: 'A1_A2',
+      contentPointBands: o.contentPointBands as Array<
+        'FULL' | 'PARTIAL' | 'NONE'
+      >,
+      communicativeDesign: o.communicativeDesign,
+      points: o.points,
+      maxPoints: o.maxPoints,
     };
   }
 

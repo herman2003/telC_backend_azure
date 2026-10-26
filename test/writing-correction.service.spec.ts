@@ -586,6 +586,18 @@ describe('WritingCorrectionService', () => {
           }),
         }),
       );
+      expect(mockGateway.notifyCorrectionReady).toHaveBeenCalledWith(
+        jobData.studentId,
+        expect.objectContaining({
+          score: 85,
+          a12Rating: expect.objectContaining({
+            scheme: 'A1_A2',
+            points: 8.5,
+            maxPoints: 10,
+          }),
+          telcRating: undefined,
+        }),
+      );
       expect(mockPrismaService.studentActivity.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           skill: 'SCHREIBEN',
@@ -593,6 +605,25 @@ describe('WritingCorrectionService', () => {
           score: 85,
         }),
       });
+    });
+
+    it('stubs without B1 fallback when A12 rubric is missing', async () => {
+      mockWritingService.resolveCorrectionBrief.mockResolvedValue({
+        exercise: a12Exercise,
+      });
+      mockModelService.generateTextResponse.mockResolvedValue(a12Json);
+
+      await service.runCorrection({
+        ...jobData,
+        exerciseId: 'a1-schreiben-2',
+        level: 'A1',
+      });
+
+      expect(mockModelService.generateTextResponse).not.toHaveBeenCalled();
+      expect(mockPrismaService.studentActivity.create).not.toHaveBeenCalled();
+      expect(
+        mockPrismaService.writingAttempt.update.mock.calls[0][0].data.score,
+      ).toBe(75);
     });
   });
 });

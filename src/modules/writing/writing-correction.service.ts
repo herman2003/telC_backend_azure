@@ -109,22 +109,35 @@ export class WritingCorrectionService {
       .resolveCorrectionBrief(exerciseId)
       .catch(() => null);
     const exercise = brief?.exercise ?? null;
-    const useA12 =
-      GENERIC_MODEL_LEVELS.includes(level) && brief?.a12 != null;
+    const isA12Level = GENERIC_MODEL_LEVELS.includes(level);
+    const useA12 = isA12Level && brief?.a12 != null;
+    // Never rate an A1/A2 letter with the B1 /45 grid when the rubric is missing.
+    const refuseA12WithoutRubric = isA12Level && !brief?.a12;
 
     let parsed: ParsedWritingCorrection | null = null;
-    try {
-      const prompt = useA12
-        ? this.buildA12WritingPrompt(content, exercise, level, brief!.a12!.rubric)
-        : this.buildWritingPrompt(content, exercise, level);
-      const responseText = await this.callModelWithTimeout(prompt);
-      parsed = useA12
-        ? this.parseA12WritingResponse(responseText)
-        : this.parseWritingResponse(responseText);
-    } catch (err) {
+    if (refuseA12WithoutRubric) {
       this.logger.warn(
-        `Model correction failed for attempt ${attemptId}, using stub: ${(err as Error).message}`,
+        `A12 letter attempt ${attemptId} has no section rubric — stubbing (no B1 fallback)`,
       );
+    } else {
+      try {
+        const prompt = useA12
+          ? this.buildA12WritingPrompt(
+              content,
+              exercise,
+              level,
+              brief!.a12!.rubric,
+            )
+          : this.buildWritingPrompt(content, exercise, level);
+        const responseText = await this.callModelWithTimeout(prompt);
+        parsed = useA12
+          ? this.parseA12WritingResponse(responseText)
+          : this.parseWritingResponse(responseText);
+      } catch (err) {
+        this.logger.warn(
+          `Model correction failed for attempt ${attemptId}, using stub: ${(err as Error).message}`,
+        );
+      }
     }
 
     const requiredLeitpunkte = exercise?.bulletPoints?.length ?? 0;
@@ -139,7 +152,7 @@ export class WritingCorrectionService {
         brief.a12.maxPoints,
       );
       score = a12Rating.scorePercent;
-    } else if (parsed) {
+    } else if (parsed && !isA12Level) {
       telcRating = buildTelcSchreibenRating(
         parsed.criteria,
         parsed.pointsAddressed,
@@ -242,6 +255,7 @@ export class WritingCorrectionService {
         diff,
         pointsAddressed,
         telcRating: telcPayload,
+        a12Rating: a12Payload,
         durationSeconds,
         corrections: correctionsForPayload,
       };

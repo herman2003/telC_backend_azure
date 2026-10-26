@@ -155,6 +155,7 @@ describe('EvaluationService Teil 3 context', () => {
 });
 
 describe('A1/A2 M10 practice evaluation', () => {
+  // Private helpers: reach via prototype + unknown (same pattern as B1 buildPrompt).
   type A12Surface = {
     buildA12Prompt: (
       level: 'A1' | 'A2',
@@ -169,8 +170,7 @@ describe('A1/A2 M10 practice evaluation', () => {
   };
 
   const service = () =>
-    Object.create(EvaluationService.prototype) as EvaluationService &
-      A12Surface;
+    Object.create(EvaluationService.prototype) as unknown as A12Surface;
 
   it('A2 prompt uses half-point bands, not B1 letters', () => {
     const prompt = service().buildA12Prompt('A2', 3, 'Lass uns wandern.');
@@ -199,10 +199,14 @@ describe('A1/A2 M10 practice evaluation', () => {
       1,
     );
     expect(result.scores.overall).toBe(75);
-    expect(result.telcRating?.points).toBe(1.5);
-    expect(result.telcRating?.maxPoints).toBe(3);
+    expect(result.telcRating).toBeUndefined();
     expect(result.a12M10).toEqual(
-      expect.objectContaining({ scheme: 'A1_A2_M10', level: 'A1' }),
+      expect.objectContaining({
+        scheme: 'A1_A2_M10',
+        level: 'A1',
+        points: 1.5,
+        maxPoints: 3,
+      }),
     );
   });
 });
