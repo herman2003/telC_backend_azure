@@ -183,11 +183,12 @@ export class ListeningController {
   @Post('audio/:audioId/play')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Spend one training play and get a stream URL',
+    summary: 'Get a short-lived training stream URL',
     description:
-      'Counts against exam_plays_allowed for this student + recording. ' +
-      'Guest JWTs skip the DB counter (no students row / FK) but still receive ' +
-      'a short-lived /api/listening/audio?token=… URL for the player.',
+      'Returns a short-lived /api/listening/audio?token=… URL for the player. ' +
+      'Training does not hard-cap plays (free vs timed is client-enforced); ' +
+      'Exam Day still counts once per attempt. Guests and paid students alike ' +
+      'may re-request after the link expires.',
   })
   @ApiParam({ name: 'audioId', format: 'uuid' })
   @ApiOkResponse({
@@ -197,13 +198,14 @@ export class ListeningController {
       properties: {
         audioId: { type: 'string', format: 'uuid' },
         url: { type: 'string', example: '/api/listening/audio?token=…' },
-        playsRemaining: { type: 'number', example: 0 },
+        playsRemaining: { type: 'number', example: 1 },
         expiresAt: { type: 'string', format: 'date-time' },
       },
     },
   })
   @ApiBadRequestResponse({
-    description: 'NO_PLAYS_LEFT | AUDIO_UNAVAILABLE | AUDIO_DURATION_MISSING',
+    description:
+      'AUDIO_UNAVAILABLE | AUDIO_DURATION_MISSING | HOEREN_AUDIO_NOT_READY',
   })
   @ApiNotFoundResponse({ description: 'AUDIO_NOT_FOUND' })
   async playAudio(

@@ -46,11 +46,10 @@ docs {
   by the proxy. To actually hear it:
 
     1. POST {{baseUrl}}/api/listening/audio/{{b2AudioId}}/play
-       (same Authorization header) — spends one play, returns
-       { url: "/api/listening/audio?token=…" }.
+       (same Authorization header) — returns
+       { url: "/api/listening/audio?token=…" } (short-lived; training may
+       re-grant). Exam Day still counts once via exam_audio_plays.
     2. Open {{baseUrl}}<that url> in a browser tab and listen.
 
-  That play-then-stream call isn't in this collection yet since it consumes
-  a limited play count (exam_plays_allowed) — add it only when you're ready
-  to actually spend a play on MT 7's Teil 2 recording.
+  Training re-grant is covered in `bruno/Training` (B1 Hören play ×2).
 }

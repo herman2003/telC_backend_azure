@@ -35,4 +35,5 @@ script:post-response {
     throw new Error("A1 Hören practice should carry option imageUrls, got " +
       JSON.stringify(body.items[0] && body.items[0].options));
   }
+  bru.setEnvVar("a1TrainingHoerenAudioId", body.audioId);
 }

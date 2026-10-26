@@ -29,4 +29,8 @@ script:post-response {
   if (body.audioUrl) {
     throw new Error("training must not ship a raw audioUrl");
   }
+  if (body.playsAllowed !== 1) {
+    throw new Error("B1 training Hören playsAllowed must be 1 (strict hint)");
+  }
+  bru.setEnvVar("b1TrainingHoerenAudioId", body.audioId);
 }

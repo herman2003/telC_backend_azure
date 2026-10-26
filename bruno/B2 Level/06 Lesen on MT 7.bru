@@ -68,8 +68,8 @@ docs {
   the name promise three checks it did not perform.
 
   Hoeren returns no audio URL by design. The training DTO carries audioId
-  and playsAllowed, and the client spends a play through
-  POST /api/listening/audio/{audioId}/play. Handing out the URL would make
-  the play allowance unenforceable, so looking for one here is looking for
-  something deliberately absent.
+  and playsAllowed (strict-mode hint); the client gets bytes only after
+  POST /api/listening/audio/{audioId}/play (short-lived token). Handing out
+  a durable R2 URL here would skip that gate, so looking for audioUrl on
+  this endpoint is looking for something deliberately absent.
 }

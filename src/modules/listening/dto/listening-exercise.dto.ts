@@ -20,7 +20,8 @@ export class ListeningGenericItemDto {
 
   @ApiPropertyOptional({
     nullable: true,
-    description: 'Per-item picture (e.g. A2 phone note); text prompt is fallback',
+    description:
+      'Per-item picture (e.g. A2 phone note); text prompt is fallback',
   })
   imageUrl?: string | null;
 
@@ -57,7 +58,8 @@ export class ListeningExerciseDto {
 
   @ApiProperty({
     description:
-      'How many times this recording may be played (from exam_plays_allowed)',
+      'Strict-mode play hint from exam_plays_allowed (usually 1). Training free ' +
+      'ignores this; timed training and Exam Day treat it as once. Zweimal is in the MP3.',
     example: 1,
   })
   playsAllowed: number;
