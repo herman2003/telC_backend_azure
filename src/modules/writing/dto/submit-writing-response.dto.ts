@@ -20,4 +20,27 @@ export class SubmitWritingResponseDto {
     example: 'Submission received. Correction in progress.',
   })
   message?: string;
+
+  @ApiPropertyOptional({
+    description: 'A1/A2 FORMULAR: percent score from generic section marking',
+  })
+  score?: number;
+
+  @ApiPropertyOptional({
+    description: 'A1/A2 FORMULAR: per-item outcome from markGenericSection',
+  })
+  outcomes?: Array<{
+    itemNumber: number;
+    outcome: 'CORRECT' | 'WRONG' | 'UNRECOGNISED';
+  }>;
+
+  @ApiPropertyOptional({
+    description:
+      'A1/A2 FORMULAR: key material for UNRECOGNISED free-text items (training self-check)',
+  })
+  review?: Array<{
+    itemNumber: number;
+    acceptedAnswers?: string[];
+    solution?: unknown;
+  }>;
 }

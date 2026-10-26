@@ -38,9 +38,10 @@ const sprachbausteine = new SprachbausteineService(prisma);
 const listening = new ListeningService(prisma, genericContent);
 const writing = new WritingService(
   prisma,
+  genericContent,
   new WritingDailyQuotaService(prisma),
 );
-const speaking = new SpeakingService(prisma);
+const speaking = new SpeakingService(prisma, genericContent);
 
 /** Every B1 Modelltest in the training catalogue when phase 26 started. */
 const GOLDEN_MODELLTESTS = [1, 2, 3, 4, 5, 6] as const;

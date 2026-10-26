@@ -31,7 +31,11 @@ import { CurrentStudent } from '../../shared/decorators/current-student.decorato
 import { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { WritingService } from './writing.service';
 import { RateLimitService } from '../../shared/services/rate-limit.service';
-import { ExerciseAttemptDto, WritingExerciseDto } from './dto';
+import {
+  ExerciseAttemptDto,
+  WritingExerciseDto,
+  WritingExerciseResponseDto,
+} from './dto';
 import { SubmitWritingDto } from './dto/submit-writing.dto';
 import { SubmitWritingResponseDto } from './dto/submit-writing-response.dto';
 import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
@@ -60,7 +64,7 @@ export class WritingController {
     description: 'Modelltest number (e.g. 1)',
     example: 1,
   })
-  @ApiOkResponse({ type: WritingExerciseDto })
+  @ApiOkResponse({ type: WritingExerciseResponseDto })
   @ApiNotFoundResponse({
     description: 'No writing exercise found for this Modelltest',
   })
@@ -70,7 +74,7 @@ export class WritingController {
   async getExerciseByModelltest(
     @CurrentStudent() student: AccessTokenPayload | null,
     @Query('modelltest') modelltest: string,
-  ): Promise<WritingExerciseDto> {
+  ): Promise<WritingExerciseDto | WritingExerciseResponseDto> {
     const number = parseInt(modelltest, 10);
     if (!modelltest || isNaN(number)) {
       throw new BadRequestException({
