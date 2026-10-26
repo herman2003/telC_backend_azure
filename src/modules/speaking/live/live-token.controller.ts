@@ -314,21 +314,18 @@ export class LiveTokenController {
    * A missing or unseeded Modelltest must not stop someone practising: Elena's
    * base persona already tells her to introduce a topic herself. So a lookup
    * failure is logged and downgraded to "no topic", never surfaced as an error.
+   *
+   * Resolves B1/B2 `speaking_exercises` and A1/A2 generic SPRECHEN sections.
    */
   private async loadTopic(
     teilNumber: number,
     modelltest: number,
   ): Promise<ExaminerTopic | null> {
     try {
-      const teils = await this.speakingService.getTeils(modelltest);
-      const match = teils.find((teil) => teil.part === teilNumber);
-      if (!match) return null;
-
-      return {
-        title: match.topicTitle,
-        description: match.topicDescription,
-        points: match.topicPoints,
-      };
+      return await this.speakingService.resolveExaminerTopic(
+        modelltest,
+        teilNumber,
+      );
     } catch (error) {
       this.logger.warn(
         `No topic for Teil ${teilNumber} of Modelltest ${modelltest}: ` +

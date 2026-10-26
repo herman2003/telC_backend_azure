@@ -13,6 +13,8 @@ import {
   GENERIC_MODEL_LEVELS,
   GenericExamContentService,
 } from '../../../shared/services/generic-exam-content.service';
+import type { ExaminerTopic } from '../live/examiner-prompt.service';
+import { examinerTopicFromGenericSection } from './generic-sprechen-topic';
 
 @Injectable()
 export class SpeakingService {
@@ -21,6 +23,51 @@ export class SpeakingService {
     private readonly prisma: PrismaService,
     private readonly genericContent: GenericExamContentService,
   ) {}
+
+  /**
+   * Topic Elena should use for a live training session.
+   *
+   * B1/B2: `speaking_exercises` via {@link getTeils}.
+   * A1/A2: generic `exam_sections` SPRECHEN mapped to the same shape.
+   * Missing content → null (Elena invents a topic; never fail the mint).
+   */
+  async resolveExaminerTopic(
+    modelltestNumber: number,
+    teilNumber: number,
+  ): Promise<ExaminerTopic | null> {
+    try {
+      const teils = await this.getTeils(modelltestNumber);
+      const match = teils.find((teil) => teil.part === teilNumber);
+      if (match?.topicTitle) {
+        return {
+          title: match.topicTitle,
+          description: match.topicDescription,
+          points: match.topicPoints,
+        };
+      }
+    } catch (error) {
+      this.logger.warn(
+        `speaking_exercises miss for MT ${modelltestNumber} Teil ${teilNumber}: ` +
+          `${(error as Error).message}. Trying generic SPRECHEN.`,
+      );
+    }
+
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: modelltestNumber },
+      select: { id: true, level: true },
+    });
+    if (!modelltest || !GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
+      return null;
+    }
+
+    const section = await this.genericContent.sectionFor(
+      modelltest.id,
+      'SPRECHEN',
+      teilNumber,
+    );
+    if (!section) return null;
+    return examinerTopicFromGenericSection(section);
+  }
 
   /**
    * GET /api/speaking/exercise?modelltest= — A1/A2 generic sections (SPRECHEN).

@@ -8,7 +8,7 @@ describe('SpeakingService', () => {
     speakingAttempt: { findMany: jest.fn() },
     $queryRaw: jest.fn(),
   };
-  const genericContent = { sectionsFor: jest.fn() };
+  const genericContent = { sectionsFor: jest.fn(), sectionFor: jest.fn() };
   let service: SpeakingService;
 
   beforeEach(() => {
@@ -30,6 +30,64 @@ describe('SpeakingService', () => {
         exam_image_url: null,
       },
     ]);
+  });
+
+  describe('resolveExaminerTopic', () => {
+    it('returns B1 speaking_exercises topic when present', async () => {
+      const topic = await service.resolveExaminerTopic(1, 1);
+      expect(topic).toEqual({
+        title: 'Topic',
+        description: 'Description',
+        points: ['A', 'B'],
+      });
+      expect(genericContent.sectionFor).not.toHaveBeenCalled();
+    });
+
+    it('falls back to A2 generic SPRECHEN when speaking_exercises are empty', async () => {
+      prisma.speakingExercise.findMany.mockResolvedValue([]);
+      prisma.modelltest.findUnique
+        .mockResolvedValueOnce({ id: 'a2-mt' }) // getTeils
+        .mockResolvedValueOnce({ id: 'a2-mt', level: 'A2' }); // resolve fallback
+      genericContent.sectionFor.mockResolvedValue({
+        id: 'sec',
+        sectionId: 'SPRECHEN_2',
+        aufgabentyp: 'ALLTAGSGESPRAECH',
+        teil: 2,
+        label: 'Sprechen',
+        instruction: 'Fragen stellen',
+        maxPoints: 6,
+        scoringMode: 'MANUAL',
+        contentRevision: 'a2-sprechen-2-v1',
+        material: {
+          topic: 'Tagesablauf',
+          cards: [{ key: 'was', text: 'Was …?' }],
+        },
+        items: [],
+      });
+
+      const topic = await service.resolveExaminerTopic(8, 2);
+
+      expect(genericContent.sectionFor).toHaveBeenCalledWith(
+        'a2-mt',
+        'SPRECHEN',
+        2,
+      );
+      expect(topic).toEqual({
+        title: 'Tagesablauf',
+        description: 'Fragen stellen',
+        points: ['Was …?'],
+      });
+    });
+
+    it('returns null when neither speaking_exercises nor generic content exists', async () => {
+      prisma.speakingExercise.findMany.mockResolvedValue([]);
+      prisma.modelltest.findUnique
+        .mockResolvedValueOnce({ id: 'a1-mt' })
+        .mockResolvedValueOnce({ id: 'a1-mt', level: 'A1' });
+      genericContent.sectionFor.mockResolvedValue(null);
+
+      await expect(service.resolveExaminerTopic(9, 1)).resolves.toBeNull();
+    });
   });
 
   describe('getExerciseByModelltest', () => {

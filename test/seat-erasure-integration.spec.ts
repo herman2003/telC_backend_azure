@@ -128,12 +128,12 @@ describe('seat data erasure against real Postgres', () => {
 
   it('deletes the seat work at the reset, and keeps what came before', async () => {
     const { student, code, manager, before, onSeat } = await studentOnSeat();
-    expect((await progress.forStudent(student.id)).attempts).toBe(3);
+    expect((await progress.forStudent(student.id)).attemptsTotal).toBe(3);
 
     await codes.reset(manager as never, code.id);
 
     // Only the work from before the school remains.
-    expect((await progress.forStudent(student.id)).attempts).toBe(1);
+    expect((await progress.forStudent(student.id)).attemptsTotal).toBe(1);
     expect(await visible(student.id)).toBe(1);
     const shown = await prisma.lesenAttempt.findMany({
       where: { student_id: student.id },
