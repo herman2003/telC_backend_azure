@@ -37,13 +37,15 @@ describe('TrainingAudioService', () => {
     );
   });
 
-  describe('spending a play', () => {
-    it('hands back a listening stream link and says none are left', async () => {
+  describe('granting a stream link', () => {
+    it('hands back a short-lived listening stream link', async () => {
       const granted = await service.play(STUDENT, AUDIO);
 
-      expect(granted.playsRemaining).toBe(0);
+      expect(granted.playsRemaining).toBe(1);
       expect(granted.url).toContain('/api/listening/audio?token=');
       expect(trainingAccess.assertMayAccess).toHaveBeenCalledWith(STUDENT, 1);
+      expect(prisma.trainingAudioPlay.create).not.toHaveBeenCalled();
+      expect(prisma.trainingAudioPlay.updateMany).not.toHaveBeenCalled();
     });
 
     it('skips paid training assert for guests', async () => {
@@ -51,34 +53,14 @@ describe('TrainingAudioService', () => {
       expect(trainingAccess.assertMayAccess).not.toHaveBeenCalled();
     });
 
-    it('refuses once the allowance is gone', async () => {
-      prisma.trainingAudioPlay.updateMany.mockResolvedValue({ count: 0 });
+    it('grants again after a prior play (Flutter owns free vs timed)', async () => {
+      const first = await service.play(STUDENT, AUDIO);
+      const second = await service.play(STUDENT, AUDIO);
 
-      await expect(service.play(STUDENT, AUDIO)).rejects.toThrow(
-        'NO_PLAYS_LEFT',
-      );
-    });
-
-    it('makes the counter row before claiming', async () => {
-      await service.play(STUDENT, AUDIO);
-
-      expect(prisma.trainingAudioPlay.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: expect.objectContaining({
-            student_id: STUDENT,
-            audio_id: AUDIO,
-            plays_used: 0,
-          }),
-        }),
-      );
-    });
-
-    it('carries on when the row already exists', async () => {
-      prisma.trainingAudioPlay.create.mockRejectedValue(
-        Object.assign(new Error('unique'), { code: 'P2002' }),
-      );
-
-      await expect(service.play(STUDENT, AUDIO)).resolves.toBeDefined();
+      expect(first.url).toContain('/api/listening/audio?token=');
+      expect(second.url).toContain('/api/listening/audio?token=');
+      expect(second.playsRemaining).toBe(1);
+      expect(prisma.trainingAudioPlay.updateMany).not.toHaveBeenCalled();
     });
 
     it('refuses a missing recording', async () => {
@@ -120,12 +102,12 @@ describe('TrainingAudioService', () => {
       const granted = await service.play(STUDENT, SECTION);
 
       expect(granted.audioId).toBe(SECTION);
-      expect(granted.playsRemaining).toBe(0);
+      expect(granted.playsRemaining).toBe(1);
       expect(granted.url).toContain('/api/listening/audio?token=');
       expect(trainingAccess.assertMayAccess).toHaveBeenCalledWith(STUDENT, 8);
     });
 
-    it('refuses a generic Hören section before spending a play when upload is missing', async () => {
+    it('refuses a generic Hören section before granting when upload is missing', async () => {
       const SECTION = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
       prisma.listeningExercise.findUnique.mockResolvedValue(null);
       prisma.examSection = {
