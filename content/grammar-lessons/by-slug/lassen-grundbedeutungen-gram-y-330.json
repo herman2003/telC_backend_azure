@@ -1,0 +1,39 @@
+{
+  "slug": "lassen-grundbedeutungen-gram-y-330",
+  "titleFr": "lassen — sens de base",
+  "titleEn": "lassen — basic meanings",
+  "titleDe": "lassen — Grundbedeutungen",
+  "ruleFr": "## lassen — sens de base\n\nLe verbe **lassen** est très fréquent et a **plusieurs sens** selon le contexte.\n\n### Les 3 sens principaux\n| Sens | Français | Exemple |\n|---|---|---|\n| 1. **Faire faire** (causatif) | faire [qqch] par qqn | *Ich lasse mein Auto reparieren.* |\n| 2. **Laisser / permettre** | laisser qqn faire | *Lass mich in Ruhe!* |\n| 3. **Laisser (sur place)** | laisser qqch quelque part | *Ich lasse die Tasche hier.* |\n\n### Construction\nSouvent : **lassen + infinitif** (sans *zu*).\n\n- *Er lässt die Kinder spielen.* (permettre)\n- *Sie lässt sich die Haare schneiden.* (faire faire)\n\n### Ne pas confondre\n- *lassen* ≠ *verlieren* (perdre)\n- *lassen* ≠ *aufhören* (arrêter) — mais : *Lass das!* = Arrête ça !\n\n### Erreurs fréquentes\n- Ajouter *zu* : ✗ *Ich lasse zu reparieren.* → ✓ *Ich lasse reparieren.*\n- Confondre les sens sans contexte.\n\n### Mini-entraînement\n1. Classez 6 phrases selon le sens (1/2/3).\n2. Traduisez 5 phrases FR → DE avec *lassen*.\n3. Écrivez une phrase pour chaque sens.",
+  "ruleEn": "## lassen — basic meanings\n\n**lassen** is very common and has **several meanings** depending on context.\n\n### The 3 main meanings\n| Meaning | English | Example |\n|---|---|---|\n| 1. **Have something done** (causative) | have X done | *Ich lasse mein Auto reparieren.* |\n| 2. **Let / allow** | let someone do | *Lass mich in Ruhe!* |\n| 3. **Leave behind** | leave something somewhere | *Ich lasse die Tasche hier.* |\n\n### Construction\nOften: **lassen + infinitive** (no *zu*).\n\n- *Er lässt die Kinder spielen.* (allow)\n- *Sie lässt sich die Haare schneiden.* (have done)\n\n### Don’t confuse\n- *lassen* ≠ *verlieren* (lose)\n- *lassen* ≠ *aufhören* (stop) — but: *Lass das!* = Stop that!\n\n### Common mistakes\n- Adding *zu*: ✗ *Ich lasse zu reparieren.* → ✓ *Ich lasse reparieren.*\n- Mixing meanings without context.\n\n### Mini practice\n1. Sort 6 sentences by meaning (1/2/3).\n2. Translate 5 sentences into German with *lassen*.\n3. Write one sentence for each meaning.",
+  "ruleDe": "## lassen — Grundbedeutungen\n\nDas Verb **lassen** ist sehr häufig und hat **mehrere Bedeutungen** je nach Kontext.\n\n### Die 3 Hauptbedeutungen\n| Bedeutung | Erklärung | Beispiel |\n|---|---|---|\n| 1. **Veranlassen** (kausativ) | etwas machen lassen | *Ich lasse mein Auto reparieren.* |\n| 2. **Erlauben / zulassen** | jemanden etwas tun lassen | *Lass mich in Ruhe!* |\n| 3. **Zurücklassen** | etwas irgendwo lassen | *Ich lasse die Tasche hier.* |\n\n### Konstruktion\nOft: **lassen + Infinitiv** (ohne *zu*).\n\n- *Er lässt die Kinder spielen.*\n- *Sie lässt sich die Haare schneiden.*\n\n### Nicht verwechseln\n- *lassen* ≠ *verlieren*\n- *lassen* ≠ *aufhören* — aber: *Lass das!*\n\n### Häufige Fehler\n- *zu* einfügen: ✗ *Ich lasse zu reparieren.* → ✓ *Ich lasse reparieren.*\n- Bedeutungen ohne Kontext vermischen.\n\n### Mini-Übung\n1. 6 Sätze nach Bedeutung (1/2/3) ordnen.\n2. 5 Sätze mit *lassen* bilden.\n3. Je eine Beispielsatz pro Bedeutung schreiben.",
+  "notesFr": "Le contexte décide du sens ! Très fréquent. Souvent : lassen + infinitif (sans zu).",
+  "notesEn": "Context decides the meaning! Very common. Often: lassen + infinitive (no zu).",
+  "notesDe": "Der Kontext bestimmt die Bedeutung! Sehr häufig. Oft: lassen + Infinitiv (ohne zu).",
+  "examples": [
+    {
+      "de": "Ich lasse mein Fahrrad reparieren.",
+      "fr": "Je fais réparer mon vélo. (sens causatif : faire faire.)",
+      "en": "I’m having my bike repaired. (causative: have something done.)"
+    },
+    {
+      "de": "Lass die Kinder draußen spielen.",
+      "fr": "Laisse les enfants jouer dehors. (permettre.)",
+      "en": "Let the children play outside. (allow.)"
+    },
+    {
+      "de": "Ich lasse den Schlüssel auf dem Tisch.",
+      "fr": "Je laisse la clé sur la table. (laisser sur place.)",
+      "en": "I’m leaving the key on the table. (leave behind.)"
+    },
+    {
+      "de": "Kannst du mich bitte ausreden lassen?",
+      "fr": "Peux-tu me laisser finir de parler, s’il te plaît ?",
+      "en": "Can you please let me finish speaking?"
+    },
+    {
+      "de": "Sie lässt sich Zeit.",
+      "fr": "Elle prend son temps. (expression idiomatique.)",
+      "en": "She takes her time. (idiomatic.)"
+    }
+  ]
+}

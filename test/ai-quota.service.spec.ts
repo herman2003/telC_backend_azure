@@ -3,7 +3,7 @@ import { ForbiddenException } from '@nestjs/common';
 import {
   AiQuotaService,
   AI_QUOTA_WINDOW_HOURS,
-  TIER_AI_ALLOWANCE,
+  AI_ALLOWANCE_PER_WINDOW,
 } from '../src/shared/services/ai-quota.service';
 import type { StudentEntitlement } from '../src/shared/services/student-entitlement.service';
 
@@ -24,7 +24,6 @@ describe('AiQuotaService', () => {
       status: 'ACTIVE',
       studentsMayLearn: true,
       graceEndsAt: null,
-      tier: 'START',
       studentExists: true,
       wasGoverned: true,
       ...over,
@@ -44,17 +43,10 @@ describe('AiQuotaService', () => {
   });
 
   describe('the published allowances', () => {
-    it.each([
-      ['START', 2],
-      ['PRO', 5],
-      ['PREMIUM', 20],
-    ] as const)('gives %s %i per window', async (tier, allowed) => {
-      entitlement.forStudent.mockResolvedValue(entitled({ tier }));
-
+    it('gives every student the same allowance, since there is one plan', async () => {
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
 
-      expect(decision.allowedToday).toBe(allowed);
-      expect(TIER_AI_ALLOWANCE[tier]).toBe(allowed);
+      expect(decision.allowedToday).toBe(AI_ALLOWANCE_PER_WINDOW);
     });
 
     it('counts over a rolling twenty-four hours', async () => {
@@ -87,36 +79,31 @@ describe('AiQuotaService', () => {
      */
     it('gives a student no center governs the Start allowance', async () => {
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, wasGoverned: false }),
+        entitled({ status: 'NONE', wasGoverned: false }),
       );
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
 
-      expect(decision.allowedToday).toBe(TIER_AI_ALLOWANCE.START);
-      expect(decision.tier).toBeNull();
+      expect(decision.allowedToday).toBe(AI_ALLOWANCE_PER_WINDOW);
     });
 
-    it('gives a governed student with no tier the same', async () => {
-      // One rule rather than two. Provisioning requires a tier, so this is
-      // only reachable by a student who predates tiers entirely.
-      entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'ACTIVE', tier: null }),
-      );
+    it('gives a governed student the same', async () => {
+      entitlement.forStudent.mockResolvedValue(entitled({ status: 'ACTIVE' }));
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
 
-      expect(decision.allowedToday).toBe(TIER_AI_ALLOWANCE.START);
+      expect(decision.allowedToday).toBe(AI_ALLOWANCE_PER_WINDOW);
     });
 
     it('never makes a removed student better off than a Start student', async () => {
       // The loophole this closes: a center could otherwise release its
       // students to give them an unmetered allowance we pay for.
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, wasGoverned: false }),
+        entitled({ status: 'NONE', wasGoverned: false }),
       );
       const ungoverned = await service.check('s1', 'SPEAKING_EVALUATION');
 
-      entitlement.forStudent.mockResolvedValue(entitled({ tier: 'START' }));
+      entitlement.forStudent.mockResolvedValue(entitled({ status: 'ACTIVE' }));
       const start = await service.check('s1', 'SPEAKING_EVALUATION');
 
       expect(ungoverned.allowedToday).toBeLessThanOrEqual(start.allowedToday);
@@ -138,7 +125,7 @@ describe('AiQuotaService', () => {
   describe('a caller that cannot be metered', () => {
     it('is refused rather than given an allowance', async () => {
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, studentExists: false }),
+        entitled({ status: 'NONE', studentExists: false }),
       );
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
@@ -149,7 +136,7 @@ describe('AiQuotaService', () => {
     it('does not even ask how much they have used', async () => {
       // There is nothing to count, and asking would imply there might be.
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, studentExists: false }),
+        entitled({ status: 'NONE', studentExists: false }),
       );
 
       await service.check('s1', 'SPEAKING_EVALUATION');
@@ -159,7 +146,7 @@ describe('AiQuotaService', () => {
 
     it('says the account is what is missing, not the allowance', async () => {
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'NONE', tier: null, studentExists: false }),
+        entitled({ status: 'NONE', studentExists: false }),
       );
 
       await expect(
@@ -198,7 +185,7 @@ describe('AiQuotaService', () => {
     });
 
     it('refuses a student somehow over the allowance', async () => {
-      // A tier move down, or a lost race. Still refused, never negative.
+      // Fewer seats than before, or a lost race. Still refused, never negative.
       usage.countSince.mockResolvedValue(9);
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');
@@ -287,7 +274,6 @@ describe('AiQuotaService', () => {
       ).rejects.toMatchObject({
         response: expect.objectContaining({
           message: 'AI_QUOTA_EXCEEDED',
-          tier: 'START',
           usedToday: 2,
           allowedToday: 2,
         }),
@@ -325,7 +311,7 @@ describe('AiQuotaService', () => {
       // reach the student as SUBSCRIPTION_INACTIVE rather than as a quota
       // message about a school that has stopped paying.
       entitlement.forStudent.mockResolvedValue(
-        entitled({ status: 'BLOCKED', studentsMayLearn: false, tier: null }),
+        entitled({ status: 'BLOCKED', studentsMayLearn: false }),
       );
 
       const decision = await service.check('s1', 'SPEAKING_EVALUATION');

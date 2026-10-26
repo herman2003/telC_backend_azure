@@ -17,18 +17,17 @@ import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscript
  *    student's session and hands them nothing.
  */
 describe('speaking evaluation and the AI quota', () => {
-  /** The shape `parseResponse` actually accepts, snake_case and all. */
+  /** The shape `parseResponse` accepts: M10 letters (points computed in code). */
   const A_RESULT = {
-    grammar_score: 4,
-    vocabulary_score: 4,
-    coherence_score: 4,
-    overall_score: 4,
+    expression: 'A',
+    taskFulfilment: 'A',
+    formalAccuracy: 'A',
+    pronunciation: 'A',
     evaluation_text: 'Gut gemacht.',
     corrections: [],
   };
 
   let gemini: { generateTextResponse: jest.Mock };
-  let quota: { assertWithinQuota: jest.Mock };
   let usage: { recordDelivered: jest.Mock };
   let rateLimit: { checkAiEvaluationLimit: jest.Mock };
   let prisma: any;
@@ -39,6 +38,7 @@ describe('speaking evaluation and the AI quota', () => {
       modelltest: { findUnique: jest.fn().mockResolvedValue({ id: 'mt-1' }) },
       speakingAttempt: {
         findUnique: jest.fn().mockResolvedValue(null),
+        findFirst: jest.fn().mockResolvedValue(null),
         create: jest.fn().mockResolvedValue({}),
       },
       student: { findUnique: jest.fn().mockResolvedValue({ id: 'student-1' }) },
@@ -50,7 +50,6 @@ describe('speaking evaluation and the AI quota', () => {
         .fn()
         .mockResolvedValue(JSON.stringify(A_RESULT)),
     };
-    quota = { assertWithinQuota: jest.fn().mockResolvedValue(undefined) };
     usage = { recordDelivered: jest.fn().mockResolvedValue(undefined) };
     rateLimit = {
       checkAiEvaluationLimit: jest.fn().mockResolvedValue(undefined),
@@ -58,7 +57,6 @@ describe('speaking evaluation and the AI quota', () => {
 
     service = new EvaluationService(
       gemini as never,
-      quota as never,
       usage as never,
       rateLimit as never,
       prisma as never,
@@ -74,45 +72,39 @@ describe('speaking evaluation and the AI quota', () => {
     service.evaluateTranscript(undefined, 1, 'Ich heiße Awa...');
 
   describe('before the AI call', () => {
-    it('checks the allowance', async () => {
-      await evaluate();
-
-      expect(quota.assertWithinQuota).toHaveBeenCalledWith(
-        'student-1',
-        'SPEAKING_EVALUATION',
-      );
-    });
-
-    it('does not call Gemini when the allowance is spent', async () => {
+    // The allowance moved. Until 2026-09-25 grading had one of its own, two
+    // per rolling day, checked here. It does not any more: what Lerniqo sells
+    // is the conversation, charged when it starts, and refusing the correction
+    // that follows would take feedback away from a student who had already
+    // paid for the session.
+    it('does not call Gemini when the burst limit refuses', async () => {
       // The point of checking first. A refusal after the call would cost us
       // the request and give the student nothing.
-      quota.assertWithinQuota.mockRejectedValue(
-        new ForbiddenException({ message: 'AI_QUOTA_EXCEEDED' }),
+      rateLimit.checkAiEvaluationLimit.mockRejectedValue(
+        new ForbiddenException({ message: 'RATE_LIMITED' }),
       );
 
-      await expect(evaluate()).rejects.toThrow('AI_QUOTA_EXCEEDED');
+      await expect(evaluate()).rejects.toThrow('RATE_LIMITED');
       expect(gemini.generateTextResponse).not.toHaveBeenCalled();
     });
 
-    it('records nothing when the allowance is spent', async () => {
-      quota.assertWithinQuota.mockRejectedValue(
-        new ForbiddenException({ message: 'AI_QUOTA_EXCEEDED' }),
+    it('records nothing when the burst limit refuses', async () => {
+      rateLimit.checkAiEvaluationLimit.mockRejectedValue(
+        new ForbiddenException({ message: 'RATE_LIMITED' }),
       );
 
-      await expect(evaluate()).rejects.toThrow('AI_QUOTA_EXCEEDED');
+      await expect(evaluate()).rejects.toThrow('RATE_LIMITED');
       expect(usage.recordDelivered).not.toHaveBeenCalled();
     });
 
     it('lets the refusal through unchanged, numbers and all', async () => {
-      // The refusal is a sales moment. Wrapping it would strip the figures a
-      // client needs to offer the upgrade.
+      // A refusal is a sales moment. Wrapping it would strip the figures a
+      // client needs to say something useful.
       const refusal = new ForbiddenException({
-        message: 'AI_QUOTA_EXCEEDED',
-        tier: 'START',
-        usedToday: 2,
-        allowedToday: 2,
+        message: 'RATE_LIMITED',
+        retryAfterSeconds: 120,
       });
-      quota.assertWithinQuota.mockRejectedValue(refusal);
+      rateLimit.checkAiEvaluationLimit.mockRejectedValue(refusal);
 
       await expect(evaluate()).rejects.toBe(refusal);
     });
@@ -163,10 +155,6 @@ describe('speaking evaluation and the AI quota', () => {
         order.push('limit');
         return Promise.resolve();
       });
-      quota.assertWithinQuota.mockImplementation(() => {
-        order.push('check');
-        return Promise.resolve();
-      });
       gemini.generateTextResponse.mockImplementation(() => {
         order.push('call');
         return Promise.resolve(JSON.stringify(A_RESULT));
@@ -178,7 +166,9 @@ describe('speaking evaluation and the AI quota', () => {
 
       await evaluate();
 
-      expect(order).toEqual(['limit', 'check', 'call', 'record']);
+      // The row is written after the model answers, never before: a failure
+      // on our side must not spend something the student then does not get.
+      expect(order).toEqual(['limit', 'call', 'record']);
     });
   });
 
@@ -196,14 +186,20 @@ describe('speaking evaluation and the AI quota', () => {
         student_id: 'student-1',
         teil_number: 2,
         modelltest_id: 'mt-1',
-        score: 4,
+        // AAAA on Teil 2 → 30/30 → overall 100
+        score: 100,
         duration_seconds: 120,
+      });
+      expect(stored.evaluation.telcRating).toMatchObject({
+        points: 30,
+        maxPoints: 30,
+        teilNumber: 2,
       });
       expect(prisma.studentActivity.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           skill: 'SPRECHEN',
           teil: 2,
-          score: 4,
+          score: 100,
           attempt_id: stored.attempt_id,
         }),
       });
@@ -226,7 +222,6 @@ describe('speaking evaluation and the AI quota', () => {
       );
 
       expect(result).toEqual(earlier);
-      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
       expect(gemini.generateTextResponse).not.toHaveBeenCalled();
       expect(prisma.speakingAttempt.create).not.toHaveBeenCalled();
     });
@@ -243,15 +238,16 @@ describe('speaking evaluation and the AI quota', () => {
       expect(gemini.generateTextResponse).not.toHaveBeenCalled();
     });
 
-    it('stores a fractional score as whole points instead of losing it', async () => {
+    it('derives score from M10 letters and ignores a model numeric overall', async () => {
       gemini.generateTextResponse.mockResolvedValue(
-        JSON.stringify({ ...A_RESULT, overall_score: 76.5 }),
+        JSON.stringify({ ...A_RESULT, overall_score: 12 }),
       );
 
       await evaluate();
 
+      // Teil 1 AAAA → 15/15 → 100, not the model's 12
       expect(prisma.speakingAttempt.create.mock.calls[0][0].data.score).toBe(
-        77,
+        100,
       );
       expect(prisma.studentActivity.create).toHaveBeenCalled();
     });
@@ -264,7 +260,6 @@ describe('speaking evaluation and the AI quota', () => {
           modelltestNumber: 9,
         }),
       ).rejects.toThrow('Modelltest 9 not found');
-      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
       expect(gemini.generateTextResponse).not.toHaveBeenCalled();
     });
 
@@ -272,21 +267,95 @@ describe('speaking evaluation and the AI quota', () => {
       prisma.$transaction.mockRejectedValue(new Error('db down'));
 
       await expect(evaluate()).resolves.toMatchObject({
-        scores: expect.objectContaining({ overall: 4 }),
+        scores: expect.objectContaining({ overall: 100 }),
+        telcRating: expect.objectContaining({ points: 15, maxPoints: 15 }),
       });
     });
   });
 
   describe('a request with no student', () => {
-    it('is neither checked nor recorded', async () => {
+    it('is not recorded, because there is nobody to record it against', async () => {
       // The same choice StudentSubscriptionGuard makes: a token naming nobody
       // has nobody to look up. Charging an anonymous caller is impossible, and
       // refusing them here would be a decision about authentication taken in
       // the wrong place.
       await expect(evaluateAnonymously()).resolves.toBeDefined();
 
-      expect(quota.assertWithinQuota).not.toHaveBeenCalled();
       expect(usage.recordDelivered).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('grading no longer has an allowance of its own', () => {
+    // The conversation is the unit Start sells, and it is charged when it
+    // starts. Charging the correction that follows it as well would refuse a
+    // student their feedback on a session they had already paid for — the
+    // phase 21 bug with different names: three Sprechen Teile meeting an
+    // allowance of two.
+    //
+    // There is no assertion here that the old allowance is unchecked, because
+    // the service no longer takes AiQuotaService at all — a test for that
+    // would be asserting against a constructor parameter that does not exist.
+    // What is left to protect is the limit that remains.
+    it('still obeys the burst limit, which is about our bill', async () => {
+      // Twenty an hour. It bounds how fast anybody can pile calls into the
+      // model, which is a different question from what they are entitled to.
+      await evaluate();
+
+      expect(rateLimit.checkAiEvaluationLimit).toHaveBeenCalledWith(
+        'student-1',
+      );
+    });
+  });
+
+  describe('inside an exam, which was paid for separately', () => {
+    // The practice allowance is two per window. A telc Sprechen has three
+    // Teile, so charging the exam against it would refuse a candidate on
+    // Teil 3, mid-sitting, on a 1,500 XAF-a-head product.
+    const inExam = (teil: number) =>
+      service.evaluateTranscript('student-1', teil, 'Wir planen zusammen.', {
+        examAttemptId: 'exam-attempt-1',
+      });
+
+    it('reaches the model at all, on the Teil the exam asked for', async () => {
+      await inExam(3);
+
+      expect(gemini.generateTextResponse).toHaveBeenCalled();
+    });
+
+    it('still obeys the burst limit, which is about our bill', async () => {
+      await inExam(1);
+
+      expect(rateLimit.checkAiEvaluationLimit).toHaveBeenCalledWith(
+        'student-1',
+      );
+    });
+
+    it('allows one evaluation per Teil and no more', async () => {
+      // The bound that replaces the allowance. Without it, skipping the quota
+      // would leave an exam candidate able to call the model in a loop.
+      prisma.speakingAttempt.findFirst.mockResolvedValue({ id: 'earlier' });
+
+      await expect(inExam(2)).rejects.toThrow('EXAM_TEIL_ALREADY_EVALUATED');
+      expect(gemini.generateTextResponse).not.toHaveBeenCalled();
+    });
+
+    it('looks for the earlier one by attempt and Teil, not by student', async () => {
+      // By student would refuse the candidate's second Teil; by attempt alone
+      // would refuse all three.
+      await inExam(2);
+
+      expect(prisma.speakingAttempt.findFirst).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { exam_attempt_id: 'exam-attempt-1', teil_number: 2 },
+        }),
+      );
+    });
+
+    it('leaves training alone: no exam, no per-Teil check', async () => {
+      await evaluate();
+
+      expect(prisma.speakingAttempt.findFirst).not.toHaveBeenCalled();
+      expect(gemini.generateTextResponse).toHaveBeenCalled();
     });
   });
 });

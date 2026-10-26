@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RoomService } from '../src/modules/speaking/room/room.service';
+import { SPEAKING_TOPICS } from '../src/modules/speaking/room/speaking-topics.data';
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -16,30 +17,76 @@ describe('RoomService', () => {
   });
 
   afterEach(() => {
+    jest.restoreAllMocks();
     jest.useRealTimers();
   });
 
   // ─── createRoom ─────────────────────────────────────────────────────────────
 
+  describe('a level with no topics yet', () => {
+    /**
+     * A level is openable before its topics are written, and must say so.
+     *
+     * B2 students exist as soon as a centre sets a seat to B2, while the 60 B2
+     * Live Room topics are content that arrives separately. The old code threw
+     * a bare Error from pickTopic, which the controller turned into a 500 and
+     * the gateway into an unhandled failure — a student told nothing, and a
+     * paging alert for a content gap. It must be a stated reason instead, and
+     * it must never quietly hand out a B1 topic.
+     */
+    it('refuses with a reason rather than a 500 or another level topic', () => {
+      // A1 has no topics written yet. B2 did when this test was added and
+      // now has ten, which is the point: the refusal is about content, so it
+      // follows the content rather than being pinned to a level.
+      expect(() => service.createRoom('A1')).toThrow(/NO_TOPICS_FOR_LEVEL/);
+    });
+
+    it.each(['B1', 'B2'] as const)(
+      'serves %s, whose topics exist',
+      (level) => {
+        expect(service.createRoom(level).topic.level).toBe(level);
+      },
+    );
+
+    it('never hands a room a topic from another level', () => {
+      // Twenty draws: enough that a filter dropped by accident would show up.
+      for (let i = 0; i < 20; i += 1) {
+        expect(service.createRoom('B2').topic.level).toBe('B2');
+      }
+    });
+  });
+
   describe('createRoom()', () => {
+    it('stores and returns one B1 topic as the first used topic', () => {
+      jest.spyOn(Math, 'random').mockReturnValue(0);
+
+      const result = service.createRoom('B1');
+      const room = service.getRoom(result.roomId)!;
+
+      expect(result.topic).toEqual(SPEAKING_TOPICS[0]);
+      expect(room.level).toBe('B1');
+      expect(room.topic).toEqual(result.topic);
+      expect(room.usedTopicIds).toEqual([result.topic.id]);
+    });
+
     it('returns a UUID roomId', () => {
-      const result = service.createRoom();
+      const result = service.createRoom('B1');
       expect(result.roomId).toMatch(UUID_PATTERN);
     });
 
     it('returns a UUID hostToken', () => {
-      const result = service.createRoom();
+      const result = service.createRoom('B1');
       expect(result.hostToken).toMatch(UUID_PATTERN);
     });
 
     it('roomId and hostToken are different values', () => {
-      const result = service.createRoom();
+      const result = service.createRoom('B1');
       expect(result.roomId).not.toBe(result.hostToken);
     });
 
     it('expiresAt is an ISO string approximately 2 hours from now', () => {
       const before = Date.now();
-      const result = service.createRoom();
+      const result = service.createRoom('B1');
       const after = Date.now();
       const expiresMs = new Date(result.expiresAt).getTime();
       const twoHoursMs = 2 * 60 * 60 * 1000;
@@ -48,22 +95,100 @@ describe('RoomService', () => {
     });
 
     it('stores the room so getRoom() finds it', () => {
-      const result = service.createRoom();
+      const result = service.createRoom('B1');
       const room = service.getRoom(result.roomId);
       expect(room).toBeDefined();
       expect(room!.roomId).toBe(result.roomId);
     });
 
     it('new room starts with status "waiting"', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       expect(service.getRoom(roomId)!.status).toBe('waiting');
     });
 
     it('new room has null hostSocketId and null guest', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       const room = service.getRoom(roomId)!;
       expect(room.hostSocketId).toBeNull();
       expect(room.guest).toBeNull();
+    });
+  });
+
+  describe('selectNextTopic()', () => {
+    /**
+     * A room cycles the topics of its own level, so the catalogue it can
+     * exhaust is that level's slice rather than every card in the file. These
+     * two counted `SPEAKING_TOPICS.length`, which was the same number only
+     * while B1 was the only level — the ten B2 cards made it wrong.
+     */
+    const topicsAt = (level: 'B1' | 'B2') =>
+      SPEAKING_TOPICS.filter((topic) => topic.level === level).length;
+
+    it('does not repeat a topic before the catalog is exhausted', () => {
+      jest.spyOn(Math, 'random').mockReturnValue(0);
+      const { roomId, topic: initialTopic } = service.createRoom('B1');
+      const selectedIds = new Set([initialTopic.id]);
+
+      for (let index = 1; index < topicsAt('B1'); index += 1) {
+        selectedIds.add(service.selectNextTopic(roomId)!.id);
+      }
+
+      expect(selectedIds.size).toBe(topicsAt('B1'));
+      expect(service.getRoom(roomId)!.usedTopicIds).toHaveLength(
+        topicsAt('B1'),
+      );
+    });
+
+    it('exhausts the B2 slice independently of B1', () => {
+      jest.spyOn(Math, 'random').mockReturnValue(0);
+      const { roomId, topic: initialTopic } = service.createRoom('B2');
+      const selectedIds = new Set([initialTopic.id]);
+
+      for (let index = 1; index < topicsAt('B2'); index += 1) {
+        selectedIds.add(service.selectNextTopic(roomId)!.id);
+      }
+
+      expect(selectedIds.size).toBe(topicsAt('B2'));
+      expect([...selectedIds].every((id) => id.startsWith('b2-'))).toBe(true);
+    });
+
+    it('resets exhausted history without immediately repeating the current topic', () => {
+      jest.spyOn(Math, 'random').mockReturnValue(0);
+      const { roomId } = service.createRoom('B1');
+
+      for (let index = 1; index < topicsAt('B1'); index += 1) {
+        service.selectNextTopic(roomId);
+      }
+
+      const currentTopicId = service.getRoom(roomId)!.topic.id;
+      const nextTopic = service.selectNextTopic(roomId)!;
+
+      expect(nextTopic.id).not.toBe(currentTopicId);
+      expect(service.getRoom(roomId)!.usedTopicIds).toEqual([nextTopic.id]);
+    });
+
+    it('keeps topic histories independent between rooms', () => {
+      jest.spyOn(Math, 'random').mockReturnValue(0);
+      const firstRoom = service.createRoom('B1');
+      const secondRoom = service.createRoom('B1');
+
+      const firstNext = service.selectNextTopic(firstRoom.roomId)!;
+      const secondNext = service.selectNextTopic(secondRoom.roomId)!;
+
+      expect(firstNext.id).toBe(secondNext.id);
+      expect(service.getRoom(firstRoom.roomId)!.usedTopicIds).toEqual([
+        firstRoom.topic.id,
+        firstNext.id,
+      ]);
+      expect(service.getRoom(secondRoom.roomId)!.usedTopicIds).toEqual([
+        secondRoom.topic.id,
+        secondNext.id,
+      ]);
+    });
+
+    it('returns undefined without mutating state for an unknown room', () => {
+      expect(service.selectNextTopic('missing-room')).toBeUndefined();
+      expect([...service.getAllRooms()]).toHaveLength(0);
     });
   });
 
@@ -79,12 +204,12 @@ describe('RoomService', () => {
 
   describe('verifyHostToken()', () => {
     it('returns true when the token matches', () => {
-      const { roomId, hostToken } = service.createRoom();
+      const { roomId, hostToken } = service.createRoom('B1');
       expect(service.verifyHostToken(roomId, hostToken)).toBe(true);
     });
 
     it('returns false when the token is wrong', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       expect(service.verifyHostToken(roomId, 'wrong-token')).toBe(false);
     });
 
@@ -97,26 +222,26 @@ describe('RoomService', () => {
 
   describe('setHost()', () => {
     it('assigns hostSocketId on the room', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       expect(service.getRoom(roomId)!.hostSocketId).toBe('socket-host-1');
     });
 
     it('status stays "waiting" when no guest is present', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       expect(service.getRoom(roomId)!.status).toBe('waiting');
     });
 
     it('status becomes "active" when a guest is already in the room', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       service.setHost(roomId, 'socket-host-1');
       expect(service.getRoom(roomId)!.status).toBe('active');
     });
 
     it('is idempotent: second call with same socketId is a no-op', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       service.setHost(roomId, 'socket-host-1');
       expect(service.getRoom(roomId)!.hostSocketId).toBe('socket-host-1');
@@ -127,7 +252,7 @@ describe('RoomService', () => {
     });
 
     it('cancels gracePeriodTimer when host reconnects', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       service.setHost(roomId, 'socket-host-1');
 
@@ -142,7 +267,7 @@ describe('RoomService', () => {
     });
 
     it('revives room to "active" on host reconnect when guest still present', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       service.setHost(roomId, 'socket-host-1');
       service.startGracePeriod(roomId, jest.fn());
@@ -156,21 +281,21 @@ describe('RoomService', () => {
 
   describe('startGracePeriod()', () => {
     it('sets status to "ended" immediately', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       service.startGracePeriod(roomId, jest.fn());
       expect(service.getRoom(roomId)!.status).toBe('ended');
     });
 
     it('clears hostSocketId immediately', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       service.startGracePeriod(roomId, jest.fn());
       expect(service.getRoom(roomId)!.hostSocketId).toBeNull();
     });
 
     it('calls onExpire with the guest socketId after 30 seconds', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       service.setHost(roomId, 'socket-host-1');
 
@@ -182,7 +307,7 @@ describe('RoomService', () => {
     });
 
     it('calls onExpire with null when no guest was present', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
 
       const onExpire = jest.fn();
@@ -199,7 +324,7 @@ describe('RoomService', () => {
     });
 
     it('is a no-op when status is already "ended"', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       const firstCallback = jest.fn();
       service.startGracePeriod(roomId, firstCallback);
@@ -217,7 +342,7 @@ describe('RoomService', () => {
 
   describe('setGuest()', () => {
     it('assigns guest info', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       const room = service.getRoom(roomId)!;
       expect(room.guest).toEqual({
@@ -227,20 +352,20 @@ describe('RoomService', () => {
     });
 
     it('status becomes "active" when host is already connected', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       expect(service.getRoom(roomId)!.status).toBe('active');
     });
 
     it('status stays "waiting" when host is not yet connected', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       expect(service.getRoom(roomId)!.status).toBe('waiting');
     });
 
     it('is idempotent: same socketId is a no-op', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       service.setGuest(roomId, 'Changed Name', 'socket-guest-1');
       expect(service.getRoom(roomId)!.guest!.displayName).toBe('Anna');
@@ -257,14 +382,14 @@ describe('RoomService', () => {
 
   describe('removeGuest()', () => {
     it('clears guest info', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       service.removeGuest(roomId);
       expect(service.getRoom(roomId)!.guest).toBeNull();
     });
 
     it('sets status to "waiting" when not in grace period', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       service.removeGuest(roomId);
@@ -272,7 +397,7 @@ describe('RoomService', () => {
     });
 
     it('preserves "ended" status during grace period (does not overwrite to "waiting")', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       service.setHost(roomId, 'socket-host-1');
       service.startGracePeriod(roomId, jest.fn());
@@ -282,7 +407,7 @@ describe('RoomService', () => {
     });
 
     it('is idempotent: no-op when guest is already null', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       expect(() => service.removeGuest(roomId)).not.toThrow();
       expect(service.getRoom(roomId)!.guest).toBeNull();
     });
@@ -296,13 +421,13 @@ describe('RoomService', () => {
 
   describe('short code (D32)', () => {
     it('gives each room 6 characters from the no-look-alike alphabet', () => {
-      const { shortCode } = service.createRoom();
+      const { shortCode } = service.createRoom('B1');
 
       expect(shortCode).toMatch(/^[23456789ABCDEFGHJKMNPQRSTVWXYZ]{6}$/);
     });
 
     it('finds the live room by its code, typed in any case with spaces', () => {
-      const { roomId, shortCode } = service.createRoom();
+      const { roomId, shortCode } = service.createRoom('B1');
 
       expect(
         service.getRoomByCode(`  ${shortCode.toLowerCase()} `)?.roomId,
@@ -311,7 +436,7 @@ describe('RoomService', () => {
 
     it('never hands the same code to two live rooms', () => {
       const codes = new Set(
-        Array.from({ length: 500 }, () => service.createRoom().shortCode),
+        Array.from({ length: 500 }, () => service.createRoom('B1').shortCode),
       );
 
       expect(codes.size).toBe(500);
@@ -322,7 +447,7 @@ describe('RoomService', () => {
       const draw = jest.spyOn(crypto, 'randomInt');
       // First room: all '2'. Second room: all '2' again, then all '3'.
       draw.mockReturnValue(0 as never);
-      const first = service.createRoom().shortCode;
+      const first = service.createRoom('B1').shortCode;
       draw.mockReset();
       draw
         .mockReturnValueOnce(0 as never)
@@ -332,7 +457,7 @@ describe('RoomService', () => {
         .mockReturnValueOnce(0 as never)
         .mockReturnValueOnce(0 as never)
         .mockReturnValue(1 as never);
-      const second = service.createRoom().shortCode;
+      const second = service.createRoom('B1').shortCode;
       draw.mockRestore();
 
       expect(first).toBe('222222');
@@ -340,7 +465,7 @@ describe('RoomService', () => {
     });
 
     it('stops answering once the room ended, and frees the code once it is gone', () => {
-      const { roomId, shortCode } = service.createRoom();
+      const { roomId, shortCode } = service.createRoom('B1');
 
       service.startGracePeriod(roomId, () => undefined);
       expect(service.getRoomByCode(shortCode)).toBeUndefined();
@@ -351,7 +476,7 @@ describe('RoomService', () => {
     });
 
     it('frees the code when the room expires', () => {
-      const { shortCode } = service.createRoom();
+      const { shortCode } = service.createRoom('B1');
 
       jest.advanceTimersByTime(2 * 60 * 60 * 1000 + 1);
 
@@ -363,13 +488,13 @@ describe('RoomService', () => {
 
   describe('deleteRoom()', () => {
     it('removes the room from the Map', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.deleteRoom(roomId);
       expect(service.getRoom(roomId)).toBeUndefined();
     });
 
     it('is idempotent: second call does not throw', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.deleteRoom(roomId);
       expect(() => service.deleteRoom(roomId)).not.toThrow();
     });
@@ -379,7 +504,7 @@ describe('RoomService', () => {
     });
 
     it('clears the gracePeriodTimer so onExpire does not fire after deletion', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       const onExpire = jest.fn();
       service.startGracePeriod(roomId, onExpire);
@@ -394,21 +519,21 @@ describe('RoomService', () => {
 
   describe('getRoomBySocketId()', () => {
     it('finds the room by host socketId', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setHost(roomId, 'socket-host-1');
       const found = service.getRoomBySocketId('socket-host-1');
       expect(found?.roomId).toBe(roomId);
     });
 
     it('finds the room by guest socketId', () => {
-      const { roomId } = service.createRoom();
+      const { roomId } = service.createRoom('B1');
       service.setGuest(roomId, 'Anna', 'socket-guest-1');
       const found = service.getRoomBySocketId('socket-guest-1');
       expect(found?.roomId).toBe(roomId);
     });
 
     it('returns undefined for an unknown socketId', () => {
-      service.createRoom();
+      service.createRoom('B1');
       expect(service.getRoomBySocketId('ghost-socket')).toBeUndefined();
     });
   });
@@ -417,8 +542,8 @@ describe('RoomService', () => {
 
   describe('getAllRooms()', () => {
     it('returns an iterable containing all created rooms', () => {
-      const { roomId: id1 } = service.createRoom();
-      const { roomId: id2 } = service.createRoom();
+      const { roomId: id1 } = service.createRoom('B1');
+      const { roomId: id2 } = service.createRoom('B1');
       const ids = [...service.getAllRooms()].map((r) => r.roomId);
       expect(ids).toContain(id1);
       expect(ids).toContain(id2);

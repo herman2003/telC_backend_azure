@@ -1,0 +1,39 @@
+{
+  "slug": "getrennt-und-zusammenschreibung-gram-x-328",
+  "titleFr": "Écriture séparée ou soudée",
+  "titleEn": "Separate vs. compound spelling",
+  "titleDe": "Getrennt- und Zusammenschreibung",
+  "ruleFr": "## Écriture séparée ou soudée\n\nEn allemand, beaucoup de verbes et d’adverbes s’écrivent **en un seul mot** ou **en deux** selon qu’ils forment une unité de sens.\n\n### Règle centrale (verbes)\n| Type | Écriture | Exemple |\n|---|---|---|\n| Verbe **à particule séparable** (sens nouveau) | **soudé** à l’infinitif | *aufstehen*, *mitkommen*, *ankommen* |\n| Verbe + complément libre | **séparé** | *Rad fahren*, *Auto fahren*, *Einkaufen gehen* |\n| Adverbe + adjectif (unité) | souvent **soudé** | *schwerverständlich*, *weitgehend* |\n\n### Indices\n1. **Un seul accent principal** → souvent un mot : *´aufstehen*\n2. Sens **littéral** de chaque élément → souvent séparé : *Rad fahren* (faire du vélo)\n3. Particule typique (*auf, an, mit, zu, weg…*) + verbe → composé séparable\n\n### Exemples contrastés\n- *sitzen bleiben* (rester assis) vs *sitzenbleiben* (redoubler une classe) — attention aux doublets !\n- *kennen lernen* / *kennenlernen* : les deux acceptés aujourd’hui pour « faire connaissance ».\n\n### En cas de doute\nConsultez un **dictionnaire** (Duden) : les règles sont nombreuses et évoluent.\n\n### Erreurs fréquentes\n- Séparer une particule soudée à l’infinitif : ✗ *auf stehen* → ✓ *aufstehen*\n- Souder un vrai complément : ✗ *radfahren* (parfois vu) — forme recommandée : *Rad fahren*\n\n### Mini-entraînement\n1. Classez 10 expressions : soudé / séparé.\n2. Conjuguez *aufstehen* et *Rad fahren* au présent.\n3. Vérifiez 5 doutes dans le Duden.",
+  "ruleEn": "## Separate vs. compound spelling\n\nIn German, many verbs and adverbs are written as **one word** or **two** depending on whether they form one meaning unit.\n\n### Core rule (verbs)\n| Type | Spelling | Example |\n|---|---|---|\n| **Separable-prefix** verb (new meaning) | **one word** in the infinitive | *aufstehen*, *mitkommen*, *ankommen* |\n| Verb + free complement | **two words** | *Rad fahren*, *Auto fahren*, *Einkaufen gehen* |\n| Adverb + adjective (unit) | often **one word** | *schwerverständlich*, *weitgehend* |\n\n### Clues\n1. **One main stress** → often one word: *´aufstehen*\n2. **Literal** meaning of each part → often separate: *Rad fahren*\n3. Typical particle (*auf, an, mit, zu, weg…*) + verb → separable compound\n\n### Contrasts\n- *sitzen bleiben* (remain seated) vs *sitzenbleiben* (repeat a school year)\n- *kennen lernen* / *kennenlernen*: both accepted for “get to know”.\n\n### When in doubt\nCheck a **dictionary** (Duden): rules are many and change over time.\n\n### Common mistakes\n- Splitting a particle in the infinitive: ✗ *auf stehen* → ✓ *aufstehen*\n- Gluing a real object: prefer *Rad fahren*\n\n### Mini practice\n1. Sort 10 expressions: one word / two words.\n2. Conjugate *aufstehen* and *Rad fahren* in the present.\n3. Check 5 doubtful cases in Duden.",
+  "ruleDe": "## Getrennt- und Zusammenschreibung\n\nViele Verben und Adverbien schreibt man **in einem Wort** oder **in zwei**, je nachdem, ob sie eine Sinneinheit bilden.\n\n### Kernregel (Verben)\n| Typ | Schreibweise | Beispiel |\n|---|---|---|\n| Verb mit **trennbarer Vorsilbe** (neue Bedeutung) | **zusammen** im Infinitiv | *aufstehen*, *mitkommen*, *ankommen* |\n| Verb + freies Objekt | **getrennt** | *Rad fahren*, *Auto fahren*, *Einkaufen gehen* |\n| Adverb + Adjektiv (Einheit) | oft **zusammen** | *schwerverständlich*, *weitgehend* |\n\n### Hinweise\n1. **Ein Hauptakzent** → oft ein Wort: *´aufstehen*\n2. **Wörtliche** Bedeutung der Teile → oft getrennt: *Rad fahren*\n3. Typische Partikel (*auf, an, mit, zu, weg…*) + Verb → trennbares Verb\n\n### Kontraste\n- *sitzen bleiben* vs. *sitzenbleiben*\n- *kennen lernen* / *kennenlernen*: beide möglich.\n\n### Im Zweifel\n**Wörterbuch** (Duden) konsultieren.\n\n### Häufige Fehler\n- Partikel im Infinitiv trennen: ✗ *auf stehen* → ✓ *aufstehen*\n- Objekt zusammenkleben: besser *Rad fahren*\n\n### Mini-Übung\n1. 10 Ausdrücke ordnen: zusammen / getrennt.\n2. *aufstehen* und *Rad fahren* im Präsens konjugieren.\n3. 5 Zweifelsfälle im Duden prüfen.",
+  "notesFr": "Règles complexes ! En cas de doute : dictionnaire. Infinitif des verbes séparables = un mot (*aufstehen*) ; activité + verbe souvent séparé (*Rad fahren*).",
+  "notesEn": "Complex rules! When in doubt: dictionary. Separable verbs = one word in the infinitive (*aufstehen*); activity + verb often separate (*Rad fahren*).",
+  "notesDe": "Komplizierte Regeln! Im Zweifel: Wörterbuch. Trennbare Verben = ein Wort im Infinitiv (*aufstehen*); Tätigkeit + Verb oft getrennt (*Rad fahren*).",
+  "examples": [
+    {
+      "de": "Ich möchte morgen früh aufstehen.",
+      "fr": "Je voudrais me lever tôt demain. (*aufstehen* = un seul mot à l’infinitif.)",
+      "en": "I’d like to get up early tomorrow. (*aufstehen* = one word in the infinitive.)"
+    },
+    {
+      "de": "Am Wochenende fahren wir Rad.",
+      "fr": "Le week-end nous faisons du vélo. (*Rad fahren* = séparé.)",
+      "en": "At the weekend we ride bikes. (*Rad fahren* = separate.)"
+    },
+    {
+      "de": "Kommst du mit zum Bahnhof?",
+      "fr": "Tu viens avec nous à la gare ? (particule *mit* séparée au présent.)",
+      "en": "Are you coming along to the station? (particle *mit* splits in the present.)"
+    },
+    {
+      "de": "Wir haben uns gestern kennengelernt.",
+      "fr": "Nous avons fait connaissance hier. (*kennenlernen* souvent soudé.)",
+      "en": "We got to know each other yesterday. (*kennenlernen* often written as one word.)"
+    },
+    {
+      "de": "Das ist schwer zu verstehen.",
+      "fr": "C’est difficile à comprendre. (séparé : *schwer* + *verstehen*.)",
+      "en": "That is hard to understand. (separate: *schwer* + *verstehen*.)"
+    }
+  ]
+}

@@ -25,12 +25,15 @@ const paid = {
   trial_started_at: null,
   trial_ends_at: null,
   paid_until: new Date('2027-04-01T00:00:00.000Z'),
+  // Anchored on the 1st, so the window this counts in runs 1 March to 1 April.
+  anchor_day: 1,
 };
 
 const trial = {
   trial_started_at: daysAgo(3),
   trial_ends_at: new Date(daysAgo(3).getTime() + 14 * DAY_MS),
   paid_until: null,
+  anchor_day: null,
 };
 
 /**
@@ -40,6 +43,73 @@ const trial = {
  * A reset is an event whose old-value column is filled. A code is "used" when
  * the log holds a CONNECTED event since its last reset.
  */
+/**
+ * The window at the month ends, which is where subtracting a calendar month from
+ * `paid_until` used to go wrong.
+ *
+ * A center anchored on the 31st is paid until 28 February, because February has
+ * no 31st. Its period began on 31 January. The old arithmetic — `paid_until`
+ * minus one month — made that 28 January, so the three days between were in no
+ * period at all, and resets in them were never counted.
+ */
+describe('resetAllowance at a month end', () => {
+  const anchored31 = {
+    trial_started_at: null,
+    trial_ends_at: null,
+    paid_until: new Date('2027-02-28T00:00:00.000Z'),
+    anchor_day: 31,
+  };
+  const inFebruary = new Date('2027-02-10T12:00:00.000Z');
+
+  it('counts a reset made on the day the period began', () => {
+    const events = [
+      connected(new Date('2027-01-20T12:00:00.000Z')),
+      reset(new Date('2027-02-01T12:00:00.000Z')),
+      connected(new Date('2027-02-02T12:00:00.000Z')),
+      reset(new Date('2027-02-03T12:00:00.000Z')),
+      connected(new Date('2027-02-04T12:00:00.000Z')),
+    ];
+
+    // Two resets inside this period is the limit, so a third is refused.
+    expect(resetAllowance(events, anchored31, inFebruary)).toMatchObject({
+      used: true,
+      allowed: false,
+      remaining: 0,
+    });
+  });
+
+  it('does not count a reset from the period before', () => {
+    // 20 January is inside the period that ended on 31 January, not this one.
+    const events = [
+      connected(new Date('2027-01-10T12:00:00.000Z')),
+      reset(new Date('2027-01-20T12:00:00.000Z')),
+      connected(new Date('2027-02-02T12:00:00.000Z')),
+    ];
+
+    expect(resetAllowance(events, anchored31, inFebruary)).toMatchObject({
+      used: true,
+      allowed: true,
+      remaining: 2,
+    });
+  });
+
+  it('falls back to the day paid_until lands on when there is no anchor', () => {
+    // A center paying since before the column existed. 28 February is the day
+    // its periods end on, so the window is the same one.
+    const legacy = { ...anchored31, anchor_day: null };
+    const events = [
+      connected(new Date('2027-02-02T12:00:00.000Z')),
+      reset(new Date('2027-02-03T12:00:00.000Z')),
+      connected(new Date('2027-02-04T12:00:00.000Z')),
+    ];
+
+    expect(resetAllowance(events, legacy, inFebruary)).toMatchObject({
+      used: true,
+      remaining: 1,
+    });
+  });
+});
+
 describe('resetAllowance', () => {
   it('lets a code nobody ever redeemed be reset freely', () => {
     const allowance = resetAllowance([], paid, NOW);

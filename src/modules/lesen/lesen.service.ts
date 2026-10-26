@@ -5,6 +5,11 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
+import { trainingFeedbackForSection } from '../centers/generic-section-scoring';
 import type {
   LesenExerciseResponseDto,
   LesenTeil1Dto,
@@ -51,7 +56,10 @@ const TEIL_CATALOG: Record<string, Omit<ExerciseTypeDto, 'progress'>> = {
 export class LesenService {
   private readonly logger = new Logger(LesenService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly genericContent: GenericExamContentService,
+  ) {}
 
   /**
    * Resolve the Modelltest once, then fetch all three Teils scoped to it.
@@ -59,6 +67,9 @@ export class LesenService {
    * Every Teil query must filter on modelltest_id. Without it, `findFirst`
    * returns an unordered row and the three Teils can come from different
    * Modelltests — a mixed exam scored against the wrong answer key.
+   *
+   * A1/A2: returns `sections` from the generic model (keys on — ADR 0001).
+   * B1 `teil1`/`teil2`/`teil3` are omitted, not stubbed.
    */
   async getExercise(modelltestNumber = 1): Promise<LesenExerciseResponseDto> {
     const modelltest = await this.prisma.modelltest.findUnique({
@@ -67,6 +78,36 @@ export class LesenService {
 
     if (!modelltest) {
       throw new NotFoundException(`Modelltest ${modelltestNumber} not found`);
+    }
+
+    if (GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
+      const bySkill = await this.genericContent.sectionsFor(modelltest.id);
+      const sections = bySkill.LESEN;
+      if (sections.length === 0) {
+        throw new NotFoundException(
+          `No Lesen sections found for Modelltest ${modelltestNumber}`,
+        );
+      }
+      // contentRevision: Teil 1's revision (document this for clients).
+      const contentRevision =
+        sections.find((s) => s.teil === 1)?.contentRevision ??
+        sections[0].contentRevision;
+      return {
+        contentRevision,
+        issuedAt: new Date().toISOString(),
+        sections: sections.map((s) => ({
+          id: s.id,
+          sectionId: s.sectionId,
+          aufgabentyp: s.aufgabentyp,
+          teil: s.teil,
+          label: s.label,
+          instruction: s.instruction,
+          maxPoints: s.maxPoints,
+          contentRevision: s.contentRevision,
+          material: s.material,
+          items: s.items,
+        })),
+      };
     }
 
     const [teil1, teil2Result, teil3] = await Promise.all([
@@ -104,7 +145,16 @@ export class LesenService {
     }
 
     const texts = exercise.texts.map((t) => {
-      return { id: String(t.textNumber), von: t.von, an: t.an, body: t.body };
+      // correctTitleId is the raw title uuid, which is exactly what titles[].id
+      // exposes and what getSubmissionRules() scores against. Same value, no
+      // translation — unlike Teil 2 and Teil 3, which compose letters.
+      return {
+        id: String(t.textNumber),
+        von: t.von,
+        an: t.an,
+        body: t.body,
+        correctTitleId: t.correctTitleId,
+      };
     });
 
     const titles = exercise.titles.map((t) => ({
@@ -150,9 +200,16 @@ export class LesenService {
         id: `${q.questionNumber}${LETTERS[o.sortOrder]}`,
         content: o.content,
       }));
+      // Composed exactly as getSubmissionRules() composes it. Two producers of
+      // the same key now; a test asserts they agree.
+      const correct = q.options.find((o) => o.isCorrect);
+
       return {
         id: String(q.questionNumber),
         content: q.prompt,
+        correctOptionId: correct
+          ? `${q.questionNumber}${LETTERS[correct.sortOrder]}`
+          : '',
         options,
       };
     });
@@ -200,7 +257,16 @@ export class LesenService {
     });
 
     const situations = exercise.situations.map((s) => {
-      return { id: String(s.situationNumber), content: s.content };
+      // letterMap was already built above for the announcement ids and until now
+      // was never read. "X" marks the situation no announcement answers, which
+      // telc Teil 3 always includes.
+      return {
+        id: String(s.situationNumber),
+        content: s.content,
+        correctAnswer: s.noMatch
+          ? 'X'
+          : (letterMap.get(s.correctAnnouncementId ?? '') ?? ''),
+      };
     });
 
     return {
@@ -221,15 +287,22 @@ export class LesenService {
   ): Promise<LesenSubmitResponseDto> {
     const modelltest = await this.prisma.modelltest.findUnique({
       where: { number: dto.modelltestNumber ?? 1 },
-      select: { id: true },
+      select: { id: true, level: true },
     });
     if (!modelltest) throw new NotFoundException('Modelltest not found');
+
+    if (GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
+      return this.submitGeneric(caller, dto, modelltest.id);
+    }
 
     const submissionRules = await this.getSubmissionRules(
       modelltest.id,
       dto.teil_id,
     );
-    this.validateAnswers(dto.answers, submissionRules.allowedAnswers);
+    this.validateAnswers(
+      dto.answers as Record<string, string>,
+      submissionRules.allowedAnswers,
+    );
     const answerKey = submissionRules.answerKey;
     const correct = Object.entries(answerKey).filter(
       ([id, answer]) => dto.answers[id] === answer,
@@ -260,7 +333,7 @@ export class LesenService {
               teil_id: dto.teil_id,
               modelltest_id: modelltest.id,
               score,
-              answers: dto.answers,
+              answers: dto.answers as object,
               duration_seconds: dto.durationSeconds ?? null,
               created_at: completedAt,
             },
@@ -280,17 +353,125 @@ export class LesenService {
     return { attemptId, score: earlier?.score ?? score };
   }
 
+  private async submitGeneric(
+    caller: { studentId: string; isGuest?: boolean },
+    dto: LesenSubmitRequestDto,
+    modelltestId: string,
+  ): Promise<LesenSubmitResponseDto> {
+    if (!TEIL_IDS.includes(dto.teil_id)) {
+      throw new UnprocessableEntityException('Unknown Lesen Teil');
+    }
+    const part = Number(dto.teil_id);
+    const section = await this.genericContent.sectionFor(
+      modelltestId,
+      'LESEN',
+      part,
+    );
+    if (!section) {
+      throw new NotFoundException(`Lesen Teil ${part} not found`);
+    }
+    const feedback = trainingFeedbackForSection(section, dto.answers);
+    const score = feedback.percent;
+
+    if (caller.isGuest) {
+      return {
+        score,
+        outcomes: feedback.outcomes,
+        review: feedback.review,
+      };
+    }
+
+    const { studentId } = caller;
+    const completedAt = new Date();
+    const { attemptId, earlier } = await submitOnce(
+      studentId,
+      dto.attemptId,
+      (id) =>
+        this.prisma.lesenAttempt.findUnique({
+          where: { attempt_id: id },
+          select: { student_id: true, score: true },
+        }),
+      (id) =>
+        this.prisma.$transaction(async (tx) => {
+          await tx.lesenAttempt.create({
+            data: {
+              attempt_id: id,
+              student_id: studentId,
+              teil_id: dto.teil_id,
+              modelltest_id: modelltestId,
+              score,
+              answers: dto.answers as object,
+              duration_seconds: dto.durationSeconds ?? null,
+              created_at: completedAt,
+            },
+          });
+          await recordActivity(tx, {
+            studentId,
+            skill: 'LESEN',
+            teil: part,
+            score,
+            durationSeconds: dto.durationSeconds,
+            modelltestId,
+            attemptId: id,
+            completedAt,
+          });
+        }),
+    );
+    if (earlier) {
+      return { attemptId, score: earlier.score ?? score };
+    }
+    return {
+      attemptId,
+      score,
+      outcomes: feedback.outcomes,
+      review: feedback.review,
+    };
+  }
+
   /**
    * GET /api/reading/teils — the three Teils with the student's numbers, in
    * the shape every module's `/teils` has (D29). `progress` is 100 once a
    * Teil has been completed, as in the other modules.
    */
-  async getTeils(studentId: string): Promise<ExerciseTypeDto[]> {
+  async getTeils(
+    studentId: string,
+    modelltestNumber = 1,
+  ): Promise<ExerciseTypeDto[]> {
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: modelltestNumber },
+      select: { id: true, level: true },
+    });
+    if (!modelltest) {
+      throw new NotFoundException(`Modelltest ${modelltestNumber} not found`);
+    }
+
+    if (GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
+      const bySkill = await this.genericContent.sectionsFor(modelltest.id);
+      const sections = bySkill.LESEN;
+      const stats = await teilStats(
+        this.prisma,
+        studentId,
+        'LESEN',
+        sections.map((s) => s.teil),
+        modelltest.id,
+      );
+      return sections.map((s) => ({
+        ...stats[s.teil],
+        id: String(s.teil),
+        title: s.label,
+        subtitle: '',
+        prompt: s.instruction,
+        part: s.teil,
+        progress: stats[s.teil].attempts > 0 ? 100 : 0,
+      }));
+    }
+
     const stats = await teilStats(
       this.prisma,
       studentId,
       'LESEN',
       TEIL_IDS.map(Number),
+      modelltest.id,
     );
     return TEIL_IDS.map((id) => ({
       ...stats[Number(id)],
@@ -312,6 +493,11 @@ export class LesenService {
           : undefined;
       const rows = await this.prisma.lesenAttempt.findMany({
         where: {
+          // Training only. An exam attempt lives in this same table and
+          // must not be read back as practice: it would show a candidate
+          // scores their center has not released, and count an exam as
+          // preparation for itself.
+          exam_attempt_id: null,
           student_id: studentId,
           erasure_id: null,
           ...(teilId ? { teil_id: teilId } : {}),
@@ -348,7 +534,12 @@ export class LesenService {
     }
   }
 
-  private async getSubmissionRules(
+  /**
+   * Public because the exam scorer marks against this same key. Two copies of
+   * an answer key are two things that can drift, and the one that drifts is
+   * always the one nobody is looking at.
+   */
+  async getSubmissionRules(
     modelltestId: string,
     teilId: string,
   ): Promise<{

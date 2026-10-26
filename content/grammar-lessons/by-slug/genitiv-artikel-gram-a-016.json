@@ -1,0 +1,39 @@
+{
+  "slug": "genitiv-artikel-gram-a-016",
+  "titleFr": "Articles définis au génitif",
+  "titleEn": "Definite articles in the genitive",
+  "titleDe": "Genitiv — bestimmter Artikel",
+  "ruleFr": "## Articles définis au génitif\n\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **des** | **der** | **des** | **der** |\n\n### Terminaison du nom (m/n)\nAprès *des*, le nom prend **-(e)s** :\n- *des Lehrer**s*** / *des Kind**es*** / *des Haus**es***\n- En général : *-es* après sifflante (*Haus, Bus, Satz*), sinon souvent *-s*.\n\n### Féminin et pluriel\nPas de *-s* sur le nom : *der Frau*, *der Kinder*.\n\n### Exemples\n- die Tür **des** Auto**s**\n- der Name **der** Schule\n- die Fenster **des** Zimmer**s**\n- die Rechte **der** Bürger\n\n### Erreurs fréquentes\n- ✗ *des Autos* oublié sur d’autres noms : ✗ *des Mann* → ✓ *des Mannes*\n- Confondre *der* (génitif f) avec nominatif\n\n### Mini-entraînement\n1. Ajoutez article + terminaison : ___ Mann, ___ Frau, ___ Kind.\n2. Formez : *das Ende ___ (der Film)*.\n3. Lisez un texte et surlignez tous les *des/der* génitifs.",
+  "ruleEn": "## Definite articles in the genitive\n\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **des** | **der** | **des** | **der** |\n\n### Noun ending (m/n)\nAfter *des*, the noun takes **-(e)s**:\n- *des Lehrer**s*** / *des Kind**es*** / *des Haus**es***\n- Usually *-es* after a sibilant (*Haus, Bus, Satz*), otherwise often *-s*.\n\n### Feminine and plural\nNo *-s* on the noun: *der Frau*, *der Kinder*.\n\n### Examples\n- die Tür **des** Auto**s**\n- der Name **der** Schule\n- die Fenster **des** Zimmer**s**\n- die Rechte **der** Bürger\n\n### Common mistakes\n- ✗ *des Mann* → ✓ *des Mannes*\n- Confusing genitive *der* with nominative\n\n### Mini practice\n1. Add article + ending: ___ Mann, ___ Frau, ___ Kind.\n2. Form: *das Ende ___ (der Film)*.\n3. Highlight all genitive *des/der* in a text.",
+  "ruleDe": "## Bestimmter Artikel im Genitiv\n\n| | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| bestimmt | **des** | **der** | **des** | **der** |\n\n### Endung am Nomen (m/n)\nNach *des* bekommt das Nomen **-(e)s**:\n- *des Lehrer**s*** / *des Kind**es*** / *des Haus**es***\n- Oft *-es* nach Zischlaut (*Haus, Bus, Satz*), sonst häufig *-s*.\n\n### Femininum und Plural\nKein *-s* am Nomen: *der Frau*, *der Kinder*.\n\n### Beispiele\n- die Tür **des** Auto**s**\n- der Name **der** Schule\n- die Fenster **des** Zimmer**s**\n- die Rechte **der** Bürger\n\n### Häufige Fehler\n- ✗ *des Mann* → ✓ *des Mannes*\n- Genitiv-*der* mit Nominativ verwechseln\n\n### Mini-Übung\n1. Artikel + Endung: ___ Mann, ___ Frau, ___ Kind.\n2. Bilden: *das Ende ___ (der Film)*.\n3. Alle Genitiv-*des/der* im Text markieren.",
+  "notesFr": "Réflexe m/n : après *des*, cherchez toujours le *-s* ou *-es* sur le nom — c’est la signature du génitif.",
+  "notesEn": "m/n reflex: after *des*, always look for *-s* or *-es* on the noun — that is the genitive signature.",
+  "notesDe": "m/n-Reflex: Nach *des* immer *-s* oder *-es* am Nomen suchen — das ist die Genitiv-Signatur.",
+  "examples": [
+    {
+      "de": "Das ist das Büro des Chefs.",
+      "fr": "C’est le bureau du chef. (*des Chefs*)",
+      "en": "That is the boss’s office. (*des Chefs*)"
+    },
+    {
+      "de": "Die Adresse der Schule steht auf der Website.",
+      "fr": "L’adresse de l’école est sur le site. (*der Schule*)",
+      "en": "The school’s address is on the website. (*der Schule*)"
+    },
+    {
+      "de": "Am Anfang des Jahres haben wir Pläne gemacht.",
+      "fr": "Au début de l’année, nous avons fait des projets. (*des Jahres*)",
+      "en": "At the beginning of the year we made plans. (*des Jahres*)"
+    },
+    {
+      "de": "Die Farbe des Hauses ist weiß.",
+      "fr": "La couleur de la maison est blanche. (*des Hauses*)",
+      "en": "The colour of the house is white. (*des Hauses*)"
+    },
+    {
+      "de": "Die Fragen der Studenten waren interessant.",
+      "fr": "Les questions des étudiants étaient intéressantes. (*der Studenten*)",
+      "en": "The students’ questions were interesting. (*der Studenten*)"
+    }
+  ]
+}

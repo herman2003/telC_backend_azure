@@ -1,0 +1,39 @@
+{
+  "slug": "anfuhrungszeichen-gram-ee-363",
+  "titleFr": "Guillemets allemands",
+  "titleEn": "German quotation marks",
+  "titleDe": "Anführungszeichen",
+  "ruleFr": "## Guillemets allemands\n\nLes guillemets allemands « classiques » s’ouvrent **en bas** et se ferment **en haut**.\n\n### Formes\n| Style | Ouverture | Fermeture | Exemple |\n|---|---|---|---|\n| Allemand standard | „ | “ | *Er sagt: „Ich komme.“* |\n| Guillemets français / suisses | « | » | *Er sagt: « Ich komme. »* |\n| À éviter en typographie soignée | \" \" | \" \" | guillemets droits |\n\n### Ponctuation\n- Deux-points avant une citation : *Sie sagte: „Hallo!“*\n- Point final souvent **dans** les guillemets si la citation est une phrase complète.\n\n### Suisse\nSouvent **« »** (guillemets français).\n\n### Mini-entraînement\n1. Réécrivez 5 citations avec „…“.\n2. Corrigez les guillemets droits.\n3. Comparez DE / CH / EN.",
+  "ruleEn": "## German quotation marks\n\nStandard German quotes open **low** and close **high**.\n\n### Forms\n| Style | Open | Close | Example |\n|---|---|---|---|\n| Standard German | „ | “ | *Er sagt: „Ich komme.“* |\n| Guillemets (Swiss/French) | « | » | *Er sagt: « Ich komme. »* |\n| Avoid in careful typography | \" \" | \" \" | straight quotes |\n\n### Punctuation\n- Colon before a quote: *Sie sagte: „Hallo!“*\n- End punctuation often **inside** if the quote is a full sentence.\n\n### Switzerland\nOften **« »**.\n\n### Mini practice\n1. Rewrite 5 quotes with „…“.\n2. Fix straight quotes.\n3. Compare DE / CH / EN.",
+  "ruleDe": "## Anführungszeichen\n\nDeutsche Anführungszeichen beginnen **unten** und enden **oben**.\n\n### Formen\n| Stil | Anfang | Ende |\n|---|---|---|\n| Standard DE | „ | “ |\n| Schweiz / Guillemets | « | » |\n| Vermeiden | \" \" | gerade Zeichen |\n\n### Zeichensetzung\n*Sie sagte: „Hallo!“*\n\n### Schweiz\nOft **« »**.\n\n### Mini-Übung\n1. 5 Zitate mit „…“ schreiben.\n2. Gerade Anführungszeichen korrigieren.\n3. DE / CH / EN vergleichen.",
+  "notesFr": "Typographie : ouvrir en bas „ et fermer en haut “. Suisse : souvent « ». Pas les guillemets droits.",
+  "notesEn": "Typography: open low „ and close high “. Switzerland: often « ». Avoid straight quotes.",
+  "notesDe": "Typografisch: unten beginnen „, oben enden “. Schweiz: oft « ». Keine geraden Zeichen.",
+  "examples": [
+    {
+      "de": "Er sagt: „Ich komme morgen.“",
+      "fr": "Il dit : « Je viens demain. »",
+      "en": "He says, “I’m coming tomorrow.”"
+    },
+    {
+      "de": "„Hilfe!“ rief sie.",
+      "fr": "« À l’aide ! » cria-t-elle.",
+      "en": "“Help!” she cried."
+    },
+    {
+      "de": "Das Wort „Gemütlichkeit“ ist schwer zu übersetzen.",
+      "fr": "Le mot « Gemütlichkeit » est difficile à traduire.",
+      "en": "The word “Gemütlichkeit” is hard to translate."
+    },
+    {
+      "de": "Sie fragte: „Hast du Zeit?“",
+      "fr": "Elle demanda : « As-tu le temps ? »",
+      "en": "She asked, “Do you have time?”"
+    },
+    {
+      "de": "In der Schweiz schreibt man oft « so ».",
+      "fr": "En Suisse on écrit souvent « ainsi ».",
+      "en": "In Switzerland people often write « like this »."
+    }
+  ]
+}

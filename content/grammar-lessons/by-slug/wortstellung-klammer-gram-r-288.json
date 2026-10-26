@@ -1,0 +1,39 @@
+{
+  "slug": "wortstellung-klammer-gram-r-288",
+  "titleFr": "La parenthèse verbale (Satzklammer)",
+  "titleEn": "Word order — the verbal bracket",
+  "titleDe": "Wortstellung — Klammer",
+  "ruleFr": "## La Satzklammer — parenthèse verbale\n\nEn allemand, le verbe conjugué ouvre souvent une **parenthèse** : le reste verbal (participe, infinitif, préfixe) se place à la **fin**.\n\n### Cas typiques\n1. **Perfekt** : *Ich **habe** das Buch **gelesen**.*\n2. **Modal** : *Ich **will** morgen **fahren**.*\n3. **Verbe séparable** : *Ich **rufe** dich später **an**.*\n4. **Futur** : *Ich **werde** dich **anrufen**.*\n\n### Schéma\n`[ Verb conjugué ……… partie non finie ]`\nLe Mittelfeld (objets, adverbes) se trouve **entre** les deux.\n\n### Pourquoi c’est important\n- Attendez la fin pour comprendre le sens précis (*gelesen? geschrieben?*).\n- En subordonnée, tout le complexe verbal va à la fin : *…, dass ich das Buch gelesen **habe**.*\n\n### Mini-entraînement\n1. Formez 3 phrases : Perfekt, modal, verbe séparable.\n2. Entourez la « parenthèse ».",
+  "ruleEn": "## The verbal bracket (Satzklammer)\n\nIn German, the conjugated verb often opens a **bracket**: the non-finite part (participle, infinitive, separable prefix) goes to the **end**.\n\n### Typical cases\n1. **Perfekt**: *Ich **habe** das Buch **gelesen**.*\n2. **Modal**: *Ich **will** morgen **fahren**.*\n3. **Separable verb**: *Ich **rufe** dich später **an**.*\n4. **Future**: *Ich **werde** dich **anrufen**.*\n\n### Pattern\n`[ conjugated verb ……… non-finite part ]`\nObjects and adverbials sit **between** them.\n\n### Why it matters\n- Wait for the end to get the exact meaning (*gelesen? geschrieben?*).\n- In subordinates, the whole verbal complex goes final: *…, dass ich das Buch gelesen **habe**.*\n\n### Mini practice\n1. Form 3 sentences: Perfekt, modal, separable verb.\n2. Circle the “bracket”.",
+  "ruleDe": "## Satzklammer\n\nDas finite Verb öffnet oft eine **Klammer**: der infinite Teil (Partizip, Infinitiv, Präfix) steht am **Ende**.\n\n### Typische Fälle\n1. **Perfekt**: *Ich **habe** das Buch **gelesen**.*\n2. **Modal**: *Ich **will** morgen **fahren**.*\n3. **Trennbare Verben**: *Ich **rufe** dich später **an**.*\n4. **Futur**: *Ich **werde** dich **anrufen**.*\n\n### Muster\n`[ finites Verb ……… infinite Teil ]`\nDas Mittelfeld liegt **dazwischen**.\n\n### Mini-Übung\n1. 3 Sätze: Perfekt, Modal, trennbares Verb.\n2. Die Klammer markieren.",
+  "notesFr": "La parenthèse « entoure » le Mittelfeld : [habe … gelesen], [will … fahren], [rufe … an].",
+  "notesEn": "The bracket “encloses” the middle field: [habe … gelesen], [will … fahren], [rufe … an].",
+  "notesDe": "Klammer umschließt das Mittelfeld: [habe … gelesen], [will … fahren], [rufe … an].",
+  "examples": [
+    {
+      "de": "Ich habe das Buch gelesen.",
+      "fr": "J’ai lu le livre. (*habe … gelesen*)",
+      "en": "I have read the book. (*habe … gelesen*)"
+    },
+    {
+      "de": "Sie will morgen nach Hamburg fahren.",
+      "fr": "Elle veut aller demain à Hambourg. (*will … fahren*)",
+      "en": "She wants to go to Hamburg tomorrow. (*will … fahren*)"
+    },
+    {
+      "de": "Ich rufe dich später an.",
+      "fr": "Je t’appelle plus tard. (*rufe … an*)",
+      "en": "I’ll call you later. (*rufe … an*)"
+    },
+    {
+      "de": "Wir werden die Prüfung bestehen.",
+      "fr": "Nous réussirons l’examen. (*werden … bestehen*)",
+      "en": "We will pass the exam. (*werden … bestehen*)"
+    },
+    {
+      "de": "Er hat gestern den ganzen Tag gearbeitet.",
+      "fr": "Il a travaillé toute la journée hier.",
+      "en": "He worked all day yesterday."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "wechselprapositionen-in-gram-n-255",
+  "titleFr": "Prépositions mixtes — in",
+  "titleEn": "Two-way prepositions — in",
+  "titleDe": "Wechselpräpositionen — in",
+  "ruleFr": "## La préposition *in* (datif ou accusatif)\n\n**in** = dans / en / à l’intérieur.\n\n### Contractions\n- *in dem* → **im**\n- *in das* → **ins**\n\n### Wo? → datif\n- Ich bin **im** Kino. / **in der** Schule. / **in dem** Zimmer.\n\n### Wohin? → accusatif\n- Ich gehe **ins** Kino. / **in die** Schule. / **in das** Zimmer.\n\n### Pays & langues\n- *in Deutschland* (neutre sans article, datif pour « être »)\n- *nach Deutschland* (aller dans un pays sans article)\n- *in die Schweiz* (pays avec article → accusatif pour y aller)\n\n### Mini-entraînement\n1. Paire : *im* vs *ins* pour Kino, Haus, Büro.\n2. Être à l’école vs aller à l’école.\n3. Corrigez : ✗ *Ich gehe im Kino.*",
+  "ruleEn": "## The preposition *in* (dative or accusative)\n\n**in** = in / into / inside.\n\n### Contractions\n- *in dem* → **im**\n- *in das* → **ins**\n\n### Wo? → dative\n- Ich bin **im** Kino. / **in der** Schule.\n\n### Wohin? → accusative\n- Ich gehe **ins** Kino. / **in die** Schule.\n\n### Countries\n- *in Deutschland* (being in)\n- *nach Deutschland* (going to an article-less country)\n- *in die Schweiz* (going to a country with article)\n\n### Mini practice\n1. Pair *im* vs *ins* for Kino, Haus, Büro.\n2. Be at school vs go to school.\n3. Correct: ✗ *Ich gehe im Kino.*",
+  "ruleDe": "## Die Präposition *in* (Dativ oder Akkusativ)\n\n**in** = in / hinein.\n\n### Verschmelzungen\n- *in dem* → **im**\n- *in das* → **ins**\n\n### Wo? → Dativ\n- Ich bin **im** Kino. / **in der** Schule.\n\n### Wohin? → Akkusativ\n- Ich gehe **ins** Kino. / **in die** Schule.\n\n### Mini-Übung\n1. *im* vs. *ins*.\n2. In der Schule sein vs. in die Schule gehen.\n3. Korrigieren: ✗ *Ich gehe im Kino.*",
+  "notesFr": "*in dem* = *im* ; *in das* = *ins*.",
+  "notesEn": "*in dem* = *im*; *in das* = *ins*.",
+  "notesDe": "in dem = im, in das = ins.",
+  "examples": [
+    {
+      "de": "Ich bin im Kino.",
+      "fr": "Je suis au cinéma. (datif)",
+      "en": "I am at the cinema. (dative)"
+    },
+    {
+      "de": "Ich gehe ins Kino.",
+      "fr": "Je vais au cinéma. (accusatif)",
+      "en": "I am going to the cinema. (accusative)"
+    },
+    {
+      "de": "Die Kinder spielen in dem Garten. / im Garten.",
+      "fr": "Les enfants jouent dans le jardin.",
+      "en": "The children are playing in the garden."
+    },
+    {
+      "de": "Wir fahren in die Ferien.",
+      "fr": "Nous partons en vacances.",
+      "en": "We are going on holiday."
+    },
+    {
+      "de": "Sie studiert in Berlin.",
+      "fr": "Elle étudie à Berlin.",
+      "en": "She is studying in Berlin."
+    }
+  ]
+}

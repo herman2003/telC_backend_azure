@@ -1,0 +1,1129 @@
+{
+  "modelltest": {
+    "number": 4,
+    "title": "Modelltest 4"
+  },
+  "sections": {
+    "lesenTeil1": {
+      "contentRevision": "modelltest-4-lesen-teil1-v1",
+      "label": "Leseverstehen Teil 1",
+      "instruction": "Lesen Sie die Überschriften a–j und die Texte 1–5. Finden Sie für jeden Text die passende Überschrift. Sie können jede Überschrift nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 1–5 auf dem Antwortbogen.",
+      "titles": [
+        {
+          "key": "a",
+          "content": "Immer mehr Menschen verzichten in der Stadt auf das eigene Auto",
+          "sortOrder": 0
+        },
+        {
+          "key": "b",
+          "content": "Neue Wohnungen direkt am Hauptbahnhof geplant",
+          "sortOrder": 1
+        },
+        {
+          "key": "c",
+          "content": "Stadtbibliothek erweitert ihr digitales Angebot",
+          "sortOrder": 2
+        },
+        {
+          "key": "d",
+          "content": "Nachbarn verwandeln einen Parkplatz in einen Garten",
+          "sortOrder": 3
+        },
+        {
+          "key": "e",
+          "content": "Kostenlose Busfahrten für alle Einwohner",
+          "sortOrder": 4
+        },
+        {
+          "key": "f",
+          "content": "Carsharing wird besonders bei jungen Erwachsenen beliebter",
+          "sortOrder": 5
+        },
+        {
+          "key": "g",
+          "content": "Stadtteilfest bietet Musik, Essen und Begegnungen",
+          "sortOrder": 6
+        },
+        {
+          "key": "h",
+          "content": "Bibliotheken verlieren immer mehr Besucher",
+          "sortOrder": 7
+        },
+        {
+          "key": "i",
+          "content": "Gemeinsam gärtnern mitten in der Stadt",
+          "sortOrder": 8
+        },
+        {
+          "key": "j",
+          "content": "Neue Regeln machen das Fahrradfahren teurer",
+          "sortOrder": 9
+        }
+      ],
+      "texts": [
+        {
+          "textNumber": 1,
+          "von": null,
+          "an": null,
+          "sortOrder": 0,
+          "correctTitleKey": "f",
+          "body": "Ein eigenes Auto ist für viele junge Stadtbewohner nicht mehr selbstverständlich. Eine aktuelle Umfrage zeigt, dass besonders Menschen zwischen 20 und 35 Jahren häufiger Bus, Bahn oder Fahrrad benutzen. Wenn sie doch einmal ein Auto benötigen, mieten sie für einige Stunden ein Fahrzeug über einen Carsharing-Anbieter. Viele Befragte nennen die hohen Kosten für Versicherung, Reparaturen und Parkplätze als Grund dafür."
+        },
+        {
+          "textNumber": 2,
+          "von": null,
+          "an": null,
+          "sortOrder": 1,
+          "correctTitleKey": "i",
+          "body": "Auf einer früheren Parkfläche im Stadtteil Nord wächst seit diesem Frühjahr Gemüse. Rund 30 Bewohnerinnen und Bewohner haben dort gemeinsam Beete angelegt. Tomaten, Salat, Kräuter und Erdbeeren werden von den Nachbarn zusammen gepflegt. Das Projekt soll nicht nur Lebensmittel liefern. Vor allem möchten die Organisatoren einen Ort schaffen, an dem sich Menschen aus dem Viertel kennenlernen können."
+        },
+        {
+          "textNumber": 3,
+          "von": null,
+          "an": null,
+          "sortOrder": 2,
+          "correctTitleKey": "c",
+          "body": "Wer Mitglied der Stadtbibliothek ist, kann ab sofort nicht nur Bücher und Zeitschriften ausleihen. Über die Internetseite der Bibliothek stehen jetzt auch E-Books, Hörbücher und mehrere Zeitungen zur Verfügung. Die Medien können rund um die Uhr heruntergeladen werden. Für ältere Nutzer bietet die Bibliothek jeden Mittwoch eine kostenlose Einführung an."
+        },
+        {
+          "textNumber": 4,
+          "von": null,
+          "an": null,
+          "sortOrder": 3,
+          "correctTitleKey": "g",
+          "body": "Am kommenden Samstag findet auf dem Marktplatz das jährliche Fest des Stadtteils West statt. Ab 14 Uhr treten verschiedene Musikgruppen auf. Vereine aus dem Viertel informieren über ihre Arbeit und Restaurants bieten Spezialitäten aus unterschiedlichen Ländern an. Für Kinder gibt es Spiele und einen kleinen Flohmarkt. Der Eintritt ist frei."
+        },
+        {
+          "textNumber": 5,
+          "von": null,
+          "an": null,
+          "sortOrder": 4,
+          "correctTitleKey": "b",
+          "body": "Die Stadtverwaltung möchte in den kommenden Jahren rund 180 neue Wohnungen bauen. Das neue Wohngebiet soll auf einem alten Firmengelände nur wenige Minuten vom Hauptbahnhof entfernt entstehen. Neben Wohnungen sind dort auch ein Kindergarten, kleinere Geschäfte und Grünflächen vorgesehen. Mit dem Bau soll im nächsten Frühjahr begonnen werden."
+        }
+      ]
+    },
+    "lesenTeil2": {
+      "contentRevision": "modelltest-4-lesen-teil2-v1",
+      "label": "Leseverstehen Teil 2",
+      "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
+      "cautionNote": "",
+      "topSender": "",
+      "topReceiver": "",
+      "topBody": "Ein neues Leben ohne eigenes Auto\n\nVor zwei Jahren verkaufte die Familie Berger ihr Auto. Damals waren Anna und Tobias Berger zunächst unsicher, ob das Leben ohne eigenen Wagen im Alltag wirklich funktionieren würde. Die Familie wohnt mit ihren beiden Kindern in einer mittelgroßen Stadt und hatte das Auto vorher fast täglich benutzt.\n\nDer wichtigste Grund für die Entscheidung waren die Kosten. Neben Benzin und Versicherung mussten die Bergers regelmäßig für Reparaturen bezahlen. Außerdem wurde es in ihrem Wohnviertel immer schwieriger, einen kostenlosen Parkplatz zu finden.\n\nHeute fährt Tobias mit dem Fahrrad zur Arbeit. Bei schlechtem Wetter nimmt er den Bus. Anna arbeitet drei Tage pro Woche von zu Hause aus. An den anderen Tagen fährt sie mit der Straßenbahn ins Büro. Die Kinder gehen zu Fuß zur Schule, weil sie nur etwa zehn Minuten entfernt liegt.\n\nGanz ohne Auto kommt die Familie allerdings nicht aus. Etwa zweimal im Monat benötigt sie eines, zum Beispiel für größere Einkäufe oder für einen Besuch bei den Großeltern auf dem Land. Dann reservieren die Bergers über eine App ein Carsharing-Fahrzeug. In ihrem Stadtteil gibt es inzwischen mehrere Stationen.\n\nAm Anfang mussten alle ihre Gewohnheiten ändern. Besonders beim Einkaufen war mehr Planung notwendig. Inzwischen bestellt die Familie schwere Getränke häufig online und kauft Lebensmittel mehrmals pro Woche in kleineren Mengen.\n\nFinanziell hat sich die Veränderung gelohnt. Nach Berechnungen der Familie gibt sie heute monatlich ungefähr 200 Euro weniger für Mobilität aus als früher. Anna Berger sieht aber noch einen weiteren Vorteil: 'Wir bewegen uns deutlich mehr. Früher sind wir selbst kurze Strecken mit dem Auto gefahren. Heute gehen wir zu Fuß oder nehmen das Fahrrad.'\n\nNur bei Ausflügen am Wochenende vermisst die Familie manchmal das eigene Auto. Trotzdem möchte sie im Moment keines mehr kaufen.",
+      "quotedThread": "",
+      "questions": [
+        {
+          "questionNumber": 6,
+          "prompt": "Warum hat die Familie Berger ihr Auto hauptsächlich verkauft?",
+          "sortOrder": 0,
+          "options": [
+            {
+              "key": "a",
+              "content": "Weil das Auto zu klein für die Familie war.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Weil das Autofahren zu teuer geworden war.",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Weil Tobias nicht mehr Auto fahren wollte.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 7,
+          "prompt": "Wie kommt Tobias normalerweise zur Arbeit?",
+          "sortOrder": 1,
+          "options": [
+            {
+              "key": "a",
+              "content": "Mit dem Fahrrad.",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Mit der Straßenbahn.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Zu Fuß.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 8,
+          "prompt": "Wann benutzt die Familie ein Carsharing-Auto?",
+          "sortOrder": 2,
+          "options": [
+            {
+              "key": "a",
+              "content": "Jeden Tag für den Weg zur Arbeit.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Vor allem für besondere Fahrten und größere Einkäufe.",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Nur während der Schulferien.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 9,
+          "prompt": "Was musste die Familie besonders verändern?",
+          "sortOrder": 3,
+          "options": [
+            {
+              "key": "a",
+              "content": "Die Arbeitszeiten.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Die Schule der Kinder.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Die Organisation ihrer Einkäufe.",
+              "isCorrect": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 10,
+          "prompt": "Welchen zusätzlichen Vorteil sieht Anna?",
+          "sortOrder": 4,
+          "options": [
+            {
+              "key": "a",
+              "content": "Die Familie bewegt sich im Alltag mehr.",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Die Familie reist häufiger.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Die Kinder haben mehr Freizeit.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    "lesenTeil3": {
+      "contentRevision": "modelltest-4-lesen-teil3-v1",
+      "label": "Leseverstehen Teil 3",
+      "instruction": "Lesen Sie die Situationen 11–20 und die Anzeigen a–l. Finden Sie für jede Situation die passende Anzeige. Sie können jede Anzeige nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 11–20 auf dem Antwortbogen. Wenn Sie zu einer Situation keine Anzeige finden, markieren Sie ein x.",
+      "announcements": [
+        {
+          "key": "a",
+          "title": "RADFIX – Fahrradservice",
+          "content": "Reparaturen aller Fahrradtypen. Kleine Reparaturen oft noch am selben Tag. Montag bis Freitag 9–18 Uhr, Samstag 10–14 Uhr. Bahnhofstraße 18.",
+          "sortOrder": 0
+        },
+        {
+          "key": "b",
+          "title": "Stadtbibliothek – Digitale Hilfe",
+          "content": "Sie möchten E-Books herunterladen, wissen aber nicht wie? Jeden Mittwoch um 16 Uhr erklären wir die Nutzung unserer digitalen Bibliothek. Kostenlos für Mitglieder.",
+          "sortOrder": 1
+        },
+        {
+          "key": "c",
+          "title": "Flohmarkt am Hafen",
+          "content": "Sonntag von 8 bis 15 Uhr. Kleidung, Bücher, Haushaltswaren und vieles mehr. Private Verkäufer willkommen. Standgebühr 10 Euro.",
+          "sortOrder": 2
+        },
+        {
+          "key": "d",
+          "title": "CityCar",
+          "content": "Auto nur dann bezahlen, wenn Sie es brauchen. Fahrzeuge an über 25 Stationen in der Stadt. Buchung per App. Ab 4,50 Euro pro Stunde.",
+          "sortOrder": 3
+        },
+        {
+          "key": "e",
+          "title": "Sprachcafé International",
+          "content": "Deutsch sprechen und neue Menschen kennenlernen. Jeden Dienstag ab 18.30 Uhr im Kulturzentrum Nord. Teilnahme kostenlos. Keine Anmeldung erforderlich.",
+          "sortOrder": 4
+        },
+        {
+          "key": "f",
+          "title": "Wohnung gesucht?",
+          "content": "Zimmer und kleine Wohnungen für Studierende und Auszubildende. Beratung Montag und Donnerstag von 14 bis 18 Uhr. Studentenwerk, Universitätsstraße 12.",
+          "sortOrder": 5
+        },
+        {
+          "key": "g",
+          "title": "Wochenmarkt Rathausplatz",
+          "content": "Frisches Obst, Gemüse, Brot, Käse und regionale Produkte. Jeden Mittwoch und Samstag von 7 bis 13 Uhr.",
+          "sortOrder": 6
+        },
+        {
+          "key": "h",
+          "title": "Stadtführung zu Fuß",
+          "content": "Entdecken Sie die Altstadt mit einer erfahrenen Stadtführerin. Samstags um 11 Uhr. Dauer: 90 Minuten. Treffpunkt vor dem Rathaus. 8 Euro pro Person.",
+          "sortOrder": 7
+        },
+        {
+          "key": "i",
+          "title": "Nachbarschaftshilfe",
+          "content": "Sie benötigen Hilfe beim Einkaufen oder bei kleinen Arbeiten im Haushalt? Ehrenamtliche aus Ihrem Stadtteil unterstützen ältere und kranke Menschen.",
+          "sortOrder": 8
+        },
+        {
+          "key": "j",
+          "title": "Musik im Park",
+          "content": "Freitagabend ab 19 Uhr Live-Musik im Stadtpark. Eintritt frei. Bei starkem Regen fällt die Veranstaltung aus.",
+          "sortOrder": 9
+        },
+        {
+          "key": "k",
+          "title": "Sportzentrum West",
+          "content": "Fitness, Basketball, Volleyball und Gymnastik. Neue Kurse ab September. Monatsbeitrag ab 24 Euro.",
+          "sortOrder": 10
+        },
+        {
+          "key": "l",
+          "title": "Kochkurs – Schnell und gesund",
+          "content": "Sie haben nach der Arbeit wenig Zeit? Lernen Sie einfache Gerichte kennen, die in weniger als 30 Minuten fertig sind. Donnerstags 18–20 Uhr.",
+          "sortOrder": 11
+        }
+      ],
+      "situations": [
+        {
+          "situationNumber": 11,
+          "content": "Ihr Fahrrad ist kaputt und Sie möchten es möglichst schnell reparieren lassen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "a",
+          "sortOrder": 0
+        },
+        {
+          "situationNumber": 12,
+          "content": "Sie sind neu in Deutschland und möchten regelmäßig Deutsch sprechen und dabei andere Leute kennenlernen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "e",
+          "sortOrder": 1
+        },
+        {
+          "situationNumber": 13,
+          "content": "Sie studieren und suchen eine günstige kleine Wohnung.",
+          "noMatch": false,
+          "correctAnnouncementKey": "f",
+          "sortOrder": 2
+        },
+        {
+          "situationNumber": 14,
+          "content": "Sie möchten am Wochenende frisches Gemüse direkt von Händlern kaufen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "g",
+          "sortOrder": 3
+        },
+        {
+          "situationNumber": 15,
+          "content": "Freunde besuchen Sie am Samstag. Sie möchten ihnen die wichtigsten historischen Orte Ihrer Stadt zeigen lassen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "h",
+          "sortOrder": 4
+        },
+        {
+          "situationNumber": 16,
+          "content": "Sie brauchen nur für einige Stunden ein Auto, möchten aber kein eigenes kaufen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "d",
+          "sortOrder": 5
+        },
+        {
+          "situationNumber": 17,
+          "content": "Ihre ältere Nachbarin kann momentan nicht selbst einkaufen gehen und braucht Unterstützung.",
+          "noMatch": false,
+          "correctAnnouncementKey": "i",
+          "sortOrder": 6
+        },
+        {
+          "situationNumber": 18,
+          "content": "Sie möchten am Freitagabend kostenlos Musik hören.",
+          "noMatch": false,
+          "correctAnnouncementKey": "j",
+          "sortOrder": 7
+        },
+        {
+          "situationNumber": 19,
+          "content": "Sie möchten lernen, wie man mit dem Smartphone Fahrkarten für Bus und Bahn kauft.",
+          "noMatch": true,
+          "correctAnnouncementKey": null,
+          "sortOrder": 8
+        },
+        {
+          "situationNumber": 20,
+          "content": "Sie möchten nach der Arbeit lernen, schnell gesunde Mahlzeiten zuzubereiten.",
+          "noMatch": false,
+          "correctAnnouncementKey": "l",
+          "sortOrder": 9
+        }
+      ]
+    },
+    "sprachbausteineTeil1": {
+      "teilNumber": 1,
+      "contentRevision": "modelltest-4-sprachbausteine-teil1-v1",
+      "label": "Sprachbausteine Teil 1",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 21–30. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 21–30 auf dem Antwortbogen.",
+      "body": "Liebe Sophie,\n\nseit drei Wochen wohne ich jetzt in meiner neuen Wohnung in Köln. Am Anfang war alles ein bisschen schwierig, _____ ich hier fast niemanden kannte. Inzwischen gefällt mir das Leben _____ der Stadt aber sehr gut.\n\nMeine Wohnung liegt nicht weit vom Zentrum entfernt. Zur Arbeit _____ ich meistens mit der Straßenbahn, weil ich morgens keine Lust habe, im Stau zu stehen. Die Haltestelle ist nur fünf Minuten _____ meiner Wohnung entfernt.\n\nAm Wochenende entdecke ich oft neue Orte. Letzten Samstag _____ ich auf einem großen Wochenmarkt. Dort konnte man nicht nur Lebensmittel kaufen, _____ auch Musik hören und verschiedene Gerichte probieren.\n\nMeine Nachbarn sind ebenfalls sehr nett. Eine ältere Dame, _____ direkt neben mir wohnt, hat mich schon zum Kaffee eingeladen. Sie kennt das Viertel seit vielen Jahren und hat mir einige interessante Orte _____ .\n\nWenn du im November Zeit hast, musst du mich unbedingt besuchen. Dann _____ ich dir alles zeigen. Schreib mir bald, _____ du kommen kannst.\n\nLiebe Grüße\nDaniel",
+      "gaps": [
+        {
+          "gapKey": "21",
+          "gapNumber": 21,
+          "sortOrder": 0,
+          "options": [
+            {
+              "key": "a",
+              "content": "weil",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "obwohl",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "damit",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "22",
+          "gapNumber": 22,
+          "sortOrder": 1,
+          "options": [
+            {
+              "key": "a",
+              "content": "auf",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "in",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "an",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "23",
+          "gapNumber": 23,
+          "sortOrder": 2,
+          "options": [
+            {
+              "key": "a",
+              "content": "fahre",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "fuhr",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "gefahren",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "24",
+          "gapNumber": 24,
+          "sortOrder": 3,
+          "options": [
+            {
+              "key": "a",
+              "content": "von",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "für",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "gegen",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "25",
+          "gapNumber": 25,
+          "sortOrder": 4,
+          "options": [
+            {
+              "key": "a",
+              "content": "war",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "bin",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "wäre",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "26",
+          "gapNumber": 26,
+          "sortOrder": 5,
+          "options": [
+            {
+              "key": "a",
+              "content": "sondern",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "oder",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "denn",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "27",
+          "gapNumber": 27,
+          "sortOrder": 6,
+          "options": [
+            {
+              "key": "a",
+              "content": "die",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "der",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "den",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "28",
+          "gapNumber": 28,
+          "sortOrder": 7,
+          "options": [
+            {
+              "key": "a",
+              "content": "empfohlen",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "empfehlen",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "empfiehlt",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "29",
+          "gapNumber": 29,
+          "sortOrder": 8,
+          "options": [
+            {
+              "key": "a",
+              "content": "kann",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "werde",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "würde",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "30",
+          "gapNumber": 30,
+          "sortOrder": 9,
+          "options": [
+            {
+              "key": "a",
+              "content": "wann",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "als",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "obwohl",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    "sprachbausteineTeil2": {
+      "contentRevision": "modelltest-4-sprachbausteine-teil2-v1",
+      "label": "Sprachbausteine Teil 2",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 31–40. Benutzen Sie die Wörter a–o. Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31–40 auf dem Antwortbogen.",
+      "body": "Sehr geehrte Damen und Herren,\n\nich habe auf Ihrer Internetseite von dem neuen Gemeinschaftsgarten im Stadtteil Süd gelesen und interessiere mich sehr _____ das Projekt.\n\nIch bin vor wenigen Monaten in den Stadtteil gezogen und würde _____ neue Menschen kennenlernen. Außerdem arbeite ich gern im Garten, _____ ich in meiner jetzigen Wohnung leider keinen eigenen Garten habe.\n\nIch möchte deshalb wissen, _____ es noch freie Beete gibt und wie man sich anmelden kann. Muss man bereits Erfahrung mit Gartenarbeit haben oder _____ auch Anfänger teilnehmen?\n\nAuf Ihrer Internetseite steht, dass sich die Mitglieder regelmäßig treffen. Können Sie mir bitte mitteilen, _____ diese Treffen stattfinden? Mich würde auch interessieren, ob jeder sein eigenes Gemüse anbaut _____ ob die Gruppe alles gemeinsam pflegt.\n\nIch könnte hauptsächlich am Wochenende helfen, _____ ich unter der Woche bis 18 Uhr arbeite. Falls Sie noch Unterstützung brauchen, würde ich _____ bei Veranstaltungen oder bei der Organisation helfen.\n\nIch wäre Ihnen sehr _____, wenn Sie mir weitere Informationen schicken könnten.\n\nMit freundlichen Grüßen\nMichael Weber",
+      "words": [
+        {
+          "letter": "a",
+          "content": "ABER",
+          "sortOrder": 0
+        },
+        {
+          "letter": "b",
+          "content": "DANKBAR",
+          "sortOrder": 1
+        },
+        {
+          "letter": "c",
+          "content": "DA",
+          "sortOrder": 2
+        },
+        {
+          "letter": "d",
+          "content": "DASS",
+          "sortOrder": 3
+        },
+        {
+          "letter": "e",
+          "content": "FÜR",
+          "sortOrder": 4
+        },
+        {
+          "letter": "f",
+          "content": "GERNE",
+          "sortOrder": 5
+        },
+        {
+          "letter": "g",
+          "content": "KÖNNEN",
+          "sortOrder": 6
+        },
+        {
+          "letter": "h",
+          "content": "OB",
+          "sortOrder": 7
+        },
+        {
+          "letter": "i",
+          "content": "ODER",
+          "sortOrder": 8
+        },
+        {
+          "letter": "j",
+          "content": "TROTZDEM",
+          "sortOrder": 9
+        },
+        {
+          "letter": "k",
+          "content": "WANN",
+          "sortOrder": 10
+        },
+        {
+          "letter": "l",
+          "content": "WEIL",
+          "sortOrder": 11
+        },
+        {
+          "letter": "m",
+          "content": "WENN",
+          "sortOrder": 12
+        },
+        {
+          "letter": "n",
+          "content": "AUCH",
+          "sortOrder": 13
+        },
+        {
+          "letter": "o",
+          "content": "DESHALB",
+          "sortOrder": 14
+        }
+      ],
+      "gaps": [
+        {
+          "gapKey": "31",
+          "gapNumber": 31,
+          "correctWordKey": "e",
+          "sortOrder": 0
+        },
+        {
+          "gapKey": "32",
+          "gapNumber": 32,
+          "correctWordKey": "f",
+          "sortOrder": 1
+        },
+        {
+          "gapKey": "33",
+          "gapNumber": 33,
+          "correctWordKey": "c",
+          "sortOrder": 2
+        },
+        {
+          "gapKey": "34",
+          "gapNumber": 34,
+          "correctWordKey": "h",
+          "sortOrder": 3
+        },
+        {
+          "gapKey": "35",
+          "gapNumber": 35,
+          "correctWordKey": "g",
+          "sortOrder": 4
+        },
+        {
+          "gapKey": "36",
+          "gapNumber": 36,
+          "correctWordKey": "k",
+          "sortOrder": 5
+        },
+        {
+          "gapKey": "37",
+          "gapNumber": 37,
+          "correctWordKey": "i",
+          "sortOrder": 6
+        },
+        {
+          "gapKey": "38",
+          "gapNumber": 38,
+          "correctWordKey": "l",
+          "sortOrder": 7
+        },
+        {
+          "gapKey": "39",
+          "gapNumber": 39,
+          "correctWordKey": "n",
+          "sortOrder": 8
+        },
+        {
+          "gapKey": "40",
+          "gapNumber": 40,
+          "correctWordKey": "b",
+          "sortOrder": 9
+        }
+      ]
+    },
+    "schreiben": {
+      "contentRevision": "modelltest-4-schreiben-v1",
+      "title": "Schriftlicher Ausdruck",
+      "subtitle": "Sie haben von einem Freund folgende E-Mail erhalten:",
+      "taskType": "brief",
+      "intro": "Sie haben von einem Freund folgende E-Mail erhalten:",
+      "stimulus": {
+        "heading": "Liebe/r __________,",
+        "subheading": null,
+        "body": "wie du weißt, ziehe ich nächsten Monat in deine Stadt. Ich freue mich schon sehr darauf, aber ich kenne mich dort überhaupt nicht aus.\n\nBesonders wichtig ist für mich, dass ich schnell zur Arbeit komme und in meiner Freizeit etwas unternehmen kann. Außerdem muss ich noch einige Dinge für meine neue Wohnung kaufen.\n\nKannst du mir ein bisschen erzählen, wie das Leben bei euch ist und was ich am Anfang unbedingt wissen sollte?\n\nSchreib mir bald!",
+        "features": [],
+        "contact": {
+          "name": "Martin",
+          "lines": [
+            "Viele Grüße"
+          ]
+        },
+        "callToAction": null,
+        "imageUrl": null
+      },
+      "taskInstructions": "Antworten Sie auf die E-Mail. Schreiben Sie etwas zu allen vier Punkten:",
+      "bulletPoints": [
+        "wie man sich in Ihrer Stadt am besten fortbewegen kann",
+        "wo Martin günstig Dinge für seine Wohnung kaufen kann",
+        "welche Freizeitmöglichkeiten Sie empfehlen",
+        "was Martin in den ersten Tagen erledigen sollte"
+      ],
+      "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss."
+    },
+    "sprechen": {
+      "teil1": {
+        "part": 1,
+        "title": "Teil 1 Einander kennenlernen",
+        "subtitle": "Teilnehmer/in A und B",
+        "topicTitle": "Einander kennenlernen",
+        "topicDescription": "Unterhalten Sie sich mit Ihrer Partnerin bzw. Ihrem Partner über folgende Themen:",
+        "topicPoints": [
+          "Name",
+          "Woher sie oder er kommt",
+          "Wie sie oder er wohnt",
+          "Familie",
+          "Wo sie oder er Deutsch gelernt hat",
+          "Was sie oder er macht",
+          "Sprachen"
+        ],
+        "additionalExaminerTopics": [
+          "was er oder sie gern in der Stadt macht",
+          "welche Verkehrsmittel er oder sie normalerweise benutzt"
+        ],
+        "instructions": "Die Prüfenden können außerdem noch weitere Fragen stellen."
+      },
+      "teil2": {
+        "part": 2,
+        "title": "Teil 2 Über ein Thema sprechen",
+        "subtitle": "Teilnehmer/in A / Teilnehmer/in B",
+        "topicTitle": "Leben in der Großstadt",
+        "commonInstructions": "Sie haben in einer Zeitschrift etwas zum Thema „Leben in der Großstadt“ gelesen. Berichten Sie Ihrer Gesprächspartnerin/Ihrem Gesprächspartner darüber. Ihre Gesprächspartnerin/Ihr Gesprächspartner hat eine andere Meinung dazu gelesen und berichtet Ihnen auch darüber. Unterhalten Sie sich dann mit Ihrer Gesprächspartnerin/Ihrem Gesprächspartner über das Thema. Sagen Sie Ihre Meinung und erzählen Sie von eigenen Erfahrungen.",
+        "participants": {
+          "A": {
+            "label": "Teilnehmer/in A",
+            "person": "Nina Berger, 29 Jahre, Verkäuferin",
+            "text": "„Ich lebe sehr gern in einer großen Stadt. Ich kann fast überall mit Bus oder Bahn hinfahren und brauche kein Auto. Außerdem gibt es viele Geschäfte, Restaurants, Kinos und Veranstaltungen. Mir gefällt besonders, dass immer etwas los ist und man viele unterschiedliche Menschen kennenlernen kann.“"
+          },
+          "B": {
+            "label": "Teilnehmer/in B",
+            "person": "Markus Stein, 37 Jahre, Techniker",
+            "text": "„Für mich ist das Leben in einer Großstadt oft anstrengend. Es gibt viel Verkehr, Lärm und zu viele Menschen. Die Wohnungen sind außerdem teuer. Ich würde lieber etwas außerhalb wohnen, wo es ruhiger ist und man mehr Platz hat. Wenn ich etwas unternehmen möchte, kann ich trotzdem in die Stadt fahren.“"
+          }
+        }
+      },
+      "teil3": {
+        "part": 3,
+        "title": "Teil 3 Gemeinsam etwas planen",
+        "subtitle": "Teilnehmer/in A und B",
+        "topicTitle": "Ein Wochenende für einen Freund planen",
+        "topicDescription": "Ein Freund aus einer anderen Stadt besucht Sie am kommenden Wochenende. Er war noch nie in Ihrer Stadt. Sie möchten gemeinsam mit Ihrer Gesprächspartnerin bzw. Ihrem Gesprächspartner ein Programm für den Besuch planen. Überlegen Sie, was Sie gemeinsam unternehmen möchten und wer sich um welche Aufgabe kümmert.",
+        "topicPoints": [
+          "Wann und wo treffen?",
+          "Sehenswürdigkeiten",
+          "Essen",
+          "Abendprogramm",
+          "Verkehrsmittel",
+          "Kosten",
+          "..."
+        ],
+        "instructions": "Entscheiden Sie zuerst, was Sie machen möchten und warum. Tragen Sie Ihrem Partner Ihre Ideen vor und begründen Sie sie. Reagieren Sie auf die Ideen Ihres Partners bzw. Ihrer Partnerin und die Begründungen. Einigen Sie sich auf einen gemeinsamen Programmvorschlag."
+      }
+    },
+    "hoeren": {
+      "teil1": {
+        "part": 1,
+        "title": "Teil 1",
+        "subtitle": "Hörverstehen, Teil 1",
+        "instruction": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41–45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41–45. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 41–45. Sie haben dazu 30 Sekunden Zeit.",
+        "contentRevision": "modelltest-4-hoeren-teil1-v1",
+        "transcript": "Nummer 41.\n\nAlso, ich wohne ungefähr vier Kilometer von meinem Büro entfernt. Früher bin ich jeden Morgen mit dem Bus gefahren, aber der war oft sehr voll. Seit letztem Frühjahr fahre ich meistens mit dem Fahrrad zur Arbeit. Das dauert ungefähr zwanzig Minuten und ich bin morgens gleich ein bisschen an der frischen Luft. Nur wenn es stark regnet oder sehr kalt ist, nehme ich noch den Bus.\n\nNummer 42.\n\nIch habe seit vielen Jahren ein Auto und brauche es auch beruflich. Das Problem ist nur, dass es in unserem Viertel viel zu wenige Parkplätze gibt. Wenn ich abends nach Hause komme, suche ich manchmal zwanzig Minuten, bis ich einen freien Platz finde. Deshalb überlege ich inzwischen sogar, einen festen Stellplatz zu mieten, obwohl das ziemlich teuer ist.\n\nNummer 43.\n\nMittwochs und samstags ist bei uns auf dem Rathausplatz Wochenmarkt. Ich gehe fast immer samstags dorthin. Obst, Gemüse, Käse und Brot kaufe ich meistens dort, weil die Sachen frisch sind und ich viele Verkäufer inzwischen persönlich kenne. Nur Getränke und größere Haushaltsartikel kaufe ich normalerweise im Supermarkt.\n\nNummer 44.\n\nViele meiner Freunde sind aufs Land gezogen, weil es dort ruhiger ist. Für mich wäre das nichts. Ich wohne gern mitten in der Stadt. Mein Büro ist nur zwei U-Bahn-Stationen entfernt, und abends kann ich spontan ins Kino oder in ein Restaurant gehen. Klar, manchmal ist es laut, aber ich möchte im Moment auf keinen Fall außerhalb wohnen.\n\nNummer 45.\n\nAls ich vor sechs Monaten in dieses Haus gezogen bin, kannte ich in der Stadt fast niemanden. Zum Glück haben mich meine Nachbarn gleich zu einem kleinen Fest im Innenhof eingeladen. Dort habe ich viele Leute aus dem Haus kennengelernt. Mit zwei Nachbarinnen treffe ich mich inzwischen regelmäßig zum Kaffee, und manchmal gehen wir zusammen spazieren.",
+        "questions": [
+          {
+            "questionNumber": 41,
+            "prompt": "Die Sprecherin fährt normalerweise mit dem Fahrrad zur Arbeit.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 42,
+            "prompt": "Der Sprecher findet in seinem Wohnviertel leicht einen Parkplatz.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 43,
+            "prompt": "Die Sprecherin kauft ihre Lebensmittel meistens auf dem Wochenmarkt.",
+            "correctAnswer": "+",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 44,
+            "prompt": "Der Sprecher möchte lieber außerhalb der Stadt wohnen.",
+            "correctAnswer": "-",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 45,
+            "prompt": "Die Sprecherin hat durch ihre Nachbarn neue Leute kennengelernt.",
+            "correctAnswer": "+",
+            "sortOrder": 4
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-4-hoeren/modelltest-4-hoeren-teil1.mp3",
+        "imageUrl": "",
+        "durationMinutes": 8
+      },
+      "teil2": {
+        "part": 2,
+        "title": "Teil 2",
+        "subtitle": "Hörverstehen, Teil 2",
+        "instruction": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46–55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46–55. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 46–55. Sie haben dazu eine Minute Zeit.",
+        "contentRevision": "modelltest-4-hoeren-teil2-v1",
+        "transcript": "Moderator: Guten Tag und herzlich willkommen zu unserem Stadtmagazin. Heute geht es um ein neues Stadtteilzentrum im Süden unserer Stadt. Seit Anfang dieses Monats ist das Zentrum geöffnet. Bei mir im Studio ist Frau Keller, die dort als Projektleiterin arbeitet. Guten Tag, Frau Keller.\n\nFrau Keller: Guten Tag.\n\nModerator: Frau Keller, warum hat man dieses neue Stadtteilzentrum überhaupt eingerichtet?\n\nFrau Keller: In unserem Stadtteil wohnen sehr unterschiedliche Menschen: Familien, ältere Leute, Studierende und auch viele Menschen, die erst seit kurzer Zeit hier leben. Es gab zwar schon einzelne Vereine und Angebote, aber bisher keinen gemeinsamen Treffpunkt. Deshalb wollte die Stadt einen Ort schaffen, an dem sich die Bewohner kennenlernen und gemeinsam etwas machen können.\n\nModerator: Das Zentrum ist also vor allem ein Treffpunkt?\n\nFrau Keller: Ja, aber nicht nur. Wir bieten auch verschiedene Kurse und Beratungen an. Es gibt zum Beispiel Deutschkurse, Computerkurse, einen offenen Treff für Eltern mit kleinen Kindern und zweimal pro Woche eine Hausaufgabenhilfe für Schülerinnen und Schüler.\n\nModerator: Und wer kann diese Angebote nutzen?\n\nFrau Keller: Eigentlich alle Bewohner des Stadtteils. Für die meisten offenen Veranstaltungen muss man sich nicht anmelden. Bei Kursen mit begrenzter Teilnehmerzahl ist eine Anmeldung natürlich notwendig.\n\nModerator: Muss man für die Kurse bezahlen?\n\nFrau Keller: Das ist unterschiedlich. Viele Angebote sind kostenlos, weil sie von der Stadt finanziert werden. Für einige Kurse, zum Beispiel den Kochkurs oder bestimmte Computerkurse, gibt es eine kleine Teilnahmegebühr. Diese liegt meistens zwischen fünf und fünfzehn Euro.\n\nModerator: Wie wird das Zentrum insgesamt finanziert?\n\nFrau Keller: Der größte Teil der Kosten wird von der Stadt übernommen. Zusätzlich bekommen wir Geld von einigen sozialen Organisationen. Außerdem unterstützen uns lokale Unternehmen, zum Beispiel mit Material oder kleineren Spenden.\n\nModerator: Arbeiten im Zentrum nur fest angestellte Mitarbeiter?\n\nFrau Keller: Nein. Wir haben sechs fest angestellte Mitarbeiterinnen und Mitarbeiter, aber ohne Ehrenamtliche könnten wir unser Programm gar nicht anbieten. Zurzeit helfen uns etwa 25 Menschen regelmäßig. Manche unterstützen bei Veranstaltungen, andere geben Hausaufgabenhilfe oder begleiten ältere Menschen bei digitalen Fragen.\n\nModerator: Sie haben gerade ältere Menschen erwähnt. Gibt es spezielle Angebote für sie?\n\nFrau Keller: Ja. Jeden Mittwochvormittag gibt es einen offenen Treff für Seniorinnen und Senioren. Außerdem bieten wir einmal im Monat eine Smartphone-Sprechstunde an. Dort erklären Ehrenamtliche zum Beispiel, wie man Nachrichten verschickt, Fotos speichert oder eine Fahrkarte mit dem Handy kauft.\n\nModerator: Das klingt praktisch. Und wie sieht es mit Jugendlichen aus?\n\nFrau Keller: Auch für Jugendliche gibt es einiges. Freitags am frühen Abend haben wir einen offenen Jugendtreff. Dort können sie Musik hören, Tischtennis spielen oder einfach miteinander reden. Ab nächsten Monat wollen wir außerdem einen kleinen Medienworkshop anbieten.\n\nModerator: Wie sind denn die Öffnungszeiten?\n\nFrau Keller: Von Montag bis Freitag sind wir normalerweise von neun bis zwanzig Uhr geöffnet. Samstags öffnen wir von zehn bis sechzehn Uhr. Sonntags ist das Zentrum geschlossen, außer wenn eine besondere Veranstaltung stattfindet.\n\nModerator: Und wie haben die Menschen im Stadtteil bisher reagiert?\n\nFrau Keller: Sehr positiv. In den ersten drei Wochen kamen schon über 600 Besucher. Besonders gut besucht waren das Eröffnungsfest und die Sprachcafés. Wir haben allerdings gemerkt, dass viele Bewohner noch gar nicht genau wissen, welche Angebote es gibt.\n\nModerator: Was wollen Sie dagegen tun?\n\nFrau Keller: Wir möchten stärker informieren. Neben unserer Internetseite verteilen wir jetzt Flyer in Schulen, Arztpraxen und Geschäften. Außerdem wollen wir über soziale Medien mehr Menschen erreichen.\n\nModerator: Gibt es schon Pläne für die Zukunft?\n\nFrau Keller: Ja. Wenn alles gut läuft, möchten wir im nächsten Frühjahr einen kleinen Gemeinschaftsgarten hinter dem Gebäude anlegen. Dort könnten Kinder und Erwachsene gemeinsam Gemüse und Kräuter anbauen.\n\nModerator: Frau Keller, vielen Dank für das Gespräch.\n\nFrau Keller: Sehr gerne.",
+        "questions": [
+          {
+            "questionNumber": 46,
+            "prompt": "Das Stadtteilzentrum wurde eingerichtet, weil es vorher keinen gemeinsamen Treffpunkt im Viertel gab.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 47,
+            "prompt": "Das Zentrum bietet nur Freizeitaktivitäten an.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 48,
+            "prompt": "Für alle Veranstaltungen muss man sich vorher anmelden.",
+            "correctAnswer": "-",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 49,
+            "prompt": "Einige Kurse kosten eine kleine Gebühr.",
+            "correctAnswer": "+",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 50,
+            "prompt": "Das Zentrum wird ausschließlich von privaten Unternehmen finanziert.",
+            "correctAnswer": "-",
+            "sortOrder": 4
+          },
+          {
+            "questionNumber": 51,
+            "prompt": "Im Zentrum arbeiten auch viele ehrenamtliche Helfer.",
+            "correctAnswer": "+",
+            "sortOrder": 5
+          },
+          {
+            "questionNumber": 52,
+            "prompt": "Für ältere Menschen gibt es Hilfe bei der Nutzung von Smartphones.",
+            "correctAnswer": "+",
+            "sortOrder": 6
+          },
+          {
+            "questionNumber": 53,
+            "prompt": "Der Jugendtreff findet sonntags statt.",
+            "correctAnswer": "-",
+            "sortOrder": 7
+          },
+          {
+            "questionNumber": 54,
+            "prompt": "Das Zentrum ist an normalen Sonntagen geschlossen.",
+            "correctAnswer": "+",
+            "sortOrder": 8
+          },
+          {
+            "questionNumber": 55,
+            "prompt": "Hinter dem Gebäude gibt es bereits einen Gemeinschaftsgarten.",
+            "correctAnswer": "-",
+            "sortOrder": 9
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-4-hoeren/modelltest-4-hoeren-teil2.mp3",
+        "imageUrl": "",
+        "durationMinutes": 10
+      },
+      "teil3": {
+        "part": 3,
+        "title": "Teil 3",
+        "subtitle": "Hörverstehen, Teil 3",
+        "instruction": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56–60 richtig oder falsch sind. Markieren Sie Ihre Lösungen für die Aufgaben 56–60 auf dem Antwortbogen. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch.",
+        "contentRevision": "modelltest-4-hoeren-teil3-v1",
+        "transcript": "56\nGuten Tag. Hier ist die Stadtbibliothek Süd. Wegen einer internen Veranstaltung schließen wir heute bereits um 16 Uhr. Morgen sind wir wieder wie gewohnt von 9 bis 19 Uhr für Sie da. Bereits ausgeliehene Bücher können Sie auch nach der Schließung am Automaten vor dem Eingang zurückgeben.\n\n57\nAchtung, Fahrgäste der Straßenbahnlinie 3. Wegen Bauarbeiten fährt die Linie heute nicht bis zum Hauptbahnhof. Bitte steigen Sie an der Haltestelle Rathaus aus und benutzen Sie von dort den Ersatzbus. Die Fahrkarten der Straßenbahn gelten selbstverständlich auch im Bus.\n\n58\nUnd nun der Wetterbericht für morgen. Am Vormittag bleibt es in der ganzen Region trocken. Gegen Mittag ziehen von Westen Wolken auf. Am Nachmittag muss besonders im Stadtgebiet mit kräftigem Regen gerechnet werden. Die Temperaturen erreichen höchstens 17 Grad.\n\n59\nHerzlich willkommen im Einkaufszentrum CityPoint. Heute findet in der ersten Etage unser Aktionstag statt. Zwischen 14 und 18 Uhr können Kinder dort kostenlos an einem Malworkshop teilnehmen. Die Eltern müssen ihre Kinder vorher am Informationsstand im Erdgeschoss anmelden.\n\n60\nLiebe Besucherinnen und Besucher des Stadtparks. Das für heute Abend geplante Konzert am See muss wegen des starken Windes leider ausfallen. Bereits gekaufte Eintrittskarten behalten ihre Gültigkeit für den Ersatztermin am kommenden Freitag. Weitere Informationen finden Sie auf unserer Internetseite.",
+        "questions": [
+          {
+            "questionNumber": 56,
+            "prompt": "Die Stadtbibliothek schließt heute früher als normalerweise.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 57,
+            "prompt": "Die Straßenbahnlinie 3 fährt heute bis zum Hauptbahnhof.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 58,
+            "prompt": "Am Nachmittag bleibt es im Stadtgebiet trocken.",
+            "correctAnswer": "-",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 59,
+            "prompt": "Kinder können kostenlos an einem Malworkshop teilnehmen.",
+            "correctAnswer": "+",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 60,
+            "prompt": "Das Konzert im Stadtpark findet heute Abend statt.",
+            "correctAnswer": "-",
+            "sortOrder": 4
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-4-hoeren/modelltest-4-hoeren-teil3.mp3",
+        "imageUrl": "",
+        "durationMinutes": 8
+      }
+    }
+  },
+  "answerKey": {
+    "lesenTeil1": {
+      "1": "f",
+      "2": "i",
+      "3": "c",
+      "4": "g",
+      "5": "b"
+    },
+    "lesenTeil2": {
+      "6": "b",
+      "7": "a",
+      "8": "b",
+      "9": "c",
+      "10": "a"
+    },
+    "lesenTeil3": {
+      "11": "a",
+      "12": "e",
+      "13": "f",
+      "14": "g",
+      "15": "h",
+      "16": "d",
+      "17": "i",
+      "18": "j",
+      "19": "X",
+      "20": "l"
+    },
+    "sprachbausteineTeil1": {
+      "21": "a",
+      "22": "b",
+      "23": "a",
+      "24": "a",
+      "25": "a",
+      "26": "a",
+      "27": "a",
+      "28": "a",
+      "29": "b",
+      "30": "a"
+    },
+    "sprachbausteineTeil2": {
+      "31": "e",
+      "32": "f",
+      "33": "c",
+      "34": "h",
+      "35": "g",
+      "36": "k",
+      "37": "i",
+      "38": "l",
+      "39": "n",
+      "40": "b"
+    },
+    "hoerenTeil1": {
+      "41": "+",
+      "42": "-",
+      "43": "+",
+      "44": "-",
+      "45": "+"
+    },
+    "hoerenTeil2": {
+      "46": "+",
+      "47": "-",
+      "48": "-",
+      "49": "+",
+      "50": "-",
+      "51": "+",
+      "52": "+",
+      "53": "-",
+      "54": "+",
+      "55": "-"
+    },
+    "hoerenTeil3": {
+      "56": "+",
+      "57": "-",
+      "58": "-",
+      "59": "+",
+      "60": "-"
+    }
+  },
+  "extractionWarnings": [
+    "Origin booklet title kept for reference: Modelltest 4 – Leben in der Stadt"
+  ]
+}

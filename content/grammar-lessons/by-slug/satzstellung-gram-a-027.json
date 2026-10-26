@@ -1,0 +1,39 @@
+{
+  "slug": "satzstellung-gram-a-027",
+  "titleFr": "Ordre des objets : datif avant accusatif",
+  "titleEn": "Object order: dative before accusative",
+  "titleDe": "Satzstellung — Dativ vor Akkusativ",
+  "ruleFr": "## Deux objets nominaux : datif puis accusatif\n\nQuand une phrase a **deux objets exprimés par des noms** (pas des pronoms), l’ordre standard est :\n\n**Datif (personne) → Accusatif (chose)**\n\n→ *Ich gebe **der Frau** **das Buch**.*\n→ *Er schenkt **dem Kind** **einen Ball**.*\n\n### Pourquoi ?\nLa personne (destinataire) précède souvent la chose transmise — ordre « naturel » allemand.\n\n### Verbes concernés\n*geben, schenken, schicken, zeigen, erklären, bringen, leihen, empfehlen…*\n\n### Contraste important (prochaine leçon)\nAvec **pronoms**, l’ordre s’**inverse** souvent : Akk. avant Dat.\n→ *Ich gebe **es ihr**.* (pas *ihr es* en style neutre courant)\n\n### Erreurs fréquentes\n- ✗ *Ich gebe das Buch der Frau.* (possible pour mise en relief, mais non neutre)\n- Oublier les bons articles tout en respectant l’ordre.\n\n### Mini-entraînement\n1. Ordonnez : *geben / der Lehrer / den Stift / dem Schüler*.\n2. Écrivez 5 phrases Dat. + Akk. avec des noms.\n3. Soulignez personne vs chose.",
+  "ruleEn": "## Two noun objects: dative then accusative\n\nWhen a sentence has **two objects expressed as nouns** (not pronouns), the default order is:\n\n**Dative (person) → Accusative (thing)**\n\n→ *Ich gebe **der Frau** **das Buch**.*\n→ *Er schenkt **dem Kind** **einen Ball**.*\n\n### Why?\nThe person (recipient) usually precedes the thing handed over — German’s neutral order.\n\n### Typical verbs\n*geben, schenken, schicken, zeigen, erklären, bringen, leihen, empfehlen…*\n\n### Important contrast (next lesson)\nWith **pronouns**, the order often **reverses**: Akk. before Dat.\n→ *Ich gebe **es ihr**.*\n\n### Common mistakes\n- Putting the thing first without a clear emphasis reason.\n- Getting order right but articles wrong.\n\n### Mini practice\n1. Order: *geben / der Lehrer / den Stift / dem Schüler*.\n2. Write 5 Dat. + Akk. sentences with nouns.\n3. Underline person vs thing.",
+  "ruleDe": "## Zwei nominale Objekte: Dativ vor Akkusativ\n\nBei **zwei Objekten als Nomen** (keine Pronomen) gilt die Normalstellung:\n\n**Dativ (Person) → Akkusativ (Sache)**\n\n→ *Ich gebe **der Frau** **das Buch**.*\n→ *Er schenkt **dem Kind** **einen Ball**.*\n\n### Warum?\nDie Person (Empfänger) steht meist vor der Sache.\n\n### Typische Verben\n*geben, schenken, schicken, zeigen, erklären, bringen, leihen, empfehlen…*\n\n### Wichtiger Kontrast (nächste Lektion)\nBei **Pronomen** oft umgekehrt: Akk. vor Dat.\n→ *Ich gebe **es ihr**.*\n\n### Häufige Fehler\n- Sache zuerst ohne klare Hervorhebung.\n- Reihenfolge richtig, Artikel falsch.\n\n### Mini-Übung\n1. Ordnen: *geben / der Lehrer / den Stift / dem Schüler*.\n2. Fünf Sätze Dat. + Akk. mit Nomen.\n3. Person vs Sache unterstreichen.",
+  "notesFr": "Règle noms : personne (Dat.) avant chose (Akk.) — *Ich gebe der Frau das Buch.*",
+  "notesEn": "Noun rule: person (Dat.) before thing (Akk.) — *Ich gebe der Frau das Buch.*",
+  "notesDe": "Nomen-Regel: Person (Dat.) vor Sache (Akk.) — *Ich gebe der Frau das Buch.*",
+  "examples": [
+    {
+      "de": "Ich gebe der Frau das Buch.",
+      "fr": "Je donne le livre à la femme. (Dat. puis Akk.)",
+      "en": "I give the woman the book. (Dat. then Akk.)"
+    },
+    {
+      "de": "Er schenkt dem Kind einen Ball.",
+      "fr": "Il offre un ballon à l’enfant.",
+      "en": "He gives the child a ball."
+    },
+    {
+      "de": "Sie zeigt dem Gast die Wohnung.",
+      "fr": "Elle montre l’appartement à l’invité.",
+      "en": "She shows the guest the apartment."
+    },
+    {
+      "de": "Wir schicken den Eltern eine Karte.",
+      "fr": "Nous envoyons une carte aux parents.",
+      "en": "We are sending the parents a card."
+    },
+    {
+      "de": "Kannst du dem Lehrer die Hausaufgaben bringen?",
+      "fr": "Peux-tu apporter les devoirs au professeur ?",
+      "en": "Can you bring the teacher the homework?"
+    }
+  ]
+}

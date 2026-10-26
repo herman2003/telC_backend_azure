@@ -1,0 +1,32 @@
+meta {
+  name: 43 B2 Lesen practice GET
+  type: http
+  seq: 43
+}
+
+get {
+  url: {{baseUrl}}/api/reading/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const t1 = res.body.teil1, t2 = res.body.teil2, t3 = res.body.teil3;
+  if (!t1 || !t2 || !t3) {
+    throw new Error("B2 Lesen expects teil1/teil2/teil3");
+  }
+  if (!t1.texts.every((x) => x.correctTitleId)) {
+    throw new Error("ADR 0001: B2 Lesen must ship the answer key");
+  }
+}

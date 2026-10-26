@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-endung-neutrum-gram-b-043",
+  "titleFr": "Infinitifs substantivés : toujours neutres",
+  "titleEn": "Nominalised infinitives: always neuter",
+  "titleDe": "Genus nach Endung — substantivierte Infinitive immer Neutrum",
+  "ruleFr": "## Verbe → nom : *das* + infinitif\n\nQuand un **infinitif** devient un nom (activité / processus), il est **toujours neutre**.\n\n### Formation\n*essen → **das** Essen*\n*schwimmen → **das** Schwimmen*\n*lesen → **das** Lesen*\n*parken → **das** Parken*\n*leben → **das** Leben*\n\n### Orthographe\nLe nom prend une **majuscule** : *das Essen* (le repas / le fait de manger).\n\n### Contraste\n- verbe : *Wir essen jetzt.*\n- nom : ***Das** Essen ist fertig.*\n\n### Mini-entraînement\n1. Transformez 10 verbes en *das …*\n2. Une phrase sur un panneau : *Parken verboten.*\n3. Distinguez *leben* (verbe) / *das Leben* (nom).",
+  "ruleEn": "## Verb → noun: *das* + infinitive\n\nWhen an **infinitive** becomes a noun (activity / process), it is **always neuter**.\n\n### Formation\n*essen → **das** Essen*\n*schwimmen → **das** Schwimmen*\n*lesen → **das** Lesen*\n*parken → **das** Parken*\n*leben → **das** Leben*\n\n### Spelling\nThe noun takes a **capital letter**: *das Essen*.\n\n### Contrast\n- verb: *Wir essen jetzt.*\n- noun: ***Das** Essen ist fertig.*\n\n### Mini practice\n1. Turn 10 verbs into *das …*\n2. One sign sentence: *Parken verboten.*\n3. Distinguish *leben* (verb) / *das Leben* (noun).",
+  "ruleDe": "## Verb → Nomen: *das* + Infinitiv\n\nWird ein **Infinitiv** zum Nomen (Tätigkeit / Vorgang), ist er **immer Neutrum**.\n\n### Bildung\n*essen → **das** Essen*\n*schwimmen → **das** Schwimmen*\n*lesen → **das** Lesen*\n*parken → **das** Parken*\n*leben → **das** Leben*\n\n### Schreibung\nDas Nomen schreibt man **groß**: *das Essen*.\n\n### Kontrast\n- Verb: *Wir essen jetzt.*\n- Nomen: ***Das** Essen ist fertig.*\n\n### Mini-Übung\n1. Zehn Verben → *das …*\n2. Schild: *Parken verboten.*\n3. *leben* vs *das Leben* unterscheiden.",
+  "notesFr": "Astuce panneau / titre : un verbe nominalisé = *das* + majuscule (*das Rauchen, das Warten*).",
+  "notesEn": "Sign/title tip: a nominalised verb = *das* + capital letter (*das Rauchen, das Warten*).",
+  "notesDe": "Schild-/Titel-Tipp: nominalisierter Infinitiv = *das* + Großschreibung (*das Rauchen, das Warten*).",
+  "examples": [
+    {
+      "de": "Das Essen ist fertig.",
+      "fr": "Le repas est prêt. (*das Essen* = infinitif substantivé)",
+      "en": "The food/meal is ready. (*das Essen* = nominalised infinitive)"
+    },
+    {
+      "de": "Das Schwimmen macht Spaß.",
+      "fr": "La natation est amusante. (*das Schwimmen*)",
+      "en": "Swimming is fun. (*das Schwimmen*)"
+    },
+    {
+      "de": "Das Lesen hilft beim Lernen.",
+      "fr": "La lecture aide à apprendre. (*das Lesen*)",
+      "en": "Reading helps with learning. (*das Lesen*)"
+    },
+    {
+      "de": "Parken ist hier verboten.",
+      "fr": "Le stationnement est interdit ici. (*das Parken* sous-entendu)",
+      "en": "Parking is forbidden here. (*das Parken* implied)"
+    },
+    {
+      "de": "Das Leben in Berlin ist teuer.",
+      "fr": "La vie à Berlin est chère. (*das Leben*)",
+      "en": "Life in Berlin is expensive. (*das Leben*)"
+    }
+  ]
+}

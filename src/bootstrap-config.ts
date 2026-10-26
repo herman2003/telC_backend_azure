@@ -53,3 +53,15 @@ export function configureSecurity(app: NestExpressApplication): void {
 
   app.enableCors({ origin: allowedOrigins, credentials: true });
 }
+
+/**
+ * Registers Nest listeners for SIGTERM / SIGINT so `OnModuleDestroy` and
+ * `OnApplicationShutdown` run on deploy stop. Without this, Prisma's pg pool
+ * and Valkey stay open while the replacement container starts.
+ *
+ * Same reason as `configureSecurity`: lives here so a test can pin it without
+ * importing `main.ts` (which would start a server).
+ */
+export function configureLifecycle(app: NestExpressApplication): void {
+  app.enableShutdownHooks();
+}

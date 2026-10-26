@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-r-289",
+  "titleFr": "Erreurs fréquentes : verbe hors position 2",
+  "titleEn": "Common mistakes: verb not in position 2",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur fréquente : verbe pas en position 2\n\nDans le Hauptsatz, beaucoup d’apprenants placent le sujet juste après un adverbe… et oublient l’inversion.\n\n### Le piège\n✗ *Heute ich gehe zur Arbeit.*\n✓ *Heute **gehe** ich zur Arbeit.*\n\n### Règle\nSi **autre chose que le sujet** est en position 1 → **sujet après le verbe**.\n\n### Autres exemples\n- ✗ *Gestern er hat angerufen.* → ✓ *Gestern **hat** er angerufen.*\n- ✗ *In Berlin wir wohnen.* → ✓ *In Berlin **wohnen** wir.*\n- ✗ *Deshalb ich bleibe.* → ✓ *Deshalb **bleibe** ich.*\n\n### Exception / cas différents\n- Question oui/non : verbe en **1** → *Gehst du…?*\n- Subordonnée : verbe à la **fin** → *…, weil ich… gehe.*\n\n### Mini-entraînement\nCorrigez 5 phrases du type *Heute ich…*.",
+  "ruleEn": "## Common mistake: verb not in position 2\n\nIn main clauses, learners often put the subject right after an adverb… and forget inversion.\n\n### The trap\n✗ *Heute ich gehe zur Arbeit.*\n✓ *Heute **gehe** ich zur Arbeit.*\n\n### Rule\nIf **something other than the subject** is in position 1 → **subject after the verb**.\n\n### More examples\n- ✗ *Gestern er hat angerufen.* → ✓ *Gestern **hat** er angerufen.*\n- ✗ *In Berlin wir wohnen.* → ✓ *In Berlin **wohnen** wir.*\n- ✗ *Deshalb ich bleibe.* → ✓ *Deshalb **bleibe** ich.*\n\n### Different cases\n- Yes/no question: verb in **1** → *Gehst du…?*\n- Subordinate: verb at the **end** → *…, weil ich… gehe.*\n\n### Mini practice\nFix 5 sentences like *Heute ich…*.",
+  "ruleDe": "## Häufiger Fehler: Verb nicht an Position 2\n\nIm Hauptsatz stellen Lernende oft das Subjekt direkt hinter ein Adverb — und vergessen die Inversion.\n\n### Die Falle\n✗ *Heute ich gehe zur Arbeit.*\n✓ *Heute **gehe** ich zur Arbeit.*\n\n### Regel\nSteht **etwas anderes als das Subjekt** auf Position 1 → **Subjekt nach dem Verb**.\n\n### Weitere Beispiele\n- ✗ *Gestern er hat angerufen.* → ✓ *Gestern **hat** er angerufen.*\n- ✗ *In Berlin wir wohnen.* → ✓ *In Berlin **wohnen** wir.*\n- ✗ *Deshalb ich bleibe.* → ✓ *Deshalb **bleibe** ich.*\n\n### Mini-Übung\n5 Sätze vom Typ *Heute ich…* korrigieren.",
+  "notesFr": "Si autre chose est en position 1 → sujet APRÈS le verbe !",
+  "notesEn": "If something else is in position 1 → subject AFTER the verb!",
+  "notesDe": "Wenn etwas anderes an Position 1 → Subjekt NACH dem Verb!",
+  "examples": [
+    {
+      "de": "Heute gehe ich zur Arbeit.",
+      "fr": "Aujourd’hui, je vais au travail. (pas *Heute ich gehe*)",
+      "en": "Today I’m going to work. (not *Heute ich gehe*)"
+    },
+    {
+      "de": "Gestern hat er mich angerufen.",
+      "fr": "Hier, il m’a appelé.",
+      "en": "Yesterday he called me."
+    },
+    {
+      "de": "In München wohnen wir seit 2020.",
+      "fr": "À Munich, nous habitons depuis 2020.",
+      "en": "In Munich we’ve been living since 2020."
+    },
+    {
+      "de": "Deshalb bleibe ich zu Hause.",
+      "fr": "C’est pourquoi je reste à la maison.",
+      "en": "That’s why I’m staying home."
+    },
+    {
+      "de": "Trotzdem fahren wir in den Urlaub.",
+      "fr": "Pourtant nous partons en vacances.",
+      "en": "Nevertheless we’re going on holiday."
+    }
+  ]
+}

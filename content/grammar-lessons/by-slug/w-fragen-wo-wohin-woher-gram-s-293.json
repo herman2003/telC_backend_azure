@@ -1,0 +1,39 @@
+{
+  "slug": "w-fragen-wo-wohin-woher-gram-s-293",
+  "titleFr": "wo, wohin, woher",
+  "titleEn": "W-questions — wo / wohin / woher",
+  "titleDe": "W-Fragen — wo/wohin/woher",
+  "ruleFr": "## wo, wohin, woher\n\nTrois questions de lieu à ne pas confondre.\n\n### wo = où (position)\nLieu **statique** → souvent **datif** avec prépositions de lieu.\n- ***Wo** wohnst du?* — *In Berlin.*\n- ***Wo** ist der Schlüssel?* — *Auf dem Tisch.*\n\n### wohin = où (direction)\nMouvement **vers** un lieu → souvent **accusatif**.\n- ***Wohin** gehst du?* — *In die Stadt.*\n- ***Wohin** fahrt ihr?* — *Nach Italien.*\n\n### woher = d’où\nOrigine / provenance.\n- ***Woher** kommst du?* — *Aus Frankreich.*\n- ***Woher** hast du das Buch?* — *Aus der Bibliothek.*\n\n### Tableau\n| Mot | Sens | Cas typique |\n|---|---|---|\n| wo | où (être) | Datif |\n| wohin | où (aller) | Accusatif |\n| woher | d’où | *aus / von* |\n\n### Mini-entraînement\nPosez *wo / wohin / woher* pour : *wohnen, gehen, kommen*.",
+  "ruleEn": "## wo, wohin, woher\n\nThree place questions not to confuse.\n\n### wo = where (location)\n**Static** place → often **dative** with place prepositions.\n- ***Wo** wohnst du?* — *In Berlin.*\n- ***Wo** ist der Schlüssel?* — *Auf dem Tisch.*\n\n### wohin = where to\nMovement **towards** → often **accusative**.\n- ***Wohin** gehst du?* — *In die Stadt.*\n- ***Wohin** fahrt ihr?* — *Nach Italien.*\n\n### woher = where from\nOrigin / source.\n- ***Woher** kommst du?* — *Aus Frankreich.*\n- ***Woher** hast du das Buch?* — *Aus der Bibliothek.*\n\n### Table\n| Word | Meaning | Typical case |\n|---|---|---|\n| wo | where (be) | Dative |\n| wohin | where to | Accusative |\n| woher | where from | *aus / von* |\n\n### Mini practice\nAsk *wo / wohin / woher* for: *wohnen, gehen, kommen*.",
+  "ruleDe": "## wo, wohin, woher\n\n### wo = Position\n- ***Wo** wohnst du?* — *In Berlin.*\n\n### wohin = Richtung\n- ***Wohin** gehst du?* — *In die Stadt.*\n\n### woher = Herkunft\n- ***Woher** kommst du?* — *Aus Frankreich.*\n\n### Tabelle\n| Wort | Bedeutung | typischer Kasus |\n|---|---|---|\n| wo | Position | Dativ |\n| wohin | Richtung | Akkusativ |\n| woher | Herkunft | *aus / von* |\n\n### Mini-Übung\nFragen zu *wohnen, gehen, kommen*.",
+  "notesFr": "*wo* = datif (position) ; *wohin* = accusatif (mouvement).",
+  "notesEn": "*wo* = dative (position); *wohin* = accusative (movement).",
+  "notesDe": "*wo* = Dativ (Position); *wohin* = Akkusativ (Bewegung).",
+  "examples": [
+    {
+      "de": "Wo wohnst du?",
+      "fr": "Où habites-tu ? (position)",
+      "en": "Where do you live? (location)"
+    },
+    {
+      "de": "Wohin gehst du jetzt?",
+      "fr": "Où vas-tu maintenant ? (direction)",
+      "en": "Where are you going now? (direction)"
+    },
+    {
+      "de": "Woher kommst du?",
+      "fr": "D’où viens-tu ?",
+      "en": "Where do you come from?"
+    },
+    {
+      "de": "Wo ist mein Handy?",
+      "fr": "Où est mon téléphone ?",
+      "en": "Where is my phone?"
+    },
+    {
+      "de": "Wohin fahrt ihr im Sommer?",
+      "fr": "Où allez-vous en été ?",
+      "en": "Where are you going in summer?"
+    }
+  ]
+}

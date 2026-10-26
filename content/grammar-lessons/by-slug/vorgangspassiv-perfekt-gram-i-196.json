@@ -1,0 +1,39 @@
+{
+  "slug": "vorgangspassiv-perfekt-gram-i-196",
+  "titleFr": "Vorgangspassiv au Perfekt",
+  "titleEn": "Process passive in the perfect",
+  "titleDe": "Vorgangspassiv — Perfekt",
+  "ruleFr": "## Vorgangspassiv — Perfekt\n\n### Formation\n**sein** + **Partizip II** + ***worden***\n\n- *Das Auto **ist** repariert **worden**.*\n- *Die Fenster **sind** geöffnet **worden**.*\n\n### Attention critique\nDans le passif Perfekt, on dit ***worden***, **pas** *geworden*.\n\n| Sens | Forme |\n|---|---|\n| Passif (être fait) | … **worden** |\n| Devenir (aktiv) | … **geworden** (*Er ist Lehrer geworden.*) |\n\n### Mini-entraînement\nTransformez 4 phrases Präteritum passif en Perfekt passif.",
+  "ruleEn": "## Vorgangspassiv — perfect\n\n### Formation\n**sein** + **past participle** + ***worden***\n\n- *Das Auto **ist** repariert **worden**.*\n- *Die Fenster **sind** geöffnet **worden**.*\n\n### Critical warning\nIn the passive perfect, use ***worden***, **not** *geworden*.\n\n| Meaning | Form |\n|---|---|\n| Passive (be done) | … **worden** |\n| Become (active) | … **geworden** |\n\n### Mini practice\nChange 4 preterite passives into perfect passives.",
+  "ruleDe": "## Vorgangspassiv — Perfekt\n\n### Bildung\n**sein** + **Partizip II** + ***worden***\n\n- *Das Auto **ist** repariert **worden**.*\n\n### Achtung\nIm Passiv Perfekt: ***worden***, nicht *geworden*.\n\n| Bedeutung | Form |\n|---|---|\n| Passiv | … **worden** |\n| werden = werden zu | … **geworden** |\n\n### Mini-Übung\nWandeln Sie 4 Passiv-Präteritum-Sätze ins Perfekt um.",
+  "notesFr": "ATTENTION : « worden » (pas « geworden ») au passif Perfekt !",
+  "notesEn": "WARNING: ‘worden’ (not ‘geworden’) in the passive perfect!",
+  "notesDe": "ACHTUNG: ‚worden‘ (nicht ‚geworden‘!) im Passiv Perfekt.",
+  "examples": [
+    {
+      "de": "Das Auto ist repariert worden.",
+      "fr": "La voiture a été réparée.",
+      "en": "The car has been repaired."
+    },
+    {
+      "de": "Die Fenster sind geöffnet worden.",
+      "fr": "Les fenêtres ont été ouvertes.",
+      "en": "The windows have been opened."
+    },
+    {
+      "de": "Der Brief ist geschrieben worden.",
+      "fr": "La lettre a été écrite.",
+      "en": "The letter has been written."
+    },
+    {
+      "de": "Wir sind eingeladen worden.",
+      "fr": "Nous avons été invités.",
+      "en": "We have been invited."
+    },
+    {
+      "de": "Das Problem ist gelöst worden.",
+      "fr": "Le problème a été résolu.",
+      "en": "The problem has been solved."
+    }
+  ]
+}

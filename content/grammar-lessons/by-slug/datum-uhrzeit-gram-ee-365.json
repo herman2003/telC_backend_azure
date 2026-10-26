@@ -1,0 +1,39 @@
+{
+  "slug": "datum-uhrzeit-gram-ee-365",
+  "titleFr": "Date et heure — écriture",
+  "titleEn": "Date & time — writing",
+  "titleDe": "Datum & Uhrzeit",
+  "ruleFr": "## Date et heure — écriture\n\n### Date\nOrdre allemand : **jour.mois.année**\n\n- *17.02.2026* = 17 février 2026\n- *1.5.2026* ou *01.05.2026*\n- En toutes lettres : *am 17. Februar 2026*\n\n### Heure\nFormat **24 heures** très courant :\n\n| Écrit | Sens |\n|---|---|\n| *14:30 Uhr* / *14.30 Uhr* | 14 h 30 |\n| *9:00 Uhr* | 9 h du matin |\n| *0:00 Uhr* / *24:00 Uhr* | minuit |\n\nLe point (*14.30*) ou les deux-points (*14:30*) sont tous deux utilisés.\n\n### Différence avec l’anglais / US\n- Date US : *02/17/2026* (mois/jour) ≠ DE *17.02.2026*\n- Heure US souvent 12 h + am/pm ; DE : 24 h\n\n### Mini-entraînement\n1. Convertissez 8 dates US → DE.\n2. Écrivez 5 rendez-vous avec date + heure.\n3. Lisez : *am 3. Oktober um 18:45 Uhr*.",
+  "ruleEn": "## Date & time — writing\n\n### Date\nGerman order: **day.month.year**\n\n- *17.02.2026* = 17 February 2026\n- In words: *am 17. Februar 2026*\n\n### Time\n**24-hour** clock is standard:\n\n| Written | Meaning |\n|---|---|\n| *14:30 Uhr* / *14.30 Uhr* | 2:30 p.m. |\n| *9:00 Uhr* | 9 a.m. |\n| *0:00 Uhr* | midnight |\n\nBoth *14.30* and *14:30* occur.\n\n### Unlike US English\n- US date: *02/17/2026* ≠ German *17.02.2026*\n- US often 12-hour + am/pm; German: 24-hour\n\n### Mini practice\n1. Convert 8 US dates → DE.\n2. Write 5 appointments with date + time.\n3. Read: *am 3. Oktober um 18:45 Uhr*.",
+  "ruleDe": "## Datum & Uhrzeit\n\n### Datum\nReihenfolge: **Tag.Monat.Jahr** — *17.02.2026*\n\n### Uhrzeit\nMeist **24-Stunden-Format**: *14:30 Uhr* / *14.30 Uhr*\n\n### Anders als US-Englisch\nUS: Monat/Tag; DE: Tag.Monat. Jahr. Uhrzeit oft 24h.\n\n### Mini-Übung\n1. 8 US-Daten → DE.\n2. 5 Termine mit Datum + Uhrzeit.\n3. Lesen: *am 3. Oktober um 18:45 Uhr*.",
+  "notesFr": "Format 24 h courant ! Date : jour.mois.année (17.02.2026). Point entre jour/mois/année.",
+  "notesEn": "24-hour format is common! Date: day.month.year (17.02.2026). Dots between day/month/year.",
+  "notesDe": "24-Stunden-Format üblich! Datum: Tag.Monat.Jahr. Punkt zwischen Tag/Monat/Jahr.",
+  "examples": [
+    {
+      "de": "Heute ist der 17.02.2026.",
+      "fr": "Aujourd’hui nous sommes le 17.02.2026.",
+      "en": "Today is 17.02.2026 (17 February 2026)."
+    },
+    {
+      "de": "Der Termin ist am 3. Mai um 14:30 Uhr.",
+      "fr": "Le rendez-vous est le 3 mai à 14 h 30.",
+      "en": "The appointment is on 3 May at 14:30."
+    },
+    {
+      "de": "Der Zug fährt um 9.15 Uhr ab.",
+      "fr": "Le train part à 9 h 15.",
+      "en": "The train leaves at 9:15."
+    },
+    {
+      "de": "Wir treffen uns am Montag, dem 1. Dezember.",
+      "fr": "Nous nous retrouvons le lundi 1er décembre.",
+      "en": "We’re meeting on Monday, 1 December."
+    },
+    {
+      "de": "Um 0:00 Uhr beginnt das neue Jahr.",
+      "fr": "À minuit commence la nouvelle année.",
+      "en": "At midnight the new year begins."
+    }
+  ]
+}

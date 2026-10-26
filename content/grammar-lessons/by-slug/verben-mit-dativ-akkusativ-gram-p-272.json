@@ -1,0 +1,39 @@
+{
+  "slug": "verben-mit-dativ-akkusativ-gram-p-272",
+  "titleFr": "Verbes avec datif + accusatif",
+  "titleEn": "Verbs with dative + accusative",
+  "titleDe": "Verben mit Dativ + Akkusativ",
+  "ruleFr": "## Verbes à double complément (datif + accusatif)\n\nBeaucoup de verbes ont :\n- **datif** = personne (*Wem?*)\n- **accusatif** = chose (*Was?*)\n\n### Verbes fréquents\n**geben, schenken, zeigen, erklären, erzählen, schicken, bringen, empfehlen, leihen**\n\n### Ordre avec des noms\n**Verb + datif (personne) + accusatif (chose)**\n- Ich gebe **dem Mann** **das Buch**.\n- Sie erklärt **den Kindern** **die Regel**.\n\n### Mini-entraînement\n1. Identifiez *Wem?* et *Was?* dans 5 phrases.\n2. Construisez des phrases avec *geben / zeigen / erklären*.\n3. Remplacez ensuite par des pronoms (voir leçon suivante).",
+  "ruleEn": "## Verbs with dative + accusative\n\nMany verbs take:\n- **dative** = person (*Wem?*)\n- **accusative** = thing (*Was?*)\n\n### Common verbs\n**geben, schenken, zeigen, erklären, erzählen, schicken, bringen, empfehlen, leihen**\n\n### Order with nouns\n**Verb + dative (person) + accusative (thing)**\n- Ich gebe **dem Mann** **das Buch**.\n- Sie erklärt **den Kindern** **die Regel**.\n\n### Mini practice\n1. Find *Wem?* and *Was?* in 5 sentences.\n2. Build sentences with *geben / zeigen / erklären*.\n3. Then replace with pronouns (next lesson).",
+  "ruleDe": "## Verben mit Dativ + Akkusativ\n\nViele Verben haben:\n- **Dativ** = Person (*Wem?*)\n- **Akkusativ** = Sache (*Was?*)\n\n### Häufige Verben\ngeben, schenken, zeigen, erklären, erzählen, schicken, bringen…\n\n### Reihenfolge bei Nomen\nVerb + Dativ + Akkusativ\n- Ich gebe **dem Mann** **das Buch**.\n\n### Mini-Übung\n1. *Wem?* und *Was?* markieren.\n2. Sätze mit *geben / zeigen / erklären*.\n3. Später mit Pronomen.",
+  "notesFr": "Ordre : datif (à qui ?) avant accusatif (quoi ?) — avec des noms.",
+  "notesEn": "Order: dative (to whom?) before accusative (what?) — with nouns.",
+  "notesDe": "Reihenfolge: Dativ (wem?) vor Akkusativ (was?).",
+  "examples": [
+    {
+      "de": "Ich gebe dem Mann das Buch.",
+      "fr": "Je donne le livre à l’homme. (dat. + akk.)",
+      "en": "I give the man the book. (dat. + acc.)"
+    },
+    {
+      "de": "Sie schenkt ihrer Freundin eine Karte.",
+      "fr": "Elle offre une carte à son amie.",
+      "en": "She gives her friend a card."
+    },
+    {
+      "de": "Kannst du mir den Weg zeigen?",
+      "fr": "Peux-tu me montrer le chemin ?",
+      "en": "Can you show me the way?"
+    },
+    {
+      "de": "Der Lehrer erklärt den Schülern die Grammatik.",
+      "fr": "Le professeur explique la grammaire aux élèves.",
+      "en": "The teacher explains the grammar to the students."
+    },
+    {
+      "de": "Er schickt seiner Mutter eine Nachricht.",
+      "fr": "Il envoie un message à sa mère.",
+      "en": "He sends his mother a message."
+    }
+  ]
+}

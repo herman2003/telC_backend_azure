@@ -1,0 +1,39 @@
+{
+  "slug": "komposita-gram-b-048",
+  "titleFr": "Les mots composés — le dernier élément fixe le genre",
+  "titleEn": "Compound nouns — the last element sets the gender",
+  "titleDe": "Komposita",
+  "ruleFr": "## Komposita — le genre vient du **dernier** mot\n\nEn allemand, on colle souvent deux (ou plus) noms : **das Haus** + **die Tür** → **die Haustür**.\n\n### Règle d’or\nLe **dernier** élément décide du **genre** (et souvent du pluriel) du composé.\n\n| A + B | composé | genre de B |\n|---|---|---|\n| das Haus + die Tür | **die** Haustür | féminin |\n| der Schuh + das Geschäft | **das** Schuhgeschäft | neutre |\n| die Schule + der Hof | **der** Schulhof | masculin |\n| das Auto + die Bahn | **die** Autobahn | féminin |\n\n### Pourquoi c’est utile\nVous n’avez pas à « inventer » le genre du composé : regardez seulement le **mot de droite**.\n\n### Attention\n- L’article du premier mot **ne compte plus** : *das* Haus + *die* Tür ≠ *das* Haustür.\n- Le sens est souvent « B de / pour A » : *die Haustür* = la porte de la maison.\n\n### Mini-entraînement\n1. Décomposez 5 composés (A + B).\n2. Notez l’article de B seul, puis du composé.\n3. Vérifiez qu’ils coïncident.",
+  "ruleEn": "## Compounds — gender comes from the **last** word\n\nGerman often joins nouns: **das Haus** + **die Tür** → **die Haustür**.\n\n### Golden rule\nThe **last** element decides the compound’s **gender** (and often its plural).\n\n| A + B | compound | gender of B |\n|---|---|---|\n| das Haus + die Tür | **die** Haustür | feminine |\n| der Schuh + das Geschäft | **das** Schuhgeschäft | neuter |\n| die Schule + der Hof | **der** Schulhof | masculine |\n| das Auto + die Bahn | **die** Autobahn | feminine |\n\n### Why it helps\nYou don’t guess the compound’s gender — look only at the **rightmost** noun.\n\n### Watch out\n- The first noun’s article no longer applies: *das* Haus + *die* Tür ≠ *das* Haustür.\n- Meaning is often “B of/for A”: *die Haustür* = the house door.\n\n### Mini practice\n1. Split 5 compounds (A + B).\n2. Note B’s article alone, then the compound’s.\n3. Confirm they match.",
+  "ruleDe": "## Komposita — das Genus kommt vom **letzten** Wort\n\nIm Deutschen setzt man oft Nomen zusammen: **das Haus** + **die Tür** → **die Haustür**.\n\n### Goldene Regel\nDas **letzte** Element bestimmt Genus (und oft Plural) des Kompositums.\n\n| A + B | Kompositum | Genus von B |\n|---|---|---|\n| das Haus + die Tür | **die** Haustür | Femininum |\n| der Schuh + das Geschäft | **das** Schuhgeschäft | Neutrum |\n| die Schule + der Hof | **der** Schulhof | Maskulinum |\n| das Auto + die Bahn | **die** Autobahn | Femininum |\n\n### Warum hilfreich?\nSie raten nicht — schauen Sie nur auf das **rechte** Nomen.\n\n### Achtung\n- Der Artikel des ersten Worts gilt nicht mehr.\n- Bedeutung oft „B von/für A“: *die Haustür*.\n\n### Mini-Übung\n1. Zerlegen Sie 5 Komposita (A + B).\n2. Notieren Sie den Artikel von B und vom Kompositum.\n3. Prüfen Sie die Übereinstimmung.",
+  "notesFr": "Important : c’est toujours le **dernier** élément qui compte pour *der / die / das*.",
+  "notesEn": "Important: always the **last** element decides *der / die / das*.",
+  "notesDe": "Wichtig: Immer das **letzte** Element entscheidet über *der / die / das*.",
+  "examples": [
+    {
+      "de": "Die Haustür ist offen.",
+      "fr": "La porte d’entrée est ouverte. (Haus + **Tür** → féminin.)",
+      "en": "The front door is open. (Haus + **Tür** → feminine.)"
+    },
+    {
+      "de": "Das Schuhgeschäft schließt um acht.",
+      "fr": "Le magasin de chaussures ferme à huit heures. (Schuh + **Geschäft** → neutre.)",
+      "en": "The shoe shop closes at eight. (Schuh + **Geschäft** → neuter.)"
+    },
+    {
+      "de": "Der Schulhof ist groß.",
+      "fr": "La cour d’école est grande. (Schule + **Hof** → masculin.)",
+      "en": "The schoolyard is large. (Schule + **Hof** → masculine.)"
+    },
+    {
+      "de": "Die Autobahn ist voll.",
+      "fr": "L’autoroute est pleine. (Auto + **Bahn** → féminin.)",
+      "en": "The motorway is crowded. (Auto + **Bahn** → feminine.)"
+    },
+    {
+      "de": "Das Wohnzimmer liegt links.",
+      "fr": "Le salon est à gauche. (Wohn- + **Zimmer** → neutre.)",
+      "en": "The living room is on the left. (Wohn- + **Zimmer** → neuter.)"
+    }
+  ]
+}

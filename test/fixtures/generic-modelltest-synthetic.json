@@ -1,0 +1,166 @@
+{
+  "modelltest": {
+    "level": "A2",
+    "number": 9999,
+    "title": "Synthetic A2 fixture (not real telc content)",
+    "examOnly": true,
+    "contentRevision": "a2-modelltest-9999-v1"
+  },
+  "format": {
+    "hoerenDelivery": {
+      "deliveryMode": "PER_TEIL_RECORDINGS",
+      "playsAllowed": 1,
+      "pauseAllowed": false,
+      "seekAllowed": false,
+      "restartAllowed": false,
+      "recordings": [
+        {
+          "teil": 1,
+          "audioAssetKey": "synthetic/hoeren-teil1.mp3",
+          "audioUrl": null,
+          "durationSeconds": null
+        }
+      ]
+    },
+    "gradeBands": [
+      { "label": "SEHR_GUT", "minimum": 54, "maximum": 60 },
+      { "label": "GUT", "minimum": 48, "maximum": 53.5 },
+      { "label": "BEFRIEDIGEND", "minimum": 42, "maximum": 47.5 },
+      { "label": "AUSREICHEND", "minimum": 36, "maximum": 41.5 },
+      { "label": "TEILGENOMMEN", "minimum": 0, "maximum": 35.5 }
+    ]
+  },
+  "sections": {
+    "HOEREN": [
+      {
+        "sectionId": "HOEREN_1",
+        "fertigkeit": "HOEREN",
+        "label": "Hören Teil 1",
+        "teil": 1,
+        "title": "Hören, Teil 1",
+        "aufgabentyp": "KURZANTWORT",
+        "contentRevision": "a2-modelltest-9999-hoeren-teil-1-v1",
+        "instructions": ["Ergänzen Sie die Telefonnotizen."],
+        "position": 1,
+        "scoring": { "mode": "AUTO", "maxPoints": 1, "examPart": "WRITTEN" },
+        "media": { "transcript": "Guten Tag, hier ist ein Test." },
+        "content": {
+          "items": [
+            {
+              "number": 1,
+              "prompt": "Rufnummer",
+              "placeholder": "________",
+              "normalization": {
+                "trim": true,
+                "ignoreCase": true,
+                "unicodeNormalization": "NFC",
+                "numericAnswersStrict": true,
+                "fuzzyMatchingAllowed": false,
+                "unrecognizedAnswerPolicy": "MANUAL_REVIEW"
+              },
+              "solution": { "acceptedAnswers": ["1688538", "168 85 38"] }
+            }
+          ]
+        }
+      }
+    ],
+    "LESEN": [
+      {
+        "sectionId": "LESEN_1",
+        "fertigkeit": "LESEN",
+        "label": "Lesen Teil 1",
+        "teil": 1,
+        "title": "Lesen, Teil 1",
+        "aufgabentyp": "EINZELAUSWAHL",
+        "contentRevision": "a2-modelltest-9999-lesen-teil-1-v1",
+        "instructions": ["Kreuzen Sie an: a, b oder c."],
+        "position": 1,
+        "scoring": { "mode": "AUTO", "maxPoints": 1, "examPart": "WRITTEN" },
+        "content": {
+          "stimulus": { "type": "TEXT", "body": "Kaufhaus Waldheim, Erdgeschoss." },
+          "items": [
+            {
+              "number": 1,
+              "prompt": "Sie möchten einen Regenschirm kaufen.",
+              "options": [
+                { "key": "a", "text": "Erdgeschoss" },
+                { "key": "b", "text": "1. Stock" },
+                { "key": "c", "text": "anderes Stockwerk" }
+              ],
+              "solution": { "key": "b" }
+            }
+          ]
+        }
+      }
+    ],
+    "SCHREIBEN": [
+      {
+        "sectionId": "SCHREIBEN_2",
+        "fertigkeit": "SCHREIBEN",
+        "label": "Schreiben Teil 2",
+        "teil": 2,
+        "title": "Schreiben, Teil 2",
+        "aufgabentyp": "TEXT_SCHREIBEN",
+        "contentRevision": "a2-modelltest-9999-schreiben-teil-2-v1",
+        "instructions": ["Schreiben Sie einen Brief."],
+        "position": 2,
+        "scoring": {
+          "mode": "MANUAL_WITH_AI_SUGGESTION",
+          "maxPoints": 10,
+          "examPart": "WRITTEN"
+        },
+        "content": {
+          "instructions": "Schreiben Sie einen passenden Text.",
+          "bulletPoints": ["Punkt 1", "Punkt 2", "Punkt 3", "Punkt 4"],
+          "selectionRule": {
+            "type": "CHOOSE_N_OR_OWN",
+            "requiredBulletPoints": 3,
+            "allowOwnPoint": false
+          },
+          "wordLimit": { "minimum": null, "recommended": 40, "maximum": null },
+          "rubric": {
+            "contentPoints": { "selectRequired": 3, "pointsPerPoint": [3, 1.5, 0] },
+            "communicativeDesign": { "points": [1, 0.5, 0] }
+          }
+        }
+      }
+    ],
+    "SPRECHEN": [
+      {
+        "sectionId": "SPRECHEN_1",
+        "fertigkeit": "SPRECHEN",
+        "label": "Sprechen Teil 1",
+        "teil": 1,
+        "title": "Sprechen, Teil 1",
+        "aufgabentyp": "SICH_VORSTELLEN",
+        "contentRevision": "a2-modelltest-9999-sprechen-teil-1-v1",
+        "instructions": ["Stellen Sie sich vor."],
+        "position": 1,
+        "scoring": { "mode": "MANUAL", "maxPoints": 3, "examPart": "ORAL" },
+        "content": {
+          "prompts": ["Name", "Alter", "Land", "Wohnort"],
+          "examinerPrompts": [],
+          "participants": 2,
+          "rubric": {
+            "vorstellen": [1, 0.5, 0],
+            "zusatzfragen": [2, 1, 0]
+          }
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "assetKey": "a2-modelltest-1-lesen-1-directory",
+      "usedBy": ["LESEN_1"],
+      "sourcePages": [13],
+      "requiredForTask": true,
+      "containsSolution": false,
+      "targetFileName": "a2-modelltest-1-lesen-teil1-directory.png",
+      "imageUrl": null,
+      "altText": "Kaufhaus Waldheim floor directory",
+      "extractionNotes": "Preserve floor-to-department mapping."
+    }
+  ],
+  "extractionWarnings": []
+}

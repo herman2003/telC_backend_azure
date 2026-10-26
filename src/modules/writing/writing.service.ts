@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import {
   Injectable,
   NotFoundException,
@@ -12,11 +13,22 @@ import type {
   ExerciseAttemptDto,
   SubmitWritingResponseDto,
   WritingExerciseDto,
+  WritingExerciseResponseDto,
   WritingExerciseStimulus,
 } from './dto';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
 import type { SubmitWritingDto } from './dto';
+import { isGenericFormularSubmit } from './dto/submit-writing.dto';
 import { submitOnce } from '../student-activity/submit-once';
 import { historyFields } from '../student-activity/student-history';
+import { recordActivity } from '../student-activity/student-activity.writer';
+import { trainingFeedbackForSection } from '../centers/generic-section-scoring';
+import { WritingDailyQuotaService } from './writing-daily-quota.service';
+
+const WRITING_TEIL_IDS = ['1', '2'] as const;
 
 export interface WritingCorrectionQueue {
   add(data: {
@@ -25,6 +37,8 @@ export interface WritingCorrectionQueue {
     exerciseId: string;
     content: string;
     createdAt: string;
+    /** The exam whose criteria the letter is rated against. */
+    level: CefrLevel;
   }): Promise<unknown>;
 }
 
@@ -34,6 +48,8 @@ export class WritingService {
 
   constructor(
     private readonly prisma: PrismaService,
+    private readonly genericContent: GenericExamContentService,
+    private readonly dailyQuota: WritingDailyQuotaService,
     @Optional()
     @Inject('WRITING_CORRECTION_QUEUE')
     private readonly correctionQueue?: WritingCorrectionQueue,
@@ -70,29 +86,68 @@ export class WritingService {
    */
   async getExerciseByModelltest(
     modelltestNumber: number,
-  ): Promise<WritingExerciseDto> {
-    let row: Awaited<ReturnType<typeof this.prisma.writingExercise.findFirst>>;
+  ): Promise<WritingExerciseDto | WritingExerciseResponseDto> {
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: modelltestNumber },
+    });
+
+    if (!modelltest) {
+      throw this.exerciseNotFoundForModelltest();
+    }
+
+    if (GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
+      const bySkill = await this.genericContent.sectionsFor(modelltest.id);
+      const sections = bySkill.SCHREIBEN;
+      if (sections.length === 0) {
+        throw this.exerciseNotFoundForModelltest();
+      }
+      const contentRevision =
+        sections.find((s) => s.teil === 1)?.contentRevision ??
+        sections[0].contentRevision;
+      return {
+        contentRevision,
+        issuedAt: new Date().toISOString(),
+        sections: sections.map((s) => ({
+          id: s.id,
+          sectionId: s.sectionId,
+          aufgabentyp: s.aufgabentyp,
+          teil: s.teil,
+          label: s.label,
+          instruction: s.instruction,
+          maxPoints: s.maxPoints,
+          contentRevision: s.contentRevision,
+          material: s.material,
+          items: s.items,
+        })),
+      };
+    }
+
+    // Every task of the Modelltest, not the first one. B1 has a single letter;
+    // telc B2 presents two and the candidate answers exactly one, so a
+    // `findFirst` would have handed a B2 candidate whichever row came back and
+    // hidden the other.
+    let rows: Awaited<ReturnType<typeof this.prisma.writingExercise.findMany>>;
     try {
-      row = await this.prisma.writingExercise.findFirst({
+      rows = await this.prisma.writingExercise.findMany({
         where: { modelltest: { number: modelltestNumber } },
+        orderBy: { part: 'asc' },
       });
     } catch {
-      throw new NotFoundException({
-        statusCode: 404,
-        error: 'Not Found',
-        message: 'Exercise not found for this Modelltest',
-        messageKey: 'writingExerciseNotFound',
-      });
+      throw this.exerciseNotFoundForModelltest();
     }
-    if (!row) {
-      throw new NotFoundException({
-        statusCode: 404,
-        error: 'Not Found',
-        message: 'Exercise not found for this Modelltest',
-        messageKey: 'writingExerciseNotFound',
-      });
+    if (rows.length === 0) {
+      throw this.exerciseNotFoundForModelltest();
     }
-    return this.mapExerciseRow(row);
+
+    const tasks = rows.map((row) => this.mapExerciseRow(row));
+    const [first] = tasks;
+
+    // `choices` only when there is a choice, so a B1 response is exactly what
+    // it has always been and a client that knows nothing of one is unaffected.
+    const choiceGroupId = rows[0].choice_group_id ?? undefined;
+    if (tasks.length === 1 && !choiceGroupId) return first;
+
+    return { ...first, choiceGroupId, choices: tasks };
   }
 
   /**
@@ -106,6 +161,11 @@ export class WritingService {
     try {
       const rows = await this.prisma.writingAttempt.findMany({
         where: {
+          // Training only. An exam attempt lives in this same table and
+          // must not be read back as practice: it would show a candidate
+          // scores their center has not released, and count an exam as
+          // preparation for itself.
+          exam_attempt_id: null,
           student_id: studentId,
           erasure_id: null,
           ...(exerciseId ? { exercise_id: exerciseId } : {}),
@@ -125,6 +185,7 @@ export class WritingService {
           diff: true,
           corrections: true,
           points_addressed: true,
+          telc_rating: true,
         },
       });
 
@@ -147,18 +208,38 @@ export class WritingService {
 
   /**
    * POST /api/writing/submit — validate exercise exists in DB, create attempt, enqueue correction.
+   * Guests skip the Start daily quota (IP rate-limit only, enforced in the controller).
    */
   async submit(
     studentId: string,
     dto: SubmitWritingDto,
+    opts: { isGuest?: boolean } = {},
   ): Promise<SubmitWritingResponseDto> {
+    if (isGenericFormularSubmit(dto)) {
+      return this.submitGenericFormular(
+        { studentId, isGuest: opts.isGuest },
+        dto,
+      );
+    }
+
     const { exerciseId, content } = dto;
 
-    let exercise: { id: string; modelltest_id: string | null } | null;
+    let exercise: {
+      id: string;
+      modelltest_id: string | null;
+      modelltest: { level: CefrLevel } | null;
+    } | null;
     try {
       exercise = await this.prisma.writingExercise.findUnique({
         where: { id: exerciseId },
-        select: { id: true, modelltest_id: true },
+        // `level` with it: the correction is rated against the criteria of the
+        // exam the task belongs to, and the caller is the only place that
+        // knows which that is without guessing.
+        select: {
+          id: true,
+          modelltest_id: true,
+          modelltest: { select: { level: true } },
+        },
       });
     } catch {
       throw new NotFoundException({
@@ -192,6 +273,27 @@ export class WritingService {
     }
 
     const createdAt = new Date().toISOString();
+
+    if (dto.attemptId) {
+      const existing = await this.prisma.writingAttempt.findUnique({
+        where: { attempt_id: dto.attemptId },
+        select: { student_id: true, status: true },
+      });
+      if (existing && existing.student_id === studentId) {
+        return {
+          attemptId: dto.attemptId,
+          status: existing.status,
+          message: 'Submission already received.',
+        };
+      }
+    }
+
+    // Start: two training AI corrections per UTC day. Exam attempts are
+    // counted apart (they set exam_attempt_id). Guests stay on IP rate-limit
+    // only — no Start daily quota (tranche 5).
+    if (opts.isGuest !== true) {
+      await this.dailyQuota.assertMaySubmit(studentId);
+    }
 
     let stored: {
       attemptId: string;
@@ -251,6 +353,9 @@ export class WritingService {
           exerciseId,
           content: content.trim(),
           createdAt,
+          // From the task's own Modelltest. A training task that belongs to
+          // no Modelltest is B1, which is every row that predates levels.
+          level: exercise.modelltest?.level ?? 'B1',
         });
       } catch (err) {
         this.logger.warn(
@@ -266,6 +371,145 @@ export class WritingService {
     };
   }
 
+  private async submitGenericFormular(
+    caller: { studentId: string; isGuest?: boolean },
+    dto: SubmitWritingDto,
+  ): Promise<SubmitWritingResponseDto> {
+    const teilId = dto.teil_id!;
+    if (!WRITING_TEIL_IDS.includes(teilId as (typeof WRITING_TEIL_IDS)[number])) {
+      throw new UnprocessableEntityException({
+        statusCode: 422,
+        error: 'Unprocessable Entity',
+        message: 'Unknown Schreiben Teil',
+        messageKey: 'writingExerciseNotFound',
+      });
+    }
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: dto.modelltestNumber ?? 1 },
+      select: { id: true, level: true },
+    });
+    if (!modelltest) {
+      throw new NotFoundException({
+        statusCode: 404,
+        error: 'Not Found',
+        message: 'Modelltest not found',
+        messageKey: 'writingExerciseNotFound',
+      });
+    }
+    if (!GENERIC_MODEL_LEVELS.includes(modelltest.level)) {
+      throw new UnprocessableEntityException({
+        statusCode: 422,
+        error: 'Unprocessable Entity',
+        message: 'Generic formular submit is only for A1/A2 Modelltests',
+        messageKey: 'writingExerciseNotFound',
+      });
+    }
+    const part = Number(teilId);
+    const section = await this.genericContent.sectionFor(
+      modelltest.id,
+      'SCHREIBEN',
+      part,
+    );
+    if (!section) {
+      throw new NotFoundException({
+        statusCode: 404,
+        error: 'Not Found',
+        message: `Schreiben Teil ${part} not found`,
+        messageKey: 'writingExerciseNotFound',
+      });
+    }
+    const answers = dto.answers ?? {};
+    if (Object.keys(answers).length === 0) {
+      throw new UnprocessableEntityException({
+        statusCode: 422,
+        error: 'Unprocessable Entity',
+        message: 'Answers must not be empty',
+        messageKey: 'listeningEmptyAnswers',
+      });
+    }
+    const feedback = trainingFeedbackForSection(section, answers);
+    const score = feedback.percent;
+
+    if (caller.isGuest) {
+      return {
+        attemptId: dto.attemptId ?? '',
+        status: 'completed',
+        score,
+        outcomes: feedback.outcomes,
+        review: feedback.review,
+      };
+    }
+
+    const { studentId } = caller;
+    const completedAt = new Date();
+    const contentJson = JSON.stringify(answers);
+    const { attemptId, earlier } = await submitOnce(
+      studentId,
+      dto.attemptId,
+      (id) =>
+        this.prisma.writingAttempt.findUnique({
+          where: { attempt_id: id },
+          select: { student_id: true, score: true, status: true },
+        }),
+      (id) =>
+        this.prisma.$transaction(async (tx) => {
+          await tx.writingAttempt.create({
+            data: {
+              attempt_id: id,
+              student_id: studentId,
+              exercise_id: dto.exerciseId,
+              modelltest_id: modelltest.id,
+              content: contentJson,
+              status: 'completed',
+              score,
+              completed_at: completedAt,
+              duration_seconds: dto.durationSeconds ?? null,
+              corrections: {
+                outcomes: feedback.outcomes,
+                review: feedback.review,
+              } as object,
+            },
+          });
+          await recordActivity(tx, {
+            studentId,
+            skill: 'SCHREIBEN',
+            teil: part,
+            score,
+            durationSeconds: dto.durationSeconds,
+            modelltestId: modelltest.id,
+            attemptId: id,
+            completedAt,
+          });
+        }),
+    );
+    if (earlier) {
+      return {
+        attemptId,
+        status: earlier.status ?? 'completed',
+        score: earlier.score ?? score,
+        outcomes: feedback.outcomes,
+        review: feedback.review,
+      };
+    }
+    return {
+      attemptId,
+      status: 'completed',
+      score,
+      outcomes: feedback.outcomes,
+      review: feedback.review,
+      message: 'Submission scored.',
+    };
+  }
+
+  private exerciseNotFoundForModelltest(): NotFoundException {
+    return new NotFoundException({
+      statusCode: 404,
+      error: 'Not Found',
+      message: 'Exercise not found for this Modelltest',
+      messageKey: 'writingExerciseNotFound',
+    });
+  }
+
   mapExerciseRow(row: {
     id: string;
     title: string;
@@ -276,10 +520,15 @@ export class WritingService {
     task_instructions: string;
     bullet_points: string[];
     closing_reminder: string | null;
+    part?: number;
+    choice_group_id?: string | null;
   }): WritingExerciseDto {
     return {
       id: row.id,
-      part: 1,
+      // Was hard-coded to 1, which was true of every B1 row and wrong for the
+      // second task of a B2 choice. Still 1 for a row written before the
+      // column existed.
+      part: row.part ?? 1,
       title: row.title,
       subtitle: row.subtitle ?? undefined,
       taskType: row.task_type as 'brief' | 'forumsbeitrag',
@@ -288,6 +537,10 @@ export class WritingService {
       taskInstructions: row.task_instructions,
       bulletPoints: row.bullet_points,
       closingReminder: row.closing_reminder ?? undefined,
+      // telc-style Vorbereitung scaffolding (session-local on the client).
+      prepDurationSeconds: 120,
+      writingDurationMinutes: 30,
+      registerChecklist: ['Betreff', 'Anrede', 'Einleitung', 'Schluss'],
     };
   }
 
@@ -303,6 +556,7 @@ export class WritingService {
     diff?: unknown;
     corrections?: unknown;
     points_addressed?: number | null;
+    telc_rating?: unknown;
   }): ExerciseAttemptDto {
     const toIso = (d: Date | string | null | undefined) =>
       d ? (d instanceof Date ? d.toISOString() : d) : '';
@@ -320,7 +574,30 @@ export class WritingService {
         ? (row.diff as ExerciseAttemptDto['diff'])
         : undefined,
       pointsAddressed: row.points_addressed ?? undefined,
+      telcRating: this.mapTelcRatingForDto(row.telc_rating),
       corrections: this.mapCorrectionsForDto(row.corrections),
+    };
+  }
+
+  private mapTelcRatingForDto(raw: unknown): ExerciseAttemptDto['telcRating'] {
+    if (!raw || typeof raw !== 'object') return undefined;
+    const o = raw as Record<string, unknown>;
+    const letters = ['A', 'B', 'C', 'D'] as const;
+    const ok = (v: unknown): v is (typeof letters)[number] =>
+      typeof v === 'string' && (letters as readonly string[]).includes(v);
+    if (
+      !ok(o.taskFulfilment) ||
+      !ok(o.communicativeDesign) ||
+      !ok(o.formalAccuracy) ||
+      typeof o.points !== 'number'
+    ) {
+      return undefined;
+    }
+    return {
+      taskFulfilment: o.taskFulfilment,
+      communicativeDesign: o.communicativeDesign,
+      formalAccuracy: o.formalAccuracy,
+      points: o.points,
     };
   }
 
@@ -331,8 +608,8 @@ export class WritingService {
     return raw.map((c) => {
       const item = c as Record<string, unknown>;
       return {
-        original: String(item.original ?? ''),
-        corrected: String(item.corrected ?? ''),
+        original: typeof item.original === 'string' ? item.original : '',
+        corrected: typeof item.corrected === 'string' ? item.corrected : '',
         explanation:
           typeof item.explanation === 'string' ? item.explanation : undefined,
         errorType:

@@ -4,6 +4,8 @@ import {
   Post,
   Body,
   Query,
+  Param,
+  ParseUUIDPipe,
   UseGuards,
   UnauthorizedException,
   HttpCode,
@@ -19,26 +21,38 @@ import {
   ApiNotFoundResponse,
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
+  ApiBadRequestResponse,
   ApiQuery,
+  ApiParam,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../../shared/guards/prep-pass.guard';
 import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
 import { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { ListeningService } from './listening.service';
+import { TrainingAudioService } from './training-audio.service';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 import { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import { ListeningExerciseDto } from './dto/listening-exercise.dto';
 import { SubmitListeningDto } from './dto/submit-listening.dto';
 import { SubmitListeningResponseDto } from './dto/submit-listening-response.dto';
+import type { GrantedPlay } from '../centers/exam-audio.service';
+import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
+import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
 
 @ApiTags('Listening (Hören)')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse({ description: 'Missing or invalid JWT' })
-@UseGuards(JwtAuthGuard, StudentSubscriptionGuard)
+/** PrepPassGuard: weekly MT for Start, full pool with Prep Pass. */
+@UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/listening')
 export class ListeningController {
-  constructor(private readonly listeningService: ListeningService) {}
+  constructor(
+    private readonly listeningService: ListeningService,
+    private readonly trainingAudio: TrainingAudioService,
+    private readonly trainingAccess: TrainingModelltestAccessService,
+  ) {}
 
   @Get('teils')
   @ApiOperation({
@@ -84,10 +98,10 @@ export class ListeningController {
     @Query('modelltest') modelltest?: string,
   ): Promise<ExerciseTypeDto[]> {
     if (!student?.studentId) return [];
-    return this.listeningService.getTeils(
-      student.studentId,
-      this.parseModelltest(modelltest),
-    );
+    const mt = this.parseModelltest(modelltest);
+    assertGuestMayAccessModelltest(student.isGuest, mt);
+    await this.assertPaidTrainingAccess(student, mt);
+    return this.listeningService.getTeils(student.studentId, mt);
   }
 
   @Get('sessions')
@@ -120,8 +134,8 @@ export class ListeningController {
   @ApiOperation({
     summary: 'Fetch a Hören exercise',
     description:
-      'Returns the audio URL, image, content_revision, and the list of richtig(+)/falsch(−) ' +
-      'statements for the given Teil. No options array — the student marks each statement as "+" or "−".',
+      'Returns the same Teil shape as exam: audioId, playsAllowed, contentRevision, imagePath, ' +
+      'and richtig(+)/falsch(−) statements. Play audio via POST .../audio/{audioId}/play — no durable URL.',
   })
   @ApiQuery({
     name: 'type',
@@ -148,6 +162,7 @@ export class ListeningController {
     description: 'Requested Teil or Modelltest exercise was not found',
   })
   async getExercise(
+    @CurrentStudent() student: AccessTokenPayload | null,
     @Query('type') type?: string,
     @Query('teil') teil?: string,
     @Query('modelltest') modelltest?: string,
@@ -159,10 +174,48 @@ export class ListeningController {
     }
     const selectedTeil = teil ?? type;
     if (!selectedTeil) throw new BadRequestException('teil is required');
-    return this.listeningService.getExercise(
-      selectedTeil,
-      this.parseModelltest(modelltest),
-    );
+    const mt = this.parseModelltest(modelltest);
+    assertGuestMayAccessModelltest(student?.isGuest, mt);
+    await this.assertPaidTrainingAccess(student, mt);
+    return this.listeningService.getExercise(selectedTeil, mt);
+  }
+
+  @Post('audio/:audioId/play')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Spend one training play and get a stream URL',
+    description:
+      'Counts against exam_plays_allowed for this student + recording. ' +
+      'Guest JWTs skip the DB counter (no students row / FK) but still receive ' +
+      'a short-lived /api/listening/audio?token=… URL for the player.',
+  })
+  @ApiParam({ name: 'audioId', format: 'uuid' })
+  @ApiOkResponse({
+    description: 'Play granted',
+    schema: {
+      type: 'object',
+      properties: {
+        audioId: { type: 'string', format: 'uuid' },
+        url: { type: 'string', example: '/api/listening/audio?token=…' },
+        playsRemaining: { type: 'number', example: 0 },
+        expiresAt: { type: 'string', format: 'date-time' },
+      },
+    },
+  })
+  @ApiBadRequestResponse({
+    description: 'NO_PLAYS_LEFT | AUDIO_UNAVAILABLE | AUDIO_DURATION_MISSING',
+  })
+  @ApiNotFoundResponse({ description: 'AUDIO_NOT_FOUND' })
+  async playAudio(
+    @CurrentStudent() student: AccessTokenPayload | null,
+    @Param('audioId', ParseUUIDPipe) audioId: string,
+  ): Promise<GrantedPlay> {
+    if (!student?.studentId) {
+      throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
+    }
+    return this.trainingAudio.play(student.studentId, audioId, {
+      isGuest: student.isGuest === true,
+    });
   }
 
   @Post('submit')
@@ -189,6 +242,9 @@ export class ListeningController {
     if (!student?.studentId) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
+    const mt = dto.modelltestNumber ?? 1;
+    assertGuestMayAccessModelltest(student.isGuest, mt);
+    await this.assertPaidTrainingAccess(student, mt);
     return this.listeningService.submit(student.studentId, dto);
   }
 
@@ -200,5 +256,16 @@ export class ListeningController {
       );
     }
     return Number(value);
+  }
+
+  private async assertPaidTrainingAccess(
+    student: AccessTokenPayload | null | undefined,
+    modelltestNumber: number,
+  ): Promise<void> {
+    if (!student?.studentId || student.isGuest === true) return;
+    await this.trainingAccess.assertMayAccess(
+      student.studentId,
+      modelltestNumber,
+    );
   }
 }

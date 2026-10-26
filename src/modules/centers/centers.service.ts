@@ -26,7 +26,6 @@ const TRIAL_SEATS = 1;
  *
  * Not a special case, deliberately — see the seat row created in `register`.
  */
-const TRIAL_SEAT_TIER = 'START' as const;
 const TRIAL_SEAT_PRICE_XAF = 0;
 const VERIFICATION_RESEND_COOLDOWN_MS = 2 * 60 * 1000;
 const REGISTRATION_RESPONSE = { message: 'verification email sent' } as const;
@@ -83,6 +82,33 @@ export class CentersService {
     return this.createCenterAndOwner(input, email);
   }
 
+  /**
+   * Public resend for the vitrine « Vérifiez votre boîte » screen.
+   *
+   * Same generic reply whether the address is unknown, already verified, or
+   * still waiting — so the endpoint cannot be used to enumerate accounts.
+   * Cooldown and delivery reuse the register path for unverified owners.
+   */
+  async resendVerificationEmail(
+    emailRaw: string,
+  ): Promise<{ message: 'verification email sent' }> {
+    const email = emailRaw.trim().toLowerCase();
+    const existing = await this.prisma.centerUser.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        email_verified: true,
+        email_verification_expires: true,
+      },
+    });
+
+    if (!existing || existing.email_verified) {
+      return REGISTRATION_RESPONSE;
+    }
+
+    return this.handleExistingUnverifiedUser(existing, email);
+  }
+
   private async handleExistingUnverifiedUser(
     existing: ExistingCenterUser,
     email: string,
@@ -126,10 +152,18 @@ export class CentersService {
       return REGISTRATION_RESPONSE;
     }
 
+    const centerName = await this.prisma.centerUser
+      .findUnique({
+        where: { id: existing.id },
+        select: { center: { select: { name: true } } },
+      })
+      .then((row) => row?.center?.name);
+
     try {
       await this.emailService.sendExistingCenterVerificationEmail(
         email,
         rawToken,
+        centerName,
       );
     } catch {
       await this.clearFailedVerificationToken(existing.id, tokenHash);
@@ -182,16 +216,15 @@ export class CentersService {
 
         // Fourth insert, same transaction: the trial seat itself. A trial is
         // an ordinary seat row priced at zero rather than a flag, so seat
-        // counting, tier lookup and the quota check need no "unless they are
-        // on trial" branch. A trial student and a paid Start student then
-        // differ only in the clock.
+        // counting and the quota check need no "unless they are on trial"
+        // branch. A trial student and a paid student then differ only in the
+        // clock.
         //
         // Zero is legal here and illegal on a payment line, which is what
         // keeps a granted seat and a bought seat from being confused.
         await tx.centerSeat.create({
           data: {
             center_id: center.id,
-            tier: TRIAL_SEAT_TIER,
             quantity: TRIAL_SEATS,
             unit_price_xaf: TRIAL_SEAT_PRICE_XAF,
           },
@@ -203,10 +236,31 @@ export class CentersService {
       // Delivery stays outside the transaction so provider latency or failure
       // cannot hold database locks or roll back the created identity.
       try {
-        await this.emailService.sendCenterVerificationEmail(email, rawToken);
+        await this.emailService.sendCenterVerificationEmail(
+          email,
+          rawToken,
+          input.centerName,
+        );
       } catch {
         await this.clearFailedVerificationToken(centerUserId, tokenHash);
         throw new BadGatewayException('EMAIL_DELIVERY_FAILED');
+      }
+
+      // Team alert is best-effort: a failure must not undo registration or
+      // leave the manager without their verification link.
+      try {
+        await this.emailService.sendNewCenterRegisteredToTeam({
+          managerFirstName: input.managerFirstName,
+          managerLastName: input.managerLastName,
+          email,
+          centerName: input.centerName,
+        });
+      } catch (error) {
+        this.logger.warn(
+          `New-center team email failed for ${email}: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        );
       }
     } catch (error) {
       if (this.isUniqueConstraintError(error)) {

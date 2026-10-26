@@ -1,0 +1,39 @@
+{
+  "slug": "genitiv-verwendung-gram-a-019",
+  "titleFr": "Le génitif après certaines prépositions",
+  "titleEn": "The genitive after certain prepositions",
+  "titleDe": "Genitiv — Verwendung nach Präpositionen",
+  "ruleFr": "## Génitif après prépositions\n\nPlusieurs prépositions régissent le **génitif** (surtout à l’écrit / niveau B1+).\n\n### Prépositions fréquentes\n*wegen, trotz, während, statt / anstatt, innerhalb, außerhalb, infolge, anhand, mittels, bezüglich*\n\n### Exemples\n- **Wegen des** Wetters bleibe ich zu Hause.\n- **Trotz der** Kälte geht er spazieren.\n- **Während des** Unterrichts bitte nicht sprechen.\n- **Statt eines** Autos nehmen wir das Fahrrad.\n\n### Note d’usage\nÀ l’oral, on entend souvent le **datif** (*wegen dem Wetter*) — corrigé en allemand soigné : *wegen **des** Wetters*.\n\n### Erreurs fréquentes\n- Oublier *(e)s* : ✗ *wegen des Wetter* → ✓ *wegen des Wetter**s***\n- Mélanger avec accusatif : ✗ *trotz die Kälte* → ✓ *trotz **der** Kälte*\n\n### Mini-entraînement\n1. Complétez avec génitif : wegen / trotz / während + der Regen, die Pause, das Spiel.\n2. Réécrivez 3 phrases orales (*wegen dem…*) en forme soignée.\n3. Apprenez 6 prépositions + un exemple chacune.",
+  "ruleEn": "## Genitive after prepositions\n\nSeveral prepositions govern the **genitive** (especially in writing / B1+).\n\n### Frequent prepositions\n*wegen, trotz, während, statt / anstatt, innerhalb, außerhalb, infolge, anhand, mittels, bezüglich*\n\n### Examples\n- **Wegen des** Wetters bleibe ich zu Hause.\n- **Trotz der** Kälte geht er spazieren.\n- **Während des** Unterrichts bitte nicht sprechen.\n- **Statt eines** Autos nehmen wir das Fahrrad.\n\n### Usage note\nIn speech you often hear **dative** (*wegen dem Wetter*) — careful German prefers *wegen **des** Wetters*.\n\n### Common mistakes\n- Missing *(e)s*: ✗ *wegen des Wetter* → ✓ *wegen des Wetter**s***\n- Mixing with accusative: ✗ *trotz die Kälte* → ✓ *trotz **der** Kälte*\n\n### Mini practice\n1. Complete with genitive: wegen / trotz / während + der Regen, die Pause, das Spiel.\n2. Rewrite 3 spoken forms (*wegen dem…*) in careful style.\n3. Learn 6 prepositions + one example each.",
+  "ruleDe": "## Genitiv nach Präpositionen\n\nMehrere Präpositionen regieren den **Genitiv** (besonders schriftlich / ab B1).\n\n### Häufige Präpositionen\n*wegen, trotz, während, statt / anstatt, innerhalb, außerhalb, infolge, anhand, mittels, bezüglich*\n\n### Beispiele\n- **Wegen des** Wetters bleibe ich zu Hause.\n- **Trotz der** Kälte geht er spazieren.\n- **Während des** Unterrichts bitte nicht sprechen.\n- **Statt eines** Autos nehmen wir das Fahrrad.\n\n### Gebrauch\nMündlich oft **Dativ** (*wegen dem Wetter*) — in gepflegtem Deutsch: *wegen **des** Wetters*.\n\n### Häufige Fehler\n- *(e)s* vergessen: ✗ *wegen des Wetter* → ✓ *wegen des Wetter**s***\n- Akkusativ: ✗ *trotz die Kälte* → ✓ *trotz **der** Kälte*\n\n### Mini-Übung\n1. Ergänzen: wegen / trotz / während + der Regen, die Pause, das Spiel.\n2. Drei mündliche Formen (*wegen dem…*) sorgfältig umschreiben.\n3. Sechs Präpositionen + je ein Beispiel.",
+  "notesFr": "Pour *wegen / trotz / während*, entraînez-vous d’abord avec *des + -(e)s* et *der* — ce sont les formes d’examen.",
+  "notesEn": "For *wegen / trotz / während*, first drill *des + -(e)s* and *der* — those are the exam forms.",
+  "notesDe": "Bei *wegen / trotz / während* zuerst *des + -(e)s* und *der* üben — das sind die Prüfungsformen.",
+  "examples": [
+    {
+      "de": "Wegen des Wetters bleibe ich zu Hause.",
+      "fr": "À cause du temps, je reste à la maison. (*wegen* + génitif)",
+      "en": "Because of the weather I am staying at home. (*wegen* + genitive)"
+    },
+    {
+      "de": "Trotz der Kälte geht er spazieren.",
+      "fr": "Malgré le froid, il se promène. (*trotz* + génitif)",
+      "en": "Despite the cold he goes for a walk. (*trotz* + genitive)"
+    },
+    {
+      "de": "Während des Films solltest du ruhig sein.",
+      "fr": "Pendant le film, tu devrais rester tranquille. (*während*)",
+      "en": "During the film you should be quiet. (*während*)"
+    },
+    {
+      "de": "Statt eines Taxis nehmen wir die Bahn.",
+      "fr": "Au lieu d’un taxi, nous prenons le train. (*statt*)",
+      "en": "Instead of a taxi we take the train. (*statt*)"
+    },
+    {
+      "de": "Innerhalb der Stadt gibt es viele Parks.",
+      "fr": "À l’intérieur de la ville, il y a beaucoup de parcs. (*innerhalb*)",
+      "en": "Within the city there are many parks. (*innerhalb*)"
+    }
+  ]
+}

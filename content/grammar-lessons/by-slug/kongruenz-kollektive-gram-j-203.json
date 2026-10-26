@@ -1,0 +1,39 @@
+{
+  "slug": "kongruenz-kollektive-gram-j-203",
+  "titleFr": "Accord avec les noms collectifs",
+  "titleEn": "Agreement with collective nouns",
+  "titleDe": "Kongruenz — Kollektive",
+  "ruleFr": "## Accord — noms collectifs\n\nLes collectifs allemands (*die Familie, die Polizei, die Firma, die Mannschaft*…) sont en général **singuliers** → verbe au **singulier**.\n\n### Exemples\n- *Die Familie **wohnt** in Berlin.* (pas *wohnen*)\n- *Die Polizei **sucht** den Dieb.* (pas *suchen*)\n- *Die Firma **hat** 200 Mitarbeiter.*\n\n### Différence avec l’anglais\nAnglais : *The police **are** …*  \nAllemand : *Die Polizei **sucht** …* (singulier !)\n\n### Mini-entraînement\nComplétez 5 phrases avec le verbe au bon nombre.",
+  "ruleEn": "## Agreement — collective nouns\n\nGerman collectives (*die Familie, die Polizei, die Firma, die Mannschaft*…) are usually **singular** → **singular** verb.\n\n### Examples\n- *Die Familie **wohnt** in Berlin.* (not *wohnen*)\n- *Die Polizei **sucht** den Dieb.* (not *suchen*)\n- *Die Firma **hat** 200 Mitarbeiter.*\n\n### Contrast with English\nEnglish: *The police **are** …*  \nGerman: *Die Polizei **sucht** …* (singular!)\n\n### Mini practice\nComplete 5 sentences with the correct verb number.",
+  "ruleDe": "## Kongruenz — Kollektive\n\nKollektivnomen sind meist **Singular** → Verb im **Singular**.\n\n### Beispiele\n- *Die Familie **wohnt** in Berlin.*\n- *Die Polizei **sucht** den Dieb.*\n- *Die Firma **hat** 200 Mitarbeiter.*\n\n### Anders als Englisch\nEnglisch: *The police are…* — Deutsch: *Die Polizei sucht…*\n\n### Mini-Übung\nErgänzen Sie 5 Sätze mit der richtigen Verbzahl.",
+  "notesFr": "Contrairement à l’anglais : « Die Polizei sucht » (singulier !)",
+  "notesEn": "Unlike English: ‘Die Polizei sucht’ (singular!)",
+  "notesDe": "Anders als Englisch: ‚Die Polizei sucht‘ (Singular!)",
+  "examples": [
+    {
+      "de": "Die Familie wohnt in Berlin.",
+      "fr": "La famille habite à Berlin.",
+      "en": "The family lives in Berlin."
+    },
+    {
+      "de": "Die Polizei sucht den Dieb.",
+      "fr": "La police recherche le voleur.",
+      "en": "The police are looking for the thief. (German: singular verb)"
+    },
+    {
+      "de": "Die Firma hat viele Kunden.",
+      "fr": "L’entreprise a beaucoup de clients.",
+      "en": "The company has many customers."
+    },
+    {
+      "de": "Die Mannschaft spielt am Samstag.",
+      "fr": "L’équipe joue samedi.",
+      "en": "The team plays on Saturday."
+    },
+    {
+      "de": "Die Regierung entscheidet bald.",
+      "fr": "Le gouvernement décide bientôt.",
+      "en": "The government will decide soon."
+    }
+  ]
+}

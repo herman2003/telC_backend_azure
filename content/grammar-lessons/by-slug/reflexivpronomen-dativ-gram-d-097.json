@@ -1,0 +1,39 @@
+{
+  "slug": "reflexivpronomen-dativ-gram-d-097",
+  "titleFr": "Les réfléchis au datif",
+  "titleEn": "Reflexive pronouns in the dative",
+  "titleDe": "Reflexivpronomen — Dativ",
+  "ruleFr": "## Les réfléchis au datif\n\nQuand il y a **déjà un objet à l’accusatif** (souvent une partie du corps ou un objet possédé), le réfléchi passe au **datif**.\n\n### Formes (datif)\n| ich | du | er/sie/es | wir | ihr | sie/Sie |\n|---|---|---|---|---|---|\n| **mir** | **dir** | **sich** | **uns** | **euch** | **sich** |\n\n### Pattern classique\n*sich + Akkusativobjekt (partie du corps / vêtement)*\n→ *Ich wasche **mir** die Hände.* (pas *mich die Hände*)\n\n### Verbes fréquents\n*sich die Hände waschen, sich die Zähne putzen, sich etwas kaufen, sich den Kopf waschen, sich etwas vorstellen*\n\n### Comparaison\n- Akk. seul : *Ich wasche **mich**.*\n- Dat. + Akk. : *Ich wasche **mir** die Haare.*\n\n### Mini-entraînement\nTransformez : *Ich putze die Zähne* → ajoutez le réfléchi correct.",
+  "ruleEn": "## Reflexive pronouns in the dative\n\nWhen there is **already an accusative object** (often a body part or owned thing), the reflexive is **dative**.\n\n### Forms (dative)\n| ich | du | er/sie/es | wir | ihr | sie/Sie |\n|---|---|---|---|---|---|\n| **mir** | **dir** | **sich** | **uns** | **euch** | **sich** |\n\n### Classic pattern\n*sich + accusative object (body part / clothing)*\n→ *Ich wasche **mir** die Hände.* (not *mich die Hände*)\n\n### Common verbs\n*sich die Hände waschen, sich die Zähne putzen, sich etwas kaufen, sich den Kopf waschen, sich etwas vorstellen*\n\n### Contrast\n- Acc. alone: *Ich wasche **mich**.*\n- Dat. + Acc.: *Ich wasche **mir** die Haare.*\n\n### Mini practice\nChange: *Ich putze die Zähne* → add the correct reflexive.",
+  "ruleDe": "## Reflexivpronomen im Dativ\n\nGibt es **bereits ein Akkusativobjekt** (oft Körperteil oder Besitz), steht das Reflexiv im **Dativ**.\n\n### Formen (Dativ)\n| ich | du | er/sie/es | wir | ihr | sie/Sie |\n|---|---|---|---|---|---|\n| **mir** | **dir** | **sich** | **uns** | **euch** | **sich** |\n\n### Klassisches Muster\n*sich + Akkusativobjekt (Körperteil / Kleidung)*\n→ *Ich wasche **mir** die Hände.* (nicht *mich die Hände*)\n\n### Häufige Verben\n*sich die Hände waschen, sich die Zähne putzen, sich etwas kaufen, sich den Kopf waschen, sich etwas vorstellen*\n\n### Kontrast\n- Nur Akk.: *Ich wasche **mich**.*\n- Dat. + Akk.: *Ich wasche **mir** die Haare.*\n\n### Mini-Übung\nUmformen: *Ich putze die Zähne* → richtiges Reflexiv ergänzen.",
+  "notesFr": "Datif réfléchi souvent avec parties du corps / possession : sich die Hände waschen.",
+  "notesEn": "Dative reflexive often with body parts/possession: sich die Hände waschen.",
+  "notesDe": "Dativ-Reflexiv oft mit Körperteilen/Besitz: sich die Hände waschen.",
+  "examples": [
+    {
+      "de": "Ich wasche mir die Hände.",
+      "fr": "Je me lave les mains. (« mir » = datif + « die Hände » à l’accusatif.)",
+      "en": "I wash my hands. (“mir” = dative + “die Hände” accusative.)"
+    },
+    {
+      "de": "Putzt du dir die Zähne?",
+      "fr": "Est-ce que tu te brosses les dents ?",
+      "en": "Do you brush your teeth?"
+    },
+    {
+      "de": "Sie kauft sich ein neues Kleid.",
+      "fr": "Elle s’achète une nouvelle robe. (« sich » datif + « ein Kleid » akk.)",
+      "en": "She buys herself a new dress. (“sich” dative + “ein Kleid” acc.)"
+    },
+    {
+      "de": "Wir stellen uns die Reise vor.",
+      "fr": "Nous nous imaginons le voyage.",
+      "en": "We imagine the trip (for ourselves)."
+    },
+    {
+      "de": "Er wäscht sich den Kopf.",
+      "fr": "Il se lave la tête.",
+      "en": "He washes his head / hair."
+    }
+  ]
+}

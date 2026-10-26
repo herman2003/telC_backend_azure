@@ -1,0 +1,52 @@
+meta {
+  name: P04 Practice Hoeren submit
+  type: http
+  seq: 103
+}
+
+post {
+  url: {{baseUrl}}/api/listening/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "modelltestNumber": 8,
+    "type": "1",
+    "timed": false,
+    "content_revision": "{{a2PracticeHoerenRevision}}",
+    "answers": {
+      "1": "zzzz-not-a-real-answer"
+    }
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  if (!Array.isArray(res.body.outcomes)) {
+    throw new Error("expected outcomes");
+  }
+  const u = (res.body.outcomes || []).find((o) => o.outcome === "UNRECOGNISED");
+  if (!u) {
+    throw new Error("expected at least one UNRECOGNISED for nonsense Kurzantwort");
+  }
+  if (!Array.isArray(res.body.review) || res.body.review.length < 1) {
+    throw new Error("UNRECOGNISED must appear in review with the key");
+  }
+}
+
+docs {
+  Needs P03. Nonsense Kurzantwort → UNRECOGNISED + review (training self-check, no examiner).
+}

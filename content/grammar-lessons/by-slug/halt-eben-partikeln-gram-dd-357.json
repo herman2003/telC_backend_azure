@@ -1,0 +1,39 @@
+{
+  "slug": "halt-eben-partikeln-gram-dd-357",
+  "titleFr": "halt / eben (particules)",
+  "titleEn": "halt / eben (particles)",
+  "titleDe": "halt/eben (Partikeln)",
+  "ruleFr": "## halt / eben (particules)\n\n**halt** et **eben** expriment souvent : « c’est comme ça », une **évidence résignée** ou une explication simple.\n\n### Sens\n- *Das ist **halt** so.* / *Das ist **eben** so.* = C’est comme ça.\n- *Er hat **halt** keine Zeit.* = Il n’a juste pas le temps (voilà pourquoi).\n- *So ist es **eben**.* = Voilà, c’est ainsi.\n\n### Différence régionale\n| Particule | Tendance |\n|---|---|\n| *halt* | plus **sud** (Bavière, Autriche, Suisse…) |\n| *eben* | **partout**, un peu plus « standard » |\n\nLe sens est largement **équivalent**.\n\n### Ton\nSouvent neutre ou légèrement résigné — pas agressif.\n\n### Mini-entraînement\n1. Expliquez 5 situations avec *halt/eben*.\n2. Remplacez *weil…* long par *Er hat halt…*\n3. Comparez *halt* et *eben* dans des dialogues régionaux.",
+  "ruleEn": "## halt / eben (particles)\n\n**halt** and **eben** often mean “that’s just how it is” — **resigned obviousness** or a simple explanation.\n\n### Meaning\n- *Das ist **halt** so.* / *Das ist **eben** so.*\n- *Er hat **halt** keine Zeit.* = He just doesn’t have time (that’s why).\n- *So ist es **eben**.*\n\n### Regional tendency\n| Particle | Tendency |\n|---|---|\n| *halt* | more **southern** |\n| *eben* | **everywhere**, slightly more standard |\n\nMeaning is largely **the same**.\n\n### Mini practice\n1. Explain 5 situations with *halt/eben*.\n2. Replace a long *weil…* with *Er hat halt…*\n3. Compare *halt* and *eben* in regional dialogues.",
+  "ruleDe": "## halt/eben (Partikeln)\n\n**halt** und **eben** bedeuten oft: „so ist es eben“ — resignierte Selbstverständlichkeit.\n\n### Bedeutung\n- *Das ist **halt**/ **eben** so.*\n- *Er hat **halt** keine Zeit.*\n- *So ist es **eben**.*\n\n### Regional\n*halt* eher süddeutsch; *eben* überall. Bedeutung ähnlich.\n\n### Mini-Übung\n1. 5 Situationen mit *halt/eben* erklären.\n2. Langes *weil…* durch *Er hat halt…* ersetzen.\n3. *halt* und *eben* vergleichen.",
+  "notesFr": "halt = plutôt sud-allemand ; eben = partout. Sens quasiment identique : « c’est comme ça ».",
+  "notesEn": "halt = more southern German; eben = everywhere. Meaning almost the same: “that’s just how it is”.",
+  "notesDe": "halt = eher süddeutsch; eben = überall. Bedeutung gleich.",
+  "examples": [
+    {
+      "de": "Das ist halt so.",
+      "fr": "C’est comme ça.",
+      "en": "That’s just how it is."
+    },
+    {
+      "de": "Er hat eben keine Lust.",
+      "fr": "Il n’a tout simplement pas envie.",
+      "en": "He simply doesn’t feel like it."
+    },
+    {
+      "de": "Ich bin halt müde.",
+      "fr": "Je suis fatigué, voilà tout.",
+      "en": "I’m just tired, that’s all."
+    },
+    {
+      "de": "So läuft es eben im Beruf.",
+      "fr": "C’est comme ça dans le métier.",
+      "en": "That’s how it goes at work."
+    },
+    {
+      "de": "Wir müssen halt warten.",
+      "fr": "Il faut bien attendre.",
+      "en": "We’ll just have to wait."
+    }
+  ]
+}

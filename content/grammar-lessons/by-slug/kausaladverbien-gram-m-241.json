@@ -1,0 +1,39 @@
+{
+  "slug": "kausaladverbien-gram-m-241",
+  "titleFr": "Adverbes de cause / conséquence",
+  "titleEn": "Causal / consecutive adverbs",
+  "titleDe": "Kausaladverbien",
+  "ruleFr": "## Adverbes de cause et de conséquence\n\nIls lient cause et effet, ou marquent une **opposition** malgré une cause (*trotzdem*).\n\n### Conséquence (donc / c’est pourquoi)\n**deshalb**, **darum**, **deswegen**, **daher**, **also**\n\n### Opposition (malgré cela)\n**trotzdem**, **dennoch**\n\n### Emploi\nPhrase A (cause). **Deshalb** + phrase B (conséquence).\n- Ich war müde. **Deshalb** bin ich früh ins Bett gegangen.\n- Es regnete. **Trotzdem** ging ich spazieren.\n\nAvec *also* : conclusion logique — *Er ist krank, also bleibt er zu Hause.*\n\n### Place\nSouvent en **position 1** → le verbe reste en position 2 :\n- Deshalb **bleibe** ich zu Hause.\n\n### Mini-entraînement\n1. Reliez deux phrases avec *deshalb* puis avec *trotzdem*.\n2. Remplacez *deshalb* par *deswegen* / *darum*.\n3. Attention : *trotzdem* ≠ *deshalb*.",
+  "ruleEn": "## Causal and consecutive adverbs\n\nThey link cause and effect, or mark **contrast** despite a cause (*trotzdem*).\n\n### Consequence (therefore)\n**deshalb**, **darum**, **deswegen**, **daher**, **also**\n\n### Contrast (nevertheless)\n**trotzdem**, **dennoch**\n\n### Use\nSentence A (cause). **Deshalb** + sentence B (result).\n- Ich war müde. **Deshalb** bin ich früh ins Bett gegangen.\n- Es regnete. **Trotzdem** ging ich spazieren.\n\nWith *also*: logical conclusion — *Er ist krank, also bleibt er zu Hause.*\n\n### Position\nOften in **position 1** → verb stays in position 2:\n- Deshalb **bleibe** ich zu Hause.\n\n### Mini practice\n1. Link two sentences with *deshalb*, then with *trotzdem*.\n2. Swap *deshalb* for *deswegen* / *darum*.\n3. Remember: *trotzdem* ≠ *deshalb*.",
+  "ruleDe": "## Kausaladverbien\n\nSie verbinden Ursache und Folge oder markieren einen **Gegensatz** (*trotzdem*).\n\n### Folge (deshalb)\n**deshalb**, **darum**, **deswegen**, **daher**, **also**\n\n### Gegensatz (trotzdem)\n**trotzdem**, **dennoch**\n\n### Gebrauch\nSatz A (Ursache). **Deshalb** + Satz B (Folge).\n- Ich war müde. **Deshalb** bin ich früh ins Bett gegangen.\n- Es regnete. **Trotzdem** ging ich spazieren.\n\nMit *also*: Schlussfolgerung — *Er ist krank, also bleibt er zu Hause.*\n\n### Stellung\nOft Position 1 → Verb bleibt auf Position 2:\n- Deshalb **bleibe** ich zu Hause.\n\n### Mini-Übung\n1. Zwei Sätze mit *deshalb*, dann mit *trotzdem*.\n2. *deshalb* durch *deswegen* / *darum* ersetzen.\n3. *trotzdem* ≠ *deshalb*.",
+  "notesFr": "*deshalb/darum/deswegen* = donc ; *trotzdem/dennoch* = malgré cela.",
+  "notesEn": "*deshalb/darum/deswegen* = therefore; *trotzdem/dennoch* = nevertheless.",
+  "notesDe": "deshalb/darum/deswegen = therefore. trotzdem/dennoch = nevertheless.",
+  "examples": [
+    {
+      "de": "Ich war müde, deshalb bin ich früh ins Bett gegangen.",
+      "fr": "J’étais fatigué, c’est pourquoi je suis allé me coucher tôt.",
+      "en": "I was tired, so I went to bed early."
+    },
+    {
+      "de": "Es regnete, trotzdem ging ich spazieren.",
+      "fr": "Il pleuvait, pourtant je suis allé me promener.",
+      "en": "It was raining; nevertheless I went for a walk."
+    },
+    {
+      "de": "Er ist krank, also bleibt er zu Hause.",
+      "fr": "Il est malade, donc il reste à la maison.",
+      "en": "He is ill, so he is staying home."
+    },
+    {
+      "de": "Der Bus kam nicht. Deswegen habe ich ein Taxi genommen.",
+      "fr": "Le bus n’est pas venu. C’est pourquoi j’ai pris un taxi.",
+      "en": "The bus did not come. That is why I took a taxi."
+    },
+    {
+      "de": "Sie hat wenig Zeit, dennoch hilft sie uns.",
+      "fr": "Elle a peu de temps, elle nous aide pourtant.",
+      "en": "She has little time, yet she helps us."
+    }
+  ]
+}

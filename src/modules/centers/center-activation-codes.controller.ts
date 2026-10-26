@@ -1,10 +1,12 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
   UseFilters,
@@ -29,6 +31,7 @@ import {
   ListActivationCodesQueryDto,
   ListedActivationCodeDto,
   SeatSummaryDto,
+  SetActivationCodeLevelDto,
 } from './dto/activation-code.dto';
 import { CenterErrorResponseDto } from './dto/center-error-response.dto';
 import { CenterAuthGuard } from './guards/center-auth.guard';
@@ -73,15 +76,42 @@ export class CenterActivationCodesController {
     return this.codes.seats(centerUser);
   }
 
+  @Patch('activation-codes/:id')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(CenterSubscriptionGuard)
+  @ApiOperation({
+    summary: 'Set or clear the CEFR level on an unused seat',
+    description:
+      'Only while `activated` (before a student redeems). Pass `level: null` to clear. On redeem, a non-null level is copied onto the student. After connection, correct level via the students route. Reset keeps the level.',
+  })
+  @ApiOkResponse({ type: ActivationCodeDto })
+  @ApiConflictResponse({
+    type: CenterErrorResponseDto,
+    description: 'INVALID_CODE_TRANSITION (code is not activated).',
+  })
+  @ApiForbiddenResponse({
+    type: CenterErrorResponseDto,
+    description: 'ACCOUNT_NOT_FINALIZED or SUBSCRIPTION_INACTIVE.',
+  })
+  @ApiNotFoundResponse({ type: CenterErrorResponseDto })
+  @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })
+  async setLevel(
+    @CurrentCenterUser() centerUser: CenterAccessTokenPayload,
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() dto: SetActivationCodeLevelDto,
+  ): Promise<ActivationCodeDto> {
+    return this.codes.setLevel(centerUser, id, dto.level);
+  }
+
   @Post('activation-codes/:id/deactivate')
   @HttpCode(HttpStatus.OK)
   // A blocked center is refused here with SUBSCRIPTION_INACTIVE; an
   // unfinalized one by the service with ACCOUNT_NOT_FINALIZED.
   @UseGuards(CenterSubscriptionGuard)
   @ApiOperation({
-    summary: 'Take a code back',
+    summary: 'Pause a connected student on this seat',
     description:
-      'From `activated` or `connected` to `deactivated`. A connected student loses access on their next request; their name and email stay on the code so the center can see whose seat it was. A code already deactivated is returned unchanged. Recorded in the code history.',
+      'From `connected` to `suspended`. Access ends; the same code value, name, email and learning data stay so the center can reactivate later. Already suspended is returned unchanged. Recorded in the code history.',
   })
   @ApiOkResponse({ type: ActivationCodeDto })
   @ApiForbiddenResponse({
@@ -97,13 +127,39 @@ export class CenterActivationCodesController {
     return this.codes.deactivate(centerUser, id);
   }
 
+  @Post('activation-codes/:id/reactivate')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(CenterSubscriptionGuard)
+  @ApiOperation({
+    summary: 'Resume a paused student on the same code',
+    description:
+      'From `suspended` to `connected`. Same code value. Learning data was never removed. Restores the student to this center.',
+  })
+  @ApiOkResponse({ type: ActivationCodeDto })
+  @ApiConflictResponse({
+    type: CenterErrorResponseDto,
+    description: 'INVALID_CODE_TRANSITION or CODE_HAS_NO_STUDENT.',
+  })
+  @ApiForbiddenResponse({
+    type: CenterErrorResponseDto,
+    description: 'ACCOUNT_NOT_FINALIZED or SUBSCRIPTION_INACTIVE.',
+  })
+  @ApiNotFoundResponse({ type: CenterErrorResponseDto })
+  @ApiUnauthorizedResponse({ type: CenterErrorResponseDto })
+  async reactivate(
+    @CurrentCenterUser() centerUser: CenterAccessTokenPayload,
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<ActivationCodeDto> {
+    return this.codes.reactivate(centerUser, id);
+  }
+
   @Post('activation-codes/:id/reset')
   @HttpCode(HttpStatus.OK)
   @UseGuards(CenterSubscriptionGuard)
   @ApiOperation({
     summary: 'Hand a seat to a new student: a new value for the same seat',
     description:
-      'Gives the code a NEW value on the same row (same seat, plan and expiry) and sets it `activated`. The old value stops existing: typing it answers CODE_INVALID. A connected student loses access at once. Logged with the old value. A code that has been redeemed since its last reset may be reset 2 times per billing period (1 during the trial); a code nobody redeemed resets freely. Over the limit: CODE_RESET_LIMIT_REACHED with `resetsAvailableAt`. CODE_CHANGED when the code changed while the request was in flight. The learning data of the previous student on this seat is hidden at once and erased 7 days later (D39).',
+      'Gives the code a NEW value on the same row (same seat, plan and expiry) and sets it `activated`. The old value stops existing: typing it answers CODE_INVALID. A connected or suspended student loses access at once. Logged with the old value. A code that has been redeemed since its last reset may be reset 2 times per billing period (1 during the trial); a code nobody redeemed resets freely. Over the limit: CODE_RESET_LIMIT_REACHED with `resetsAvailableAt`. CODE_CHANGED when the code changed while the request was in flight. The learning data of the previous student on this seat is deleted immediately.',
   })
   @ApiOkResponse({ type: ActivationCodeDto })
   @ApiConflictResponse({

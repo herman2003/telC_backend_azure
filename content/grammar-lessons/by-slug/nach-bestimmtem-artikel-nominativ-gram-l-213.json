@@ -1,0 +1,39 @@
+{
+  "slug": "nach-bestimmtem-artikel-nominativ-gram-l-213",
+  "titleFr": "Adjectifs après article défini — nominatif",
+  "titleEn": "Adjectives after definite articles — nominative",
+  "titleDe": "Nach bestimmtem Artikel — Nominativ",
+  "ruleFr": "## Après article défini — nominatif\n\nAu **nominatif** après *der/die/das*, l’adjectif prend **-e** (singulier). Au pluriel (*die*), **-en**.\n\n### Tableau\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| | der groß**e** | die klein**e** | das neu**e** | die alt**en** |\n\n### Exemples en phrase\n- *Der groß**e** Mann kommt.*\n- *Die klein**e** Frau wartet.*\n- *Das neu**e** Auto ist teuer.*\n- *Die alt**en** Bücher liegen hier.*\n\n### Mini-entraînement\nDéclinez *schön* au nominatif avec *der/die/das/die*.",
+  "ruleEn": "## After definite articles — nominative\n\nIn the **nominative** after *der/die/das*, the adjective takes **-e** (singular). Plural (*die*): **-en**.\n\n### Chart\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| | der groß**e** | die klein**e** | das neu**e** | die alt**en** |\n\n### In sentences\n- *Der groß**e** Mann kommt.*\n- *Die klein**e** Frau wartet.*\n- *Das neu**e** Auto ist teuer.*\n- *Die alt**en** Bücher liegen hier.*\n\n### Mini practice\nDecline *schön* in the nominative with *der/die/das/die*.",
+  "ruleDe": "## Nach bestimmtem Artikel — Nominativ\n\nNominativ Singular nach *der/die/das*: Adjektiv **-e**. Plural: **-en**.\n\n### Tabelle\nder große / die kleine / das neue / die alten\n\n### Mini-Übung\nDeklinieren Sie *schön* im Nominativ nach bestimmtem Artikel.",
+  "notesFr": "Tous les nominatifs singuliers : -e ; pluriel : -en.",
+  "notesEn": "All singular nominatives: -e; plural: -en.",
+  "notesDe": "Alle Nominative Singular: -e; Plural: -en.",
+  "examples": [
+    {
+      "de": "Der große Mann kommt.",
+      "fr": "Le grand homme arrive.",
+      "en": "The tall man is coming."
+    },
+    {
+      "de": "Die kleine Frau wartet.",
+      "fr": "La petite femme attend.",
+      "en": "The small woman is waiting."
+    },
+    {
+      "de": "Das neue Auto ist teuer.",
+      "fr": "La voiture neuve est chère.",
+      "en": "The new car is expensive."
+    },
+    {
+      "de": "Die alten Bücher liegen hier.",
+      "fr": "Les vieux livres sont ici.",
+      "en": "The old books are lying here."
+    },
+    {
+      "de": "Der nette Lehrer erklärt die Regel.",
+      "fr": "Le gentil professeur explique la règle.",
+      "en": "The nice teacher explains the rule."
+    }
+  ]
+}

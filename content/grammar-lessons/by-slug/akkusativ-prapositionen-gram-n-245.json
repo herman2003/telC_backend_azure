@@ -1,0 +1,39 @@
+{
+  "slug": "akkusativ-prapositionen-gram-n-245",
+  "titleFr": "Prépositions à l’accusatif",
+  "titleEn": "Accusative prepositions",
+  "titleDe": "Akkusativ-Präpositionen",
+  "ruleFr": "## Prépositions à l’accusatif\n\nCertaines prépositions exigent **toujours** l’accusatif.\n\n### Liste à mémoriser\n**für, durch, gegen, ohne, um, bis** (+ parfois **wider**)\n\nAide-mémoire : **FUDGEBOW** — Für, Um, Durch, Gegen, Bis, Ohne, Wider.\n\n### Conséquence pour l’article\n| | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| défini | **den** | die | das | die |\n| indéfini | **einen** | eine | ein | — |\n\nExemples :\n- Das Geschenk ist **für den** Freund.\n- Wir gehen **durch den** Park.\n- **Ohne dich** gehe ich nicht.\n\n### Mini-entraînement\n1. Récitez FUDGEBOW.\n2. Déclinez : *für ___ Mann / ___ Frau / ___ Kind*.\n3. 5 phrases, une par préposition principale.",
+  "ruleEn": "## Accusative prepositions\n\nSome prepositions **always** take the accusative.\n\n### List to memorize\n**für, durch, gegen, ohne, um, bis** (+ sometimes **wider**)\n\nMnemonic: **FUDGEBOW** — Für, Um, Durch, Gegen, Bis, Ohne, Wider.\n\n### Effect on the article\n| | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| definite | **den** | die | das | die |\n| indefinite | **einen** | eine | ein | — |\n\nExamples:\n- Das Geschenk ist **für den** Freund.\n- Wir gehen **durch den** Park.\n- **Ohne dich** gehe ich nicht.\n\n### Mini practice\n1. Recite FUDGEBOW.\n2. Decline: *für ___ Mann / ___ Frau / ___ Kind*.\n3. Five sentences, one per main preposition.",
+  "ruleDe": "## Akkusativ-Präpositionen\n\nDiese Präpositionen verlangen **immer** Akkusativ.\n\n### Merkliste\n**für, durch, gegen, ohne, um, bis** (+ **wider**)\n\nMerkhilfe: **FUDGEBOW**.\n\n### Artikel\n| | Mask. | Fem. | Neutr. | Plural |\n|---|---|---|---|---|\n| best. | **den** | die | das | die |\n| unbest. | **einen** | eine | ein | — |\n\nBeispiele:\n- Das Geschenk ist **für den** Freund.\n- Wir gehen **durch den** Park.\n- **Ohne dich** gehe ich nicht.\n\n### Mini-Übung\n1. FUDGEBOW auswendig.\n2. Deklinieren: *für ___ Mann / Frau / Kind*.\n3. 5 Sätze.",
+  "notesFr": "Aide-mémoire : FUDGEBOW = Für, Um, Durch, Gegen, Bis, Ohne, Wider.",
+  "notesEn": "Mnemonic: FUDGEBOW = Für, Um, Durch, Gegen, Bis, Ohne, Wider.",
+  "notesDe": "Merkhilfe: 'FUDGE-BOW' = Für, Um, Durch, Gegen, Bis, Ohne, Wider.",
+  "examples": [
+    {
+      "de": "Das Geschenk ist für den Freund.",
+      "fr": "Le cadeau est pour l’ami. (*für* + accusatif)",
+      "en": "The gift is for the friend. (*für* + accusative)"
+    },
+    {
+      "de": "Wir gehen durch den Park.",
+      "fr": "Nous traversons le parc.",
+      "en": "We walk through the park."
+    },
+    {
+      "de": "Das Auto fährt gegen die Mauer.",
+      "fr": "La voiture heurte le mur.",
+      "en": "The car drives into/against the wall."
+    },
+    {
+      "de": "Ohne dich gehe ich nicht.",
+      "fr": "Sans toi, je n’y vais pas.",
+      "en": "Without you I won’t go."
+    },
+    {
+      "de": "Der Kurs dauert bis nächsten Freitag.",
+      "fr": "Le cours dure jusqu’à vendredi prochain.",
+      "en": "The course lasts until next Friday."
+    }
+  ]
+}

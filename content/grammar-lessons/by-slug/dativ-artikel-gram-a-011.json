@@ -1,0 +1,39 @@
+{
+  "slug": "dativ-artikel-gram-a-011",
+  "titleFr": "Articles définis au datif",
+  "titleEn": "Definite articles in the dative",
+  "titleDe": "Dativ — bestimmter Artikel",
+  "ruleFr": "## Articles définis au datif\n\n| Cas | masculin | féminin | neutre | pluriel |\n|---|---|---|---|---|\n| Nominatif | der | die | das | die |\n| **Datif** | **dem** | **der** | **dem** | **den** |\n\n### Points à retenir\n- Masculin et neutre : **dem**\n- Féminin : **der** (attention : même forme qu’au génitif !)\n- Pluriel : **den** (+ souvent *-n* sur le nom)\n\n### Exemples\n- mit **dem** Mann / mit **der** Frau / mit **dem** Kind / mit **den** Kindern\n\n### Contraste *dem* vs *den*\n- *dem* = datif singulier (m/n)\n- *den* = accusatif masculin **ou** datif pluriel (contexte !)\n\n### Erreurs fréquentes\n- ✗ *mit der Mann* → ✓ *mit **dem** Mann*\n- ✗ *der Frau* pris pour nominatif alors que c’est datif après *mit / von / zu*\n\n### Mini-entraînement\n1. Remplissez le tableau : der/die/das → datif.\n2. Phrases avec *mit*, *von*, *zu* + article défini.\n3. Expliquez si *den* est Akk. ou Dat. dans 3 phrases.",
+  "ruleEn": "## Definite articles in the dative\n\n| Case | masculine | feminine | neuter | plural |\n|---|---|---|---|---|\n| Nominative | der | die | das | die |\n| **Dative** | **dem** | **der** | **dem** | **den** |\n\n### Key points\n- Masculine and neuter: **dem**\n- Feminine: **der** (same form as genitive!)\n- Plural: **den** (+ often *-n* on the noun)\n\n### Examples\n- mit **dem** Mann / mit **der** Frau / mit **dem** Kind / mit **den** Kindern\n\n### *dem* vs *den*\n- *dem* = singular dative (m/n)\n- *den* = masculine accusative **or** plural dative (context!)\n\n### Common mistakes\n- ✗ *mit der Mann* → ✓ *mit **dem** Mann*\n- Taking *der Frau* as nominative when it is dative after *mit / von / zu*\n\n### Mini practice\n1. Fill the chart: der/die/das → dative.\n2. Sentences with *mit*, *von*, *zu* + definite article.\n3. Explain whether *den* is Akk. or Dat. in 3 sentences.",
+  "ruleDe": "## Bestimmter Artikel im Dativ\n\n| Kasus | Maskulinum | Femininum | Neutrum | Plural |\n|---|---|---|---|---|\n| Nominativ | der | die | das | die |\n| **Dativ** | **dem** | **der** | **dem** | **den** |\n\n### Merken\n- Maskulinum und Neutrum: **dem**\n- Femininum: **der** (wie Genitiv!)\n- Plural: **den** (+ oft *-n* am Nomen)\n\n### Beispiele\n- mit **dem** Mann / mit **der** Frau / mit **dem** Kind / mit **den** Kindern\n\n### *dem* vs *den*\n- *dem* = Dativ Singular (m/n)\n- *den* = Akkusativ Maskulinum **oder** Dativ Plural (Kontext!)\n\n### Häufige Fehler\n- ✗ *mit der Mann* → ✓ *mit **dem** Mann*\n- *der Frau* als Nominativ lesen, obwohl Dativ nach *mit / von / zu*\n\n### Mini-Übung\n1. Tabelle: der/die/das → Dativ.\n2. Sätze mit *mit*, *von*, *zu*.\n3. Ist *den* Akk. oder Dat.? (3 Sätze)",
+  "notesFr": "Masculin et neutre partagent *dem* au datif — le féminin *der* est le piège le plus fréquent pour les francophones.",
+  "notesEn": "Masculine and neuter share *dem* in the dative — feminine *der* is the most common trap for learners.",
+  "notesDe": "Maskulinum und Neutrum teilen sich *dem* im Dativ — feminines *der* ist die häufigste Falle.",
+  "examples": [
+    {
+      "de": "Ich fahre mit dem Bus.",
+      "fr": "Je vais en bus. (*dem Bus* = datif masculin)",
+      "en": "I am going by bus. (*dem Bus* = masculine dative)"
+    },
+    {
+      "de": "Das Geschenk ist von der Tante.",
+      "fr": "Le cadeau est de la tante. (*der Tante* = datif féminin)",
+      "en": "The present is from the aunt. (*der Tante* = feminine dative)"
+    },
+    {
+      "de": "Wir sprechen mit dem Kind.",
+      "fr": "Nous parlons avec l’enfant. (*dem Kind* = datif neutre)",
+      "en": "We are talking to the child. (*dem Kind* = neuter dative)"
+    },
+    {
+      "de": "Sie hilft den Nachbarn.",
+      "fr": "Elle aide les voisins. (*den Nachbarn* = datif pluriel)",
+      "en": "She helps the neighbours. (*den Nachbarn* = plural dative)"
+    },
+    {
+      "de": "Ich gehe zu dem Arzt.",
+      "fr": "Je vais chez le médecin. (*zu dem* = datif ; souvent contracté *zum*)",
+      "en": "I am going to the doctor. (*zu dem* = dative; often contracted *zum*)"
+    }
+  ]
+}

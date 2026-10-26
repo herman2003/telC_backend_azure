@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-bedeutung-gram-b-032",
+  "titleFr": "Genre selon le sens : personnes et animaux mâles",
+  "titleEn": "Gender by meaning: male persons and animals",
+  "titleDe": "Genus nach Bedeutung — männliche Personen und Tiere",
+  "ruleFr": "## Personnes et animaux mâles → souvent masculin\n\nPar **sens**, les êtres de sexe masculin prennent en général **der**.\n\n### Exemples\n- *der Mann, der Vater, der Sohn, der Onkel, der Lehrer, der Arzt*\n- *der Hengst, der Hahn, der Bulle*\n\n### Exception importante\nLes diminutifs en **-chen / -lein** sont **neutres**, même pour un mâle :\n- *das Männchen* (petit mâle / figurine)\n\n### Ne pas généraliser aux objets\n*der Löffel* n’est pas « masculin » au sens biologique — c’est du genre grammatical.\n\n### Mini-entraînement\n1. Listez 10 professions masculines avec *der*.\n2. Formez le féminin en *-in* quand c’est possible (*der Lehrer → die Lehrerin*).\n3. Notez 2 exceptions diminutives.",
+  "ruleEn": "## Male persons and animals → usually masculine\n\nBy **meaning**, male beings usually take **der**.\n\n### Examples\n- *der Mann, der Vater, der Sohn, der Onkel, der Lehrer, der Arzt*\n- *der Hengst, der Hahn, der Bulle*\n\n### Important exception\nDiminutives in **-chen / -lein** are **neuter**, even for males:\n- *das Männchen*\n\n### Don’t overgeneralise to objects\n*der Löffel* is not “male” biologically — it is grammatical gender.\n\n### Mini practice\n1. List 10 masculine professions with *der*.\n2. Form feminine *-in* where possible (*der Lehrer → die Lehrerin*).\n3. Note 2 diminutive exceptions.",
+  "ruleDe": "## Männliche Personen und Tiere → meist Maskulinum\n\nNach der **Bedeutung** sind männliche Lebewesen meist **der**.\n\n### Beispiele\n- *der Mann, der Vater, der Sohn, der Onkel, der Lehrer, der Arzt*\n- *der Hengst, der Hahn, der Bulle*\n\n### Wichtige Ausnahme\nDiminutive auf **-chen / -lein** sind **Neutrum**:\n- *das Männchen*\n\n### Nicht auf Dinge übertragen\n*der Löffel* ist grammatisches Genus, kein biologisches Geschlecht.\n\n### Mini-Übung\n1. Zehn männliche Berufe mit *der*.\n2. Femininum auf *-in* bilden (*der Lehrer → die Lehrerin*).\n3. Zwei Diminutiv-Ausnahmen notieren.",
+  "notesFr": "Sens biologique = indice utile pour les personnes/animaux, mais les suffixes (*-chen*) gagnent toujours.",
+  "notesEn": "Biological meaning is a useful clue for people/animals, but suffixes (*-chen*) always win.",
+  "notesDe": "Natürliches Geschlecht hilft bei Personen/Tieren, aber Suffixe (*-chen*) siegen immer.",
+  "examples": [
+    {
+      "de": "Der Vater kocht das Abendessen.",
+      "fr": "Le père prépare le dîner. (*der Vater*)",
+      "en": "The father is cooking dinner. (*der Vater*)"
+    },
+    {
+      "de": "Der Arzt untersucht den Patienten.",
+      "fr": "Le médecin examine le patient. (*der Arzt*)",
+      "en": "The doctor examines the patient. (*der Arzt*)"
+    },
+    {
+      "de": "Der Hahn kräht am Morgen.",
+      "fr": "Le coq chante le matin. (*der Hahn*)",
+      "en": "The rooster crows in the morning. (*der Hahn*)"
+    },
+    {
+      "de": "Der Lehrer erklärt die Regel.",
+      "fr": "Le professeur explique la règle. (*der Lehrer*)",
+      "en": "The teacher explains the rule. (*der Lehrer*)"
+    },
+    {
+      "de": "Ausnahme: das Männchen ist Neutrum.",
+      "fr": "Exception : *das Männchen* est neutre.",
+      "en": "Exception: *das Männchen* is neuter."
+    }
+  ]
+}

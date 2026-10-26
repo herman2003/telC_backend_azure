@@ -1,0 +1,49 @@
+meta {
+  name: 19 The result is complete
+  type: http
+  seq: 40
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a1AttemptId}}/result
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.outcome: eq PASSED
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const r = res.body;
+  if (r.awaiting.length !== 0) {
+    throw new Error("nothing should be waiting, got " + JSON.stringify(r.awaiting));
+  }
+  if (r.review.length !== 0) {
+    throw new Error("nothing should be left to review, got " + JSON.stringify(r.review));
+  }
+  // Hören 14 + Lesen 14 + Schreiben 5 + 7.5 + Sprechen 2.5 + 4 + 5 = 52.
+  const total = r.written.points + r.oral.points;
+  if (total !== 52) {
+    throw new Error("expected 52 of 60, got " + total);
+  }
+  const by = {};
+  for (const s of r.sections) by[s.skill + "_" + s.teil] = s;
+  if (by.SCHREIBEN_1.markedBy !== "PERSON" || by.SCHREIBEN_2.markedBy !== "PERSON") {
+    throw new Error("the examiner's marks should be labelled PERSON");
+  }
+}
+
+docs {
+  The end of the A1 journey: the key decides what it can, the examiner
+  decides the rest, and the result is PASSED (52 of 60, above A1's
+  combined 60% = 36).
+}

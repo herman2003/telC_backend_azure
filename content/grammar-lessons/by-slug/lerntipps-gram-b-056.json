@@ -1,0 +1,39 @@
+{
+  "slug": "lerntipps-gram-b-056",
+  "titleFr": "Astuces d’apprentissage — coder le genre par couleurs",
+  "titleEn": "Learning tips — colour-coding gender",
+  "titleDe": "Lerntipps",
+  "ruleFr": "## Couleurs pour mémoriser le genre\n\nStratégie visuelle très efficace : associer chaque genre à une **couleur fixe**.\n\n### Code classique (souvent utilisé en classe)\n| couleur | genre | article |\n|---|---|---|\n| **bleu** | masculin | der |\n| **rouge** | féminin | die |\n| **vert** | neutre | das |\n\n(Adaptez le code si votre manuel utilise d’autres couleurs — l’important est la **constance**.)\n\n### Comment l’appliquer\n1. Surlignez vos listes : *der Tisch* en bleu, *die Lampe* en rouge, *das Buch* en vert.\n2. Sur flashcards, bordure ou fond coloré.\n3. En revision mentale : « visualisez » la couleur avant de dire l’article.\n\n### Pourquoi ça marche\nLa mémoire visuelle relie **forme** (couleur) et **genre**, en plus du son *der/die/das*.\n\n### Mini-entraînement\nReprenez 20 noms déjà connus et recolorez-les selon le code.",
+  "ruleEn": "## Colours to memorize gender\n\nA strong visual strategy: bind each gender to a **fixed colour**.\n\n### Classic classroom code\n| colour | gender | article |\n|---|---|---|\n| **blue** | masculine | der |\n| **red** | feminine | die |\n| **green** | neuter | das |\n\n(Adapt if your book uses other colours — consistency matters.)\n\n### How to apply\n1. Highlight lists by colour.\n2. Colour flashcard borders.\n3. Mentally “see” the colour before saying the article.\n\n### Why it works\nVisual memory links **colour** to **gender**, on top of the sound *der/die/das*.\n\n### Mini practice\nRecolour 20 known nouns with your code.",
+  "ruleDe": "## Farben zum Genuslernen\n\nVisuelle Strategie: jedes Genus an eine **feste Farbe** binden.\n\n### Klassischer Code\n| Farbe | Genus | Artikel |\n|---|---|---|\n| **blau** | Maskulinum | der |\n| **rot** | Femininum | die |\n| **grün** | Neutrum | das |\n\n(Andere Codes ok — Hauptsache konstant.)\n\n### Anwendung\n1. Listen farbig markieren.\n2. Karteikarten-Ränder färben.\n3. Farbe mental sehen, dann Artikel sagen.\n\n### Mini-Übung\n20 bekannte Nomen neu einfärben.",
+  "notesFr": "Stratégie visuelle : bleu = masculin, rouge = féminin, vert = neutre — très efficace pour la mémoire visuelle.",
+  "notesEn": "Visual strategy: blue = masculine, red = feminine, green = neuter — highly effective for visual memory.",
+  "notesDe": "Visuelle Strategie: blau = Maskulinum, rot = Femininum, grün = Neutrum — sehr effektiv.",
+  "examples": [
+    {
+      "de": "der Tisch (blau)",
+      "fr": "der Tisch (bleu = masculin).",
+      "en": "der Tisch (blue = masculine)."
+    },
+    {
+      "de": "die Lampe (rot)",
+      "fr": "die Lampe (rouge = féminin).",
+      "en": "die Lampe (red = feminine)."
+    },
+    {
+      "de": "das Buch (grün)",
+      "fr": "das Buch (vert = neutre).",
+      "en": "das Buch (green = neuter)."
+    },
+    {
+      "de": "Ich markiere: der Hund blau, die Katze rot, das Pferd grün.",
+      "fr": "Je surligne : der Hund en bleu, die Katze en rouge, das Pferd en vert.",
+      "en": "I highlight: der Hund blue, die Katze red, das Pferd green."
+    },
+    {
+      "de": "Vor dem Sprechen sehe ich die Farbe.",
+      "fr": "Avant de parler, je « vois » la couleur.",
+      "en": "Before speaking, I “see” the colour."
+    }
+  ]
+}

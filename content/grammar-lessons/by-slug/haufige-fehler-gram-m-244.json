@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-m-244",
+  "titleFr": "Erreurs fréquentes — adverbes",
+  "titleEn": "Common mistakes — adverbs",
+  "titleDe": "Häufige Fehler — Adverbien",
+  "ruleFr": "## Erreurs fréquentes avec les adverbes\n\n### Erreur 1 : décliner l’adverbe\n✗ *Er singt schöne.* → ✓ *Er singt schön.*\n✗ *Sie spricht lautes.* → ✓ *Sie spricht laut.*\n\nLes adverbes **n’ont jamais** de terminaison de cas.\n\n### Erreur 2 : *gern* mal placé / mal formé\n✗ *Ich bin gern schwimmen.*\n✓ *Ich schwimme gern.* / *Ich gehe gern schwimmen.*\n\n### Erreur 3 : *als* / *wie* (revoir aussi la comparaison)\n✗ *schneller wie* → ✓ *schneller als*\n✗ *so schnell als* → ✓ *so schnell wie*\n\n### Erreur 4 : *nie* + *nicht*\n✗ *Ich komme nicht nie.* → ✓ *Ich komme nie.*\n\n### Mini-entraînement\n1. Corrigez 5 phrases fautives.\n2. Transformez adjectif → adverbe : *eine laute Stimme* → *Sie spricht laut.*\n3. Vérifiez chaque adverbe : aucune terminaison ?",
+  "ruleEn": "## Common mistakes with adverbs\n\n### Mistake 1: declining the adverb\n✗ *Er singt schöne.* → ✓ *Er singt schön.*\n✗ *Sie spricht lautes.* → ✓ *Sie spricht laut.*\n\nAdverbs **never** take case endings.\n\n### Mistake 2: *gern* misused\n✗ *Ich bin gern schwimmen.*\n✓ *Ich schwimme gern.* / *Ich gehe gern schwimmen.*\n\n### Mistake 3: *als* / *wie*\n✗ *schneller wie* → ✓ *schneller als*\n✗ *so schnell als* → ✓ *so schnell wie*\n\n### Mistake 4: *nie* + *nicht*\n✗ *Ich komme nicht nie.* → ✓ *Ich komme nie.*\n\n### Mini practice\n1. Correct 5 faulty sentences.\n2. Adjective → adverb: *eine laute Stimme* → *Sie spricht laut.*\n3. Check: no ending on any adverb?",
+  "ruleDe": "## Häufige Fehler — Adverbien\n\n### Fehler 1: Adverb deklinieren\n✗ *Er singt schöne.* → ✓ *Er singt schön.*\n\nAdverbien bekommen **nie** eine Kasusendung.\n\n### Fehler 2: *gern* falsch\n✗ *Ich bin gern schwimmen.*\n✓ *Ich schwimme gern.*\n\n### Fehler 3: *als* / *wie*\n✗ *schneller wie* → ✓ *schneller als*\n\n### Fehler 4: *nie* + *nicht*\n✗ *Ich komme nicht nie.* → ✓ *Ich komme nie.*\n\n### Mini-Übung\n1. 5 fehlerhafte Sätze korrigieren.\n2. Adjektiv → Adverb umformen.\n3. Prüfen: keine Endung am Adverb?",
+  "notesFr": "Les adverbes ne prennent JAMAIS de terminaison !",
+  "notesEn": "Adverbs NEVER take an ending!",
+  "notesDe": "Adverben bekommen NIE eine Endung!",
+  "examples": [
+    {
+      "de": "Falsch: Er singt schöne. — Richtig: Er singt schön.",
+      "fr": "Ne pas décliner l’adverbe : *schön*, pas *schöne*.",
+      "en": "Do not decline the adverb: *schön*, not *schöne*."
+    },
+    {
+      "de": "Ich schwimme gern.",
+      "fr": "J’aime nager. (pas *Ich bin gern schwimmen*)",
+      "en": "I like swimming. (not *Ich bin gern schwimmen*)"
+    },
+    {
+      "de": "Sie spricht laut und klar.",
+      "fr": "Elle parle fort et clairement.",
+      "en": "She speaks loudly and clearly."
+    },
+    {
+      "de": "Er läuft schneller als ich.",
+      "fr": "Il court plus vite que moi. (*als*, pas *wie*)",
+      "en": "He runs faster than I do. (*als*, not *wie*)"
+    },
+    {
+      "de": "Ich komme nie zu spät.",
+      "fr": "Je n’arrive jamais en retard. (pas *nicht nie*)",
+      "en": "I never arrive late. (not *nicht nie*)"
+    }
+  ]
+}

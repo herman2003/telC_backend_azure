@@ -1,0 +1,39 @@
+{
+  "slug": "aber-vs-sondern-gram-q-279",
+  "titleFr": "aber ou sondern",
+  "titleEn": "aber vs. sondern",
+  "titleDe": "aber vs. sondern",
+  "ruleFr": "## aber vs. sondern — deux « mais »\n\nLes deux se traduisent souvent par *mais*, mais la règle est claire.\n\n### aber = mais (contraste)\nOpposition **sans** nier ce qui précède. Pas besoin de *nicht/kein* avant.\n- *Ich bin müde, **aber** ich arbeite weiter.*\n- *Das Auto ist teuer, **aber** schön.*\n\n### sondern = mais (correction)\n**Uniquement** après une négation (*nicht*, *kein*, *nie*…). On **corrige** ce qui a été nié.\n- *Ich trinke **nicht** Kaffee, **sondern** Tee.*\n- *Das ist **kein** Hund, **sondern** eine Katze.*\n\n### Test rapide\n1. Y a-t-il *nicht / kein / nie…* juste avant ? → souvent **sondern**.\n2. Simple contraste (les deux peuvent être vrais) ? → **aber**.\n\n### Tableau\n| Situation | Mot | Exemple |\n|---|---|---|\n| Contraste | **aber** | *klein, aber stark* |\n| Correction après négation | **sondern** | *nicht klein, sondern groß* |\n\n### Erreurs fréquentes\n- ✗ *Ich trinke nicht Kaffee, aber Tee.* → ✓ *…, **sondern** Tee.*\n- ✗ *Ich bin müde, sondern ich arbeite.* → ✓ *…, **aber** ich arbeite.*\n\n### Mini-entraînement\n1. Complétez : *nicht A, ___ B* → *sondern*.\n2. Complétez : *A, ___ B* (les deux vrais) → *aber*.",
+  "ruleEn": "## aber vs. sondern — two kinds of “but”\n\nBoth often translate as *but*, but the rule is clear.\n\n### aber = but (contrast)\nContrast **without** negating what came before. No need for *nicht/kein* first.\n- *Ich bin müde, **aber** ich arbeite weiter.*\n- *Das Auto ist teuer, **aber** schön.*\n\n### sondern = but rather (correction)\n**Only** after a negation (*nicht*, *kein*, *nie*…). You **correct** what was denied.\n- *Ich trinke **nicht** Kaffee, **sondern** Tee.*\n- *Das ist **kein** Hund, **sondern** eine Katze.*\n\n### Quick test\n1. Is there *nicht / kein / nie…* just before? → usually **sondern**.\n2. Simple contrast (both can be true)? → **aber**.\n\n### Table\n| Situation | Word | Example |\n|---|---|---|\n| Contrast | **aber** | *klein, aber stark* |\n| Correction after negation | **sondern** | *nicht klein, sondern groß* |\n\n### Common mistakes\n- ✗ *Ich trinke nicht Kaffee, aber Tee.* → ✓ *…, **sondern** Tee.*\n- ✗ *Ich bin müde, sondern ich arbeite.* → ✓ *…, **aber** ich arbeite.*\n\n### Mini practice\n1. Complete: *nicht A, ___ B* → *sondern*.\n2. Complete: *A, ___ B* (both true) → *aber*.",
+  "ruleDe": "## aber vs. sondern — zwei Arten von „aber“\n\nBeide heißen oft *but*, aber die Regel ist klar.\n\n### aber = Gegensatz\nKontrast **ohne** Negation des Vorherigen. Kein *nicht/kein* nötig.\n- *Ich bin müde, **aber** ich arbeite weiter.*\n- *Das Auto ist teuer, **aber** schön.*\n\n### sondern = Korrektur\n**Nur** nach Negation (*nicht*, *kein*, *nie*…). Man **korrigiert** das Verneinte.\n- *Ich trinke **nicht** Kaffee, **sondern** Tee.*\n- *Das ist **kein** Hund, **sondern** eine Katze.*\n\n### Schnelltest\n1. Steht *nicht / kein / nie…* davor? → oft **sondern**.\n2. Einfacher Gegensatz (beides möglich)? → **aber**.\n\n### Tabelle\n| Situation | Wort | Beispiel |\n|---|---|---|\n| Gegensatz | **aber** | *klein, aber stark* |\n| Korrektur nach Negation | **sondern** | *nicht klein, sondern groß* |\n\n### Häufige Fehler\n- ✗ *Ich trinke nicht Kaffee, aber Tee.* → ✓ *…, **sondern** Tee.*\n- ✗ *Ich bin müde, sondern ich arbeite.* → ✓ *…, **aber** ich arbeite.*\n\n### Mini-Übung\n1. Ergänzen: *nicht A, ___ B* → *sondern*.\n2. Ergänzen: *A, ___ B* (beides wahr) → *aber*.",
+  "notesFr": "*sondern* UNIQUEMENT après *nicht/kein* : il corrige le négatif.",
+  "notesEn": "*sondern* ONLY after *nicht/kein*: it corrects the negated part.",
+  "notesDe": "*sondern* NUR nach *nicht/kein*! Korrigiert das Negative.",
+  "examples": [
+    {
+      "de": "Ich bin müde, aber ich gehe trotzdem aus.",
+      "fr": "Je suis fatigué, mais je sors quand même. (*aber*)",
+      "en": "I’m tired, but I’m going out anyway. (*aber*)"
+    },
+    {
+      "de": "Ich trinke nicht Kaffee, sondern Tee.",
+      "fr": "Je ne bois pas de café, mais du thé. (*sondern* après négation)",
+      "en": "I don’t drink coffee, but tea. (*sondern* after negation)"
+    },
+    {
+      "de": "Das ist kein Fehler, sondern eine Chance.",
+      "fr": "Ce n’est pas une erreur, mais une chance.",
+      "en": "That’s not a mistake, but an opportunity."
+    },
+    {
+      "de": "Er ist klein, aber sehr stark.",
+      "fr": "Il est petit, mais très fort. (les deux sont vrais)",
+      "en": "He is small but very strong. (both can be true)"
+    },
+    {
+      "de": "Wir fahren nicht mit dem Auto, sondern mit dem Zug.",
+      "fr": "Nous ne partons pas en voiture, mais en train.",
+      "en": "We’re not going by car, but by train."
+    }
+  ]
+}

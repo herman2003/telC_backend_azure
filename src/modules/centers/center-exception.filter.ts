@@ -13,6 +13,9 @@ const CENTER_ERROR_MESSAGES: Record<string, string> = {
     'Unable to start a session. Please try again.',
   CENTER_SESSION_RETRY_EXHAUSTED:
     'Authentication is temporarily unavailable. Please try again.',
+  CENTER_SESSION_EXPIRED: 'This session has expired. Please log in again.',
+  CENTER_SESSION_REVOKED:
+    'This session is no longer valid. Please log in again.',
   VERIFICATION_TOKEN_EXPIRED:
     'That verification link has expired. Register again to receive a new one.',
   VERIFICATION_TOKEN_INVALID:
@@ -23,6 +26,25 @@ const CENTER_ERROR_MESSAGES: Record<string, string> = {
   INVALID_CENTER_REFRESH_TOKEN:
     'This session is no longer valid. Please log in again.',
   RATE_LIMIT_EXCEEDED: 'Too many requests. Please try again later.',
+  EXAM_SESSION_NOT_FOUND: 'That exam session does not exist.',
+  MODELLTEST_NOT_FOUND: 'That Modelltest does not exist.',
+  OPENS_AT_IN_PAST: 'The opening time must be in the future.',
+  ACCESS_WINDOW_INVALID: 'The access window must be 24, 48 or 72 hours.',
+  EXAM_ALREADY_OPEN:
+    'This exam has already opened and can no longer be changed.',
+  EXAM_ALREADY_PUBLISHED: 'This exam has already been published.',
+  EXAM_NOT_PUBLISHED: 'This exam has not been published yet.',
+  EXAM_NOT_CLOSED:
+    'Only a closed exam can be reopened. Change its closing time instead.',
+  EXAM_CANCELLED: 'This exam was cancelled.',
+  NO_PARTICIPANTS: 'Choose at least one participant before publishing.',
+  NOT_ENOUGH_EXAM_SLOTS:
+    'You do not have enough exam slots for every participant.',
+  EXAM_SLOTS_REQUIRED: 'Buy an exam place before choosing a Modelltest.',
+  EXAM_AI_TIER_NOT_AVAILABLE:
+    'The AI exam tier is not available for purchase yet.',
+  STUDENT_NOT_IN_CENTER:
+    'One of those students does not belong to your center.',
 };
 
 @Catch()

@@ -1,0 +1,32 @@
+meta {
+  name: 16 The examiner accepts the misspelled form answer
+  type: http
+  seq: 35
+}
+
+put {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a1AttemptId}}/marks
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "skill": "SCHREIBEN",
+    "teil": 1,
+    "points": 5
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.points: eq 5
+}
+
+docs {
+  The form waited for review (15). telc accepts spelling mistakes in words, so the examiner reads "Seheim", accepts it, and gives the form its full 5 points.
+}

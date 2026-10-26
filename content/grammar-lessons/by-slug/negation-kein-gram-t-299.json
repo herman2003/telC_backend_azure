@@ -1,0 +1,39 @@
+{
+  "slug": "negation-kein-gram-t-299",
+  "titleFr": "La négation avec kein",
+  "titleEn": "Negation — kein",
+  "titleDe": "Negation — kein",
+  "ruleFr": "## *kein* — nier un nom\n\n*kein* remplace **ein** ou l’absence d’article devant un nom. Il se décline comme *ein*.\n\n### Règle\n| Affirmatif | Négatif |\n|---|---|\n| **ein** Auto | **kein** Auto |\n| **eine** Idee | **keine** Idee |\n| Ø Zeit / Geld | **keine** Zeit / **kein** Geld |\n| **der/die/das** Auto | → **nicht** das Auto (pas *kein* !) |\n\n### Exemples\n- *Ich habe **kein** Auto.* (ein Auto → kein Auto)\n- *Er hat **keine** Zeit.*\n- *Wir brauchen **keinen** Schirm.*\n\n### Attention\n✗ *Ich habe nicht ein Auto.* → ✓ *Ich habe **kein** Auto.*\n✗ *Ich mag kein das Buch.* → ✓ *Ich mag **das** Buch **nicht**.*\n\n### Mini-entraînement\nNiez : *ein Hund / eine Frage / Zeit / der Film*.",
+  "ruleEn": "## *kein* — negating a noun\n\n*kein* replaces **ein** or zero article before a noun. It declines like *ein*.\n\n### Rule\n| Affirmative | Negative |\n|---|---|\n| **ein** Auto | **kein** Auto |\n| **eine** Idee | **keine** Idee |\n| Ø Zeit / Geld | **keine** Zeit / **kein** Geld |\n| **der/die/das** Auto | → **nicht** das Auto (not *kein*!) |\n\n### Examples\n- *Ich habe **kein** Auto.*\n- *Er hat **keine** Zeit.*\n- *Wir brauchen **keinen** Schirm.*\n\n### Watch out\n✗ *Ich habe nicht ein Auto.* → ✓ *Ich habe **kein** Auto.*\n✗ *Ich mag kein das Buch.* → ✓ *Ich mag **das** Buch **nicht**.*\n\n### Mini practice\nNegate: *ein Hund / eine Frage / Zeit / der Film*.",
+  "ruleDe": "## *kein* — Nomen verneinen\n\n*kein* ersetzt **ein** oder Nullartikel. Deklination wie *ein*.\n\n### Regel\n| positiv | negativ |\n|---|---|\n| **ein** Auto | **kein** Auto |\n| Ø Zeit | **keine** Zeit |\n| **der/die/das** | → **nicht** + bestimmter Artikel |\n\n### Beispiele\n- *Ich habe **kein** Auto.*\n- *Er hat **keine** Zeit.*\n\n### Mini-Übung\nVerneinen: *ein Hund / eine Frage / Zeit / der Film*.",
+  "notesFr": "*ein/eine* → *kein/keine*. Ø → *kein/keine*. *der/die/das* → *nicht* (pas *kein*) !",
+  "notesEn": "*ein/eine* → *kein/keine*. Ø → *kein/keine*. *der/die/das* → *nicht* (not *kein*)!",
+  "notesDe": "*ein/eine* → *kein/keine*. Ø → *kein/keine*. *der/die/das* → NICHT! (*nicht das Auto*)",
+  "examples": [
+    {
+      "de": "Ich habe kein Auto.",
+      "fr": "Je n’ai pas de voiture. (*ein* → *kein*)",
+      "en": "I don’t have a car. (*ein* → *kein*)"
+    },
+    {
+      "de": "Er hat keine Zeit.",
+      "fr": "Il n’a pas le temps.",
+      "en": "He has no time."
+    },
+    {
+      "de": "Wir brauchen keinen Schirm.",
+      "fr": "Nous n’avons pas besoin de parapluie.",
+      "en": "We don’t need an umbrella."
+    },
+    {
+      "de": "Sie hat keine Geschwister.",
+      "fr": "Elle n’a pas de frères et sœurs.",
+      "en": "She has no siblings."
+    },
+    {
+      "de": "Das ist kein Problem.",
+      "fr": "Ce n’est pas un problème.",
+      "en": "That’s not a problem."
+    }
+  ]
+}

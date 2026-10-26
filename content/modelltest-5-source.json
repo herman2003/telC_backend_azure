@@ -1,0 +1,1130 @@
+{
+  "modelltest": {
+    "number": 5,
+    "title": "Modelltest 5"
+  },
+  "sections": {
+    "lesenTeil1": {
+      "contentRevision": "modelltest-5-lesen-teil1-v1",
+      "label": "Leseverstehen Teil 1",
+      "instruction": "Lesen Sie die Überschriften a–j und die Texte 1–5. Finden Sie für jeden Text die passende Überschrift. Sie können jede Überschrift nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 1–5 auf dem Antwortbogen.",
+      "titles": [
+        {
+          "key": "a",
+          "content": "Immer mehr Beschäftigte arbeiten teilweise von zu Hause",
+          "sortOrder": 0
+        },
+        {
+          "key": "b",
+          "content": "Neue Ausbildung mit besonders hohen Gehältern",
+          "sortOrder": 1
+        },
+        {
+          "key": "c",
+          "content": "Ein Praktikum kann den Einstieg in den Beruf erleichtern",
+          "sortOrder": 2
+        },
+        {
+          "key": "d",
+          "content": "Viele Arbeitnehmer wünschen sich kürzere Arbeitszeiten",
+          "sortOrder": 3
+        },
+        {
+          "key": "e",
+          "content": "Unternehmen suchen dringend neue Mitarbeiter",
+          "sortOrder": 4
+        },
+        {
+          "key": "f",
+          "content": "Gute Kollegen sind vielen wichtiger als ein hohes Gehalt",
+          "sortOrder": 5
+        },
+        {
+          "key": "g",
+          "content": "Neue Regeln für Bewerbungen im Internet",
+          "sortOrder": 6
+        },
+        {
+          "key": "h",
+          "content": "Weiterbildung wird für Berufstätige immer wichtiger",
+          "sortOrder": 7
+        },
+        {
+          "key": "i",
+          "content": "Mehr Urlaub für alle Beschäftigten geplant",
+          "sortOrder": 8
+        },
+        {
+          "key": "j",
+          "content": "Berufseinsteiger wechseln heute häufiger den Arbeitsplatz",
+          "sortOrder": 9
+        }
+      ],
+      "texts": [
+        {
+          "textNumber": 1,
+          "von": null,
+          "an": null,
+          "sortOrder": 0,
+          "correctTitleKey": "a",
+          "body": "Viele Unternehmen bieten ihren Beschäftigten inzwischen die Möglichkeit, an einigen Tagen pro Woche von zu Hause zu arbeiten. Besonders beliebt ist dieses Modell bei Menschen, die einen langen Arbeitsweg haben. Eine aktuelle Umfrage zeigt, dass viele Beschäftigte zwei oder drei Tage im Büro und den Rest der Woche zu Hause arbeiten möchten."
+        },
+        {
+          "textNumber": 2,
+          "von": null,
+          "an": null,
+          "sortOrder": 1,
+          "correctTitleKey": "c",
+          "body": "Für viele junge Menschen ist ein Praktikum die erste Möglichkeit, einen Beruf genauer kennenzulernen. Sie können dabei praktische Erfahrungen sammeln, Kontakte zu Unternehmen knüpfen und herausfinden, ob der Beruf wirklich zu ihnen passt. Manche Firmen übernehmen gute Praktikanten später sogar als Auszubildende oder feste Mitarbeiter."
+        },
+        {
+          "textNumber": 3,
+          "von": null,
+          "an": null,
+          "sortOrder": 2,
+          "correctTitleKey": "f",
+          "body": "In einer Befragung von mehr als 2.000 Arbeitnehmerinnen und Arbeitnehmern gaben viele an, dass ein gutes Verhältnis zu den Kollegen für sie besonders wichtig ist. Ein angenehmes Arbeitsklima und gegenseitige Unterstützung wurden häufiger genannt als zusätzliche finanzielle Vorteile."
+        },
+        {
+          "textNumber": 4,
+          "von": null,
+          "an": null,
+          "sortOrder": 3,
+          "correctTitleKey": "h",
+          "body": "Neue Computerprogramme, künstliche Intelligenz und digitale Arbeitsprozesse verändern viele Berufe. Deshalb investieren immer mehr Firmen in Schulungen für ihre Mitarbeiter. Auch viele Berufstätige besuchen freiwillig Kurse, um ihre Kenntnisse zu verbessern und beruflich flexibel zu bleiben."
+        },
+        {
+          "textNumber": 5,
+          "von": null,
+          "an": null,
+          "sortOrder": 4,
+          "correctTitleKey": "j",
+          "body": "Junge Erwachsene bleiben heute oft nicht mehr viele Jahre beim ersten Arbeitgeber. Eine Studie zeigt, dass besonders Beschäftigte unter 30 häufiger die Firma wechseln als ältere Arbeitnehmer. Als Gründe nennen sie bessere Entwicklungsmöglichkeiten, ein höheres Gehalt oder interessantere Aufgaben."
+        }
+      ]
+    },
+    "lesenTeil2": {
+      "contentRevision": "modelltest-5-lesen-teil2-v1",
+      "label": "Leseverstehen Teil 2",
+      "instruction": "Lesen Sie den Text und die Aufgaben 6–10. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 6–10 auf dem Antwortbogen.",
+      "cautionNote": "",
+      "topSender": "",
+      "topReceiver": "",
+      "quotedThread": "",
+      "topBody": "Vier Tage arbeiten, fünf Tage bezahlt werden\n\nDie Firma Heller Technik beschäftigt rund 80 Mitarbeiterinnen und Mitarbeiter. Seit sechs Monaten arbeitet ein Teil der Belegschaft nur noch vier Tage pro Woche. Das Besondere dabei: Das monatliche Gehalt wurde nicht reduziert.\n\nDie Idee kam von der Geschäftsführung. In den Jahren zuvor hatte das Unternehmen immer größere Schwierigkeiten, neue Fachkräfte zu finden. Gleichzeitig berichteten viele Beschäftigte, dass sie sich mehr Zeit für Familie und Freizeit wünschten.\n\nBevor das neue Modell eingeführt wurde, testete die Firma es zunächst drei Monate lang in zwei Abteilungen. Die Beschäftigten arbeiteten montags bis donnerstags jeweils etwas länger als vorher. Freitags hatten sie frei. Wichtig war allerdings, dass Kunden trotzdem an fünf Tagen pro Woche jemanden erreichen konnten. Deshalb arbeiten einige Teams mit unterschiedlichen freien Tagen.\n\nNach der Testphase war die Geschäftsführung überrascht. Obwohl die Beschäftigten insgesamt weniger Stunden arbeiteten, wurden die meisten Aufgaben genauso schnell erledigt wie vorher. Die Zahl der Krankmeldungen ging sogar leicht zurück.\n\nFür Projektleiterin Sarah Neumann hat sich besonders ihr privater Alltag verbessert. Sie nutzt den freien Tag häufig für Termine, Einkäufe und Sport. Dadurch habe sie am Wochenende mehr Zeit für ihre Familie.\n\nNicht alle Beschäftigten sind jedoch begeistert. Einige Mitarbeiter in der Produktion können ihre Arbeitszeit weniger flexibel organisieren. Außerdem sind die Arbeitstage von Montag bis Donnerstag länger geworden. Für Eltern kleiner Kinder kann das manchmal schwierig sein.\n\nTrotzdem will die Firma das Modell weiterführen und im kommenden Jahr auf weitere Abteilungen ausweiten. Eine Rückkehr zur alten Fünf-Tage-Woche ist derzeit nicht geplant.",
+      "questions": [
+        {
+          "questionNumber": 6,
+          "prompt": "Warum hat die Firma das neue Arbeitsmodell eingeführt?",
+          "sortOrder": 0,
+          "options": [
+            {
+              "key": "a",
+              "content": "Sie wollte leichter neue Fachkräfte gewinnen und Wünsche der Beschäftigten berücksichtigen.",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Sie wollte die Gehälter der Beschäftigten reduzieren.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Sie wollte freitags keine Kunden mehr bedienen.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 7,
+          "prompt": "Was geschah vor der endgültigen Einführung?",
+          "sortOrder": 1,
+          "options": [
+            {
+              "key": "a",
+              "content": "Alle Mitarbeiter arbeiteten sofort nur noch vier Tage.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Das Modell wurde zuerst in zwei Abteilungen ausprobiert.",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Die Firma schloss freitags vollständig.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 8,
+          "prompt": "Was zeigte sich während der Testphase?",
+          "sortOrder": 2,
+          "options": [
+            {
+              "key": "a",
+              "content": "Die meisten Aufgaben wurden weiterhin ähnlich schnell erledigt.",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Die Zahl der Krankmeldungen stieg stark.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Die Kunden beschwerten sich über schlechtere Qualität.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 9,
+          "prompt": "Welchen Vorteil sieht Sarah Neumann?",
+          "sortOrder": 3,
+          "options": [
+            {
+              "key": "a",
+              "content": "Sie verdient jetzt deutlich mehr.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Sie muss weniger Verantwortung übernehmen.",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Sie kann private Aufgaben an ihrem freien Tag erledigen.",
+              "isCorrect": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "questionNumber": 10,
+          "prompt": "Warum finden einige Beschäftigte das Modell schwierig?",
+          "sortOrder": 4,
+          "options": [
+            {
+              "key": "a",
+              "content": "Sie haben jetzt überhaupt keinen freien Tag.",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "Die Arbeitstage sind teilweise länger geworden.",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "Sie müssen jeden Freitag im Homeoffice arbeiten.",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    "lesenTeil3": {
+      "contentRevision": "modelltest-5-lesen-teil3-v1",
+      "label": "Leseverstehen Teil 3",
+      "instruction": "Lesen Sie die Situationen 11–20 und die Anzeigen a–l. Finden Sie für jede Situation die passende Anzeige. Sie können jede Anzeige nur einmal benutzen. Markieren Sie Ihre Lösungen für die Aufgaben 11–20 auf dem Antwortbogen. Wenn Sie zu einer Situation keine Anzeige finden, markieren Sie ein x.",
+      "announcements": [
+        {
+          "key": "a",
+          "title": "Bewerbungscheck",
+          "sortOrder": 0,
+          "content": "Sie möchten sich bewerben, sind aber unsicher bei Lebenslauf und Anschreiben? Wir prüfen Ihre Unterlagen und geben persönliche Tipps. Jeden Dienstag von 15 bis 18 Uhr. Anmeldung erforderlich."
+        },
+        {
+          "key": "b",
+          "title": "Excel für den Beruf",
+          "sortOrder": 1,
+          "content": "Grundkurs für Berufstätige. Tabellen erstellen, Berechnungen durchführen und Daten übersichtlich darstellen. Vier Abende, jeweils Montag und Mittwoch von 18 bis 20 Uhr."
+        },
+        {
+          "key": "c",
+          "title": "Aushilfe im Café gesucht",
+          "sortOrder": 2,
+          "content": "Wir suchen freundliche Unterstützung am Samstag und Sonntag zwischen 10 und 18 Uhr. Erfahrung ist nicht erforderlich. Ideal für Studierende."
+        },
+        {
+          "key": "d",
+          "title": "Deutsch am Arbeitsplatz",
+          "sortOrder": 3,
+          "content": "Berufsbezogener Deutschkurs für Erwachsene ab Niveau B1. Telefonieren, E-Mails schreiben, Besprechungen und Gespräche mit Kunden. Dienstag und Donnerstag 18.30–20.30 Uhr."
+        },
+        {
+          "key": "e",
+          "title": "Karrieretag Technik",
+          "sortOrder": 4,
+          "content": "Mehr als 30 Unternehmen stellen sich vor. Informieren Sie sich über Stellen, Praktika und Ausbildungsplätze. Samstag von 10 bis 16 Uhr. Eintritt frei."
+        },
+        {
+          "key": "f",
+          "title": "Kinderbetreuung für Berufstätige",
+          "sortOrder": 5,
+          "content": "Betreuung montags bis freitags von 7 bis 18 Uhr für Kinder zwischen zwei und sechs Jahren. Flexible Buchung einzelner Wochentage möglich."
+        },
+        {
+          "key": "g",
+          "title": "Online-Seminar: Erfolgreich im Vorstellungsgespräch",
+          "sortOrder": 6,
+          "content": "Wie beantworte ich schwierige Fragen? Wie stelle ich meine Stärken vor? Kostenloses Online-Seminar am Donnerstag um 19 Uhr."
+        },
+        {
+          "key": "h",
+          "title": "Coworking am Hauptbahnhof",
+          "sortOrder": 7,
+          "content": "Ruhige Arbeitsplätze, schnelles WLAN und Besprechungsräume. Tageskarte 15 Euro. Montag bis Samstag von 8 bis 20 Uhr."
+        },
+        {
+          "key": "i",
+          "title": "Praktikumsbörse",
+          "sortOrder": 8,
+          "content": "Unternehmen aus der Region bieten Praktika in Büro, Technik, Handel und Pflege an. Angebote für Schülerinnen, Schüler und Studierende."
+        },
+        {
+          "key": "j",
+          "title": "Weiterbildung Projektmanagement",
+          "sortOrder": 9,
+          "content": "Berufsbegleitender Kurs über Planung, Organisation und Teamarbeit. Zwölf Wochen, immer freitagabends und samstags."
+        },
+        {
+          "key": "k",
+          "title": "Fahrradkurier gesucht",
+          "sortOrder": 10,
+          "content": "Flexible Arbeitszeiten von Montag bis Freitag. Eigenes Fahrrad erforderlich. Bezahlung pro Stunde plus Bonus."
+        },
+        {
+          "key": "l",
+          "title": "Berufsberatung für Erwachsene",
+          "sortOrder": 11,
+          "content": "Sie möchten Ihren Beruf wechseln oder wissen nicht, welche Weiterbildung zu Ihnen passt? Persönliche Beratung nach Terminvereinbarung."
+        }
+      ],
+      "situations": [
+        {
+          "situationNumber": 11,
+          "content": "Sie möchten Ihren Lebenslauf verbessern, bevor Sie sich bei einer Firma bewerben.",
+          "noMatch": false,
+          "correctAnnouncementKey": "a",
+          "sortOrder": 0
+        },
+        {
+          "situationNumber": 12,
+          "content": "Sie arbeiten im Büro und müssen lernen, besser mit Tabellen zu arbeiten.",
+          "noMatch": false,
+          "correctAnnouncementKey": "b",
+          "sortOrder": 1
+        },
+        {
+          "situationNumber": 13,
+          "content": "Sie studieren und möchten nur am Wochenende etwas Geld verdienen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "c",
+          "sortOrder": 2
+        },
+        {
+          "situationNumber": 14,
+          "content": "Sie sprechen schon Deutsch auf B1-Niveau und möchten besser mit Kollegen und Kunden kommunizieren.",
+          "noMatch": false,
+          "correctAnnouncementKey": "d",
+          "sortOrder": 3
+        },
+        {
+          "situationNumber": 15,
+          "content": "Sie suchen eine technische Arbeitsstelle und möchten mehrere Firmen an einem Tag kennenlernen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "e",
+          "sortOrder": 4
+        },
+        {
+          "situationNumber": 16,
+          "content": "Sie haben bald ein Bewerbungsgespräch und möchten sich darauf vorbereiten, aber nicht zu einem Kurs fahren.",
+          "noMatch": false,
+          "correctAnnouncementKey": "g",
+          "sortOrder": 5
+        },
+        {
+          "situationNumber": 17,
+          "content": "Sie arbeiten normalerweise von zu Hause, brauchen aber morgen einen ruhigen Arbeitsplatz mit Internet.",
+          "noMatch": false,
+          "correctAnnouncementKey": "h",
+          "sortOrder": 6
+        },
+        {
+          "situationNumber": 18,
+          "content": "Sie studieren und möchten praktische Berufserfahrung in einem Unternehmen sammeln.",
+          "noMatch": false,
+          "correctAnnouncementKey": "i",
+          "sortOrder": 7
+        },
+        {
+          "situationNumber": 19,
+          "content": "Sie möchten einen neuen Beruf lernen und suchen einen kostenlosen Kurs, der jeden Vormittag stattfindet.",
+          "noMatch": true,
+          "correctAnnouncementKey": null,
+          "sortOrder": 8
+        },
+        {
+          "situationNumber": 20,
+          "content": "Sie denken über einen Berufswechsel nach und möchten zuerst mit jemandem darüber sprechen.",
+          "noMatch": false,
+          "correctAnnouncementKey": "l",
+          "sortOrder": 9
+        }
+      ]
+    },
+    "sprachbausteineTeil1": {
+      "teilNumber": 1,
+      "contentRevision": "modelltest-5-sprachbausteine-teil1-v1",
+      "label": "Sprachbausteine Teil 1",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 21–30. Welche Lösung (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 21–30 auf dem Antwortbogen.",
+      "body": "Liebe Julia,\n\nich muss dir unbedingt von meinem neuen Job erzählen. Seit zwei Wochen arbeite ich bei einer kleinen Firma, _____ Software für Hotels entwickelt.\n\nAm ersten Tag war ich natürlich ziemlich nervös, _____ meine neuen Kollegen haben mich sehr freundlich begrüßt. Zuerst _____ mir meine Teamleiterin das Büro gezeigt und mich allen vorgestellt.\n\nIch arbeite normalerweise von neun bis siebzehn Uhr. Zweimal pro Woche darf ich aber auch _____ zu Hause arbeiten. Das finde ich besonders praktisch, weil mein Arbeitsweg fast eine Stunde _____ .\n\nDie Aufgaben sind interessant, aber ich muss noch viel lernen. Zum Glück kann ich meine Kollegen immer fragen, wenn ich etwas nicht _____ .\n\nNächsten Monat nehme ich außerdem _____ einer Schulung teil. Dort lernen wir ein neues Programm kennen, das wir später bei der Arbeit benutzen werden.\n\nWas mir bisher am besten gefällt, _____ die Atmosphäre im Team. Mittags essen wir oft zusammen und freitags trinken wir nach der Arbeit manchmal noch etwas.\n\nIch hoffe, dass du mich bald besuchen kannst. Dann _____ ich dir auch mein neues Büro zeigen.\n\nSchreib mir, _____ du am nächsten Wochenende Zeit hast.\n\nLiebe Grüße\nAnna",
+      "gaps": [
+        {
+          "gapKey": "21",
+          "gapNumber": 21,
+          "sortOrder": 0,
+          "options": [
+            {
+              "key": "a",
+              "content": "die",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "der",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "den",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "22",
+          "gapNumber": 22,
+          "sortOrder": 1,
+          "options": [
+            {
+              "key": "a",
+              "content": "aber",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "denn",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "sondern",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "23",
+          "gapNumber": 23,
+          "sortOrder": 2,
+          "options": [
+            {
+              "key": "a",
+              "content": "hat",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "ist",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "wird",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "24",
+          "gapNumber": 24,
+          "sortOrder": 3,
+          "options": [
+            {
+              "key": "a",
+              "content": "von",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "bei",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "zu",
+              "isCorrect": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "25",
+          "gapNumber": 25,
+          "sortOrder": 4,
+          "options": [
+            {
+              "key": "a",
+              "content": "dauert",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "braucht",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "geht",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "26",
+          "gapNumber": 26,
+          "sortOrder": 5,
+          "options": [
+            {
+              "key": "a",
+              "content": "verstehe",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "verstanden",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "verstand",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "27",
+          "gapNumber": 27,
+          "sortOrder": 6,
+          "options": [
+            {
+              "key": "a",
+              "content": "an",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "auf",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "für",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "28",
+          "gapNumber": 28,
+          "sortOrder": 7,
+          "options": [
+            {
+              "key": "a",
+              "content": "sind",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "ist",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "war",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "29",
+          "gapNumber": 29,
+          "sortOrder": 8,
+          "options": [
+            {
+              "key": "a",
+              "content": "kann",
+              "isCorrect": false,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "werde",
+              "isCorrect": true,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "würde",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "gapKey": "30",
+          "gapNumber": 30,
+          "sortOrder": 9,
+          "options": [
+            {
+              "key": "a",
+              "content": "ob",
+              "isCorrect": true,
+              "sortOrder": 0
+            },
+            {
+              "key": "b",
+              "content": "als",
+              "isCorrect": false,
+              "sortOrder": 1
+            },
+            {
+              "key": "c",
+              "content": "damit",
+              "isCorrect": false,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    "sprachbausteineTeil2": {
+      "contentRevision": "modelltest-5-sprachbausteine-teil2-v1",
+      "label": "Sprachbausteine Teil 2",
+      "instruction": "Lesen Sie den Text und schließen Sie die Lücken 31–40. Benutzen Sie die Wörter a–o. Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31–40 auf dem Antwortbogen.",
+      "body": "Sehr geehrte Damen und Herren,\n\nauf Ihrer Internetseite habe ich gelesen, dass Sie im November einen Kurs zum Thema Projektmanagement anbieten. Ich interessiere mich sehr _____ diesen Kurs und hätte _____ einige Fragen.\n\nIch arbeite seit zwei Jahren in einem kleinen Unternehmen und soll in Zukunft mehr Verantwortung für Projekte übernehmen. _____ habe ich bisher noch keine Weiterbildung in diesem Bereich gemacht.\n\nKönnten Sie mir bitte mitteilen, _____ Vorkenntnisse für die Teilnahme notwendig sind? Außerdem würde ich gern wissen, _____ der Unterricht hauptsächlich theoretisch ist oder ob man auch praktische Aufgaben bearbeitet.\n\nDa ich von Montag bis Freitag arbeite, wäre es für mich wichtig zu wissen, _____ genau die Unterrichtszeiten sind. Auf Ihrer Internetseite steht nur, dass der Kurs berufsbegleitend stattfindet.\n\nMich interessiert _____, ob die Kursgebühr alle Lernmaterialien enthält. Falls zusätzliche Kosten entstehen, könnten Sie mir bitte sagen, wie hoch diese ungefähr sind?\n\nIch würde mich _____ anmelden, wenn noch ein Platz frei ist. Bitte schicken Sie mir auch Informationen darüber, _____ ich mich anmelden kann.\n\nIch wäre Ihnen sehr _____, wenn Sie mir bald antworten könnten.\n\nMit freundlichen Grüßen\nThomas Wagner",
+      "words": [
+        {
+          "letter": "a",
+          "content": "ABER",
+          "sortOrder": 0
+        },
+        {
+          "letter": "b",
+          "content": "AUCH",
+          "sortOrder": 1
+        },
+        {
+          "letter": "c",
+          "content": "DANKBAR",
+          "sortOrder": 2
+        },
+        {
+          "letter": "d",
+          "content": "DESHALB",
+          "sortOrder": 3
+        },
+        {
+          "letter": "e",
+          "content": "FÜR",
+          "sortOrder": 4
+        },
+        {
+          "letter": "f",
+          "content": "GERNE",
+          "sortOrder": 5
+        },
+        {
+          "letter": "g",
+          "content": "NOCH",
+          "sortOrder": 6
+        },
+        {
+          "letter": "h",
+          "content": "OB",
+          "sortOrder": 7
+        },
+        {
+          "letter": "i",
+          "content": "WANN",
+          "sortOrder": 8
+        },
+        {
+          "letter": "j",
+          "content": "WIE",
+          "sortOrder": 9
+        },
+        {
+          "letter": "k",
+          "content": "WENN",
+          "sortOrder": 10
+        },
+        {
+          "letter": "l",
+          "content": "WELCHE",
+          "sortOrder": 11
+        },
+        {
+          "letter": "m",
+          "content": "TROTZDEM",
+          "sortOrder": 12
+        },
+        {
+          "letter": "n",
+          "content": "DAMIT",
+          "sortOrder": 13
+        },
+        {
+          "letter": "o",
+          "content": "WEGEN",
+          "sortOrder": 14
+        }
+      ],
+      "gaps": [
+        {
+          "gapKey": "31",
+          "gapNumber": 31,
+          "correctWordKey": "e",
+          "sortOrder": 0
+        },
+        {
+          "gapKey": "32",
+          "gapNumber": 32,
+          "correctWordKey": "g",
+          "sortOrder": 1
+        },
+        {
+          "gapKey": "33",
+          "gapNumber": 33,
+          "correctWordKey": "a",
+          "sortOrder": 2
+        },
+        {
+          "gapKey": "34",
+          "gapNumber": 34,
+          "correctWordKey": "l",
+          "sortOrder": 3
+        },
+        {
+          "gapKey": "35",
+          "gapNumber": 35,
+          "correctWordKey": "h",
+          "sortOrder": 4
+        },
+        {
+          "gapKey": "36",
+          "gapNumber": 36,
+          "correctWordKey": "i",
+          "sortOrder": 5
+        },
+        {
+          "gapKey": "37",
+          "gapNumber": 37,
+          "correctWordKey": "b",
+          "sortOrder": 6
+        },
+        {
+          "gapKey": "38",
+          "gapNumber": 38,
+          "correctWordKey": "f",
+          "sortOrder": 7
+        },
+        {
+          "gapKey": "39",
+          "gapNumber": 39,
+          "correctWordKey": "j",
+          "sortOrder": 8
+        },
+        {
+          "gapKey": "40",
+          "gapNumber": 40,
+          "correctWordKey": "c",
+          "sortOrder": 9
+        }
+      ]
+    },
+    "schreiben": {
+      "contentRevision": "modelltest-5-schreiben-v1",
+      "title": "Schriftlicher Ausdruck",
+      "subtitle": "Sie haben von einer Freundin folgende E-Mail erhalten:",
+      "taskType": "brief",
+      "intro": "Sie haben von einer Freundin folgende E-Mail erhalten:",
+      "stimulus": {
+        "heading": "Liebe/r __________,",
+        "subheading": null,
+        "body": "endlich habe ich einen neuen Job gefunden! Nächsten Monat fange ich in einer großen Firma an. Einerseits freue ich mich sehr, andererseits bin ich ziemlich nervös, weil ich dort niemanden kenne.\n\nDu arbeitest doch schon länger in einem Unternehmen. Hast du vielleicht ein paar Tipps für meinen ersten Arbeitstag? Ich weiß zum Beispiel nicht, was ich anziehen soll und wie ich mich am besten auf die ersten Tage vorbereiten kann.\n\nAußerdem würde mich interessieren, wie du mit deinen Kolleginnen und Kollegen zurechtkommst.\n\nSchreib mir bald!",
+        "features": [],
+        "contact": {
+          "name": "Laura",
+          "lines": [
+            "Liebe Grüße"
+          ]
+        },
+        "callToAction": null,
+        "imageUrl": null
+      },
+      "taskInstructions": "Antworten Sie auf die E-Mail. Schreiben Sie etwas zu allen vier Punkten:",
+      "bulletPoints": [
+        "was Laura am ersten Arbeitstag beachten sollte",
+        "welche Kleidung Sie empfehlen",
+        "wie man gute Kontakte zu Kolleginnen und Kollegen aufbauen kann",
+        "wie Ihre eigenen ersten Tage in einem neuen Job waren"
+      ],
+      "closingReminder": "Überlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, einen passenden Betreff, eine passende Anrede, Einleitung und einen passenden Schluss."
+    },
+    "sprechen": {
+      "teil1": {
+        "part": 1,
+        "title": "Teil 1 Einander kennenlernen",
+        "subtitle": "Teilnehmer/in A und B",
+        "topicTitle": "Einander kennenlernen",
+        "topicDescription": "Unterhalten Sie sich mit Ihrer Partnerin bzw. Ihrem Partner über folgende Themen:",
+        "topicPoints": [
+          "Name",
+          "Woher sie oder er kommt",
+          "Wie sie oder er wohnt",
+          "Familie",
+          "Wo sie oder er Deutsch gelernt hat",
+          "Was sie oder er macht (Schule, Studium, Beruf …)",
+          "Sprachen (welche? wie lange? warum?)"
+        ],
+        "additionalExaminerTopics": [
+          "welchen Beruf er oder sie interessant findet",
+          "was ihm oder ihr bei der Arbeit wichtig ist"
+        ],
+        "instructions": "Die Prüfenden können außerdem noch weitere Fragen stellen."
+      },
+      "teil2": {
+        "part": 2,
+        "title": "Teil 2 Über ein Thema sprechen",
+        "subtitle": "Teilnehmer/in A / Teilnehmer/in B",
+        "topicTitle": "Homeoffice oder Büro?",
+        "commonInstructions": "Sie haben in einer Zeitschrift etwas zum Thema „Homeoffice oder Büro?“ gelesen. Berichten Sie Ihrer Gesprächspartnerin/Ihrem Gesprächspartner darüber. Ihre Gesprächspartnerin/Ihr Gesprächspartner hat eine andere Meinung dazu gelesen und berichtet Ihnen auch darüber. Unterhalten Sie sich dann mit Ihrer Gesprächspartnerin/Ihrem Gesprächspartner über das Thema. Sagen Sie Ihre Meinung und erzählen Sie von eigenen Erfahrungen.",
+        "participants": {
+          "A": {
+            "label": "Teilnehmer/in A",
+            "person": "Nadine Scholz, 31 Jahre, Grafikdesignerin",
+            "text": "„Ich arbeite sehr gerne von zu Hause. Ich spare jeden Tag fast eine Stunde Fahrtzeit und kann mich dort oft besser konzentrieren. Außerdem kann ich meine Arbeitszeit leichter mit meinem Privatleben organisieren. Zwei Tage pro Woche im Büro reichen mir völlig.“"
+          },
+          "B": {
+            "label": "Teilnehmer/in B",
+            "person": "Martin Köhler, 42 Jahre, Kundenberater",
+            "text": "„Ich gehe lieber ins Büro. Dort kann ich schnell mit meinen Kollegen sprechen, wenn es ein Problem gibt. Zu Hause fehlt mir außerdem der Kontakt zu anderen Menschen. Für mich gehören gemeinsame Pausen und Gespräche mit Kollegen zu einem guten Arbeitstag dazu.“"
+          }
+        }
+      },
+      "teil3": {
+        "part": 3,
+        "title": "Teil 3 Gemeinsam etwas planen",
+        "subtitle": "Teilnehmer/in A und B",
+        "topicTitle": "Willkommenstag für neue Kolleginnen und Kollegen",
+        "topicDescription": "In Ihrer Firma beginnen nächste Woche mehrere neue Mitarbeiterinnen und Mitarbeiter. Ihr Team möchte einen kleinen Willkommenstag organisieren. Sie und Ihre Gesprächspartnerin bzw. Ihr Gesprächspartner sollen gemeinsam planen, wie dieser Tag aussehen soll. Überlegen Sie, was organisiert werden muss und wer welche Aufgaben übernimmt.",
+        "topicPoints": [
+          "Wann?",
+          "Wo?",
+          "Vorstellung der Firma",
+          "Essen und Getränke",
+          "Aktivitäten zum Kennenlernen",
+          "Wer organisiert was?",
+          "Kosten",
+          "..."
+        ],
+        "instructions": "Entscheiden Sie zuerst, was Sie machen möchten und warum. Tragen Sie Ihrem Partner Ihre Ideen vor und begründen Sie sie. Reagieren Sie auf die Ideen Ihres Partners bzw. Ihrer Partnerin und die Begründungen. Einigen Sie sich auf einen gemeinsamen Programmvorschlag."
+      }
+    },
+    "hoeren": {
+      "teil1": {
+        "part": 1,
+        "title": "Teil 1",
+        "subtitle": "Hörverstehen, Teil 1",
+        "instruction": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41–45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41–45. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 41–45. Sie haben dazu 30 Sekunden Zeit.",
+        "contentRevision": "modelltest-5-hoeren-teil1-v1",
+        "transcript": "41\nIch arbeite seit einem Jahr in einem kleinen Reisebüro. Eigentlich gefällt mir die Arbeit sehr gut, besonders der Kontakt mit den Kunden. Nur mein Arbeitsweg ist ziemlich lang. Mit Bus und Bahn brauche ich morgens fast eine Stunde. Deshalb darf ich inzwischen jeden Mittwoch von zu Hause arbeiten. Das finde ich sehr angenehm.\n\n42\nIch habe vor drei Monaten meine Ausbildung angefangen. Am Anfang dachte ich, dass ich hauptsächlich zuschauen würde. Aber schon nach wenigen Wochen durfte ich viele Aufgaben selbst erledigen. Natürlich macht man dabei manchmal Fehler, aber meine Kollegen erklären mir dann, wie es richtig geht. Dadurch lerne ich sehr viel.\n\n43\nFrüher habe ich oft bis spät am Abend gearbeitet. Irgendwann habe ich gemerkt, dass ich kaum noch Zeit für meine Familie und meine Freunde hatte. Seit Januar arbeite ich deshalb nur noch 30 Stunden pro Woche. Ich verdiene jetzt etwas weniger, aber für mich war das die richtige Entscheidung.\n\n44\nIn meinem neuen Team arbeiten zwölf Personen. Wir verstehen uns eigentlich sehr gut. Mittags essen wir oft gemeinsam. Nur am Freitag arbeite ich meistens allein im Büro, weil viele meiner Kollegen an diesem Tag im Homeoffice sind.\n\n45\nIch suche gerade eine neue Stelle. Früher habe ich Bewerbungen einfach an viele Unternehmen geschickt. Diesmal informiere ich mich vorher genau über jede Firma und passe mein Anschreiben an die jeweilige Stelle an. Das dauert länger, aber ich hoffe, dass meine Chancen dadurch besser sind.",
+        "questions": [
+          {
+            "questionNumber": 41,
+            "prompt": "Die Sprecherin arbeitet einmal pro Woche von zu Hause.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 42,
+            "prompt": "Der Sprecher darf während seiner Ausbildung noch keine Aufgaben selbst erledigen.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 43,
+            "prompt": "Die Sprecherin arbeitet jetzt weniger Stunden als früher.",
+            "correctAnswer": "+",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 44,
+            "prompt": "Freitags sind normalerweise alle Kollegen gemeinsam im Büro.",
+            "correctAnswer": "-",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 45,
+            "prompt": "Der Sprecher schreibt für jede Bewerbung ein passendes Anschreiben.",
+            "correctAnswer": "+",
+            "sortOrder": 4
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-5-hoeren/modelltest-5-hoeren-teil1.mp3",
+        "imageUrl": "",
+        "durationMinutes": 8
+      },
+      "teil2": {
+        "part": 2,
+        "title": "Teil 2",
+        "subtitle": "Hörverstehen, Teil 2",
+        "instruction": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46–55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46–55. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 46–55. Sie haben dazu eine Minute Zeit.",
+        "contentRevision": "modelltest-5-hoeren-teil2-v1",
+        "transcript": "Moderator: Willkommen zu unserer Sendung Beruf und Alltag. Heute sprechen wir über die Vier-Tage-Woche. Bei mir ist Frau Lena Hoffmann. Sie arbeitet seit acht Jahren bei der Firma Bergmann Design. Guten Tag, Frau Hoffmann.\n\nFrau Hoffmann: Guten Tag.\n\nModerator: Ihre Firma testet seit fast einem Jahr eine Vier-Tage-Woche. Wie kam es dazu?\n\nFrau Hoffmann: Die Idee kam tatsächlich von unserer Geschäftsleitung. Wir hatten Schwierigkeiten, neue Mitarbeiter zu finden, und gleichzeitig haben viele Kollegen bei einer internen Befragung gesagt, dass sie sich flexiblere Arbeitszeiten wünschen.\n\nModerator: Arbeiten jetzt alle Beschäftigten nur noch vier Tage?\n\nFrau Hoffmann: Nein, nicht alle. Wir haben ungefähr 120 Mitarbeiter. Rund 70 nehmen momentan an dem Modell teil. In einigen Abteilungen, zum Beispiel im Kundendienst, ist es schwieriger, weil unsere Kunden von Montag bis Freitag jemanden erreichen müssen.\n\nModerator: Haben denn alle Teilnehmer am Freitag frei?\n\nFrau Hoffmann: Nein. Das wäre organisatorisch nicht möglich. Die Teams sprechen sich ab. Einige haben freitags frei, andere montags oder mittwochs. Wichtig ist, dass immer genügend Personen erreichbar sind.\n\nModerator: Und arbeiten Sie an den anderen Tagen länger?\n\nFrau Hoffmann: Etwas länger, ja. Früher habe ich ungefähr acht Stunden pro Tag gearbeitet. Jetzt sind es von Montag bis Donnerstag meistens etwa neun Stunden. Trotzdem arbeite ich insgesamt weniger als vorher.\n\nModerator: Hat sich Ihr Gehalt dadurch verändert?\n\nFrau Hoffmann: Nein. Während des Testprojekts bekommen wir weiterhin unser normales Gehalt. Das war natürlich ein wichtiger Punkt für viele Kollegen.\n\nModerator: Wie wirkt sich das Modell auf die Arbeit aus?\n\nFrau Hoffmann: Erstaunlich gut. Wir haben viele Besprechungen kürzer gemacht und versuchen, Aufgaben besser zu planen. Früher gab es manchmal Meetings, bei denen nicht wirklich jeder dabei sein musste. Heute überlegen wir genauer, wer gebraucht wird.\n\nModerator: Und schaffen Sie tatsächlich genauso viel Arbeit?\n\nFrau Hoffmann: In unserem Team ja. In manchen Monaten waren wir sogar etwas schneller. Natürlich funktioniert das nicht automatisch. Man muss sehr gut planen und darf wichtige Aufgaben nicht einfach auf den nächsten Tag verschieben.\n\nModerator: Wie verbringen Sie persönlich Ihren freien Tag?\n\nFrau Hoffmann: Ganz unterschiedlich. Ich erledige oft Arzttermine oder Einkäufe. Manchmal besuche ich meine Eltern. Besonders schön finde ich, dass am Wochenende weniger Dinge übrig bleiben, die ich noch erledigen muss.\n\nModerator: Gibt es auch Nachteile?\n\nFrau Hoffmann: Ja. Die längeren Arbeitstage können anstrengend sein. Besonders Kolleginnen und Kollegen mit kleinen Kindern müssen ihre Betreuung gut organisieren. Manche haben deshalb entschieden, lieber bei der normalen Fünf-Tage-Woche zu bleiben.\n\nModerator: Was sagen die Kunden zu dem Modell?\n\nFrau Hoffmann: Die meisten merken gar keinen Unterschied. Wir achten darauf, dass jeden Werktag jemand erreichbar ist. Beschwerden wegen der Vier-Tage-Woche hatten wir bisher jedenfalls keine.\n\nModerator: Und wie geht es nach dem Test weiter?\n\nFrau Hoffmann: Das wird im Dezember entschieden. Die Geschäftsleitung wertet gerade Zahlen und Rückmeldungen aus. Viele von uns hoffen natürlich, dass das Modell dauerhaft angeboten wird.\n\nModerator: Frau Hoffmann, vielen Dank für das Gespräch.\n\nFrau Hoffmann: Sehr gerne.",
+        "questions": [
+          {
+            "questionNumber": 46,
+            "prompt": "Die Idee für die Vier-Tage-Woche kam von der Geschäftsleitung.",
+            "correctAnswer": "+",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 47,
+            "prompt": "Alle 120 Mitarbeiter nehmen an dem neuen Arbeitsmodell teil.",
+            "correctAnswer": "-",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 48,
+            "prompt": "Alle Beschäftigten im Modell haben freitags frei.",
+            "correctAnswer": "-",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 49,
+            "prompt": "Frau Hoffmann arbeitet an ihren Arbeitstagen länger als früher.",
+            "correctAnswer": "+",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 50,
+            "prompt": "Die Teilnehmer erhalten während des Tests weniger Gehalt.",
+            "correctAnswer": "-",
+            "sortOrder": 4
+          },
+          {
+            "questionNumber": 51,
+            "prompt": "Die Firma hat unter anderem Besprechungen kürzer gemacht.",
+            "correctAnswer": "+",
+            "sortOrder": 5
+          },
+          {
+            "questionNumber": 52,
+            "prompt": "Das Team von Frau Hoffmann erledigt jetzt deutlich weniger Arbeit.",
+            "correctAnswer": "-",
+            "sortOrder": 6
+          },
+          {
+            "questionNumber": 53,
+            "prompt": "Frau Hoffmann nutzt ihren freien Tag auch für private Termine.",
+            "correctAnswer": "+",
+            "sortOrder": 7
+          },
+          {
+            "questionNumber": 54,
+            "prompt": "Für Beschäftigte mit kleinen Kindern können die längeren Arbeitstage schwierig sein.",
+            "correctAnswer": "+",
+            "sortOrder": 8
+          },
+          {
+            "questionNumber": 55,
+            "prompt": "Es steht bereits fest, dass die Vier-Tage-Woche dauerhaft bleibt.",
+            "correctAnswer": "-",
+            "sortOrder": 9
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-5-hoeren/modelltest-5-hoeren-teil2.mp3",
+        "imageUrl": "",
+        "durationMinutes": 10
+      },
+      "teil3": {
+        "part": 3,
+        "title": "Teil 3",
+        "subtitle": "Hörverstehen, Teil 3",
+        "instruction": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56–60 richtig oder falsch sind. Markieren Sie Ihre Lösungen für die Aufgaben 56–60 auf dem Antwortbogen. Markieren Sie PLUS (+) gleich richtig und MINUS (–) gleich falsch.",
+        "contentRevision": "modelltest-5-hoeren-teil3-v1",
+        "transcript": "56\nGuten Morgen, liebe Kolleginnen und Kollegen. Wegen technischer Arbeiten steht unser internes Computersystem heute zwischen 13 und 15 Uhr nicht zur Verfügung. Bitte speichern Sie wichtige Dokumente vorher auf Ihrem Computer. E-Mails können während dieser Zeit weiterhin gesendet und empfangen werden.\n\n57\nHier ist die Sprachschule ProJob. Der für morgen geplante Kurs Deutsch am Arbeitsplatz beginnt nicht wie angekündigt um 18 Uhr, sondern bereits um 17 Uhr 30. Der Unterricht findet weiterhin in Raum 204 statt. Bei Fragen erreichen Sie unser Büro bis 16 Uhr.\n\n58\nAchtung, Fahrgäste. Der Regionalexpress 5 nach Köln fällt heute wegen einer technischen Störung aus. Reisende nach Köln benutzen bitte den Regionalexpress 1 um 8 Uhr 42 von Gleis 6. Ihre vorhandenen Fahrkarten bleiben gültig.\n\n59\nWillkommen zum Karrieretag im Messezentrum. Die Vorträge zu Ausbildung und Studium finden im ersten Stock statt. Persönliche Bewerbungsgespräche mit den teilnehmenden Unternehmen gibt es dagegen in Halle 3. Bitte bringen Sie dafür mehrere Kopien Ihres Lebenslaufs mit.\n\n60\nHallo Frau Peters, hier ist Daniel Sommer von der Firma Nordbau. Es geht um Ihr Vorstellungsgespräch am Donnerstag. Der Termin um 10 Uhr muss leider verschoben werden. Könnten Sie stattdessen am selben Tag um 14 Uhr kommen? Bitte rufen Sie mich kurz zurück. Vielen Dank.",
+        "questions": [
+          {
+            "questionNumber": 56,
+            "prompt": "Während der technischen Arbeiten funktioniert auch die E-Mail nicht.",
+            "correctAnswer": "-",
+            "sortOrder": 0
+          },
+          {
+            "questionNumber": 57,
+            "prompt": "Der Sprachkurs beginnt morgen früher als ursprünglich geplant.",
+            "correctAnswer": "+",
+            "sortOrder": 1
+          },
+          {
+            "questionNumber": 58,
+            "prompt": "Der Regionalexpress 5 fährt heute nach Köln.",
+            "correctAnswer": "-",
+            "sortOrder": 2
+          },
+          {
+            "questionNumber": 59,
+            "prompt": "Für Bewerbungsgespräche sollen die Besucher Lebensläufe mitbringen.",
+            "correctAnswer": "+",
+            "sortOrder": 3
+          },
+          {
+            "questionNumber": 60,
+            "prompt": "Das Vorstellungsgespräch soll am Donnerstag um 14 Uhr stattfinden.",
+            "correctAnswer": "+",
+            "sortOrder": 4
+          }
+        ],
+        "audioUrl": "https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/modelltest-5-hoeren/modelltest-5-hoeren-teil3.mp3",
+        "imageUrl": "",
+        "durationMinutes": 8
+      }
+    }
+  },
+  "answerKey": {
+    "lesenTeil1": {
+      "1": "a",
+      "2": "c",
+      "3": "f",
+      "4": "h",
+      "5": "j"
+    },
+    "lesenTeil2": {
+      "6": "a",
+      "7": "b",
+      "8": "a",
+      "9": "c",
+      "10": "b"
+    },
+    "lesenTeil3": {
+      "11": "a",
+      "12": "b",
+      "13": "c",
+      "14": "d",
+      "15": "e",
+      "16": "g",
+      "17": "h",
+      "18": "i",
+      "19": "X",
+      "20": "l"
+    },
+    "sprachbausteineTeil1": {
+      "21": "a",
+      "22": "a",
+      "23": "a",
+      "24": "c",
+      "25": "a",
+      "26": "a",
+      "27": "a",
+      "28": "b",
+      "29": "b",
+      "30": "a"
+    },
+    "sprachbausteineTeil2": {
+      "31": "e",
+      "32": "g",
+      "33": "a",
+      "34": "l",
+      "35": "h",
+      "36": "i",
+      "37": "b",
+      "38": "f",
+      "39": "j",
+      "40": "c"
+    },
+    "hoerenTeil1": {
+      "41": "+",
+      "42": "-",
+      "43": "+",
+      "44": "-",
+      "45": "+"
+    },
+    "hoerenTeil2": {
+      "46": "+",
+      "47": "-",
+      "48": "-",
+      "49": "+",
+      "50": "-",
+      "51": "+",
+      "52": "-",
+      "53": "+",
+      "54": "+",
+      "55": "-"
+    },
+    "hoerenTeil3": {
+      "56": "-",
+      "57": "+",
+      "58": "-",
+      "59": "+",
+      "60": "+"
+    }
+  },
+  "extractionWarnings": [
+    "Origin booklet title kept for reference: Modelltest 5 – Arbeit und Beruf"
+  ]
+}

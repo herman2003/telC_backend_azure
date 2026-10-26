@@ -1,0 +1,39 @@
+{
+  "slug": "perfekt-vs-prateritum-ausnahmen-gram-g-170",
+  "titleFr": "Perfekt vs prétérit — exceptions",
+  "titleEn": "Perfect vs simple past — exceptions",
+  "titleDe": "Perfekt vs Präteritum — Ausnahmen",
+  "ruleFr": "## Exceptions : Präteritum aussi à l’oral\n\nCes verbes utilisent souvent le **Präteritum** même en conversation :\n\n| Infinitif | Präteritum (ex. ich/er) |\n|---|---|\n| sein | **war** |\n| haben | **hatte** |\n| wollen | **wollte** |\n| können | **konnte** |\n| müssen | **musste** |\n| sollen | **sollte** |\n| dürfen | **durfte** |\n| wissen | **wusste** |\n\n### Pourquoi ?\nLes formes sont courtes et très fréquentes — le Perfekt sonne plus lourd (*ich bin gewesen*).\n\n→ *Ich **war** krank.* (plus naturel que *Ich bin krank gewesen*)\n\n### Mini-entraînement\nRépondez oralement avec *war / hatte / konnte / musste*.",
+  "ruleEn": "## Exceptions: Präteritum even in speech\n\nThese verbs often use the **Präteritum** even in conversation:\n\n| Infinitive | Präteritum (e.g. ich/er) |\n|---|---|\n| sein | **war** |\n| haben | **hatte** |\n| wollen | **wollte** |\n| können | **konnte** |\n| müssen | **musste** |\n| sollen | **sollte** |\n| dürfen | **durfte** |\n| wissen | **wusste** |\n\n### Why?\nThe forms are short and very frequent — Perfekt sounds heavier (*ich bin gewesen*).\n\n→ *Ich **war** krank.* (more natural than *Ich bin krank gewesen*)\n\n### Mini practice\nAnswer orally with *war / hatte / konnte / musste*.",
+  "ruleDe": "## Ausnahmen: Präteritum auch mündlich\n\nDiese Verben nutzen oft das **Präteritum** auch im Gespräch:\n\n| Infinitiv | Präteritum (z. B. ich/er) |\n|---|---|\n| sein | **war** |\n| haben | **hatte** |\n| wollen | **wollte** |\n| können | **konnte** |\n| müssen | **musste** |\n| sollen | **sollte** |\n| dürfen | **durfte** |\n| wissen | **wusste** |\n\n### Warum?\nDie Formen sind kurz und häufig — Perfekt wirkt schwerfälliger.\n\n### Mini-Übung\nAntworten Sie mündlich mit *war / hatte / konnte / musste*.",
+  "notesFr": "*Ich bin krank gewesen* est correct, mais *Ich war krank* sonne plus naturel.",
+  "notesEn": "*Ich bin krank gewesen* is correct, but *Ich war krank* sounds more natural.",
+  "notesDe": "*Ich bin krank gewesen* ist korrekt, aber *Ich war krank* klingt natürlicher.",
+  "examples": [
+    {
+      "de": "Ich war krank.",
+      "fr": "J’étais / j’ai été malade.",
+      "en": "I was ill."
+    },
+    {
+      "de": "Ich konnte nicht kommen.",
+      "fr": "Je ne pouvais / n’ai pas pu venir.",
+      "en": "I couldn’t come."
+    },
+    {
+      "de": "Wir mussten warten.",
+      "fr": "Nous avons dû / devions attendre.",
+      "en": "We had to wait."
+    },
+    {
+      "de": "Sie wollte nach Hause.",
+      "fr": "Elle voulait rentrer.",
+      "en": "She wanted to go home."
+    },
+    {
+      "de": "Ich wusste das nicht.",
+      "fr": "Je ne savais pas cela.",
+      "en": "I didn’t know that."
+    }
+  ]
+}

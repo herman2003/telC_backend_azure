@@ -1,0 +1,39 @@
+{
+  "slug": "stammvokalanderung-e-i-verben-gram-f-136",
+  "titleFr": "Verbes avec e→i",
+  "titleEn": "Verbs with e→i",
+  "titleDe": "Stammvokaländerung — e→i Verben",
+  "ruleFr": "## Liste des verbes fréquents *e → i*\n\n| Infinitif | du / er |\n|---|---|\n| geben | g**i**bst / g**i**bt |\n| sprechen | spr**i**chst / spr**i**cht |\n| treffen | tr**i**ffst / tr**i**fft |\n| helfen | h**i**lfst / h**i**lft |\n| nehmen | n**imm**st / n**imm**t |\n| essen | **i**sst / **i**sst |\n| vergessen | verg**i**sst / verg**i**sst |\n\n### Attention particulière\n- *nehmen* : *e* → *i* **et** *m* géminé (*nimmst, nimmt*)\n- *essen* : *du/er **isst*** (double *s*)\n\n### Mini-entraînement\nComplétez : *Er ___ (nehmen) den Bus. Du ___ (essen) zu schnell.*",
+  "ruleEn": "## Common *e → i* verbs\n\ngeben → gibst/gibt · sprechen → sprichst/spricht · treffen → triffst/trifft · helfen → hilfst/hilft · nehmen → nimmst/nimmt · essen → isst · vergessen → vergisst\n\n### Watch out\n*nehmen*: vowel change **and** double *m*. *essen*: *isst*.\n\n### Mini practice\nFill: *Er ___ (nehmen) den Bus. Du ___ (essen) zu schnell.*",
+  "ruleDe": "## Wichtige e→i-Verben\n\ngeben, sprechen, treffen, helfen, nehmen, essen, vergessen\n\nAchtung: *nehmen → nimmst/nimmt*; *essen → isst*\n\n### Mini-Übung\n*Er ___ den Bus. Du ___ zu schnell.*",
+  "notesFr": "ATTENTION : nehmen → du nimmst, er nimmt (mm !). essen → du isst, er isst.",
+  "notesEn": "WARNING: nehmen → du nimmst, er nimmt (mm!). essen → du isst, er isst.",
+  "notesDe": "ACHTUNG: nehmen → du nimmst, er nimmt (zusätzlich mm!). essen → du isst, er isst.",
+  "examples": [
+    {
+      "de": "Er gibt mir recht.",
+      "fr": "Il me donne raison.",
+      "en": "He agrees with me."
+    },
+    {
+      "de": "Sprichst du Deutsch?",
+      "fr": "Parles-tu allemand ?",
+      "en": "Do you speak German?"
+    },
+    {
+      "de": "Sie trifft ihre Freundin.",
+      "fr": "Elle rencontre son amie.",
+      "en": "She meets her friend."
+    },
+    {
+      "de": "Er nimmt den Zug.",
+      "fr": "Il prend le train. (nimmt)",
+      "en": "He takes the train. (nimmt)"
+    },
+    {
+      "de": "Du isst zu wenig Gemüse. Er vergisst nie!",
+      "fr": "Tu manges trop peu de légumes. Il n’oublie jamais !",
+      "en": "You eat too little vegetables. He never forgets!"
+    }
+  ]
+}

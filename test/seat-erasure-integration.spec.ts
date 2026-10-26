@@ -1,6 +1,7 @@
 /**
- * D39 on real Postgres: a reset hides what the student did on the seat — and
- * only that — then erases it after 7 days, and support can restore it before.
+ * Reset on real Postgres: seat learning data is deleted immediately.
+ * Work from before the school stays. Support cannot restore a manager reset
+ * (erased_at is set at once).
  *
  * Runs against the disposable branch in `.env.test`, over the direct endpoint.
  */
@@ -11,7 +12,10 @@ import { CodeRedemptionService } from '../src/modules/centers/code-redemption.se
 import { CenterActivationCodesService } from '../src/modules/centers/center-activation-codes.service';
 import { generateActivationCode } from '../src/modules/centers/activation-code-format';
 import { ProgressService } from '../src/modules/progress/progress.service';
-import { SeatErasureService } from '../src/modules/student-activity/seat-erasure';
+import {
+  hideSeatData,
+  SeatErasureService,
+} from '../src/modules/student-activity/seat-erasure';
 import { recordActivity } from '../src/modules/student-activity/student-activity.writer';
 
 const DAY_MS = 86_400_000;
@@ -19,9 +23,13 @@ const daysFromNow = (days: number) => new Date(Date.now() + days * DAY_MS);
 const MODELLTEST = '00000000-0000-4000-8000-000000000033';
 
 const prisma = new PrismaService();
+const emailStub = {
+  sendCodeActivatedToCenter: () => Promise.resolve(),
+};
 const redemption = new CodeRedemptionService(
   prisma,
   new SubscriptionPolicyService(),
+  emailStub as never,
 );
 const codes = new CenterActivationCodesService(prisma);
 const progress = new ProgressService(prisma);
@@ -86,7 +94,6 @@ async function studentOnSeat() {
     data: {
       center_id: center.id,
       code: generateActivationCode(),
-      tier: 'START',
       expires_at: daysFromNow(13),
     },
   });
@@ -99,7 +106,10 @@ async function studentOnSeat() {
   const onSeat = [await lesen(student.id, new Date())];
   onSeat.push(await lesen(student.id, new Date()));
 
-  const manager = { centerId: center.id, centerUserId: 'owner-1' } as never;
+  const manager = {
+    centerId: center.id,
+    centerUserId: 'owner-1',
+  };
   return { student, code, manager, before, onSeat };
 }
 
@@ -116,53 +126,46 @@ describe('seat data erasure against real Postgres', () => {
     await prisma.onModuleDestroy();
   });
 
-  it('hides the seat work at the reset, and keeps what came before', async () => {
+  it('deletes the seat work at the reset, and keeps what came before', async () => {
     const { student, code, manager, before, onSeat } = await studentOnSeat();
     expect((await progress.forStudent(student.id)).attempts).toBe(3);
 
-    await codes.reset(manager, code.id);
+    await codes.reset(manager as never, code.id);
 
-    // Only the work from before the school is left in every read.
+    // Only the work from before the school remains.
     expect((await progress.forStudent(student.id)).attempts).toBe(1);
     expect(await visible(student.id)).toBe(1);
     const shown = await prisma.lesenAttempt.findMany({
-      where: { student_id: student.id, erasure_id: null },
+      where: { student_id: student.id },
       select: { attempt_id: true },
     });
     expect(shown.map((r) => r.attempt_id)).toEqual([before]);
 
-    // Hidden, not gone: the erasure waits 7 days.
+    // Gone, not merely hidden: the seat attempts no longer exist.
+    expect(
+      await prisma.lesenAttempt.count({
+        where: { attempt_id: { in: onSeat } },
+      }),
+    ).toBe(0);
+
     const record = await prisma.dataErasure.findFirstOrThrow({
       where: { student_id: student.id },
     });
     expect(record.code_id).toBe(code.id);
-    expect(
-      await prisma.lesenAttempt.count({
-        where: { attempt_id: { in: onSeat }, erasure_id: record.id },
-      }),
-    ).toBe(2);
+    expect(record.erased_at).not.toBeNull();
   });
 
-  it('erases the hidden work only after 7 days, and nothing else', async () => {
+  it('does not leave seat work for a later purge after a manager reset', async () => {
     const { student, code, manager, before } = await studentOnSeat();
-    await codes.reset(manager, code.id);
-    // Judged on this student's erasure: other suites' resets share the
-    // database, so the number purged overall says nothing here.
-    const erasedAt = async () =>
-      (
-        await prisma.dataErasure.findFirstOrThrow({
-          where: { student_id: student.id },
-        })
-      ).erased_at;
+    await codes.reset(manager as never, code.id);
 
-    await erasure.purgeDue(daysFromNow(6));
-    expect(await erasedAt()).toBeNull();
-    expect(
-      await prisma.studentActivity.count({ where: { student_id: student.id } }),
-    ).toBe(3);
+    const record = await prisma.dataErasure.findFirstOrThrow({
+      where: { student_id: student.id },
+    });
+    expect(record.erased_at).not.toBeNull();
 
+    // Already wiped: purge finds nothing left to delete for this student.
     await erasure.purgeDue(daysFromNow(8));
-    expect(await erasedAt()).not.toBeNull();
     const left = await prisma.lesenAttempt.findMany({
       where: { student_id: student.id },
       select: { attempt_id: true },
@@ -171,60 +174,78 @@ describe('seat data erasure against real Postgres', () => {
     expect(
       await prisma.studentActivity.count({ where: { student_id: student.id } }),
     ).toBe(1);
-    // The account stays.
     expect(await prisma.student.count({ where: { id: student.id } })).toBe(1);
-
-    // Running again changes nothing.
-    await erasure.purgeDue(daysFromNow(9));
-    expect(
-      await prisma.studentActivity.count({ where: { student_id: student.id } }),
-    ).toBe(1);
   });
 
-  it('lets support restore a mistaken reset before the erasure, not after', async () => {
+  it('refuses support restore after a manager reset (already erased)', async () => {
     const { student, code, manager } = await studentOnSeat();
-    await codes.reset(manager, code.id);
+    await codes.reset(manager as never, code.id);
     const record = await prisma.dataErasure.findFirstOrThrow({
       where: { student_id: student.id },
     });
 
-    await erasure.restore(record.id);
-
-    expect(await visible(student.id)).toBe(3);
-    // A restored erasure is never purged.
-    await erasure.purgeDue(daysFromNow(8));
-    expect(await visible(student.id)).toBe(3);
-
-    // And one already erased cannot be restored.
-    const other = await studentOnSeat();
-    await codes.reset(other.manager, other.code.id);
-    await erasure.purgeDue(daysFromNow(8));
-    const erased = await prisma.dataErasure.findFirstOrThrow({
-      where: { student_id: other.student.id },
-    });
-    await expect(erasure.restore(erased.id)).rejects.toThrow('ALREADY_ERASED');
+    await expect(erasure.restore(record.id)).rejects.toThrow('ALREADY_ERASED');
+    expect(await visible(student.id)).toBe(1);
   });
 
-  it('hides seat work stamped after the app clock, as when the database runs ahead', async () => {
+  it('still lets support restore a legacy hide before purge', async () => {
+    // Legacy path: hideSeatData (7-day window) is still used by nothing in
+    // manager reset, but support restore must keep working for old rows.
+    const { student, code, manager, onSeat } = await studentOnSeat();
+    const connected = await prisma.activationCode.findUniqueOrThrow({
+      where: { id: code.id },
+    });
+
+    await prisma.$transaction(async (tx) => {
+      await hideSeatData(
+        tx,
+        {
+          studentId: student.id,
+          centerId: manager.centerId,
+          codeId: code.id,
+          centerUserId: manager.centerUserId,
+          since: connected.connected_at!,
+          until: null,
+        },
+        new Date(),
+      );
+    });
+
+    const record = await prisma.dataErasure.findFirstOrThrow({
+      where: { student_id: student.id, erased_at: null },
+    });
+    expect(
+      await prisma.lesenAttempt.count({
+        where: { attempt_id: { in: onSeat }, erasure_id: record.id },
+      }),
+    ).toBe(2);
+
+    await erasure.restore(record.id);
+    expect(await visible(student.id)).toBe(3);
+
+    await erasure.purgeDue(daysFromNow(8));
+    expect(await visible(student.id)).toBe(3);
+  });
+
+  it('deletes seat work stamped after the app clock, as when the database runs ahead', async () => {
     const { student, code, manager } = await studentOnSeat();
     const ahead = await lesen(student.id, new Date(Date.now() + 5000));
 
-    await codes.reset(manager, code.id);
+    await codes.reset(manager as never, code.id);
 
-    const row = await prisma.lesenAttempt.findUniqueOrThrow({
-      where: { attempt_id: ahead },
-    });
-    expect(row.erasure_id).not.toBeNull();
+    expect(
+      await prisma.lesenAttempt.count({ where: { attempt_id: ahead } }),
+    ).toBe(0);
     expect(await visible(student.id)).toBe(1);
   });
 
   it('erases nothing when a seat nobody used is reset', async () => {
     const { code, manager } = await studentOnSeat();
     // First reset takes the seat from the student; the second finds it empty.
-    await codes.reset(manager, code.id);
+    await codes.reset(manager as never, code.id);
     const count = await prisma.dataErasure.count();
 
-    await codes.reset(manager, code.id);
+    await codes.reset(manager as never, code.id);
 
     expect(await prisma.dataErasure.count()).toBe(count);
   });

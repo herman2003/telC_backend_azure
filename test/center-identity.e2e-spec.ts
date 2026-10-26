@@ -151,10 +151,21 @@ function buildPrisma(db: FakeDb) {
       },
       findMany: ({ where }: any) =>
         Promise.resolve(db.seatsList().filter((x) => matches(x, where))),
+      findUnique: ({ where }: any) =>
+        Promise.resolve(db.seatsList().find((x) => matches(x, where)) ?? null),
     },
     centerDeviceSession: {
       create: ({ data }: any) => {
-        const row = { revoked_at: null, device_name: null, ...data };
+        // Mirror Prisma @default(now()) for created_at / last_used_at — the
+        // guard's idle/absolute clocks call .getTime() on both.
+        const now = new Date();
+        const row = {
+          revoked_at: null,
+          device_name: null,
+          created_at: now,
+          last_used_at: now,
+          ...data,
+        };
         db.sessions.set(row.id, row);
         return Promise.resolve(row);
       },
@@ -296,14 +307,10 @@ describe('center identity end to end', () => {
     // only authority, and the trial seat row is asserted next.
 
     // And the trial seat itself, granted in the same transaction. A trial is
-    // an ordinary Start seat priced at zero rather than a flag on the
-    // subscription, so nothing downstream needs a trial branch.
+    // an ordinary seat priced at zero rather than a flag on the subscription,
+    // so nothing downstream needs a trial branch.
     expect(db.seatsList()).toEqual([
-      expect.objectContaining({
-        tier: 'START',
-        quantity: 1,
-        unit_price_xaf: 0,
-      }),
+      expect.objectContaining({ quantity: 1, unit_price_xaf: 0 }),
     ]);
 
     // 2. Login is refused until the address is verified.

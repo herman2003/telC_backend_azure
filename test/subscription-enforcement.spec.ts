@@ -7,8 +7,7 @@ import { readdirSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
-import { StudentTierGuard } from '../src/shared/guards/student-tier.guard';
-import { REQUIRES_TIER } from '../src/shared/decorators/requires-tier.decorator';
+import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 
 /**
  * Controllers that authenticate a student but must NOT require a live
@@ -31,13 +30,51 @@ const EXEMPT: Record<string, string> = {
   // Reading one's own past results (D38). Nothing is practised or spent, and
   // a student whose center lapsed should still see what they achieved.
   ProgressController: 'a student reads their own history, even while blocked',
+  // The Elena demo has no login: the Flutter app mints a guest JWT on first
+  // load, so a subscription check here would refuse every real caller. Spend
+  // is bounded by LiveSessionLimitService, which caps guests by IP because a
+  // guest studentId can be re-rolled at will.
+  LiveTokenController: 'the live demo is deliberately open to guests',
+  // An exam is paid for per candidate, in advance, when the center publishes
+  // the sitting. Refusing a candidate because their school's monthly plan
+  // lapsed between the purchase and the exam would take the fee and grant
+  // nothing. The access rule here is the participant row: no subscription
+  // opens a sitting, and no lapsed one closes a sitting already bought.
+  ExamSittingController: 'an exam seat is bought per candidate, not monthly',
+  // Being told something is not learning. A student whose center lapsed
+  // should still be told their exam result is ready — especially then, since
+  // the exam was paid for per candidate and separately from the monthly plan.
+  NotificationsController: 'a notification is not a lesson',
+  // Same reason as NotificationsController: registering a device and quiet
+  // hours is how the inbox can still reach someone whose monthly plan lapsed.
+  // Blocking here would silence exam-result push while the inbox itself stays
+  // open.
+  PushController:
+    'push delivery is not a lesson; a blocked student still needs a device',
+  // The screen that explains why nothing else works. A student whose center
+  // has lapsed must be able to read what is waiting for them — the response
+  // carries `frozen: true` and the real balances, so the app can say "your
+  // credits are held" rather than showing zeroes or an error. Refusing here
+  // would leave it with nothing to show at the one moment it matters.
+  MyEntitlementsController:
+    'reading what is frozen is how a student learns it is frozen',
 };
 
-/** The seven the plan inventoried. Named so the scan cannot pass vacuously. */
-const EXPECTED_LEARNING_CONTROLLERS = [
+/** Prep Pass training library — Start seat + active Prep Pass. */
+const PREP_PASS_LIBRARY_CONTROLLERS = [
   'LesenController',
   'ListeningController',
   'ModelltestsController',
+  'SprachbausteineController',
+];
+
+/** Learning surfaces the sweep must keep seeing (Start and/or Prep Pass). */
+const EXPECTED_LEARNING_CONTROLLERS = [
+  'LesenController',
+  'ListeningController',
+  'ModelltestOfTheWeekController',
+  'ModelltestsController',
+  'PrepTipsController',
   'SpeakingController',
   'SpeakingCatalogController',
   'SprachbausteineController',
@@ -166,6 +203,31 @@ describe('subscription enforcement across learning controllers', () => {
       );
     },
   );
+
+  it.each(PREP_PASS_LIBRARY_CONTROLLERS)(
+    '%s requires an active Prep Pass after Start',
+    (name) => {
+      const { guards } = controllers.find((c) => c.name === name)!;
+
+      expect(guards).toContain(PrepPassGuard);
+      expect(guards.indexOf(StudentSubscriptionGuard)).toBeLessThan(
+        guards.indexOf(PrepPassGuard),
+      );
+    },
+  );
+
+  it('does not put Prep Pass on Start AI surfaces', () => {
+    for (const name of [
+      'WritingController',
+      'SpeakingController',
+      'SpeakingCatalogController',
+      // Current 7-day MT for Start Sprechen themes — not the Prep Pass catalogue.
+      'ModelltestOfTheWeekController',
+    ]) {
+      const { guards } = controllers.find((c) => c.name === name)!;
+      expect(guards).not.toContain(PrepPassGuard);
+    }
+  });
 
   /**
    * The point of the whole file. A learning controller added next month with
@@ -297,72 +359,40 @@ describe('subscription enforcement across learning controllers', () => {
   });
 });
 /**
- * Which learning controllers gate on tier, and — the half that quietly rots —
- * which must not.
- *
- * The exam module is the line between Start and Pro. Per-skill practice is
- * what makes Start a usable product rather than a stub, so a tier requirement
- * spreading to any of it would be sold as a hardening and land as a refund
- * request.
+ * Training library (catalogue + Hören / Lesen / Sprachbausteine) still mounts
+ * PrepPassGuard after Start. The guard itself allows the weekly MT for Start
+ * and the full pool only with Prep Pass — identity → Start → training gate.
  */
-describe('tier enforcement is exactly where it was decided', () => {
+describe('the training library mounts PrepPassGuard after Start', () => {
   const controllers = discoverControllers();
-  const tierOn = (target: object): unknown =>
-    Reflect.getMetadata(REQUIRES_TIER, target);
 
-  /** Only the full exam simulation. Every other learning route is open to Start. */
-  const TIER_GATED = ['ModelltestsController'];
-
-  const OPEN_TO_START = EXPECTED_LEARNING_CONTROLLERS.filter(
-    (name) => !TIER_GATED.includes(name),
-  );
-
-  it.each(TIER_GATED)('%s requires Pro or better', (name) => {
-    const controller = controllers.find((c) => c.name === name);
+  it('guards ModelltestsController with identity, Start, then PrepPassGuard', () => {
+    const controller = controllers.find(
+      (c) => c.name === 'ModelltestsController',
+    );
 
     expect(controller).toBeDefined();
-    // Both halves matter: the guard is what refuses, and the decorator is what
-    // tells it to. Either one missing is an open route, and the guard without
-    // a decorator is the quieter of the two failures.
-    expect(controller!.guards).toContain(StudentTierGuard);
-    expect(tierOn(controller!.target)).toBe('PRO');
+    expect(controller!.guards).toEqual([
+      JwtAuthGuard,
+      StudentSubscriptionGuard,
+      PrepPassGuard,
+    ]);
   });
 
-  it.each(TIER_GATED)('%s checks entitlement before tier', (name) => {
-    const { guards } = controllers.find((c) => c.name === name)!;
+  it('leaves Start AI surfaces without PrepPassGuard', () => {
+    for (const name of [
+      'WritingController',
+      'SpeakingController',
+      'SpeakingCatalogController',
+      'ModelltestOfTheWeekController',
+    ]) {
+      const controller = controllers.find((c) => c.name === name)!;
+      const perRoute = [...controller.routeGuards.values()].flat();
 
-    // The tier guard reuses the entitlement the subscription guard leaves on
-    // the request. It fetches its own if there is none, so the order is not
-    // load-bearing for correctness — but a blocked center should hear
-    // SUBSCRIPTION_INACTIVE rather than TIER_TOO_LOW, because only one of
-    // those is the thing they need to fix.
-    expect(guards.indexOf(StudentSubscriptionGuard)).toBeLessThan(
-      guards.indexOf(StudentTierGuard),
-    );
-  });
-
-  it.each(OPEN_TO_START)('%s stays open to a Start student', (name) => {
-    const controller = controllers.find((c) => c.name === name);
-
-    expect(controller).toBeDefined();
-    expect(controller!.guards).not.toContain(StudentTierGuard);
-    // Per-route as well as per-class: a gate added to one handler is exactly
-    // how this would spread without anyone noticing.
-    expect([...controller!.routeGuards.values()].flat()).not.toContain(
-      StudentTierGuard,
-    );
-    expect(tierOn(controller!.target)).toBeUndefined();
-  });
-
-  it('gates the exam module and nothing else', () => {
-    // A guard can only refuse where it is mounted, so counting the mounts is
-    // what stops this spreading one controller at a time.
-    const gated = controllers.filter(
-      (c) =>
-        c.guards.includes(StudentTierGuard) ||
-        [...c.routeGuards.values()].flat().includes(StudentTierGuard),
-    );
-
-    expect(gated.map((c) => c.name).sort()).toEqual(TIER_GATED);
+      expect([...controller.guards, ...perRoute]).toEqual(
+        expect.arrayContaining([JwtAuthGuard, StudentSubscriptionGuard]),
+      );
+      expect([...controller.guards, ...perRoute]).not.toContain(PrepPassGuard);
+    }
   });
 });

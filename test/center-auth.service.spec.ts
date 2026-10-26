@@ -112,6 +112,7 @@ describe('CenterAuthService', () => {
     };
     emailService = {
       sendCenterPasswordResetEmail: jest.fn().mockResolvedValue(undefined),
+      sendCenterPasswordChangedEmail: jest.fn().mockResolvedValue(undefined),
     };
     valkeyService = {
       revokeSession: jest.fn().mockResolvedValue(true),
@@ -694,6 +695,8 @@ describe('CenterAuthService', () => {
       device_id: 'browser-1',
       refresh_token_hash: 'hmac:center-refresh-token',
       revoked_at: null,
+      created_at: new Date(),
+      last_used_at: new Date(),
     };
 
     beforeEach(() => {
@@ -741,6 +744,27 @@ describe('CenterAuthService', () => {
         accessToken: 'rotated-access-token',
         refreshToken: 'rotated-refresh-token',
       });
+    });
+
+    it('rejects and revokes when the idle TTL has elapsed', async () => {
+      prisma.centerDeviceSession.findFirst.mockResolvedValue({
+        ...activeSession,
+        created_at: new Date(Date.now() - 2 * 60 * 60_000),
+        last_used_at: new Date(Date.now() - 45 * 60_000),
+      });
+
+      await expect(
+        service.refresh({ refreshToken: 'center-refresh-token' }),
+      ).rejects.toThrow('CENTER_SESSION_EXPIRED');
+      expect(prisma.centerDeviceSession.updateMany).toHaveBeenCalledWith({
+        where: {
+          id: 'center-session-1',
+          center_user_id: 'owner-1',
+          revoked_at: null,
+        },
+        data: { revoked_at: expect.any(Date) },
+      });
+      expect(tokenService.generateCenterTokenPair).not.toHaveBeenCalled();
     });
 
     it('rejects a token that is not a valid center refresh token', async () => {

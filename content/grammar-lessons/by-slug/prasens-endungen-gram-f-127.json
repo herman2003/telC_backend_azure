@@ -1,0 +1,39 @@
+{
+  "slug": "prasens-endungen-gram-f-127",
+  "titleFr": "Le présent — terminaisons",
+  "titleEn": "Present tense — endings",
+  "titleDe": "Präsens — Endungen",
+  "ruleFr": "## Terminaisons du présent (verbes réguliers)\n\n| Pronom | Terminaison | Ex. *machen* |\n|---|---|---|\n| ich | **-e** | mache |\n| du | **-st** | machst |\n| er/sie/es | **-t** | macht |\n| wir | **-en** | machen |\n| ihr | **-t** | macht |\n| sie/Sie | **-en** | machen |\n\n### À retenir\nCes terminaisons valent pour **tous les verbes réguliers** au présent.\n\n### Mini-entraînement\nAppliquez le tableau à *fragen* et *hören*.",
+  "ruleEn": "## Present-tense endings (regular verbs)\n\n| Pronoun | Ending | *machen* |\n|---|---|---|\n| ich | **-e** | mache |\n| du | **-st** | machst |\n| er/sie/es | **-t** | macht |\n| wir | **-en** | machen |\n| ihr | **-t** | macht |\n| sie/Sie | **-en** | machen |\n\n### Mini practice\nApply the table to *fragen* and *hören*.",
+  "ruleDe": "## Präsens-Endungen (regelmäßige Verben)\n\nich -e, du -st, er/sie/es -t, wir -en, ihr -t, sie/Sie -en\n\n### Mini-Übung\nAuf *fragen* und *hören* anwenden.",
+  "notesFr": "Ces terminaisons valent pour tous les verbes réguliers !",
+  "notesEn": "These endings apply to all regular verbs!",
+  "notesDe": "Diese Endungen gelten für alle regelmäßigen Verben!",
+  "examples": [
+    {
+      "de": "Ich mache meine Hausaufgaben.",
+      "fr": "Je fais mes devoirs. (-e)",
+      "en": "I do my homework. (-e)"
+    },
+    {
+      "de": "Du machst einen Fehler.",
+      "fr": "Tu fais une erreur. (-st)",
+      "en": "You are making a mistake. (-st)"
+    },
+    {
+      "de": "Er macht Sport.",
+      "fr": "Il fait du sport. (-t)",
+      "en": "He does sport. (-t)"
+    },
+    {
+      "de": "Wir machen eine Pause.",
+      "fr": "Nous faisons une pause. (-en)",
+      "en": "We take a break. (-en)"
+    },
+    {
+      "de": "Ihr macht das gut!",
+      "fr": "Vous faites ça bien ! (-t)",
+      "en": "You’re doing that well! (-t)"
+    }
+  ]
+}

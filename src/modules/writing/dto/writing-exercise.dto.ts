@@ -40,7 +40,9 @@ export class WritingExerciseDto {
   id: string;
 
   @ApiProperty({
-    description: 'Always 1 for TELC B1+ Beruf (one writing task)',
+    description:
+      'Which Schreiben task of the Modelltest this is. B1 has one, so it is ' +
+      '1 there. B2 offers two and the candidate answers exactly one.',
     example: 1,
   })
   part: number;
@@ -82,4 +84,51 @@ export class WritingExerciseDto {
     example: 'Vergessen Sie nicht Datum und Anrede.',
   })
   closingReminder?: string;
+
+  @ApiProperty({
+    description:
+      'Suggested Vorbereitung (prep) duration before the editor unlocks',
+    example: 120,
+  })
+  prepDurationSeconds: number;
+
+  @ApiProperty({
+    description: 'Suggested writing timer after Vorbereitung (telc ~30 min)',
+    example: 30,
+  })
+  writingDurationMinutes: number;
+
+  @ApiProperty({
+    description:
+      'Register checklist for Vorbereitung (soft — does not block Weiter)',
+    type: [String],
+    example: ['Betreff', 'Anrede', 'Einleitung', 'Schluss'],
+  })
+  registerChecklist: string[];
+
+  @ApiPropertyOptional({
+    description:
+      'Shared by every task of a one-of-N choice; absent when there is no ' +
+      'choice to make.',
+    example: 'b2-modelltest-1-schreiben',
+  })
+  choiceGroupId?: string;
+
+  /**
+   * Every task the candidate may choose between, this one included.
+   *
+   * Absent unless there is a choice, so a client that knows nothing about one
+   * keeps rendering the response itself as the task — which is what B1 has
+   * always been. The answer is submitted with the chosen task's own `id`.
+   *
+   * Entries never nest: a task inside a choice carries no `choices` of its
+   * own.
+   */
+  @ApiPropertyOptional({
+    type: () => [WritingExerciseDto],
+    description:
+      'All tasks of the choice, including this one. Absent when there is no ' +
+      'choice. Submit with the chosen task id.',
+  })
+  choices?: WritingExerciseDto[];
 }

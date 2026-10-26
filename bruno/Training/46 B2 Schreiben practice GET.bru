@@ -1,0 +1,33 @@
+meta {
+  name: 46 B2 Schreiben practice GET
+  type: http
+  seq: 46
+}
+
+get {
+  url: {{baseUrl}}/api/writing/exercise?modelltest=7
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  // B2 offers a choice of two Aufgaben — same contract as B2 Level / 07.
+  if (!Array.isArray(res.body.choices) || res.body.choices.length !== 2) {
+    throw new Error("B2 Schreiben practice expects two choices, got " +
+      JSON.stringify(res.body.choices));
+  }
+  if (!res.body.choiceGroupId) {
+    throw new Error("B2 Schreiben must carry choiceGroupId");
+  }
+}

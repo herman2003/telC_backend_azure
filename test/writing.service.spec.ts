@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import {
   ConflictException,
@@ -5,7 +6,14 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { WritingService } from '../src/modules/writing/writing.service';
+import { WritingDailyQuotaService } from '../src/modules/writing/writing-daily-quota.service';
 import { PrismaService } from '../src/shared/services/prisma.service';
+import { GenericExamContentService } from '../src/shared/services/generic-exam-content.service';
+import type {
+  WritingExerciseDto,
+  WritingExerciseResponseDto,
+  WritingExerciseStimulus,
+} from '../src/modules/writing/dto';
 
 const FAKE_EXERCISE = {
   id: 'uuid-exercise-1',
@@ -53,9 +61,18 @@ const FAKE_EXERCISE = {
 describe('WritingService', () => {
   let service: WritingService;
 
+  const mockGenericContent = {
+    sectionsFor: jest.fn(),
+    sectionFor: jest.fn(),
+  };
+
   const mockPrismaService = {
+    modelltest: {
+      findUnique: jest.fn(),
+    },
     writingExercise: {
       findUnique: jest.fn(),
+      findMany: jest.fn(),
     },
     writingAttempt: {
       findMany: jest.fn(),
@@ -68,11 +85,20 @@ describe('WritingService', () => {
     add: jest.fn().mockResolvedValue(undefined),
   };
 
+  const mockDailyQuota = {
+    assertMaySubmit: jest.fn().mockResolvedValue(undefined),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WritingService,
         { provide: PrismaService, useValue: mockPrismaService },
+        {
+          provide: GenericExamContentService,
+          useValue: mockGenericContent,
+        },
+        { provide: WritingDailyQuotaService, useValue: mockDailyQuota },
         { provide: 'WRITING_CORRECTION_QUEUE', useValue: mockQueue },
       ],
     }).compile();
@@ -82,6 +108,186 @@ describe('WritingService', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  describe('getExerciseByModelltest', () => {
+    beforeEach(() => {
+      mockPrismaService.modelltest.findUnique.mockResolvedValue({
+        id: 'uuid-modelltest-1',
+        level: 'B1',
+      });
+    });
+
+    it('returns generic SCHREIBEN sections for A1 and omits B1 letter fields', async () => {
+      mockPrismaService.modelltest.findUnique.mockResolvedValue({
+        id: 'a1-mt',
+        level: 'A1',
+      });
+      const genericSections = [
+        {
+          id: 'schreiben-1',
+          sectionId: 'SCHREIBEN_1',
+          aufgabentyp: 'FORMULAR',
+          teil: 1,
+          label: 'Schreiben 1',
+          instruction: 'Füllen Sie das Formular aus.',
+          maxPoints: 15,
+          scoringMode: 'MANUAL',
+          contentRevision: 'a1-schreiben-1-v1',
+          material: { formImage: '/forms/a1-1.png' },
+          items: [
+            {
+              itemNumber: 1,
+              prompt: 'Name',
+              solution: { text: 'Müller' },
+              options: [],
+            },
+          ],
+        },
+        {
+          id: 'schreiben-2',
+          sectionId: 'SCHREIBEN_2',
+          aufgabentyp: 'KURZNACHRICHT',
+          teil: 2,
+          label: 'Schreiben 2',
+          instruction: 'Schreiben Sie eine kurze Nachricht.',
+          maxPoints: 15,
+          scoringMode: 'MANUAL',
+          contentRevision: 'a1-schreiben-2-v1',
+          material: {},
+          items: [],
+        },
+      ];
+      mockGenericContent.sectionsFor.mockResolvedValue({
+        LESEN: [],
+        HOEREN: [],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: genericSections,
+        SPRECHEN: [],
+      });
+
+      const result = (await service.getExerciseByModelltest(
+        9,
+      )) as WritingExerciseResponseDto;
+
+      expect(result.contentRevision).toBe('a1-schreiben-1-v1');
+      expect(result.issuedAt).toEqual(expect.any(String));
+      expect(result.sections).toHaveLength(2);
+      expect(result.sections?.[0].sectionId).toBe('SCHREIBEN_1');
+      expect(result.sections?.[0].material).toEqual({
+        formImage: '/forms/a1-1.png',
+      });
+      expect(result).not.toHaveProperty('title');
+      expect(result).not.toHaveProperty('part');
+      expect(mockPrismaService.writingExercise.findMany).not.toHaveBeenCalled();
+    });
+
+    /**
+     * B1 asks for one letter. B2 offers two tasks and the candidate answers
+     * exactly one, both carrying the same choiceGroupId.
+     *
+     * The response keeps its existing shape so a client that knows nothing of
+     * a choice still renders the first task: `choices` is an addition, present
+     * only when there is in fact a choice to make. The answer is submitted
+     * with the chosen task's own id, which the submit path already resolves.
+     */
+    it('returns one task and no choice for B1', async () => {
+      mockPrismaService.writingExercise.findMany.mockResolvedValue([
+        { ...FAKE_EXERCISE, part: 1, choice_group_id: null },
+      ]);
+
+      const result = (await service.getExerciseByModelltest(
+        1,
+      )) as WritingExerciseDto;
+
+      expect(result.part).toBe(1);
+      expect(result.title).toBe('E-Mail / Brief');
+      expect(result.choices).toBeUndefined();
+      expect(result.choiceGroupId).toBeUndefined();
+    });
+
+    it('offers both tasks of a B2 choice, first one at the top level', async () => {
+      mockPrismaService.writingExercise.findMany.mockResolvedValue([
+        {
+          ...FAKE_EXERCISE,
+          id: 'uuid-b2-a',
+          part: 1,
+          title: 'Bitte um Informationen',
+          choice_group_id: 'b2-modelltest-1-schreiben',
+        },
+        {
+          ...FAKE_EXERCISE,
+          id: 'uuid-b2-b',
+          part: 2,
+          title: 'Beschwerde',
+          choice_group_id: 'b2-modelltest-1-schreiben',
+        },
+      ]);
+
+      const result = (await service.getExerciseByModelltest(
+        7,
+      )) as WritingExerciseDto;
+
+      // Unchanged shape: the first task is still the response itself.
+      expect(result.id).toBe('uuid-b2-a');
+      expect(result.part).toBe(1);
+      expect(result.choiceGroupId).toBe('b2-modelltest-1-schreiben');
+
+      // And both are offered, each addressable by its own id.
+      expect(result.choices).toHaveLength(2);
+      expect(result.choices?.map((task) => task.id)).toEqual([
+        'uuid-b2-a',
+        'uuid-b2-b',
+      ]);
+      expect(result.choices?.map((task) => task.part)).toEqual([1, 2]);
+      expect(result.choices?.map((task) => task.title)).toEqual([
+        'Bitte um Informationen',
+        'Beschwerde',
+      ]);
+      // No recursion: a task inside the choice carries no choice of its own.
+      expect(result.choices?.every((task) => task.choices === undefined)).toBe(
+        true,
+      );
+    });
+
+    it('reports the real part rather than always 1', async () => {
+      mockPrismaService.writingExercise.findMany.mockResolvedValue([
+        { ...FAKE_EXERCISE, part: 2, choice_group_id: null },
+      ]);
+
+      const result = (await service.getExerciseByModelltest(
+        7,
+      )) as WritingExerciseDto;
+
+      expect(result.part).toBe(2);
+    });
+
+    it('404s when the Modelltest has no Schreiben task', async () => {
+      mockPrismaService.writingExercise.findMany.mockResolvedValue([]);
+
+      await expect(service.getExerciseByModelltest(99)).rejects.toThrow(
+        NotFoundException,
+      );
+    });
+
+    it('404s when A1 has no generic SCHREIBEN sections', async () => {
+      mockPrismaService.modelltest.findUnique.mockResolvedValue({
+        id: 'a1-mt',
+        level: 'A1',
+      });
+      mockGenericContent.sectionsFor.mockResolvedValue({
+        LESEN: [],
+        HOEREN: [],
+        SPRACHBAUSTEINE: [],
+        SCHREIBEN: [],
+        SPRECHEN: [],
+      });
+
+      await expect(service.getExerciseByModelltest(9)).rejects.toMatchObject({
+        response: { messageKey: 'writingExerciseNotFound' },
+      });
+      expect(mockPrismaService.writingExercise.findMany).not.toHaveBeenCalled();
+    });
   });
 
   describe('getExercise', () => {
@@ -98,7 +304,17 @@ describe('WritingService', () => {
       expect(result.title).toBe('E-Mail / Brief');
       expect(result.bulletPoints).toHaveLength(5);
       expect(result.stimulus).toBeDefined();
-      expect((result.stimulus as any).heading).toContain('Büroräume');
+      expect((result.stimulus as WritingExerciseStimulus).heading).toContain(
+        'Büroräume',
+      );
+      expect(result.prepDurationSeconds).toBe(120);
+      expect(result.writingDurationMinutes).toBe(30);
+      expect(result.registerChecklist).toEqual([
+        'Betreff',
+        'Anrede',
+        'Einleitung',
+        'Schluss',
+      ]);
     });
 
     it('throws NotFoundException when exercise not in DB', async () => {
@@ -157,8 +373,10 @@ describe('WritingService', () => {
 
       expect(mockPrismaService.writingAttempt.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: expect.objectContaining({ exercise_id: 'uuid-exercise-1' }),
-        }),
+          where: expect.objectContaining({
+            exercise_id: 'uuid-exercise-1',
+          }) as Record<string, unknown>,
+        }) as Record<string, unknown>,
       );
     });
 
@@ -188,6 +406,7 @@ describe('WritingService', () => {
 
       expect(result.attemptId).toBeDefined();
       expect(result.status).toBe('pending');
+      expect(mockDailyQuota.assertMaySubmit).toHaveBeenCalledWith('student-1');
       expect(mockPrismaService.writingAttempt.create).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
@@ -204,6 +423,25 @@ describe('WritingService', () => {
           exerciseId: 'uuid-exercise-1',
         }),
       );
+    });
+
+    it('skips the Start daily quota for guests (IP rate-limit only)', async () => {
+      mockPrismaService.writingExercise.findUnique.mockResolvedValue({
+        id: 'uuid-exercise-1',
+        modelltest_id: 'uuid-modelltest-1',
+      });
+      mockPrismaService.writingAttempt.create.mockResolvedValue({});
+
+      await service.submit(
+        'guest-1',
+        {
+          exerciseId: 'uuid-exercise-1',
+          content: 'Hallo, dies ist ein Gastversuch.',
+        },
+        { isGuest: true },
+      );
+
+      expect(mockDailyQuota.assertMaySubmit).not.toHaveBeenCalled();
     });
 
     it('throws NotFoundException when exerciseId not in DB', async () => {
@@ -229,6 +467,56 @@ describe('WritingService', () => {
           content: '',
         }),
       ).rejects.toThrow(UnprocessableEntityException);
+    });
+
+    it('scores A1/A2 FORMULAR via generic section (no AI queue)', async () => {
+      mockPrismaService.modelltest.findUnique.mockResolvedValue({
+        id: 'a1-mt',
+        level: 'A1',
+      });
+      mockGenericContent.sectionFor.mockResolvedValue({
+        id: 'schreiben-1',
+        sectionId: 'SCHREIBEN_1',
+        aufgabentyp: 'FORMULAR_AUSFUELLEN',
+        teil: 1,
+        items: [
+          {
+            itemNumber: 1,
+            prompt: 'Name',
+            solution: {
+              acceptedAnswers: ['Müller'],
+              normalization: {
+                trim: true,
+                ignoreCase: true,
+                unicodeNormalization: 'NFC',
+              },
+            },
+            options: [],
+          },
+        ],
+      });
+      mockPrismaService.writingAttempt.findUnique.mockResolvedValue(null);
+      mockPrismaService.$transaction = jest.fn(async (fn) =>
+        fn({
+          writingAttempt: { create: jest.fn().mockResolvedValue({}) },
+          student: {
+            findUnique: jest.fn().mockResolvedValue({ id: 'student-1' }),
+          },
+          studentActivity: { create: jest.fn().mockResolvedValue({}) },
+        }),
+      );
+
+      const result = await service.submit('student-1', {
+        exerciseId: 'schreiben-1',
+        teil_id: '1',
+        modelltestNumber: 9,
+        answers: { '1': 'Müller' },
+      });
+
+      expect(result.status).toBe('completed');
+      expect(result.score).toBe(100);
+      expect(mockQueue.add).not.toHaveBeenCalled();
+      expect(mockDailyQuota.assertMaySubmit).not.toHaveBeenCalled();
     });
 
     it('does not call queue when DB insert fails', async () => {

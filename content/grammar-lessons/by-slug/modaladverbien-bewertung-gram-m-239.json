@@ -1,0 +1,39 @@
+{
+  "slug": "modaladverbien-bewertung-gram-m-239",
+  "titleFr": "Adverbes de modalité — évaluation",
+  "titleEn": "Modal adverbs — evaluation",
+  "titleDe": "Modaladverbien — Bewertung",
+  "ruleFr": "## Adverbes de modalité — évaluation / attitude\n\nIls expriment l’**attitude** du locuteur (plaisir, regret, espoir…).\n\n### Liste utile\n| Allemand | Sens |\n|---|---|\n| gern / gerne | volontiers, aimer faire |\n| leider | malheureusement |\n| glücklicherweise / zum Glück | heureusement |\n| hoffentlich | espérons que |\n\n### *gern* + verbe (très fréquent)\n*gern* se place avec le verbe, pas comme un adjectif isolé :\n- Ich **schwimme gern**. = J’aime nager.\n- ✗ *Ich bin gern schwimmen* (formulation non standard)\n\n### Emploi\n- **Leider** kann ich nicht kommen.\n- **Hoffentlich** regnet es nicht.\n- **Zum Glück** habe ich den Zug erreicht.\n\n### Mini-entraînement\n1. Reformulez *Ich mag Schwimmen* → *Ich schwimme gern.*\n2. Ajoutez *leider* ou *zum Glück* à 3 phrases.\n3. Écrivez un vœu avec *hoffentlich*.",
+  "ruleEn": "## Modal adverbs — evaluation / attitude\n\nThey express the speaker’s **attitude** (liking, regret, hope…).\n\n### Useful list\n| German | Meaning |\n|---|---|\n| gern / gerne | gladly / to like doing |\n| leider | unfortunately |\n| glücklicherweise / zum Glück | fortunately |\n| hoffentlich | hopefully |\n\n### *gern* + verb (very common)\n*gern* goes with the verb, not as a lone adjective:\n- Ich **schwimme gern**. = I like swimming.\n- ✗ *Ich bin gern schwimmen* (non-standard)\n\n### Use\n- **Leider** kann ich nicht kommen.\n- **Hoffentlich** regnet es nicht.\n- **Zum Glück** habe ich den Zug erreicht.\n\n### Mini practice\n1. Rephrase *Ich mag Schwimmen* → *Ich schwimme gern.*\n2. Add *leider* or *zum Glück* to 3 sentences.\n3. Write a wish with *hoffentlich*.",
+  "ruleDe": "## Modaladverbien — Bewertung\n\nSie zeigen die **Haltung** des Sprechers (Freude, Bedauern, Hoffnung…).\n\n### Nützliche Liste\n| Deutsch | Bedeutung |\n|---|---|\n| gern / gerne | gern |\n| leider | leider |\n| glücklicherweise / zum Glück | glücklicherweise |\n| hoffentlich | hoffentlich |\n\n### *gern* + Verb\n- Ich **schwimme gern**.\n- Nicht: ✗ *Ich bin gern schwimmen*\n\n### Gebrauch\n- **Leider** kann ich nicht kommen.\n- **Hoffentlich** regnet es nicht.\n- **Zum Glück** habe ich den Zug erreicht.\n\n### Mini-Übung\n1. *Ich mag Schwimmen* → *Ich schwimme gern.*\n2. *leider* / *zum Glück* in 3 Sätze.\n3. Wunschsatz mit *hoffentlich*.",
+  "notesFr": "*gern* = aimer faire (+ verbe) : *Ich schwimme gern.*",
+  "notesEn": "*gern* = like to (+ verb): *Ich schwimme gern.*",
+  "notesDe": "gern = like to (mit Verb!): Ich schwimme gern.",
+  "examples": [
+    {
+      "de": "Ich schwimme gern.",
+      "fr": "J’aime nager. / Je nage volontiers.",
+      "en": "I like swimming. / I swim gladly."
+    },
+    {
+      "de": "Leider habe ich keine Zeit.",
+      "fr": "Malheureusement, je n’ai pas le temps.",
+      "en": "Unfortunately I have no time."
+    },
+    {
+      "de": "Hoffentlich kommt sie pünktlich.",
+      "fr": "Espérons qu’elle arrive à l’heure.",
+      "en": "Hopefully she arrives on time."
+    },
+    {
+      "de": "Zum Glück hat es nicht geregnet.",
+      "fr": "Heureusement, il n’a pas plu.",
+      "en": "Luckily it did not rain."
+    },
+    {
+      "de": "Wir essen gerne italienisch.",
+      "fr": "Nous mangeons volontiers italien.",
+      "en": "We like eating Italian food."
+    }
+  ]
+}

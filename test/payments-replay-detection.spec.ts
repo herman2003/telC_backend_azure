@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 /**
  * Which unique violations count as a replay.
  *
@@ -79,8 +79,12 @@ describe('recognising a replay', () => {
         run({
           center: prisma.center,
           centerSeat: prisma.centerSeat,
+          centerSubscription: prisma.centerSubscription,
           student: prisma.student,
           payment: {
+            // Always miss in-tx so these cases still exercise create → P2002 →
+            // reconcileReplay. Early same-key hits are covered by integration.
+            findUnique: () => Promise.resolve(null),
             create: ({ data }: any) => {
               const key = `${data.center_id}:${data.idempotency_key}`;
               if (rows.has(key)) {
@@ -93,13 +97,13 @@ describe('recognising a replay', () => {
               const row = {
                 id: `payment-${rows.size + 1}`,
                 center_id: data.center_id,
-                total_seats: data.total_seats,
+                quantity: data.quantity,
                 amount_xaf: data.amount_xaf,
                 idempotency_key: data.idempotency_key,
                 request_hash: data.request_hash,
                 status: 'PENDING',
                 created_at: new Date('2026-09-14T00:00:00.000Z'),
-                lines: data.lines.create.map((line: any) => ({ ...line })),
+                unit_price_xaf: data.unit_price_xaf,
               };
               rows.set(key, row);
               return Promise.resolve(row);
@@ -126,10 +130,19 @@ describe('recognising a replay', () => {
       centerUser: {
         findFirst: jest.fn().mockResolvedValue({
           phone: '+237690000000',
-          center: { country_code: 'CM', city_id: 'douala', city_other: null },
+          center: {
+            country_code: 'CM',
+            city_id: 'douala',
+            city_other: null,
+            logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
+          },
         }),
       },
-      centerSeat: { findMany: jest.fn().mockResolvedValue([]) },
+      centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
+      // No seat row and no period: a first purchase, which is what every case
+      // in this file is. The period only decides renewal from addition, and
+      // neither is what is being tested here.
+      centerSubscription: { findUnique: jest.fn().mockResolvedValue(null) },
       student: { groupBy: jest.fn().mockResolvedValue([]) },
       payment: { findUnique: jest.fn() },
     };
@@ -147,8 +160,8 @@ describe('recognising a replay', () => {
       async (_case, violation) => {
         withIndexRaising(violation);
 
-        const first = await payments.create(identity, { START: 10 }, 'key-1');
-        const replay = await payments.create(identity, { START: 10 }, 'key-1');
+        const first = await payments.create(identity, 10, 'key-1');
+        const replay = await payments.create(identity, 10, 'key-1');
 
         expect(replay.id).toBe(first.id);
         expect(replay.amountXaf).toBe(first.amountXaf);
@@ -160,11 +173,11 @@ describe('recognising a replay', () => {
       async (_case, violation) => {
         withIndexRaising(violation);
 
-        await payments.create(identity, { START: 10 }, 'key-1');
+        await payments.create(identity, 10, 'key-1');
 
-        await expect(
-          payments.create(identity, { PRO: 10 }, 'key-1'),
-        ).rejects.toThrow(ConflictException);
+        await expect(payments.create(identity, 20, 'key-1')).rejects.toThrow(
+          ConflictException,
+        );
       },
     );
   });
@@ -173,16 +186,15 @@ describe('recognising a replay', () => {
     it.each(OTHER_INDEX_SHAPES)(
       'rethrows rather than blaming the key: %s',
       async (_case, violation) => {
-        // `payment_lines` is unique per (payment, tier) and is written in the
-        // same insert. A bug producing two lines for one tier is a server
-        // fault, and calling it IDEMPOTENCY_KEY_REUSED would hide it behind a
-        // 409 that tells the center to change its key.
+        // Another unique index failing is a server fault, and calling it
+        // IDEMPOTENCY_KEY_REUSED would hide it behind a 409 that tells the
+        // center to change its key.
         withIndexRaising(violation);
         rows.set('center-1:key-1', { id: 'squatter' });
 
-        await expect(
-          payments.create(identity, { START: 10 }, 'key-1'),
-        ).rejects.toBe(violation);
+        await expect(payments.create(identity, 10, 'key-1')).rejects.toBe(
+          violation,
+        );
 
         // Never looked for a replay, because this was not one.
         expect(prisma.payment.findUnique).not.toHaveBeenCalled();
@@ -199,9 +211,9 @@ describe('recognising a replay', () => {
       withIndexRaising(violation);
       rows.set('center-1:key-1', { id: 'squatter' });
 
-      await expect(
-        payments.create(identity, { START: 10 }, 'key-1'),
-      ).rejects.toBe(violation);
+      await expect(payments.create(identity, 10, 'key-1')).rejects.toBe(
+        violation,
+      );
 
       expect(prisma.payment.findUnique).not.toHaveBeenCalled();
     });
@@ -216,8 +228,6 @@ describe('recognising a replay', () => {
     withIndexRaising(error);
     rows.set('center-1:key-1', { id: 'squatter' });
 
-    await expect(
-      payments.create(identity, { START: 10 }, 'key-1'),
-    ).rejects.toBe(error);
+    await expect(payments.create(identity, 10, 'key-1')).rejects.toBe(error);
   });
 });

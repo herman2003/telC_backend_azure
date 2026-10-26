@@ -1,0 +1,39 @@
+{
+  "slug": "verschmelzungen-gram-n-259",
+  "titleFr": "Contractions préposition + article",
+  "titleEn": "Preposition–article contractions",
+  "titleDe": "Verschmelzungen",
+  "ruleFr": "## Contractions (préposition + article)\n\nEn allemand, préposition et article **se fusionnent** souvent.\n\n### Formes essentielles\n| Complet | Contracté |\n|---|---|\n| an dem | **am** |\n| in dem | **im** |\n| zu dem | **zum** |\n| zu der | **zur** |\n| in das | **ins** |\n| an das | **ans** |\n| bei dem | **beim** |\n| von dem | **vom** |\n\n### Emploi\n- **am** Montag, **im** Sommer, **zum** Bahnhof, **zur** Post\n- **ins** Bett, **ans** Fenster, **beim** Arzt, **vom** Chef\n\n### Quand ne pas contracter ?\nSi l’article est **accentué** (démonstration) : *an dem Tag* (ce jour-là précisément).\n\n### Mini-entraînement\n1. Transformez 8 formes complètes → contractées.\n2. Écrivez un emploi du temps avec *am / im / zum*.\n3. Lisez à voix haute : *zum*, *zur*, *ins*.",
+  "ruleEn": "## Contractions (preposition + article)\n\nGerman often **merges** preposition and article.\n\n### Essential forms\n| Full | Contracted |\n|---|---|\n| an dem | **am** |\n| in dem | **im** |\n| zu dem | **zum** |\n| zu der | **zur** |\n| in das | **ins** |\n| an das | **ans** |\n| bei dem | **beim** |\n| von dem | **vom** |\n\n### Use\n- **am** Montag, **im** Sommer, **zum** Bahnhof, **zur** Post\n- **ins** Bett, **ans** Fenster, **beim** Arzt, **vom** Chef\n\n### When not to contract?\nIf the article is **stressed** (pointing): *an dem Tag* (that very day).\n\n### Mini practice\n1. Turn 8 full forms into contractions.\n2. Write a schedule with *am / im / zum*.\n3. Read aloud: *zum*, *zur*, *ins*.",
+  "ruleDe": "## Verschmelzungen\n\nPräposition + Artikel **verschmelzen** oft.\n\n### Wichtige Formen\n| Voll | Verschmolzen |\n|---|---|\n| an dem | **am** |\n| in dem | **im** |\n| zu dem | **zum** |\n| zu der | **zur** |\n| in das | **ins** |\n| an das | **ans** |\n| bei dem | **beim** |\n| von dem | **vom** |\n\n### Gebrauch\n**am** Montag, **im** Sommer, **zum** Bahnhof, **ins** Bett\n\n### Wann nicht?\nBei Betonung des Artikels: *an dem Tag*.\n\n### Mini-Übung\n1. 8 Formen verschmelzen.\n2. Tagesplan mit *am / im / zum*.\n3. Laut lesen.",
+  "notesFr": "Très courant : *an dem Montag* → *am Montag*.",
+  "notesEn": "Very common: *an dem Montag* → *am Montag*.",
+  "notesDe": "Sehr üblich! 'an dem Montag' → 'am Montag'.",
+  "examples": [
+    {
+      "de": "Am Montag habe ich frei.",
+      "fr": "Lundi, je suis libre. (*am* = an dem)",
+      "en": "On Monday I am off. (*am* = an dem)"
+    },
+    {
+      "de": "Ich bin im Büro.",
+      "fr": "Je suis au bureau. (*im* = in dem)",
+      "en": "I am in the office. (*im* = in dem)"
+    },
+    {
+      "de": "Wir gehen zum Bahnhof.",
+      "fr": "Nous allons à la gare. (*zum* = zu dem)",
+      "en": "We are going to the station. (*zum* = zu dem)"
+    },
+    {
+      "de": "Sie geht zur Post.",
+      "fr": "Elle va à la poste. (*zur* = zu der)",
+      "en": "She is going to the post office. (*zur* = zu der)"
+    },
+    {
+      "de": "Die Kinder gehen ins Bett.",
+      "fr": "Les enfants vont au lit. (*ins* = in das)",
+      "en": "The children are going to bed. (*ins* = in das)"
+    }
+  ]
+}

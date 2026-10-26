@@ -1,0 +1,39 @@
+{
+  "slug": "stammvokalanderung-e-i-gram-f-135",
+  "titleFr": "Alternance vocalique e→i",
+  "titleEn": "Stem vowel change e→i",
+  "titleDe": "Stammvokaländerung — e→i",
+  "ruleFr": "## Alternance *e → i*\n\nCertains verbes forts changent le *e* du radical en ***i*** uniquement à la **2e et 3e personne du singulier** (*du / er/sie/es*).\n\n### Règle\n- *du / er* : *e* → ***i***\n- *ich / wir / ihr / sie* : radical **inchangé**\n\n### Exemple type : *geben*\n| ich gebe | wir geben |\n| du g**i**bst | ihr gebt |\n| er g**i**bt | sie geben |\n\n### Mini-entraînement\nConjuguez *helfen* : ich / du / er / wir.",
+  "ruleEn": "## Vowel change *e → i*\n\nSome strong verbs change stem *e* to ***i*** only in **2nd and 3rd person singular**.\n\n### Rule\n- *du / er*: *e* → ***i***\n- other persons: unchanged\n\n### Model: *geben*\nich gebe · du g**i**bst · er g**i**bt · wir geben\n\n### Mini practice\nConjugate *helfen*: ich / du / er / wir.",
+  "ruleDe": "## Stammvokal *e → i*\n\nNur bei *du* und *er/sie/es*. Plural bleibt: *wir geben*.\n\n### Mini-Übung\n*helfen*: ich / du / er / wir.",
+  "notesFr": "Seulement 2e et 3e personne du singulier ! Pluriel : wir geben, ihr gebt, sie geben.",
+  "notesEn": "Only 2nd and 3rd person singular! Plural stays: wir geben, ihr gebt, sie geben.",
+  "notesDe": "Nur 2. und 3. Person Singular! Plural bleibt: wir geben, ihr gebt, sie geben.",
+  "examples": [
+    {
+      "de": "Ich gebe dir das Buch. — Er gibt mir das Buch.",
+      "fr": "Je te donne le livre. — Il me donne le livre. (e→i)",
+      "en": "I give you the book. — He gives me the book. (e→i)"
+    },
+    {
+      "de": "Du hilfst deiner Mutter.",
+      "fr": "Tu aides ta mère. (helfen → hilfst)",
+      "en": "You help your mother. (helfen → hilfst)"
+    },
+    {
+      "de": "Sie spricht sehr klar.",
+      "fr": "Elle parle très clairement. (sprechen → spricht)",
+      "en": "She speaks very clearly. (sprechen → spricht)"
+    },
+    {
+      "de": "Wir geben eine Party.",
+      "fr": "Nous organisons une fête. (pas de changement au pluriel.)",
+      "en": "We’re throwing a party. (no change in the plural.)"
+    },
+    {
+      "de": "Triffst du ihn heute?",
+      "fr": "Tu le rencontres aujourd’hui ? (treffen → triffst)",
+      "en": "Are you meeting him today? (treffen → triffst)"
+    }
+  ]
+}

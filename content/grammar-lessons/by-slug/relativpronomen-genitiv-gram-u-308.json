@@ -1,0 +1,39 @@
+{
+  "slug": "relativpronomen-genitiv-gram-u-308",
+  "titleFr": "Pronom relatif au génitif",
+  "titleEn": "Relative pronouns — genitive",
+  "titleDe": "Relativpronomen — Genitiv",
+  "ruleFr": "## Relatif au génitif — *dessen / deren* (= whose)\n\n### Formes\n| Mask. / Neut. | Fem. / Plur. |\n|---|---|\n| **dessen** | **deren** |\n\n### Sens\n« dont / de qui / whose » — possession.\n- *der Mann, **dessen** Auto kaputt ist*\n- *die Frau, **deren** Tochter studiert*\n- *die Kinder, **deren** Eltern arbeiten*\n\n### Attention\nAprès *dessen/deren*, le nom **sans article** :\n- ✓ *deren Buch*\n- ✗ *deren das Buch*\n\n### Mini-entraînement\n*Der Mann hat ein Auto. Das Auto ist neu.* → *der Mann, dessen Auto…*",
+  "ruleEn": "## Genitive relative pronoun — *dessen / deren* (= whose)\n\n### Forms\n| Masc. / Neut. | Fem. / Plur. |\n|---|---|\n| **dessen** | **deren** |\n\n### Meaning\n“whose” — possession.\n- *der Mann, **dessen** Auto kaputt ist*\n- *die Frau, **deren** Tochter studiert*\n- *die Kinder, **deren** Eltern arbeiten*\n\n### Watch out\nAfter *dessen/deren*, the noun has **no article**:\n- ✓ *deren Buch*\n- ✗ *deren das Buch*\n\n### Mini practice\n*Der Mann hat ein Auto. Das Auto ist neu.* → *der Mann, dessen Auto…*",
+  "ruleDe": "## Relativpronomen Genitiv — *dessen/deren*\n\n| Mask./Neut. | Fem./Pl. |\n|---|---|\n| **dessen** | **deren** |\n\n### Achtung\n*deren Buch* — **ohne** Artikel!\n\n### Mini-Übung\n*der Mann, dessen Auto…*",
+  "notesFr": "*dessen/deren* + nom SANS article : *deren Buch* (pas *deren das Buch*).",
+  "notesEn": "*dessen/deren* + noun WITHOUT article: *deren Buch* (not *deren das Buch*).",
+  "notesDe": "*dessen/deren* + Nomen OHNE Artikel: *deren Buch* (nicht 'deren das Buch').",
+  "examples": [
+    {
+      "de": "Das ist der Mann, dessen Auto kaputt ist.",
+      "fr": "C’est l’homme dont la voiture est en panne.",
+      "en": "That’s the man whose car is broken."
+    },
+    {
+      "de": "Die Frau, deren Tochter studiert, ist stolz.",
+      "fr": "La femme dont la fille étudie est fière.",
+      "en": "The woman whose daughter is studying is proud."
+    },
+    {
+      "de": "Das Kind, dessen Eltern verreist sind, bleibt bei der Oma.",
+      "fr": "L’enfant dont les parents sont partis reste chez mamie.",
+      "en": "The child whose parents are away is staying with grandma."
+    },
+    {
+      "de": "Die Studenten, deren Prüfung morgen ist, lernen viel.",
+      "fr": "Les étudiants dont l’examen est demain étudient beaucoup.",
+      "en": "The students whose exam is tomorrow study a lot."
+    },
+    {
+      "de": "Ich kenne eine Firma, deren Chef sehr jung ist.",
+      "fr": "Je connais une entreprise dont le patron est très jeune.",
+      "en": "I know a company whose boss is very young."
+    }
+  ]
+}

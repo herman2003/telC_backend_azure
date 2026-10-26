@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-nominativ-gram-d-078",
+  "titleFr": "Pronoms personnels — nominatif singulier",
+  "titleEn": "Personal pronouns — nominative singular",
+  "titleDe": "Personalpronomen — Nominativ",
+  "ruleFr": "## Singulier : ich, du, er/sie/es\n\n### Détail 3e personne\n| pronom | remplace | exemple |\n|---|---|---|\n| **er** | masculin (*der Mann*) | Der Mann? **Er** kommt. |\n| **sie** | féminin (*die Frau*) | Die Frau? **Sie** kommt. |\n| **es** | neutre (*das Kind*) | Das Kind? **Es** kommt. |\n\n### ich / du\n- **ich** : locuteur\n- **du** : un interlocuteur tutoyé (amis, famille, enfants)\n\n### Erreurs fréquentes\nGenre du nom oublié → mauvais pronom (*die Lampe* → **sie**, pas *es*).\n\n### Mini-entraînement\nRemplacez 8 noms par *er/sie/es*.",
+  "ruleEn": "## Singular: ich, du, er/sie/es\n\n### Third person\n| pronoun | replaces | example |\n|---|---|---|\n| **er** | masculine | Der Mann? **Er** kommt. |\n| **sie** | feminine | Die Frau? **Sie** kommt. |\n| **es** | neuter | Das Kind? **Es** kommt. |\n\n### Common mistake\nForgetting noun gender → wrong pronoun (*die Lampe* → **sie**).\n\n### Mini practice\nReplace 8 nouns with *er/sie/es*.",
+  "ruleDe": "## Singular: ich, du, er/sie/es\n\n### 3. Person\n**er** = maskulin · **sie** = feminin · **es** = neutral\n\n### Fehler\nGenus vergessen → falsches Pronomen.\n\n### Mini-Übung\n8 Nomen durch *er/sie/es* ersetzen.",
+  "notesFr": "*er* = masculin, *sie* = féminin, *es* = neutre.",
+  "notesEn": "*er* = masculine, *sie* = feminine, *es* = neuter.",
+  "notesDe": "*er* = maskulin, *sie* = feminin, *es* = neutral.",
+  "examples": [
+    {
+      "de": "Der Lehrer erklärt. Er ist geduldig.",
+      "fr": "Le professeur explique. Il est patient. (er ← der.)",
+      "en": "The teacher explains. He is patient. (er ← der.)"
+    },
+    {
+      "de": "Die Lehrerin erklärt. Sie ist geduldig.",
+      "fr": "L’enseignante explique. Elle est patiente. (sie ← die.)",
+      "en": "The teacher (f.) explains. She is patient. (sie ← die.)"
+    },
+    {
+      "de": "Das Kind lacht. Es ist fröhlich.",
+      "fr": "L’enfant rit. Il/elle est joyeux(se). (es ← das.)",
+      "en": "The child laughs. It is cheerful. (es ← das.)"
+    },
+    {
+      "de": "Ich bin müde.",
+      "fr": "Je suis fatigué.",
+      "en": "I am tired."
+    },
+    {
+      "de": "Du bist fleißig.",
+      "fr": "Tu es studieux / appliqué.",
+      "en": "You are hard-working."
+    }
+  ]
+}

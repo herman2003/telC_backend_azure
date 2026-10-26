@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RoomGateway } from '../src/modules/speaking/room/room.gateway';
 import { RoomService } from '../src/modules/speaking/room/room.service';
+import { LobbyService } from '../src/modules/speaking/room/lobby.service';
+import { SafetyService } from '../src/modules/speaking/room/safety.service';
 import { Room } from '../src/modules/speaking/room/interfaces/room.interface';
+import { SPEAKING_TOPICS } from '../src/modules/speaking/room/speaking-topics.data';
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -13,6 +16,9 @@ const GUEST_SOCKET_ID = 'socket-guest-1';
 function makeRoom(overrides: Partial<Room> = {}): Room {
   return {
     roomId: ROOM_ID,
+    level: 'B1',
+    topic: SPEAKING_TOPICS[0],
+    usedTopicIds: [SPEAKING_TOPICS[0].id],
     shortCode: 'K7M2QX',
     hostSocketId: null,
     hostToken: HOST_TOKEN,
@@ -50,6 +56,7 @@ describe('RoomGateway', () => {
       | 'startGracePeriod'
       | 'getRoomBySocketId'
       | 'getAllRooms'
+      | 'selectNextTopic'
     >
   >;
   let mockTo: jest.Mock;
@@ -65,10 +72,18 @@ describe('RoomGateway', () => {
       startGracePeriod: jest.fn(),
       getRoomBySocketId: jest.fn(),
       getAllRooms: jest.fn(),
+      selectNextTopic: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RoomGateway, { provide: RoomService, useValue: roomService }],
+      providers: [
+        RoomGateway,
+        { provide: RoomService, useValue: roomService },
+        // Real instance: pure in-memory state, no dependencies, and these specs
+        // exercise paths that legitimately touch the queue on disconnect.
+        LobbyService,
+        SafetyService,
+      ],
     }).compile();
 
     gateway = module.get<RoomGateway>(RoomGateway);
@@ -76,6 +91,89 @@ describe('RoomGateway', () => {
     // Inject mock server
     mockTo = jest.fn();
     gateway.server = { to: mockTo.mockReturnValue({ emit: jest.fn() }) } as any;
+  });
+
+  describe('handleShuffleTopic()', () => {
+    it('updates the topic and emits the same payload to host and guest', () => {
+      const room = makeRoom({
+        hostSocketId: HOST_SOCKET_ID,
+        guest: { displayName: 'Anna', socketId: GUEST_SOCKET_ID },
+      });
+      const nextTopic = SPEAKING_TOPICS[1];
+      const targetEmit = jest.fn();
+      roomService.getRoom.mockReturnValue(room);
+      roomService.selectNextTopic.mockReturnValue(nextTopic);
+      mockTo.mockReturnValue({ emit: targetEmit });
+
+      gateway.handleShuffleTopic(makeClient(HOST_SOCKET_ID, ROOM_ID), {
+        roomId: ROOM_ID,
+      });
+
+      expect(roomService.selectNextTopic).toHaveBeenCalledWith(ROOM_ID);
+      expect(mockTo).toHaveBeenCalledWith(HOST_SOCKET_ID);
+      expect(mockTo).toHaveBeenCalledWith(GUEST_SOCKET_ID);
+      expect(targetEmit).toHaveBeenCalledTimes(2);
+      expect(targetEmit).toHaveBeenNthCalledWith(1, 'topic-changed', {
+        topic: nextTopic,
+      });
+      expect(targetEmit).toHaveBeenNthCalledWith(2, 'topic-changed', {
+        topic: nextTopic,
+      });
+    });
+
+    it('emits to the host when no guest is connected', () => {
+      const room = makeRoom({ hostSocketId: HOST_SOCKET_ID, guest: null });
+      const targetEmit = jest.fn();
+      roomService.getRoom.mockReturnValue(room);
+      roomService.selectNextTopic.mockReturnValue(SPEAKING_TOPICS[1]);
+      mockTo.mockReturnValue({ emit: targetEmit });
+
+      gateway.handleShuffleTopic(makeClient(HOST_SOCKET_ID, ROOM_ID), {
+        roomId: ROOM_ID,
+      });
+
+      expect(mockTo).toHaveBeenCalledTimes(1);
+      expect(mockTo).toHaveBeenCalledWith(HOST_SOCKET_ID);
+      expect(targetEmit).toHaveBeenCalledWith('topic-changed', {
+        topic: SPEAKING_TOPICS[1],
+      });
+    });
+
+    it('rejects a guest without selecting another topic', () => {
+      const room = makeRoom({
+        hostSocketId: HOST_SOCKET_ID,
+        guest: { displayName: 'Anna', socketId: GUEST_SOCKET_ID },
+      });
+      const client = makeClient(GUEST_SOCKET_ID, ROOM_ID);
+      roomService.getRoom.mockReturnValue(room);
+
+      gateway.handleShuffleTopic(client, { roomId: ROOM_ID });
+
+      expect(client.emit).toHaveBeenCalledWith('unauthorized', {});
+      expect(roomService.selectNextTopic).not.toHaveBeenCalled();
+      expect(mockTo).not.toHaveBeenCalled();
+    });
+
+    it('rejects a host socket associated with another room', () => {
+      const room = makeRoom({ hostSocketId: HOST_SOCKET_ID });
+      const client = makeClient(HOST_SOCKET_ID, 'another-room');
+      roomService.getRoom.mockReturnValue(room);
+
+      gateway.handleShuffleTopic(client, { roomId: ROOM_ID });
+
+      expect(client.emit).toHaveBeenCalledWith('unauthorized', {});
+      expect(roomService.selectNextTopic).not.toHaveBeenCalled();
+    });
+
+    it('emits room-not-found without selecting when the room is missing', () => {
+      const client = makeClient(HOST_SOCKET_ID, ROOM_ID);
+      roomService.getRoom.mockReturnValue(undefined);
+
+      gateway.handleShuffleTopic(client, { roomId: ROOM_ID });
+
+      expect(client.emit).toHaveBeenCalledWith('room-not-found', {});
+      expect(roomService.selectNextTopic).not.toHaveBeenCalled();
+    });
   });
 
   afterEach(() => jest.clearAllMocks());

@@ -1,0 +1,39 @@
+{
+  "slug": "reflexivpronomen-ubersicht-gram-d-095",
+  "titleFr": "Les pronoms réfléchis — vue d’ensemble",
+  "titleEn": "Reflexive pronouns — overview",
+  "titleDe": "Reflexivpronomen — Übersicht",
+  "ruleFr": "## Les pronoms réfléchis — vue d’ensemble\n\nUn **pronom réfléchi** renvoie au **sujet** de la phrase : le sujet fait l’action **sur lui-même**.\n\n### Idée centrale\n- Français : *je me lave*, *elle se réjouit*\n- Allemand : *ich wasche **mich***, *sie freut **sich***\n\n### Verbes réfléchis courants\n*sich waschen* (se laver), *sich freuen* (se réjouir), *sich rasieren* (se raser), *sich setzen* (s’asseoir), *sich beeilen* (se dépêcher), *sich fühlen* (se sentir).\n\n### Deux cas possibles\nLe réfléchi peut être à l’**accusatif** (*mich, dich, sich…*) ou au **datif** (*mir, dir, sich…*) — selon qu’il y a ou non un autre objet.\n\n| Personne | Akk. | Dat. |\n|---|---|---|---|\n| ich | mich | mir |\n| du | dich | dir |\n| er/sie/es | sich | sich |\n| wir | uns | uns |\n| ihr | euch | euch |\n| sie/Sie | sich | sich |\n\n### Mini-entraînement\nListez 5 verbes *sich …* et conjuguez-les avec *ich* et *er*.",
+  "ruleEn": "## Reflexive pronouns — overview\n\nA **reflexive pronoun** refers back to the **subject**: the subject does the action **to itself**.\n\n### Core idea\n- English: *I wash myself*, *she is pleased*\n- German: *ich wasche **mich***, *sie freut **sich***\n\n### Common reflexive verbs\n*sich waschen* (wash oneself), *sich freuen* (be glad), *sich rasieren* (shave), *sich setzen* (sit down), *sich beeilen* (hurry), *sich fühlen* (feel).\n\n### Two cases\nReflexives can be **accusative** (*mich, dich, sich…*) or **dative** (*mir, dir, sich…*) — depending on whether another object follows.\n\n| Person | Acc. | Dat. |\n|---|---|---|---|\n| ich | mich | mir |\n| du | dich | dir |\n| er/sie/es | sich | sich |\n| wir | uns | uns |\n| ihr | euch | euch |\n| sie/Sie | sich | sich |\n\n### Mini practice\nList 5 *sich …* verbs and conjugate them with *ich* and *er*.",
+  "ruleDe": "## Reflexivpronomen — Übersicht\n\nEin **Reflexivpronomen** verweist auf das **Subjekt** zurück: das Subjekt handelt an **sich selbst**.\n\n### Kernidee\n- *ich wasche **mich***, *sie freut **sich***\n\n### Häufige reflexive Verben\n*sich waschen*, *sich freuen*, *sich rasieren*, *sich setzen*, *sich beeilen*, *sich fühlen*.\n\n### Zwei Kasus\nReflexiva stehen im **Akkusativ** (*mich, dich, sich…*) oder im **Dativ** (*mir, dir, sich…*) — je nachdem, ob noch ein Objekt folgt.\n\n| Person | Akk. | Dat. |\n|---|---|---|---|\n| ich | mich | mir |\n| du | dich | dir |\n| er/sie/es | sich | sich |\n| wir | uns | uns |\n| ihr | euch | euch |\n| sie/Sie | sich | sich |\n\n### Mini-Übung\nNotieren Sie 5 Verben *sich …* und konjugieren Sie mit *ich* und *er*.",
+  "notesFr": "Verbes réfléchis typiques : sich waschen, sich freuen, sich rasieren, sich setzen.",
+  "notesEn": "Typical reflexive verbs: sich waschen, sich freuen, sich rasieren, sich setzen.",
+  "notesDe": "Reflexive Verben: sich waschen, sich freuen, sich rasieren, sich setzen.",
+  "examples": [
+    {
+      "de": "Ich wasche mich jeden Morgen.",
+      "fr": "Je me lave tous les matins. (« mich » renvoie à « ich ».)",
+      "en": "I wash myself every morning. (“mich” refers back to “ich”.)"
+    },
+    {
+      "de": "Sie freut sich über das Geschenk.",
+      "fr": "Elle se réjouit du cadeau. (« sich » = 3e personne.)",
+      "en": "She is pleased about the gift. (“sich” = 3rd person.)"
+    },
+    {
+      "de": "Wir setzen uns an den Tisch.",
+      "fr": "Nous nous asseyons à table. (« uns » = réfléchi pluriel.)",
+      "en": "We sit down at the table. (“uns” = plural reflexive.)"
+    },
+    {
+      "de": "Beeil dich, bitte!",
+      "fr": "Dépêche-toi, s’il te plaît ! (impératif + dich.)",
+      "en": "Hurry up, please! (imperative + dich.)"
+    },
+    {
+      "de": "Er rasiert sich vor dem Spiegel.",
+      "fr": "Il se rase devant le miroir.",
+      "en": "He shaves in front of the mirror."
+    }
+  ]
+}

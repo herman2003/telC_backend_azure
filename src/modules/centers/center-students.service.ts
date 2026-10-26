@@ -4,12 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  ActivationCodeStatus,
-  Prisma,
-  type CefrLevel,
-  type Tier,
-} from '@prisma/client';
+import { ActivationCodeStatus, Prisma, type CefrLevel } from '@prisma/client';
 import type { CenterAccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { PrismaService } from '../../shared/services/prisma.service';
 import {
@@ -28,14 +23,6 @@ export interface UpdateStudentInput {
   firstName?: string;
   lastName?: string;
   phone?: string;
-  /**
-   * Move this student into another tier.
-   *
-   * Allowed only when the center holds a free seat there. No pro-rating: the
-   * move takes effect immediately for access and the price difference settles
-   * at the next renewal.
-   */
-  tier?: Tier;
   /** The student's current level (D38): declared by them, editable here. */
   level?: CefrLevel;
 }
@@ -48,11 +35,6 @@ export interface CenterStudentView {
   phone: string | null;
   createdAt: Date;
   lastSeenAt: Date;
-  /**
-   * Which tier's seat they occupy, and therefore what they may do. Null for a
-   * student provisioned before tiers existed.
-   */
-  tier: Tier | null;
   level: CefrLevel | null;
   /** Skill scores, readiness and alerts (D38), from their activity. */
   progress: StudentProgress;
@@ -106,17 +88,11 @@ export class CenterStudentsService {
   }
 
   /**
-   * Edits a student, and moves them between tiers.
+   * Edits a student's name, phone or level.
    *
-   * A tier move is the most common thing a school does after buying: a Start
-   * student decides to sit the exam and needs Pro. The alternative was
-   * remove-and-re-add, which works but invites mistakes on an account holding
-   * the student's whole history.
-   *
-   * The whole update runs in one Serializable transaction because a tier move
-   * consumes a seat. Two administrators moving two students into the last free
-   * Pro seat would otherwise both read it free and both write, putting the
-   * tier over its quantity with nothing to notice.
+   * Moving between plans is gone with the tiers (2026-09-23): there is one
+   * plan, and what a student may do beyond it will be the add-ons of the new
+   * pricing, bought per student rather than set on the roster.
    */
   async update(
     identity: SignedCenterIdentity,
@@ -129,7 +105,6 @@ export class CenterStudentsService {
       }),
       ...(changes.lastName !== undefined && { last_name: changes.lastName }),
       ...(changes.phone !== undefined && { phone: changes.phone }),
-      ...(changes.tier !== undefined && { tier: changes.tier }),
       ...(changes.level !== undefined && { level: changes.level }),
     };
 
@@ -137,33 +112,18 @@ export class CenterStudentsService {
       throw new BadRequestException('NO_STUDENT_FIELDS_SUPPLIED');
     }
 
-    const updated = await this.prisma.$transaction(
-      async (tx) => {
-        // Ownership first, so another center's student is a 404 before any
-        // seat is inspected — the seat answer would otherwise confirm the id.
-        const student = await tx.student.findFirst({
-          where: { id: studentId, center_id: identity.centerId },
-        });
+    // Ownership first, so another center's student is a 404. Scoped by center
+    // in the write itself, so the check and the update cannot disagree.
+    const updated = await this.prisma.student.updateManyAndReturn({
+      where: { id: studentId, center_id: identity.centerId },
+      data,
+    });
 
-        if (!student) {
-          throw new NotFoundException('STUDENT_NOT_FOUND');
-        }
+    if (updated.length !== 1) {
+      throw new NotFoundException('STUDENT_NOT_FOUND');
+    }
 
-        if (changes.tier !== undefined) {
-          await this.assertSeatFreeInTier(
-            tx,
-            identity.centerId,
-            changes.tier,
-            studentId,
-          );
-        }
-
-        return tx.student.update({ where: { id: studentId }, data });
-      },
-      { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
-    );
-
-    return this.withProgress(updated);
+    return this.withProgress(updated[0]);
   }
 
   private async withProgress(
@@ -174,47 +134,12 @@ export class CenterStudentsService {
   }
 
   /**
-   * Whether this center may put one more student into a tier.
-   *
-   * The student being moved is excluded from the count. Without that, a
-   * student already in Pro could never be sent to Pro again — a client
-   * re-sending the value it already holds would be refused on a tier that is
-   * exactly full, which looks like a bug to everyone involved.
-   *
-   * A missing seat row and a full one stay distinct, as in provisioning: one
-   * is fixed by buying the tier, the other by buying more seats.
-   */
-  private async assertSeatFreeInTier(
-    tx: Pick<PrismaService, 'centerSeat' | 'student'>,
-    centerId: string,
-    tier: Tier,
-    movingStudentId: string,
-  ): Promise<void> {
-    const seat = await tx.centerSeat.findUnique({
-      where: { center_id_tier: { center_id: centerId, tier } },
-      select: { quantity: true },
-    });
-
-    if (!seat) {
-      throw new ForbiddenException({ message: 'TIER_NOT_HELD', tier });
-    }
-
-    const seatsUsed = await tx.student.count({
-      where: { center_id: centerId, tier, id: { not: movingStudentId } },
-    });
-
-    if (seatsUsed >= seat.quantity) {
-      throw new ForbiddenException({ message: 'SEAT_LIMIT_REACHED', tier });
-    }
-  }
-
-  /**
    * Releases the seat by unlinking, never by deleting.
    *
    * The account, the password the student chose, and every attempt they ever
    * submitted survive. Deleting would destroy a person's work because an
    * administrator edited a roster, and would discard exactly the former
-   * student that `ARCHITECTURE-B2B2C.md` describes as worth keeping in touch
+   * student that `docs/architecture/b2b2c.md` describes as worth keeping in touch
    * with. It also matches `Student.center_id` already being ON DELETE SET NULL.
    */
   async remove(
@@ -298,7 +223,6 @@ export class CenterStudentsService {
       phone: string | null;
       created_at: Date;
       last_seen_at: Date;
-      tier: Tier | null;
       level: CefrLevel | null;
     },
     progress: StudentProgress,
@@ -311,7 +235,6 @@ export class CenterStudentsService {
       phone: row.phone,
       createdAt: row.created_at,
       lastSeenAt: row.last_seen_at,
-      tier: row.tier,
       level: row.level,
       progress,
     };

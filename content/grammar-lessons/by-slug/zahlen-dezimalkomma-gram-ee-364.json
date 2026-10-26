@@ -1,0 +1,39 @@
+{
+  "slug": "zahlen-dezimalkomma-gram-ee-364",
+  "titleFr": "Nombres — virgule décimale",
+  "titleEn": "Numbers — decimal comma",
+  "titleDe": "Zahlen — Dezimalkomma",
+  "ruleFr": "## Nombres — virgule décimale\n\nEn allemand, la **virgule** sépare les décimales ; le **point** sépare les milliers — **inverse** de l’usage anglais (US).\n\n### Règle centrale\n| | Allemand | Anglais (US) |\n|---|---|---|\n| Décimales | **virgule** : *3,14* | point : *3.14* |\n| Milliers | **point** : *1.000* | virgule : *1,000* |\n| Exemple prix | *1.000,50 €* | *$1,000.50* |\n\n### Lecture\n- *3,5* = *drei Komma fünf* / *drei eins fünf* (selon contexte)\n- *1.000* = *tausend*\n\n### Erreurs fréquentes\n- Écrire *1,000.50* à l’anglaise dans un texte allemand.\n- Confondre *1.000* (mille) et *1,000* (un + décimales en DE? → en DE *1,000* = 1 pile avec 3 décimales).\n\n### Mini-entraînement\n1. Convertissez 8 nombres EN → DE.\n2. Lisez à voix haute : *12,5 kg* · *2.500 €*.\n3. Écrivez des prix allemands correctement.",
+  "ruleEn": "## Numbers — decimal comma\n\nIn German, a **comma** marks decimals; a **point** marks thousands — the **reverse** of US English.\n\n### Core rule\n| | German | US English |\n|---|---|---|\n| Decimals | **comma**: *3,14* | point: *3.14* |\n| Thousands | **point**: *1.000* | comma: *1,000* |\n| Price example | *1.000,50 €* | *$1,000.50* |\n\n### Reading\n- *3,5* = *drei Komma fünf*\n- *1.000* = *tausend*\n\n### Common mistakes\n- Writing US-style *1,000.50* in German text.\n- Misreading *1.000* as “one point zero zero zero”.\n\n### Mini practice\n1. Convert 8 EN numbers → DE.\n2. Read aloud: *12,5 kg* · *2.500 €*.\n3. Write German prices correctly.",
+  "ruleDe": "## Zahlen — Dezimalkomma\n\nIm Deutschen trennt das **Komma** Dezimalstellen; der **Punkt** die Tausender — **umgekehrt** zum amerikanischen Englisch.\n\n### Kernregel\n| | Deutsch | Englisch (US) |\n|---|---|---|\n| Dezimal | **Komma**: *3,14* | Punkt: *3.14* |\n| Tausender | **Punkt**: *1.000* | Komma: *1,000* |\n| Preis | *1.000,50 €* | *$1,000.50* |\n\n### Mini-Übung\n1. 8 Zahlen EN → DE umschreiben.\n2. Laut lesen: *12,5 kg* · *2.500 €*.\n3. Preise korrekt schreiben.",
+  "notesFr": "INVERSE de l’anglais ! Virgule = décimal, point = milliers. 1.000,50 €.",
+  "notesEn": "REVERSE of English! Comma = decimal, point = thousands. 1.000,50 €.",
+  "notesDe": "UMGEKEHRT zum Englischen! Komma = Dezimal, Punkt = Tausender. 1.000,50 €.",
+  "examples": [
+    {
+      "de": "Pi ist ungefähr 3,14.",
+      "fr": "Pi vaut environ 3,14. (virgule décimale.)",
+      "en": "Pi is approximately 3.14. (German uses a decimal comma: 3,14.)"
+    },
+    {
+      "de": "Das Ticket kostet 12,50 €.",
+      "fr": "Le billet coûte 12,50 €.",
+      "en": "The ticket costs €12.50 (written 12,50 €)."
+    },
+    {
+      "de": "In der Stadt leben 1.250.000 Menschen.",
+      "fr": "1 250 000 personnes vivent dans la ville. (points = milliers.)",
+      "en": "1,250,000 people live in the city. (points = thousands in German.)"
+    },
+    {
+      "de": "Er wiegt 72,3 kg.",
+      "fr": "Il pèse 72,3 kg.",
+      "en": "He weighs 72.3 kg (written 72,3 kg)."
+    },
+    {
+      "de": "Der Preis beträgt 1.000,00 €.",
+      "fr": "Le prix s’élève à 1.000,00 €.",
+      "en": "The price is €1,000.00 (written 1.000,00 €)."
+    }
+  ]
+}

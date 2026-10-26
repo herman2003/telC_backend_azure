@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
 import {
   NotFoundException,
   UnprocessableEntityException,
@@ -27,9 +28,10 @@ const exercise = {
   instruction: 'Instruction',
   content_revision: 'modelltest-1-teil-1-v1',
   duration_minutes: 10,
-  audio_url: '',
+  audio_url: 'https://r2.example/audio.mp3',
   bundled_audio_asset: '',
   image_url: 'https://r2.example/1.png',
+  exam_plays_allowed: 1,
   transcript: null,
   questions,
 };
@@ -50,12 +52,19 @@ describe('ListeningService', () => {
     $queryRaw: jest.fn(() => Promise.resolve([])),
     $transaction: jest.fn((work: any) => work(prisma)),
   };
+  const genericContent = {
+    sectionsFor: jest.fn(),
+    sectionFor: jest.fn(),
+  };
   let service: ListeningService;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new ListeningService(prisma as any);
-    prisma.modelltest.findUnique.mockResolvedValue({ id: 'mt-1' });
+    service = new ListeningService(prisma, genericContent as never);
+    prisma.modelltest.findUnique.mockResolvedValue({
+      id: 'mt-1',
+      level: 'B1',
+    });
     prisma.listeningAttempt.findMany.mockResolvedValue([]);
     prisma.listeningAttempt.create.mockResolvedValue({});
     prisma.listeningAttempt.findUnique.mockResolvedValue(null);
@@ -72,7 +81,7 @@ describe('ListeningService', () => {
     );
     for (const part of [1, 2, 3]) {
       const result = await service.getExercise(String(part), 1);
-      expect(result.content_revision).toBe(`revision-${part}`);
+      expect(result.contentRevision).toBe(`revision-${part}`);
     }
   });
 
@@ -83,22 +92,30 @@ describe('ListeningService', () => {
         content_revision: `modelltest-${where.modelltest.number}`,
       }),
     );
-    expect((await service.getExercise('1', 1)).content_revision).toBe(
+    expect((await service.getExercise('1', 1)).contentRevision).toBe(
       'modelltest-1',
     );
-    expect((await service.getExercise('1', 2)).content_revision).toBe(
+    expect((await service.getExercise('1', 2)).contentRevision).toBe(
       'modelltest-2',
     );
   });
 
-  it('returns an answer-safe exercise projection', async () => {
+  it('returns the exam-shaped Teil payload without a durable audio URL', async () => {
     prisma.listeningExercise.findFirst.mockResolvedValue(exercise);
     const result = await service.getExercise('1', 1);
-    expect(result.questions).toEqual([
-      { id: 'q41', prompt: 'Statement 41' },
-      { id: 'q42', prompt: 'Statement 42' },
-    ]);
+    expect(result).toEqual({
+      audioId: 'exercise-1',
+      playsAllowed: 1,
+      contentRevision: 'modelltest-1-teil-1-v1',
+      imagePath: 'https://r2.example/1.png',
+      questions: [
+        { id: 'q41', prompt: 'Statement 41' },
+        { id: 'q42', prompt: 'Statement 42' },
+      ],
+    });
     expect(JSON.stringify(result)).not.toContain('correct_answer');
+    expect(JSON.stringify(result)).not.toContain('audio_url');
+    expect(JSON.stringify(result)).not.toContain('bundled_audio');
     expect((result as any).answerKey).toBeUndefined();
   });
 
@@ -160,7 +177,9 @@ describe('ListeningService', () => {
       expect.objectContaining({
         where: {
           student_id: 'student-1',
+          // Training only: an exam attempt shares this table.
           erasure_id: null,
+          exam_attempt_id: null,
           exercise_id: '2',
         },
       }),
@@ -192,6 +211,130 @@ describe('ListeningService', () => {
         modelltest_id: 'mt-1',
         listening_exercise_id: 'exercise-1',
       }),
+    });
+  });
+
+  describe('A1/A2 generic model', () => {
+    const genericSection = {
+      id: 'section-hoeren-1',
+      sectionId: 'HOEREN_1',
+      aufgabentyp: 'EINZELAUSWAHL',
+      teil: 1,
+      label: 'Hören Teil 1',
+      instruction: 'Hören Sie.',
+      maxPoints: 5,
+      scoringMode: 'AUTO',
+      contentRevision: 'a2-mt8-hoeren-1-v1',
+      material: {
+        media: {
+          audioUrl: 'https://cdn.example/teil1.mp3',
+          transcript: 'SECRET spoken text the student must not see on GET',
+        },
+      },
+      items: [
+        {
+          itemNumber: 1,
+          prompt: 'Frage 1',
+          imageUrl: null,
+          solution: { key: 'a' },
+          options: [
+            {
+              key: 'a',
+              content: 'A',
+              imageUrl: 'https://cdn.example/a.png',
+              isCorrect: true,
+            },
+            { key: 'b', content: 'B', imageUrl: null, isCorrect: false },
+          ],
+        },
+        {
+          itemNumber: 2,
+          prompt: 'Frage 2',
+          imageUrl: 'https://cdn.example/item2.png',
+          solution: { key: 'b' },
+          options: [
+            { key: 'a', content: 'A', imageUrl: null, isCorrect: false },
+            { key: 'b', content: 'B', imageUrl: null, isCorrect: true },
+          ],
+        },
+      ],
+    };
+
+    beforeEach(() => {
+      prisma.modelltest.findUnique.mockResolvedValue({
+        id: 'a2-mt',
+        level: 'A2',
+      });
+      genericContent.sectionFor.mockResolvedValue(genericSection);
+    });
+
+    it('GET exercise returns section audioId, aufgabentyp and items without keys', async () => {
+      const result = await service.getExercise('1', 8);
+      expect(result).toMatchObject({
+        audioId: 'section-hoeren-1',
+        playsAllowed: 1,
+        contentRevision: 'a2-mt8-hoeren-1-v1',
+        aufgabentyp: 'EINZELAUSWAHL',
+        sectionId: 'HOEREN_1',
+      });
+      expect(result.items?.[0]).toEqual({
+        itemNumber: 1,
+        prompt: 'Frage 1',
+        imageUrl: null,
+        options: [
+          {
+            key: 'a',
+            content: 'A',
+            imageUrl: 'https://cdn.example/a.png',
+          },
+          { key: 'b', content: 'B', imageUrl: null },
+        ],
+      });
+      expect(result.items?.[1]?.imageUrl).toBe(
+        'https://cdn.example/item2.png',
+      );
+      expect(result.material).toEqual({
+        media: { audioUrl: 'https://cdn.example/teil1.mp3' },
+      });
+      expect(JSON.stringify(result)).not.toContain('isCorrect');
+      expect(JSON.stringify(result)).not.toContain('solution');
+      expect(JSON.stringify(result)).not.toContain('SECRET spoken text');
+      expect(prisma.listeningExercise.findFirst).not.toHaveBeenCalled();
+    });
+
+    it('submit scores with markGenericSection and leaves listening_exercise_id null', async () => {
+      const result = await service.submit('student-1', {
+        type: '1',
+        modelltestNumber: 8,
+        timed: false,
+        content_revision: 'a2-mt8-hoeren-1-v1',
+        answers: { '1': 'a', '2': 'a' },
+      });
+      expect(result.score).toBe(50);
+      expect(result.outcomes).toEqual([
+        { itemNumber: 1, outcome: 'CORRECT' },
+        { itemNumber: 2, outcome: 'WRONG' },
+      ]);
+      expect(result.answerKey).toBeUndefined();
+      expect(prisma.listeningAttempt.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          listening_exercise_id: null,
+          modelltest_id: 'a2-mt',
+          score: 50,
+        }),
+      });
+    });
+
+    it('rejects a stale content_revision on generic submit', async () => {
+      await expect(
+        service.submit('student-1', {
+          type: '1',
+          modelltestNumber: 8,
+          timed: false,
+          content_revision: 'old',
+          answers: { '1': 'a' },
+        }),
+      ).rejects.toThrow(UnprocessableEntityException);
     });
   });
 

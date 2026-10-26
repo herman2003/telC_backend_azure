@@ -1,0 +1,27 @@
+meta {
+  name: 10c A tampered link is refused
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{baseUrl}}/api/exams/audio?token={{a2TamperedToken}}
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  // The real link from 10, with the last character of its signature changed.
+  const token = String(bru.getEnvVar("a2PlayUrl")).split("token=")[1];
+  const last = token.slice(-1) === "a" ? "b" : "a";
+  bru.setVar("a2TamperedToken", token.slice(0, -1) + last);
+}
+
+assert {
+  res.status: eq 400
+  res.body.message: eq AUDIO_TOKEN_INVALID
+}
+
+docs {
+  The signed token is the only authentication on the audio route. Changing one character of the signature must break it.
+}

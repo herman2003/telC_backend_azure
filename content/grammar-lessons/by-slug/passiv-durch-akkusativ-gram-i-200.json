@@ -1,0 +1,39 @@
+{
+  "slug": "passiv-durch-akkusativ-gram-i-200",
+  "titleFr": "Passif avec durch + accusatif (moyen / cause)",
+  "titleEn": "Passive with durch + accusative (means / cause)",
+  "titleDe": "Passiv — durch + Akkusativ",
+  "ruleFr": "## Passif — *durch* + accusatif\n\nPour indiquer le **moyen**, la **cause** ou l’**instrument** (souvent une chose), utilisez **durch** + **accusatif**.\n\n### Structure\n… Passiv … **durch** + chose / moyen (accusatif)\n\n- *Die Stadt wurde **durch ein Erdbeben** zerstört.*\n- *Er wurde **durch einen Anruf** gestört.*\n\n### von vs durch\n| | Préposition | Typique pour |\n|---|---|---|\n| Agent personne | **von** + datif | *von dem Arzt* |\n| Moyen / cause | **durch** + accusatif | *durch den Sturm* |\n\n### Mini-entraînement\nComplétez 4 phrases passives avec *durch + Akk.*",
+  "ruleEn": "## Passive — *durch* + accusative\n\nFor **means**, **cause**, or **instrument** (often a thing), use **durch** + **accusative**.\n\n### Pattern\n… passive … **durch** + thing / means (accusative)\n\n- *Die Stadt wurde **durch ein Erdbeben** zerstört.*\n- *Er wurde **durch einen Anruf** gestört.*\n\n### von vs durch\n| | Preposition | Typical for |\n|---|---|---|\n| Person agent | **von** + dative | *von dem Arzt* |\n| Means / cause | **durch** + accusative | *durch den Sturm* |\n\n### Mini practice\nComplete 4 passive sentences with *durch + Akk.*",
+  "ruleDe": "## Passiv — *durch* + Akkusativ\n\nMittel/Ursache/Instrument: **durch** + **Akkusativ**.\n\n### Muster\n… Passiv … **durch** + Sache/Mittel\n\n- *Die Stadt wurde **durch ein Erdbeben** zerstört.*\n\n### von vs. durch\n| | Präposition | Typisch für |\n|---|---|---|\n| Person | **von** + Dativ | *von dem Arzt* |\n| Mittel/Ursache | **durch** + Akkusativ | *durch den Sturm* |\n\n### Mini-Übung\nErgänzen Sie 4 Passivsätze mit *durch + Akk.*",
+  "notesFr": "durch = by/through (chose, moyen, cause), pas une personne typique.",
+  "notesEn": "durch = by/through (thing, means, cause), not typically a person.",
+  "notesDe": "durch = by (Sache/Mittel/Ursache), nicht typisch Person.",
+  "examples": [
+    {
+      "de": "Die Stadt wurde durch ein Erdbeben zerstört.",
+      "fr": "La ville a été détruite par un tremblement de terre.",
+      "en": "The city was destroyed by an earthquake."
+    },
+    {
+      "de": "Er wurde durch einen Anruf gestört.",
+      "fr": "Il a été dérangé par un appel.",
+      "en": "He was disturbed by a phone call."
+    },
+    {
+      "de": "Das Feuer wurde durch den Regen gelöscht.",
+      "fr": "Le feu a été éteint par la pluie.",
+      "en": "The fire was put out by the rain."
+    },
+    {
+      "de": "Viele Bäume wurden durch den Sturm umgeworfen.",
+      "fr": "Beaucoup d’arbres ont été renversés par la tempête.",
+      "en": "Many trees were blown over by the storm."
+    },
+    {
+      "de": "Die Nachricht wurde durch das Radio verbreitet.",
+      "fr": "La nouvelle a été diffusée par la radio.",
+      "en": "The news was spread via the radio."
+    }
+  ]
+}

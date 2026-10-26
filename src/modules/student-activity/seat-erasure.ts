@@ -31,17 +31,78 @@ export interface SeatErasureInput {
 }
 
 /**
+ * Permanently deletes a student's learning data on a seat (reset path).
+ * No 7-day hide window and no support restore for this erasure.
+ */
+export async function eraseSeatDataNow(
+  tx: Prisma.TransactionClient,
+  input: SeatErasureInput,
+  now = new Date(),
+): Promise<string> {
+  const erasure = await tx.dataErasure.create({
+    data: {
+      student_id: input.studentId,
+      center_id: input.centerId,
+      code_id: input.codeId,
+      center_user_id: input.centerUserId,
+      since: input.since,
+      until: input.until ?? now,
+      erase_after: now,
+      erased_at: now,
+    },
+  });
+
+  // Null `until` is open-ended (same as hideSeatData): a student still on the
+  // seat has done everything since `since` on it, including rows whose clock
+  // runs a moment ahead of the app.
+  const window = {
+    student_id: input.studentId,
+    erasure_id: null as string | null,
+    created_at: {
+      gte: input.since,
+      ...(input.until ? { lte: input.until } : {}),
+    },
+  };
+
+  // Stamp then delete so summaries can be found the same way as hideSeatData,
+  // then removed in one pass with the attempts.
+  const stamp = { data: { erasure_id: erasure.id } };
+  await tx.listeningAttempt.updateMany({ where: window, ...stamp });
+  await tx.sprachbausteineAttempt.updateMany({ where: window, ...stamp });
+  await tx.writingAttempt.updateMany({ where: window, ...stamp });
+  await tx.lesenAttempt.updateMany({ where: window, ...stamp });
+  await tx.speakingAttempt.updateMany({ where: window, ...stamp });
+
+  await tx.$executeRaw`
+    UPDATE student_activities SET erasure_id = ${erasure.id}
+    WHERE student_id = ${input.studentId}
+      AND erasure_id IS NULL
+      AND (
+        (skill = 'HOEREN' AND attempt_id IN (SELECT attempt_id FROM listening_attempts WHERE erasure_id = ${erasure.id}))
+        OR (skill = 'SPRACHBAUSTEINE' AND attempt_id IN (SELECT attempt_id FROM sprachbausteine_attempts WHERE erasure_id = ${erasure.id}))
+        OR (skill = 'SCHREIBEN' AND attempt_id IN (SELECT attempt_id FROM writing_attempts WHERE erasure_id = ${erasure.id}))
+        OR (skill = 'LESEN' AND attempt_id IN (SELECT attempt_id FROM lesen_attempts WHERE erasure_id = ${erasure.id}))
+        OR (skill = 'SPRECHEN' AND attempt_id IN (SELECT attempt_id FROM speaking_attempts WHERE erasure_id = ${erasure.id}))
+      )`;
+
+  const hidden = { where: { erasure_id: erasure.id } };
+  await tx.studentActivity.deleteMany(hidden);
+  await tx.listeningAttempt.deleteMany(hidden);
+  await tx.sprachbausteineAttempt.deleteMany(hidden);
+  await tx.writingAttempt.deleteMany(hidden);
+  await tx.lesenAttempt.deleteMany(hidden);
+  await tx.speakingAttempt.deleteMany(hidden);
+
+  return erasure.id;
+}
+
+/**
  * Hides a student's learning data on a seat, when a reset takes the seat from
  * them (D39). Runs inside the reset's transaction: the seat and the data move
  * together or not at all.
  *
- * Hidden means stamped with the erasure's id; every history and progress read
- * skips stamped rows. The rows themselves stay for `ERASE_AFTER_DAYS`, so
- * support can restore a reset made by mistake, then `SeatErasureService`
- * deletes them.
- *
- * Only the window of the seat is touched: work from before the student joined
- * this school, or at another school afterwards, is theirs and stays.
+ * @deprecated Prefer eraseSeatDataNow for manager resets (immediate wipe).
+ * Kept for purge/restore of any legacy hidden rows.
  */
 export async function hideSeatData(
   tx: Prisma.TransactionClient,

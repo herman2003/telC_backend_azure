@@ -1,0 +1,47 @@
+meta {
+  name: 02 Purchase Exam Day
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/exam-slots/purchase
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+  Idempotency-Key: {{idempotencyKey}}
+}
+
+body:json {
+  {
+    "tier": "MANUAL",
+    "quantity": 3
+  }
+}
+
+script:post-response {
+  if (res.getStatus() === 201) {
+    bru.setEnvVar("paymentId", res.getBody().id);
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.kind: eq EXAM_SLOTS
+  res.body.quantity: eq 3
+  res.body.unitPriceXaf: eq 1000
+  res.body.amountXaf: eq 3540
+  res.body.status: eq PENDING
+}
+
+docs {
+  Launch product: Exam Day manual @ 1000 XAF HT / candidate.
+  3 × 1000 = 3000 HT → 3540 TTC.
+
+  Use a NEW idempotencyKey (e.g. smoke-exam-1).
+  Then webhook activate like other payments.
+  Do not buy tier AI at launch.
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "subjekt-verb-kongruenz-gram-j-202",
+  "titleFr": "L’accord sujet–verbe",
+  "titleEn": "Subject–verb agreement",
+  "titleDe": "Subjekt-Verb-Kongruenz",
+  "ruleFr": "## Accord sujet–verbe\n\nEn allemand, le verbe conjugué s’accorde en **personne** et en **nombre** avec le **sujet**.\n\n### Règle de base\n- Sujet singulier → verbe singulier : *Der Mann **kommt**.*\n- Sujet pluriel → verbe pluriel : *Die Männer **kommen**.*\n\n### Attention\nLe sujet n’est pas toujours juste avant le verbe (inversion) :\n- *Heute **kommt** der Zug.* (sujet = *der Zug*)\n\n### Pronoms\n*ich komme, du kommst, er/sie/es kommt, wir kommen, ihr kommt, sie/Sie kommen*\n\n### Mini-entraînement\nSoulignez le sujet et vérifiez la forme verbale dans 8 phrases.",
+  "ruleEn": "## Subject–verb agreement\n\nIn German, the finite verb agrees in **person** and **number** with the **subject**.\n\n### Basic rule\n- Singular subject → singular verb: *Der Mann **kommt**.*\n- Plural subject → plural verb: *Die Männer **kommen**.*\n\n### Watch out\nThe subject is not always right before the verb (inversion):\n- *Heute **kommt** der Zug.* (subject = *der Zug*)\n\n### Pronouns\n*ich komme, du kommst, er/sie/es kommt, wir kommen, ihr kommt, sie/Sie kommen*\n\n### Mini practice\nUnderline the subject and check the verb form in 8 sentences.",
+  "ruleDe": "## Subjekt-Verb-Kongruenz\n\nDas finite Verb stimmt in **Person** und **Numerus** mit dem **Subjekt** überein.\n\n### Grundregel\n- Singular → Singular: *Der Mann **kommt**.*\n- Plural → Plural: *Die Männer **kommen**.*\n\n### Achtung\nBei Inversion steht das Subjekt nicht immer vor dem Verb:\n- *Heute **kommt** der Zug.*\n\n### Mini-Übung\nUnterstreichen Sie das Subjekt und prüfen Sie die Verbform in 8 Sätzen.",
+  "notesFr": "Sujet singulier = verbe singulier. Sujet pluriel = verbe pluriel.",
+  "notesEn": "Singular subject = singular verb. Plural subject = plural verb.",
+  "notesDe": "Subjekt Singular = Verb Singular. Subjekt Plural = Verb Plural.",
+  "examples": [
+    {
+      "de": "Der Mann kommt spät.",
+      "fr": "L’homme arrive en retard. (sujet singulier)",
+      "en": "The man arrives late. (singular subject)"
+    },
+    {
+      "de": "Die Männer kommen spät.",
+      "fr": "Les hommes arrivent en retard. (sujet pluriel)",
+      "en": "The men arrive late. (plural subject)"
+    },
+    {
+      "de": "Heute kommt der Zug um acht.",
+      "fr": "Aujourd’hui le train arrive à huit heures. (sujet = der Zug)",
+      "en": "Today the train arrives at eight. (subject = der Zug)"
+    },
+    {
+      "de": "Meine Freunde wohnen in Köln.",
+      "fr": "Mes amis habitent à Cologne.",
+      "en": "My friends live in Cologne."
+    },
+    {
+      "de": "Du sprichst sehr gut Deutsch.",
+      "fr": "Tu parles très bien allemand.",
+      "en": "You speak German very well."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+meta {
+  name: 19 The result is complete
+  type: http
+  seq: 40
+}
+
+get {
+  url: {{baseUrl}}/api/centers/me/exam-attempts/{{a2AttemptId}}/result
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.outcome: eq PASSED
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const r = res.body;
+  if (r.awaiting.length !== 0) {
+    throw new Error("nothing should be waiting, got " + JSON.stringify(r.awaiting));
+  }
+  if (r.review.length !== 0) {
+    throw new Error("nothing should be left to review, got " + JSON.stringify(r.review));
+  }
+  // Lesen 4 + Hören 5 + Schreiben 5 + 9.5 + Sprechen 3 + 6 + 6 = 38.5 of 60.
+  // A2 passes on the combined total at 60% (36), not per half.
+  const total = r.written.points + r.oral.points;
+  if (total !== 38.5) {
+    throw new Error("expected 38.5 of 60, got " + total);
+  }
+  const by = {};
+  for (const s of r.sections) by[s.skill + "_" + s.teil] = s;
+  if (by.HOEREN_1.markedBy !== "PERSON" || by.SCHREIBEN_2.markedBy !== "PERSON") {
+    throw new Error("the examiner's marks should be labelled PERSON");
+  }
+}
+
+docs {
+  The end of the journey this collection exists for: candidate submits,
+  the key decides what it can, the examiner decides the rest, and the
+  result is PASSED (38.5 of 60, above A2's combined 60% = 36).
+}

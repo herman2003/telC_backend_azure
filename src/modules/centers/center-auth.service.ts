@@ -25,6 +25,10 @@ import { EmailService } from '../auth/email.service';
 import { locationLabelOf } from '../locations/location-resolver';
 import { TokenService } from '../auth/token.service';
 import {
+  assertCenterSessionWithinTtl,
+  loadCenterSessionTtlPolicy,
+} from './center-session-policy';
+import {
   CenterAuthResponseDto,
   CenterLogoutResponseDto,
   CenterMessageResponseDto,
@@ -118,6 +122,7 @@ interface SignedCenterChangePasswordIdentity {
 @Injectable()
 export class CenterAuthService {
   private readonly logger = new Logger(CenterAuthService.name);
+  private readonly sessionTtl = loadCenterSessionTtlPolicy();
 
   constructor(
     private readonly prisma: PrismaService,
@@ -260,6 +265,26 @@ export class CenterAuthService {
       payload,
       input.refreshToken,
     );
+
+    try {
+      assertCenterSessionWithinTtl(ownedSession, new Date(), this.sessionTtl);
+    } catch (error) {
+      if (
+        error instanceof UnauthorizedException &&
+        error.message === 'CENTER_SESSION_EXPIRED'
+      ) {
+        await this.prisma.centerDeviceSession.updateMany({
+          where: {
+            id: payload.sessionId,
+            center_user_id: payload.centerUserId,
+            revoked_at: null,
+          },
+          data: { revoked_at: new Date() },
+        });
+        await this.revokeCachedSession(payload.sessionId);
+      }
+      throw error;
+    }
 
     const tokens = this.tokenService.generateCenterTokenPair({
       centerUserId: payload.centerUserId,
@@ -460,6 +485,18 @@ export class CenterAuthService {
 
     await this.revokeAllCenterSessions(centerUser.id);
 
+    try {
+      await this.emailService.sendCenterPasswordChangedEmail(email, {
+        deviceName: input.deviceName,
+        at: now,
+      });
+    } catch (error) {
+      this.logSessionError(
+        'Center password-changed email delivery failed',
+        error,
+      );
+    }
+
     return this.issueAuthResponse(
       { ...centerUser, password_hash: passwordHash },
       deviceId,
@@ -491,7 +528,7 @@ export class CenterAuthService {
       // Both identifiers come from the token, so a caller cannot reach another
       // center's manager even by guessing an id.
       where: { id: identity.centerUserId, center_id: identity.centerId },
-      select: { id: true, password_hash: true },
+      select: { id: true, email: true, password_hash: true },
     });
 
     if (!centerUser) {
@@ -520,6 +557,17 @@ export class CenterAuthService {
     });
 
     await this.revokeOtherCenterSessions(centerUser.id, identity.sessionId);
+
+    try {
+      await this.emailService.sendCenterPasswordChangedEmail(centerUser.email, {
+        at: new Date(),
+      });
+    } catch (error) {
+      this.logSessionError(
+        'Center password-changed email delivery failed',
+        error,
+      );
+    }
   }
 
   /**

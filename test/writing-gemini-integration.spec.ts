@@ -46,13 +46,18 @@ ${content}
 }
 
 describe('Writing correction – real Gemini API', () => {
+  // CI sets GEMINI_API_KEY=ci-dummy-gemini-key so AppModule can boot; that is
+  // not a real key and must not hit Google.
   const apiKey = process.env.GEMINI_API_KEY;
+  const isRealKey = Boolean(
+    apiKey && !apiKey.includes('dummy') && !apiKey.startsWith('ci-'),
+  );
   let geminiService: GeminiService | null = null;
 
   beforeAll(async () => {
-    if (!apiKey) {
+    if (!isRealKey) {
       console.warn(
-        'Skipping real Gemini tests: GEMINI_API_KEY not set. Set it to run this spec.',
+        'Skipping real Gemini tests: GEMINI_API_KEY not set to a real key. Set it to run this spec.',
       );
       return;
     }
@@ -75,7 +80,7 @@ describe('Writing correction – real Gemini API', () => {
   });
 
   it('calls Gemini API and returns valid correction JSON (run only when GEMINI_API_KEY is set)', async () => {
-    if (!apiKey || !geminiService) {
+    if (!isRealKey || !geminiService) {
       return; // skipped
     }
 

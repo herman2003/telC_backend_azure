@@ -5,6 +5,8 @@ import { SubscriptionAccessModule } from '../../../shared/subscription-access.mo
 import { RoomController } from './room.controller';
 import { RoomGateway } from './room.gateway';
 import { RoomService } from './room.service';
+import { LobbyService } from './lobby.service';
+import { SafetyService } from './safety.service';
 import { TurnCredentialsService } from './turn-credentials.service';
 
 @Module({
@@ -14,7 +16,13 @@ import { TurnCredentialsService } from './turn-credentials.service';
     SubscriptionAccessModule,
   ],
   controllers: [RoomController],
-  providers: [RoomService, RoomGateway, TurnCredentialsService],
+  providers: [
+    RoomService,
+    LobbyService,
+    SafetyService,
+    RoomGateway,
+    TurnCredentialsService,
+  ],
   exports: [RoomService],
 })
 export class RoomModule {}

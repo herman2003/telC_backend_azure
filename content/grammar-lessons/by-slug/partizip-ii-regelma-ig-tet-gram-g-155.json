@@ -1,0 +1,39 @@
+{
+  "slug": "partizip-ii-regelma-ig-tet-gram-g-155",
+  "titleFr": "Participe II — réguliers en -tet",
+  "titleEn": "Past participle — regular -tet",
+  "titleDe": "Partizip II — regelmäßig -tet",
+  "ruleFr": "## Participe II : radical en -t/-d → **-et**\n\nSi le radical finit par **-t** ou **-d**, on ajoute **-et** (pas seulement *-t*) pour la prononciation.\n\n### Formule\n**ge-** + radical + **-et**\n\n| Infinitif | Participe II |\n|---|---|\n| arbeiten | **gearbeitet** |\n| warten | **gewartet** |\n| kosten | **gekostet** |\n| reden | **geredet** |\n| baden | **gebadet** |\n\n### Lien avec le présent\nMême logique que *du arbeitest* / *er findet* : le *-e-* facilite la prononciation.\n\n### Erreurs fréquentes\n- ✗ *gearbeit* → ✓ *gearbeitet*\n- ✗ *gewardt* → ✓ *gewartet*\n\n### Mini-entraînement\nParticipe de : *melden, landen, enden, öffnen*.",
+  "ruleEn": "## Past participle: stem in -t/-d → **-et**\n\nIf the stem ends in **-t** or **-d**, add **-et** (not just *-t*) for pronunciation.\n\n### Formula\n**ge-** + stem + **-et**\n\n| Infinitive | Past participle |\n|---|---|\n| arbeiten | **gearbeitet** |\n| warten | **gewartet** |\n| kosten | **gekostet** |\n| reden | **geredet** |\n| baden | **gebadet** |\n\n### Link to the present\nSame logic as *du arbeitest* / *er findet*: the *-e-* aids pronunciation.\n\n### Common mistakes\n- ✗ *gearbeit* → ✓ *gearbeitet*\n- ✗ *gewardt* → ✓ *gewartet*\n\n### Mini practice\nParticiple of: *melden, landen, enden, öffnen*.",
+  "ruleDe": "## Partizip II: Stamm auf -t/-d → **-et**\n\nEndet der Stamm auf **-t** oder **-d**, kommt **-et** (nicht nur *-t*).\n\n### Formel\n**ge-** + Stamm + **-et**\n\n| Infinitiv | Partizip II |\n|---|---|\n| arbeiten | **gearbeitet** |\n| warten | **gewartet** |\n| kosten | **gekostet** |\n| reden | **geredet** |\n| baden | **gebadet** |\n\n### Bezug zum Präsens\nWie bei *du arbeitest* / *er findet*: das *-e-* hilft der Aussprache.\n\n### Häufige Fehler\n- ✗ *gearbeit* → ✓ *gearbeitet*\n\n### Mini-Übung\nPartizip von: *melden, landen, enden, öffnen*.",
+  "notesFr": "Comme au présent : *-e-* pour la prononciation (*gearbeitet*).",
+  "notesEn": "As in the present: *-e-* for pronounceability (*gearbeitet*).",
+  "notesDe": "Wie bei der Präsens-Konjugation: *-e-* für die Aussprache.",
+  "examples": [
+    {
+      "de": "Ich habe den ganzen Tag gearbeitet.",
+      "fr": "J’ai travaillé toute la journée. (*gearbeitet*.)",
+      "en": "I worked all day. (*gearbeitet*.)"
+    },
+    {
+      "de": "Wir haben lange gewartet.",
+      "fr": "Nous avons longtemps attendu.",
+      "en": "We waited a long time."
+    },
+    {
+      "de": "Das hat viel gekostet.",
+      "fr": "Cela a beaucoup coûté.",
+      "en": "That cost a lot."
+    },
+    {
+      "de": "Er hat laut geredet.",
+      "fr": "Il a parlé fort.",
+      "en": "He spoke loudly."
+    },
+    {
+      "de": "Das Kind hat im See gebadet.",
+      "fr": "L’enfant s’est baigné dans le lac.",
+      "en": "The child bathed in the lake."
+    }
+  ]
+}

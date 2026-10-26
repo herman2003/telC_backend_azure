@@ -1,0 +1,39 @@
+{
+  "slug": "genus-neutrum-endungen-gram-cc-348",
+  "titleFr": "Genre — terminaisons neutres",
+  "titleEn": "Gender — neuter endings",
+  "titleDe": "Genus — Neutrum-Endungen",
+  "ruleFr": "## Genre — terminaisons neutres\n\nCertains suffixes sont **typiquement neutres** (*das*).\n\n### Terminaisons / préfixes neutres\n| Marque | Exemples |\n|---|---|\n| **-chen** (diminutif) | *das Mädchen, das Häuschen, das Stückchen* |\n| **-lein** (diminutif) | *das Büchlein, das Kindlein* |\n| **-um** | *das Museum, das Zentrum, das Datum* |\n| **-ment** | *das Instrument, das Dokument, das Experiment* |\n| **-tum** (souvent) | *das Eigentum, das Christentum* (mais *der Reichtum* !) |\n| **Ge-** (collectifs) | *das Gebäude, das Gebirge, das Gespräch* |\n\n### Règle d’or\n**-chen / -lein** → **toujours** *das*, même si la personne est féminine : *das Mädchen*.\n\n### Mini-entraînement\n1. Formez 8 diminutifs en *-chen*.\n2. Apprenez 10 mots *-um / -ment* avec *das*.\n3. Attention aux exceptions (*der Irrtum, der Reichtum*).",
+  "ruleEn": "## Gender — neuter endings\n\nSome suffixes are **typically neuter** (*das*).\n\n### Neuter markers\n| Marker | Examples |\n|---|---|\n| **-chen** (diminutive) | *das Mädchen, das Häuschen* |\n| **-lein** | *das Büchlein* |\n| **-um** | *das Museum, das Zentrum* |\n| **-ment** | *das Instrument, das Dokument* |\n| **Ge-** (collectives) | *das Gebäude, das Gebirge* |\n\n### Golden rule\n**-chen / -lein** → **always** *das*, even for female persons: *das Mädchen*.\n\n### Mini practice\n1. Form 8 diminutives in *-chen*.\n2. Learn 10 *-um / -ment* words with *das*.\n3. Watch exceptions (*der Irrtum, der Reichtum*).",
+  "ruleDe": "## Genus — Neutrum-Endungen\n\nManche Suffixe sind **typisch Neutrum** (*das*).\n\n### Marker\n| Marker | Beispiele |\n|---|---|\n| **-chen** | *das Mädchen, das Häuschen* |\n| **-lein** | *das Büchlein* |\n| **-um** | *das Museum, das Zentrum* |\n| **-ment** | *das Instrument* |\n| **Ge-** | *das Gebäude, das Gebirge* |\n\n### Merksatz\n**-chen / -lein** → **immer** *das*, auch bei weiblichen Personen: *das Mädchen*.\n\n### Mini-Übung\n1. 8 Diminutive auf *-chen* bilden.\n2. 10 Wörter *-um/-ment* mit *das* lernen.\n3. Ausnahmen merken (*der Irrtum*).",
+  "notesFr": "-chen/-lein (diminutif) = TOUJOURS neutre ! das Mädchen (même si c’est une fille).",
+  "notesEn": "-chen/-lein (diminutive) = ALWAYS neuter! das Mädchen (even though it’s a girl).",
+  "notesDe": "-chen/-lein (Diminutiv) = IMMER Neutrum! Das Mädchen (obwohl weiblich).",
+  "examples": [
+    {
+      "de": "Das Mädchen spielt im Hof.",
+      "fr": "La fille joue dans la cour. (-chen = neutre.)",
+      "en": "The girl is playing in the yard. (-chen = neuter.)"
+    },
+    {
+      "de": "Das Büchlein ist neu.",
+      "fr": "Le petit livre est neuf. (-lein.)",
+      "en": "The little book is new. (-lein.)"
+    },
+    {
+      "de": "Das Museum öffnet um zehn.",
+      "fr": "Le musée ouvre à dix heures. (-um.)",
+      "en": "The museum opens at ten. (-um.)"
+    },
+    {
+      "de": "Das Instrument klingt schön.",
+      "fr": "L’instrument sonne bien. (-ment.)",
+      "en": "The instrument sounds beautiful. (-ment.)"
+    },
+    {
+      "de": "Das Gebäude ist modern.",
+      "fr": "Le bâtiment est moderne. (Ge-.)",
+      "en": "The building is modern. (Ge-.)"
+    }
+  ]
+}

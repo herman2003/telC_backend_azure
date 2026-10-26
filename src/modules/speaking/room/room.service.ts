@@ -1,9 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { randomInt, randomUUID } from 'crypto';
 import { ACTIVATION_CODE_ALPHABET } from '../../centers/activation-code-format';
 import { ROOM_CODE_LENGTH } from './constants';
 import { Room } from './interfaces/room.interface';
 import { CreateRoomResponseDto } from './dto/create-room-response.dto';
+import {
+  SPEAKING_TOPICS,
+  SpeakingLevel,
+  SpeakingTopic,
+} from './speaking-topics.data';
 
 @Injectable()
 export class RoomService {
@@ -12,11 +17,12 @@ export class RoomService {
   /** Short code → roomId, for live rooms only. */
   private readonly codes = new Map<string, string>();
 
-  createRoom(): CreateRoomResponseDto {
+  createRoom(level: SpeakingLevel): CreateRoomResponseDto {
     const roomId = randomUUID();
     const hostToken = randomUUID();
     const createdAt = new Date();
     const expiresAt = new Date(createdAt.getTime() + 2 * 60 * 60 * 1000);
+    const topic = this.pickTopic(level, []);
 
     const expiryTimer = setTimeout(
       () => {
@@ -28,6 +34,9 @@ export class RoomService {
     const shortCode = this.drawShortCode();
     const room: Room = {
       roomId,
+      level,
+      topic,
+      usedTopicIds: [topic.id],
       shortCode,
       hostSocketId: null,
       hostToken,
@@ -48,7 +57,38 @@ export class RoomService {
       shortCode,
       hostToken,
       expiresAt: expiresAt.toISOString(),
+      topic,
     };
+  }
+
+  selectNextTopic(roomId: string): SpeakingTopic | undefined {
+    const room = this.rooms.get(roomId);
+    if (!room || room.status === 'ended') return undefined;
+
+    const previousTopicId = room.topic.id;
+    let usedTopicIds = room.usedTopicIds;
+    const hasUnusedTopics = SPEAKING_TOPICS.some(
+      (topic) => topic.level === room.level && !usedTopicIds.includes(topic.id),
+    );
+
+    if (!hasUnusedTopics) {
+      usedTopicIds = [];
+    }
+
+    const topic = this.pickTopic(room.level, usedTopicIds, previousTopicId);
+    room.topic = topic;
+    room.usedTopicIds = [...usedTopicIds, topic.id];
+
+    this.logger.log(
+      JSON.stringify({
+        event: 'topic.changed',
+        roomId,
+        previousTopicId,
+        topicId: topic.id,
+      }),
+    );
+
+    return topic;
   }
 
   /**
@@ -171,5 +211,39 @@ export class RoomService {
 
   getAllRooms(): IterableIterator<Room> {
     return this.rooms.values();
+  }
+
+  private pickTopic(
+    level: SpeakingLevel,
+    excludedIds: string[],
+    currentTopicId?: string,
+  ): SpeakingTopic {
+    let candidates = SPEAKING_TOPICS.filter(
+      (topic) => topic.level === level && !excludedIds.includes(topic.id),
+    );
+
+    if (candidates.length > 1 && currentTopicId) {
+      candidates = candidates.filter((topic) => topic.id !== currentTopicId);
+    }
+
+    if (candidates.length === 0) {
+      /**
+       * A level whose topics have not been written yet.
+       *
+       * A bare Error here became a 500 on the controller and an unhandled
+       * failure on the gateway: a student told nothing, and a paging alert for
+       * what is only a content gap. Stated as a reason the client can show,
+       * and never by falling back to another level's topic — a B2 candidate
+       * handed a B1 debate card is worse than being told to wait.
+       */
+      throw new NotFoundException({
+        message: 'NO_TOPICS_FOR_LEVEL',
+        messageKey: 'noTopicsForLevel',
+        level,
+      });
+    }
+
+    const selected = candidates[Math.floor(Math.random() * candidates.length)];
+    return { ...selected, followUpQuestions: [...selected.followUpQuestions] };
   }
 }

@@ -33,12 +33,15 @@ yarn-error.log*
 
 # Misc
 .env.production.local
+.bruno-local-backup/
 
 # Claude Code local settings (machine-specific, not for sharing)
 .claude/settings.local.json
 
+# Cursor / Superpowers local agent notes (not for sharing)
+.superpowers/
+
 /generated/prisma
-docs/api-contract.md
 # .github holds agent config that stays local, but workflows must be tracked
 .github/*
 !.github/workflows/
@@ -77,3 +80,10 @@ bruno/environments/*.local.bru
 !tasks/phases/06-subscription-payments-todo.md
 !tasks/phases/06b-center-onboarding-plan.md
 !tasks/phases/06b-center-onboarding-todo.md
+
+# Written by the lint ratchet in .github/workflows/test.yml.
+eslint.json
+
+# Local Modelltest extraction artifacts
+content/*.raw.json
+

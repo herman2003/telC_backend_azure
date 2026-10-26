@@ -1,0 +1,39 @@
+{
+  "slug": "prateritum-unregelma-ig-gram-g-166",
+  "titleFr": "Prétérit — verbes irréguliers",
+  "titleEn": "Simple past — irregular verbs",
+  "titleDe": "Präteritum — unregelmäßig",
+  "ruleFr": "## Präteritum irrégulier\n\nLe radical **change** (souvent la voyelle), et les terminaisons diffèrent :\n\n| Personne | *gehen* | *sehen* |\n|---|---|---|\n| ich | **ging** | **sah** |\n| du | **gingst** | **sahst** |\n| er/sie/es | **ging** | **sah** |\n| wir | **gingen** | **sahen** |\n\n### Point clé\n**Pas** de *-te* en 1ʳᵉ/3ᵉ personne : ✗ *gingte* → ✓ *ging*.\n\n### Exemples courants\n*kommen → kam*, *fahren → fuhr*, *schreiben → schrieb*, *trinken → trank*\n\n### Mini-entraînement\nApprenez 8 formes *ich/er* irrégulières.",
+  "ruleEn": "## Irregular simple past\n\nThe stem **changes** (often the vowel), and endings differ:\n\n| Person | *gehen* | *sehen* |\n|---|---|---|\n| ich | **ging** | **sah** |\n| du | **gingst** | **sahst** |\n| er/sie/es | **ging** | **sah** |\n| wir | **gingen** | **sahen** |\n\n### Key point\n**No** *-te* in 1st/3rd person: ✗ *gingte* → ✓ *ging*.\n\n### Common examples\n*kommen → kam*, *fahren → fuhr*, *schreiben → schrieb*, *trinken → trank*\n\n### Mini practice\nLearn 8 irregular *ich/er* forms.",
+  "ruleDe": "## Unregelmäßiges Präteritum\n\nDer Stamm **ändert sich**, die Endungen sind anders:\n\n| Person | *gehen* | *sehen* |\n|---|---|---|\n| ich | **ging** | **sah** |\n| du | **gingst** | **sahst** |\n| er/sie/es | **ging** | **sah** |\n| wir | **gingen** | **sahen** |\n\n### Wichtig\n**Keine** *-te*-Endung in 1./3. Person: ✗ *gingte* → ✓ *ging*.\n\n### Häufige Beispiele\n*kommen → kam*, *fahren → fuhr*, *schreiben → schrieb*, *trinken → trank*\n\n### Mini-Übung\nLernen Sie 8 unregelmäßige *ich/er*-Formen.",
+  "notesFr": "Pas de terminaison en 1ʳᵉ/3ᵉ singulier : *ich ging*, *er ging* (pas *gingte*).",
+  "notesEn": "No ending in 1st/3rd singular: *ich ging*, *er ging* (not *gingte*).",
+  "notesDe": "Keine Endung in 1./3. Person Singular! *ich ging*, *er ging* (nicht *gingte*).",
+  "examples": [
+    {
+      "de": "Ich ging nach Hause.",
+      "fr": "Je rentrai / allai à la maison.",
+      "en": "I went home."
+    },
+    {
+      "de": "Er sah einen Vogel.",
+      "fr": "Il vit un oiseau.",
+      "en": "He saw a bird."
+    },
+    {
+      "de": "Sie kam zu spät.",
+      "fr": "Elle arriva trop tard.",
+      "en": "She came too late."
+    },
+    {
+      "de": "Wir fuhren nach Hamburg.",
+      "fr": "Nous allâmes à Hambourg.",
+      "en": "We drove to Hamburg."
+    },
+    {
+      "de": "Du schriebst einen Brief.",
+      "fr": "Tu écrivis une lettre.",
+      "en": "You wrote a letter."
+    }
+  ]
+}

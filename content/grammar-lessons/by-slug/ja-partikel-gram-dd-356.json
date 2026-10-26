@@ -1,0 +1,39 @@
+{
+  "slug": "ja-partikel-gram-dd-356",
+  "titleFr": "ja (particule)",
+  "titleEn": "ja (particle)",
+  "titleDe": "ja (Partikel)",
+  "ruleFr": "## ja (particule)\n\nLa particule **ja** (inaccentuée) n’est **pas** le « oui » de réponse. Elle marque l’évidence, la surprise ou l’avertissement.\n\n### Emplois\n1. **Évidence / savoir partagé**  \n   *Du weißt **ja**, dass…* · *Das ist **ja** klar.*\n2. **Surprise**  \n   *Das ist **ja** toll!* · *Du bist **ja** schon da!*\n3. **Avertissement** (souvent + impératif négatif)  \n   *Mach **ja** keinen Unsinn!* · *Komm **ja** pünktlich!*\n\n### Accent\n| Forme | Rôle |\n|---|---|\n| *ja* inaccentué au milieu | particule |\n| *Ja.* accentué / seul | réponse « oui » |\n\n### Mini-entraînement\n1. Transformez 5 phrases avec *ja* d’évidence.\n2. Exprimez la surprise : *Das ist ja…!*\n3. Formulez 3 avertissements avec *ja*.",
+  "ruleEn": "## ja (particle)\n\nParticle **ja** (unstressed) is **not** the reply “yes”. It marks obviousness, surprise, or warning.\n\n### Uses\n1. **Shared knowledge / obviousness**  \n   *Du weißt **ja**, dass…*\n2. **Surprise**  \n   *Das ist **ja** toll!*\n3. **Warning**  \n   *Mach **ja** keinen Unsinn!* · *Komm **ja** pünktlich!*\n\n### Stress\n| Form | Role |\n|---|---|\n| unstressed mid-sentence *ja* | particle |\n| stressed alone *Ja.* | reply “yes” |\n\n### Mini practice\n1. Add evidential *ja* to 5 sentences.\n2. Express surprise: *Das ist ja…!*\n3. Form 3 warnings with *ja*.",
+  "ruleDe": "## ja (Partikel)\n\nDie Partikel **ja** (unbetont) ist **nicht** das Antwort-„Ja“. Sie zeigt Bekanntes, Überraschung oder Warnung.\n\n### Verwendungen\n1. **Bekanntes** — *Du weißt **ja**, dass…*\n2. **Überraschung** — *Das ist **ja** toll!*\n3. **Warnung** — *Mach **ja** keinen Unsinn!*\n\n### Betonung\nUnbetont = Partikel; betont allein = Antwort „Ja“.\n\n### Mini-Übung\n1. 5 Sätze mit evidentiellem *ja*.\n2. Überraschung: *Das ist ja…!*\n3. 3 Warnungen mit *ja*.",
+  "notesFr": "Ne pas confondre avec ja = oui ! La particule est inaccentuée dans la phrase.",
+  "notesEn": "Don’t confuse with ja = yes! The particle is unstressed in the sentence.",
+  "notesDe": "Nicht verwechseln mit ja = yes! Die Partikel ist unbetont im Satz.",
+  "examples": [
+    {
+      "de": "Du weißt ja, dass ich um acht komme.",
+      "fr": "Tu sais bien que j’arrive à huit heures.",
+      "en": "You know (of course) that I’m coming at eight."
+    },
+    {
+      "de": "Das ist ja unglaublich!",
+      "fr": "C’est vraiment incroyable !",
+      "en": "That’s unbelievable!"
+    },
+    {
+      "de": "Du bist ja schon fertig!",
+      "fr": "Tu as déjà fini, dis donc !",
+      "en": "You’re already done!"
+    },
+    {
+      "de": "Komm ja nicht zu spät!",
+      "fr": "Ne sois surtout pas en retard !",
+      "en": "Don’t you dare be late!"
+    },
+    {
+      "de": "Das war ja klar.",
+      "fr": "C’était évident / on s’en doutait.",
+      "en": "That was obvious / figured."
+    }
+  ]
+}

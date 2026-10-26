@@ -1,0 +1,65 @@
+meta {
+  name: 14 Submit, auto-scored except the letter
+  type: http
+  seq: 31
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/LESEN_SCHREIBEN/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+body:json {
+  {
+    "answers": {
+      "LESEN_1": { "1": "b", "2": "b", "3": "c", "4": "a", "5": "a" },
+      "SCHREIBEN_1": {
+        "1": "  santiago ",
+        "2": "18.10.1972",
+        "3": "Valparaiso",
+        "4": "verheiratet",
+        "5": "Französisch"
+      },
+      "SCHREIBEN_2": { "text": "Liebe Anna, vielen Dank für deine Einladung." }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const by = {};
+  for (const s of res.body.sections) by[s.skill + "_" + s.teil] = s;
+
+  // Lesen Teil 1: four of five right against the paper's Lösungsschlüssel.
+  if (by.LESEN_1.score !== 80) {
+    throw new Error("LESEN_1 should score 80, got " + by.LESEN_1.score);
+  }
+  // Schreiben Teil 1 is FORMULAR_AUSFUELLEN: auto-scored, and "  santiago "
+  // matches "Santiago" because the field trims and ignores case.
+  if (by.SCHREIBEN_1.score !== 100 || by.SCHREIBEN_1.pending !== false) {
+    throw new Error("SCHREIBEN_1 should auto-score 100, got " + JSON.stringify(by.SCHREIBEN_1));
+  }
+  // Schreiben Teil 2 is the letter: a person marks it.
+  if (by.SCHREIBEN_2.score !== null || by.SCHREIBEN_2.pending !== true) {
+    throw new Error("SCHREIBEN_2 must wait for a person, got " + JSON.stringify(by.SCHREIBEN_2));
+  }
+}
+
+docs {
+  The answers are the real A2 Modelltest 1 key, with item 5 of Lesen
+  Teil 1 deliberately wrong (key: c).
+
+  Before PR #112 this whole block threw: every skill asked a B1 answer-key
+  service, and Schreiben looked for a WritingExercise row A2 does not have.
+}

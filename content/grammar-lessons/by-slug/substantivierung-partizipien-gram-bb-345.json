@@ -1,0 +1,39 @@
+{
+  "slug": "substantivierung-partizipien-gram-bb-345",
+  "titleFr": "Nominalisation — participes",
+  "titleEn": "Nominalization — participles",
+  "titleDe": "Substantivierung — Partizipien",
+  "ruleFr": "## Nominalisation — participes\n\nLes **participes** (I et II) peuvent devenir des **noms de personne** : majuscule + déclinaison d’adjectif.\n\n### Exemples fréquents\n| Participe → nom | Sens |\n|---|---|\n| *der / die Angestellte* | l’employé(e) |\n| *der / die Reisende* | le/la voyageur(-euse) |\n| *der / die Verletzte* | le/la blessé(e) |\n| *der / die Studierende* | l’étudiant(e) |\n| *der / die Vorsitzende* | le/la président(e) |\n\n### Déclinaison (comme adjectif)\n| | défini | indéfini |\n|---|---|---|\n| Nom. | der Angestellte | ein Angestellter |\n| Akk. | den Angestellten | einen Angestellten |\n\n### Attention\n*ein Angestellter* (indéfini masc.) prend **-er** ; *der Angestellte* (défini) prend **-e**.\n\n### Mini-entraînement\n1. Déclinez *Reisende* au singulier (défini/indéfini).\n2. Remplacez *Person, die reist* par *der/die Reisende*.\n3. Écrivez 5 phrases avec *Studierende / Verletzte*.",
+  "ruleEn": "## Nominalization — participles\n\n**Participles** (I and II) can become **person nouns**: capital + adjective declension.\n\n### Common examples\n| Participle → noun | Meaning |\n|---|---|\n| *der / die Angestellte* | employee |\n| *der / die Reisende* | traveler |\n| *der / die Verletzte* | injured person |\n| *der / die Studierende* | student |\n| *der / die Vorsitzende* | chairperson |\n\n### Declension\n| | definite | indefinite |\n|---|---|---|\n| Nom. | der Angestellte | ein Angestellter |\n| Akk. | den Angestellten | einen Angestellten |\n\n### Watch out\n*ein Angestellter* (indef. masc.) takes **-er**; *der Angestellte* (def.) takes **-e**.\n\n### Mini practice\n1. Decline *Reisende* singular (def./indef.).\n2. Replace “person who travels” with *der/die Reisende*.\n3. Write 5 sentences with *Studierende / Verletzte*.",
+  "ruleDe": "## Substantivierung — Partizipien\n\n**Partizipien** können **Personennamen** werden: groß + Adjektivdeklination.\n\n### Häufige Beispiele\n| Partizip → Nomen | Bedeutung |\n|---|---|\n| *der / die Angestellte* | Mitarbeiter/in |\n| *der / die Reisende* | Reisender/Reisende |\n| *der / die Verletzte* | verletzte Person |\n| *der / die Studierende* | Student/in |\n| *der / die Vorsitzende* | Vorsitz |\n\n### Deklination\n*der Angestellte* vs. *ein Angestellter* — Endungen wie beim Adjektiv!\n\n### Mini-Übung\n1. *Reisende* im Singular deklinieren.\n2. Umschreiben mit *der/die Reisende*.\n3. 5 Sätze mit *Studierende / Verletzte*.",
+  "notesFr": "Déclinaison comme un adjectif ! der Angestellte, ein Angestellter (terminaisons différentes).",
+  "notesEn": "Declension like an adjective! der Angestellte, ein Angestellter (different endings).",
+  "notesDe": "Dekliniert wie Adjektiv! der Angestellte, ein Angestellter.",
+  "examples": [
+    {
+      "de": "Der Angestellte kommt um neun.",
+      "fr": "L’employé arrive à neuf heures.",
+      "en": "The employee arrives at nine."
+    },
+    {
+      "de": "Eine Reisende hat ihren Pass verloren.",
+      "fr": "Une voyageuse a perdu son passeport.",
+      "en": "A (female) traveler lost her passport."
+    },
+    {
+      "de": "Die Verletzten wurden ins Krankenhaus gebracht.",
+      "fr": "Les blessés ont été emmenés à l’hôpital.",
+      "en": "The injured were taken to hospital."
+    },
+    {
+      "de": "Viele Studierende wohnen im Wohnheim.",
+      "fr": "Beaucoup d’étudiants habitent en résidence.",
+      "en": "Many students live in the dorm."
+    },
+    {
+      "de": "Ein Vorsitzender wurde gewählt.",
+      "fr": "Un président a été élu. (*ein Vorsitzender* : -er.)",
+      "en": "A chairperson was elected. (*ein Vorsitzender*: -er.)"
+    }
+  ]
+}

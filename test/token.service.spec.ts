@@ -98,7 +98,7 @@ describe('TokenService', () => {
           studentId: 'student-123',
           deviceId: 'device-456',
         },
-        process.env.JWT_ACCESS_SECRET,
+        process.env.JWT_ACCESS_SECRET as string,
         {
           issuer: 'lerniqo-api',
           audience: 'lerniqo-app',

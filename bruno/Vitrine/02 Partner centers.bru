@@ -1,0 +1,21 @@
+meta {
+  name: 02 Partner centers
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/public/partner-centers
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.centers: isDefined
+}
+
+docs {
+  Unauthenticated list of centers that have a `logoUrl` for the marketing
+  partners strip. Empty `centers: []` is valid — the vitrine hides the section.
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "partizip-ii-untrennbar-gram-g-160",
+  "titleFr": "Participe II — verbes inséparables",
+  "titleEn": "Past participle — inseparable verbs",
+  "titleDe": "Partizip II — untrennbar",
+  "ruleFr": "## Participe II des verbes à préfixe inséparable\n\n### Règle\n**Pas de ge- !** Radical + **-t** ou **-en**\n\n| Infinitif | Participe II |\n|---|---|\n| besuchen | **besucht** |\n| erklären | **erklärt** |\n| verstehen | **verstanden** |\n| verlieren | **verloren** |\n| empfangen | **empfangen** |\n\n### Préfixes inséparables\n**be-, emp-, ent-, er-, ge-, miss-, ver-, zer-**\n\n### Erreurs fréquentes\n- ✗ *gebesucht* → ✓ *besucht*\n- ✗ *geverloren* → ✓ *verloren*\n\n### Mini-entraînement\nParticipe de : *bestellen, verkaufen, erzählen, gefallen*.",
+  "ruleEn": "## Past participle of inseparable-prefix verbs\n\n### Rule\n**No ge-!** Stem + **-t** or **-en**\n\n| Infinitive | Past participle |\n|---|---|\n| besuchen | **besucht** |\n| erklären | **erklärt** |\n| verstehen | **verstanden** |\n| verlieren | **verloren** |\n| empfangen | **empfangen** |\n\n### Inseparable prefixes\n**be-, emp-, ent-, er-, ge-, miss-, ver-, zer-**\n\n### Common mistakes\n- ✗ *gebesucht* → ✓ *besucht*\n- ✗ *geverloren* → ✓ *verloren*\n\n### Mini practice\nParticiple of: *bestellen, verkaufen, erzählen, gefallen*.",
+  "ruleDe": "## Partizip II untrennbarer Verben\n\n### Regel\n**Kein ge-!** Stamm + **-t** oder **-en**\n\n| Infinitiv | Partizip II |\n|---|---|\n| besuchen | **besucht** |\n| erklären | **erklärt** |\n| verstehen | **verstanden** |\n| verlieren | **verloren** |\n| empfangen | **empfangen** |\n\n### Untrennbare Präfixe\n**be-, emp-, ent-, er-, ge-, miss-, ver-, zer-**\n\n### Häufige Fehler\n- ✗ *gebesucht* → ✓ *besucht*\n\n### Mini-Übung\nPartizip von: *bestellen, verkaufen, erzählen, gefallen*.",
+  "notesFr": "Préfixes inséparables : *be-, emp-, ent-, er-, ge-, miss-, ver-, zer-*.",
+  "notesEn": "Inseparable prefixes: *be-, emp-, ent-, er-, ge-, miss-, ver-, zer-*.",
+  "notesDe": "Untrennbare Präfixe: *be-, emp-, ent-, er-, ge-, miss-, ver-, zer-*.",
+  "examples": [
+    {
+      "de": "Wir haben unsere Freunde besucht.",
+      "fr": "Nous avons rendu visite à nos amis. (*besucht*, sans *ge-*).",
+      "en": "We visited our friends. (*besucht*, no *ge-*)."
+    },
+    {
+      "de": "Sie hat die Regel erklärt.",
+      "fr": "Elle a expliqué la règle.",
+      "en": "She explained the rule."
+    },
+    {
+      "de": "Hast du mich verstanden?",
+      "fr": "M’as-tu compris ?",
+      "en": "Did you understand me?"
+    },
+    {
+      "de": "Er hat seinen Schlüssel verloren.",
+      "fr": "Il a perdu sa clé.",
+      "en": "He lost his key."
+    },
+    {
+      "de": "Das Geschenk hat mir gefallen.",
+      "fr": "Le cadeau m’a plu.",
+      "en": "I liked the present."
+    }
+  ]
+}

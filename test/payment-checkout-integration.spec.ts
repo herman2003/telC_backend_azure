@@ -16,11 +16,8 @@ import {
 import { PrismaService } from '../src/shared/services/prisma.service';
 import { PaymentCheckoutService } from '../src/modules/centers/payment-checkout.service';
 import { FakePaymentProvider } from '../src/modules/centers/payment-providers/fake-payment-provider';
-import { DisabledPaymentProvider } from '../src/modules/centers/payment-providers/disabled-payment-provider';
-import type {
-  CheckoutRequest,
-  PaymentProvider,
-} from '../src/modules/centers/payment-providers/payment-provider';
+import type { CheckoutRequest } from '../src/modules/centers/payment-providers/payment-provider';
+import { registryOf } from '../src/modules/centers/payment-providers/payment-provider-registry';
 
 const prisma = new PrismaService();
 const SECRET = 'a-long-enough-fake-webhook-secret-for-tests';
@@ -92,6 +89,7 @@ async function makeCenter() {
       name: `Checkout Test ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
       subscription: { create: { plan: 'TRIAL' } },
     },
   });
@@ -104,16 +102,12 @@ async function makePayment(
   return prisma.payment.create({
     data: {
       center_id: centerId,
-      total_seats: 10,
+      quantity: 10,
       amount_xaf: 45000,
       status,
       idempotency_key: `checkout-${Date.now()}-${Math.random()}`,
       request_hash: 'test',
-      lines: {
-        create: [
-          { tier: 'START', seats: 10, unit_price_xaf: 4500, amount_xaf: 45000 },
-        ],
-      },
+      unit_price_xaf: 4500,
     },
   });
 }
@@ -128,13 +122,14 @@ afterAll(async () => {
 describe('starting a checkout', () => {
   it('opens a session and stores its reference and URL on the payment', async () => {
     const provider = new CountingProvider();
-    const checkout = new PaymentCheckoutService(prisma, provider);
+    const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
     const center = await makeCenter();
     const payment = await makePayment(center.id);
 
     const session = await checkout.startCheckout(
       identity(center.id),
       payment.id,
+      'fake',
     );
 
     expect(session.paymentId).toBe(payment.id);
@@ -143,6 +138,7 @@ describe('starting a checkout', () => {
       where: { id: payment.id },
     });
     expect(row.provider_reference).toBe(`fake_${payment.id}`);
+    expect(row.provider).toBe('fake');
     expect(row.checkout_url).toBe(session.checkoutUrl);
   });
 
@@ -151,14 +147,19 @@ describe('starting a checkout', () => {
     // transaction for one payment — the second could be paid as well, and its
     // webhook would name a reference nothing holds.
     const provider = new CountingProvider();
-    const checkout = new PaymentCheckoutService(prisma, provider);
+    const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
     const center = await makeCenter();
     const payment = await makePayment(center.id);
 
-    const first = await checkout.startCheckout(identity(center.id), payment.id);
+    const first = await checkout.startCheckout(
+      identity(center.id),
+      payment.id,
+      'fake',
+    );
     const second = await checkout.startCheckout(
       identity(center.id),
       payment.id,
+      'fake',
     );
 
     expect(second.checkoutUrl).toBe(first.checkoutUrl);
@@ -167,13 +168,13 @@ describe('starting a checkout', () => {
 
   it('answers two simultaneous clicks with one stored session', async () => {
     const provider = new RacingProvider();
-    const checkout = new PaymentCheckoutService(prisma, provider);
+    const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
     const center = await makeCenter();
     const payment = await makePayment(center.id);
 
     const [a, b] = await Promise.all([
-      checkout.startCheckout(identity(center.id), payment.id),
-      checkout.startCheckout(identity(center.id), payment.id),
+      checkout.startCheckout(identity(center.id), payment.id, 'fake'),
+      checkout.startCheckout(identity(center.id), payment.id, 'fake'),
     ]);
 
     expect(a.checkoutUrl).toBe(b.checkoutUrl);
@@ -194,15 +195,15 @@ describe('what a checkout refuses', () => {
       // A paid payment must not be paid twice, and a failed one is finished:
       // the center starts a new payment instead.
       const provider = new CountingProvider();
-      const checkout = new PaymentCheckoutService(prisma, provider);
+      const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
       const center = await makeCenter();
       const payment = await makePayment(center.id, status);
 
       await expect(
-        checkout.startCheckout(identity(center.id), payment.id),
+        checkout.startCheckout(identity(center.id), payment.id, 'fake'),
       ).rejects.toThrow(ConflictException);
       await expect(
-        checkout.startCheckout(identity(center.id), payment.id),
+        checkout.startCheckout(identity(center.id), payment.id, 'fake'),
       ).rejects.toThrow('PAYMENT_NOT_PENDING');
       expect(provider.calls).toBe(0);
     },
@@ -211,27 +212,24 @@ describe('what a checkout refuses', () => {
   it("refuses another center's payment as not found", async () => {
     // 404, never 403: a 403 would confirm the id exists.
     const provider = new CountingProvider();
-    const checkout = new PaymentCheckoutService(prisma, provider);
+    const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
     const mine = await makeCenter();
     const theirs = await makeCenter();
     const payment = await makePayment(theirs.id);
 
     await expect(
-      checkout.startCheckout(identity(mine.id), payment.id),
+      checkout.startCheckout(identity(mine.id), payment.id, 'fake'),
     ).rejects.toThrow(NotFoundException);
     expect(provider.calls).toBe(0);
   });
 
   it('stores nothing when no provider is configured', async () => {
-    const checkout = new PaymentCheckoutService(
-      prisma,
-      new DisabledPaymentProvider() as PaymentProvider,
-    );
+    const checkout = new PaymentCheckoutService(prisma, registryOf());
     const center = await makeCenter();
     const payment = await makePayment(center.id);
 
     await expect(
-      checkout.startCheckout(identity(center.id), payment.id),
+      checkout.startCheckout(identity(center.id), payment.id, 'fake'),
     ).rejects.toThrow(ServiceUnavailableException);
 
     const row = await prisma.payment.findUniqueOrThrow({

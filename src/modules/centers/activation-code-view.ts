@@ -1,5 +1,5 @@
-import type { ActivationCodeStatus, Tier } from '@prisma/client';
-import { planIdFor, type PlanId } from '../../shared/plan-id';
+import type { ActivationCodeStatus, CefrLevel } from '@prisma/client';
+import { PLAN_ID, type PlanId } from '../../shared/plan-id';
 
 /**
  * A code as a client sees it.
@@ -15,19 +15,22 @@ import { planIdFor, type PlanId } from '../../shared/plan-id';
 export interface ActivationCodeView {
   id: string;
   code: string;
-  status: 'activated' | 'connected' | 'deactivated';
+  status: 'activated' | 'connected' | 'suspended' | 'deactivated';
   planId: PlanId;
   linkedName: string | null;
   linkedEmail: string | null;
   connectedAt: Date | null;
   createdAt: Date;
   expiresAt: Date | null;
+  /** Seat level set by the center; applied to the student on redeem when set. */
+  level: CefrLevel | null;
 }
 
 const STATUS_VIEW: Record<ActivationCodeStatus, ActivationCodeView['status']> =
   {
     ACTIVATED: 'activated',
     CONNECTED: 'connected',
+    SUSPENDED: 'suspended',
     DEACTIVATED: 'deactivated',
   };
 
@@ -35,23 +38,24 @@ export function toActivationCodeView(row: {
   id: string;
   code: string;
   status: ActivationCodeStatus;
-  tier: Tier;
   linked_name: string | null;
   linked_email: string | null;
   connected_at: Date | null;
   created_at: Date;
   expires_at: Date | null;
+  level: CefrLevel | null;
 }): ActivationCodeView {
   return {
     id: row.id,
     code: row.code,
     // Lower case, like the plan ids: the database's spelling stays inside.
     status: STATUS_VIEW[row.status],
-    planId: planIdFor(row.tier),
+    planId: PLAN_ID,
     linkedName: row.linked_name,
     linkedEmail: row.linked_email,
     connectedAt: row.connected_at,
     createdAt: row.created_at,
     expiresAt: row.expires_at,
+    level: row.level,
   };
 }

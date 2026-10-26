@@ -306,6 +306,45 @@ describe('RateLimitService', () => {
     });
   });
 
+  describe('checkPartnerCentersLimit', () => {
+    // Landing partners strip: read-only marketing asset. Cap scrapers without
+    // touching real visitors (one hit per page load).
+
+    it('allows 60 requests from one IP in the window', () => {
+      for (let i = 0; i < 60; i++) {
+        expect(() =>
+          service.checkPartnerCentersLimit('1.2.3.4'),
+        ).not.toThrow();
+      }
+    });
+
+    it('throws 429 RATE_LIMIT_EXCEEDED on the 61st request from the same IP', () => {
+      for (let i = 0; i < 60; i++) {
+        service.checkPartnerCentersLimit('1.2.3.4');
+      }
+
+      try {
+        service.checkPartnerCentersLimit('1.2.3.4');
+        fail('expected HttpException');
+      } catch (err) {
+        expect(err).toBeInstanceOf(HttpException);
+        expect((err as HttpException).getStatus()).toBe(
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
+        expect((err as HttpException).message).toBe('RATE_LIMIT_EXCEEDED');
+      }
+    });
+
+    it('isolates limits per IP', () => {
+      for (let i = 0; i < 60; i++) {
+        service.checkPartnerCentersLimit('1.1.1.1');
+      }
+      expect(() =>
+        service.checkPartnerCentersLimit('2.2.2.2'),
+      ).not.toThrow();
+    });
+  });
+
   describe('checkResetPasswordLimit', () => {
     it('allows requests up to the default limit (20)', () => {
       for (let i = 0; i < 20; i++) {

@@ -3,6 +3,10 @@ import { plainToInstance } from 'class-transformer';
 import { JoinRoomDto } from '../src/modules/speaking/room/dto/join-room.dto';
 import { CreateRoomResponseDto } from '../src/modules/speaking/room/dto/create-room-response.dto';
 import { RoomInfoResponseDto } from '../src/modules/speaking/room/dto/room-info-response.dto';
+import { CreateRoomQueryDto } from '../src/modules/speaking/room/dto/create-room-query.dto';
+import { TopicDto } from '../src/modules/speaking/room/dto/topic.dto';
+import { SPEAKING_TOPICS } from '../src/modules/speaking/room/speaking-topics.data';
+import { ShuffleTopicDto } from '../src/modules/speaking/room/dto/shuffle-topic.dto';
 
 const VALID_UUID = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
 
@@ -65,9 +69,11 @@ describe('CreateRoomResponseDto', () => {
     dto.roomId = VALID_UUID;
     dto.hostToken = 'secret-token';
     dto.expiresAt = new Date().toISOString();
+    dto.topic = Object.assign(new TopicDto(), SPEAKING_TOPICS[0]);
     expect(dto.roomId).toBe(VALID_UUID);
     expect(dto.hostToken).toBe('secret-token');
     expect(typeof dto.expiresAt).toBe('string');
+    expect(dto.topic.id).toBe('b1-t2-001');
   });
 });
 
@@ -79,8 +85,56 @@ describe('RoomInfoResponseDto', () => {
     dto.hasHost = false;
     dto.hasGuest = false;
     dto.expiresAt = new Date().toISOString();
+    dto.topic = Object.assign(new TopicDto(), SPEAKING_TOPICS[0]);
     expect(dto.status).toBe('waiting');
     expect(dto.hasHost).toBe(false);
     expect(dto.hasGuest).toBe(false);
+    expect(dto.topic).toEqual(SPEAKING_TOPICS[0]);
   });
+});
+
+describe('CreateRoomQueryDto', () => {
+  /**
+   * Every CEFR level the product sells is accepted.
+   *
+   * The validator used to be `@IsIn(['B1'])`, which made a Live Room a 400 for
+   * anyone who was not B1 — on a feature Start sells as unlimited. Whether a
+   * level has topics to talk about is a content question, answered further in
+   * with a reason, not a validation error on the way in.
+   */
+  it.each(['A1', 'A2', 'B1', 'B2'])('accepts level %s', async (level) => {
+    const dto = plainToInstance(CreateRoomQueryDto, { level });
+
+    expect(await validate(dto)).toHaveLength(0);
+  });
+
+  it.each([{}, { level: 'C1' }, { level: 'b1' }, { level: 'x' }])(
+    'rejects unsupported input %p',
+    async (input) => {
+      const dto = plainToInstance(CreateRoomQueryDto, input);
+
+      expect(
+        (await validate(dto)).some((error) => error.property === 'level'),
+      ).toBe(true);
+    },
+  );
+});
+
+describe('ShuffleTopicDto', () => {
+  it('accepts a UUID roomId', async () => {
+    const dto = plainToInstance(ShuffleTopicDto, { roomId: VALID_UUID });
+
+    expect(await validate(dto)).toHaveLength(0);
+  });
+
+  it.each([{}, { roomId: '' }, { roomId: 'not-a-uuid' }])(
+    'rejects invalid input %p',
+    async (input) => {
+      const dto = plainToInstance(ShuffleTopicDto, input);
+
+      expect(
+        (await validate(dto)).some((error) => error.property === 'roomId'),
+      ).toBe(true);
+    },
+  );
 });

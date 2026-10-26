@@ -1,0 +1,39 @@
+{
+  "slug": "personalpronomen-tabelle-gram-d-086",
+  "titleFr": "Pronoms personnels — tableau (singulier)",
+  "titleEn": "Personal pronouns — table (singular)",
+  "titleDe": "Personalpronomen — Tabelle",
+  "ruleFr": "## Tableau complet — singulier\n\n| | Nom. | Akk. | Dat. |\n|---|---|---|---|\n| 1re | ich | mich | mir |\n| 2e | du | dich | dir |\n| 3e m. | er | ihn | ihm |\n| 3e f. | sie | sie | ihr |\n| 3e n. | es | es | ihm |\n\n### Observation\nLa **3e personne** change le plus : *er → ihn → ihm* ; *sie → sie → ihr* ; *es → es → ihm*.\n\n### Stratégie\nApprenez par **lignes** (une personne) puis testez par **colonnes** (un cas).\n\n### Mini-entraînement\nCachez une colonne et reconstituez-la.",
+  "ruleEn": "## Full table — singular\n\n| | Nom. | Acc. | Dat. |\n|---|---|---|---|\n| 1st | ich | mich | mir |\n| 2nd | du | dich | dir |\n| 3rd m. | er | ihn | ihm |\n| 3rd f. | sie | sie | ihr |\n| 3rd n. | es | es | ihm |\n\n### Observation\n3rd person changes most: *er → ihn → ihm*.\n\n### Mini practice\nCover one column and reconstruct it.",
+  "ruleDe": "## Tabelle — Singular\n\n| | Nom. | Akk. | Dat. |\n|---|---|---|---|\n| 1. | ich | mich | mir |\n| 2. | du | dich | dir |\n| 3. m. | er | ihn | ihm |\n| 3. f. | sie | sie | ihr |\n| 3. n. | es | es | ihm |\n\n### Merke\n3. Person ändert sich am meisten.\n\n### Mini-Übung\nEine Spalte verdecken und ergänzen.",
+  "notesFr": "Astuce : la 3e personne change le plus !",
+  "notesEn": "Tip: 3rd person changes the most!",
+  "notesDe": "Tipp: Die 3. Person ändert sich am meisten!",
+  "examples": [
+    {
+      "de": "Er sieht mich. Ich helfe ihm.",
+      "fr": "Il me voit. Je l’aide. (mich / ihm.)",
+      "en": "He sees me. I help him. (mich / ihm.)"
+    },
+    {
+      "de": "Ich kenne sie. Ich danke ihr.",
+      "fr": "Je la connais. Je la remercie. (sie akk. / ihr dat.)",
+      "en": "I know her. I thank her. (sie acc. / ihr dat.)"
+    },
+    {
+      "de": "Das Kind? Ich sehe es. Ich gebe ihm den Ball.",
+      "fr": "L’enfant ? Je le vois. Je lui donne le ballon.",
+      "en": "The child? I see it. I give it the ball."
+    },
+    {
+      "de": "Du fragst mich, und ich antworte dir.",
+      "fr": "Tu me demandes, et je te réponds.",
+      "en": "You ask me, and I answer you."
+    },
+    {
+      "de": "Er – ihn – ihm: merke die Reihe!",
+      "fr": "Er – ihn – ihm : retenez la série !",
+      "en": "Er – ihn – ihm: remember the row!"
+    }
+  ]
+}

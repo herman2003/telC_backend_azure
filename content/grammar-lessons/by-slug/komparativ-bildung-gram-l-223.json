@@ -1,0 +1,39 @@
+{
+  "slug": "komparativ-bildung-gram-l-223",
+  "titleFr": "Le comparatif — formation",
+  "titleEn": "The comparative — formation",
+  "titleDe": "Komparativ — Bildung",
+  "ruleFr": "## Comparatif — formation\n\n### Règle\nAdjectif + **-er**\n- *schnell → schnell**er***\n- *interessant → interessant**er***\n\n### Umlaut fréquent (monosyllabes)\n*alt → **ält**er, arm → **ärm**er, groß → **größ**er, jung → **jüng**er, kalt → **kält**er, klug → **klüg**er, kurz → **kürz**er, lang → **läng**er, scharf → **schärf**er, schwach → **schwäch**er, stark → **stärk**er, warm → **wärm**er*\n\n### Attribut\n*Er ist schnell**er**.* (pas de terminaison de déclinaison ici)\n\n### Mini-entraînement\nFormez le comparatif de 12 adjectifs (avec/sans umlaut).",
+  "ruleEn": "## Comparative — formation\n\n### Rule\nAdjective + **-er**\n- *schnell → schnell**er***\n- *interessant → interessant**er***\n\n### Frequent umlaut (one-syllable)\n*alt → **ält**er, groß → **größ**er, jung → **jüng**er, kalt → **kält**er, lang → **läng**er, stark → **stärk**er, warm → **wärm**er…*\n\n### Predicative\n*Er ist schnell**er**.* (no declension ending here)\n\n### Mini practice\nForm the comparative of 12 adjectives (with/without umlaut).",
+  "ruleDe": "## Komparativ — Bildung\n\n### Regel\nAdjektiv + **-er**. Einsilbige oft mit Umlaut (*älter, größer, jünger…*).\n\n### Prädikativ\n*Er ist schneller.*\n\n### Mini-Übung\nBilden Sie den Komparativ von 12 Adjektiven.",
+  "notesFr": "Umlaut fréquent : alt, arm, groß, jung, kalt, klug, kurz, lang, scharf, schwach, stark, warm.",
+  "notesEn": "Umlaut often with: alt, arm, groß, jung, kalt, klug, kurz, lang, scharf, schwach, stark, warm.",
+  "notesDe": "Umlaut bei: alt, arm, groß, jung, kalt, klug, kurz, lang, scharf, schwach, stark, warm.",
+  "examples": [
+    {
+      "de": "Er läuft schneller als ich.",
+      "fr": "Il court plus vite que moi.",
+      "en": "He runs faster than I do."
+    },
+    {
+      "de": "Heute ist es kälter.",
+      "fr": "Aujourd’hui il fait plus froid.",
+      "en": "Today it is colder."
+    },
+    {
+      "de": "Berlin ist größer als Bonn.",
+      "fr": "Berlin est plus grand que Bonn.",
+      "en": "Berlin is bigger than Bonn."
+    },
+    {
+      "de": "Das Buch ist interessanter.",
+      "fr": "Le livre est plus intéressant.",
+      "en": "The book is more interesting."
+    },
+    {
+      "de": "Sie ist jünger als ihr Bruder.",
+      "fr": "Elle est plus jeune que son frère.",
+      "en": "She is younger than her brother."
+    }
+  ]
+}

@@ -183,10 +183,14 @@ export class RateLimitService {
     });
   }
 
-  /**
-   * Rate limit for POST /api/writing/submit per student.
-   * Throws 429 when exceeded.
-   */
+  /** Limit installation and notification preference writes per learner. */
+  checkPushWriteLimit(studentId: string): void | Promise<void> {
+    return this.enforceDistributed([
+      { key: `push-write:${studentId}`, max: 30, ttlSeconds: 60 },
+    ]);
+  }
+
+  /** Rate limit for POST /api/writing/submit per student; throws 429. */
   checkWritingSubmitLimit(studentId: string): void | Promise<void> {
     return this.enforceDistributed([
       {
@@ -295,6 +299,80 @@ export class RateLimitService {
         key: `ratelimit:centers:change-password:user:${centerUserId}`,
         max: this.resetPasswordMaxAttempts,
         ttlSeconds: this.resetPasswordWindowSeconds,
+      },
+    ]);
+  }
+
+  /**
+   * Caps resend-verification on the vitrine (email + IP).
+   * Reuses register budgets under a separate namespace so a resend loop cannot
+   * starve real registrations, and vice versa.
+   */
+  checkCenterResendVerificationLimit(
+    ipKey: string,
+    emailKey: string,
+  ): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:centers:resend-verification:email:${emailKey.trim().toLowerCase()}`,
+        max: this.registerEmailMaxAttempts,
+        ttlSeconds: this.registerEmailWindowSeconds,
+      },
+      {
+        key: `ratelimit:centers:resend-verification:ip:${ipKey}`,
+        max: this.registerIpMaxAttempts,
+        ttlSeconds: this.registerIpWindowSeconds,
+      },
+    ]);
+  }
+
+  /**
+   * Public activation-code lookup on the vitrine (no student session).
+   * IP-only: codes are guessable shapes, so this must not be free.
+   */
+  checkPublicCodeValidateLimit(ip: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:codes:validate-public:ip:${ip}`,
+        max: 30,
+        ttlSeconds: 15 * 60,
+      },
+    ]);
+  }
+
+  /**
+   * Public demo booking on the vitrine — IP + email, so a burst cannot flood
+   * the team inbox or burn the Resend quota.
+   */
+  checkVitrineDemoRequestLimit(
+    ipKey: string,
+    emailKey: string,
+  ): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:vitrine:demo:email:${emailKey.trim().toLowerCase()}`,
+        max: 5,
+        ttlSeconds: 60 * 60,
+      },
+      {
+        key: `ratelimit:vitrine:demo:ip:${ipKey}`,
+        max: 15,
+        ttlSeconds: 60 * 60,
+      },
+    ]);
+  }
+
+  /**
+   * Landing partners strip (`GET /api/public/partner-centers`): read-only
+   * marketing logos. IP-only so scrapers cannot hammer the DB; loose enough
+   * that a real page load (one hit) never notices.
+   */
+  checkPartnerCentersLimit(ip: string): void | Promise<void> {
+    return this.enforceDistributed([
+      {
+        key: `ratelimit:vitrine:partner-centers:ip:${ip}`,
+        max: 60,
+        ttlSeconds: 15 * 60,
       },
     ]);
   }

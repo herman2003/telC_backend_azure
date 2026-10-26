@@ -1,0 +1,34 @@
+meta {
+  name: 14d Start the sitting
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{baseUrl}}/api/exams/sessions/{{b2SittingId}}/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+  bru.setEnvVar("b2AttemptId", res.body.id ?? res.body.attemptId);
+}
+
+docs {
+  Switch to the student token here. Run only after opensAt has passed —
+  EXAM_NOT_OPEN before, EXAM_CLOSED after closesAt.
+}

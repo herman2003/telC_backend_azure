@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsIn, IsOptional } from 'class-validator';
+import { CefrLevel } from '@prisma/client';
+import { IsEnum, IsIn, IsOptional, ValidateIf } from 'class-validator';
 
 /**
  * Filters for the Users page. Each takes one value or `all`, which is what the
@@ -7,40 +8,28 @@ import { IsIn, IsOptional } from 'class-validator';
  */
 export class ListActivationCodesQueryDto {
   @ApiPropertyOptional({
-    enum: ['activated', 'connected', 'deactivated', 'all'],
+    enum: ['activated', 'connected', 'suspended', 'deactivated', 'all'],
   })
   @IsOptional()
-  @IsIn(['activated', 'connected', 'deactivated', 'all'])
-  status?: 'activated' | 'connected' | 'deactivated' | 'all';
+  @IsIn(['activated', 'connected', 'suspended', 'deactivated', 'all'])
+  status?: 'activated' | 'connected' | 'suspended' | 'deactivated' | 'all';
 
-  @ApiPropertyOptional({ enum: ['start', 'pro', 'premium', 'all'] })
+  @ApiPropertyOptional({ enum: ['start', 'all'] })
   @IsOptional()
-  @IsIn(['start', 'pro', 'premium', 'all'])
-  planId?: 'start' | 'pro' | 'premium' | 'all';
-}
-
-export class SeatsByPlanDto {
-  @ApiProperty({ example: 7 }) start: number;
-  @ApiProperty({ example: 3 }) pro: number;
-  @ApiProperty({ example: 0 }) premium: number;
+  @IsIn(['start', 'all'])
+  planId?: 'start' | 'all';
 }
 
 export class SeatSummaryDto {
-  @ApiProperty({
-    type: SeatsByPlanDto,
-    description: 'Seats held per plan, from the seat rows.',
-  })
-  bought: SeatsByPlanDto;
+  @ApiProperty({ example: 10, description: 'Seats held, from the seat row.' })
+  bought: number;
 
   @ApiProperty({
-    type: SeatsByPlanDto,
+    example: 6,
     description:
-      'Codes a student has redeemed, per plan. Counted from the codes themselves, so it always matches the list.',
+      'Codes a student has redeemed. Counted from the codes themselves, so it always matches the list.',
   })
-  used: SeatsByPlanDto;
-
-  @ApiProperty({ example: 10 }) boughtTotal: number;
-  @ApiProperty({ example: 6 }) usedTotal: number;
+  used: number;
 }
 
 /** A code as every route returns it. Mirrors `ActivationCodeView`. */
@@ -56,15 +45,15 @@ export class ActivationCodeDto {
   code: string;
 
   @ApiProperty({
-    enum: ['activated', 'connected', 'deactivated'],
+    enum: ['activated', 'connected', 'suspended', 'deactivated'],
     example: 'activated',
     description:
-      '`activated` waits for a student, `connected` has one, `deactivated` was taken back. Expiry is not a status — compare `expiresAt`.',
+      '`activated` waits for a student, `connected` has one, `suspended` is paused (same student, data kept), `deactivated` was taken back. Expiry is not a status — compare `expiresAt`.',
   })
-  status: 'activated' | 'connected' | 'deactivated';
+  status: 'activated' | 'connected' | 'suspended' | 'deactivated';
 
-  @ApiProperty({ enum: ['start', 'pro', 'premium'], example: 'start' })
-  planId: 'start' | 'pro' | 'premium';
+  @ApiProperty({ enum: ['start'], example: 'start' })
+  planId: 'start';
 
   @ApiPropertyOptional({ nullable: true, example: 'Amina Nguema' })
   linkedName: string | null;
@@ -86,6 +75,28 @@ export class ActivationCodeDto {
       'When the seat stops working. A trial code ends with the trial. Null means the code follows the center subscription rather than a date of its own.',
   })
   expiresAt: Date | null;
+
+  @ApiProperty({
+    enum: CefrLevel,
+    nullable: true,
+    example: CefrLevel.A2,
+    description:
+      'CEFR level for this seat, set by the center before handout. Copied onto the student at redemption when set. Null until the center sets it.',
+  })
+  level: CefrLevel | null;
+}
+
+/** Body for PATCH /activation-codes/:id — set or clear the seat level. */
+export class SetActivationCodeLevelDto {
+  @ApiProperty({
+    enum: CefrLevel,
+    nullable: true,
+    example: CefrLevel.A2,
+    description: 'CEFR level for this seat. Pass null to clear.',
+  })
+  @ValidateIf((_, value) => value !== null)
+  @IsEnum(CefrLevel)
+  level: CefrLevel | null;
 }
 
 export class TrialStartedDto {

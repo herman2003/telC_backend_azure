@@ -1,0 +1,19 @@
+meta {
+  name: 02 Deactivate pause
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/activation-codes/{{codeId}}/deactivate
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+docs {
+  CONNECTED -> SUSPENDED. Same code, data kept. Reactivate later.
+}

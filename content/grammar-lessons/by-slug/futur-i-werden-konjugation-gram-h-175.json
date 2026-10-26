@@ -1,0 +1,39 @@
+{
+  "slug": "futur-i-werden-konjugation-gram-h-175",
+  "titleFr": "Futur I — conjugaison de werden",
+  "titleEn": "Future I — werden conjugation",
+  "titleDe": "Futur I — werden Konjugation",
+  "ruleFr": "## Conjugaison de *werden* (auxiliaire du futur)\n\n| Personne | Forme |\n|---|---|\n| ich | **werde** |\n| du | **wirst** |\n| er/sie/es | **wird** |\n| wir | **werden** |\n| ihr | **werdet** |\n| sie/Sie | **werden** |\n\n### Attention : formes irrégulières\n- ✗ *du werdest* → ✓ *du **wirst***\n- ✗ *er werdet* → ✓ *er **wird***\n\n### Mini-entraînement\nConjuguez *werden + kommen* pour toutes les personnes.",
+  "ruleEn": "## Conjugation of *werden* (future auxiliary)\n\n| Person | Form |\n|---|---|\n| ich | **werde** |\n| du | **wirst** |\n| er/sie/es | **wird** |\n| wir | **werden** |\n| ihr | **werdet** |\n| sie/Sie | **werden** |\n\n### Watch out: irregular forms\n- ✗ *du werdest* → ✓ *du **wirst***\n- ✗ *er werdet* → ✓ *er **wird***\n\n### Mini practice\nConjugate *werden + kommen* for all persons.",
+  "ruleDe": "## Konjugation von *werden* (Futur-Hilfsverb)\n\n| Person | Form |\n|---|---|\n| ich | **werde** |\n| du | **wirst** |\n| er/sie/es | **wird** |\n| wir | **werden** |\n| ihr | **werdet** |\n| sie/Sie | **werden** |\n\n### Achtung: unregelmäßig\n- ✗ *du werdest* → ✓ *du **wirst***\n- ✗ *er werdet* → ✓ *er **wird***\n\n### Mini-Übung\nKonjugieren Sie *werden + kommen* für alle Personen.",
+  "notesFr": "*werden* est irrégulier : *du wirst* (pas *werdest*), *er wird* (pas *werdet*).",
+  "notesEn": "*werden* is irregular: *du wirst* (not *werdest*), *er wird* (not *werdet*).",
+  "notesDe": "*werden* ist unregelmäßig! *du wirst* (nicht *werdest*), *er wird* (nicht *werdet*).",
+  "examples": [
+    {
+      "de": "Ich werde kommen.",
+      "fr": "Je viendrai.",
+      "en": "I will come."
+    },
+    {
+      "de": "Du wirst kommen.",
+      "fr": "Tu viendras. (*wirst*, pas *werdest*)",
+      "en": "You will come. (*wirst*, not *werdest*)"
+    },
+    {
+      "de": "Er wird kommen.",
+      "fr": "Il viendra. (*wird*)",
+      "en": "He will come. (*wird*)"
+    },
+    {
+      "de": "Ihr werdet kommen.",
+      "fr": "Vous viendrez.",
+      "en": "You (pl.) will come."
+    },
+    {
+      "de": "Werden Sie kommen?",
+      "fr": "Viendrez-vous ? (vouvoiement)",
+      "en": "Will you come? (formal)"
+    }
+  ]
+}

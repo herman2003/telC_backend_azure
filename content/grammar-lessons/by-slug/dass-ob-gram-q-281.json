@@ -1,0 +1,39 @@
+{
+  "slug": "dass-ob-gram-q-281",
+  "titleFr": "dass et ob",
+  "titleEn": "dass / ob",
+  "titleDe": "dass/ob",
+  "ruleFr": "## dass et ob\n\nLes deux introduisent une subordonnée avec **verbe à la fin**, mais le sens diffère.\n\n### dass = que (affirmation / contenu)\nOn rapporte un contenu (souvent « sûr » ou présenté comme fait).\n- *Ich glaube, **dass** er Recht **hat**.*\n- *Es ist klar, **dass** wir helfen **müssen**.*\n\n### ob = si (question oui/non)\nIncertitude, doute, question indirecte (équivalent de *whether* / *if*).\n- *Ich weiß nicht, **ob** er **kommt**.*\n- *Sie fragt, **ob** wir Zeit **haben**.*\n\n### Comparaison\n| | *dass* | *ob* |\n|---|---|---|\n| Sens | que | si (oui/non) |\n| Contenu | énoncé | question ouverte |\n| Verbe | à la fin | à la fin |\n\n### Attention\n- Français *si* conditionnel → allemand **wenn** (pas *ob*).\n- *ob* = seulement « si oui ou non ».\n\n### Mini-entraînement\n1. *Er kommt.* → *Ich hoffe, dass…* / *Ich frage mich, ob…*\n2. Remplacez *dass* par *ob* et observez le changement de sens.",
+  "ruleEn": "## dass and ob\n\nBoth introduce a subordinate clause with **verb at the end**, but meaning differs.\n\n### dass = that (statement / content)\nYou report content (often treated as a fact).\n- *Ich glaube, **dass** er Recht **hat**.*\n- *Es ist klar, **dass** wir helfen **müssen**.*\n\n### ob = whether / if (yes-no)\nUncertainty, doubt, indirect yes/no question.\n- *Ich weiß nicht, **ob** er **kommt**.*\n- *Sie fragt, **ob** wir Zeit **haben**.*\n\n### Comparison\n| | *dass* | *ob* |\n|---|---|---|\n| Meaning | that | whether / if |\n| Content | statement | open question |\n| Verb | at the end | at the end |\n\n### Watch out\n- Conditional *if* → German **wenn** (not *ob*).\n- *ob* = only “whether or not”.\n\n### Mini practice\n1. *Er kommt.* → *Ich hoffe, dass…* / *Ich frage mich, ob…*\n2. Swap *dass* and *ob* and notice the meaning shift.",
+  "ruleDe": "## dass und ob\n\nBeide leiten einen Nebensatz mit **Verb am Ende** ein, aber die Bedeutung ist anders.\n\n### dass = dass (Aussage)\nInhalt wird berichtet (oft als Tatsache).\n- *Ich glaube, **dass** er Recht **hat**.*\n- *Es ist klar, **dass** wir helfen **müssen**.*\n\n### ob = ob (Ja/Nein)\nUnsicherheit, Zweifel, indirekte Ja/Nein-Frage.\n- *Ich weiß nicht, **ob** er **kommt**.*\n- *Sie fragt, **ob** wir Zeit **haben**.*\n\n### Vergleich\n| | *dass* | *ob* |\n|---|---|---|\n| Bedeutung | Aussage | Ja/Nein-Frage |\n| Verb | am Ende | am Ende |\n\n### Achtung\n- Bedingung *wenn* ≠ *ob*.\n- *ob* nur für „ob … oder nicht“.\n\n### Mini-Übung\n1. *Er kommt.* → *Ich hoffe, dass…* / *Ich frage mich, ob…*\n2. *dass* und *ob* tauschen und den Sinn prüfen.",
+  "notesFr": "*dass* = contenu affirmé ; *ob* = incertitude / question oui-non.",
+  "notesEn": "*dass* = stated content; *ob* = uncertainty / yes-no question.",
+  "notesDe": "*dass* = Aussage ist sicher; *ob* = unsicher/Frage.",
+  "examples": [
+    {
+      "de": "Ich hoffe, dass du kommst.",
+      "fr": "J’espère que tu viens. (*dass*)",
+      "en": "I hope that you’re coming. (*dass*)"
+    },
+    {
+      "de": "Ich weiß nicht, ob er Zeit hat.",
+      "fr": "Je ne sais pas s’il a le temps. (*ob*)",
+      "en": "I don’t know whether he has time. (*ob*)"
+    },
+    {
+      "de": "Sie fragt, ob wir mitkommen.",
+      "fr": "Elle demande si nous venons avec elle.",
+      "en": "She asks whether we’re coming along."
+    },
+    {
+      "de": "Es ist wichtig, dass wir pünktlich sind.",
+      "fr": "Il est important que nous soyons à l’heure.",
+      "en": "It’s important that we’re on time."
+    },
+    {
+      "de": "Kannst du mir sagen, ob der Zug Verspätung hat?",
+      "fr": "Peux-tu me dire si le train a du retard ?",
+      "en": "Can you tell me whether the train is delayed?"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { GuestBlockGuard } from '../src/shared/guards/guest-block.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
 import { Room } from '../src/modules/speaking/room/interfaces/room.interface';
+import { SPEAKING_TOPICS } from '../src/modules/speaking/room/speaking-topics.data';
 
 const VALID_UUID = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
 const EXPIRES_AT = '2026-06-14T16:00:00.000Z';
@@ -30,6 +31,9 @@ const mockTurnService = {
 function makeRoom(overrides: Partial<Room> = {}): Room {
   return {
     roomId: VALID_UUID,
+    level: 'B1',
+    topic: SPEAKING_TOPICS[0],
+    usedTopicIds: [SPEAKING_TOPICS[0].id],
     shortCode: 'K7M2QX',
     hostSocketId: null,
     hostToken: 'secret',
@@ -78,12 +82,13 @@ describe('RoomController', () => {
         roomId: VALID_UUID,
         hostToken: 'secret',
         expiresAt: EXPIRES_AT,
+        topic: SPEAKING_TOPICS[0],
       };
       mockRoomService.createRoom.mockReturnValue(dto);
 
-      const result = controller.createRoom();
+      const result = controller.createRoom({ level: 'B1' });
 
-      expect(mockRoomService.createRoom).toHaveBeenCalledTimes(1);
+      expect(mockRoomService.createRoom).toHaveBeenCalledWith('B1');
       expect(result).toBe(dto);
     });
   });
@@ -108,6 +113,7 @@ describe('RoomController', () => {
         hasHost: false,
         hasGuest: false,
         expiresAt: EXPIRES_AT,
+        topic: SPEAKING_TOPICS[0],
       });
     });
 
@@ -216,6 +222,9 @@ describe('RoomController', () => {
         hasHost: false,
         hasGuest: false,
         expiresAt: EXPIRES_AT,
+        // The guest who typed the code needs the topic too, or they arrive in
+        // the room with nothing to talk about.
+        topic: SPEAKING_TOPICS[0],
       });
     });
 

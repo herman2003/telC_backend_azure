@@ -28,6 +28,7 @@ import {
   FAKE_SIGNATURE_HEADER,
   signFakeWebhook,
 } from '../src/modules/centers/payment-providers/fake-payment-provider';
+import { registryOf } from '../src/modules/centers/payment-providers/payment-provider-registry';
 
 const SECRET = 'a-long-enough-fake-webhook-secret-for-tests';
 
@@ -38,9 +39,16 @@ const payments = new PaymentsService(
   new PricingService(),
   new CenterSeatsService(prisma),
 );
-const checkout = new PaymentCheckoutService(prisma, provider);
-const activation = new PaymentActivationService(prisma);
-const webhooks = new PaymentWebhookService(prisma, activation, provider);
+const checkout = new PaymentCheckoutService(prisma, registryOf(provider));
+const activation = new PaymentActivationService(
+  prisma,
+  new SubscriptionPolicyService(),
+);
+const webhooks = new PaymentWebhookService(
+  prisma,
+  activation,
+  registryOf(provider),
+);
 const entitlement = new StudentEntitlementService(
   prisma,
   new SubscriptionPolicyService(),
@@ -70,8 +78,9 @@ async function makeTrialCenter() {
       name: `Flow Test ${Date.now()}-${Math.random()}`,
       country_code: 'CM',
       city_id: 'douala',
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/test.png',
       subscription: { create: { plan: 'TRIAL' } },
-      seats: { create: { tier: 'START', quantity: 1, unit_price_xaf: 0 } },
+      seats: { create: { quantity: 1, unit_price_xaf: 0 } },
     },
   });
   const manager = await prisma.centerUser.create({
@@ -90,7 +99,6 @@ async function makeTrialCenter() {
     data: {
       email: `flow-test-student-${center.id}@example.com`,
       center_id: center.id,
-      tier: 'START',
     },
   });
 
@@ -115,8 +123,8 @@ const delivery = (
 
 /** Create a payment and open its checkout, as a center clicking "pay" would. */
 async function payAndCheckout(identity: never, key: string) {
-  const payment = await payments.create(identity, { START: 10 }, key);
-  const session = await checkout.startCheckout(identity, payment.id);
+  const payment = await payments.create(identity, 10, key);
+  const session = await checkout.startCheckout(identity, payment.id, 'fake');
   return { payment, session };
 }
 
@@ -140,7 +148,7 @@ describe('the whole flow', () => {
     );
 
     const { payment, session } = await payAndCheckout(identity, 'flow-1');
-    expect(payment.amountXaf).toBe(45000);
+    expect(payment.amountXaf).toBe(53100);
 
     const { rawBody, headers } = delivery({
       reference: session.providerReference,
@@ -156,14 +164,13 @@ describe('the whole flow', () => {
     await expect(entitlement.forStudent(student.id)).resolves.toMatchObject({
       status: 'ACTIVE',
       studentsMayLearn: true,
-      tier: 'START',
     });
     await expect(
       prisma.centerSeat.findMany({
         where: { center_id: center.id },
-        select: { tier: true, quantity: true, unit_price_xaf: true },
+        select: { quantity: true, unit_price_xaf: true },
       }),
-    ).resolves.toEqual([{ tier: 'START', quantity: 10, unit_price_xaf: 4500 }]);
+    ).resolves.toEqual([{ quantity: 10, unit_price_xaf: 4500 }]);
     expect(await paymentStatus(payment.id)).toBe('SUCCEEDED');
   });
 });

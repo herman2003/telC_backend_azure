@@ -12,10 +12,10 @@ import {
   type FailureResult,
 } from './payment-activation.service';
 import {
-  PAYMENT_PROVIDER,
-  type PaymentProvider,
-  type WebhookHeaders,
-} from './payment-providers/payment-provider';
+  PAYMENT_PROVIDER_REGISTRY,
+  PaymentProviderRegistry,
+} from './payment-providers/payment-provider-registry';
+import type { WebhookHeaders } from './payment-providers/payment-provider';
 
 export interface WebhookReceipt {
   received: true;
@@ -25,16 +25,11 @@ export interface WebhookReceipt {
 /**
  * Turns a provider's webhook into a settled payment, in a fixed order.
  *
- * 1. PROVE it. The provider verifies the signature over the raw bytes before
- *    anything is read, looked up or changed. An unverified event touches
- *    nothing — not even a query.
- * 2. FIND the payment by the provider's reference, stored when the checkout
- *    started.
- * 3. SETTLE it through PaymentActivationService, which alone decides what a
- *    success grants and guarantees it happens once.
- *
- * Nothing here writes seats, plans or dates. That keeps the exactly-once and
- * grandfathering rules in one place, whichever provider sent the event.
+ * 1. ROUTE by signature header (Stripe vs Fapshi vs fake) — both MM and card
+ *    share this path.
+ * 2. PROVE it. The provider verifies the signature over the raw bytes.
+ * 3. FIND the payment by the provider's reference.
+ * 4. SETTLE through PaymentActivationService.
  */
 @Injectable()
 export class PaymentWebhookService {
@@ -43,21 +38,20 @@ export class PaymentWebhookService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly activation: PaymentActivationService,
-    @Inject(PAYMENT_PROVIDER) private readonly provider: PaymentProvider,
+    @Inject(PAYMENT_PROVIDER_REGISTRY)
+    private readonly registry: PaymentProviderRegistry,
   ) {}
 
   async handle(
     rawBody: Buffer | undefined,
     headers: WebhookHeaders,
   ): Promise<WebhookReceipt> {
-    // No bytes, nothing to verify. Falling back to the parsed body would
-    // verify the wrong thing, so a missing `rawBody: true` fails loudly here
-    // instead of letting every genuine webhook fail quietly.
     if (!rawBody) {
       throw new BadRequestException('WEBHOOK_RAW_BODY_UNAVAILABLE');
     }
 
-    const event = await this.provider.verifyWebhook(rawBody, headers);
+    const provider = this.registry.resolveFromWebhookHeaders(headers);
+    const event = await provider.verifyWebhook(rawBody, headers);
 
     const payment = await this.prisma.payment.findUnique({
       where: { provider_reference: event.providerReference },
@@ -65,9 +59,6 @@ export class PaymentWebhookService {
     });
 
     if (!payment) {
-      // 404 so the provider retries. The likeliest cause is the checkout
-      // response and the webhook crossing in flight, before the reference was
-      // stored — a retry a moment later will find it.
       this.logger.warn(
         `Verified payment event for unknown reference ${event.providerReference}`,
       );
@@ -79,9 +70,6 @@ export class PaymentWebhookService {
         ? await this.activation.activate(payment.id)
         : await this.activation.markFailed(payment.id);
 
-    // 200 for a duplicate as well as a first delivery. The provider only
-    // needs to know it can stop retrying; whether anything changed is
-    // activation's concern and is reported in `outcome`.
     return { received: true, outcome: result.outcome };
   }
 }

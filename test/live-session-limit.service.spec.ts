@@ -1,0 +1,438 @@
+import { HttpException } from '@nestjs/common';
+import { LiveSessionLimitService } from '../src/modules/speaking/live/live-session-limit.service';
+
+const GUEST = { ip: '1.2.3.4', studentId: 'throwaway-uuid', isGuest: true };
+const STUDENT = { ip: '1.2.3.4', studentId: 'student-1', isGuest: false };
+
+/**
+ * These run with no ValkeyService injected, exercising the in-process fallback.
+ * That is the path a single-instance demo actually takes when VALKEY_URL is
+ * unset, so it is the one that must not break.
+ */
+function makeService(env: Record<string, string> = {}) {
+  const previous = { ...process.env };
+  Object.assign(process.env, {
+    ELENA_IP_DAILY_MAX: '2',
+    ELENA_GLOBAL_DAILY_MAX: '50',
+    ELENA_CONCURRENT_MAX: '2',
+    GEMINI_LIVE_SESSION_MAX_MINUTES: '10',
+    ...env,
+  });
+  const service = new LiveSessionLimitService();
+  process.env = previous;
+  return service;
+}
+
+async function messageKeyOf(promise: Promise<unknown>): Promise<string> {
+  try {
+    await promise;
+    throw new Error('expected the call to be refused');
+  } catch (error) {
+    const response = (error as HttpException).getResponse() as {
+      messageKey: string;
+    };
+    return response.messageKey;
+  }
+}
+
+describe('LiveSessionLimitService', () => {
+  describe('how long a session may run', () => {
+    it('gives five minutes when nothing is configured', () => {
+      // The number Start promises, and the number the economics rest on:
+      // billing is token-based, so context is reprocessed as a conversation
+      // grows and ten minutes costs more than twice five. A default changed
+      // by accident would be silent, which is why it is asserted.
+      const previous = { ...process.env };
+      delete process.env.GEMINI_LIVE_SESSION_MAX_MINUTES;
+      const service = new LiveSessionLimitService();
+      process.env = previous;
+
+      expect(service.sessionSeconds).toBe(300);
+    });
+
+    it('still honours an explicit setting', () => {
+      expect(
+        makeService({ GEMINI_LIVE_SESSION_MAX_MINUTES: '3' }).sessionSeconds,
+      ).toBe(180);
+    });
+  });
+
+  describe('per-identity daily cap', () => {
+    it('allows exactly the configured number of sessions', async () => {
+      const service = makeService();
+
+      await expect(service.acquire(GUEST, 's1')).resolves.toBeUndefined();
+      await expect(service.acquire(GUEST, 's2')).resolves.toBeUndefined();
+    });
+
+    it('refuses the next one with elenaDailyLimit', async () => {
+      const service = makeService({ ELENA_CONCURRENT_MAX: '10' });
+
+      await service.acquire(GUEST, 's1');
+      await service.acquire(GUEST, 's2');
+
+      expect(await messageKeyOf(service.acquire(GUEST, 's3'))).toBe(
+        'elenaDailyLimit',
+      );
+    });
+
+    it('keys guests by IP, so a fresh guest identity does not reset the cap', async () => {
+      // A guest studentId is a throwaway UUID from POST /api/auth/guest. If the
+      // cap keyed on it, re-minting a guest token would be a free reset.
+      const service = makeService({ ELENA_CONCURRENT_MAX: '10' });
+
+      await service.acquire({ ...GUEST, studentId: 'uuid-a' }, 's1');
+      await service.acquire({ ...GUEST, studentId: 'uuid-b' }, 's2');
+
+      expect(
+        await messageKeyOf(
+          service.acquire({ ...GUEST, studentId: 'uuid-c' }, 's3'),
+        ),
+      ).toBe('elenaDailyLimit');
+    });
+
+    it('keys registered students by studentId, so one NAT does not lock out a class', async () => {
+      const service = makeService({ ELENA_CONCURRENT_MAX: '10' });
+
+      // Released between the two, because one student may only hold one live
+      // session at a time. This test is about how the daily cap is keyed.
+      await service.acquire(STUDENT, 's1');
+      await service.release('s1', STUDENT);
+      await service.acquire(STUDENT, 's2');
+      await service.release('s2', STUDENT);
+      // Same IP, different student — must still be allowed.
+      await expect(
+        service.acquire({ ...STUDENT, studentId: 'student-2' }, 's3'),
+      ).resolves.toBeUndefined();
+    });
+  });
+
+  describe('concurrency cap', () => {
+    it('refuses with elenaBusyNow once the pool is full', async () => {
+      const service = makeService({ ELENA_IP_DAILY_MAX: '99' });
+
+      await service.acquire(GUEST, 's1');
+      await service.acquire(GUEST, 's2');
+
+      expect(await messageKeyOf(service.acquire(GUEST, 's3'))).toBe(
+        'elenaBusyNow',
+      );
+    });
+
+    it('frees slots by expiry, with no release call', async () => {
+      // The backend never learns that a browser-to-Google session ended, so the
+      // pool has to self-heal or it silently fills up forever.
+      jest.useFakeTimers();
+      try {
+        const service = makeService({
+          ELENA_IP_DAILY_MAX: '99',
+          GEMINI_LIVE_SESSION_MAX_MINUTES: '10',
+        });
+
+        await service.acquire(GUEST, 's1');
+        await service.acquire(GUEST, 's2');
+
+        jest.advanceTimersByTime(11 * 60 * 1000);
+
+        await expect(service.acquire(GUEST, 's3')).resolves.toBeUndefined();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+  });
+
+  describe('a refused caller must not spend shared quota', () => {
+    it('lets a capped IP hammer the endpoint without exhausting the global budget', async () => {
+      // Regression: acquire() used to consume the global counter before checking
+      // the caller's own cap. Because `enforce` cannot refund, one exhausted IP
+      // could burn the whole daily budget in ~ELENA_GLOBAL_DAILY_MAX requests
+      // and lock every other user out for the day.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '2',
+        ELENA_GLOBAL_DAILY_MAX: '10',
+        ELENA_CONCURRENT_MAX: '99',
+      });
+
+      const attacker = { ip: '6.6.6.6', isGuest: true };
+      for (let i = 0; i < 20; i++) {
+        await service.acquire(attacker, `a${i}`).catch(() => undefined);
+      }
+
+      await expect(
+        service.acquire({ ip: '1.1.1.1', isGuest: true }, 'innocent'),
+      ).resolves.toBeUndefined();
+    });
+
+    it('does not spend a session when the pool is full', async () => {
+      // A busy pool is transient. Charging someone one of their two daily
+      // sessions for it would be indistinguishable from losing it.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '2',
+        ELENA_CONCURRENT_MAX: '1',
+      });
+
+      await service.acquire(GUEST, 'holds-the-only-slot');
+      expect(await messageKeyOf(service.acquire(GUEST, 'refused'))).toBe(
+        'elenaBusyNow',
+      );
+
+      // The refusal above cost nothing, so one session remains.
+      jest.useFakeTimers();
+      try {
+        jest.advanceTimersByTime(11 * 60 * 1000);
+        await expect(service.acquire(GUEST, 'second')).resolves.toBeUndefined();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+  });
+
+  describe('one live session per student', () => {
+    it('refuses a student who already has one open', async () => {
+      // The pool is global, so before this a student could hold two slots
+      // while somebody else was told Elena was busy with another person.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+
+      expect(await messageKeyOf(service.acquire(STUDENT, 'second'))).toBe(
+        'elenaSessionAlreadyOpen',
+      );
+    });
+
+    it('does not spend their allowance on that refusal', async () => {
+      // Being told "you already have one open" must not also cost the session
+      // they are trying to start. Two of two used, for one conversation.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '2',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+      await messageKeyOf(service.acquire(STUDENT, 'refused'));
+      await service.release('first', STUDENT);
+
+      await expect(service.acquire(STUDENT, 'second')).resolves.toBeUndefined();
+    });
+
+    it('lets them start again the moment they end the last one', async () => {
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+      await service.release('first', STUDENT);
+
+      await expect(service.acquire(STUDENT, 'second')).resolves.toBeUndefined();
+    });
+
+    it('frees a crashed app by expiry, so nobody is locked out for the day', async () => {
+      // The backend never learns that a browser-to-Google session ended. If
+      // the slot only cleared on /live-session/end, an app that died would
+      // cost the student every remaining session they had.
+      jest.useFakeTimers();
+      try {
+        const service = makeService({
+          ELENA_IP_DAILY_MAX: '99',
+          ELENA_CONCURRENT_MAX: '10',
+          GEMINI_LIVE_SESSION_MAX_MINUTES: '5',
+        });
+
+        await service.acquire(STUDENT, 'crashed');
+        jest.advanceTimersByTime(6 * 60 * 1000);
+
+        await expect(service.acquire(STUDENT, 'next')).resolves.toBeUndefined();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('refuses the second of two simultaneous starts', async () => {
+      // A double tap, or a retry racing the first request. Reading whether a
+      // slot is held and then taking it leaves a window where both callers
+      // read "free" — which is why the claim itself has to be the check.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_GLOBAL_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      const outcomes = await Promise.allSettled([
+        service.acquire(STUDENT, 'a'),
+        service.acquire(STUDENT, 'b'),
+      ]);
+
+      expect(
+        outcomes.filter((outcome) => outcome.status === 'fulfilled'),
+      ).toHaveLength(1);
+    });
+
+    it('gives the slot back when a later cap refuses the session', async () => {
+      // The live slot is claimed before the shared gates, so a student turned
+      // away by a full pool must not be left holding a place of their own —
+      // that would lock them out of Elena for five minutes over somebody
+      // else's traffic.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '1',
+      });
+
+      await service.acquire({ ...STUDENT, studentId: 'other' }, 'fills-pool');
+      expect(await messageKeyOf(service.acquire(STUDENT, 'refused'))).toBe(
+        'elenaBusyNow',
+      );
+
+      await service.release('fills-pool', {
+        ...STUDENT,
+        studentId: 'other',
+      });
+
+      await expect(service.acquire(STUDENT, 'now-ok')).resolves.toBeUndefined();
+    });
+
+    it('leaves another student alone', async () => {
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(STUDENT, 'first');
+
+      await expect(
+        service.acquire({ ...STUDENT, studentId: 'student-2' }, 'theirs'),
+      ).resolves.toBeUndefined();
+    });
+
+    it('leaves guests exactly as they were', async () => {
+      // Guests are keyed by IP, and a school or a cybercafe is one IP. A
+      // per-identity live slot would let one visitor block the building.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(GUEST, 'g1');
+
+      await expect(service.acquire(GUEST, 'g2')).resolves.toBeUndefined();
+    });
+  });
+
+  describe('what a session actually cost', () => {
+    // The Live API bills tokens, not minutes, and the backend never sees
+    // Google's usage metadata because the app connects to Google directly.
+    // What it can measure by itself is how long a conversation really ran —
+    // and every cost estimate so far has assumed the full ceiling. If real
+    // sessions are ninety seconds, the estimate is three times too high.
+    it('logs how long the conversation ran', async () => {
+      jest.useFakeTimers();
+      const logged: string[] = [];
+      try {
+        const service = makeService({ ELENA_CONCURRENT_MAX: '10' });
+        jest
+          .spyOn(service['logger'], 'log')
+          .mockImplementation((message: unknown) => {
+            logged.push(String(message));
+          });
+
+        await service.acquire(STUDENT, 's1');
+        jest.advanceTimersByTime(92_000);
+        await service.release('s1', STUDENT);
+      } finally {
+        jest.useRealTimers();
+      }
+
+      const ended = logged
+        .map((line) => JSON.parse(line) as Record<string, unknown>)
+        .find((entry) => entry.event === 'elena.session.ended');
+
+      expect(ended).toMatchObject({ sessionId: 's1', durationSeconds: 92 });
+    });
+
+    it('says so rather than guessing when it never saw the start', async () => {
+      // A restart, another instance, or a release for a session this process
+      // never minted. A zero there would quietly drag the average down.
+      const logged: string[] = [];
+      const service = makeService();
+      jest
+        .spyOn(service['logger'], 'log')
+        .mockImplementation((message: unknown) => {
+          logged.push(String(message));
+        });
+
+      await service.release('never-minted-here');
+
+      const ended = logged
+        .map((line) => JSON.parse(line) as Record<string, unknown>)
+        .find((entry) => entry.event === 'elena.session.ended');
+
+      expect(ended).toMatchObject({ durationSeconds: null });
+    });
+  });
+
+  describe('release', () => {
+    it('frees the slot immediately, without waiting out the ceiling', async () => {
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '99',
+        ELENA_CONCURRENT_MAX: '1',
+      });
+
+      await service.acquire(GUEST, 'first');
+      expect(await messageKeyOf(service.acquire(GUEST, 'blocked'))).toBe(
+        'elenaBusyNow',
+      );
+
+      await service.release('first');
+
+      await expect(service.acquire(GUEST, 'second')).resolves.toBeUndefined();
+    });
+
+    it('does not refund the daily quota', async () => {
+      // Otherwise ending a session immediately would buy unlimited sessions.
+      const service = makeService({
+        ELENA_IP_DAILY_MAX: '2',
+        ELENA_CONCURRENT_MAX: '99',
+      });
+
+      await service.acquire(GUEST, 's1');
+      await service.release('s1');
+      await service.acquire(GUEST, 's2');
+      await service.release('s2');
+
+      expect(await messageKeyOf(service.acquire(GUEST, 's3'))).toBe(
+        'elenaDailyLimit',
+      );
+    });
+
+    it('is idempotent and tolerates an unknown id', async () => {
+      const service = makeService();
+
+      await expect(service.release('never-existed')).resolves.toBeUndefined();
+      await expect(service.release('never-existed')).resolves.toBeUndefined();
+    });
+  });
+
+  describe('global daily cap', () => {
+    it('refuses with elenaBusyToday and does not consume the caller quota', async () => {
+      const service = makeService({
+        ELENA_GLOBAL_DAILY_MAX: '1',
+        ELENA_CONCURRENT_MAX: '10',
+      });
+
+      await service.acquire(GUEST, 's1');
+
+      expect(
+        await messageKeyOf(service.acquire({ ...GUEST, ip: '9.9.9.9' }, 's2')),
+      ).toBe('elenaBusyToday');
+    });
+  });
+
+  describe('sessionSeconds', () => {
+    it('reports the configured session ceiling in seconds', () => {
+      expect(makeService().sessionSeconds).toBe(600);
+    });
+  });
+});

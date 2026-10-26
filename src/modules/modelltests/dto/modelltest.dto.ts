@@ -2,6 +2,8 @@ export interface ModelltestListItemDto {
   id: string;
   number: number;
   title: string;
+  /** CEFR level of this Modelltest (Option A catalogue filter). */
+  level: 'A1' | 'A2' | 'B1' | 'B2';
 }
 
 export interface ModelltestExercisesDto {
@@ -17,4 +19,27 @@ export interface ModelltestExercisesDto {
 
 export interface ModelltestDetailDto extends ModelltestListItemDto {
   exercises: ModelltestExercisesDto;
+}
+
+/** Start-only: current 7-day training Modelltest (not Prep Pass catalogue). */
+export interface ModelltestOfTheWeekDto extends ModelltestListItemDto {
+  /** Inclusive start of the current 7×24h UTC window (ISO-8601). */
+  periodStart: string;
+  /** Inclusive end of the current 7×24h UTC window (ISO-8601). */
+  periodEnd: string;
+}
+
+/**
+ * Full weekly training payload for Start — same builders as per-skill GETs,
+ * with answer keys kept (ADR 0001). Hören Teile carry `answerKey`; durable
+ * audio URLs stay off this payload (training play flow).
+ */
+export interface ModelltestOfTheWeekContentDto extends ModelltestOfTheWeekDto {
+  sections: {
+    LESEN: unknown;
+    SPRACHBAUSTEINE: unknown;
+    HOEREN: unknown[];
+    SCHREIBEN: unknown;
+    SPRECHEN: unknown[];
+  };
 }

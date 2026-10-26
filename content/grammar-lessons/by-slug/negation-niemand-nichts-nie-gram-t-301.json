@@ -1,0 +1,39 @@
+{
+  "slug": "negation-niemand-nichts-nie-gram-t-301",
+  "titleFr": "niemand, nichts, nie",
+  "titleEn": "Negation — niemand / nichts / nie",
+  "titleDe": "Negation — niemand/nichts/nie",
+  "ruleFr": "## Negations « intégrées » : niemand, nichts, nie…\n\nAu lieu de *nicht jemand / nicht etwas*, l’allemand utilise des mots négatifs complets.\n\n### Formes essentielles\n| Mot | Sens |\n|---|---|\n| **niemand** | personne |\n| **nichts** | rien |\n| **nie / niemals** | jamais |\n| **nirgends / nirgendwo** | nulle part |\n\n### Exemples\n- ***Niemand** ist da.*\n- *Ich habe **nichts** gehört.*\n- *Er kommt **nie** zu spät.*\n- *Ich finde den Schlüssel **nirgendwo**.*\n\n### Erreurs fréquentes\n- ✗ *nicht jemand* → ✓ *niemand*\n- ✗ *nicht etwas* → ✓ *nichts*\n- ✗ *nicht nie* (double négation) → une seule négation suffit\n\n### Mini-entraînement\nRemplacez : *nicht eine Person / nicht eine Sache / nicht jemals*.",
+  "ruleEn": "## Built-in negatives: niemand, nichts, nie…\n\nInstead of *nicht jemand / nicht etwas*, German uses full negative words.\n\n### Essential forms\n| Word | Meaning |\n|---|---|\n| **niemand** | nobody |\n| **nichts** | nothing |\n| **nie / niemals** | never |\n| **nirgends / nirgendwo** | nowhere |\n\n### Examples\n- ***Niemand** ist da.*\n- *Ich habe **nichts** gehört.*\n- *Er kommt **nie** zu spät.*\n- *Ich finde den Schlüssel **nirgendwo**.*\n\n### Common mistakes\n- ✗ *nicht jemand* → ✓ *niemand*\n- ✗ *nicht etwas* → ✓ *nichts*\n- ✗ *nicht nie* (double negation) → one negation is enough\n\n### Mini practice\nReplace: *not a person / not a thing / not ever*.",
+  "ruleDe": "## niemand, nichts, nie…\n\nStatt *nicht jemand / nicht etwas* direkte Negationswörter.\n\n| Wort | Bedeutung |\n|---|---|\n| **niemand** | niemand |\n| **nichts** | nichts |\n| **nie / niemals** | nie |\n| **nirgends / nirgendwo** | nirgendwo |\n\n### Mini-Übung\nErsetzen: *nicht jemand / nicht etwas / nicht jemals*.",
+  "notesFr": "Pas *nicht jemand* ni *nicht etwas* ! Directement : *niemand*, *nichts*.",
+  "notesEn": "Not *nicht jemand* or *nicht etwas*! Use: *niemand*, *nichts*.",
+  "notesDe": "NICHT 'nicht jemand' oder 'nicht etwas'! Direkt: *niemand*, *nichts*.",
+  "examples": [
+    {
+      "de": "Niemand ist zu Hause.",
+      "fr": "Personne n’est à la maison.",
+      "en": "Nobody is at home."
+    },
+    {
+      "de": "Ich habe nichts verstanden.",
+      "fr": "Je n’ai rien compris.",
+      "en": "I understood nothing."
+    },
+    {
+      "de": "Er kommt nie zu spät.",
+      "fr": "Il n’arrive jamais en retard.",
+      "en": "He never arrives late."
+    },
+    {
+      "de": "Ich finde meinen Ausweis nirgendwo.",
+      "fr": "Je ne trouve ma pièce d’identité nulle part.",
+      "en": "I can’t find my ID anywhere."
+    },
+    {
+      "de": "Niemand hat mir Bescheid gesagt.",
+      "fr": "Personne ne m’a prévenu.",
+      "en": "Nobody informed me."
+    }
+  ]
+}

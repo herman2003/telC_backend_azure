@@ -1,0 +1,39 @@
+{
+  "slug": "partizip-ii-regelma-ig-gram-g-154",
+  "titleFr": "Participe II — verbes réguliers",
+  "titleEn": "Past participle — regular verbs",
+  "titleDe": "Partizip II — regelmäßig",
+  "ruleFr": "## Participe II des verbes réguliers\n\n### Formule\n**ge-** + radical + **-t**\n\n| Infinitif | Participe II |\n|---|---|\n| machen | **gemacht** |\n| lernen | **gelernt** |\n| kaufen | **gekauft** |\n| spielen | **gespielt** |\n| fragen | **gefragt** |\n\n### Dans le Perfekt\n*Ich habe das **gemacht**.*  \n*Hast du gut **geschlafen**?* ← attention : *schlafen* est irrégulier !\n\n### Astuce\nFormule simple : **ge-STAMM-t**\n\n### Mini-entraînement\nFormez le participe de : *kochen, tanzen, wohnen, hören, sagen*.",
+  "ruleEn": "## Past participle of regular verbs\n\n### Formula\n**ge-** + stem + **-t**\n\n| Infinitive | Past participle |\n|---|---|\n| machen | **gemacht** |\n| lernen | **gelernt** |\n| kaufen | **gekauft** |\n| spielen | **gespielt** |\n| fragen | **gefragt** |\n\n### In the perfect\n*Ich habe das **gemacht**.*  \n*Hast du gut **geschlafen**?* ← note: *schlafen* is irregular!\n\n### Tip\nSimple formula: **ge-STEM-t**\n\n### Mini practice\nForm the participle of: *kochen, tanzen, wohnen, hören, sagen*.",
+  "ruleDe": "## Partizip II der regelmäßigen Verben\n\n### Formel\n**ge-** + Stamm + **-t**\n\n| Infinitiv | Partizip II |\n|---|---|\n| machen | **gemacht** |\n| lernen | **gelernt** |\n| kaufen | **gekauft** |\n| spielen | **gespielt** |\n| fragen | **gefragt** |\n\n### Im Perfekt\n*Ich habe das **gemacht**.*\n\n### Tipp\nEinfache Formel: **ge-STAMM-t**\n\n### Mini-Übung\nBilden Sie das Partizip von: *kochen, tanzen, wohnen, hören, sagen*.",
+  "notesFr": "Formule simple : ge- + radical + -t (*gemacht*, *gelernt*).",
+  "notesEn": "Simple formula: ge- + stem + -t (*gemacht*, *gelernt*).",
+  "notesDe": "Einfache Formel: ge-STAMM-t.",
+  "examples": [
+    {
+      "de": "Ich habe Tee gekocht.",
+      "fr": "J’ai préparé du thé. (*gekocht*.)",
+      "en": "I made tea. (*gekocht*.)"
+    },
+    {
+      "de": "Wir haben Fußball gespielt.",
+      "fr": "Nous avons joué au football.",
+      "en": "We played football."
+    },
+    {
+      "de": "Sie hat laut gelacht.",
+      "fr": "Elle a ri fort.",
+      "en": "She laughed loudly."
+    },
+    {
+      "de": "Hast du gut gelernt?",
+      "fr": "As-tu bien appris / révisé ?",
+      "en": "Did you study well?"
+    },
+    {
+      "de": "Er hat mich gefragt.",
+      "fr": "Il m’a demandé / interrogé.",
+      "en": "He asked me."
+    }
+  ]
+}

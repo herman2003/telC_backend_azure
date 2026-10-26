@@ -354,5 +354,4 @@ export class TokenService {
       .update(token)
       .digest('hex');
   }
-
 }

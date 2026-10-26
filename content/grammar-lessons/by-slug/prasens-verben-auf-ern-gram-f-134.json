@@ -1,0 +1,39 @@
+{
+  "slug": "prasens-verben-auf-ern-gram-f-134",
+  "titleFr": "Verbes en -ern",
+  "titleEn": "Verbs ending in -ern",
+  "titleDe": "Präsens — Verben auf -ern",
+  "ruleFr": "## Verbes en *-ern*\n\nContrairement à *-eln*, la forme ***ich*** **garde** en général le *-e-* :\n- *ändern* → *ich ändere*\n- *erinnern* → *ich erinnere*\n- *feiern* → *ich feiere*\n- *fördern* → *ich fördere*\n- *dauern* → *es dauert* (souvent impersonnel)\n\n### Comparaison\n| -eln | -ern |\n|---|---|\n| ich kling**l**e | ich änder**e** |\n\n### Mini-entraînement\nConjuguez *feiern* : ich / wir / ihr.",
+  "ruleEn": "## Verbs in *-ern*\n\nUnlike *-eln*, the ***ich*** form usually **keeps** the *-e-*:\n- *ändern* → *ich ändere*\n- *feiern* → *ich feiere*\n- *erinnern* → *ich erinnere*\n\n### Contrast\n*-eln*: *ich kling**l**e* · *-ern*: *ich änder**e*\n\n### Mini practice\nConjugate *feiern*: ich / wir / ihr.",
+  "ruleDe": "## Verben auf *-ern*\n\nDie *ich*-Form behält meist das *-e-*: *ich ändere, ich feiere, ich erinnere*.\n\n### Mini-Übung\n*feiern*: ich / wir / ihr.",
+  "notesFr": "Aussi : erinnern, feiern, fördern, dauern.",
+  "notesEn": "Also: erinnern, feiern, fördern, dauern.",
+  "notesDe": "Auch: erinnern, feiern, fördern, dauern.",
+  "examples": [
+    {
+      "de": "Ich ändere meinen Plan.",
+      "fr": "Je change mon plan. (ich ändere.)",
+      "en": "I’m changing my plan. (ich ändere.)"
+    },
+    {
+      "de": "Erinnerst du dich an mich?",
+      "fr": "Tu te souviens de moi ?",
+      "en": "Do you remember me?"
+    },
+    {
+      "de": "Wir feiern ihren Geburtstag.",
+      "fr": "Nous fêtons son anniversaire.",
+      "en": "We’re celebrating her birthday."
+    },
+    {
+      "de": "Das Projekt fördert junge Künstler.",
+      "fr": "Le projet soutient de jeunes artistes.",
+      "en": "The project supports young artists."
+    },
+    {
+      "de": "Es dauert zehn Minuten.",
+      "fr": "Cela dure dix minutes.",
+      "en": "It takes ten minutes."
+    }
+  ]
+}

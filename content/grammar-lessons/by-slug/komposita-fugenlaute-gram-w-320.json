@@ -1,0 +1,39 @@
+{
+  "slug": "komposita-fugenlaute-gram-w-320",
+  "titleFr": "Les lettres de liaison (Fugenlaute)",
+  "titleEn": "Compound words — linking sounds",
+  "titleDe": "Komposita — Fugenlaute",
+  "ruleFr": "## Les Fugenlaute — sons de liaison\n\nEntre les parties d’un composé, on trouve parfois une lettre de liaison : **-s-, -n-, -en-, -e-, -er-**. Il n’y a **pas** de règle unique, mais des tendances.\n\n### Exemples\n| Liaison | Exemple |\n|---|---|\n| **-s-** | *Arbeitszeit, Geburtstag, Liebesbrief* |\n| **-n- / -en-** | *Straßenbahn, Studentenwohnheim* |\n| **-e-** | *Tagebuch, Mausefalle* |\n| **-er-** | *Kinderwagen, Wörterbuch* |\n| (aucune) | *Haustür, Apfelbaum* |\n\n### Tendance utile\nSouvent **-s-** après : *-ung, -heit, -keit, -schaft, -tum, -ling*\n- *Wohnungs**s**suche, Freiheits**s**kampf, Freundschafts**s**piel*\n\n### Mini-entraînement\nRepérez le Fugenlaut dans 5 composés du quotidien.",
+  "ruleEn": "## Linking sounds (Fugenlaute)\n\nBetween compound parts you sometimes find a linking element: **-s-, -n-, -en-, -e-, -er-**. There is **no** single rule, but tendencies.\n\n### Examples\n| Link | Example |\n|---|---|---|\n| **-s-** | *Arbeitszeit, Geburtstag, Liebesbrief* |\n| **-n- / -en-** | *Straßenbahn, Studentenwohnheim* |\n| **-e-** | *Tagebuch, Mausefalle* |\n| **-er-** | *Kinderwagen, Wörterbuch* |\n| (none) | *Haustür, Apfelbaum* |\n\n### Useful tendency\nOften **-s-** after: *-ung, -heit, -keit, -schaft, -tum, -ling*\n- *Wohnungssuche, Freundschaftsspiel*\n\n### Mini practice\nSpot the linking sound in 5 everyday compounds.",
+  "ruleDe": "## Fugenlaute\n\nVerbindungselemente: **-s-, -n-, -en-, -e-, -er-**. Keine feste Regel, aber Tendenzen.\n\n### Tendenz\nOft **-s-** nach *-ung, -heit, -keit, -schaft, -tum, -ling*.\n\n### Mini-Übung\nFugenlaut in 5 Alltagskomposita finden.",
+  "notesFr": "Souvent *-s-* après : *-ung, -heit, -keit, -schaft, -tum, -ling*.",
+  "notesEn": "Often *-s-* after: *-ung, -heit, -keit, -schaft, -tum, -ling*.",
+  "notesDe": "Häufig *-s-* nach: *-ung, -heit, -keit, -schaft, -tum, -ling*.",
+  "examples": [
+    {
+      "de": "Am Geburtstag feiern wir zusammen.",
+      "fr": "Pour l’anniversaire, nous fêtons ensemble. (*Geburt + s + Tag*)",
+      "en": "On the birthday we celebrate together. (*Geburt + s + Tag*)"
+    },
+    {
+      "de": "Die Arbeitszeit beginnt um acht.",
+      "fr": "Le temps de travail commence à huit heures. (*Arbeit + s*)",
+      "en": "Working hours begin at eight. (*Arbeit + s*)"
+    },
+    {
+      "de": "Die Straßenbahn ist pünktlich.",
+      "fr": "Le tram est à l’heure. (*Straße + n*)",
+      "en": "The tram is on time. (*Straße + n*)"
+    },
+    {
+      "de": "Das Wörterbuch hilft mir beim Lernen.",
+      "fr": "Le dictionnaire m’aide à apprendre. (*Wörter + Buch*)",
+      "en": "The dictionary helps me learn. (*Wörter + Buch*)"
+    },
+    {
+      "de": "Die Wohnungssuche dauert lange.",
+      "fr": "La recherche de logement dure longtemps. (*Wohnung + s*)",
+      "en": "The apartment search takes a long time. (*Wohnung + s*)"
+    }
+  ]
+}

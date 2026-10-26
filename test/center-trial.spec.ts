@@ -43,6 +43,7 @@ describe('CenterTrialService.start', () => {
           linked_name: null,
           linked_email: null,
           connected_at: null,
+          level: null,
           created_at: new Date(),
           ...data,
         })),
@@ -70,7 +71,6 @@ describe('CenterTrialService.start', () => {
     expect(code).toEqual(
       expect.objectContaining({
         center_id: 'center-1',
-        tier: 'START',
         expires_at: ends,
       }),
     );

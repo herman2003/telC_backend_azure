@@ -1,0 +1,31 @@
+meta {
+  name: 40 Set B2 seat level
+  type: http
+  seq: 40
+}
+
+patch {
+  url: {{baseUrl}}/api/centers/me/activation-codes/{{codeId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "level": "B2"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.level: eq B2
+}
+
+docs {
+  Needs Center Auth / 03 Login first ({{accessToken}}). {{codeId}} is the
+  fixture B2 seat from local.bru.
+}

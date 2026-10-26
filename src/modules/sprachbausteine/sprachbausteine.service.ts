@@ -82,7 +82,19 @@ export class SprachbausteineService {
         id: `${gap.gap_key}${letters[o.sort_order]}`,
         content: o.content,
       }));
-      return { id: gap.gap_key, options };
+
+      // Composed exactly as getAnswerKey() composes it, so the key served here
+      // and the key /submit scores against cannot drift. A test asserts the two
+      // agree; if you change one, change both.
+      const correct = gap.options.find((o) => o.is_correct);
+
+      return {
+        id: gap.gap_key,
+        correctOptionId: correct
+          ? `${gap.gap_key}${letters[correct.sort_order]}`
+          : '',
+        options,
+      };
     });
 
     return {
@@ -126,7 +138,18 @@ export class SprachbausteineService {
       };
     });
 
-    const gaps = exercise.gaps.map((g) => ({ id: g.gapKey }));
+    // g.correctWordId is the word row's uuid; the client-facing id is "wa".
+    // Translate through the same mapping wordBank was built from.
+    const wordIdByUuid = new Map(
+      exercise.words.map((w) => [
+        w.id,
+        'w' + String.fromCharCode(97 + w.sortOrder),
+      ]),
+    );
+    const gaps = exercise.gaps.map((g) => ({
+      id: g.gapKey,
+      correctWordId: wordIdByUuid.get(g.correctWordId) ?? '',
+    }));
 
     return {
       imageUrl: exercise.imageUrl,
@@ -188,6 +211,11 @@ export class SprachbausteineService {
               answers: dto.answers,
               content_revision: dto.contentRevision,
               duration_seconds: dto.durationSeconds ?? null,
+              // Unconditional today, because GET /exercise always ships the
+              // key. Written explicitly rather than left to the column
+              // default so that adding an exam mode later has an obvious
+              // place to become a condition.
+              answers_prefetched: true,
               completed_at: completedAt,
             },
           });
@@ -204,10 +232,18 @@ export class SprachbausteineService {
         }),
     );
 
-    return { attemptId, score: earlier?.score ?? score };
+    // The key goes out after the write, never before: returning it on a
+    // submission that failed to persist would let it be harvested by
+    // submitting and discarding the error.
+    return { attemptId, score: earlier?.score ?? score, answerKey: answers };
   }
 
-  private async getAnswerKey(
+  /**
+   * Public because the exam scorer marks against this same key. Two copies of
+   * an answer key are two things that can drift, and the one that drifts is
+   * always the one nobody is looking at.
+   */
+  async getAnswerKey(
     modelltestId: string,
     teilId: '1' | '2',
   ): Promise<{
@@ -291,14 +327,26 @@ export class SprachbausteineService {
     }
   }
 
-  async getTeils(studentId: string): Promise<ExerciseTypeDto[]> {
+  async getTeils(
+    studentId: string,
+    modelltestNumber = 1,
+  ): Promise<ExerciseTypeDto[]> {
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: modelltestNumber },
+      select: { id: true },
+    });
+    if (!modelltest) {
+      throw new NotFoundException(`Modelltest ${modelltestNumber} not found`);
+    }
+
     const [progress, stats] = await Promise.all([
-      this.getProgressByTeil(studentId),
+      this.getProgressByTeil(studentId, modelltest.id),
       teilStats(
         this.prisma,
         studentId,
         'SPRACHBAUSTEINE',
         TEIL_IDS.map(Number),
+        modelltest.id,
       ),
     ]);
     return TEIL_IDS.map((id) => ({
@@ -310,6 +358,7 @@ export class SprachbausteineService {
 
   private async getProgressByTeil(
     studentId: string,
+    modelltestId: string,
   ): Promise<Record<string, number>> {
     const result: Record<string, number> = {};
     for (const id of TEIL_IDS) result[id] = 0;
@@ -317,7 +366,13 @@ export class SprachbausteineService {
     try {
       const rows = await this.prisma.sprachbausteineAttempt.findMany({
         where: {
+          // Training only. An exam attempt lives in this same table and
+          // must not be read back as practice: it would show a candidate
+          // scores their center has not released, and count an exam as
+          // preparation for itself.
+          exam_attempt_id: null,
           student_id: studentId,
+          modelltest_id: modelltestId,
           status: 'completed',
           erasure_id: null,
         },
@@ -348,6 +403,11 @@ export class SprachbausteineService {
 
       const rows = await this.prisma.sprachbausteineAttempt.findMany({
         where: {
+          // Training only. An exam attempt lives in this same table and
+          // must not be read back as practice: it would show a candidate
+          // scores their center has not released, and count an exam as
+          // preparation for itself.
+          exam_attempt_id: null,
           student_id: studentId,
           erasure_id: null,
           ...(teilId ? { teil_id: teilId } : {}),

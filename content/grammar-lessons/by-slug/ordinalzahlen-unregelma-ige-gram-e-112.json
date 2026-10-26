@@ -1,0 +1,39 @@
+{
+  "slug": "ordinalzahlen-unregelma-ige-gram-e-112",
+  "titleFr": "Ordinaux irréguliers",
+  "titleEn": "Irregular ordinals",
+  "titleDe": "Ordinalzahlen — Unregelmäßige",
+  "ruleFr": "## Quatre ordinaux irréguliers\n\nÀ apprendre **par cœur** :\n\n| Cardinal | Ordinal | Pas… |\n|---|---|---|\n| eins | **erste** | ✗ einste |\n| drei | **dritte** | ✗ dreite |\n| sieben | **siebte** (aussi *siebente*) | — |\n| acht | **achte** | ✗ achtte |\n\n### Exemples\n- *der **erste** Mann*\n- *die **dritte** Frau*\n- *das **siebte** Kind*\n- *am **achten** Tag*\n\n### Mini-entraînement\nÉcrivez 1., 3., 7., 8. en toutes lettres.",
+  "ruleEn": "## Four irregular ordinals\n\nLearn **by heart**:\n\n| Cardinal | Ordinal | Not… |\n|---|---|---|\n| eins | **erste** | ✗ einste |\n| drei | **dritte** | ✗ dreite |\n| sieben | **siebte** | — |\n| acht | **achte** | ✗ achtte |\n\n### Examples\n*der erste Mann · die dritte Frau · das siebte Kind · am achten Tag*\n\n### Mini practice\nWrite 1st, 3rd, 7th, 8th in full.",
+  "ruleDe": "## Unregelmäßige Ordinalzahlen\n\nerste, dritte, siebte, achte — auswendig lernen!\n\n### Mini-Übung\n1., 3., 7., 8. ausschreiben.",
+  "notesFr": "Ces quatre formes doivent être apprises par cœur !",
+  "notesEn": "These four must be learned by heart!",
+  "notesDe": "Diese vier müssen auswendig gelernt werden!",
+  "examples": [
+    {
+      "de": "Das ist der erste Tag im Kurs.",
+      "fr": "C’est le premier jour du cours.",
+      "en": "That is the first day of the course."
+    },
+    {
+      "de": "Sie wohnt in der dritten Etage.",
+      "fr": "Elle habite au troisième étage.",
+      "en": "She lives on the third floor."
+    },
+    {
+      "de": "Am siebten Juni haben wir Prüfung.",
+      "fr": "Le 7 juin nous avons un examen.",
+      "en": "On the seventh of June we have an exam."
+    },
+    {
+      "de": "Er kommt am achten Mai zurück.",
+      "fr": "Il revient le 8 mai.",
+      "en": "He comes back on the eighth of May."
+    },
+    {
+      "de": "Mein erstes Auto war blau.",
+      "fr": "Ma première voiture était bleue.",
+      "en": "My first car was blue."
+    }
+  ]
+}

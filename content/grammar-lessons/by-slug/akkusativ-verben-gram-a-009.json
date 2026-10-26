@@ -1,0 +1,39 @@
+{
+  "slug": "akkusativ-verben-gram-a-009",
+  "titleFr": "Verbes qui régissent l’accusatif",
+  "titleEn": "Verbs that take the accusative",
+  "titleDe": "Akkusativ — Verben",
+  "ruleFr": "## Verbes transitifs + accusatif\n\nLa plupart des verbes **transitifs** demandent un objet à l’**accusatif**.\n\n### Verbes fréquents (A1–B1)\n*haben, sehen, hören, kaufen, verkaufen, essen, trinken, lesen, schreiben, lieben, brauchen, suchen, finden, nehmen, machen, besuchen, fragen, treffen*\n\n### Schéma\nSujet (Nom.) + verbe + **objet (Akk.)**\n→ *Ich habe **einen Hund**.* / *Sie liest **das Buch**.*\n\n### Contraste avec dativ-verbes\nCertains verbes prennent le **datif** (*helfen, danken, gefallen…*) — pas l’accusatif :\n- ✓ *Ich helfe **dem** Freund.*\n- ✗ *Ich helfe den Freund.*\n\n### Erreurs fréquentes\n- Appliquer l’accusatif à *helfen* / *danken*.\n- Oublier *einen* après *haben* : ✗ *Ich habe ein Hund.* → ✓ *einen Hund*\n\n### Mini-entraînement\n1. Listez 8 verbes + un objet masculin à l’accusatif.\n2. Remplacez l’objet par *ihn / sie / es*.\n3. Identifiez dans un texte : verbe transitif vs verbe au datif.",
+  "ruleEn": "## Transitive verbs + accusative\n\nMost **transitive** verbs take an **accusative** object.\n\n### Frequent verbs (A1–B1)\n*haben, sehen, hören, kaufen, verkaufen, essen, trinken, lesen, schreiben, lieben, brauchen, suchen, finden, nehmen, machen, besuchen, fragen, treffen*\n\n### Pattern\nSubject (Nom.) + verb + **object (Akk.)**\n→ *Ich habe **einen Hund**.* / *Sie liest **das Buch**.*\n\n### Contrast with dative verbs\nSome verbs take **dative** (*helfen, danken, gefallen…*):\n- ✓ *Ich helfe **dem** Freund.*\n- ✗ *Ich helfe den Freund.*\n\n### Common mistakes\n- Using accusative with *helfen* / *danken*.\n- Forgetting *einen* after *haben*: ✗ *Ich habe ein Hund.* → ✓ *einen Hund*\n\n### Mini practice\n1. List 8 verbs + a masculine accusative object.\n2. Replace the object with *ihn / sie / es*.\n3. Spot transitive vs dative verbs in a text.",
+  "ruleDe": "## Transitive Verben + Akkusativ\n\nDie meisten **transitiven** Verben verlangen ein **Akkusativobjekt**.\n\n### Häufige Verben (A1–B1)\n*haben, sehen, hören, kaufen, verkaufen, essen, trinken, lesen, schreiben, lieben, brauchen, suchen, finden, nehmen, machen, besuchen, fragen, treffen*\n\n### Muster\nSubjekt (Nom.) + Verb + **Objekt (Akk.)**\n→ *Ich habe **einen Hund**.* / *Sie liest **das Buch**.*\n\n### Kontrast zu Dativverben\nManche Verben verlangen **Dativ** (*helfen, danken, gefallen…*):\n- ✓ *Ich helfe **dem** Freund.*\n- ✗ *Ich helfe den Freund.*\n\n### Häufige Fehler\n- Akkusativ bei *helfen* / *danken*.\n- *einen* nach *haben* vergessen: ✗ *Ich habe ein Hund.* → ✓ *einen Hund*\n\n### Mini-Übung\n1. Acht Verben + maskulines Akkusativobjekt.\n2. Objekt durch *ihn / sie / es* ersetzen.\n3. Transitiv vs Dativverb im Text erkennen.",
+  "notesFr": "Quand vous apprenez un verbe, notez toujours le cas : *jdn. sehen* (Akk.) vs *jdm. helfen* (Dat.).",
+  "notesEn": "When you learn a verb, always note the case: *jdn. sehen* (Akk.) vs *jdm. helfen* (Dat.).",
+  "notesDe": "Beim Verb lernen immer den Kasus notieren: *jdn. sehen* (Akk.) vs *jdm. helfen* (Dat.).",
+  "examples": [
+    {
+      "de": "Ich habe einen Hund.",
+      "fr": "J’ai un chien. (*haben* + accusatif)",
+      "en": "I have a dog. (*haben* + accusative)"
+    },
+    {
+      "de": "Sie liest den Roman.",
+      "fr": "Elle lit le roman. (*lesen* + Akk.)",
+      "en": "She is reading the novel. (*lesen* + Akk.)"
+    },
+    {
+      "de": "Wir kaufen das Brot.",
+      "fr": "Nous achetons le pain. (*kaufen* + Akk.)",
+      "en": "We are buying the bread. (*kaufen* + Akk.)"
+    },
+    {
+      "de": "Er trifft seine Freunde.",
+      "fr": "Il retrouve ses amis. (*treffen* + Akk.)",
+      "en": "He is meeting his friends. (*treffen* + Akk.)"
+    },
+    {
+      "de": "Brauchst du meine Hilfe?",
+      "fr": "As-tu besoin de mon aide ? (*brauchen* + Akk.)",
+      "en": "Do you need my help? (*brauchen* + Akk.)"
+    }
+  ]
+}

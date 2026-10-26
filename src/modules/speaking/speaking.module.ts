@@ -8,11 +8,26 @@ import { AuthModule } from '../auth/auth.module';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
 import { RateLimitModule } from '../../shared/rate-limit.module';
 import { RoomModule } from './room/room.module';
+import { LiveTokenController } from './live/live-token.controller';
+import { ExaminerPromptService } from './live/examiner-prompt.service';
+import { LiveSessionLimitService } from './live/live-session-limit.service';
+import { GenericExamContentService } from '../../shared/services/generic-exam-content.service';
 
 @Module({
   imports: [AuthModule, SubscriptionAccessModule, RateLimitModule, RoomModule],
-  controllers: [SpeakingController, SpeakingCatalogController],
-  providers: [SpeakingService, GeminiService, EvaluationService],
+  controllers: [
+    SpeakingController,
+    SpeakingCatalogController,
+    LiveTokenController,
+  ],
+  providers: [
+    GenericExamContentService,
+    SpeakingService,
+    GeminiService,
+    EvaluationService,
+    ExaminerPromptService,
+    LiveSessionLimitService,
+  ],
   exports: [SpeakingService, GeminiService, EvaluationService],
 })
 export class SpeakingModule {}

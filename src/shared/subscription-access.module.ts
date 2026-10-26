@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { SubscriptionPolicyService } from '../modules/centers/subscription-policy.service';
 import { StudentEntitlementService } from './services/student-entitlement.service';
 import { StudentSubscriptionGuard } from './guards/student-subscription.guard';
-import { StudentTierGuard } from './guards/student-tier.guard';
+import { PrepPassGuard } from './guards/prep-pass.guard';
 import { AiUsageService } from './services/ai-usage.service';
 import { AiQuotaService } from './services/ai-quota.service';
+import { EntitlementSpendService } from './services/entitlement-spend.service';
+import { TrainingModelltestAccessService } from './services/training-modelltest-access.service';
 
 /**
  * Carries subscription enforcement to the modules that need it: the learning
@@ -24,16 +26,20 @@ import { AiQuotaService } from './services/ai-quota.service';
     SubscriptionPolicyService,
     StudentEntitlementService,
     StudentSubscriptionGuard,
-    StudentTierGuard,
     AiUsageService,
     AiQuotaService,
+    EntitlementSpendService,
+    TrainingModelltestAccessService,
+    PrepPassGuard,
   ],
   exports: [
     StudentSubscriptionGuard,
-    StudentTierGuard,
     StudentEntitlementService,
     AiUsageService,
     AiQuotaService,
+    EntitlementSpendService,
+    TrainingModelltestAccessService,
+    PrepPassGuard,
   ],
 })
 export class SubscriptionAccessModule {}

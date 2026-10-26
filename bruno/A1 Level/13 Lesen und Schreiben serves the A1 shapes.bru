@@ -1,0 +1,80 @@
+meta {
+  name: 13 Lesen und Schreiben serves the A1 shapes
+  type: http
+  seq: 30
+}
+
+get {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/blocks/LESEN_SCHREIBEN
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+
+  const keys = Object.keys(res.body.sections).join(",");
+  if (keys !== "LESEN,SCHREIBEN") {
+    throw new Error("expected LESEN,SCHREIBEN, got " + keys);
+  }
+  const lesen = res.body.sections.LESEN;
+  const schreiben = res.body.sections.SCHREIBEN;
+  if (lesen.length !== 3 || schreiben.length !== 2) {
+    throw new Error("A1 has three Lesen Teile and two Schreiben Teile");
+  }
+
+  // Lesen Teil 1: two letters, each tied to its own items.
+  const texts = lesen[0].material && lesen[0].material.texts;
+  if (!Array.isArray(texts) || JSON.stringify(texts.map((t) => t.forItems)) !== "[[1,2],[3,4,5]]") {
+    throw new Error("Lesen Teil 1 should carry two letters for items 1-2 and 3-5, got " +
+      JSON.stringify(texts));
+  }
+  // Lesen Teil 3: one sign per item.
+  if (!Array.isArray(lesen[2].material.texts) || lesen[2].material.texts.length !== 5) {
+    throw new Error("Lesen Teil 3 should carry five signs");
+  }
+
+  // Schreiben Teil 1, field 4: the candidate picks Bar or Kreditkarte.
+  const payment = schreiben[0].items.find((i) => i.itemNumber === 4);
+  const choices = payment && payment.options.map((o) => o.key).join(",");
+  if (choices !== "Bar,Kreditkarte") {
+    throw new Error("the payment field should offer Bar,Kreditkarte, got " + choices);
+  }
+
+  const whole = JSON.stringify(res.body);
+  if (whole.includes("solution") || whole.includes("isCorrect")) {
+    throw new Error("the candidate was served an answer key");
+  }
+
+  const lesen2Opt = lesen[1].items && lesen[1].items[0] && lesen[1].items[0].options &&
+    lesen[1].items[0].options[0] && lesen[1].items[0].options[0].imageUrl;
+  if (!lesen2Opt || !lesen2Opt.includes("a1-modelltest-1-lesen-2-item6-a.png")) {
+    throw new Error("Lesen Teil 2 options should carry their R2 picture URLs");
+  }
+  const sign = lesen[2].material && lesen[2].material.texts &&
+    lesen[2].material.texts[0] && lesen[2].material.texts[0].imageUrl;
+  if (!sign || !sign.includes("a1-modelltest-1-lesen-3-item11.png")) {
+    throw new Error("Lesen Teil 3 texts should carry their sign picture URLs");
+  }
+  const formPic = schreiben[0].material && schreiben[0].material.sourceDocuments &&
+    schreiben[0].material.sourceDocuments[0] &&
+    schreiben[0].material.sourceDocuments[0].imageUrl;
+  if (!formPic || !formPic.includes("a1-modelltest-1-schreiben-1-form.png")) {
+    throw new Error("Schreiben Teil 1 should carry the form picture URL");
+  }
+}
+
+docs {
+  The questions, with every answer stripped. The choices of the payment
+  field are served, but which one is right is not.
+}

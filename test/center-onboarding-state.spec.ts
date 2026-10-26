@@ -69,13 +69,17 @@ describe('onboarding state on the center profile', () => {
           paid_until: null,
         }),
       },
-      centerSeat: { findMany: jest.fn().mockResolvedValue([]) },
+      centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
     };
     service = new CenterProfileService(prisma, new SubscriptionPolicyService());
   });
 
   it('reports a complete profile', async () => {
-    given(managerRow());
+    given(
+      managerRow({
+        center: { logo_url: 'https://cdn.lerniqo.tech/center-logos/a.png' },
+      }),
+    );
 
     const profile: any = await service.getProfile(identity);
 
@@ -87,19 +91,28 @@ describe('onboarding state on the center profile', () => {
     given(
       managerRow({
         phone: null,
-        center: { country_code: null, city_id: null },
+        center: { country_code: null, city_id: null, logo_url: null },
       }),
     );
 
     const profile: any = await service.getProfile(identity);
 
     expect(profile.onboarding.complete).toBe(false);
-    expect(profile.onboarding.missing).toEqual(['country', 'city', 'phone']);
+    expect(profile.onboarding.missing).toEqual([
+      'country',
+      'city',
+      'phone',
+      'logo',
+    ]);
   });
 
   describe('each field on its own', () => {
+    const withLogo = {
+      logo_url: 'https://cdn.lerniqo.tech/center-logos/a.png',
+    };
+
     it('names country when only that is absent', async () => {
-      given(managerRow({ center: { country_code: null } }));
+      given(managerRow({ center: { ...withLogo, country_code: null } }));
 
       const profile: any = await service.getProfile(identity);
 
@@ -110,7 +123,7 @@ describe('onboarding state on the center profile', () => {
     });
 
     it('names city when only that is absent', async () => {
-      given(managerRow({ center: { city_id: null } }));
+      given(managerRow({ center: { ...withLogo, city_id: null } }));
 
       const profile: any = await service.getProfile(identity);
 
@@ -118,11 +131,19 @@ describe('onboarding state on the center profile', () => {
     });
 
     it('names phone when only that is absent', async () => {
-      given(managerRow({ phone: null }));
+      given(managerRow({ phone: null, center: withLogo }));
 
       const profile: any = await service.getProfile(identity);
 
       expect(profile.onboarding.missing).toEqual(['phone']);
+    });
+
+    it('names logo when only that is absent', async () => {
+      given(managerRow({ center: { logo_url: null } }));
+
+      const profile: any = await service.getProfile(identity);
+
+      expect(profile.onboarding.missing).toEqual(['logo']);
     });
   });
 
@@ -133,7 +154,14 @@ describe('onboarding state on the center profile', () => {
     ])('treats %s as missing', async (_case, country_code) => {
       // A blank string is not an answer. Without this, a client could satisfy
       // the checklist by submitting spaces.
-      given(managerRow({ center: { country_code } }));
+      given(
+        managerRow({
+          center: {
+            country_code,
+            logo_url: 'https://cdn.lerniqo.tech/center-logos/a.png',
+          },
+        }),
+      );
 
       const profile: any = await service.getProfile(identity);
 
@@ -141,22 +169,29 @@ describe('onboarding state on the center profile', () => {
     });
   });
 
-  it('does not require a logo', async () => {
-    // Optional by decision: a center completes onboarding without one.
+  it('requires a logo for marketing partners', async () => {
     given(managerRow({ center: { logo_url: null } }));
 
     const profile: any = await service.getProfile(identity);
 
-    expect(profile.onboarding.complete).toBe(true);
-    expect(profile.onboarding.missing).not.toContain('logoUrl');
+    expect(profile.onboarding.complete).toBe(false);
+    expect(profile.onboarding.missing).toContain('logo');
   });
 
   it('keeps the order stable, so a checklist does not reshuffle', async () => {
-    given(managerRow({ phone: null, center: { city_id: null } }));
+    given(
+      managerRow({
+        phone: null,
+        center: {
+          city_id: null,
+          logo_url: 'https://cdn.lerniqo.tech/center-logos/a.png',
+        },
+      }),
+    );
 
     const profile: any = await service.getProfile(identity);
 
-    // Declaration order, not discovery order: country, city, phone.
+    // Declaration order, not discovery order: country, city, phone, logo.
     expect(profile.onboarding.missing).toEqual(['city', 'phone']);
   });
 

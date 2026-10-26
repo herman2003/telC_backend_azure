@@ -1,0 +1,39 @@
+{
+  "slug": "w-fragen-wie-welcher-gram-s-294",
+  "titleFr": "wie et welcher",
+  "titleEn": "W-questions — wie / welcher",
+  "titleDe": "W-Fragen — wie/welcher",
+  "ruleFr": "## wie et welcher\n\n### wie = comment\nDemande la manière, l’état, ou entre dans des expressions.\n- ***Wie** geht es dir?*\n- ***Wie** schreibt man das?*\n- ***Wie** alt bist du?*\n\n### Combinaisons fréquentes\n| Expression | Sens |\n|---|---|\n| **wie viel** | combien (indénombrable / quantité) |\n| **wie viele** | combien (dénombrable) |\n| **wie lange** | combien de temps |\n| **wie oft** | à quelle fréquence |\n| **wie weit** | à quelle distance |\n\n### welcher / welche / welches = lequel / quelle\nSe décline comme *dieser* (selon genre, nombre, cas).\n- ***Welcher** Zug fährt nach Köln?*\n- ***Welche** Farbe magst du?*\n- ***Welches** Buch liest du?*\n\n### Mini-entraînement\n1. Questions avec *wie viel / wie viele / wie lange*.\n2. Une question avec *welcher* au masculin, féminin, neutre.",
+  "ruleEn": "## wie and welcher\n\n### wie = how\nAsks about manner, state, or forms fixed expressions.\n- ***Wie** geht es dir?*\n- ***Wie** schreibt man das?*\n- ***Wie** alt bist du?*\n\n### Common combinations\n| Expression | Meaning |\n|---|---|\n| **wie viel** | how much |\n| **wie viele** | how many |\n| **wie lange** | how long |\n| **wie oft** | how often |\n| **wie weit** | how far |\n\n### welcher / welche / welches = which\nDeclines like *dieser* (gender, number, case).\n- ***Welcher** Zug fährt nach Köln?*\n- ***Welche** Farbe magst du?*\n- ***Welches** Buch liest du?*\n\n### Mini practice\n1. Questions with *wie viel / wie viele / wie lange*.\n2. One *welcher* question for m/f/n.",
+  "ruleDe": "## wie und welcher\n\n### wie = wie\n- ***Wie** geht es dir?*\n- ***Wie** alt bist du?*\n\n### Häufige Kombinationen\n**wie viel**, **wie viele**, **wie lange**, **wie oft**, **wie weit**\n\n### welcher/welche/welches\nDeklination wie *dieser*.\n- ***Welcher** Zug fährt nach Köln?*\n- ***Welche** Farbe magst du?*\n- ***Welches** Buch liest du?*\n\n### Mini-Übung\nFragen mit *wie viel/viele/lange* und *welcher*.",
+  "notesFr": "*wie viel* = combien ; *wie viele* = combien (pluriel) ; *wie lange* = combien de temps.",
+  "notesEn": "*wie viel* = how much; *wie viele* = how many; *wie lange* = how long.",
+  "notesDe": "*wie viel* = how much; *wie viele* = how many; *wie lange* = how long.",
+  "examples": [
+    {
+      "de": "Wie geht es dir?",
+      "fr": "Comment vas-tu ?",
+      "en": "How are you?"
+    },
+    {
+      "de": "Wie viel kostet das Ticket?",
+      "fr": "Combien coûte le billet ?",
+      "en": "How much does the ticket cost?"
+    },
+    {
+      "de": "Wie viele Sprachen sprichst du?",
+      "fr": "Combien de langues parles-tu ?",
+      "en": "How many languages do you speak?"
+    },
+    {
+      "de": "Welcher Zug fährt nach Köln?",
+      "fr": "Quel train va à Cologne ?",
+      "en": "Which train goes to Cologne?"
+    },
+    {
+      "de": "Wie lange dauert der Film?",
+      "fr": "Combien de temps dure le film ?",
+      "en": "How long is the film?"
+    }
+  ]
+}

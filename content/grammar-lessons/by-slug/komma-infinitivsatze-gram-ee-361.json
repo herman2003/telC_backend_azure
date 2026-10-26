@@ -1,0 +1,39 @@
+{
+  "slug": "komma-infinitivsatze-gram-ee-361",
+  "titleFr": "Virgule — groupes infinitifs (zu)",
+  "titleEn": "Comma — infinitive clauses",
+  "titleDe": "Komma — Infinitivsätze",
+  "ruleFr": "## Virgule — groupes infinitifs avec *zu*\n\nDevant un groupe infinitif étendu avec **zu**, on met en général une **virgule**.\n\n### Règle pratique\nVirgule avant *… zu + infinitif* quand le groupe est **développé** :\n\n- *Ich versuche**,** das Problem zu verstehen.*\n- *Ich hoffe**,** dich bald zu sehen.*\n- *Es ist wichtig**,** pünktlich zu sein.*\n\n### Virgule optionnelle / souvent omise\nSi l’infinitif est **très court** et collé au verbe :\n\n- *Ich versuche zu schlafen.* (virgule possible mais souvent absente)\n- *Er beginnt zu reden.*\n\n### Indices pour la virgule\nObjet, adverbe, négation dans le groupe → virgule recommandée  \n*…, das Buch zu lesen.* · *…, nicht zu spät zu kommen.*\n\n### Mini-entraînement\n1. Ajoutez des virgules aux infinitifs étendus.\n2. Comparez *versuchen zu…* court vs long.\n3. Écrivez 5 *hoffen / versuchen / planen, … zu …*",
+  "ruleEn": "## Comma — infinitive clauses with *zu*\n\nBefore an extended infinitive group with **zu**, German usually puts a **comma**.\n\n### Practical rule\nComma before *… zu + infinitive* when the group is **expanded**:\n\n- *Ich versuche**,** das Problem zu verstehen.*\n- *Ich hoffe**,** dich bald zu sehen.*\n\n### Often optional / omitted\nIf the infinitive is **very short**:\n\n- *Ich versuche zu schlafen.*\n- *Er beginnt zu reden.*\n\n### Clues for a comma\nObject, adverb, negation inside the group → comma recommended.\n\n### Mini practice\n1. Add commas to extended infinitives.\n2. Compare short vs long *versuchen zu…*\n3. Write 5 *hoffen / versuchen / planen, … zu …*",
+  "ruleDe": "## Komma — Infinitivsätze\n\nVor erweiterten Infinitivgruppen mit **zu** steht in der Regel ein **Komma**.\n\n### Praktische Regel\n- *Ich versuche**,** das Problem zu verstehen.*\n- *Ich hoffe**,** dich bald zu sehen.*\n\n### Oft weglassbar\nBei sehr kurzem Infinitiv: *Ich versuche zu schlafen.*\n\n### Mini-Übung\n1. Kommas bei erweiterten Infinitiven setzen.\n2. Kurz vs. lang vergleichen.\n3. 5 Sätze mit *hoffen/versuchen, … zu …*",
+  "notesFr": "Virgule souvent devant les infinitifs étendus avec zu. Optionnelle si très courts : Ich versuche zu schlafen.",
+  "notesEn": "Comma often before extended zu-infinitives. Optional if very short: Ich versuche zu schlafen.",
+  "notesDe": "Komma oft vor erweiterten zu-Infinitiven. Optional bei kurzen: Ich versuche zu schlafen.",
+  "examples": [
+    {
+      "de": "Ich versuche, das Problem zu verstehen.",
+      "fr": "J’essaie de comprendre le problème.",
+      "en": "I’m trying to understand the problem."
+    },
+    {
+      "de": "Ich hoffe, dich bald zu sehen.",
+      "fr": "J’espère te voir bientôt.",
+      "en": "I hope to see you soon."
+    },
+    {
+      "de": "Es ist wichtig, pünktlich zu sein.",
+      "fr": "Il est important d’être à l’heure.",
+      "en": "It is important to be on time."
+    },
+    {
+      "de": "Er hat versprochen, uns zu helfen.",
+      "fr": "Il a promis de nous aider.",
+      "en": "He promised to help us."
+    },
+    {
+      "de": "Ich versuche zu schlafen.",
+      "fr": "J’essaie de dormir. (groupe court : virgule souvent omise.)",
+      "en": "I’m trying to sleep. (short group: comma often omitted.)"
+    }
+  ]
+}

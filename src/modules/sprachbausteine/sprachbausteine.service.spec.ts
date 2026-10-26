@@ -51,7 +51,7 @@ describe('SprachbausteineService answer security', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new SprachbausteineService(prisma as any);
+    service = new SprachbausteineService(prisma);
     prisma.modelltest.findUnique.mockResolvedValue({ id: 'mt-1' });
     prisma.sprachbausteineExercise.findFirst.mockResolvedValue(teil1);
     prisma.sprachbausteineTeil2Exercise.findFirst.mockResolvedValue(teil2);
@@ -61,11 +61,49 @@ describe('SprachbausteineService answer security', () => {
     prisma.studentActivity.create.mockResolvedValue({});
   });
 
-  it('does not expose correct option or word IDs', async () => {
+  // This test used to assert the opposite: that getExercise() leaked no correct
+  // answers. 7678440 introduced it; this reverses it deliberately. Kept on the
+  // same surface rather than deleted so that whoever changes this next has to
+  // confront the decision instead of rediscovering it. Reasoning and its cost:
+  // docs/adr/0001-answer-key-with-exercise.md.
+  it('exposes the correct option and word ids with the exercise', async () => {
     const result = await service.getExercise(1);
-    expect(JSON.stringify(result)).not.toContain('correctOptionId');
-    expect(JSON.stringify(result)).not.toContain('correctWordId');
+    expect(result.teil1.gaps[0].correctOptionId).toBe('21b');
+    expect(result.teil2.gaps[0].correctWordId).toBe('wa');
+  });
+
+  it('never leaks raw database column names', async () => {
+    const result = await service.getExercise(1);
+    // The answers are public now; the schema is not. is_correct/correct_word_id
+    // appearing here would mean a Prisma row was spread into the response
+    // wholesale rather than projected field by field.
     expect(JSON.stringify(result)).not.toContain('is_correct');
+    expect(JSON.stringify(result)).not.toContain('correct_word_id');
+    expect(JSON.stringify(result)).not.toContain('sort_order');
+  });
+
+  it('serves the same key that submit scores against', async () => {
+    // Two producers now compute the answer key: getExercise() projects it and
+    // getAnswerKey() scores against it. This is the test that stops them drifting.
+    prisma.sprachbausteineExercise.findUnique.mockResolvedValue(teil1);
+    prisma.sprachbausteineTeil2Exercise.findUnique.mockResolvedValue(teil2);
+    const exercise = await service.getExercise(1);
+
+    const teil1Result = await service.submit('student-1', {
+      modelltestNumber: 1,
+      teil_id: '1',
+      contentRevision: 'sb-1-v1',
+      answers: { '21': exercise.teil1.gaps[0].correctOptionId },
+    });
+    expect(teil1Result.score).toBe(100);
+
+    const teil2Result = await service.submit('student-1', {
+      modelltestNumber: 1,
+      teil_id: '2',
+      contentRevision: 'sb-2-v1',
+      answers: { '31': exercise.teil2.gaps[0].correctWordId },
+    });
+    expect(teil2Result.score).toBe(100);
   });
 
   it('scores and persists Teil 1 answers server-side, ignoring client score', async () => {
@@ -77,12 +115,19 @@ describe('SprachbausteineService answer security', () => {
       contentRevision: 'sb-1-v1',
       answers: { '21': '21a' },
     });
-    expect(result).toEqual({ attemptId: expect.any(String), score: 0 });
+    // Asserts the score specifically, not the whole response: this test exists
+    // to prove the client's score: 100 was ignored, and should not fail merely
+    // because the response gained a field.
+    expect(result.score).toBe(0);
     expect(prisma.sprachbausteineAttempt.create).toHaveBeenCalledWith({
       data: expect.objectContaining({
         score: 0,
         answers: { '21': '21a' },
         content_revision: 'sb-1-v1',
+        // Every attempt from here on was taken with the answers already served
+        // by GET /exercise. Recorded so a later exam mode can tell these apart
+        // instead of guessing.
+        answers_prefetched: true,
       }),
     });
   });
@@ -95,7 +140,10 @@ describe('SprachbausteineService answer security', () => {
       contentRevision: 'sb-2-v1',
       answers: { '31': 'wa' },
     });
-    expect(result).toEqual({ attemptId: expect.any(String), score: 100 });
+    expect(result).toMatchObject({
+      attemptId: expect.any(String),
+      score: 100,
+    });
     // Recorded as Sprachbausteine activity for Teil 2, in the same transaction.
     expect(prisma.$transaction).toHaveBeenCalledTimes(1);
     expect(prisma.studentActivity.create).toHaveBeenCalledWith({
@@ -108,6 +156,36 @@ describe('SprachbausteineService answer security', () => {
         attempt_id: result.attemptId,
       }),
     });
+  });
+
+  it('returns the Teil 1 answer key with the score, so the client can correct', async () => {
+    // The exercise response deliberately withholds the answers. Releasing them
+    // here instead is what lets a student see WHICH gaps were wrong, without
+    // ever letting them see it before they answer.
+    prisma.sprachbausteineExercise.findUnique.mockResolvedValue(teil1);
+
+    const result = await service.submit('student-1', {
+      modelltestNumber: 1,
+      teil_id: '1',
+      contentRevision: 'sb-1-v1',
+      answers: { '21': '21a' },
+    });
+
+    // Same encoding the client submits, so it can compare directly.
+    expect(result.answerKey).toEqual({ '21': '21b' });
+  });
+
+  it('returns the Teil 2 answer key with the score', async () => {
+    prisma.sprachbausteineTeil2Exercise.findUnique.mockResolvedValue(teil2);
+
+    const result = await service.submit('student-1', {
+      modelltestNumber: 1,
+      teil_id: '2',
+      contentRevision: 'sb-2-v1',
+      answers: { '31': 'wa' },
+    });
+
+    expect(result.answerKey).toEqual({ '31': 'wa' });
   });
 
   it('rejects unknown gap IDs and answer values outside the exercise options', async () => {
@@ -164,7 +242,13 @@ describe('SprachbausteineService answer security', () => {
     });
     expect(prisma.sprachbausteineAttempt.findMany).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: { student_id: 'student-1', erasure_id: null, teil_id: '1' },
+        // Training only: an exam attempt shares this table.
+        where: {
+          student_id: 'student-1',
+          erasure_id: null,
+          exam_attempt_id: null,
+          teil_id: '1',
+        },
       }),
     );
   });
@@ -173,15 +257,23 @@ describe('SprachbausteineService answer security', () => {
     prisma.sprachbausteineAttempt.findMany.mockResolvedValue([
       { teil_id: '2' },
     ]);
-    await expect(service.getTeils('student-1')).resolves.toEqual([
+    await expect(service.getTeils('student-1', 1)).resolves.toEqual([
       expect.objectContaining({ id: '1', progress: 0 }),
       expect.objectContaining({ id: '2', progress: 100 }),
     ]);
+    expect(prisma.sprachbausteineAttempt.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          student_id: 'student-1',
+          modelltest_id: 'mt-1',
+        }),
+      }),
+    );
 
     prisma.sprachbausteineAttempt.findMany.mockRejectedValue(
       new Error('offline'),
     );
-    const fallback = await service.getTeils('student-1');
+    const fallback = await service.getTeils('student-1', 1);
     expect(fallback.map((teil) => teil.progress)).toEqual([0, 0]);
   });
 });

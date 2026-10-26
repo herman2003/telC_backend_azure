@@ -1,0 +1,39 @@
+{
+  "slug": "possessivpronomen-ubersicht-gram-d-088",
+  "titleFr": "Déterminants possessifs — aperçu",
+  "titleEn": "Possessive determiners — overview",
+  "titleDe": "Possessivpronomen — Übersicht",
+  "ruleFr": "## Possessifs : marquer l’appartenance\n\nFormes de base (nominatif masculin) :\n\n| personne | possessif |\n|---|---|\n| ich | **mein** |\n| du | **dein** |\n| er / es | **sein** |\n| sie (f) | **ihr** |\n| wir | **unser** |\n| ihr | **euer** |\n| sie / Sie | **ihr / Ihr** |\n\n### Règle clé\nIls se déclinent comme **ein** (mots en *ein-*) : pas de terminaison au nominatif masculin/neutre (*mein Vater*, *mein Kind*), mais *meine Mutter*.\n\n### Mini-entraînement\nDites le possessif pour chaque pronom personnel.",
+  "ruleEn": "## Possessives: marking ownership\n\nBase forms (nominative masculine):\n\nich→**mein** · du→**dein** · er/es→**sein** · sie→**ihr** · wir→**unser** · ihr→**euer** · sie/Sie→**ihr/Ihr**\n\n### Key rule\nThey decline like **ein** (ein-words): no ending in nom. masc./neut. (*mein Vater*), but *meine Mutter*.\n\n### Mini practice\nSay the possessive for each personal pronoun.",
+  "ruleDe": "## Possessiva: Besitz anzeigen\n\nich→**mein** · du→**dein** · er/es→**sein** · sie→**ihr** · wir→**unser** · ihr→**euer** · sie/Sie→**ihr/Ihr**\n\n### Kernregel\nDeklination wie **ein** (Ein-Wörter).\n\n### Mini-Übung\nZu jedem Personalpronomen das Possessiv nennen.",
+  "notesFr": "Ils se déclinent comme *ein* (Ein-Wörter) !",
+  "notesEn": "They decline like *ein* (ein-words)!",
+  "notesDe": "Sie deklinieren wie *ein* (Ein-Wörter)!",
+  "examples": [
+    {
+      "de": "Das ist mein Buch.",
+      "fr": "C’est mon livre.",
+      "en": "That is my book."
+    },
+    {
+      "de": "Wo ist deine Tasche?",
+      "fr": "Où est ton sac ?",
+      "en": "Where is your bag?"
+    },
+    {
+      "de": "Sein Auto ist blau.",
+      "fr": "Sa voiture (à lui) est bleue.",
+      "en": "His car is blue."
+    },
+    {
+      "de": "Ihr Name ist Anna.",
+      "fr": "Son nom (à elle) est Anna. / Votre nom…",
+      "en": "Her name is Anna. / Your (polite) name…"
+    },
+    {
+      "de": "Unser Haus ist alt.",
+      "fr": "Notre maison est vieille.",
+      "en": "Our house is old."
+    }
+  ]
+}

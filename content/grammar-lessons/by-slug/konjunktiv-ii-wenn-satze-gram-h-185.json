@@ -1,0 +1,39 @@
+{
+  "slug": "konjunktiv-ii-wenn-satze-gram-h-185",
+  "titleFr": "Le Konjunktiv II dans les si-clauses irréelles",
+  "titleEn": "Konjunktiv II in unreal if-clauses",
+  "titleDe": "Konjunktiv II — wenn-Sätze",
+  "ruleFr": "## Konjunktiv II — les si-clauses irréelles (wenn-Sätze)\n\nLe **Konjunktiv II** dans une proposition avec **wenn** exprime une condition **irréelle** : on imagine une situation qui n’est pas (ou pas vraiment) vraie.\n\n### Structure de base\n**Wenn** + Konjunktiv II, … + Konjunktiv II (ou *würde* + infinitif).\n\n- *Wenn ich Zeit **hätte**, **käme** ich.*\n- *Wenn sie hier **wäre**, **würden** wir spazieren gehen.*\n\n### Ordre des propositions\n1. *Wenn*-Satz en tête → virgule → verbe conjugué en 2ᵉ position dans la principale :\n   → **Wenn** ich reich wäre**,** **würde** ich reisen.\n2. Principale d’abord → *wenn*-Satz à la fin :\n   → Ich **würde** reisen**, wenn** ich reich wäre.\n\n### Équivalent anglais\nComme le *Type 2 conditional* : *If I were…, I would…*\n\n### Ne pas confondre\n- **Réel / possible** → Indicatif : *Wenn es regnet, bleibe ich zu Hause.*\n- **Irréel** → Konjunktiv II : *Wenn es regnete, bliebe ich zu Hause.*\n\n### Mini-entraînement\n1. Transformez 3 phrases réalistes en irréel avec *wenn*.\n2. Variez l’ordre (*wenn* en tête / à la fin).\n3. Remplacez *würde* + verbe fort par la forme courte si elle est courante (*käme*, *ginge*).",
+  "ruleEn": "## Konjunktiv II — unreal if-clauses (wenn-Sätze)\n\n**Konjunktiv II** with **wenn** marks an **unreal** condition: you imagine something that is not (really) true.\n\n### Basic pattern\n**Wenn** + Konjunktiv II, … + Konjunktiv II (or *würde* + infinitive).\n\n- *Wenn ich Zeit **hätte**, **käme** ich.*\n- *Wenn sie hier **wäre**, **würden** wir spazieren gehen.*\n\n### Clause order\n1. *Wenn*-clause first → comma → finite verb in second position in the main clause:\n   → **Wenn** ich reich wäre**,** **würde** ich reisen.\n2. Main clause first → *wenn*-clause at the end:\n   → Ich **würde** reisen**, wenn** ich reich wäre.\n\n### English parallel\nLike the Type 2 conditional: *If I were…, I would…*\n\n### Don’t confuse\n- **Real / possible** → Indicative: *Wenn es regnet, bleibe ich zu Hause.*\n- **Unreal** → Konjunktiv II: *Wenn es regnete, bliebe ich zu Hause.*\n\n### Mini practice\n1. Turn 3 realistic sentences into unreal *wenn*-clauses.\n2. Switch clause order.\n3. Prefer short Konjunktiv II forms when common (*käme*, *ginge*).",
+  "ruleDe": "## Konjunktiv II — irreale wenn-Sätze\n\nDer **Konjunktiv II** mit **wenn** markiert eine **irreale** Bedingung: man stellt sich etwas vor, das (so) nicht wahr ist.\n\n### Grundmuster\n**Wenn** + Konjunktiv II, … + Konjunktiv II (oder *würde* + Infinitiv).\n\n- *Wenn ich Zeit **hätte**, **käme** ich.*\n- *Wenn sie hier **wäre**, **würden** wir spazieren gehen.*\n\n### Satzstellung\n1. *Wenn*-Satz zuerst → Komma → finites Verb auf Position 2 im Hauptsatz.\n2. Hauptsatz zuerst → *wenn*-Satz am Ende.\n\n### Parallel zum Englischen\nWie Conditional Type 2: *If I were…, I would…*\n\n### Nicht verwechseln\n- **Real / möglich** → Indikativ.\n- **Irreal** → Konjunktiv II.\n\n### Mini-Übung\n1. Wandeln Sie 3 reale Sätze in irreale *wenn*-Sätze um.\n2. Variieren Sie die Satzstellung.\n3. Nutzen Sie kurze Konjunktiv-II-Formen, wenn üblich.",
+  "notesFr": "Astuce : Konjunktiv II dans les DEUX parties (proposition avec wenn ET principale).",
+  "notesEn": "Tip: use Konjunktiv II in BOTH parts (wenn-clause AND main clause).",
+  "notesDe": "Tipp: Konjunktiv II in BEIDEN Teilen (wenn-Satz UND Hauptsatz).",
+  "examples": [
+    {
+      "de": "Wenn ich Zeit hätte, käme ich mit.",
+      "fr": "Si j’avais le temps, je viendrais avec vous.",
+      "en": "If I had time, I would come along."
+    },
+    {
+      "de": "Wenn sie hier wäre, würden wir zusammen lernen.",
+      "fr": "Si elle était là, nous apprendrions ensemble.",
+      "en": "If she were here, we would study together."
+    },
+    {
+      "de": "Ich würde dir helfen, wenn ich könnte.",
+      "fr": "Je t’aiderais si je pouvais.",
+      "en": "I would help you if I could."
+    },
+    {
+      "de": "Wenn das Wetter besser wäre, gingen wir spazieren.",
+      "fr": "S’il faisait meilleur, nous irions nous promener.",
+      "en": "If the weather were better, we would go for a walk."
+    },
+    {
+      "de": "Wenn er Deutsch spräche, verstünde er den Text.",
+      "fr": "S’il parlait allemand, il comprendrait le texte.",
+      "en": "If he spoke German, he would understand the text."
+    }
+  ]
+}

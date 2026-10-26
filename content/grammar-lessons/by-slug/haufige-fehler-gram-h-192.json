@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-h-192",
+  "titleFr": "Erreurs fréquentes : indicatif dans les si-clauses irréelles",
+  "titleEn": "Common mistakes: indicative in unreal if-clauses",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreurs fréquentes — indicatif au lieu du Konjunktiv II\n\n### Erreur typique\nPour une situation **irréelle**, les apprenants gardent l’**indicatif** :\n\n- ✗ *Wenn ich reich **bin**, **kaufe** ich ein Haus.*\n- ✓ *Wenn ich reich **wäre**, **würde** ich ein Haus kaufen.*\n\n### Règle de décision\n| Situation | Mode |\n|---|---|\n| Réelle / possible | **Indicatif** |\n| Irréelle / imaginée | **Konjunktiv II** |\n\nExemples :\n- Réel : *Wenn es morgen regnet, bleibe ich zu Hause.* (possible)\n- Irréel : *Wenn ich fliegen könnte, flöge ich nach Rom.* (pas vrai)\n\n### Mini-entraînement\nClassez 6 phrases *wenn* : réel ou irréel ? Corrigez les irréels.",
+  "ruleEn": "## Common mistakes — indicative instead of Konjunktiv II\n\n### Typical error\nFor an **unreal** situation, learners keep the **indicative**:\n\n- ✗ *Wenn ich reich **bin**, **kaufe** ich ein Haus.*\n- ✓ *Wenn ich reich **wäre**, **würde** ich ein Haus kaufen.*\n\n### Decision rule\n| Situation | Mood |\n|---|---|\n| Real / possible | **Indicative** |\n| Unreal / imagined | **Konjunktiv II** |\n\nExamples:\n- Real: *Wenn es morgen regnet, bleibe ich zu Hause.*\n- Unreal: *Wenn ich fliegen könnte, flöge ich nach Rom.*\n\n### Mini practice\nClassify 6 *wenn*-sentences: real or unreal? Fix the unreal ones.",
+  "ruleDe": "## Häufige Fehler — Indikativ statt Konjunktiv II\n\n### Typischer Fehler\nBei **irrealen** Situationen bleibt oft der **Indikativ**:\n\n- ✗ *Wenn ich reich **bin**, **kaufe** ich ein Haus.*\n- ✓ *Wenn ich reich **wäre**, **würde** ich ein Haus kaufen.*\n\n### Entscheidungsregel\n| Situation | Modus |\n|---|---|\n| Real / möglich | **Indikativ** |\n| Irreal / vorgestellt | **Konjunktiv II** |\n\n### Mini-Übung\nOrdnen Sie 6 *wenn*-Sätze: real oder irreal? Korrigieren Sie die irrealen.",
+  "notesFr": "Irréel (pas vrai) = Konjunktiv II. Réel (possible) = Indicatif.",
+  "notesEn": "Unreal (not true) = Konjunktiv II. Real (possible) = Indicative.",
+  "notesDe": "Irreal (nicht wahr) = Konjunktiv II. Real (möglich) = Indikativ.",
+  "examples": [
+    {
+      "de": "Wenn ich reich wäre, würde ich ein Haus kaufen.",
+      "fr": "Si j’étais riche, j’achèterais une maison. (irréel)",
+      "en": "If I were rich, I would buy a house. (unreal)"
+    },
+    {
+      "de": "Wenn es morgen regnet, bleibe ich zu Hause.",
+      "fr": "S’il pleut demain, je reste à la maison. (réel / possible)",
+      "en": "If it rains tomorrow, I’ll stay home. (real / possible)"
+    },
+    {
+      "de": "Wenn er Zeit hätte, käme er mit.",
+      "fr": "S’il avait le temps, il viendrait. (irréel)",
+      "en": "If he had time, he would come along. (unreal)"
+    },
+    {
+      "de": "Wenn du Hunger hast, nimm dir etwas zu essen.",
+      "fr": "Si tu as faim, prends quelque chose à manger. (réel)",
+      "en": "If you’re hungry, take something to eat. (real)"
+    },
+    {
+      "de": "Wenn ich du wäre, würde ich das nicht tun.",
+      "fr": "Si j’étais toi, je ne ferais pas ça.",
+      "en": "If I were you, I wouldn’t do that."
+    }
+  ]
+}

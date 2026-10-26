@@ -1,0 +1,65 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 0
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+docs {
+  A2 Exam Day, end to end, on A2 Modelltest 1 (catalogue number 8).
+
+  PRACTICE (seq 100+)
+  After 01+02, P01–P04 cover training Lesen/Hören on MT 8 (not Exam Day).
+  P04 asserts UNRECOGNISED Kurzantwort → review (no examiner).
+
+  WHAT THIS CHECKS
+  A2 content lives in the generic model (exam_sections), not B1's tables.
+  This walks a real A2 sitting through the HTTP API: the picker offers the
+  paper as A2, the sitting takes A2 from it, Hören runs first for 20 minutes
+  and names one recording per Teil (the B1/B2 shape), a Teil plays once and
+  its signed link streams the MP3, Lesen und Schreiben runs
+  second for 50 minutes, and submitting it auto-scores Lesen and Schreiben
+  Teil 1 while sending Schreiben Teil 2 to a person.
+
+  BEFORE YOU START
+  1. Rebuild the fixture (it adds the A2 student and seat):
+         node scripts/seed-b2-bruno-fixture.mjs
+     It must print "A2 papers  8" and database ep-misty-sea, never
+     ep-wandering-hall.
+  2. Run the API against that database:  npm run start:testdb
+  3. Center Auth / 03 Login, so {{accessToken}} is set.
+
+  ORDER AND TIMING
+  Run in seq order. 04 creates a sitting that opens three minutes later:
+  run 05 and 06 inside those three minutes, then WAIT until the opensAt in
+  04's response before 07. 06 answering OPENS_AT_IN_PAST means you were
+  too slow (re-run 04, then 05); 07 answering EXAM_NOT_OPEN means too fast
+  (wait, re-run 07).
+
+  A2 BLOCK ORDER IS NOT B2's
+  HOEREN (1) then LESEN_SCHREIBEN (2) — from exam_block_durations for A2.
+  There is no Sprachbausteine at A2.
+
+  HÖREN PLAYS
+  10 spends Teil 1's one play, 10a proves a second is refused, 10b fetches
+  the signed link and expects the MP3 back (proxied from R2). The
+  recordings live in R2 under a2-hoeren-mt/a2-mt-1-hoeren/. 10 answering
+  HOEREN_AUDIO_NOT_READY means modelltests.format has no URL for Teil 1 —
+  apply the A2 recordings migration.
+
+  WHAT MUST BE REFUSED (the "a" to "g" requests)
+  Wrong level (03a), a B1/B2 block in an A2 exam (07a), blocks out of order
+  (07b), reading a block before it opens (07c), no login (07d), another
+  student reading or joining this sitting (07e-07g), a tampered audio link
+  (10c), a made-up recording (10d), a second submit, a play after submit, or
+  reopening a closed block (11a-11c, 14a). Each asserts the exact error code,
+  so a refusal for the wrong reason fails.
+
+  RE-RUNNING
+  02 claims the A2 seat. A second run is 409 — re-run the fixture script.
+}

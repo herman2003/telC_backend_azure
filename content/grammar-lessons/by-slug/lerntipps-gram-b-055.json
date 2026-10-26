@@ -1,0 +1,39 @@
+{
+  "slug": "lerntipps-gram-b-055",
+  "titleFr": "Astuces d’apprentissage — toujours avec l’article",
+  "titleEn": "Learning tips — always with the article",
+  "titleDe": "Lerntipps",
+  "ruleFr": "## Apprenez chaque nom **avec** son article\n\nLa règle n°1 pour le genre allemand : ne mémorisez jamais *Tisch* seul → toujours **der Tisch**.\n\n### Pourquoi\nSans article, vous devez « deviner » *der/die/das* plus tard — source d’erreurs permanentes.\n\n### Méthode concrète\n1. Flashcards : recto **der Tisch**, verso *table* / image.\n2. Listes de vocabulaire : **article + nom + pluriel** (*der Tisch – die Tische*).\n3. À l’oral : répétez la paire complète (*der Apfel, die Banane, das Brot*).\n\n### Erreur à éviter\nApprendre des listes « pomme, pain, maison » sans genre, puis coller un article au hasard.\n\n### Mini-entraînement (quotidien)\nChaque nouveau nom → écrire **3 fois** *Artikel + Nomen* dans une phrase courte.",
+  "ruleEn": "## Learn every noun **with** its article\n\nRule #1 for German gender: never memorize *Tisch* alone → always **der Tisch**.\n\n### Why\nWithout the article, you’ll guess *der/die/das* later — permanent errors.\n\n### Concrete method\n1. Flashcards: front **der Tisch**, back *table* / picture.\n2. Vocab lists: **article + noun + plural** (*der Tisch – die Tische*).\n3. Speaking: say the full pair (*der Apfel, die Banane, das Brot*).\n\n### Mistake to avoid\nLearning “apple, bread, house” without gender, then guessing articles.\n\n### Mini practice (daily)\nEach new noun → write **3 times** *article + noun* in a short sentence.",
+  "ruleDe": "## Jedes Nomen **mit** Artikel lernen\n\nRegel Nr. 1: nie *Tisch* allein — immer **der Tisch**.\n\n### Warum\nOhne Artikel raten Sie später *der/die/das* — Dauerfehler.\n\n### Methode\n1. Karteikarten: vorne **der Tisch**, hinten Bedeutung/Bild.\n2. Listen: **Artikel + Nomen + Plural**.\n3. Mündlich: Paar vollständig sprechen.\n\n### Fehler\nWortlisten ohne Genus lernen.\n\n### Mini-Übung (täglich)\nJedes neue Nomen → **3×** *Artikel + Nomen* im Satz.",
+  "notesFr": "Article + nom ensemble : c’est la règle d’apprentissage la plus importante pour le genre.",
+  "notesEn": "Article + noun together: the most important learning rule for gender.",
+  "notesDe": "Artikel + Nomen zusammen: die wichtigste Lernregel fürs Genus.",
+  "examples": [
+    {
+      "de": "Der Tisch ist groß.",
+      "fr": "La table est grande. (appris comme « der Tisch », pas « Tisch ».)",
+      "en": "The table is big. (learned as “der Tisch”, not bare “Tisch”.)"
+    },
+    {
+      "de": "Die Lampe leuchtet.",
+      "fr": "La lampe éclaire. (« die Lampe » mémorisé ensemble.)",
+      "en": "The lamp is on. (“die Lampe” memorized together.)"
+    },
+    {
+      "de": "Das Fenster ist offen.",
+      "fr": "La fenêtre est ouverte. (« das Fenster ».)",
+      "en": "The window is open. (“das Fenster”.)"
+    },
+    {
+      "de": "Ich lerne: der Apfel, die Banane, das Brot.",
+      "fr": "J’apprends : der Apfel, die Banane, das Brot.",
+      "en": "I learn: der Apfel, die Banane, das Brot."
+    },
+    {
+      "de": "Der Stuhl – die Stühle.",
+      "fr": "La chaise – les chaises. (article + pluriel dès le début.)",
+      "en": "The chair – the chairs. (article + plural from the start.)"
+    }
+  ]
+}

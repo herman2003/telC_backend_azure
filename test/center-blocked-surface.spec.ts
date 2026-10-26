@@ -162,7 +162,9 @@ describe('what a blocked center can and cannot do', () => {
       center: {
         findUnique: jest.fn().mockResolvedValue({ _count: { students: 0 } }),
       },
-      centerSeat: { findMany: jest.fn().mockResolvedValue([]) },
+      centerSeat: { findUnique: jest.fn().mockResolvedValue(null) },
+      // Quote reads paidUntil / anchor for mid-period prorata; a draft has none.
+      centerSubscription: { findUnique: jest.fn().mockResolvedValue(null) },
       student: { groupBy: jest.fn().mockResolvedValue([]) },
       payment: { findUnique: jest.fn() },
       $transaction: jest.fn((run: (tx: unknown) => unknown) =>
@@ -179,9 +181,9 @@ describe('what a blocked center can and cannot do', () => {
         new CenterSeatsService(prisma as never),
       );
 
-      await expect(
-        subscriptions.quote(identity, { START: 10 }),
-      ).resolves.toMatchObject({ totalXaf: 45000 });
+      await expect(subscriptions.quote(identity, 10)).resolves.toMatchObject({
+        totalXaf: 53100, // 10 × 4500 HT + 18% VAT
+      });
     });
 
     it('cannot pay, and is told exactly what it still owes', async () => {
@@ -193,11 +195,11 @@ describe('what a blocked center can and cannot do', () => {
       );
 
       await expect(
-        payments.create(identity, { START: 10 }, 'key-1'),
+        payments.create(identity, 10, 'key-1'),
       ).rejects.toMatchObject({
         response: expect.objectContaining({
           message: 'CENTER_PROFILE_INCOMPLETE',
-          missing: ['country', 'city', 'phone'],
+          missing: ['country', 'city', 'phone', 'logo'],
         }),
       });
     });
@@ -210,9 +212,9 @@ describe('what a blocked center can and cannot do', () => {
         new CenterSeatsService(prisma as never),
       );
 
-      await expect(
-        payments.create(identity, { START: 10 }, 'key-1'),
-      ).rejects.toThrow('CENTER_PROFILE_INCOMPLETE');
+      await expect(payments.create(identity, 10, 'key-1')).rejects.toThrow(
+        'CENTER_PROFILE_INCOMPLETE',
+      );
 
       // Never opened a transaction, so no row and no seat read.
       expect(prisma.$transaction).not.toHaveBeenCalled();

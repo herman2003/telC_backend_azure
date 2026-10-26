@@ -1,0 +1,39 @@
+{
+  "slug": "steigerung-regelma-ig-gram-m-242",
+  "titleFr": "Degrés de comparaison — réguliers (adverbes)",
+  "titleEn": "Comparison — regular (adverbs)",
+  "titleDe": "Steigerung — regelmäßig",
+  "ruleFr": "## Degrés de comparaison — formes régulières\n\nLes adverbes se comparent **comme les adjectifs** (même forme) :\n**Positiv → Komparativ → Superlativ**\n\n### Formation\n- Positif : *schnell*\n- Comparatif : *schneller* (+ *-er*)\n- Superlatif adverbial : *am schnellsten* (*am* + *-sten*)\n\n### Exemples\n- Er läuft **schnell**.\n- Sie läuft **schneller**.\n- Er läuft **am schnellsten**.\n\nAutres : *laut → lauter → am lautesten* ; *früh → früher → am frühesten*.\n\n### Attention\n- Superlatif **adverbial** = *am …sten* (pas *der schnellste* = adjectif)\n- Après comparatif : **als** (*schneller als*)\n\n### Mini-entraînement\n1. Formez les 3 degrés de *langsam*, *leise*, *spät*.\n2. Complétez : *Sie spricht ___ als ich.* (*lauter*)\n3. Une mini-course : qui court *am schnellsten*?",
+  "ruleEn": "## Comparison — regular forms\n\nAdverbs compare **like adjectives** (same forms):\n**Positive → Comparative → Superlative**\n\n### Formation\n- Positive: *schnell*\n- Comparative: *schneller* (+ *-er*)\n- Adverbial superlative: *am schnellsten* (*am* + *-sten*)\n\n### Examples\n- Er läuft **schnell**.\n- Sie läuft **schneller**.\n- Er läuft **am schnellsten**.\n\nOthers: *laut → lauter → am lautesten*; *früh → früher → am frühesten*.\n\n### Watch out\n- Adverbial superlative = *am …sten* (not *der schnellste* = adjective)\n- After comparative: **als** (*schneller als*)\n\n### Mini practice\n1. Form all 3 degrees of *langsam*, *leise*, *spät*.\n2. Fill in: *Sie spricht ___ als ich.* (*lauter*)\n3. Mini race: who runs *am schnellsten*?",
+  "ruleDe": "## Steigerung — regelmäßig\n\nAdverbien steigern sich **wie Adjektive**:\n**Positiv → Komparativ → Superlativ**\n\n### Bildung\n- Positiv: *schnell*\n- Komparativ: *schneller*\n- Adverbialer Superlativ: *am schnellsten*\n\n### Beispiele\n- Er läuft **schnell**.\n- Sie läuft **schneller**.\n- Er läuft **am schnellsten**.\n\nAuch: *laut → lauter → am lautesten*; *früh → früher → am frühesten*.\n\n### Achtung\n- Adverbialer Superlativ = *am …sten*\n- Nach Komparativ: **als**\n\n### Mini-Übung\n1. Steigerung von *langsam*, *leise*, *spät*.\n2. Ergänzen: *Sie spricht ___ als ich.*\n3. Wer läuft *am schnellsten*?",
+  "notesFr": "Même forme que la comparaison des adjectifs !",
+  "notesEn": "Same forms as adjective comparison!",
+  "notesDe": "Gleiche Form wie Adjektiv-Steigerung!",
+  "examples": [
+    {
+      "de": "Er läuft schnell.",
+      "fr": "Il court vite. (positif)",
+      "en": "He runs fast. (positive)"
+    },
+    {
+      "de": "Sie läuft schneller.",
+      "fr": "Elle court plus vite. (comparatif)",
+      "en": "She runs faster. (comparative)"
+    },
+    {
+      "de": "Er läuft am schnellsten.",
+      "fr": "Il court le plus vite. (superlatif adverbial)",
+      "en": "He runs the fastest. (adverbial superlative)"
+    },
+    {
+      "de": "Heute stehe ich früher auf als gestern.",
+      "fr": "Aujourd’hui je me lève plus tôt qu’hier.",
+      "en": "Today I get up earlier than yesterday."
+    },
+    {
+      "de": "Bitte sprich lauter!",
+      "fr": "Parle plus fort s’il te plaît !",
+      "en": "Please speak louder!"
+    }
+  ]
+}

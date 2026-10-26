@@ -3,12 +3,14 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { ActivationCodeStatus, Prisma, type CenterPlan } from '@prisma/client';
 import { PrismaService } from '../../shared/services/prisma.service';
-import { planIdFor, type PlanId } from '../../shared/plan-id';
+import { PLAN_ID, type PlanId } from '../../shared/plan-id';
 import { isUniqueViolationOn } from '../../shared/prisma-errors';
+import { EmailService } from '../auth/email.service';
 import { normalizeActivationCode } from './activation-code-format';
 import { SubscriptionPolicyService } from './subscription-policy.service';
 
@@ -39,12 +41,79 @@ interface CenterFacts {
  */
 @Injectable()
 export class CodeRedemptionService {
+  private readonly logger = new Logger(CodeRedemptionService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     // The same policy the rest of the system reads. A second opinion on
     // "is this center active" is how one path grants what the other refuses.
     private readonly policy: SubscriptionPolicyService,
+    private readonly email: EmailService,
   ) {}
+
+  /**
+   * Vitrine `/activer`: confirm a code is still claimable and return the
+   * school name. Does not bind a student — redeem remains authenticated.
+   */
+  async validatePublic(typed: string): Promise<{ centerName: string }> {
+    const value = normalizeActivationCode(typed);
+
+    if (!value) {
+      throw new BadRequestException('CODE_INVALID');
+    }
+
+    const code = await this.prisma.activationCode.findUnique({
+      where: { code: value },
+      include: {
+        center: {
+          select: {
+            name: true,
+            subscription: {
+              select: {
+                plan: true,
+                trial_started_at: true,
+                trial_ends_at: true,
+                paid_until: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!code) {
+      throw new BadRequestException('CODE_INVALID');
+    }
+
+    if (code.status === ActivationCodeStatus.CONNECTED) {
+      throw new ConflictException('CODE_ALREADY_USED');
+    }
+
+    if (code.status === ActivationCodeStatus.SUSPENDED) {
+      throw new ConflictException('CODE_SUSPENDED');
+    }
+
+    if (code.status === ActivationCodeStatus.DEACTIVATED) {
+      throw new ConflictException('CODE_DEACTIVATED');
+    }
+
+    if (code.expires_at !== null && code.expires_at <= new Date()) {
+      throw new BadRequestException('CODE_EXPIRED');
+    }
+
+    if (
+      !code.center.subscription ||
+      !this.policy.evaluate(code.center.subscription).studentsMayLearn
+    ) {
+      throw new ForbiddenException('CENTER_NOT_ACTIVE');
+    }
+
+    if (code.status !== ActivationCodeStatus.ACTIVATED) {
+      throw new BadRequestException('CODE_INVALID');
+    }
+
+    return { centerName: code.center.name };
+  }
 
   async redeem(
     student: { studentId: string },
@@ -88,11 +157,15 @@ export class CodeRedemptionService {
       code.status === ActivationCodeStatus.CONNECTED &&
       code.student_id === student.studentId
     ) {
-      return this.toResult(code.tier, code.center, code.expires_at);
+      return this.toResult(code.center, code.expires_at);
     }
 
     if (code.status === ActivationCodeStatus.CONNECTED) {
       throw new ConflictException('CODE_ALREADY_USED');
+    }
+
+    if (code.status === ActivationCodeStatus.SUSPENDED) {
+      throw new ConflictException('CODE_SUSPENDED');
     }
 
     if (code.status === ActivationCodeStatus.DEACTIVATED) {
@@ -146,7 +219,7 @@ export class CodeRedemptionService {
 
         // A student an older per-student key still ties to a paying school has
         // a seat but no code, so looking only at codes would miss them — and
-        // redeeming would silently move them, possibly to a lower tier.
+        // redeeming would silently move them to another school.
         // Refused rather than switched: the usual cause is a mistake, and
         // moving a student between schools is the schools' job. A school that
         // has lapsed no longer holds them, so joining a new one is allowed.
@@ -188,12 +261,25 @@ export class CodeRedemptionService {
           throw new ConflictException('CODE_ALREADY_USED');
         }
 
+        // Re-read level inside the transaction: a manager may PATCH it between
+        // the outer lookup and this claim.
+        const claimedRow = await tx.activationCode.findUnique({
+          where: { id: code.id },
+          select: { level: true },
+        });
+        const seatLevel = claimedRow?.level ?? null;
+
         // What access is read from on every request. Set in the same
         // transaction as the claim, so a code can never be taken without the
         // student actually getting the seat.
         await tx.student.update({
           where: { id: student.studentId },
-          data: { center_id: code.center_id, tier: code.tier },
+          data: {
+            center_id: code.center_id,
+            // Seat level set by the center before handout wins over whatever
+            // the student declared at register (D38 via code).
+            ...(seatLevel != null ? { level: seatLevel } : {}),
+          },
         });
 
         await tx.activationCodeEvent.create({
@@ -218,7 +304,72 @@ export class CodeRedemptionService {
       throw error;
     }
 
-    return this.toResult(code.tier, code.center, code.expires_at);
+    await this.notifyCenterCodeActivated({
+      centerId: code.center_id,
+      codeValue: code.code,
+      studentId: student.studentId,
+    });
+
+    return this.toResult(code.center, code.expires_at);
+  }
+
+  /**
+   * Maquette `Email-CodeActive` — best-effort; redemption already succeeded.
+   */
+  private async notifyCenterCodeActivated(input: {
+    centerId: string;
+    codeValue: string;
+    studentId: string;
+  }): Promise<void> {
+    try {
+      const [owners, student, used, seats] = await Promise.all([
+        this.prisma.centerUser.findMany({
+          where: { center_id: input.centerId, role: 'OWNER' },
+          select: { email: true },
+        }),
+        this.prisma.student.findUnique({
+          where: { id: input.studentId },
+          select: { first_name: true, last_name: true, email: true },
+        }),
+        this.prisma.activationCode.count({
+          where: {
+            center_id: input.centerId,
+            status: ActivationCodeStatus.CONNECTED,
+          },
+        }),
+        this.prisma.centerSeat.aggregate({
+          where: { center_id: input.centerId },
+          _sum: { quantity: true },
+        }),
+      ]);
+
+      if (owners.length === 0) return;
+
+      const studentName =
+        [student?.first_name, student?.last_name].filter(Boolean).join(' ') ||
+        student?.email ||
+        '—';
+      const total = seats._sum.quantity ?? 0;
+      const codeMasked = `••••-${input.codeValue.slice(-4)}`;
+
+      await Promise.all(
+        owners.map((owner) =>
+          this.email.sendCodeActivatedToCenter({
+            to: owner.email,
+            codeMasked,
+            studentName,
+            planLabel: 'Start',
+            seatsUsedLabel: `${used} von ${total}`,
+          }),
+        ),
+      );
+    } catch (error) {
+      this.logger.warn(
+        `Code-activated email failed for center ${input.centerId}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
   }
 
   /**
@@ -292,10 +443,9 @@ export class CodeRedemptionService {
   }
 
   private toResult(
-    tier: Parameters<typeof planIdFor>[0],
     center: CenterFacts,
     expiresAt: Date | null,
   ): RedemptionResult {
-    return { planId: planIdFor(tier), centerName: center.name, expiresAt };
+    return { planId: PLAN_ID, centerName: center.name, expiresAt };
   }
 }

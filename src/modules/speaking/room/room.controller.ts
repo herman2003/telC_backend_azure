@@ -4,6 +4,7 @@ import {
   Post,
   Param,
   Ip,
+  Query,
   Request,
   Logger,
   NotFoundException,
@@ -22,6 +23,7 @@ import { TurnCredentialsService } from './turn-credentials.service';
 import { CreateRoomResponseDto } from './dto/create-room-response.dto';
 import { RoomInfoResponseDto } from './dto/room-info-response.dto';
 import { IceServersResponseDto } from './dto/ice-servers-response.dto';
+import { CreateRoomQueryDto } from './dto/create-room-query.dto';
 
 @ApiTags('Speaking Rooms')
 @Controller('api/speaking/rooms')
@@ -44,8 +46,8 @@ export class RoomController {
   @UseGuards(ThrottlerGuard, JwtAuthGuard, StudentSubscriptionGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new speaking practice room' })
-  createRoom(): CreateRoomResponseDto {
-    const result = this.roomService.createRoom();
+  createRoom(@Query() query: CreateRoomQueryDto): CreateRoomResponseDto {
+    const result = this.roomService.createRoom(query.level);
     this.logger.log(`POST /api/speaking/rooms → roomId=${result.roomId}`);
     return result;
   }
@@ -121,6 +123,7 @@ export class RoomController {
       hasHost: room.hostSocketId !== null,
       hasGuest: room.guest !== null,
       expiresAt: room.expiresAt.toISOString(),
+      topic: room.topic,
     };
   }
 }

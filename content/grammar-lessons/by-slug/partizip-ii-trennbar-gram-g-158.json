@@ -1,0 +1,39 @@
+{
+  "slug": "partizip-ii-trennbar-gram-g-158",
+  "titleFr": "Participe II — verbes séparables",
+  "titleEn": "Past participle — separable verbs",
+  "titleDe": "Partizip II — trennbar",
+  "ruleFr": "## Participe II des verbes à préfixe séparable\n\n### Formule\n**préfixe** + **ge** + radical + **-t/-en**\n\nLe **-ge-** se place **au milieu**, entre le préfixe et le radical.\n\n| Infinitif | Participe II |\n|---|---|\n| aufmachen | **aufgemacht** |\n| einkaufen | **eingekauft** |\n| anrufen | **angerufen** |\n| mitkommen | **mitgekommen** |\n\n### Visualisation\n*auf* + *ge* + *macht* → **aufgemacht**\n\n### Erreurs fréquentes\n- ✗ *geaufmacht* → ✓ *aufgemacht*\n- ✗ *aufgemachen* (mauvais suffixe pour un régulier)\n\n### Mini-entraînement\nFormez le participe de : *aufräumen, aussehen, zumachen*.",
+  "ruleEn": "## Past participle of separable-prefix verbs\n\n### Formula\n**prefix** + **ge** + stem + **-t/-en**\n\nThe **-ge-** goes **in the middle**, between prefix and stem.\n\n| Infinitive | Past participle |\n|---|---|\n| aufmachen | **aufgemacht** |\n| einkaufen | **eingekauft** |\n| anrufen | **angerufen** |\n| mitkommen | **mitgekommen** |\n\n### Visualization\n*auf* + *ge* + *macht* → **aufgemacht**\n\n### Common mistakes\n- ✗ *geaufmacht* → ✓ *aufgemacht*\n\n### Mini practice\nForm the participle of: *aufräumen, aussehen, zumachen*.",
+  "ruleDe": "## Partizip II trennbarer Verben\n\n### Formel\n**Präfix** + **ge** + Stamm + **-t/-en**\n\nDas **-ge-** steht **in der Mitte** zwischen Präfix und Stamm.\n\n| Infinitiv | Partizip II |\n|---|---|\n| aufmachen | **aufgemacht** |\n| einkaufen | **eingekauft** |\n| anrufen | **angerufen** |\n| mitkommen | **mitgekommen** |\n\n### Visualisierung\n*auf* + *ge* + *macht* → **aufgemacht**\n\n### Häufige Fehler\n- ✗ *geaufmacht* → ✓ *aufgemacht*\n\n### Mini-Übung\nPartizip von: *aufräumen, aussehen, zumachen*.",
+  "notesFr": "Le *-ge-* vient AU MILIEU entre préfixe et radical !",
+  "notesEn": "The *-ge-* goes IN THE MIDDLE between prefix and stem!",
+  "notesDe": "Das *-ge-* kommt IN DIE MITTE zwischen Präfix und Stamm!",
+  "examples": [
+    {
+      "de": "Ich habe das Fenster aufgemacht.",
+      "fr": "J’ai ouvert la fenêtre. (*aufgemacht*.)",
+      "en": "I opened the window. (*aufgemacht*.)"
+    },
+    {
+      "de": "Sie hat ein Geschenk eingekauft.",
+      "fr": "Elle a acheté un cadeau. (*eingekauft*.)",
+      "en": "She bought a present. (*eingekauft*.)"
+    },
+    {
+      "de": "Hast du mich angerufen?",
+      "fr": "M’as-tu appelé ? (*angerufen*.)",
+      "en": "Did you call me? (*angerufen*.)"
+    },
+    {
+      "de": "Er ist mitgekommen.",
+      "fr": "Il est venu avec nous. (*mitgekommen*.)",
+      "en": "He came along. (*mitgekommen*.)"
+    },
+    {
+      "de": "Wir haben früh aufgeräumt.",
+      "fr": "Nous avons rangé tôt.",
+      "en": "We tidied up early."
+    }
+  ]
+}

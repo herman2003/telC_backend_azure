@@ -1,0 +1,39 @@
+{
+  "slug": "gro-schreibung-satzanfang-gram-x-324",
+  "titleFr": "Majuscules — début de phrase",
+  "titleEn": "Capitalization — sentence start",
+  "titleDe": "Großschreibung — Satzanfang",
+  "ruleFr": "## Majuscules — début de phrase\n\nLe **premier mot** d’une phrase allemande s’écrit toujours avec une **majuscule**, comme en français et en anglais.\n\n### Règle centrale\nAprès un **point**, un **point d’interrogation** ou un **point d’exclamation**, le mot suivant commence par une majuscule.\n\n- *Heute ist Montag.*\n- *Kommst du mit? Ja, gerne.*\n- *Vorsicht! Das ist heiß.*\n\n### Après quels signes ?\n| Signe | Majuscule ensuite ? |\n|---|---|\n| . ? ! | **Oui** |\n| , ; : | Non (sauf si c’est un nom) |\n| — … | En général non |\n\n### Cas particuliers\n- Après **deux-points** : souvent minuscule, sauf citation ou phrase complète.\n- Le premier mot d’un **titre** ou d’une **liste** : majuscule.\n\n### Ne pas confondre\n- Majuscule de début de phrase ≠ majuscule des noms (les deux coexistent).\n- *und*, *oder*, *aber* en début de phrase : majuscule (*Und dann…*).\n\n### Erreurs fréquentes\n- Minuscule après un point : ✗ *Er geht. sie bleibt.* → ✓ *Sie bleibt.*\n- Majuscule inutile après une virgule.\n\n### Mini-entraînement\n1. Corrigez 5 phrases sans majuscule initiale.\n2. Écrivez 3 questions + réponses avec majuscules correctes.\n3. Repérez début de phrase vs noms dans un paragraphe.",
+  "ruleEn": "## Capitalization — sentence start\n\nThe **first word** of a German sentence is always **capitalized**, as in English and French.\n\n### Core rule\nAfter a **period**, **question mark**, or **exclamation mark**, the next word starts with a capital.\n\n- *Heute ist Montag.*\n- *Kommst du mit? Ja, gerne.*\n- *Vorsicht! Das ist heiß.*\n\n### After which marks?\n| Mark | Capital next? |\n|---|---|\n| . ? ! | **Yes** |\n| , ; : | No (unless it’s a noun) |\n| — … | Usually no |\n\n### Special cases\n- After a **colon**: often lowercase, unless a quote or full sentence follows.\n- First word of a **title** or **list item**: capital.\n\n### Don’t confuse\n- Sentence-initial capital ≠ noun capital (both apply).\n- *und*, *oder*, *aber* at sentence start: capital (*Und dann…*).\n\n### Common mistakes\n- Lowercase after a period: ✗ *Er geht. sie bleibt.* → ✓ *Sie bleibt.*\n- Unnecessary capital after a comma.\n\n### Mini practice\n1. Fix 5 sentences missing the initial capital.\n2. Write 3 Q&A pairs with correct capitals.\n3. Mark sentence starts vs nouns in a paragraph.",
+  "ruleDe": "## Großschreibung — Satzanfang\n\nDas **erste Wort** eines deutschen Satzes wird immer **großgeschrieben** — wie im Englischen und Französischen.\n\n### Kernregel\nNach **Punkt**, **Fragezeichen** oder **Ausrufezeichen** beginnt das nächste Wort mit Großbuchstabe.\n\n- *Heute ist Montag.*\n- *Kommst du mit? Ja, gerne.*\n- *Vorsicht! Das ist heiß.*\n\n### Nach welchen Zeichen?\n| Zeichen | Großschreibung danach? |\n|---|---|\n| . ? ! | **Ja** |\n| , ; : | Nein (außer Nomen) |\n| — … | Meist nein |\n\n### Sonderfälle\n- Nach **Doppelpunkt**: oft klein, außer Zitat oder ganzer Satz.\n- Erstes Wort eines **Titels** oder einer **Liste**: groß.\n\n### Nicht verwechseln\n- Satzanfang-Großschreibung ≠ Nomen-Großschreibung (beides gilt).\n- *und*, *oder*, *aber* am Satzanfang: groß (*Und dann…*).\n\n### Häufige Fehler\n- Klein nach Punkt: ✗ *Er geht. sie bleibt.* → ✓ *Sie bleibt.*\n- Unnötige Großschreibung nach Komma.\n\n### Mini-Übung\n1. Korrigieren Sie 5 Sätze ohne Anfangsgroßbuchstaben.\n2. Schreiben Sie 3 Fragen + Antworten korrekt.\n3. Markieren Sie Satzanfänge vs. Nomen in einem Absatz.",
+  "notesFr": "Comme en français : après ., ? et !, toujours une majuscule. Les noms ont en plus leur propre majuscule au milieu de la phrase.",
+  "notesEn": "Like English: after ., ? and !, always capitalize. Nouns also keep their own capitals mid-sentence.",
+  "notesDe": "Wie im Englischen: nach ., ? und ! immer groß. Nomen bleiben zusätzlich mitten im Satz groß.",
+  "examples": [
+    {
+      "de": "Heute gehe ich einkaufen.",
+      "fr": "Aujourd’hui je vais faire les courses. (Majuscule en début de phrase.)",
+      "en": "Today I’m going shopping. (Capital at sentence start.)"
+    },
+    {
+      "de": "Kommst du mit? Ja, gerne!",
+      "fr": "Tu viens ? Oui, volontiers ! (Majuscule après ? et en début de réponse.)",
+      "en": "Are you coming? Yes, gladly! (Capital after ? and at the reply start.)"
+    },
+    {
+      "de": "Vorsicht! Der Boden ist nass.",
+      "fr": "Attention ! Le sol est mouillé.",
+      "en": "Careful! The floor is wet."
+    },
+    {
+      "de": "Er arbeitet. Sie lernt Deutsch.",
+      "fr": "Il travaille. Elle apprend l’allemand. (Nouvelle phrase → majuscule.)",
+      "en": "He works. She is learning German. (New sentence → capital.)"
+    },
+    {
+      "de": "Und dann sind wir nach Hause gegangen.",
+      "fr": "Et ensuite nous sommes rentrés à la maison. (« Und » en tête de phrase → majuscule.)",
+      "en": "And then we went home. (“Und” at sentence start → capital.)"
+    }
+  ]
+}

@@ -1,98 +1,84 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Lerniqo backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API for Lerniqo, a preparation product for the **telc Deutsch** exams.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Language schools ("centres") buy seats and hand students activation codes.
+A student redeems one and practises the five exam skills — Hören, Lesen,
+Sprachbausteine, Schreiben, Sprechen — against real Modelltests, with AI
+feedback on the two that cannot be machine-marked. Centres also run **Exam
+Day**: a timed sitting their candidates take and their trainers mark.
 
-## Description
+Levels B1 and B2 ship today; A1 and A2 are planned.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Clients: a Flutter app for students (web and mobile) and a web dashboard for
+centres. Neither lives in this repository.
 
-## Project setup
+## Stack
+
+NestJS 11 · TypeScript · Prisma 7 (driver adapter + `pg`) · PostgreSQL on Neon
+· Jest · Bruno for manual API runs.
+
+## Setup
+
+Node 20+ and a PostgreSQL database.
 
 ```bash
-$ npm install
+npm install
+cp .env.example .env          # fill in the connection strings
+npx prisma generate
 ```
 
-## Compile and run the project
+Two env files matter: `.env` points at **production**, `.env.test` at a
+disposable branch. Scripts that write data load `.env.test` first and refuse
+the production endpoint.
+
+## Running
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run start:testdb     # against .env.test — use this for manual testing
+npm run start:dev        # whatever .env says
 ```
 
-## Run tests
+Swagger: `http://localhost:3001/api-docs`.
+
+After running the integration suites, rebuild the manual-testing fixture:
+`node scripts/seed-b2-bruno-fixture.mjs`.
+
+## Tests
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npx tsc --noEmit          # the only gate that type-checks test files
+npm run build
+npx jest                  # unit
+npm run test:integration  # needs .env.test
+npm run test:e2e
 ```
 
-## Deployment
+CI runs the same five plus a lint ratchet. Read each by exit code, not by
+grepping its output.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Migrations
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+**Never run a bare `prisma migrate`** — the CLI reads `.env`, which is
+production. Use `scripts/apply-migration.mjs`, which targets `.env.test` and
+refuses the production host.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+`prisma/schema.prisma` and the files in `prisma/migrations/` are the source of
+truth for the database. No document restates them.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Branching
 
-## Resources
+Branch from `dev`, never `main` — `main` auto-deploys on merge. `dev` is
+protected, so changes arrive by pull request.
+See [docs/guides/branching.md](docs/guides/branching.md).
 
-Check out a few resources that may come in handy when working with NestJS:
+## Documentation
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+**[docs/README.md](docs/README.md)** is the index.
 
-## Support
+[Glossary](docs/glossary.md) · [Architecture](docs/architecture/) ·
+[ADRs](docs/adr/) · [Domain rules](docs/domains/) ·
+[Client contracts](docs/contracts/) · [Backlog](docs/backlog.md)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Working with an AI agent on this repository? `CLAUDE.md` and
+`.claude/rules/documentation.md` are the conventions it must follow.

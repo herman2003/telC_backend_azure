@@ -4,10 +4,14 @@ import request from 'supertest';
 import { App } from 'supertest/types';
 import { ListeningController } from '../src/modules/listening/listening.controller';
 import { ListeningService } from '../src/modules/listening/listening.service';
+import { TrainingAudioService } from '../src/modules/listening/training-audio.service';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../src/shared/guards/student-subscription.guard';
+import { PrepPassGuard } from '../src/shared/guards/prep-pass.guard';
 import { createGlobalValidationPipe } from '../src/shared/pipes/global-validation.pipe';
 import { PrismaService } from '../src/shared/services/prisma.service';
+import { GenericExamContentService } from '../src/shared/services/generic-exam-content.service';
+import { TrainingModelltestAccessService } from '../src/shared/services/training-modelltest-access.service';
 
 describe('Listening API scoring and answer security (e2e)', () => {
   let app: INestApplication<App>;
@@ -18,7 +22,8 @@ describe('Listening API scoring and answer security (e2e)', () => {
     content_revision: 'listening-v1',
     audio_url: 'https://example.test/audio.mp3',
     bundled_audio_asset: null,
-    image_url: null,
+    image_url: 'https://example.test/image.png',
+    exam_plays_allowed: 1,
     questions: [
       {
         question_number: 41,
@@ -35,6 +40,7 @@ describe('Listening API scoring and answer security (e2e)', () => {
     ],
   };
   const prisma: any = {
+    modelltest: { findUnique: jest.fn() },
     listeningExercise: { findFirst: jest.fn() },
     listeningAttempt: { create: jest.fn(), findUnique: jest.fn() },
     student: { findUnique: jest.fn() },
@@ -44,6 +50,10 @@ describe('Listening API scoring and answer security (e2e)', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
+    prisma.modelltest.findUnique.mockResolvedValue({
+      id: 'modelltest-1',
+      level: 'B1',
+    });
     prisma.listeningExercise.findFirst.mockResolvedValue(exercise);
     prisma.listeningAttempt.create.mockResolvedValue({});
     prisma.student.findUnique.mockResolvedValue({ id: 'student-1' });
@@ -53,6 +63,18 @@ describe('Listening API scoring and answer security (e2e)', () => {
       controllers: [ListeningController],
       providers: [
         ListeningService,
+        {
+          provide: GenericExamContentService,
+          useValue: { sectionFor: jest.fn(), sectionsFor: jest.fn() },
+        },
+        {
+          provide: TrainingAudioService,
+          useValue: { play: jest.fn() },
+        },
+        {
+          provide: TrainingModelltestAccessService,
+          useValue: { assertMayAccess: jest.fn().mockResolvedValue(undefined) },
+        },
         { provide: PrismaService, useValue: prisma },
       ],
     })
@@ -65,9 +87,11 @@ describe('Listening API scoring and answer security (e2e)', () => {
           return true;
         },
       })
-      // Entitlement is StudentSubscriptionGuard's own spec to prove; this file
-      // is about the route behaving correctly for a student who may learn.
+      // Entitlement / Prep Pass are their own specs; this file is about the
+      // route behaving correctly for a student who may learn.
       .overrideGuard(StudentSubscriptionGuard)
+      .useValue({ canActivate: () => true })
+      .overrideGuard(PrepPassGuard)
       .useValue({ canActivate: () => true })
       .compile();
 
@@ -78,16 +102,26 @@ describe('Listening API scoring and answer security (e2e)', () => {
 
   afterEach(async () => app.close());
 
-  it('does not expose correct answers when fetching an exercise', async () => {
+  it('does not expose correct answers or durable audio URLs when fetching an exercise', async () => {
     const response = await request(app.getHttpServer())
       .get('/api/listening/exercise?teil=1&modelltest=1')
       .expect(200);
 
-    expect(response.body.questions).toEqual([
-      { id: 'q41', prompt: 'Statement 41' },
-      { id: 'q42', prompt: 'Statement 42' },
-    ]);
+    expect(response.body).toMatchObject({
+      audioId: 'exercise-1',
+      playsAllowed: 1,
+      contentRevision: 'listening-v1',
+      imagePath: 'https://example.test/image.png',
+      questions: [
+        { id: 'q41', prompt: 'Statement 41' },
+        { id: 'q42', prompt: 'Statement 42' },
+      ],
+    });
     expect(JSON.stringify(response.body)).not.toContain('correct_answer');
+    expect(JSON.stringify(response.body)).not.toContain('audio_url');
+    expect(JSON.stringify(response.body)).not.toContain(
+      'https://example.test/audio.mp3',
+    );
   });
 
   it('computes the score in the real service and persists it', async () => {

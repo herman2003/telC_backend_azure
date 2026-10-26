@@ -16,110 +16,30 @@ headers {
 
 body:json {
   {
-    "start": 5,
-    "pro": 5
+    "seats": 10
   }
 }
 
 assert {
   res.status: eq 201
-  res.body.totalSeats: eq 10
-  res.body.totalXaf: eq 72500
-  res.body.lines[0].tier: eq START
-  res.body.lines[0].unitPriceXaf: eq 4500
-  res.body.lines[1].tier: eq PRO
-  res.body.lines[1].unitPriceXaf: eq 10000
+  res.body.seats: eq 10
+  res.body.unitPriceXaf: eq 4500
 }
 
 docs {
-  What a mix of seats would cost. Run `Center Auth / 03 Login` first.
+  What N Start seats would cost **now**. Run `Center Auth / 03 Login` first.
 
-  ## The mix
+  Body: `{"seats": 10}` — a **total**, not an increment. `unitPriceXaf` is HT;
+  `totalXaf` is **TTC due now**. First purchase: full pack (e.g. 53,100 for 10).
+  Mid-period addition: day prorata on the delta — see `Center Payments Prorata`.
 
-  A center may hold any combination of the three tiers, so the request is a
-  mix rather than a single number:
+  Also: `billableSeats`, `billingKind`, `amountHtXaf`, and when mid-period
+  `daysLeft` / `daysInPeriod`.
 
-  | tier | XAF per seat per month |
-  |---|---|
-  | START | 4,500 (launch price; rises to 4,800 later) |
-  | PRO | 10,000 |
-  | PREMIUM | 20,000 |
+  Minimum contract: 10 seats. Below → 400 SEATS_BELOW_MINIMUM.
 
-  Five Start plus five Pro is 22,500 + 50,000 = 72,500 XAF. Lines come back
-  cheapest first, always, so a cart does not reshuffle between two requests
-  over the same mix.
+  THE PRICE IS NOT AN INPUT. Extra fields → 400 VALIDATION_ERROR.
 
-  THE NUMBERS ARE TOTALS, NOT INCREMENTS. A center holding ten Start seats
-  that wants five more sends `{"start": 15}`, not `{"start": 5}`. This is also
-  why the student floor can be compared against them directly.
-
-  ## Grandfathering
-
-  Send `{"start": 10}` twice, with a price change in between, and the answer
-  does not move for a center that already holds Start. The price a center
-  agreed to is stamped on its `center_seats` row, so raising the constant
-  later cannot rewrite it. A tier the center does NOT hold pays today's list
-  price — a stamped Start price is not a discount on Pro.
-
-  To see it: set a center's Start row to 4,000 by hand
-  (`UPDATE center_seats SET unit_price_xaf = 4000 WHERE ...`) and re-quote
-  `{"start": 10, "pro": 2}`. Start comes back at 4,000, Pro at 10,000.
-
-  ## The checks that matter
-
-  THE PRICE IS NOT AN INPUT. Every one of these must return 400
-  VALIDATION_ERROR, not a quote:
-
-  - `{"start": 10, "unitPriceXaf": 1}`
-  - `{"start": 10, "amountXaf": 1}`
-  - `{"start": 10, "amount": 1}`
-  - `{"start": 10, "total": 1}`
-  - `{"start": 10, "currency": "EUR"}`
-  - `{"start": 10, "centerId": "some-other-center"}`
-  - `{"seats": 10}` — the pre-tier shape. A client sending the old body must
-    fail loudly rather than have it read as an empty mix and priced at zero.
-
-  They are REFUSED, not ignored. Quietly dropping an `amount` would leave a
-  client believing it had set the price.
-
-  ## The three floors
-
-  A mix has to clear the highest of them, and one refusal carries every number
-  needed to fix it in a single attempt:
-
-  - `{"start": 4, "pro": 5}` -> 400 SEATS_BELOW_MINIMUM with
-    `requiredSeatsTotal: 10`. Nine seats however they are split.
-  - with 12 Start students provisioned, `{"start": 10, "pro": 2}` -> 400
-    SEATS_BELOW_STUDENT_COUNT with `requiredSeatsPerTier: {"START": 12}` AND
-    `requiredSeatsTotal: 12`. The total is the true minimum imposed by the
-    existing student body; the two optional Pro seats do not inflate it.
-  - with 12 untiered students, `{"start": 10}` -> 400
-    SEATS_BELOW_STUDENT_COUNT with `requiredSeatsTotal: 12` and no per-tier
-    entry. A student in no tier still occupies a seat.
-
-  The ten-seat minimum is a TOTAL, not per tier. Ten per tier would mean a
-  school with twelve students, two of them sitting the exam, had to buy ten
-  Pro seats to cover those two — 100,000 XAF for two students, and the school
-  would simply decline Pro.
-
-  ## Also worth trying
-
-  - `{}` -> 400 SEAT_MIX_EMPTY. So does `{"start": 0, "pro": 0}`.
-  - `{"start": "10"}` -> 400. A JSON body has real numbers; a string seat
-    count is a client bug worth reporting rather than silently repairing.
-  - `{"start": 10.5}` or `{"start": -10}` -> 400.
-  - `{"premium": 20000}` -> 400 SEATS_ABOVE_MAXIMUM, with
-    `maximumSeatsTotal`.
-  - A stamped price above ~214,748 on a large order -> 400
-    AMOUNT_ABOVE_MAXIMUM with `maximumAmountXaf`. The seat cap alone does not
-    bound the total, because a stamped price can be any integer, and
-    `amount_xaf` is a 32-bit column.
-
-  ## While BLOCKED, and while the profile is unfinished
-
-  This still works in both cases. Finding out what you owe is the first step
-  of paying, and a center that cannot take that step never comes back. Block
-  the center per `Subscription Access / 00 How to block and restore` and
-  re-run — you still get a quote. Clear its country, city and manager phone
-  and re-run — you still get a quote, while `02 Create payment` refuses.
+  Works while BLOCKED and with an unfinished profile — paying starts with a
+  quote. `02 Create payment` still refuses an incomplete profile.
 }

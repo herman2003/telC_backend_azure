@@ -20,6 +20,7 @@ describe('GuestBlockGuard', () => {
 
   it('returns true for a regular (non-guest) student', () => {
     const ctx = makeContext({
+      type: 'access' as const,
       studentId: 'real-student-1',
       deviceId: 'device-1',
       isGuest: false,
@@ -29,6 +30,7 @@ describe('GuestBlockGuard', () => {
 
   it('returns true when isGuest is undefined (legacy tokens)', () => {
     const ctx = makeContext({
+      type: 'access' as const,
       studentId: 'real-student-1',
       deviceId: 'device-1',
     });
@@ -37,6 +39,7 @@ describe('GuestBlockGuard', () => {
 
   it('throws ForbiddenException with messageKey "guestNotAllowed" when isGuest=true', () => {
     const ctx = makeContext({
+      type: 'access' as const,
       studentId: 'guest-uuid',
       deviceId: 'guest',
       isGuest: true,

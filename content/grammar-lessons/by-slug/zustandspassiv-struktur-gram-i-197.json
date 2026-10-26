@@ -1,0 +1,39 @@
+{
+  "slug": "zustandspassiv-struktur-gram-i-197",
+  "titleFr": "Le passif d’état (Zustandspassiv) — structure",
+  "titleEn": "State passive (Zustandspassiv) — structure",
+  "titleDe": "Zustandspassiv — Struktur",
+  "ruleFr": "## Zustandspassiv — structure\n\nLe **Zustandspassiv** décrit un **état / résultat** : quelque chose *est (déjà) fait*, pas le processus.\n\n### Formation\n**sein** + **Partizip II**\n\n- *Die Tür **ist** geöffnet.* (= elle est ouverte / dans cet état)\n- *Das Fenster **ist** geschlossen.*\n\n### Comparaison rapide\n| | Forme | Sens |\n|---|---|---|\n| Vorgang | *wird geöffnet* | on l’ouvre (processus) |\n| Zustand | *ist geöffnet* | elle est ouverte (état) |\n\n### Mini-entraînement\nPour 5 objets, décrivez l’état avec *sein* + Partizip II.",
+  "ruleEn": "## Zustandspassiv — structure\n\nThe **state passive** describes a **state / result**: something *is (already) done*, not the process.\n\n### Formation\n**sein** + **past participle**\n\n- *Die Tür **ist** geöffnet.* (= it is open)\n- *Das Fenster **ist** geschlossen.*\n\n### Quick contrast\n| | Form | Meaning |\n|---|---|---|\n| Process | *wird geöffnet* | is being opened |\n| State | *ist geöffnet* | is open (result) |\n\n### Mini practice\nFor 5 objects, describe the state with *sein* + participle.",
+  "ruleDe": "## Zustandspassiv — Struktur\n\nDas **Zustandspassiv** beschreibt einen **Zustand/ein Ergebnis**.\n\n### Bildung\n**sein** + **Partizip II**\n\n- *Die Tür **ist** geöffnet.*\n- *Das Fenster **ist** geschlossen.*\n\n### Kontrast\n| | Form | Sinn |\n|---|---|---|\n| Vorgang | *wird geöffnet* | Prozess |\n| Zustand | *ist geöffnet* | Ergebnis |\n\n### Mini-Übung\nBeschreiben Sie 5 Dinge mit *sein* + Partizip II.",
+  "notesFr": "Focus sur le résultat / l’état, pas sur le processus.",
+  "notesEn": "Focus on the result/state, not on the process.",
+  "notesDe": "Fokus auf Ergebnis/Zustand, nicht auf den Prozess.",
+  "examples": [
+    {
+      "de": "Die Tür ist geöffnet.",
+      "fr": "La porte est ouverte (état).",
+      "en": "The door is open (state)."
+    },
+    {
+      "de": "Das Fenster ist geschlossen.",
+      "fr": "La fenêtre est fermée.",
+      "en": "The window is closed."
+    },
+    {
+      "de": "Der Tisch ist gedeckt.",
+      "fr": "La table est mise.",
+      "en": "The table is set."
+    },
+    {
+      "de": "Die Arbeit ist erledigt.",
+      "fr": "Le travail est fait / terminé.",
+      "en": "The work is done."
+    },
+    {
+      "de": "Das Licht ist ausgeschaltet.",
+      "fr": "La lumière est éteinte.",
+      "en": "The light is switched off."
+    }
+  ]
+}

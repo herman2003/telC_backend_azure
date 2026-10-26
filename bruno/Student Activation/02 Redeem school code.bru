@@ -1,0 +1,36 @@
+meta {
+  name: 02 Redeem school code
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/redeem-code
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+body:json {
+  {
+    "code": "{{activationKey}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.planId: eq start
+}
+
+docs {
+  Run AFTER the student is registered AND email-verified (so
+  {{studentAccessToken}} is set).
+
+  {{activationKey}} comes from Center Subscription / 03 Start trial
+  (e.g. LQ-QRZD-EGKN).
+
+  Expected: 200, planId start, centerName set.
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-l-231",
+  "titleFr": "Erreurs fréquentes — adjectifs (als / wie)",
+  "titleEn": "Common mistakes — adjectives (als / wie)",
+  "titleDe": "Häufige Fehler — Adjektive (als / wie)",
+  "ruleFr": "## Erreurs fréquentes — adjectifs et comparaison\n\nAvec les adjectifs, une confusion classique porte sur **als** et **wie** dans les comparaisons.\n\n### La règle essentielle\n- **Komparativ + als** = inégalité (plus / moins que…)\n- **so + Positiv + wie** = égalité (aussi … que…)\n\nExemples :\n- Er ist **größer als** sein Bruder.\n- Sie ist **so groß wie** ihre Schwester.\n\n### Autres erreurs de déclinaison\n1. Oublier la terminaison après article défini : ✗ *der groß Mann* → ✓ *der große Mann*\n2. Mélanger les tableaux (défini / indéfini / sans article)\n3. Après *ein/kein/mein* : terminaison mixte — *ein guter Freund*\n4. Pluriel sans article : *gute Freunde* (nominatif)\n\n### Comment éviter als/wie\n1. Comparatif (-er) ? → **als**\n2. *so … wie* ? → **wie**\n3. Jamais ✗ *größer wie* ni ✗ *so groß als*\n\n### Mini-entraînement\n1. Complétez : *älter ___ ich* / *so alt ___ ich*\n2. Écrivez 3 phrases avec *als* et 3 avec *wie*\n3. Corrigez : *Er ist so schnell als sie.*",
+  "ruleEn": "## Common mistakes — adjectives and comparison\n\nA classic trap is mixing **als** and **wie** in comparisons.\n\n### Core rule\n- **Comparative + als** = inequality (more / less than…)\n- **so + positive + wie** = equality (as … as…)\n\nExamples:\n- Er ist **größer als** sein Bruder.\n- Sie ist **so groß wie** ihre Schwester.\n\n### Other declension mistakes\n1. Missing ending after definite article: ✗ *der groß Mann* → ✓ *der große Mann*\n2. Mixing the tables (definite / indefinite / no article)\n3. After *ein/kein/mein*: mixed ending — *ein guter Freund*\n4. Plural with no article: *gute Freunde* (nominative)\n\n### Avoiding als/wie errors\n1. Comparative (-er)? → **als**\n2. *so … wie*? → **wie**\n3. Never ✗ *größer wie* or ✗ *so groß als*\n\n### Mini practice\n1. Fill in: *älter ___ ich* / *so alt ___ ich*\n2. Write 3 sentences with *als* and 3 with *wie*\n3. Correct: *Er ist so schnell als sie.*",
+  "ruleDe": "## Häufige Fehler — Adjektive und Vergleich\n\nKlassiker: **als** und **wie** im Vergleich verwechseln.\n\n### Kernregel\n- **Komparativ + als** = Ungleichheit\n- **so + Positiv + wie** = Gleichheit\n\nBeispiele:\n- Er ist **größer als** sein Bruder.\n- Sie ist **so groß wie** ihre Schwester.\n\n### Weitere Deklinationsfehler\n1. Endung vergessen: ✗ *der groß Mann* → ✓ *der große Mann*\n2. Tabellen mischen (bestimmt / unbestimmt / ohne Artikel)\n3. Nach *ein/kein/mein*: gemischte Endung — *ein guter Freund*\n4. Plural ohne Artikel: *gute Freunde* (Nominativ)\n\n### als/wie vermeiden\n1. Komparativ (-er)? → **als**\n2. *so … wie*? → **wie**\n3. Nie ✗ *größer wie* / ✗ *so groß als*\n\n### Mini-Übung\n1. Ergänzen: *älter ___ ich* / *so alt ___ ich*\n2. 3 Sätze mit *als*, 3 mit *wie*\n3. Korrigieren: *Er ist so schnell als sie.*",
+  "notesFr": "Astuce : *als* = inégal (comparatif) ; *wie* = égal (*so … wie*).",
+  "notesEn": "Tip: *als* = unequal (comparative); *wie* = equal (*so … wie*).",
+  "notesDe": "Tipp: *als* = ungleich (Komparativ); *wie* = gleich (*so … wie*).",
+  "examples": [
+    {
+      "de": "Mein Bruder ist älter als ich.",
+      "fr": "Mon frère est plus âgé que moi. (comparatif → als)",
+      "en": "My brother is older than I am. (comparative → als)"
+    },
+    {
+      "de": "Sie ist so groß wie ihre Mutter.",
+      "fr": "Elle est aussi grande que sa mère. (égalité → wie)",
+      "en": "She is as tall as her mother. (equality → wie)"
+    },
+    {
+      "de": "Dieses Auto ist schneller als das Fahrrad.",
+      "fr": "Cette voiture est plus rapide que le vélo.",
+      "en": "This car is faster than the bicycle."
+    },
+    {
+      "de": "Falsch: Er ist größer wie sein Freund. — Richtig: größer als …",
+      "fr": "Faux : *größer wie*. Correct : *größer als*.",
+      "en": "Wrong: *größer wie*. Correct: *größer als*."
+    },
+    {
+      "de": "Der neue Lehrer erklärt die Regel klar.",
+      "fr": "Le nouveau professeur explique la règle clairement. (*neue* décliné)",
+      "en": "The new teacher explains the rule clearly. (*neue* declined)"
+    }
+  ]
+}

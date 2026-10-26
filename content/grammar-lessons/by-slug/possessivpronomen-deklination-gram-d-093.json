@@ -1,0 +1,39 @@
+{
+  "slug": "possessivpronomen-deklination-gram-d-093",
+  "titleFr": "Les possessifs au génitif",
+  "titleEn": "Possessive pronouns in the genitive",
+  "titleDe": "Possessivpronomen — Deklination (Genitiv)",
+  "ruleFr": "## Les possessifs au génitif\n\nAprès le nominatif, l’accusatif et le datif, le **génitif** est le quatrième cas des possessifs (*mein, dein, sein…*). On l’utilise surtout après des prépositions de génitif (*wegen, trotz, während, statt*) ou pour exprimer l’appartenance littéraire (*trotz meines Fehlers*).\n\n### Formes à retenir (ex. *mein*)\n| | masculin | neutre | féminin | pluriel |\n|---|---|---|---|---|\n| génitif | **meines** | **meines** | **meiner** | **meiner** |\n\nMême schéma pour *dein → deines / deiner*, *sein → seines / seiner*, *ihr → ihres / ihrer*, *unser → unseres / unserer*, *euer → eures / eurer*.\n\n### Pattern\n- *wegen **meines** Bruders* (m.)\n- *während **meiner** Reise* (f.)\n- *trotz **meines** Kindes* (n.)\n- *statt **meiner** Freunde* (pl.)\n\n### Ne pas confondre\n- Génitif possessif ≠ « de » français calqué : *das Auto meines Vaters* = *la voiture de mon père*.\n- Au datif on dit *meinem / meiner* ; au génitif *meines / meiner*.\n\n### Mini-entraînement\n1. Complétez : *wegen ___ (mein) Freundes*.\n2. Formez 3 groupes : *trotz meines / meiner / meines…*.\n3. Remplacez *der* par le possessif au génitif dans *wegen des Wetters*.",
+  "ruleEn": "## Possessive pronouns in the genitive\n\nAfter nominative, accusative and dative, the **genitive** is the fourth case for possessives (*mein, dein, sein…*). You mainly meet it after genitive prepositions (*wegen, trotz, während, statt*) or in formal possession (*trotz meines Fehlers*).\n\n### Forms to learn (with *mein*)\n| | masculine | neuter | feminine | plural |\n|---|---|---|---|---|\n| genitive | **meines** | **meines** | **meiner** | **meiner** |\n\nSame pattern: *dein → deines / deiner*, *sein → seines / seiner*, *ihr → ihres / ihrer*, *unser → unseres / unserer*, *euer → eures / eurer*.\n\n### Pattern\n- *wegen **meines** Bruders* (m.)\n- *während **meiner** Reise* (f.)\n- *trotz **meines** Kindes* (n.)\n- *statt **meiner** Freunde* (pl.)\n\n### Don’t confuse\n- Genitive possessive is not a literal “of” calque from English word order: *das Auto meines Vaters* = *my father’s car*.\n- Dative uses *meinem / meiner*; genitive uses *meines / meiner*.\n\n### Mini practice\n1. Fill in: *wegen ___ (mein) Freundes*.\n2. Build 3 phrases: *trotz meines / meiner / meines…*.\n3. Replace *der* with a genitive possessive in *wegen des Wetters*.",
+  "ruleDe": "## Possessivpronomen im Genitiv\n\nNach Nominativ, Akkusativ und Dativ ist der **Genitiv** der vierte Kasus der Possessiva (*mein, dein, sein…*). Man braucht ihn vor allem nach Genitivpräpositionen (*wegen, trotz, während, statt*) oder in gehobener Besitzangabe (*trotz meines Fehlers*).\n\n### Formen merken (mit *mein*)\n| | Maskulinum | Neutrum | Femininum | Plural |\n|---|---|---|---|---|\n| Genitiv | **meines** | **meines** | **meiner** | **meiner** |\n\nGleiches Muster: *dein → deines / deiner*, *sein → seines / seiner*, *ihr → ihres / ihrer*, *unser → unseres / unserer*, *euer → eures / eurer*.\n\n### Muster\n- *wegen **meines** Bruders* (m.)\n- *während **meiner** Reise* (f.)\n- *trotz **meines** Kindes* (n.)\n- *statt **meiner** Freunde* (pl.)\n\n### Nicht verwechseln\n- Genitiv ≠ Dativ: Dativ *meinem / meiner*, Genitiv *meines / meiner*.\n- Nach Genitivpräpositionen steht der Genitiv — nicht der Akkusativ.\n\n### Mini-Übung\n1. Ergänzen: *wegen ___ (mein) Freundes*.\n2. Bilden Sie 3 Gruppen: *trotz meines / meiner / meines…*.\n3. Ersetzen Sie *des* durch ein Possessiv im Genitiv in *wegen des Wetters*.",
+  "notesFr": "Masculin/neutre : -es ; féminin/pluriel : -er (comme l’article défini au génitif : des / der).",
+  "notesEn": "Masculine/neuter: -es; feminine/plural: -er (like the definite article in the genitive: des / der).",
+  "notesDe": "Maskulinum/Neutrum: -es, Femininum/Plural: -er (wie beim bestimmten Artikel: des / der).",
+  "examples": [
+    {
+      "de": "Wegen meines Bruders komme ich später.",
+      "fr": "À cause de mon frère, j’arrive plus tard. (« meines Bruders » = génitif masculin.)",
+      "en": "Because of my brother I’m coming later. (“meines Bruders” = masculine genitive.)"
+    },
+    {
+      "de": "Trotz meiner Krankheit gehe ich zur Arbeit.",
+      "fr": "Malgré ma maladie, je vais au travail. (« meiner Krankheit » = génitif féminin.)",
+      "en": "Despite my illness I’m going to work. (“meiner Krankheit” = feminine genitive.)"
+    },
+    {
+      "de": "Während meines Urlaubs war das Wetter schön.",
+      "fr": "Pendant mes vacances, le temps était beau. (« meines Urlaubs » = génitif neutre.)",
+      "en": "During my holiday the weather was nice. (“meines Urlaubs” = neuter genitive.)"
+    },
+    {
+      "de": "Statt meiner Freunde hilft mir mein Nachbar.",
+      "fr": "Au lieu de mes amis, mon voisin m’aide. (« meiner Freunde » = génitif pluriel.)",
+      "en": "Instead of my friends, my neighbour helps me. (“meiner Freunde” = plural genitive.)"
+    },
+    {
+      "de": "Das ist das Auto unseres Vaters.",
+      "fr": "C’est la voiture de notre père. (« unseres Vaters » = génitif possessif.)",
+      "en": "That is our father’s car. (“unseres Vaters” = genitive possessive.)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "relativsatze-wo-wohin-woher-gram-u-310",
+  "titleFr": "Relatives de lieu : wo, wohin, woher",
+  "titleEn": "Relative clauses — wo / wohin / woher",
+  "titleDe": "Relativsätze — wo/wohin/woher",
+  "ruleFr": "## *wo / wohin / woher* dans les relatives de lieu\n\nPour les **lieux**, on utilise souvent *wo / wohin / woher* à la place de *in dem / in das…* — plus naturel.\n\n### Formes\n| Mot | Sens | À la place de… |\n|---|---|---|\n| **wo** | où (position) | *in dem / in der…* |\n| **wohin** | où (direction) | *in den / in die…* |\n| **woher** | d’où | *aus dem…* |\n\n### Exemples\n- *Die Stadt, **wo** ich wohne, ist schön.* (au lieu de *in der*)\n- *Das Land, **wohin** wir reisen, ist weit.*\n- *Die Stadt, **woher** er kommt, liegt im Süden.*\n\n### Remarque\n*in dem / in der* reste correct ; *wo* est surtout courant à l’oral et pour les lieux.\n\n### Mini-entraînement\nRéécrivez *die Stadt, in der…* avec *wo*.",
+  "ruleEn": "## *wo / wohin / woher* in place relatives\n\nFor **places**, German often uses *wo / wohin / woher* instead of *in dem / in das…* — more natural.\n\n### Forms\n| Word | Meaning | Instead of… |\n|---|---|---|\n| **wo** | where | *in dem / in der…* |\n| **wohin** | where to | *in den / in die…* |\n| **woher** | where from | *aus dem…* |\n\n### Examples\n- *Die Stadt, **wo** ich wohne, ist schön.*\n- *Das Land, **wohin** wir reisen, ist weit.*\n- *Die Stadt, **woher** er kommt, liegt im Süden.*\n\n### Note\n*in dem / in der* remains correct; *wo* is especially common in speech and for places.\n\n### Mini practice\nRewrite *die Stadt, in der…* with *wo*.",
+  "ruleDe": "## Relativsätze mit *wo/wohin/woher*\n\nBei Orten oft natürlicher als *in dem/in das*.\n\n### Beispiele\n- *Die Stadt, **wo** ich wohne*\n- *Das Land, **wohin** wir reisen*\n- *Die Stadt, **woher** er kommt*\n\n### Mini-Übung\n*die Stadt, in der…* → *wo*.",
+  "notesFr": "*wo/wohin/woher* sonne plus naturel pour les lieux.",
+  "notesEn": "*wo/wohin/woher* sounds more natural for places.",
+  "notesDe": "*wo/wohin/woher* klingt natürlicher bei Orten.",
+  "examples": [
+    {
+      "de": "Die Stadt, wo ich wohne, ist schön.",
+      "fr": "La ville où j’habite est belle.",
+      "en": "The city where I live is beautiful."
+    },
+    {
+      "de": "Das Land, wohin wir reisen, ist weit weg.",
+      "fr": "Le pays où nous voyageons est loin.",
+      "en": "The country we’re travelling to is far away."
+    },
+    {
+      "de": "Die Stadt, woher er kommt, liegt im Süden.",
+      "fr": "La ville d’où il vient est dans le sud.",
+      "en": "The city he comes from is in the south."
+    },
+    {
+      "de": "Kennst du den Park, wo die Kinder spielen?",
+      "fr": "Connais-tu le parc où les enfants jouent ?",
+      "en": "Do you know the park where the children play?"
+    },
+    {
+      "de": "Das ist der Ort, wohin wir uns setzen.",
+      "fr": "C’est l’endroit où nous allons nous asseoir.",
+      "en": "That’s the place where we’re going to sit."
+    }
+  ]
+}

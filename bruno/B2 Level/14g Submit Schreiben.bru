@@ -1,0 +1,33 @@
+meta {
+  name: 14g Submit Schreiben
+  type: http
+  seq: 29
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{b2AttemptId}}/blocks/SCHREIBEN/submit
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{studentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.getStatus() === 401 ? "  (re-run Student Activation / 00 Login student)" : "")
+    );
+  }
+}
+
+docs {
+  Closes the Schreiben block for this attempt. Read the result as the centre
+  in request 14h, not here — this one answers as the student.
+}

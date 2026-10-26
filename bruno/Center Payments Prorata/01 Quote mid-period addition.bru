@@ -1,0 +1,44 @@
+meta {
+  name: 01 Quote mid-period addition
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/centers/me/subscription/quote
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "seats": 16
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.seats: eq 16
+  res.body.billingKind: eq mid_period_addition
+  res.body.billableSeats: eq 6
+  res.body.unitPriceXaf: eq 4500
+  res.body.daysLeft: isDefined
+  res.body.daysInPeriod: isDefined
+  res.body.amountHtXaf: isDefined
+  res.body.totalXaf: isDefined
+}
+
+docs {
+  Center already holds 10 paid seats with `paidUntil` in the future.
+  Request total 16 (= +6).
+
+  Expect `billingKind: mid_period_addition`, `billableSeats: 6`,
+  `amountHtXaf` ≈ ceil_100(6×4500×daysLeft/daysInPeriod) (≥ 1000),
+  `totalXaf` = HT × 1.18.
+
+  Compare `totalXaf` to create-payment `amountXaf` — they must match.
+}

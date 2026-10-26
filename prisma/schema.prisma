@@ -19,16 +19,10 @@ enum CenterUserRole {
 
 /// What a seat entitles its student to.
 ///
-/// A trial is not a tier: it is an ordinary START seat priced at zero with a
+/// A trial is not a separate plan: it is an ordinary seat priced at zero with a
 /// 14-day clock, so trial and paid Start students behave identically
 /// everywhere except the clock. That keeps the quota logic to three cases
 /// rather than four.
-enum Tier {
-  START
-  PRO
-  PREMIUM
-}
-
 model Student {
   id           String   @id @default(uuid())
   first_name   String?
@@ -55,29 +49,41 @@ model Student {
   /// independent student, simply have none.
   center_id String?
 
-  /// Which tier this student's seat is, assigned by their center. Null for a
-  /// student no center governs — anyone predating centers, and anyone removed
-  /// from one. It decides what the student may do, so it is read per request.
-  tier Tier?
-
   /// True for a student who was using the app without a school when access
   /// started requiring an activation code (D34).
   ///
   /// Set once, by the migration that introduced the rule, on every row that
-  /// had no center and no tier at that moment — so "people already using the
+  /// had no center and no seat at that moment — so "people already using the
   /// app keep it" means exactly those rows, with no date to configure and no
   /// way for an account created later to fall under it. Nothing writes it
   /// afterwards.
   grandfathered_access Boolean @default(false)
 
-  /// The student's current German level (D38). Declared by the student,
-  /// editable by their center. Null until either sets it.
+  /// The student's current German level (D38). May be declared at register,
+  /// set from an activation code's level at redemption, or edited by the
+  /// center. Null until one of those sets it.
   level CefrLevel?
 
-  center          Center?           @relation(fields: [center_id], references: [id], onDelete: SetNull)
+  center          Center?                  @relation(fields: [center_id], references: [id], onDelete: SetNull)
   ai_usage        AiUsage[]
   device_sessions DeviceSession[]
+  exam_sessions   ExamSessionParticipant[]
+  exam_attempts   ExamAttempt[]
+  notifications   Notification[]
   activities      StudentActivity[]
+  training_audio_plays TrainingAudioPlay[]
+  writing_attempts         WritingAttempt[]
+  listening_attempts       ListeningAttempt[]
+  sprachbausteine_attempts SprachbausteineAttempt[]
+  lesen_attempts           LesenAttempt[]
+  speaking_attempts        SpeakingAttempt[]
+  grammar_topic_progress GrammarTopicProgress[]
+  grammar_exercise_attempts GrammarExerciseAttempt[]
+  grammar_practice_attempts GrammarPracticeAttempt[]
+  vocab_progress VocabProgress[]
+
+  push_endpoints PushEndpoint[]
+  notification_preference NotificationPreference?
 
   @@index([center_id])
   @@index([email])
@@ -95,6 +101,7 @@ model DeviceSession {
   revoked_at         DateTime?
 
   student Student @relation(fields: [student_id], references: [id])
+  push_endpoints PushEndpoint[]
 
   @@unique([student_id, device_id])
   @@index([student_id])
@@ -139,12 +146,26 @@ model Center {
   created_at   DateTime @default(now())
   updated_at   DateTime @default(now()) @updatedAt
 
-  users            CenterUser[]
-  activation_codes ActivationCode[]
-  payments         Payment[]
-  seats            CenterSeat[]
-  students         Student[]
-  subscription     CenterSubscription?
+  /// Exam slots bought and not yet spent. One is spent per participant when
+  /// a sitting is published; there is no minimum purchase, unlike seats, and
+  /// a candidate who does not turn up has still used theirs.
+  exam_slots_remaining Int @default(0)
+
+  /// Slots for the 1,500 XAF product, counted apart from the 1,000 one.
+  ///
+  /// Two columns rather than one with a tier, because they are two prices: a
+  /// center holding ten cheap slots must not be able to run ten AI exams,
+  /// and a single pool would have to remember what each slot cost.
+  exam_ai_slots_remaining Int @default(0)
+
+  users             CenterUser[]
+  activation_codes  ActivationCode[]
+  exam_sessions     ExamSession[]
+  payments          Payment[]
+  seats             CenterSeat[]
+  students          Student[]
+  subscription      CenterSubscription?
+  entitlement_pools CenterEntitlementPool[]
 
   @@map("centers")
 }
@@ -168,6 +189,20 @@ model CenterSubscription {
   /// only to a lapsed paid period — an expired trial blocks immediately.
   paid_until       DateTime?
 
+  /// The day of the month every period of this centre ends on, 1-31, in
+  /// Africa/Douala (D4 rule 9).
+  ///
+  /// A day rather than a date, because the rule is that the day is remembered
+  /// across months that do not have it: 31 January becomes 28 February and
+  /// then 31 March again. A stored date would lose that the first time it
+  /// landed on a short month.
+  ///
+  /// Null until the first payment. Captured then because it cannot be
+  /// recovered afterwards — the day a school first paid is only knowable on
+  /// the day it pays — and because adding seats mid-period must never move
+  /// the renewal date.
+  anchor_day Int?
+
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
@@ -176,11 +211,10 @@ model CenterSubscription {
   @@map("center_subscriptions")
 }
 
-/// The seats a center holds in one tier.
+/// The seats a center holds.
 ///
-/// One row per tier, so a seat count never depends on remembering to sum
-/// several rows. A center may hold all three tiers at once — five Start,
-/// three Pro and two Premium is a valid arrangement.
+/// One row per center: Start is the only plan (the tiers were removed on
+/// 2026-09-23), so a seat count never depends on summing several rows.
 /// A chargeable AI operation, one value per thing a quota is counted against.
 ///
 /// An enum rather than free text so a typo cannot silently create a new
@@ -189,17 +223,23 @@ model CenterSubscription {
 /// allowance before it is written.
 enum AiOperation {
   SPEAKING_EVALUATION
+  /// One conversation with Elena. The unit Start sells — five a month — and
+  /// the unit an AI Speaking credit buys.
+  ///
+  /// A row rather than a counter, so the allowance is derived on read and
+  /// there is nothing to reset on a schedule and nothing that can drift from
+  /// the sessions it claims to describe.
+  SPEAKING_LIVE_SESSION
 }
 
 model CenterSeat {
   id        String @id @default(uuid())
   center_id String
-  tier      Tier
-  /// Seats held in this tier. Never zero: a row saying "no seats" is not the
-  /// same as no row, and would make every count ambiguous.
+  /// Seats held. Never zero: a row saying "no seats" is not the same as no
+  /// row, and would make every count ambiguous.
   quantity  Int
 
-  /// The price this center pays for this tier, copied in at purchase rather
+  /// The price this center pays per seat, copied in at purchase rather
   /// than looked up. This is what makes grandfathering automatic — raising the
   /// list price later cannot rewrite what a center already agreed to.
   ///
@@ -211,7 +251,7 @@ model CenterSeat {
 
   center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
 
-  @@unique([center_id, tier])
+  @@unique([center_id])
   @@map("center_seats")
 }
 
@@ -224,6 +264,7 @@ model CenterSeat {
 enum ActivationCodeStatus {
   ACTIVATED
   CONNECTED
+  SUSPENDED
   DEACTIVATED
 }
 
@@ -233,17 +274,13 @@ enum ActivationCodeStatus {
 /// so the number of codes and the number of seats paid for cannot disagree.
 /// There is no route that makes one by hand.
 model ActivationCode {
-  id        String @id @default(uuid())
+  id        String               @id @default(uuid())
   center_id String
   /// `LQ-XXXX-XXXX`, stored readable rather than hashed: a manager has to see
   /// it again on the Users page to hand it out. Deactivation, not secrecy, is
   /// what protects a seat.
-  code      String @unique
-  /// Which plan the seat entitles its student to. A trial seat is START at
-  /// zero price, so the trial needs no tier of its own.
-  tier      Tier
-
-  status ActivationCodeStatus @default(ACTIVATED)
+  code      String               @unique
+  status    ActivationCodeStatus @default(ACTIVATED)
 
   /// The student who redeemed it, and what they were called at that moment.
   /// Name and email are copied rather than joined so the center still sees who
@@ -262,12 +299,18 @@ model ActivationCode {
   /// trial code carries a date.
   expires_at DateTime?
 
+  /// CEFR level for this seat, set by the center before handout (optional).
+  /// Copied onto the student at redemption when non-null. Survives reset.
+  level CefrLevel?
+
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
   center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
 
-  events ActivationCodeEvent[]
+  events           ActivationCodeEvent[]
+  entitlement_caps CodeEntitlementCap[]
+  entitlements     CodeEntitlement[]
 
   /// The Users page lists a center's codes by state; redemption looks one up
   /// by its value, which the unique index above already covers.
@@ -282,6 +325,99 @@ model ActivationCode {
   @@map("activation_codes")
 }
 
+/// One of the add-ons sold beside Start.
+///
+/// The same words as the matching `PaymentKind` values, so an invoice line and
+/// the row it granted read alike.
+enum EntitlementProduct {
+  PREP_PASS
+  AI_SPEAKING_CREDIT
+  AI_ASSISTED_LEARNING
+}
+
+/// What a center bought and has not handed out. The money.
+///
+/// One pot per product rather than one balance with a discount: a center may
+/// hold credits and passes at once, and neither may be spent as the other.
+/// Buying twice accumulates here — the history of who bought what and when is
+/// `payments`, and a second ledger would be a second thing to keep true.
+model CenterEntitlementPool {
+  center_id String
+  product   EntitlementProduct
+  /// Never below zero: the check constraint in the migration is the backstop
+  /// under the conditional update that spends one, the same way the exam slot
+  /// columns are guarded.
+  balance   Int                @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
+
+  @@id([center_id, product])
+  @@map("center_entitlement_pools")
+}
+
+/// Who may draw on the pool, and how much of it. The permission.
+///
+/// A ceiling, not a wallet. Credit is never moved onto a seat, so a student who
+/// does not use theirs strands nothing: what is left stays in the pool for
+/// whoever needs it, and a student two sessions short costs the center one
+/// number rather than a second purchase.
+///
+/// It hangs off the activation code rather than the student because a code
+/// exists before anybody holds it — so a center can buy ahead — and because a
+/// seat that changes hands should carry what was bought for it (ADR 0002). A
+/// student holds at most one connected code, so per-code and per-student are
+/// the same number whenever somebody holds it.
+model CodeEntitlementCap {
+  code_id String
+  product EntitlementProduct
+  /// Zero by default, and that is the authorization: nobody spends until a
+  /// manager says so.
+  cap     Int                @default(0)
+  /// Counted here rather than from `ai_usage`, because a cap belongs to the
+  /// seat and a seat can change hands — counting rows would charge whoever
+  /// holds the code now for what the last holder used.
+  ///
+  /// Deliberately NOT constrained to stay under `cap`: lowering a cap to zero
+  /// is how a manager stops somebody mid-term, and their spent sessions are
+  /// history rather than a contradiction. `used < cap` is the spend condition,
+  /// checked when spending.
+  used    Int                @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  code ActivationCode @relation(fields: [code_id], references: [id], onDelete: Cascade)
+
+  @@id([code_id, product])
+  @@map("code_entitlement_caps")
+}
+
+/// A period granted to one seat: a Prep Pass, a month of AI Assisted Learning.
+///
+/// It left the pool and does not come back. One row per product per code, so a
+/// second pass extends the date rather than opening a parallel one — two live
+/// passes on one seat is not a state anything should have to reason about.
+model CodeEntitlement {
+  code_id    String
+  product    EntitlementProduct
+  /// Compared on read. There is no `active` column for the reason a
+  /// subscription has no `status` one: a stored flag needs a job to keep it
+  /// true, and the direction it fails in is granting what nobody paid for.
+  expires_at DateTime
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  code ActivationCode @relation(fields: [code_id], references: [id], onDelete: Cascade)
+
+  @@id([code_id, product])
+  @@index([product, expires_at])
+  @@map("code_entitlements")
+}
+
 /// Every change a center makes to one of its codes.
 ///
 /// Append-only. It answers "who cut this student off, and when" after the
@@ -292,7 +428,9 @@ model ActivationCodeEvent {
   id             String               @id @default(uuid())
   code_id        String
   center_id      String
-  /// The manager who acted. Null would mean the system acted; nothing does yet.
+  /// The manager who acted, or null when the system did. Activation moves a
+  /// trial student onto a paid code without anybody pressing anything, and
+  /// those two events are the only ones with no manager behind them.
   center_user_id String?
   from_status    ActivationCodeStatus
   to_status      ActivationCodeStatus
@@ -312,6 +450,20 @@ model ActivationCodeEvent {
   @@map("activation_code_events")
 }
 
+/// What a payment bought. `total_seats` counts either.
+enum PaymentKind {
+  SEATS
+  EXAM_SLOTS
+  /// The 1,500 XAF tier. Its own value rather than a flag beside EXAM_SLOTS,
+  /// so an invoice reads back as the product that was actually sold.
+  EXAM_SLOTS_AI
+  /// The three add-ons. Named identically to `EntitlementProduct`, so an
+  /// invoice line and the entitlement it granted say the same word.
+  PREP_PASS
+  AI_SPEAKING_CREDIT
+  AI_ASSISTED_LEARNING
+}
+
 enum PaymentStatus {
   PENDING
   SUCCEEDED
@@ -329,13 +481,45 @@ model Payment {
   id        String @id @default(uuid())
   center_id String
 
-  /// Seats across every tier in this payment. A convenience total; the
-  /// authoritative per-tier figures live in `lines`.
-  total_seats Int
+  /// What this payment buys. Exam slots ride on the same flow rather than a
+  /// second one, so a center has one payment history and one invoice shape.
+  kind           PaymentKind @default(SEATS)
+  /// How many of whatever `kind` names: seats, exam slots, and whatever the
+  /// next center product counts. Called `total_seats` until 2026-09-24, when
+  /// it stopped being only seats.
+  quantity       Int
+  /// The price per seat that applied when the payment was created, which is
+  /// what keeps an old invoice truthful after the list price moves.
+  unit_price_xaf Int
   /// What the whole payment comes to, snapshotted at creation. A price change
   /// next year must not rewrite what a center agreed to this year, so this is
   /// a copy rather than a join back to today's prices.
-  amount_xaf  Int
+  amount_xaf     Int
+  /// `amount_xaf` without the VAT, and the VAT on its own. Providers take one
+  /// integer and have no tax field, so `amount_xaf` is TTC; an invoice needs
+  /// the two lines underneath it, and dividing a rounded total back out does
+  /// not reliably return them.
+  ///
+  /// Null on a row written before VAT was recorded separately. Deliberately not
+  /// backfilled: whether such a row's total was HT or TTC cannot be known from
+  /// the row, and a guess would put a wrong number on an invoice.
+  amount_net_xaf Int?
+  vat_amount_xaf Int?
+
+  /// Whether paying this starts a new period, or only adds to one already
+  /// paid for.
+  ///
+  /// Decided when the payment is created, because only then is the clock the
+  /// right one to read. A webhook can arrive hours later, after the period has
+  /// elapsed, and a center that added two seats on its last day must not be
+  /// read as renewing the next morning (D4 rule 3: adding seats never moves
+  /// the renewal date).
+  ///
+  /// True for a first pack and a renewal, false for a mid-period addition.
+  /// Defaults true, which is what every row written before this column meant.
+  /// Only the seats path reads it; exam slots and entitlements never extend a
+  /// period.
+  renews_period Boolean @default(true)
 
   status PaymentStatus @default(PENDING)
 
@@ -349,6 +533,9 @@ model Payment {
   /// double-clicked checkout returns this instead of asking the provider
   /// again, which would open a second provider transaction for one payment.
   checkout_url       String?
+  /// Which payment method opened the checkout: `notchpay` (Mobile Money) or
+  /// `stripe` (card). Null until checkout; webhooks and refunds route by it.
+  provider           String?
   /// When activation granted access. Set once, by the same statement that
   /// moves the status, so the two can never disagree.
   succeeded_at       DateTime?
@@ -365,42 +552,26 @@ model Payment {
   /// name, and is refused rather than handed the original record.
   request_hash    String
 
+  /// What this payment was for, beyond how many: the codes the manager picked
+  /// and the cap they chose.
+  ///
+  /// Nothing may be granted before money moves, and hours can pass between the
+  /// purchase and the webhook, so the choice has to survive in between. Read
+  /// once, at activation, and re-validated there — a code deactivated in the
+  /// meantime has its cap dropped, while the pool is still credited, because
+  /// the money moved either way.
+  ///
+  /// Null for a purchase that needs none: seats, exam slots, a bare top-up.
+  metadata Json?
+
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
-  center Center        @relation(fields: [center_id], references: [id], onDelete: Cascade)
-  lines  PaymentLine[]
+  center Center @relation(fields: [center_id], references: [id], onDelete: Cascade)
 
   @@unique([center_id, idempotency_key])
   @@index([center_id, created_at])
   @@map("payments")
-}
-
-/// One tier within a payment.
-///
-/// A payment can cover several tiers at different prices, so the breakdown
-/// cannot live in a single pair of columns on the payment. Each line carries
-/// the price that applied at the time, which is what keeps an old invoice
-/// truthful after the list price moves.
-model PaymentLine {
-  id         String @id @default(uuid())
-  payment_id String
-  tier       Tier
-  seats      Int
-
-  unit_price_xaf Int
-  /// Always seats * unit_price_xaf, and a CHECK constraint enforces it. The
-  /// column is stored rather than computed so an invoice keeps its own total
-  /// even if the arithmetic here ever changes.
-  amount_xaf     Int
-
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
-
-  payment Payment @relation(fields: [payment_id], references: [id], onDelete: Cascade)
-
-  @@unique([payment_id, tier])
-  @@map("payment_lines")
 }
 
 model CenterUser {
@@ -474,14 +645,25 @@ model WritingAttempt {
   corrections       Json?
   diff              Json?
   points_addressed  Int?
+  /// telc Deutsch B1 Schriftlicher Ausdruck: letters + /45 points.
+  /// Shape: { taskFulfilment, communicativeDesign, formalAccuracy, points }.
+  telc_rating       Json?
   duration_seconds  Int?
   notification_sent Boolean   @default(false)
   created_at        DateTime  @default(now())
   completed_at      DateTime?
 
+  /// Set when this attempt was made inside an exam sitting, null for
+  /// ordinary training. Every training read filters on it being null, so exam
+  /// work never appears in a student's own history or in their readiness.
+  exam_attempt_id String?
+
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id])
   @@index([erasure_id])
   @@map("writing_attempts")
 }
@@ -499,7 +681,14 @@ model ListeningAttempt {
   created_at       DateTime  @default(now())
   completed_at     DateTime?
 
-  // Column only, no relation — matches WritingAttempt and SprachbausteineAttempt.
+  /// What the candidate chose, per question.
+  ///
+  /// Training never stored this — a Hören score was all anyone wanted. An
+  /// exam result gets disputed, and "we have the score but not the answers"
+  /// is not something a center can take back to a candidate. Nullable, so
+  /// every training row written before this stays as it was.
+  answers Json?
+
   // Nullable on purpose: Hoeren content is not yet in the database, so an
   // attempt whose content_revision names no Modelltest (e.g. the historic
   // mock-horen-* rows) genuinely belongs to no exam.
@@ -507,64 +696,53 @@ model ListeningAttempt {
   listening_exercise_id String?            @db.Uuid
   listening_exercise    ListeningExercise? @relation(fields: [listening_exercise_id], references: [id], onDelete: Restrict)
 
+  /// Set when this attempt was made inside an exam sitting, null for
+  /// ordinary training. Every training read filters on it being null, so exam
+  /// work never appears in a student's own history or in their readiness.
+  exam_attempt_id String?
+
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id])
   @@index([listening_exercise_id])
   @@index([erasure_id])
   @@map("listening_attempts")
 }
 
 model SprachbausteineAttempt {
-  attempt_id       String    @id @default(uuid())
-  student_id       String
-  teil_id          String
-  modelltest_id    String?
-  status           String    @default("completed")
-  score            Int?
-  feedback         String?
-  answers          Json?
-  content_revision String?
-  duration_seconds Int?
-  created_at       DateTime  @default(now())
-  completed_at     DateTime?
+  attempt_id         String    @id @default(uuid())
+  student_id         String
+  teil_id            String
+  modelltest_id      String?
+  status             String    @default("completed")
+  score              Int?
+  feedback           String?
+  answers            Json?
+  content_revision   String?
+  duration_seconds   Int?
+  // True for every attempt taken after the answer key started shipping with
+  // GET /exercise. Without it, no later analysis can tell which attempts were
+  // made with the answers already on the device.
+  answers_prefetched Boolean   @default(true)
+  created_at         DateTime  @default(now())
+  completed_at       DateTime?
+
+  /// Set when this attempt was made inside an exam sitting, null for
+  /// ordinary training. Every training read filters on it being null, so exam
+  /// work never appears in a student's own history or in their readiness.
+  exam_attempt_id String?
 
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
 
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
   @@index([student_id, teil_id])
   @@index([erasure_id])
   @@map("sprachbausteine_attempts")
-}
-
-model LesenPassage {
-  id         String    @id @default(uuid())
-  title      String
-  content    String
-  cefr_level String    @default("B1")
-  topic      String?
-  word_count Int?
-  created_at DateTime? @default(now())
-
-  questions LesenQuestion[]
-
-  @@map("lesen_passages")
-}
-
-model LesenQuestion {
-  id             String    @id @default(uuid())
-  passage_id     String
-  question_text  String
-  question_type  String
-  options        Json
-  correct_answer String
-  explanation    String?
-  difficulty     Int?
-  created_at     DateTime? @default(now())
-
-  passage LesenPassage @relation(fields: [passage_id], references: [id])
-
-  @@map("lesen_questions")
 }
 
 model LesenTeil2Exercise {
@@ -815,24 +993,63 @@ model Modelltest {
   writingExercises              WritingExercise[]
   listeningExercises            ListeningExercise[]
   speakingExercises             SpeakingExercise[]
+  examSessions                  ExamSession[]
+  vocab_occurrences             VocabOccurrence[]
+  vocab_exercises               VocabExercise[]
+  /// A1/A2 only, today — B1/B2 content stays in the tables above.
+  examSections                  ExamSection[]
 
+  /// Kept out of the training catalogue, so an exam sitting can use material
+  /// no student has seen. False for everything that exists today.
+  exam_only Boolean @default(false)
+
+  /// CEFR exam this Modelltest prepares for (Option A: student.level must match).
+  level CefrLevel @default(B1)
+
+  /// Level-wide content metadata not already authoritative elsewhere:
+  /// Hören's Exam Day delivery contract (continuous recording, no pause/
+  /// seek/restart) and grade bands. Deliberately does NOT duplicate
+  /// totalPoints/writtenPoints/oralPoints/passRule — those are already
+  /// authoritative in `exam_section_weights`/`exam_pass_rules` (Phase 1),
+  /// and storing them twice would be two sources of truth that can drift.
+  /// Null for B1/B2 and for any A1/A2 Modelltest imported before this
+  /// field existed. Never queried into — read verbatim by whatever Exam
+  /// Day Hören playback eventually consumes it.
+  format Json?
+
+  /// Visual-asset manifest from the source file (`assetKey`, `sourcePages`,
+  /// `extractionNotes`, etc.) — bookkeeping for whoever uploads the actual
+  /// images, not the images themselves. Individual `imageUrl` references
+  /// inside a section's own `material`/`content` are preserved there
+  /// regardless of this field. Null when the source carried none.
+  assets Json?
+
+  @@index([level, exam_only])
   @@map("modelltests")
 }
 
 model ListeningExercise {
-  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  modelltest_id       String   @db.Uuid
+  id                  String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  modelltest_id       String  @db.Uuid
   part                Int
   title               String
   subtitle            String?
   instruction         String
-  content_revision    String   @unique
+  content_revision    String  @unique
   duration_minutes    Int
-  audio_url           String   @default("")
-  bundled_audio_asset String   @default("")
+  audio_url           String  @default("")
+  bundled_audio_asset String  @default("")
   image_url           String
   transcript          String?
-  created_at          DateTime @default(now()) @db.Timestamptz(6)
+
+  /// How often this recording may play in an exam.
+  ///
+  /// One, because telc's repeats live inside the file — "Sie hören es
+  /// zweimal" is the tape playing the passage twice, not the candidate
+  /// pressing play again. A row rather than a constant so a recording that
+  /// arrives without its repeat baked in is a data fix, not a deployment.
+  exam_plays_allowed Int      @default(1)
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
 
   modelltest Modelltest          @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
   questions  ListeningQuestion[]
@@ -841,6 +1058,29 @@ model ListeningExercise {
   @@unique([modelltest_id, part])
   @@index([modelltest_id])
   @@map("listening_exercises")
+}
+
+/// How many times a student has played one Hören recording in training.
+///
+/// Separate from `exam_audio_plays`: exam counts are per sitting attempt;
+/// training counts are per student and recording, using the same allowance
+/// column (`exam_plays_allowed`) so the two modes mean the same thing.
+model TrainingAudioPlay {
+  id         String @id @default(uuid())
+  student_id String
+  /// The `listening_exercises` row this counts plays of. Plain column, no
+  /// FK — same precedent as `ExamAudioPlay.audio_id` above. A2/A1 Hören
+  /// lives in the generic content model (`exam_sections`), which has no
+  /// `listening_exercises` row to point at; a non-nullable FK would make
+  /// this row impossible to write at all for those levels.
+  audio_id   String @db.Uuid
+
+  plays_used Int @default(0)
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, audio_id])
+  @@map("training_audio_plays")
 }
 
 model ListeningQuestion {
@@ -897,10 +1137,22 @@ model WritingExercise {
   // See Modelltest.created_at — same hand-written-migration origin.
   created_at        DateTime @default(now()) @db.Timestamptz(6)
 
+  /// Which Schreiben task of the Modelltest this is.
+  ///
+  /// B1 asks for one letter, so every row written before B2 is part 1. telc
+  /// B2 offers two tasks and the candidate answers exactly one, which is why
+  /// the key is no longer the Modelltest alone.
+  part Int @default(1)
+
+  /// Shared by every task of a one-of-N choice, and null when there is no
+  /// choice. It is what tells a reader that two rows are alternatives rather
+  /// than two pieces of work to hand in.
+  choice_group_id String?
+
   modelltest_id String     @db.Uuid
   modelltest    Modelltest @relation(fields: [modelltest_id], references: [id])
 
-  @@unique([modelltest_id])
+  @@unique([modelltest_id, part])
   @@map("writing_exercises")
 }
 
@@ -920,6 +1172,10 @@ model AiUsage {
   id         String      @id @default(uuid())
   student_id String
   operation  AiOperation
+  /// Which Teil a live session practised (1–3). Null for evaluations / legacy rows.
+  teil_number Int?
+  /// False when the session spent a bought credit, so it must not eat Start's free allowance.
+  counts_toward_free Boolean @default(true)
   created_at DateTime    @default(now())
 
   student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
@@ -928,6 +1184,7 @@ model AiUsage {
   /// timestamp. Column order matters — student first because it is the
   /// equality, created_at second because it is the range.
   @@index([student_id, operation, created_at])
+  @@index([student_id, operation, teil_number, created_at])
   @@map("ai_usage")
 }
 
@@ -996,8 +1253,15 @@ model LesenAttempt {
   duration_seconds Int?
   created_at       DateTime @default(now())
 
+  /// Set when this attempt was made inside an exam sitting, null for
+  /// ordinary training. Every training read filters on it being null, so exam
+  /// work never appears in a student's own history or in their readiness.
+  exam_attempt_id String?
+
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
   @@index([student_id, teil_id])
   @@index([erasure_id])
@@ -1020,6 +1284,14 @@ model SpeakingAttempt {
 
   /// Set when a code reset hid this row for erasure (D39); null = visible.
   erasure_id String?
+
+  /// Set when this was an AI speaking session inside an exam sitting (the
+  /// 1,500 tier), null for ordinary practice. Training reads filter on it
+  /// being null, or a candidate would find their exam transcript in their
+  /// own practice history before the center released anything.
+  exam_attempt_id String?
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
   @@index([student_id, teil_number])
   @@index([erasure_id])
@@ -1070,4 +1342,754 @@ model SupportRequest {
 
   @@index([center_id, kind, created_at])
   @@map("support_requests")
+}
+
+/// What a center bought for a sitting, fixed when it publishes.
+///
+/// MANUAL is the 1,000 XAF product: the trainer scores Schreiben, and the
+/// Sprechen that happened in the center. AI is 1,500 and adds the machine's
+/// proposal on both, which the trainer still confirms or overrides — a second
+/// opinion, never the verdict. Stamped on the session rather than read from
+/// the center, or a price change would silently re-grade exams a center has
+/// already paid for.
+enum ExamGradingTier {
+  MANUAL
+  AI
+}
+
+/// One timed block of a telc exam, as telc runs it.
+///
+/// Lesen and Sprachbausteine share ONE 90-minute block with free navigation
+/// between their five Teile — the mistake a per-Teil timer would make.
+/// Sprechen is absent on purpose: it happens in the center, in person, and
+/// reaches Lerniqo as a score somebody types in.
+enum ExamBlock {
+  LESEN_SPRACHBAUSTEINE
+  HOEREN
+  SCHREIBEN
+  /// A1/A2 only — Lesen and Schreiben sat as one timed block. Not referenced
+  /// by any B1/B2 row.
+  LESEN_SCHREIBEN
+}
+
+/// How long a block lasts, per level, as telc specifies it.
+///
+/// Data rather than constants, because A2 and B2 are the same product with
+/// different numbers: adding them is a seed, not a deployment. Nothing lets a
+/// center edit these — a duration a center can change is not an exam.
+model ExamBlockDuration {
+  id       String    @id @default(uuid())
+  level    CefrLevel
+  block    ExamBlock
+  minutes  Int
+  /// The order a candidate sits them in, low first.
+  position Int
+
+  @@unique([level, block])
+  @@map("exam_block_durations")
+}
+
+enum PassRuleType {
+  TOTAL_PERCENT
+  PART_PERCENT
+}
+
+/// How a level's pass/fail verdict is computed. B1/B2 require 60% of written
+/// AND 60% of oral, scored independently. A1/A2 require 60% of the combined
+/// total — a candidate strong on paper and weak orally still passes, which
+/// PART_PERCENT would wrongly fail. See docs/architecture/multi-level.md
+/// Part 4.
+model ExamPassRule {
+  level CefrLevel @id
+
+  type PassRuleType
+
+  /// TOTAL_PERCENT only.
+  minimum_percent Int?
+
+  /// PART_PERCENT only.
+  written_percent Int?
+  oral_percent    Int?
+
+  @@map("exam_pass_rules")
+}
+
+/// A center's exam sitting: one Modelltest, a named list of candidates, and a
+/// window in which they may start.
+///
+/// There is no `status` column, for the reason `CenterSubscription` has none.
+/// A stored status needs a job to keep it true, and the direction it fails in
+/// is letting a closed exam be taken. These timestamps are the facts; the
+/// status is derived from them on read.
+model ExamSession {
+  id        String @id @default(uuid())
+  center_id String
+
+  /// The center's own wording — "Examen séquentiel B1 — Octobre". Lerniqo
+  /// imposes no taxonomy of exam types; the name carries that meaning.
+  name          String
+  level         CefrLevel
+  modelltest_id String          @db.Uuid
+  grading_tier  ExamGradingTier @default(MANUAL)
+
+  /// When candidates may begin. Enforced server-side: a published sitting is
+  /// not an open one.
+  opens_at  DateTime
+  /// Computed from the access window the center chose (24h, 48h, 72h), and
+  /// editable afterwards: a center may close its own exam early or reopen it
+  /// once the window has lapsed.
+  closes_at DateTime
+
+  /// Null while the sitting is a draft. Publishing is what spends slots, so
+  /// this is set once and never cleared.
+  published_at    DateTime?
+  cancelled_at    DateTime?
+  /// Set when the center closed the sitting by hand, before `closes_at`.
+  force_closed_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  center       Center                   @relation(fields: [center_id], references: [id], onDelete: Cascade)
+  modelltest   Modelltest               @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
+  participants ExamSessionParticipant[]
+  attempts     ExamAttempt[]
+
+  @@index([center_id, opens_at])
+  @@map("exam_sessions")
+}
+
+/// A student a center admitted to one sitting.
+///
+/// This row IS the access rule. Holding a Lerniqo account, or even a seat at
+/// the center running the exam, grants nothing here: only a row in this table
+/// opens that sitting to that student.
+model ExamSessionParticipant {
+  id         String @id @default(uuid())
+  session_id String
+  student_id String
+
+  created_at DateTime @default(now())
+
+  session ExamSession @relation(fields: [session_id], references: [id], onDelete: Cascade)
+  student Student     @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@unique([session_id, student_id])
+  @@index([student_id])
+  @@map("exam_session_participants")
+}
+
+/// One candidate's sitting of one exam.
+///
+/// Unique per student and session: a second start returns the first attempt
+/// rather than making a new one, because an exam you can restart is not an
+/// exam.
+model ExamAttempt {
+  id         String @id @default(uuid())
+  session_id String
+  student_id String
+
+  started_at   DateTime  @default(now())
+  /// Set when the last block is submitted. Null while the candidate is still
+  /// somewhere in the exam.
+  submitted_at DateTime?
+
+  session ExamSession @relation(fields: [session_id], references: [id], onDelete: Cascade)
+  student Student     @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  /// When the center released this result to the candidate, and what it
+  /// released. Null means the candidate sees nothing at all — not a partial
+  /// result, not a "pending": the exam simply has no result yet as far as
+  /// they are concerned.
+  released_at     DateTime?
+  /// A copy of the result as it was released.
+  ///
+  /// A snapshot, not a view: a candidate who was told they passed must not
+  /// find that changed because somebody re-marked afterwards. Re-releasing
+  /// replaces it, deliberately and visibly.
+  released_result Json?
+
+  blocks   ExamAttemptBlock[]
+  plays    ExamAudioPlay[]
+  sections ExamSectionResult[]
+
+  @@unique([session_id, student_id])
+  @@index([student_id])
+  @@map("exam_attempts")
+}
+
+/// One timed block of one attempt.
+///
+/// `deadline_at` is an instant, written when the block starts and never
+/// moved. A refresh, a second device, a killed app and a wrong phone clock
+/// all read the same answer from it; a stored "seconds remaining" would
+/// answer each of them differently.
+model ExamAttemptBlock {
+  id         String    @id @default(uuid())
+  attempt_id String
+  block      ExamBlock
+
+  started_at   DateTime  @default(now())
+  deadline_at  DateTime
+  submitted_at DateTime?
+
+  /// What the candidate has answered so far, saved as they go.
+  ///
+  /// A crash, a flat battery or a closed tab costs seconds rather than ninety
+  /// minutes. It is also what gets scored when a block is submitted late:
+  /// answers arriving after the deadline are not counted, but the ones saved
+  /// before it are, so no block is ever left unscored.
+  answers Json @default("{}")
+
+  attempt ExamAttempt @relation(fields: [attempt_id], references: [id], onDelete: Cascade)
+
+  @@unique([attempt_id, block])
+  @@map("exam_attempt_blocks")
+}
+
+/// How often a candidate has played one Hören recording.
+///
+/// telc allows one play in Teil 1 and two in Teils 2 and 3, and the count
+/// lives here rather than in the client because hiding a button is not a
+/// rule. A play is spent when it starts: a connection dropping at 0:15 costs
+/// it, exactly as the recording would keep playing in the room.
+model ExamAudioPlay {
+  id         String @id @default(uuid())
+  attempt_id String
+  /// The recording this counts plays of: a `listening_exercises` id (B1/B2)
+  /// or an A1/A2 Hören Teil's `exam_sections` id. Plain column, no FK.
+  audio_id   String @db.Uuid
+
+  plays_used Int @default(0)
+
+  attempt ExamAttempt @relation(fields: [attempt_id], references: [id], onDelete: Cascade)
+
+  @@unique([attempt_id, audio_id])
+  @@map("exam_audio_plays")
+}
+
+/// Which half of the exam a skill belongs to.
+///
+/// telc passes them separately — 60% of the written block AND 60% of the
+/// oral — so a candidate strong on paper and silent in the room fails, and no
+/// combined average can express that.
+enum ExamPart {
+  WRITTEN
+  ORAL
+}
+
+/// What each Teil is worth, in telc's own points.
+///
+/// A percentage per Teil cannot be added into a verdict without these: Lesen
+/// is 75 points and Sprachbausteine 30, so a perfect Sprachbausteine does not
+/// rescue a poor Lesen. Rows rather than constants, because A2 and B2 are the
+/// same product with different numbers.
+model ExamSectionWeight {
+  id    String    @id @default(uuid())
+  level CefrLevel
+  skill Skill
+  teil  Int
+
+  /// telc's points for this Teil.
+  max_points Int
+  part       ExamPart
+  /// Which timed written block this Teil is sat in. Null for ORAL rows —
+  /// Sprechen is not part of any `ExamBlock`; it is scored outside
+  /// `scoreBlock`. Lets `BLOCK_SECTIONS` (exam-scoring.service.ts) be a query
+  /// over these rows instead of a hardcoded map — needed because A1/A2 put
+  /// Lesen and Schreiben in one block (`LESEN_SCHREIBEN`), unlike B1/B2.
+  block      ExamBlock?
+
+  @@unique([level, skill, teil])
+  @@map("exam_section_weights")
+}
+
+/// The discriminator for a generic-model section's shape. Eight written
+/// types cover every level; see docs/ideas/modelltest-content-contract.md
+/// for the `material`/`solution` shape each one takes.
+enum Aufgabentyp {
+  // Written — auto-scored
+  EINZELAUSWAHL
+  RICHTIG_FALSCH
+  ZUORDNUNG
+  KURZANTWORT
+  FORMULAR_AUSFUELLEN
+  LUECKENTEXT_EINZELAUSWAHL
+  LUECKENTEXT_WORTBANK
+  // Written — human/AI scored
+  TEXT_SCHREIBEN
+  // Oral
+  SICH_VORSTELLEN
+  FRAGEN_UND_ANTWORTEN
+  BITTEN_UND_REAGIEREN
+  ALLTAGSGESPRAECH
+  ETWAS_AUSHANDELN
+  UEBER_EIN_THEMA_SPRECHEN
+  UEBER_ERFAHRUNGEN_SPRECHEN
+  DISKUSSION
+  GEMEINSAM_PLANEN
+}
+
+/// How a section's mark is produced. Not a boolean "scored" flag: the A2
+/// review found `SCHREIBEN_2` and every `SPRECHEN` section must never be
+/// AUTO, and `MANUAL_WITH_AI_SUGGESTION` (an AI suggestion beside an empty
+/// human mark, never counted toward the verdict — exam-grading.service.ts's
+/// existing convention) is a distinct case from plain `MANUAL`.
+enum ScoringMode {
+  AUTO
+  MANUAL
+  MANUAL_WITH_AI_SUGGESTION
+  /// A B2-style unscored Sprechen intro. Never produces an activity or
+  /// section-result row.
+  NOT_SCORED
+}
+
+/// A1/A2 content, stored generically rather than in B1's per-Teil tables:
+/// A-level task types (`KURZANTWORT`, `FORMULAR_AUSFUELLEN`) have no table
+/// there and no analogue. B1/B2 never read this model.
+///
+/// `material` holds everything the `aufgabentyp` needs beyond its items —
+/// the passage, the form's source documents, the Sprechen rubric and cards,
+/// grade bands, visual-asset references. Validated by a Zod schema keyed on
+/// `aufgabentyp`, at import only. The discipline that keeps it safe is one
+/// rule: never write a `WHERE` that reaches inside it. The day that's
+/// needed, that field has earned a column.
+model ExamSection {
+  id            String      @id @default(uuid())
+  modelltest_id String      @db.Uuid
+  skill         Skill
+  /// 0 for an unscored intro (a B2-style `SICH_VORSTELLEN` before the
+  /// scored Teil 1 at a level that needs one).
+  teil          Int
+  aufgabentyp   Aufgabentyp
+  label         String
+  instruction   String
+  /// telc's points for this Teil. Always whole — a fractional mark is a
+  /// human examiner's actual score (exam_section_results.points), never
+  /// this section's maximum.
+  max_points    Int
+  scoring_mode  ScoringMode
+  material      Json
+
+  /// Globally unique: `(level, paper-number, skill, teil)`, not reused
+  /// across a correction — a correction is a new revision.
+  content_revision String  @unique
+  /// Set on both halves of a B2-style one-of-two Schreiben choice.
+  choice_group_id  String?
+  sort_order       Int
+
+  modelltest Modelltest @relation(fields: [modelltest_id], references: [id], onDelete: Restrict)
+  items      ExamItem[]
+
+  @@unique([modelltest_id, skill, teil])
+  @@index([modelltest_id])
+  @@map("exam_sections")
+}
+
+model ExamItem {
+  id          String  @id @default(uuid())
+  section_id  String
+  item_number Int
+  /// Null for TEXT_SCHREIBEN and every oral type — nothing to prompt on a
+  /// per-item basis; the section's own `instruction`/`material` carries it.
+  prompt      String?
+  /// Shape depends on the section's `aufgabentyp` — a single key
+  /// (`ZUORDNUNG`, `LUECKENTEXT_WORTBANK`), or accepted answers plus a
+  /// normalization rule (`KURZANTWORT`, `FORMULAR_AUSFUELLEN`). Null for
+  /// TEXT_SCHREIBEN and oral types. Validated at import, read verbatim at
+  /// scoring time — never queried into.
+  solution    Json?
+  sort_order  Int
+
+  section ExamSection      @relation(fields: [section_id], references: [id], onDelete: Cascade)
+  options ExamItemOption[]
+
+  @@unique([section_id, item_number])
+  @@map("exam_items")
+}
+
+model ExamItemOption {
+  id         String  @id @default(uuid())
+  item_id    String
+  /// "a" | "b" | "c", a word-bank letter, or a `ZUORDNUNG` choice key.
+  key        String
+  content    String
+  is_correct Boolean @default(false)
+  sort_order Int
+
+  item ExamItem @relation(fields: [item_id], references: [id], onDelete: Cascade)
+
+  @@unique([item_id, key])
+  @@map("exam_item_options")
+}
+
+/// A mark a person gave.
+///
+/// Only the two telc does not let a machine decide: Schreiben, which a
+/// trainer reads, and Sprechen, which happened in a room with an examiner and
+/// reaches Lerniqo as a number somebody types. The automatic marks stay in
+/// the per-skill attempt rows where phase 18 wrote them — copying them here
+/// would be two records of one fact, and one of them would drift.
+///
+/// `graded_by` is not decoration. A grade is the one number somebody may
+/// later be asked to defend.
+model ExamSectionResult {
+  id         String @id @default(uuid())
+  attempt_id String
+  skill      Skill
+  teil       Int
+
+  /// Out of the Teil's `max_points`, not a percentage: an examiner marks in
+  /// telc's points, and converting on the way in would lose the number they
+  /// actually wrote down.
+  ///
+  /// Float, not Decimal: telc's own Bewertungsbogen M10 only ever produces
+  /// multiples of 0.5 (1, 0.5, 0 per criterion), which binary64 represents
+  /// exactly. A Decimal column would force every read site in this codebase
+  /// — already typed `number` throughout — to convert with `.toNumber()`
+  /// for no precision this domain needs.
+  points    Float
+  /// The center user who gave it, or `SERVER` for an A1/A2 automatic Teil
+  /// the answer key decided at submit (see exam-result.service SERVER_GRADER).
+  graded_by String
+  graded_at DateTime @default(now())
+  /// What the examiner wants remembered — an oral date, a note on why.
+  note      String?
+
+  attempt ExamAttempt @relation(fields: [attempt_id], references: [id], onDelete: Cascade)
+
+  @@unique([attempt_id, skill, teil])
+  @@index([attempt_id])
+  @@map("exam_section_results")
+}
+
+/// What a notification is about.
+///
+/// A closed set rather than free text, because the app renders each one in
+/// the language the student reads. A sentence stored here would be a sentence
+/// stored in one language, and no translation could be added afterwards.
+enum NotificationKind {
+  EXAM_PUBLISHED
+  EXAM_RESULT_RELEASED
+}
+
+/// Something a student should know without having to go and look.
+///
+/// Written in the same transaction as the thing it announces: an exam
+/// published with nobody told is worse than a publish that failed, because
+/// only one of the two is visible to anybody.
+model Notification {
+  id         String           @id @default(uuid())
+  student_id String
+  kind       NotificationKind
+
+  /// The facts the app needs to write the sentence — a session id, a name, a
+  /// date. Never the sentence itself.
+  payload Json
+
+  created_at DateTime  @default(now())
+  read_at    DateTime?
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  push_dispatch PushDispatch?
+
+  /// The unread list, newest first, is the only query this table serves.
+  @@index([student_id, read_at, created_at])
+  @@map("notifications")
+}
+
+/// Grammar lesson (theme). Of-the-day picks from topics linked to the weekly MT.
+model GrammarTopic {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug         String   @unique
+  category     String
+  title_de     String
+  title_fr     String
+  title_en     String?
+  cefr_levels  String[] @default([])
+  rule_de      String
+  rule_fr      String
+  rule_en      String?
+  notes_fr     String?
+  notes_en     String?
+  notes_de     String?
+  external_id  String?  @unique
+  sort_order   Int      @default(0)
+  published    Boolean  @default(false)
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  examples  GrammarExample[]
+  exercises GrammarExercise[]
+  progress  GrammarTopicProgress[]
+
+  @@index([published, sort_order])
+  @@map("grammar_topics")
+}
+
+model GrammarExample {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  topic_id String @db.Uuid
+  de       String
+  fr       String?
+  en       String?
+
+  topic GrammarTopic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
+
+  @@index([topic_id])
+  @@map("grammar_examples")
+}
+
+model GrammarExercise {
+  id             String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  topic_id       String @db.Uuid
+  kind           String
+  /// easy | medium | hard
+  difficulty     String
+  sort_order     Int    @default(0)
+  /// Localized UI prompt (DE). Also used historically as cloze stem — regenerate to align.
+  prompt_de      String?
+  prompt_fr      String
+  prompt_en      String?
+  options_json   Json?
+  answer         String
+  explanation_fr String?
+  explanation_en String?
+  explanation_de String?
+
+  topic    GrammarTopic              @relation(fields: [topic_id], references: [id], onDelete: Cascade)
+  attempts GrammarExerciseAttempt[]
+
+  @@index([topic_id, difficulty, sort_order])
+  @@map("grammar_exercises")
+}
+
+model GrammarTopicProgress {
+  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id          String
+  topic_id            String   @db.Uuid
+  lesson_completed    Boolean  @default(false)
+  next_exercise_index Int      @default(0)
+  updated_at          DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  student Student      @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  topic   GrammarTopic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, topic_id])
+  @@map("grammar_topic_progress")
+}
+
+model GrammarExerciseAttempt {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id  String
+  exercise_id String   @db.Uuid
+  answer      String
+  correct     Boolean
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  student  Student         @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  exercise GrammarExercise @relation(fields: [exercise_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id, exercise_id])
+  @@map("grammar_exercise_attempts")
+}
+
+/// Free-practice QCM session (timer client-side). Not of-the-day; does not
+/// touch GrammarTopicProgress or StudentActivity readiness.
+model GrammarPracticeAttempt {
+  attempt_id       String    @id @default(uuid())
+  student_id       String
+  status           String    @default("completed")
+  /// 0–100, ratio of correct submitted answers.
+  score            Int
+  correct_count    Int
+  total            Int
+  /// easy | medium | hard when the client picked a level; null otherwise.
+  difficulty       String?
+  duration_seconds Int?
+  answers          Json
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  completed_at     DateTime? @db.Timestamptz(6)
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@index([student_id, created_at])
+  @@map("grammar_practice_attempts")
+}
+
+/// Vocabulary lemma (substantiv, verb, adj, adv, prep, …).
+model VocabEntry {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lemma          String
+  /// Empty string when N/A (verbs, etc.) — keeps @@unique stable.
+  article        String   @default("")
+  gender         String?
+  plural         String?
+  /// noun | verb | adj | adv | prep | other
+  pos            String
+  cefr_level     String?
+  /// modelltest | cefr_list | goethe | telc | manual
+  source         String
+  frequency_rank Int?
+  dwds_frequency Int?
+  auxiliary      String?
+  separable      Boolean?
+  partizip_ii    String?
+  comparative    String?
+  superlative    String?
+  governs_case   String?
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  senses      VocabSense[]
+  verb_forms  VocabVerbForm[]
+  occurrences VocabOccurrence[]
+  progress    VocabProgress[]
+  exercises   VocabExercise[]
+
+  @@unique([lemma, article, pos])
+  @@index([pos, source])
+  @@map("vocab_entries")
+}
+
+model VocabSense {
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entry_id   String  @db.Uuid
+  sort_order Int     @default(0)
+  meaning_fr String
+  meaning_en String?
+  example_de String
+  example_fr String?
+  example_en String?
+  note_fr    String?
+  note_en    String?
+
+  entry VocabEntry @relation(fields: [entry_id], references: [id], onDelete: Cascade)
+
+  @@index([entry_id, sort_order])
+  @@map("vocab_senses")
+}
+
+/// German-only conjugation cells (no translations).
+model VocabVerbForm {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entry_id String @db.Uuid
+  tense    String
+  person   String
+  form_de  String
+
+  entry VocabEntry @relation(fields: [entry_id], references: [id], onDelete: Cascade)
+
+  @@unique([entry_id, tense, person])
+  @@map("vocab_verb_forms")
+}
+
+model VocabOccurrence {
+  id               String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  vocab_entry_id   String  @db.Uuid
+  modelltest_id    String  @db.Uuid
+  skill            String
+  content_revision String  @default("")
+  context_snippet  String?
+  in_weekly_pack   Boolean @default(false)
+
+  entry      VocabEntry @relation(fields: [vocab_entry_id], references: [id], onDelete: Cascade)
+  modelltest Modelltest @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
+
+  @@unique([vocab_entry_id, modelltest_id, skill, content_revision])
+  @@index([modelltest_id, in_weekly_pack])
+  @@map("vocab_occurrences")
+}
+
+model VocabProgress {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id     String
+  vocab_entry_id String   @db.Uuid
+  status         String
+  updated_at     DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  student Student    @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  entry   VocabEntry @relation(fields: [vocab_entry_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, vocab_entry_id])
+  @@map("vocab_progress")
+}
+
+model VocabExercise {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  modelltest_id  String  @db.Uuid
+  vocab_entry_id String? @db.Uuid
+  kind           String
+  prompt_fr      String
+  prompt_en      String?
+  prompt_de      String?
+  options_json   Json?
+  answer         String
+  explanation_fr String?
+  sort_order     Int     @default(0)
+
+  modelltest Modelltest  @relation(fields: [modelltest_id], references: [id], onDelete: Cascade)
+  entry      VocabEntry? @relation(fields: [vocab_entry_id], references: [id], onDelete: SetNull)
+
+  @@index([modelltest_id, sort_order])
+  @@map("vocab_exercises")
+}
+
+/// Provider tokens are encrypted; ownership follows a live authentication session.
+model PushEndpoint {
+  id                String        @id @default(uuid())
+  student_id        String
+  device_id         String
+  session_id        String
+  platform          String
+  target_ciphertext String
+  target_hash       String        @unique
+  locale            String        @default("de")
+  timezone          String        @default("Europe/Berlin")
+  app_version       String
+  permission        String        @default("GRANTED")
+  preferred         Boolean       @default(false)
+  last_active_at    DateTime      @default(now())
+  invalidated_at    DateTime?
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+  student           Student       @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  session           DeviceSession @relation(fields: [session_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, device_id, platform])
+  @@index([student_id, invalidated_at, last_active_at])
+  @@map("push_endpoints")
+}
+
+model NotificationPreference {
+  student_id            String   @id
+  transactional_enabled Boolean  @default(true)
+  timezone              String   @default("Europe/Berlin")
+  quiet_start           String   @default("21:00")
+  quiet_end             String   @default("08:00")
+  updated_at            DateTime @updatedAt
+  student               Student  @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@map("notification_preferences")
+}
+
+/// Enqueued by the notification INSERT trigger in the same database transaction.
+model PushDispatch {
+  id              String       @id @default(uuid())
+  notification_id String       @unique
+  status          String       @default("PENDING")
+  available_at    DateTime     @default(now())
+  expires_at      DateTime
+  attempts        Int          @default(0)
+  lease_until     DateTime?
+  lease_token     String?
+  endpoint_id     String?
+  last_error      String?
+  sent_at         DateTime?
+  created_at      DateTime     @default(now())
+  notification    Notification @relation(fields: [notification_id], references: [id], onDelete: Cascade)
+
+  @@index([status, available_at, lease_until])
+  @@map("push_dispatches")
 }

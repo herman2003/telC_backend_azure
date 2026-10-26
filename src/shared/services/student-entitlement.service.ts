@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import type { Tier } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 import {
   SubscriptionPolicyService,
@@ -21,18 +20,6 @@ export interface StudentEntitlement {
   studentsMayLearn: boolean;
   graceEndsAt: Date | null;
   /**
-   * Which tier's seat this student occupies, and therefore what they may do.
-   *
-   * Null whenever no center governs them, even if the row still carries a
-   * value: `students.center_id` is ON DELETE SET NULL while `students.tier` is
-   * not, so a deleted center leaves the tier behind. Reading it without a
-   * center would hand a student Premium for ever on the strength of a row
-   * nobody governs. Also null for a governed student provisioned before tiers
-   * existed — they sit in no seat, which is different from sitting in the
-   * cheapest one.
-   */
-  tier: Tier | null;
-  /**
    * Whether a `students` row exists for this id at all.
    *
    * False for a guest token: `/api/auth/guest` mints a random uuid and writes
@@ -45,14 +32,13 @@ export interface StudentEntitlement {
    * Whether a center has ever governed this student.
    *
    * True while they are in a center, and still true after one released them:
-   * `students.center_id` is SET NULL on release while `students.tier` is not,
-   * so a leftover tier is evidence that a center once governed them. It is
-   * evidence ONLY — `tier` above stays null for anyone no center governs, so
-   * nothing grants access on the strength of a stale value.
+   * releasing clears `students.center_id` but leaves the code rows behind, so
+   * a code the student once redeemed is the evidence. It is evidence ONLY —
+   * nothing grants access on the strength of it.
    *
    * It separates a genuine independent student, who predates the center model
    * and keeps what they have, from one a center released — which is otherwise
-   * a way for a center to hand its students a paid tier for free.
+   * a way for a center to hand its students free access.
    */
   wasGoverned: boolean;
   /**
@@ -70,6 +56,7 @@ export interface StudentEntitlement {
 export type AccessRefusal =
   | 'NO_CODE'
   | 'CODE_DEACTIVATED'
+  | 'CODE_SUSPENDED'
   | 'CODE_EXPIRED'
   | 'CENTER_UNPAID';
 
@@ -83,7 +70,6 @@ const guest = (): StudentEntitlement => ({
   status: 'NONE',
   studentsMayLearn: true,
   graceEndsAt: null,
-  tier: null,
   studentExists: false,
   wasGoverned: false,
   accessRefusal: null,
@@ -96,10 +82,12 @@ interface EntitlementRow {
   trial_started_at: Date | null;
   trial_ends_at: Date | null;
   paid_until: Date | null;
-  tier: Tier | null;
   /** Set by the migration that required codes, on the users of that day. */
   grandfathered_access?: boolean | null;
-  /** The student's most recent code, only for saying WHY access is refused. */
+  /**
+   * The student's most recent code: why access is refused, and the evidence
+   * that a center once governed them.
+   */
   last_code_status?: string | null;
   last_code_expires_at?: Date | null;
 }
@@ -143,7 +131,6 @@ export class StudentEntitlementService {
              cs.trial_started_at,
              cs.trial_ends_at,
              cs.paid_until,
-             s.tier::text AS tier,
              s.grandfathered_access,
              (SELECT ac.status::text FROM activation_codes ac
                WHERE ac.student_id = s.id
@@ -165,25 +152,24 @@ export class StudentEntitlementService {
     }
 
     // A row, but no center. Either a genuine independent student or one a
-    // center released — the leftover tier is what tells them apart.
+    // center released — a code they once redeemed is what tells them apart.
     if (!row.center_id) {
       // Truthiness rather than `!== null`: a missing column reads as
-      // undefined, and treating that as "holds a tier" would mark a genuine
-      // independent student as formerly governed and take the exam module
-      // away from them.
-      const wasGoverned = Boolean(row.tier);
+      // undefined, and treating that as "held a code" would mark a genuine
+      // independent student as formerly governed and take their access away.
+      const wasGoverned = Boolean(row.last_code_status);
 
       // An account alone is not access (D9) — except for the people already
       // using the app on their own when that rule shipped (D34). The mark is
-      // honoured only without a tier: a school once governed anyone who has
-      // one, and releasing them must not restore free access.
+      // honoured only for someone who never redeemed a code: a school once
+      // governed anyone who did, and releasing them must not restore free
+      // access.
       const mayLearn = Boolean(row.grandfathered_access) && !wasGoverned;
 
       return {
         status: 'NONE',
         studentsMayLearn: mayLearn,
         graceEndsAt: null,
-        tier: null,
         studentExists: true,
         wasGoverned,
         accessRefusal: mayLearn ? null : this.refusalFromLastCode(row),
@@ -199,13 +185,10 @@ export class StudentEntitlementService {
     // reason; that column is gone, and one NOT NULL column is all the check
     // ever needed.
     if (row.plan === null) {
-      // No tier either. Nothing authorises this access, so nothing about what
-      // the student may do should be reported as settled.
       return {
         status: 'BLOCKED',
         studentsMayLearn: false,
         graceEndsAt: null,
-        tier: null,
         studentExists: true,
         wasGoverned: true,
         accessRefusal: 'CENTER_UNPAID',
@@ -223,9 +206,6 @@ export class StudentEntitlementService {
       status: decision.status,
       studentsMayLearn: decision.studentsMayLearn,
       graceEndsAt: decision.graceEndsAt,
-      // Only ever read alongside a center, which the `center_id` check above
-      // has already established.
-      tier: row.tier,
       studentExists: true,
       wasGoverned: true,
       // A governed student is refused only because their school is not
@@ -243,6 +223,10 @@ export class StudentEntitlementService {
    * is asked for a code.
    */
   private refusalFromLastCode(row: EntitlementRow): AccessRefusal {
+    if (row.last_code_status === 'SUSPENDED') {
+      return 'CODE_SUSPENDED';
+    }
+
     if (row.last_code_status === 'DEACTIVATED') {
       return 'CODE_DEACTIVATED';
     }

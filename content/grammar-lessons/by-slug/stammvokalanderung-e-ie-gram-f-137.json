@@ -1,0 +1,39 @@
+{
+  "slug": "stammvokalanderung-e-ie-gram-f-137",
+  "titleFr": "Alternance vocalique e→ie",
+  "titleEn": "Stem vowel change e→ie",
+  "titleDe": "Stammvokaländerung — e→ie",
+  "ruleFr": "## Alternance *e → ie*\n\nMême logique que *e → i*, mais le radical passe à ***ie*** pour *du / er/sie/es*.\n\n### Règle\n- *du / er* : *e* → ***ie***\n- autres personnes : pas de changement\n\n### Exemple : *sehen*\n| ich sehe | wir sehen |\n| du s**ie**hst | ihr seht |\n| er s**ie**ht | sie sehen |\n\n### Mini-entraînement\nConjuguez *lesen* : ich / du / er / wir.",
+  "ruleEn": "## Vowel change *e → ie*\n\nSame pattern as *e → i*, but the stem becomes ***ie*** for *du / er*.\n\n### Model: *sehen*\nich sehe · du s**ie**hst · er s**ie**ht · wir sehen\n\n### Mini practice\nConjugate *lesen*: ich / du / er / wir.",
+  "ruleDe": "## Stammvokal *e → ie*\n\nNur *du* / *er/sie/es*. Plural normal.\n\n### Mini-Übung\n*lesen*: ich / du / er / wir.",
+  "notesFr": "Seulement 2e et 3e personne du singulier ! Le pluriel reste normal.",
+  "notesEn": "Only 2nd and 3rd person singular! Plural stays normal.",
+  "notesDe": "Nur 2. und 3. Person Singular! Plural bleibt normal.",
+  "examples": [
+    {
+      "de": "Ich sehe den Hund. — Siehst du den Hund?",
+      "fr": "Je vois le chien. — Vois-tu le chien ? (e→ie)",
+      "en": "I see the dog. — Do you see the dog? (e→ie)"
+    },
+    {
+      "de": "Er liest die Zeitung.",
+      "fr": "Il lit le journal. (lesen → liest)",
+      "en": "He reads the newspaper. (lesen → liest)"
+    },
+    {
+      "de": "Wir sehen einen Film.",
+      "fr": "Nous regardons un film. (pas de changement.)",
+      "en": "We’re watching a film. (no change.)"
+    },
+    {
+      "de": "Liest du gerne Romane?",
+      "fr": "Lis-tu volontiers des romans ?",
+      "en": "Do you like reading novels?"
+    },
+    {
+      "de": "Was siehst du dort?",
+      "fr": "Que vois-tu là-bas ?",
+      "en": "What do you see over there?"
+    }
+  ]
+}

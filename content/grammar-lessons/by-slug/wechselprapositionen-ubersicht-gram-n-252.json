@@ -1,0 +1,39 @@
+{
+  "slug": "wechselprapositionen-ubersicht-gram-n-252",
+  "titleFr": "Prépositions mixtes — aperçu",
+  "titleEn": "Two-way prepositions — overview",
+  "titleDe": "Wechselpräpositionen — Übersicht",
+  "ruleFr": "## Prépositions mixtes (Wechselpräpositionen)\n\nNeuf prépositions prennent **datif OU accusatif** selon le sens.\n\n### Liste\n**in, an, auf, über, unter, vor, hinter, neben, zwischen**\n\n### La règle d’or\n| Question | Cas | Sens |\n|---|---|---|\n| **Wo?** | **Datif** | position / lieu fixe |\n| **Wohin?** | **Accusatif** | mouvement / direction |\n\nExemples :\n- Die Katze sitzt **auf dem** Tisch. (Wo? → Dat.)\n- Die Katze springt **auf den** Tisch. (Wohin? → Akk.)\n\n### Mini-entraînement\n1. Apprenez les 9 prépositions.\n2. Pour chaque phrase, demandez *Wo?* ou *Wohin?*\n3. Transformez position → mouvement (datif → accusatif).",
+  "ruleEn": "## Two-way prepositions (Wechselpräpositionen)\n\nNine prepositions take **dative OR accusative** depending on meaning.\n\n### List\n**in, an, auf, über, unter, vor, hinter, neben, zwischen**\n\n### Golden rule\n| Question | Case | Meaning |\n|---|---|---|\n| **Wo?** | **Dative** | location / position |\n| **Wohin?** | **Accusative** | movement / direction |\n\nExamples:\n- Die Katze sitzt **auf dem** Tisch. (Wo? → Dat.)\n- Die Katze springt **auf den** Tisch. (Wohin? → Akk.)\n\n### Mini practice\n1. Learn the 9 prepositions.\n2. For each sentence, ask *Wo?* or *Wohin?*\n3. Turn location into movement (dative → accusative).",
+  "ruleDe": "## Wechselpräpositionen — Übersicht\n\nNeun Präpositionen stehen mit **Dativ ODER Akkusativ**.\n\n### Liste\n**in, an, auf, über, unter, vor, hinter, neben, zwischen**\n\n### Goldene Regel\n| Frage | Kasus | Bedeutung |\n|---|---|---|\n| **Wo?** | **Dativ** | Position |\n| **Wohin?** | **Akkusativ** | Bewegung |\n\nBeispiele:\n- Die Katze sitzt **auf dem** Tisch.\n- Die Katze springt **auf den** Tisch.\n\n### Mini-Übung\n1. Die 9 Präpositionen lernen.\n2. *Wo?* oder *Wohin?* fragen.\n3. Position → Bewegung umformen.",
+  "notesFr": "WO? = datif (position). WOHIN? = accusatif (mouvement).",
+  "notesEn": "WO? = dative (position). WOHIN? = accusative (movement).",
+  "notesDe": "WO? = Dativ (Position). WOHIN? = Akkusativ (Bewegung).",
+  "examples": [
+    {
+      "de": "Die Katze sitzt auf dem Tisch.",
+      "fr": "Le chat est assis sur la table. (Wo? → datif)",
+      "en": "The cat is sitting on the table. (Wo? → dative)"
+    },
+    {
+      "de": "Die Katze springt auf den Tisch.",
+      "fr": "Le chat saute sur la table. (Wohin? → accusatif)",
+      "en": "The cat jumps onto the table. (Wohin? → accusative)"
+    },
+    {
+      "de": "Das Bild hängt an der Wand.",
+      "fr": "Le tableau est accroché au mur. (position)",
+      "en": "The picture hangs on the wall. (position)"
+    },
+    {
+      "de": "Ich hänge das Bild an die Wand.",
+      "fr": "J’accroche le tableau au mur. (mouvement)",
+      "en": "I hang the picture on the wall. (movement)"
+    },
+    {
+      "de": "Wir stehen vor dem Kino.",
+      "fr": "Nous sommes devant le cinéma.",
+      "en": "We are standing in front of the cinema."
+    }
+  ]
+}

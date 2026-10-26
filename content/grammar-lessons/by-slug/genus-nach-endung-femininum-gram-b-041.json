@@ -1,0 +1,39 @@
+{
+  "slug": "genus-nach-endung-femininum-gram-b-041",
+  "titleFr": "Suffixe -ie : généralement féminin",
+  "titleEn": "The suffix -ie: mostly feminine",
+  "titleDe": "Genus nach Endung — -ie meist Femininum",
+  "ruleFr": "## *-ie* → le plus souvent **die**\n\nLes noms (souvent savants / grecs) en **-ie** sont **généralement féminins**.\n\n### Exemples\n*die Philosophie, die Biologie, die Geografie, die Demokratie, die Energie, die Fantasie, die Industrie, die Melodie, die Therapie*\n\n### Nuance\nCe n’est pas aussi « 100 % » que *-ung*, mais la tendance est très forte pour l’apprentissage A2–B1.\n\n### Mini-entraînement\n1. Apprenez 8 disciplines en *-ie*.\n2. Formez : *Ich studiere die …*\n3. Datif : *mit der Energie / in der Demokratie*.",
+  "ruleEn": "## *-ie* → usually **die**\n\nNouns (often scholarly / Greek) in **-ie** are **generally feminine**.\n\n### Examples\n*die Philosophie, die Biologie, die Geografie, die Demokratie, die Energie, die Fantasie, die Industrie, die Melodie, die Therapie*\n\n### Nuance\nNot quite as absolute as *-ung*, but a very strong pattern for A2–B1 learning.\n\n### Mini practice\n1. Learn 8 fields ending in *-ie*.\n2. Form: *Ich studiere die …*\n3. Dative: *mit der Energie / in der Demokratie*.",
+  "ruleDe": "## *-ie* → meist **die**\n\nNomen (oft wissenschaftlich / griechisch) auf **-ie** sind **meist Femininum**.\n\n### Beispiele\n*die Philosophie, die Biologie, die Geografie, die Demokratie, die Energie, die Fantasie, die Industrie, die Melodie, die Therapie*\n\n### Nuance\nNicht ganz so absolut wie *-ung*, aber eine sehr starke Tendenz.\n\n### Mini-Übung\n1. Acht Fächer auf *-ie* lernen.\n2. Bilden: *Ich studiere die …*\n3. Dativ: *mit der Energie / in der Demokratie*.",
+  "notesFr": "Pour les matières scolaires en *-ie* (*Biologie, Chemie* attention: *die Chemie*), partez de *die* par défaut.",
+  "notesEn": "For school subjects in *-ie* (*Biologie*; note also *die Chemie*), default to *die*.",
+  "notesDe": "Bei Schulfächern auf *-ie* (*Biologie*; auch *die Chemie*) standardmäßig *die* ansetzen.",
+  "examples": [
+    {
+      "de": "Die Philosophie interessiert mich.",
+      "fr": "La philosophie m’intéresse. (*die Philosophie*)",
+      "en": "Philosophy interests me. (*die Philosophie*)"
+    },
+    {
+      "de": "Wir brauchen mehr Energie.",
+      "fr": "Nous avons besoin de plus d’énergie. (*die Energie*)",
+      "en": "We need more energy. (*die Energie*)"
+    },
+    {
+      "de": "Die Demokratie ist ein Wert.",
+      "fr": "La démocratie est une valeur. (*die Demokratie*)",
+      "en": "Democracy is a value. (*die Demokratie*)"
+    },
+    {
+      "de": "Sie macht eine Therapie.",
+      "fr": "Elle suit une thérapie. (*eine Therapie*)",
+      "en": "She is doing therapy. (*eine Therapie*)"
+    },
+    {
+      "de": "Die Melodie bleibt im Ohr.",
+      "fr": "La mélodie reste dans la tête. (*die Melodie*)",
+      "en": "The melody stays in your head. (*die Melodie*)"
+    }
+  ]
+}

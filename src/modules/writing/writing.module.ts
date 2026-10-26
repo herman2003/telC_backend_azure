@@ -1,3 +1,4 @@
+import type { CefrLevel } from '@prisma/client';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import pLimit from 'p-limit';
@@ -6,12 +7,14 @@ import { WritingController } from './writing.controller';
 import { WritingService } from './writing.service';
 import { WritingGateway } from './writing.gateway';
 import { WritingCorrectionService } from './writing-correction.service';
+import { WritingDailyQuotaService } from './writing-daily-quota.service';
 import { GrokService } from './services/grok.service';
 import { MODEL_SERVICE_TOKEN } from './services/model-service.interface';
 import { AuthModule } from '../auth/auth.module';
 import { SubscriptionAccessModule } from '../../shared/subscription-access.module';
 import { SpeakingModule } from '../speaking/speaking.module';
 import { GeminiService } from '../speaking/services/gemini.service';
+import { GenericExamContentService } from '../../shared/services/generic-exam-content.service';
 
 /**
  * Writing (Schreiben) module.
@@ -23,9 +26,11 @@ import { GeminiService } from '../speaking/services/gemini.service';
   imports: [AuthModule, SubscriptionAccessModule, SpeakingModule],
   controllers: [WritingController],
   providers: [
+    GenericExamContentService,
     WritingService,
     WritingGateway,
     WritingCorrectionService,
+    WritingDailyQuotaService,
     GrokService,
     {
       provide: MODEL_SERVICE_TOKEN,
@@ -61,6 +66,7 @@ import { GeminiService } from '../speaking/services/gemini.service';
             exerciseId: string;
             content: string;
             createdAt: string;
+            level: CefrLevel;
           }) => {
             // p-limit schedules asynchronously and returns immediately, so the
             // heavy correction never blocks the HTTP response. Fire-and-forget:
@@ -74,6 +80,14 @@ import { GeminiService } from '../speaking/services/gemini.service';
       inject: [WritingCorrectionService],
     },
   ],
-  exports: [WritingService],
+  // WritingCorrectionService is exported for the exam simulator: an AI-tier
+  // sitting asks it for a suggestion on a candidate's Schreiben. Exported
+  // rather than rebuilt, because it carries the prompt, the timeout and the
+  // stub fallback, and a second copy would drift from all three.
+  exports: [
+    WritingService,
+    WritingCorrectionService,
+    WritingDailyQuotaService,
+  ],
 })
 export class WritingModule {}

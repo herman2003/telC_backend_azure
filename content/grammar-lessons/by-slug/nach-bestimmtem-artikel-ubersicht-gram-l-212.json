@@ -1,0 +1,39 @@
+{
+  "slug": "nach-bestimmtem-artikel-ubersicht-gram-l-212",
+  "titleFr": "Adjectifs après article défini — aperçu",
+  "titleEn": "Adjectives after definite articles — overview",
+  "titleDe": "Nach bestimmtem Artikel — Übersicht",
+  "ruleFr": "## Après article défini — aperçu\n\nAprès *der / die / das / die* (et *dieser, jener, jeder…*), l’adjectif suit la **déclinaison faible** : surtout **-e** ou **-en**.\n\n### Idée clé\nL’article montre déjà le cas → l’adjectif n’a presque plus qu’à « suivre » avec *-e/-en*.\n\n### Tableau (aperçu)\n| Cas | m | f | n | pl |\n|---|---|---|---|---|\n| Nom. | -e | -e | -e | -en |\n| Akk. | -en | -e | -e | -en |\n| Dat. | -en | -en | -en | -en |\n| Gén. | -en | -en | -en | -en |\n\nExemples : *der große Mann, die kleine Frau, das neue Auto*\n\n### Mini-entraînement\nComplétez les terminaisons après *der/die/das* dans 8 groupes nominaux.",
+  "ruleEn": "## After definite articles — overview\n\nAfter *der / die / das / die* (and *dieser, jener, jeder…*), adjectives use **weak declension**: mainly **-e** or **-en**.\n\n### Key idea\nThe article already shows case → the adjective mostly just takes *-e/-en*.\n\n### Chart (overview)\n| Case | m | f | n | pl |\n|---|---|---|---|---|\n| Nom. | -e | -e | -e | -en |\n| Acc. | -en | -e | -e | -en |\n| Dat. | -en | -en | -en | -en |\n| Gen. | -en | -en | -en | -en |\n\nExamples: *der große Mann, die kleine Frau, das neue Auto*\n\n### Mini practice\nFill adjective endings after *der/die/das* in 8 noun phrases.",
+  "ruleDe": "## Nach bestimmtem Artikel — Übersicht\n\nNach *der/die/das* (und *dieser…*): **schwache Deklination** (*-e* / *-en*).\n\n### Idee\nDer Artikel zeigt den Kasus → Adjektiv nur *-e/-en*.\n\n### Überblick\nNominativ Singular: *-e*; sonst oft *-en* (Akk. Mask. *-en*, Dativ/Genitiv immer *-en*, Plural Nom./Akk. *-en*).\n\n### Mini-Übung\nErgänzen Sie Endungen nach *der/die/das*.",
+  "notesFr": "Déclinaison faible : l’article montre le cas, l’adjectif prend surtout -e/-en.",
+  "notesEn": "Weak declension: the article shows case; the adjective mostly takes -e/-en.",
+  "notesDe": "Schwache Deklination: Artikel zeigt Fall, Adjektiv nur -e/-en.",
+  "examples": [
+    {
+      "de": "der große Mann",
+      "fr": "le grand homme",
+      "en": "the tall man"
+    },
+    {
+      "de": "die kleine Frau",
+      "fr": "la petite femme",
+      "en": "the small woman"
+    },
+    {
+      "de": "das neue Auto",
+      "fr": "la voiture neuve",
+      "en": "the new car"
+    },
+    {
+      "de": "die alten Häuser",
+      "fr": "les vieilles maisons",
+      "en": "the old houses"
+    },
+    {
+      "de": "mit dem neuen Auto",
+      "fr": "avec la voiture neuve (datif → -en)",
+      "en": "with the new car (dative → -en)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "genus-feminin-endungen-gram-cc-347",
+  "titleFr": "Genre — terminaisons féminines",
+  "titleEn": "Gender — feminine endings",
+  "titleDe": "Genus — Feminin-Endungen",
+  "ruleFr": "## Genre — terminaisons féminines\n\nPlusieurs suffixes sont **toujours féminins** (*die*) — quasi sans exception.\n\n### Terminaisons toujours / quasi toujours féminines\n| Endung | Exemples |\n|---|---|\n| **-ung** | *die Zeitung, die Wohnung, die Übung* |\n| **-heit / -keit** | *die Freiheit, die Möglichkeit, die Freundlichkeit* |\n| **-schaft** | *die Freundschaft, die Gesellschaft* |\n| **-tion / -sion** | *die Nation, die Information, die Diskussion* |\n| **-ie** | *die Melodie, die Philosophie, die Industrie* |\n| **-tät** | *die Universität, die Qualität, die Realität* |\n| **-ik** | *die Musik, die Politik, die Grammatik* |\n| **-ei** | *die Bäckerei, die Partei* |\n\n### Fiable à 100 %\n**-ung, -heit, -keit, -schaft** → **toujours** *die*.\n\n### Mini-entraînement\n1. Formez des noms en *-ung* à partir de verbes (*prüfen → die Prüfung*).\n2. Apprenez 15 mots *-heit/-keit* avec *die*.\n3. Quiz rapide : genre de 20 mots à suffixe.",
+  "ruleEn": "## Gender — feminine endings\n\nSeveral suffixes are **always feminine** (*die*) — almost no exceptions.\n\n### Always / nearly always feminine\n| Ending | Examples |\n|---|---|\n| **-ung** | *die Zeitung, die Wohnung* |\n| **-heit / -keit** | *die Freiheit, die Möglichkeit* |\n| **-schaft** | *die Freundschaft* |\n| **-tion / -sion** | *die Nation, die Diskussion* |\n| **-ie** | *die Melodie, die Philosophie* |\n| **-tät** | *die Universität, die Qualität* |\n| **-ik** | *die Musik, die Politik* |\n\n### 100% reliable\n**-ung, -heit, -keit, -schaft** → **always** *die*.\n\n### Mini practice\n1. Form *-ung* nouns from verbs (*prüfen → die Prüfung*).\n2. Learn 15 *-heit/-keit* words with *die*.\n3. Quick quiz: gender of 20 suffixed words.",
+  "ruleDe": "## Genus — Feminin-Endungen\n\nViele Suffixe sind **immer feminin** (*die*).\n\n### Typisch feminin\n| Endung | Beispiele |\n|---|---|\n| **-ung** | *die Zeitung, die Wohnung* |\n| **-heit / -keit** | *die Freiheit, die Möglichkeit* |\n| **-schaft** | *die Freundschaft* |\n| **-tion / -sion** | *die Nation, die Diskussion* |\n| **-ie** | *die Melodie* |\n| **-tät** | *die Universität* |\n| **-ik** | *die Musik, die Politik* |\n\n### 100 % sicher\n**-ung, -heit, -keit, -schaft** → **immer** *die*.\n\n### Mini-Übung\n1. Nomen auf *-ung* aus Verben bilden.\n2. 15 Wörter *-heit/-keit* mit *die* lernen.\n3. Quiz: Genus von 20 Wörtern.",
+  "notesFr": "-ung, -heit, -keit, -schaft = TOUJOURS féminin ! Aucune exception digne d’être retenue.",
+  "notesEn": "-ung, -heit, -keit, -schaft = ALWAYS feminine! No exceptions worth memorizing.",
+  "notesDe": "-ung, -heit, -keit, -schaft = IMMER feminin! Keine relevanten Ausnahmen.",
+  "examples": [
+    {
+      "de": "Die Zeitung liegt auf dem Tisch.",
+      "fr": "Le journal est sur la table. (-ung = féminin.)",
+      "en": "The newspaper is on the table. (-ung = feminine.)"
+    },
+    {
+      "de": "Die Freiheit ist wichtig.",
+      "fr": "La liberté est importante. (-heit.)",
+      "en": "Freedom is important. (-heit.)"
+    },
+    {
+      "de": "Die Freundschaft bleibt.",
+      "fr": "L’amitié demeure. (-schaft.)",
+      "en": "The friendship remains. (-schaft.)"
+    },
+    {
+      "de": "Die Universität ist alt.",
+      "fr": "L’université est ancienne. (-tät.)",
+      "en": "The university is old. (-tät.)"
+    },
+    {
+      "de": "Die Information war falsch.",
+      "fr": "L’information était fausse. (-tion.)",
+      "en": "The information was wrong. (-tion.)"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-a-026",
+  "titleFr": "Erreur fréquente : oublier le -s du génitif",
+  "titleEn": "Common mistake: forgetting genitive -s",
+  "titleDe": "Häufige Fehler — Genitiv-s vergessen",
+  "ruleFr": "## Oubli du *-(e)s* au génitif (masculin / neutre)\n\nAu génitif singulier masculin et neutre, l’article *des / eines* **ne suffit pas** : le nom doit porter **-(e)s**.\n\n### Forme correcte\n- des Mann**es** / eines Freund**es**\n- des Kind**es** / eines Jahr**es**\n- des Haus**es** / des Bus**ses**\n\n### Choix *-s* ou *-es*\n- Souvent *-es* après sifflante (*s, z, x, ß, sch…*) : *des Hauses, des Satzes*\n- Sinon fréquemment *-s* : *des Lehrers, des Autos*\n- En cas de doute à l’écrit soigné, *-es* est souvent sûr sur les monosyllabes.\n\n### Erreurs typiques\n- ✗ *wegen des Wetter* → ✓ *wegen des Wetter**s***\n- ✗ *das Ende des Film* → ✓ *des Film**s***\n- Ajouter *-s* au féminin/pluriel : ✗ *der Fraus* → ✓ *der Frau*\n\n### Mini-entraînement\n1. Ajoutez la bonne terminaison : des Tag__, des Haus__, der Frau__.\n2. Corrigez 6 génitifs fautifs.\n3. Lisez à voix haute *des …(e)s* jusqu’à automatisme.",
+  "ruleEn": "## Forgetting *-(e)s* in the genitive (masculine / neuter)\n\nIn masculine and neuter singular genitive, *des / eines* is **not enough**: the noun must take **-(e)s**.\n\n### Correct form\n- des Mann**es** / eines Freund**es**\n- des Kind**es** / eines Jahr**es**\n- des Haus**es** / des Bus**ses**\n\n### *-s* or *-es*?\n- Often *-es* after a sibilant (*s, z, x, ß, sch…*): *des Hauses, des Satzes*\n- Otherwise frequently *-s*: *des Lehrers, des Autos*\n- When unsure in careful writing, *-es* is often safe on monosyllables.\n\n### Typical mistakes\n- ✗ *wegen des Wetter* → ✓ *wegen des Wetter**s***\n- ✗ *das Ende des Film* → ✓ *des Film**s***\n- Adding *-s* to feminine/plural: ✗ *der Fraus* → ✓ *der Frau*\n\n### Mini practice\n1. Add the ending: des Tag__, des Haus__, der Frau__.\n2. Fix 6 faulty genitives.\n3. Read *des …(e)s* aloud until automatic.",
+  "ruleDe": "## Genitiv-*-s* vergessen (Maskulinum / Neutrum)\n\nIm Genitiv Singular Maskulinum und Neutrum reicht *des / eines* **nicht**: das Nomen braucht **-(e)s**.\n\n### Korrekt\n- des Mann**es** / eines Freund**es**\n- des Kind**es** / eines Jahr**es**\n- des Haus**es** / des Bus**ses**\n\n### *-s* oder *-es*?\n- Oft *-es* nach Zischlaut: *des Hauses, des Satzes*\n- Sonst häufig *-s*: *des Lehrers, des Autos*\n- Im Zweifel schriftlich bei Einsilbern oft *-es* sicher.\n\n### Typische Fehler\n- ✗ *wegen des Wetter* → ✓ *wegen des Wetter**s***\n- ✗ *das Ende des Film* → ✓ *des Film**s***\n- *-s* bei Femininum/Plural: ✗ *der Fraus* → ✓ *der Frau*\n\n### Mini-Übung\n1. Endung: des Tag__, des Haus__, der Frau__.\n2. Sechs falsche Genitive korrigieren.\n3. *des …(e)s* laut lesen bis Automatismus.",
+  "notesFr": "Check-list génitif m/n : 1) article *des/eines* 2) terminaison *-(e)s* sur le nom — les deux sont obligatoires.",
+  "notesEn": "Genitive m/n checklist: 1) article *des/eines* 2) ending *-(e)s* on the noun — both are required.",
+  "notesDe": "Checkliste Genitiv m/n: 1) Artikel *des/eines* 2) Endung *-(e)s* am Nomen — beides Pflicht.",
+  "examples": [
+    {
+      "de": "Wegen des Wetters fällt das Fest aus.",
+      "fr": "À cause du temps, la fête est annulée. (*Wetters* avec *-s*)",
+      "en": "Because of the weather the festival is cancelled. (*Wetters* with *-s*)"
+    },
+    {
+      "de": "Das Ende des Films war überraschend.",
+      "fr": "La fin du film était surprenante. (*Films*)",
+      "en": "The end of the film was surprising. (*Films*)"
+    },
+    {
+      "de": "Am Anfang des Jahres starten wir neu.",
+      "fr": "Au début de l’année, nous recommençons. (*Jahres*)",
+      "en": "At the beginning of the year we start anew. (*Jahres*)"
+    },
+    {
+      "de": "Die Farbe des Hauses ist blau.",
+      "fr": "La couleur de la maison est bleue. (*Hauses*)",
+      "en": "The colour of the house is blue. (*Hauses*)"
+    },
+    {
+      "de": "Falsch: des Mann — richtig: des Mannes.",
+      "fr": "Incorrect : *des Mann* — correct : *des Mannes*.",
+      "en": "Wrong: *des Mann* — right: *des Mannes*."
+    }
+  ]
+}

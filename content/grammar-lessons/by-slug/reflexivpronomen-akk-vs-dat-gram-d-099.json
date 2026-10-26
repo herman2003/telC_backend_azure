@@ -1,0 +1,39 @@
+{
+  "slug": "reflexivpronomen-akk-vs-dat-gram-d-099",
+  "titleFr": "Réfléchi : accusatif ou datif ?",
+  "titleEn": "Reflexive: accusative or dative?",
+  "titleDe": "Reflexivpronomen — Akk vs Dat",
+  "ruleFr": "## Accusatif ou datif pour le réfléchi ?\n\n### Règle pratique\n1. **Pas d’autre objet** → réfléchi à l’**accusatif** (*mich / dich / sich…*).\n2. **Un objet à l’accusatif suit** (chose, partie du corps) → réfléchi au **datif** (*mir / dir / sich…*).\n\n### Formule\n**Deux objets** = réfléchi au **datif** + chose à l’**accusatif**.\n\n| Situation | Exemple |\n|---|---|\n| 1 objet (réfléchi) | *Ich wasche **mich**.* |\n| 2 objets | *Ich wasche **mir** die Hände.* |\n\n### Test rapide\nY a-t-il un *das / die / den / ein…* après le réfléchi ? → probablement **datif**.\n\n### Erreurs fréquentes\n✗ *Ich wasche mich die Hände.* → ✓ *Ich wasche **mir** die Hände.*\n✗ *Ich kaufe mich ein Auto.* → ✓ *Ich kaufe **mir** ein Auto.*\n\n### Mini-entraînement\nChoisissez *mich* ou *mir* : *Ich ziehe ___ eine Jacke an.* / *Ich ziehe ___ an.*",
+  "ruleEn": "## Accusative or dative for the reflexive?\n\n### Practical rule\n1. **No other object** → reflexive in the **accusative** (*mich / dich / sich…*).\n2. **An accusative object follows** (thing, body part) → reflexive in the **dative** (*mir / dir / sich…*).\n\n### Formula\n**Two objects** = reflexive in the **dative** + thing in the **accusative**.\n\n| Situation | Example |\n|---|---|\n| 1 object (reflexive) | *Ich wasche **mich**.* |\n| 2 objects | *Ich wasche **mir** die Hände.* |\n\n### Quick test\nIs there a *das / die / den / ein…* after the reflexive? → likely **dative**.\n\n### Common mistakes\n✗ *Ich wasche mich die Hände.* → ✓ *Ich wasche **mir** die Hände.*\n✗ *Ich kaufe mich ein Auto.* → ✓ *Ich kaufe **mir** ein Auto.*\n\n### Mini practice\nChoose *mich* or *mir*: *Ich ziehe ___ eine Jacke an.* / *Ich ziehe ___ an.*",
+  "ruleDe": "## Akkusativ oder Dativ beim Reflexiv?\n\n### Praktische Regel\n1. **Kein weiteres Objekt** → Reflexiv im **Akkusativ**.\n2. **Ein Akkusativobjekt folgt** → Reflexiv im **Dativ**.\n\n### Formel\n**Zwei Objekte** = Reflexiv im **Dativ**, Sache im **Akkusativ**.\n\n| Situation | Beispiel |\n|---|---|\n| 1 Objekt | *Ich wasche **mich**.* |\n| 2 Objekte | *Ich wasche **mir** die Hände.* |\n\n### Häufige Fehler\n✗ *Ich wasche mich die Hände.* → ✓ *mir*\n✗ *Ich kaufe mich ein Auto.* → ✓ *mir*\n\n### Mini-Übung\n*mich* oder *mir*? *Ich ziehe ___ eine Jacke an.* / *Ich ziehe ___ an.*",
+  "notesFr": "RÈGLE : avec 2 objets = réfléchi au datif, chose à l’accusatif.",
+  "notesEn": "RULE: with 2 objects = reflexive in dative, thing in accusative.",
+  "notesDe": "REGEL: Bei 2 Objekten = Reflexiv im Dativ, Sache im Akkusativ.",
+  "examples": [
+    {
+      "de": "Ich dusche mich.",
+      "fr": "Je me douche. (un seul objet → accusatif.)",
+      "en": "I shower. (one object → accusative.)"
+    },
+    {
+      "de": "Ich wasche mir das Gesicht.",
+      "fr": "Je me lave le visage. (deux objets → datif + akk.)",
+      "en": "I wash my face. (two objects → dative + acc.)"
+    },
+    {
+      "de": "Sie zieht sich an.",
+      "fr": "Elle s’habille. (accusatif.)",
+      "en": "She gets dressed. (accusative.)"
+    },
+    {
+      "de": "Sie zieht sich einen Mantel an.",
+      "fr": "Elle met un manteau. (datif + akk.)",
+      "en": "She puts on a coat. (dative + acc.)"
+    },
+    {
+      "de": "Wir kaufen uns ein Haus.",
+      "fr": "Nous nous achetons une maison.",
+      "en": "We buy ourselves a house."
+    }
+  ]
+}

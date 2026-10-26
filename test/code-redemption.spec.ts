@@ -32,16 +32,20 @@ describe('CodeRedemptionService.redeem', () => {
     id: 'code-1',
     center_id: 'center-1',
     code: 'LQ-7K2P-94QX',
-    tier: 'START',
     status: 'ACTIVATED',
     student_id: null,
     expires_at: new Date(Date.now() + 13 * DAY_MS),
+    level: null,
     center: { name: 'Institut Goethe Douala', subscription: activeTrial() },
     ...over,
   });
 
   let prisma: any;
   let service: CodeRedemptionService;
+
+  const email = {
+    sendCodeActivatedToCenter: jest.fn().mockResolvedValue(undefined),
+  };
 
   beforeEach(() => {
     prisma = {
@@ -50,8 +54,15 @@ describe('CodeRedemptionService.redeem', () => {
         // The student's connected codes, read inside the transaction.
         findMany: jest.fn().mockResolvedValue([]),
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
+        count: jest.fn().mockResolvedValue(1),
       },
       activationCodeEvent: { create: jest.fn().mockResolvedValue({}) },
+      centerUser: {
+        findMany: jest.fn().mockResolvedValue([]),
+      },
+      centerSeat: {
+        aggregate: jest.fn().mockResolvedValue({ _sum: { quantity: 1 } }),
+      },
       student: {
         findUnique: jest.fn().mockResolvedValue({
           id: 'student-1',
@@ -65,9 +76,11 @@ describe('CodeRedemptionService.redeem', () => {
       },
       $transaction: jest.fn(async (work: any) => work(prisma)),
     };
+    email.sendCodeActivatedToCenter.mockClear();
     service = new CodeRedemptionService(
       prisma,
       new SubscriptionPolicyService(),
+      email as any,
     );
   });
 
@@ -76,7 +89,7 @@ describe('CodeRedemptionService.redeem', () => {
 
     expect(prisma.student.update).toHaveBeenCalledWith({
       where: { id: 'student-1' },
-      data: { center_id: 'center-1', tier: 'START' },
+      data: { center_id: 'center-1' },
     });
     expect(result).toEqual(
       expect.objectContaining({
@@ -84,6 +97,29 @@ describe('CodeRedemptionService.redeem', () => {
         centerName: 'Institut Goethe Douala',
       }),
     );
+  });
+
+  it('copies the code level onto the student when the center set one', async () => {
+    prisma.activationCode.findUnique
+      .mockResolvedValueOnce(codeRow({ level: 'A2' }))
+      // Re-read inside the transaction after the claim.
+      .mockResolvedValueOnce({ level: 'A2' });
+
+    await service.redeem(student, 'LQ-7K2P-94QX', ip);
+
+    expect(prisma.student.update).toHaveBeenCalledWith({
+      where: { id: 'student-1' },
+      data: { center_id: 'center-1', level: 'A2' },
+    });
+  });
+
+  it('leaves the student level alone when the code has no level', async () => {
+    await service.redeem(student, 'LQ-7K2P-94QX', ip);
+
+    expect(prisma.student.update).toHaveBeenCalledWith({
+      where: { id: 'student-1' },
+      data: { center_id: 'center-1' },
+    });
   });
 
   it('claims the code with a predicate, so two students cannot both win it', async () => {
@@ -169,6 +205,16 @@ describe('CodeRedemptionService.redeem', () => {
       );
     });
 
+    it('a code the center paused', async () => {
+      prisma.activationCode.findUnique.mockResolvedValue(
+        codeRow({ status: 'SUSPENDED', student_id: 'student-1' }),
+      );
+
+      await expect(service.redeem(student, 'LQ-7K2P-94QX', ip)).rejects.toThrow(
+        new ConflictException('CODE_SUSPENDED'),
+      );
+    });
+
     it('a code past its date', async () => {
       prisma.activationCode.findUnique.mockResolvedValue(
         codeRow({ expires_at: new Date(Date.now() - DAY_MS) }),
@@ -213,7 +259,7 @@ describe('CodeRedemptionService.redeem', () => {
 
     // Review finding 2: a student linked by an old per-student key has a
     // school but no code, so "holds a code" alone missed them, and redeeming
-    // another school's code silently moved them — possibly to a lower tier.
+    // another school's code silently moved them to the new school.
     it('a student an older key still ties to a school that is paying', async () => {
       prisma.student.findUnique.mockResolvedValue({
         id: 'student-1',
@@ -339,7 +385,7 @@ describe('CodeRedemptionService.redeem', () => {
 
       expect(prisma.student.update).toHaveBeenCalledWith({
         where: { id: 'student-1' },
-        data: { center_id: 'center-1', tier: 'START' },
+        data: { center_id: 'center-1' },
       });
     });
   });

@@ -31,3 +31,12 @@ export class RedemptionResultDto {
   })
   expiresAt: Date | null;
 }
+
+/** Public vitrine check — does not consume the code. */
+export class ValidateActivationCodeResultDto {
+  @ApiProperty({ example: true })
+  ok: true;
+
+  @ApiProperty({ example: 'Institut Goethe Douala' })
+  centerName: string;
+}

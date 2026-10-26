@@ -1,0 +1,70 @@
+meta {
+  name: 13 Lesen und Schreiben serves both skills
+  type: http
+  seq: 30
+}
+
+get {
+  url: {{baseUrl}}/api/exams/attempts/{{a2AttemptId}}/blocks/LESEN_SCHREIBEN
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a2StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+
+  const keys = Object.keys(res.body.sections).join(",");
+  if (keys !== "LESEN,SCHREIBEN") {
+    // Before PR #114 this block fell into the Schreiben-only branch.
+    throw new Error("expected LESEN,SCHREIBEN, got " + keys);
+  }
+  if (res.body.sections.LESEN.length !== 3 || res.body.sections.SCHREIBEN.length !== 2) {
+    throw new Error("A2 has three Lesen Teile and two Schreiben Teile");
+  }
+  if ("recording" in res.body) {
+    throw new Error("only the Hoeren block names a recording");
+  }
+
+  const whole = JSON.stringify(res.body);
+  if (whole.includes("solution") || whole.includes("isCorrect")) {
+    throw new Error("the candidate was served an answer key");
+  }
+
+  const lesen = res.body.sections.LESEN;
+  const schreiben = res.body.sections.SCHREIBEN;
+  const directory = lesen[0].material && lesen[0].material.stimulus &&
+    lesen[0].material.stimulus.imageUrl;
+  if (!directory || !directory.includes("a2-modelltest-1-lesen-1-directory.png")) {
+    throw new Error("Lesen Teil 1 should carry the directory picture URL");
+  }
+  const ad = lesen[2].material && lesen[2].material.choices &&
+    lesen[2].material.choices[0] && lesen[2].material.choices[0].imageUrl;
+  if (!ad || !ad.includes("a2-modelltest-1-lesen-3-ad-a.png")) {
+    throw new Error("Lesen Teil 3 choices should carry their ad picture URLs");
+  }
+  const doc = schreiben[0].material && schreiben[0].material.sourceDocuments &&
+    schreiben[0].material.sourceDocuments[0] &&
+    schreiben[0].material.sourceDocuments[0].imageUrl;
+  if (!doc || !doc.includes("a2-modelltest-1-schreiben-1-personal-data.png")) {
+    throw new Error("Schreiben Teil 1 sourceDocuments should carry picture URLs");
+  }
+  const points = schreiben[1].material && schreiben[1].material.stimulus &&
+    schreiben[1].material.stimulus.imageUrl;
+  if (!points || !points.includes("a2-modelltest-1-schreiben-2-points.png")) {
+    throw new Error("Schreiben Teil 2 should carry the points picture URL");
+  }
+}
+
+docs {
+  The questions, with every answer stripped.
+}

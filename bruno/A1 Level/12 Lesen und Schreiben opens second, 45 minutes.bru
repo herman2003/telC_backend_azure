@@ -1,0 +1,34 @@
+meta {
+  name: 12 Lesen und Schreiben opens second, 45 minutes
+  type: http
+  seq: 29
+}
+
+post {
+  url: {{baseUrl}}/api/exams/attempts/{{a1AttemptId}}/blocks/LESEN_SCHREIBEN/start
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const minutes =
+    (new Date(res.body.deadlineAt) - new Date(res.body.startedAt)) / 60000;
+  if (minutes !== 45) {
+    throw new Error("A1 Lesen und Schreiben must run 45 minutes, got " + minutes);
+  }
+}
+
+docs {
+  45 minutes at A1, 50 at A2: the time comes from exam_block_durations.
+}

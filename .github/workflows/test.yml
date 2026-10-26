@@ -42,6 +42,13 @@ jobs:
       # app.e2e-spec.ts at module boot. Verified by running the suites
       # locally with .env removed and only these variables set.
       GEMINI_API_KEY: ci-dummy-gemini-key
+      # ExamsModule signs audio links with this and reads it through
+      # getOrThrow, so the module graph will not build without it. Added after
+      # CI caught it: the exam audio work made it required and did not add it
+      # here, so app.e2e-spec passed only on a machine with a real .env and
+      # failed the first time CI ran on a clean checkout. Nothing verifies a
+      # token in these suites; the value only has to exist.
+      TOKEN_HMAC_SECRET: ci-dummy-hmac-secret-not-a-real-key
       # JWT secrets are supplied by test/jest-e2e-setup.ts, which pads them to
       # the length AppModule's validation requires. Left unset on purpose so
       # that fallback stays exercised.
@@ -72,16 +79,20 @@ jobs:
       # `provision` argument never passed, and seven fixtures left carrying a
       # dropped column.
       #
-      # A ratchet rather than a hard zero, because the 19 errors below predate
-      # this gate and live in auth, writing and guest-token specs — fixing
-      # them belongs to whoever owns those areas, not to a commit that happens
-      # to add the gate. What this catches is a NEW one, which is the failure
-      # mode that actually bit.
+      # A ratchet, now at zero. It started at 19; the auth, writing and
+      # guest-token specs were repaired while merging dev into main, and the
+      # last one — `directUrl` in prisma.config.ts — turned out to be a real
+      # bug rather than a typing quirk: the key is not in Prisma 7's
+      # datasource type, was ignored at runtime, and every migration had been
+      # running over the pooled endpoint instead of the direct one.
+      #
+      # Keep it at zero. A baseline above zero is a place for the next one to
+      # hide.
       #
       # Lower BASELINE whenever the real count drops. It must never be raised.
       - name: Type-check (no new errors)
         run: |
-          BASELINE=19
+          BASELINE=0
           COUNT=$(npx tsc --noEmit 2>&1 | grep -c "error TS" || true)
           echo "tsc --noEmit reported $COUNT error(s); baseline is $BASELINE"
           if [ "$COUNT" -gt "$BASELINE" ]; then
@@ -93,8 +104,109 @@ jobs:
             echo "::notice::Down to $COUNT. Lower BASELINE in this workflow to $COUNT."
           fi
 
+      # Not `npm run lint`: that script carries `--fix`, so in CI it would repair
+      # the code, exit clean, and throw the repair away with the runner. The gate
+      # has to read the code as it was pushed.
+      #
+      # A ratchet rather than a wall, for the same reason the type-check above is
+      # one: the repo stands at 949 errors across src and test, most of them
+      # `no-unsafe-*` on Prisma results and test fixtures. A gate that demanded
+      # zero today would be red on every push, and a gate that is always red is a
+      # gate everybody learns to scroll past.
+      #
+      # What this does catch is the thing that actually happened: a merge reached
+      # dev carrying two unused constants that failed lint locally, and nothing
+      # was watching. Adding two errors moves the count above the baseline and
+      # fails, whatever the baseline is.
+      #
+      # Lower BASELINE whenever the real count drops. It must never be raised: the
+      # only way this number goes up is by someone deciding it should.
+      - name: Lint (no new errors)
+        run: |
+          BASELINE=942
+          npx eslint "{src,apps,libs,test}/**/*.ts" -f json > eslint.json || true
+          COUNT=$(node -e "const r=require('./eslint.json');let e=0;for(const f of r)e+=f.errorCount;console.log(e)")
+          echo "eslint reported $COUNT error(s); baseline is $BASELINE"
+          if [ "$COUNT" -gt "$BASELINE" ]; then
+            echo "::error::$COUNT lint errors, above the baseline of $BASELINE."
+            npx eslint "{src,apps,libs,test}/**/*.ts" || true
+            exit 1
+          fi
+          if [ "$COUNT" -lt "$BASELINE" ]; then
+            echo "::notice::Down to $COUNT. Lower BASELINE in this workflow to $COUNT."
+          fi
+
       - name: Unit tests
         run: npx jest --ci
 
       - name: End-to-end tests
         run: npx jest --ci --config ./test/jest-e2e.json
+
+  # The suite that pins the payment, period, renewal and activation rules: 26
+  # suites and 335 tests against real Postgres. It did not run here until now,
+  # which is how a merge reached dev with it red.
+  #
+  # Its own job, with its own database, rather than steps on the one above. The
+  # suite deletes shared center and student rows — that is why it already sets
+  # maxWorkers: 1 — so two runs sharing one database would pull each other's
+  # fixtures out from under them. A service container is per-run and free; the
+  # Neon branch in .env.test is neither.
+  integration:
+    name: Integration tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: ci
+        ports:
+          - 5432:5432
+        # Without this the steps start before Postgres accepts connections, and
+        # the failure looks like a migration bug rather than a race.
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      # test/jest-integration-setup.ts requires DIRECT_URL, promotes it to
+      # DATABASE_URL, and refuses to run against the live host. prisma.config.ts
+      # reads the same variable for migrations. One value serves all three.
+      DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      # The setup file supplies the JWT and HMAC secrets itself, padded to the
+      # length AppModule demands. These are the ones nothing else provides.
+      RESEND_API_KEY: ci-dummy-resend-key
+      GOOGLE_CLIENT_ID: ci-dummy-google-client-id
+      EMAIL_FROM: ci@example.invalid
+      FRONTEND_URL: http://localhost:3000
+      GEMINI_API_KEY: ci-dummy-gemini-key
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      # The whole database, from nothing, by migration alone. This is also the
+      # standing proof that the chain is complete: Modelltest 1's Lesen and
+      # Sprachbausteine were missing from it until 2026-10-03, and nobody
+      # noticed because every database that mattered had been seeded by hand.
+      # If that ever happens again, the exam suites below fail here.
+      - name: Apply migrations
+        run: npx prisma migrate deploy
+
+      - name: Integration tests
+        run: npx jest --ci --config ./test/jest-integration.json

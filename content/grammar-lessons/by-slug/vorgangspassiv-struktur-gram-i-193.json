@@ -1,0 +1,39 @@
+{
+  "slug": "vorgangspassiv-struktur-gram-i-193",
+  "titleFr": "Le passif d’action (Vorgangspassiv) — structure",
+  "titleEn": "Process passive (Vorgangspassiv) — structure",
+  "titleDe": "Vorgangspassiv — Struktur",
+  "ruleFr": "## Vorgangspassiv — structure\n\nLe **Vorgangspassiv** (passif d’action) décrit un **processus** : quelque chose *est en train d’être fait* ou *a été fait*.\n\n### Formation\n**werden** (conjugué) + **Partizip II**\n\n- Aktiv : *Der Koch **macht** die Pizza.*\n- Passiv : *Die Pizza **wird** gemacht.*\n\n### Perspective\nOn met l’accent sur l’**action / le patient**, pas forcément sur l’agent.\n\n### Agent (optionnel)\n*von* + datif : *Die Pizza wird **von dem Koch** gemacht.*\n\n### Mini-entraînement\nTransformez 5 phrases actives en Vorgangspassiv.",
+  "ruleEn": "## Vorgangspassiv — structure\n\nThe **process passive** describes a **process**: something *is being done* or *was done*.\n\n### Formation\n**werden** (conjugated) + **past participle**\n\n- Active: *Der Koch **macht** die Pizza.*\n- Passive: *Die Pizza **wird** gemacht.*\n\n### Perspective\nFocus on the **action / patient**, not necessarily the agent.\n\n### Agent (optional)\n*von* + dative: *Die Pizza wird **von dem Koch** gemacht.*\n\n### Mini practice\nTurn 5 active sentences into Vorgangspassiv.",
+  "ruleDe": "## Vorgangspassiv — Struktur\n\nDas **Vorgangspassiv** beschreibt einen **Vorgang**.\n\n### Bildung\n**werden** (konjugiert) + **Partizip II**\n\n- Aktiv: *Der Koch **macht** die Pizza.*\n- Passiv: *Die Pizza **wird** gemacht.*\n\n### Perspektive\nFokus auf Aktion/Patient, nicht unbedingt auf den Handelnden.\n\n### Agens (optional)\n*von* + Dativ.\n\n### Mini-Übung\nWandeln Sie 5 Aktivsätze ins Vorgangspassiv um.",
+  "notesFr": "Focus sur l’action / le processus, pas sur le résultat figé.",
+  "notesEn": "Focus on the action/process, not on a finished result.",
+  "notesDe": "Fokus auf Aktion/Prozess, nicht auf das fertige Ergebnis.",
+  "examples": [
+    {
+      "de": "Die Pizza wird gemacht.",
+      "fr": "La pizza est en train d’être faite / est préparée.",
+      "en": "The pizza is being made."
+    },
+    {
+      "de": "Das Haus wird gebaut.",
+      "fr": "La maison est en construction.",
+      "en": "The house is being built."
+    },
+    {
+      "de": "Der Brief wird geschrieben.",
+      "fr": "La lettre est en train d’être écrite.",
+      "en": "The letter is being written."
+    },
+    {
+      "de": "Die Fenster werden geöffnet.",
+      "fr": "Les fenêtres sont ouvertes (on les ouvre).",
+      "en": "The windows are being opened."
+    },
+    {
+      "de": "Deutsch wird in vielen Ländern gelernt.",
+      "fr": "L’allemand est appris dans de nombreux pays.",
+      "en": "German is learned in many countries."
+    }
+  ]
+}

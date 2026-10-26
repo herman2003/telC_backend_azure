@@ -1,0 +1,39 @@
+{
+  "slug": "prasens-verben-auf-s-x-z-gram-f-142",
+  "titleFr": "Présent — verbes en -s/-ß/-x/-z",
+  "titleEn": "Present — verbs ending in -s/-ß/-x/-z",
+  "titleDe": "Präsens — Verben auf -s/-ß/-x/-z",
+  "ruleFr": "## Présent — radical en -s, -ß, -x, -z\n\nQuand le radical se termine par **-s, -ß, -x** ou **-z**, la forme *du* prend seulement **-t** (pas **-st**).\n\n### La règle\n| Infinitif | Radical | du | er/sie/es |\n|---|---|---|---|\n| reißen | reiß- | du **reißt** | er **reißt** |\n| sitzen | sitz- | du **sitzt** | er **sitzt** |\n| heizen | heiz- | du **heizt** | er **heizt** |\n| mixen | mix- | du **mixt** | er **mixt** |\n\n### Pourquoi ?\n*-st* après *-s/-ß/-z* serait imprononçable. On simplifie en **-t**.\n\n### Conséquence\n**du** et **er/sie/es** ont souvent la **même** forme : *du sitzt* = *er sitzt*.\n\n### Erreurs fréquentes\n- ✗ *du sitzst* → ✓ *du **sitzt***\n- ✗ *du heizst* → ✓ *du **heizt***\n\n### Mini-entraînement\nConjuguez *sitzen*, *heißen*, *tanzen* pour *du* et *er*.",
+  "ruleEn": "## Present — stems in -s, -ß, -x, -z\n\nWhen the stem ends in **-s, -ß, -x** or **-z**, the *du* form takes only **-t** (not **-st**).\n\n### The rule\n| Infinitive | Stem | du | er/sie/es |\n|---|---|---|---|\n| reißen | reiß- | du **reißt** | er **reißt** |\n| sitzen | sitz- | du **sitzt** | er **sitzt** |\n| heizen | heiz- | du **heizt** | er **heizt** |\n| mixen | mix- | du **mixt** | er **mixt** |\n\n### Why?\n*-st* after *-s/-ß/-z* would be hard to say. It simplifies to **-t**.\n\n### Consequence\n**du** and **er/sie/es** often look the **same**: *du sitzt* = *er sitzt*.\n\n### Common mistakes\n- ✗ *du sitzst* → ✓ *du **sitzt***\n- ✗ *du heizst* → ✓ *du **heizt***\n\n### Mini practice\nConjugate *sitzen*, *heißen*, *tanzen* for *du* and *er*.",
+  "ruleDe": "## Präsens — Stamm auf -s, -ß, -x, -z\n\nEndet der Stamm auf **-s, -ß, -x** oder **-z**, bekommt die *du*-Form nur **-t** (nicht **-st**).\n\n### Die Regel\n| Infinitiv | Stamm | du | er/sie/es |\n|---|---|---|---|\n| reißen | reiß- | du **reißt** | er **reißt** |\n| sitzen | sitz- | du **sitzt** | er **sitzt** |\n| heizen | heiz- | du **heizt** | er **heizt** |\n| mixen | mix- | du **mixt** | er **mixt** |\n\n### Warum?\n*-st* nach *-s/-ß/-z* wäre schwer sprechbar. Deshalb nur **-t**.\n\n### Folge\n**du** und **er/sie/es** sind oft **gleich**: *du sitzt* = *er sitzt*.\n\n### Häufige Fehler\n- ✗ *du sitzst* → ✓ *du **sitzt***\n- ✗ *du heizst* → ✓ *du **heizt***\n\n### Mini-Übung\nKonjugieren Sie *sitzen*, *heißen*, *tanzen* für *du* und *er*.",
+  "notesFr": "Raison : *-st* après *-s/-ß/-z* serait double → seulement *-t*.",
+  "notesEn": "Reason: *-st* after *-s/-ß/-z* would be doubled → only *-t*.",
+  "notesDe": "Grund: *-st* nach *-s/-ß/-z* wäre doppelt → nur *-t*.",
+  "examples": [
+    {
+      "de": "Du sitzt neben mir.",
+      "fr": "Tu es assis à côté de moi. (*sitzt*, pas *sitzst*.)",
+      "en": "You are sitting next to me. (*sitzt*, not *sitzst*.)"
+    },
+    {
+      "de": "Wie heißt du?",
+      "fr": "Comment t’appelles-tu ?",
+      "en": "What is your name?"
+    },
+    {
+      "de": "Er tanzt gerne.",
+      "fr": "Il aime danser.",
+      "en": "He likes to dance."
+    },
+    {
+      "de": "Du mixt den Salat.",
+      "fr": "Tu mélanges la salade.",
+      "en": "You mix the salad."
+    },
+    {
+      "de": "Das Seil reißt.",
+      "fr": "La corde se casse.",
+      "en": "The rope snaps."
+    }
+  ]
+}

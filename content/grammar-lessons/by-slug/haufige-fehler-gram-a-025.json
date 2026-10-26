@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-a-025",
+  "titleFr": "Erreur fréquente : confondre accusatif et datif",
+  "titleEn": "Common mistake: confusing accusative and dative",
+  "titleDe": "Häufige Fehler — Akkusativ und Dativ verwechseln",
+  "ruleFr": "## Piège classique : Akk. vs Dat.\n\nBeaucoup d’erreurs viennent d’une **mauvaise attribution du cas** après le verbe.\n\n### Contraste minimal\n| Verbe | Cas | Exemple correct |\n|---|---|---|\n| sehen, haben, kaufen… | Akk. | Ich sehe **den** Freund. |\n| helfen, danken, gefallen… | Dat. | Ich helfe **dem** Freund. |\n\n### Prépositions : un autre piège\n- Akk. strictes : *für, ohne, durch, um, gegen*\n- Dat. strictes : *mit, von, zu, aus, bei, nach, seit*\n- Mixtes (lieu/direction) : *in, an, auf…* → Dat. (où ?) / Akk. (vers où ?)\n\n### Erreurs typiques\n- ✗ *Ich helfe den Mann.* → ✓ *Ich helfe **dem** Mann.*\n- ✗ *Ich danke dich.* → ✓ *Ich danke **dir**.*\n- ✗ *Das gehört mich.* → ✓ *Das gehört **mir**.*\n\n### Stratégie anti-erreur\n1. Listez vos 10 verbes datifs « pièges ».\n2. Pour chaque doute : *Wen?* ou *Wem?*\n3. Vérifiez *den* (Akk. m) vs *dem* (Dat. m/n).\n\n### Mini-entraînement\n1. Classez 12 verbes : Akk. / Dat. / les deux.\n2. Corrigez 8 phrases fautives.\n3. Mini-dialogue : *helfen* vs *sehen*.",
+  "ruleEn": "## Classic trap: Akk. vs Dat.\n\nMany errors come from **wrong case after the verb**.\n\n### Minimal contrast\n| Verb | Case | Correct example |\n|---|---|---|\n| sehen, haben, kaufen… | Akk. | Ich sehe **den** Freund. |\n| helfen, danken, gefallen… | Dat. | Ich helfe **dem** Freund. |\n\n### Prepositions: another trap\n- Accusative-only: *für, ohne, durch, um, gegen*\n- Dative-only: *mit, von, zu, aus, bei, nach, seit*\n- Two-way: *in, an, auf…* → Dat. (where?) / Akk. (where to?)\n\n### Typical mistakes\n- ✗ *Ich helfe den Mann.* → ✓ *Ich helfe **dem** Mann.*\n- ✗ *Ich danke dich.* → ✓ *Ich danke **dir**.*\n- ✗ *Das gehört mich.* → ✓ *Das gehört **mir**.*\n\n### Anti-error strategy\n1. List your 10 tricky dative verbs.\n2. On every doubt: *Wen?* or *Wem?*\n3. Check *den* (Akk. m) vs *dem* (Dat. m/n).\n\n### Mini practice\n1. Sort 12 verbs: Akk. / Dat. / both.\n2. Fix 8 wrong sentences.\n3. Mini-dialogue: *helfen* vs *sehen*.",
+  "ruleDe": "## Klassische Falle: Akk. vs Dat.\n\nViele Fehler entstehen durch den **falschen Kasus nach dem Verb**.\n\n### Minimalkontrast\n| Verb | Kasus | Korrekt |\n|---|---|---|\n| sehen, haben, kaufen… | Akk. | Ich sehe **den** Freund. |\n| helfen, danken, gefallen… | Dat. | Ich helfe **dem** Freund. |\n\n### Präpositionen\n- Nur Akk.: *für, ohne, durch, um, gegen*\n- Nur Dat.: *mit, von, zu, aus, bei, nach, seit*\n- Wechsel: *in, an, auf…* → Dat. (Wo?) / Akk. (Wohin?)\n\n### Typische Fehler\n- ✗ *Ich helfe den Mann.* → ✓ *Ich helfe **dem** Mann.*\n- ✗ *Ich danke dich.* → ✓ *Ich danke **dir**.*\n- ✗ *Das gehört mich.* → ✓ *Das gehört **mir**.*\n\n### Strategie\n1. Zehn Dativ-Fallen-Verben listen.\n2. Bei Zweifel: *Wen?* oder *Wem?*\n3. *den* (Akk. m) vs *dem* (Dat. m/n) prüfen.\n\n### Mini-Übung\n1. Zwölf Verben sortieren: Akk. / Dat. / beides.\n2. Acht Fehler korrigieren.\n3. Minidialog: *helfen* vs *sehen*.",
+  "notesFr": "Verrou mental : *helfen* = *Wem?* = datif — récitez-le jusqu’à ce que *den* après *helfen* sonne faux.",
+  "notesEn": "Mental lock: *helfen* = *Wem?* = dative — repeat until *den* after *helfen* sounds wrong.",
+  "notesDe": "Denkanker: *helfen* = *Wem?* = Dativ — so lange wiederholen, bis *den* nach *helfen* falsch klingt.",
+  "examples": [
+    {
+      "de": "Ich helfe dem Mann.",
+      "fr": "J’aide l’homme. (correct : datif après *helfen*)",
+      "en": "I help the man. (correct: dative after *helfen*)"
+    },
+    {
+      "de": "Ich sehe den Mann.",
+      "fr": "Je vois l’homme. (correct : accusatif après *sehen*)",
+      "en": "I see the man. (correct: accusative after *sehen*)"
+    },
+    {
+      "de": "Das Buch gehört mir, nicht mich.",
+      "fr": "Le livre m’appartient — *mir*, pas *mich*.",
+      "en": "The book belongs to me — *mir*, not *mich*."
+    },
+    {
+      "de": "Ich danke dir für den Tip.",
+      "fr": "Je te remercie pour le conseil. (*danken* + datif)",
+      "en": "I thank you for the tip. (*danken* + dative)"
+    },
+    {
+      "de": "Falsch wäre: Ich helfe den Freund.",
+      "fr": "Incorrect serait : *Ich helfe den Freund.* → *dem Freund*.",
+      "en": "Wrong would be: *Ich helfe den Freund.* → *dem Freund*."
+    }
+  ]
+}

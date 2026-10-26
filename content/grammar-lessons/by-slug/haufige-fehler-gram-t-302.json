@@ -1,0 +1,39 @@
+{
+  "slug": "haufige-fehler-gram-t-302",
+  "titleFr": "Erreur fréquente : nicht ein au lieu de kein",
+  "titleEn": "Common mistake: nicht ein instead of kein",
+  "titleDe": "Häufige Fehler",
+  "ruleFr": "## Erreur : *nicht ein* au lieu de *kein*\n\nAprès un **article indéfini** ou **sans article**, la négation du nom se fait avec **kein**, pas avec *nicht ein*.\n\n### Corrections\n- ✗ *Ich habe **nicht ein** Auto.* → ✓ *Ich habe **kein** Auto.*\n- ✗ *Sie hat **nicht eine** Idee.* → ✓ *Sie hat **keine** Idee.*\n- ✗ *Wir haben **nicht** Zeit.* (possible mais) → souvent ✓ *Wir haben **keine** Zeit.*\n\n### Quand *nicht* est correct\nAvec article **défini** ou démonstratif :\n- ✓ *Ich mag **das** Auto **nicht**.*\n- ✓ *Ich kenne **diesen** Mann **nicht**.*\n\n### Mini-entraînement\nCorrigez 5 phrases avec *nicht ein / nicht eine*.",
+  "ruleEn": "## Mistake: *nicht ein* instead of *kein*\n\nAfter an **indefinite article** or **zero article**, noun negation uses **kein**, not *nicht ein*.\n\n### Fixes\n- ✗ *Ich habe **nicht ein** Auto.* → ✓ *Ich habe **kein** Auto.*\n- ✗ *Sie hat **nicht eine** Idee.* → ✓ *Sie hat **keine** Idee.*\n- ✗ *Wir haben **nicht** Zeit.* → often ✓ *Wir haben **keine** Zeit.*\n\n### When *nicht* is correct\nWith **definite** or demonstrative article:\n- ✓ *Ich mag **das** Auto **nicht**.*\n- ✓ *Ich kenne **diesen** Mann **nicht**.*\n\n### Mini practice\nFix 5 sentences with *nicht ein / nicht eine*.",
+  "ruleDe": "## Fehler: *nicht ein* statt *kein*\n\nBei unbestimmtem/Nullartikel: **kein**, nicht *nicht ein*.\n\n### Korrekturen\n- ✗ *Ich habe **nicht ein** Auto.* → ✓ *Ich habe **kein** Auto.*\n- ✓ *Ich mag **das** Auto **nicht**.*\n\n### Mini-Übung\n5 Sätze mit *nicht ein* korrigieren.",
+  "notesFr": "*ein/eine/Ø* → *kein*. Pas *nicht ein* !",
+  "notesEn": "*ein/eine/Ø* → *kein*. Not *nicht ein*!",
+  "notesDe": "*ein/eine/Ø* → *kein*. NICHT 'nicht ein'!",
+  "examples": [
+    {
+      "de": "Ich habe kein Fahrrad.",
+      "fr": "Je n’ai pas de vélo. (pas *nicht ein Fahrrad*)",
+      "en": "I don’t have a bike. (not *nicht ein Fahrrad*)"
+    },
+    {
+      "de": "Sie hat keine Ahnung.",
+      "fr": "Elle n’en a aucune idée.",
+      "en": "She has no idea."
+    },
+    {
+      "de": "Wir haben kein Geld dabei.",
+      "fr": "Nous n’avons pas d’argent sur nous.",
+      "en": "We have no money on us."
+    },
+    {
+      "de": "Das ist keine gute Idee.",
+      "fr": "Ce n’est pas une bonne idée.",
+      "en": "That’s not a good idea."
+    },
+    {
+      "de": "Ich mag das Auto nicht.",
+      "fr": "Je n’aime pas cette voiture. (*nicht* + défini)",
+      "en": "I don’t like the car. (*nicht* + definite)"
+    }
+  ]
+}

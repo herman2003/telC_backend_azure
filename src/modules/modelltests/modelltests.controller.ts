@@ -1,9 +1,9 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { Tier } from '@prisma/client';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { StudentSubscriptionGuard } from '../../shared/guards/student-subscription.guard';
-import { StudentTierGuard } from '../../shared/guards/student-tier.guard';
-import { RequiresTier } from '../../shared/decorators/requires-tier.decorator';
+import { PrepPassGuard } from '../../shared/guards/prep-pass.guard';
+import { CurrentStudent } from '../../shared/decorators/current-student.decorator';
+import type { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { ModelltestsService } from './modelltests.service';
 import type {
   ModelltestDetailDto,
@@ -11,31 +11,35 @@ import type {
 } from './dto/modelltest.dto';
 
 /**
- * The full timed exam simulation, and the line between Start and Pro.
- *
- * `RequiresTier` sits on the class rather than on each route because the whole
- * module is the paid feature — a route added here is gated by default, which
- * is the right way round for a gate that decides what a tier is worth.
- *
- * Per-skill practice (`/api/reading`, `/api/listening`, `/api/writing`,
- * `/api/sprachbausteine` and speaking practice) is deliberately NOT gated.
- * Those work independently of this module, which is what makes Start a usable
- * product rather than a stub, and `subscription-enforcement.spec` pins their
- * openness so this gate cannot spread by accident.
+ * Training catalogue. Start sees the weekly Modelltest; Prep Pass unlocks
+ * the full training pool. Guests only see Modelltests allowlisted for the
+ * demo (not MT3+).
  */
-@UseGuards(JwtAuthGuard, StudentSubscriptionGuard, StudentTierGuard)
-@RequiresTier(Tier.PRO)
+@UseGuards(JwtAuthGuard, StudentSubscriptionGuard, PrepPassGuard)
 @Controller('api/modelltests')
 export class ModelltestsController {
   constructor(private readonly service: ModelltestsService) {}
 
   @Get()
-  getAll(): Promise<ModelltestListItemDto[]> {
-    return this.service.getAll();
+  getAll(
+    @CurrentStudent() student: AccessTokenPayload | null,
+  ): Promise<ModelltestListItemDto[]> {
+    const isGuest = student?.isGuest === true;
+    return this.service.getAll({
+      isGuest,
+      studentId: isGuest ? undefined : student?.studentId,
+    });
   }
 
   @Get(':number')
-  getByNumber(@Param('number') number: string): Promise<ModelltestDetailDto> {
-    return this.service.getByNumber(+number);
+  getByNumber(
+    @CurrentStudent() student: AccessTokenPayload | null,
+    @Param('number') number: string,
+  ): Promise<ModelltestDetailDto> {
+    const isGuest = student?.isGuest === true;
+    return this.service.getByNumber(+number, {
+      isGuest,
+      studentId: isGuest ? undefined : student?.studentId,
+    });
   }
 }

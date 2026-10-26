@@ -1,0 +1,39 @@
+{
+  "slug": "schwierige-falle-gram-b-053",
+  "titleFr": "Cas difficiles — le genre des mots étrangers",
+  "titleEn": "Tricky cases — gender of loanwords",
+  "titleDe": "Schwierige Fälle",
+  "ruleFr": "## Fremdwörter — souvent le genre de l’équivalent allemand\n\nLes emprunts (*Computer*, *Hotel*, *Universität*) prennent souvent le genre de leur **équivalent allemand** ou d’un modèle de suffixe.\n\n### Tendances utiles (pas absolues)\n| tendance | exemples |\n|---|---|\n| appareils / en *-er* → masculin | **der** Computer, **der** Drucker |\n| hôtels / en *-el* parfois neutre | **das** Hotel, **das** Motel |\n| institutions en *-tät / -ik* → féminin | **die** Universität, **die** Politik |\n| *-ment / -um* → neutre | **das** Instrument, **das** Museum |\n\n### Mais…\nBeaucoup d’emprunts sont **imprévisibles** : il faut les apprendre avec l’article.\n\n- **das** Handy (pas *der*)\n- **die** E-Mail (féminin comme *die Mail / die Post*)\n- **der** Job\n\n### Stratégie\nToujours noter **article + mot** à la première rencontre. Ne pas « calquer » le genre français (*la table* ≠ *der Tisch*).\n\n### Mini-entraînement\nListez 10 anglicismes de votre quotidien avec *der/die/das*.",
+  "ruleEn": "## Loanwords — often the gender of the German equivalent\n\nBorrowings (*Computer*, *Hotel*, *Universität*) often take the gender of a **German equivalent** or a suffix pattern.\n\n### Useful tendencies (not absolute)\n| tendency | examples |\n|---|---|\n| devices / *-er* → masculine | **der** Computer, **der** Drucker |\n| hotels / some *-el* → neuter | **das** Hotel |\n| *-tät / -ik* → feminine | **die** Universität, **die** Politik |\n| *-ment / -um* → neuter | **das** Instrument, **das** Museum |\n\n### But…\nMany loans are **unpredictable** — learn them with the article.\n\n- **das** Handy\n- **die** E-Mail\n- **der** Job\n\n### Strategy\nAlways note **article + word** on first encounter. Don’t copy French/English gender habits.\n\n### Mini practice\nList 10 everyday anglicisms with *der/die/das*.",
+  "ruleDe": "## Fremdwörter — oft Genus des deutschen Äquivalents\n\nEntlehnungen (*Computer*, *Hotel*, *Universität*) bekommen oft das Genus eines **deutschen Gegenstücks** oder eines Suffixmusters.\n\n### Tendenzen (nicht absolut)\n| Tendenz | Beispiele |\n|---|---|\n| Geräte / *-er* → Maskulinum | **der** Computer, **der** Drucker |\n| Hotels → oft Neutrum | **das** Hotel |\n| *-tät / -ik* → Femininum | **die** Universität, **die** Politik |\n| *-ment / -um* → Neutrum | **das** Instrument, **das** Museum |\n\n### Aber…\nViele sind **nicht vorhersagbar** — mit Artikel lernen.\n\n- **das** Handy\n- **die** E-Mail\n- **der** Job\n\n### Mini-Übung\n10 Alltags-Anglizismen mit *der/die/das* notieren.",
+  "notesFr": "Pas toujours prévisible — apprenez les emprunts **avec** l’article !",
+  "notesEn": "Not always predictable — learn loanwords **with** the article!",
+  "notesDe": "Nicht immer vorhersagbar — Fremdwörter **mit** Artikel lernen!",
+  "examples": [
+    {
+      "de": "Der Computer ist neu.",
+      "fr": "L’ordinateur est neuf. (souvent masculin comme appareil.)",
+      "en": "The computer is new. (often masculine like devices.)"
+    },
+    {
+      "de": "Das Hotel liegt am Meer.",
+      "fr": "L’hôtel est au bord de la mer. (neutre.)",
+      "en": "The hotel is by the sea. (neuter.)"
+    },
+    {
+      "de": "Die Universität beginnt im Oktober.",
+      "fr": "L’université commence en octobre. (-tät → féminin.)",
+      "en": "University starts in October. (-tät → feminine.)"
+    },
+    {
+      "de": "Das Handy klingelt.",
+      "fr": "Le portable sonne. (attention : das, pas der.)",
+      "en": "The mobile is ringing. (note: das, not der.)"
+    },
+    {
+      "de": "Die E-Mail ist wichtig.",
+      "fr": "L’e-mail est important. (féminin.)",
+      "en": "The e-mail is important. (feminine.)"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+meta {
+  name: 00 READ ME first
+  type: http
+  seq: 0
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+docs {
+  A1 Exam Day, end to end, on A1 Modelltest 1 (catalogue number 9):
+  telc Start Deutsch 1, Übungstest 1.
+
+  PRACTICE (seq 100+)
+  After 01+02, P01–P04 cover training Lesen/Hören on MT 9 (not Exam Day).
+  Hören play is optional if R2 audio is missing — report that blocked.
+
+  WHAT THIS CHECKS
+  The same journey as A2 Level, on A1's own rows: the picker offers the
+  paper as A1, Hören runs first for 20 minutes with one recording and one
+  play per Teil, Lesen und Schreiben runs second for 45 minutes and serves
+  the A1 shapes (two letters in Lesen Teil 1, a Bar/Kreditkarte choice in
+  the form), the key decides every closed answer, a misspelt form answer
+  waits for the examiner, and the result ends PASSED at 52 of 60.
+
+  BEFORE YOU START
+  1. Rebuild the fixture (it adds the A1 student and seat):
+         node scripts/seed-b2-bruno-fixture.mjs
+     It must print "A1 papers  9" and database ep-misty-sea, never
+     ep-wandering-hall.
+  2. Run the API against that database:  npm run start:testdb
+  3. Center Auth / 03 Login, so {{accessToken}} is set.
+
+  ORDER AND TIMING
+  Run in seq order. 04 creates a sitting that opens three minutes later:
+  run 05 and 06 inside those three minutes, then WAIT until the opensAt in
+  04's response before 07.
+
+  HÖREN PLAYS
+  The recordings live in R2 under a1-mt-hoeren/a1-mt-1-hoeren/ (492, 231
+  and 292 seconds). A1 Hören is all closed answers (a/b/c, richtig/falsch),
+  so the answer key decides the whole of it at submit.
+
+  RE-RUNNING
+  02 claims the A1 seat. A second run is 409 — re-run the fixture script.
+}

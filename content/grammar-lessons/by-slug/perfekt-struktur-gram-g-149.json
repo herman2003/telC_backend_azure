@@ -1,0 +1,39 @@
+{
+  "slug": "perfekt-struktur-gram-g-149",
+  "titleFr": "Perfekt — structure en subordonnée",
+  "titleEn": "Perfect — structure in subordinate clauses",
+  "titleDe": "Perfekt — Struktur im Nebensatz",
+  "ruleFr": "## Perfekt dans la subordonnée\n\nDans une **Nebensatz** (après *weil*, *dass*, *wenn*…), le verbe conjugué va **à la fin** — donc l’auxiliaire *haben/sein* est tout à fait à la fin, et le participe juste avant.\n\n### Formule\n… *weil* / *dass* + sujet + … + **Partizip II** + **haben/sein**\n\n→ *… weil ich das Buch **gelesen habe**.*  \n→ *… dass sie nach Berlin **gefahren ist**.*\n\n### Comparaison\n| Phrase principale | Subordonnée |\n|---|---|\n| Ich **habe** das **gelesen**. | … weil ich das **gelesen habe**. |\n| Sie **ist** **gekommen**. | … dass sie **gekommen ist**. |\n\n### Erreurs fréquentes\n- ✗ *… weil ich habe das gelesen.* → ✓ *… weil ich das **gelesen habe**.*\n\n### Mini-entraînement\nReliez avec *weil* : *Ich bin müde. Ich habe schlecht geschlafen.*",
+  "ruleEn": "## Perfect in subordinate clauses\n\nIn a **subordinate clause** (after *weil*, *dass*, *wenn*…), the conjugated verb goes **to the end** — so *haben/sein* is last, and the participle comes just before it.\n\n### Formula\n… *weil* / *dass* + subject + … + **Participle** + **haben/sein**\n\n→ *… weil ich das Buch **gelesen habe**.*  \n→ *… dass sie nach Berlin **gefahren ist**.*\n\n### Comparison\n| Main clause | Subordinate |\n|---|---|\n| Ich **habe** das **gelesen**. | … weil ich das **gelesen habe**. |\n| Sie **ist** **gekommen**. | … dass sie **gekommen ist**. |\n\n### Common mistakes\n- ✗ *… weil ich habe das gelesen.* → ✓ *… weil ich das **gelesen habe**.*\n\n### Mini practice\nJoin with *weil*: *Ich bin müde. Ich habe schlecht geschlafen.*",
+  "ruleDe": "## Perfekt im Nebensatz\n\nIm **Nebensatz** (nach *weil*, *dass*, *wenn*…) steht das konjugierte Verb **am Ende** — also *haben/sein* ganz hinten, das Partizip direkt davor.\n\n### Formel\n… *weil* / *dass* + Subjekt + … + **Partizip II** + **haben/sein**\n\n→ *… weil ich das Buch **gelesen habe**.*  \n→ *… dass sie nach Berlin **gefahren ist**.*\n\n### Vergleich\n| Hauptsatz | Nebensatz |\n|---|---|\n| Ich **habe** das **gelesen**. | … weil ich das **gelesen habe**. |\n| Sie **ist** **gekommen**. | … dass sie **gekommen ist**. |\n\n### Häufige Fehler\n- ✗ *… weil ich habe das gelesen.* → ✓ *… weil ich das **gelesen habe**.*\n\n### Mini-Übung\nVerbinden Sie mit *weil*: *Ich bin müde. Ich habe schlecht geschlafen.*",
+  "notesFr": "En subordonnée : participe puis *haben/sein* tout à la fin.",
+  "notesEn": "In subordinates: participle then *haben/sein* at the very end.",
+  "notesDe": "Im Nebensatz: Partizip II, dann *haben/sein* ganz am Ende.",
+  "examples": [
+    {
+      "de": "Ich bleibe zu Hause, weil ich krank gewesen bin.",
+      "fr": "Je reste à la maison parce que j’ai été malade.",
+      "en": "I’m staying home because I was ill."
+    },
+    {
+      "de": "Er sagt, dass er den Brief geschrieben hat.",
+      "fr": "Il dit qu’il a écrit la lettre.",
+      "en": "He says that he wrote the letter."
+    },
+    {
+      "de": "Sie freut sich, dass du gekommen bist.",
+      "fr": "Elle est contente que tu sois venu(e).",
+      "en": "She is happy that you came."
+    },
+    {
+      "de": "Wenn du fertig gegessen hast, räumen wir ab.",
+      "fr": "Quand tu auras fini de manger, on débarrasse.",
+      "en": "When you have finished eating, we’ll clear the table."
+    },
+    {
+      "de": "Ich weiß nicht, ob er angerufen hat.",
+      "fr": "Je ne sais pas s’il a appelé.",
+      "en": "I don’t know whether he called."
+    }
+  ]
+}

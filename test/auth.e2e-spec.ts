@@ -83,6 +83,11 @@ describe('AuthController (e2e)', () => {
     getActiveDeviceSession: jest.fn().mockResolvedValue(session),
     getDeviceSessions: jest.fn().mockResolvedValue(deviceSessions),
     updateStudentLastSeen: jest.fn().mockResolvedValue(undefined),
+    // Declared here, not only assigned per-test, so the mock's shape matches
+    // the service it stands in for.
+    login: jest.fn(),
+    forgotPassword: jest.fn(),
+    resetPassword: jest.fn(),
   };
 
   const tokenService = {
@@ -114,7 +119,6 @@ describe('AuthController (e2e)', () => {
       const payload: AccessTokenPayload = {
         type: 'access',
         studentId: 'student-1',
-        isRegistered: true,
         deviceId: 'device-1',
       };
       request.student = payload;

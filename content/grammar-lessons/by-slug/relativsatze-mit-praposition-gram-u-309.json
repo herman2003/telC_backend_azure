@@ -1,0 +1,39 @@
+{
+  "slug": "relativsatze-mit-praposition-gram-u-309",
+  "titleFr": "Relatives avec préposition",
+  "titleEn": "Relative clauses with prepositions",
+  "titleDe": "Relativsätze — mit Präposition",
+  "ruleFr": "## Relative + préposition\n\nLa préposition se place **devant** le pronom relatif. Le **cas** est imposé par la préposition.\n\n### Structure\n*Nomen, Präposition + Relativpronomen + … + Verb*\n- *Die Stadt, **in der** ich wohne, ist groß.*\n- *Der Mann, **mit dem** ich spreche, heißt Paul.*\n- *Das Thema, **über das** wir reden, ist wichtig.*\n\n### Cas selon la préposition\n| Préposition | Cas | Exemple |\n|---|---|---|\n| mit, bei, zu, von, aus | Datif | *mit dem* |\n| für, ohne, durch, gegen | Accusatif | *für den* |\n| in, an, auf… | Dat. (lieu) / Akk. (direction) | *in der / in die* |\n\n### Mini-entraînement\n*wohnen in / sprechen mit / warten auf* → relatives.",
+  "ruleEn": "## Relative + preposition\n\nThe preposition stands **before** the relative pronoun. **Case** is required by the preposition.\n\n### Structure\n*Noun, preposition + relative pronoun + … + Verb*\n- *Die Stadt, **in der** ich wohne, ist groß.*\n- *Der Mann, **mit dem** ich spreche, heißt Paul.*\n- *Das Thema, **über das** wir reden, ist wichtig.*\n\n### Case by preposition\n| Preposition | Case | Example |\n|---|---|---|\n| mit, bei, zu, von, aus | Dative | *mit dem* |\n| für, ohne, durch, gegen | Accusative | *für den* |\n| in, an, auf… | Dat. (place) / Akk. (direction) | *in der / in die* |\n\n### Mini practice\n*wohnen in / sprechen mit / warten auf* → relatives.",
+  "ruleDe": "## Relativsatz mit Präposition\n\nPräposition **vor** dem Relativpronomen. Kasus = Präposition.\n\n### Beispiele\n- *Die Stadt, **in der** ich wohne*\n- *Der Mann, **mit dem** ich spreche*\n- *Das Thema, **über das** wir reden*\n\n### Mini-Übung\n*wohnen in / sprechen mit / warten auf*.",
+  "notesFr": "La préposition détermine le cas ! *in*+Dat, *mit*+Dat, *für*+Akk.",
+  "notesEn": "The preposition determines the case! *in*+Dat, *mit*+Dat, *für*+Akk.",
+  "notesDe": "Präposition bestimmt den Fall! *in*+Dat, *mit*+Dat, *für*+Akk.",
+  "examples": [
+    {
+      "de": "Die Stadt, in der ich wohne, ist groß.",
+      "fr": "La ville dans laquelle j’habite est grande.",
+      "en": "The city I live in is big."
+    },
+    {
+      "de": "Der Mann, mit dem ich spreche, heißt Paul.",
+      "fr": "L’homme avec qui je parle s’appelle Paul.",
+      "en": "The man I’m talking to is called Paul."
+    },
+    {
+      "de": "Das Thema, über das wir reden, ist wichtig.",
+      "fr": "Le sujet dont nous parlons est important.",
+      "en": "The topic we’re talking about is important."
+    },
+    {
+      "de": "Die Freundin, auf die ich warte, kommt gleich.",
+      "fr": "L’amie que j’attends arrive tout de suite.",
+      "en": "The friend I’m waiting for is coming soon."
+    },
+    {
+      "de": "Das ist das Projekt, für das wir arbeiten.",
+      "fr": "C’est le projet pour lequel nous travaillons.",
+      "en": "That’s the project we’re working for."
+    }
+  ]
+}

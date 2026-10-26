@@ -1,0 +1,39 @@
+{
+  "slug": "relativsatze-was-gram-u-311",
+  "titleFr": "Relatives avec was",
+  "titleEn": "Relative clauses — was",
+  "titleDe": "Relativsätze — was",
+  "ruleFr": "## *was* comme relatif\n\nAprès certains indéfinis et après un **énoncé entier**, on utilise **was** (pas *das*).\n\n### Après\n| Mot / cas | Exemple |\n|---|---|\n| **alles** | *alles, was ich weiß* |\n| **etwas** | *etwas, was wichtig ist* |\n| **nichts** | *nichts, was mich stört* |\n| **das** (pronom) | *Das, was du sagst, stimmt.* |\n| **superlatif** | *das Beste, was passieren kann* |\n| **phrase entière** | *Er kommt nicht, was mich wundert.* |\n\n### Erreur fréquente\n✗ *etwas, das ich brauche* → ✓ *etwas, **was** ich brauche*\n(Après un **nom** neutre concret : *das Buch, **das**…* reste correct.)\n\n### Mini-entraînement\nComplétez : *alles / etwas / nichts, ___ …*",
+  "ruleEn": "## *was* as a relative\n\nAfter certain indefinites and after a **whole statement**, use **was** (not *das*).\n\n### After\n| Trigger | Example |\n|---|---|\n| **alles** | *alles, was ich weiß* |\n| **etwas** | *etwas, was wichtig ist* |\n| **nichts** | *nichts, was mich stört* |\n| **das** (pronoun) | *Das, was du sagst, stimmt.* |\n| **superlative** | *das Beste, was passieren kann* |\n| **whole sentence** | *Er kommt nicht, was mich wundert.* |\n\n### Common mistake\n✗ *etwas, das ich brauche* → ✓ *etwas, **was** ich brauche*\n(After a concrete neuter **noun**: *das Buch, **das**…* is still correct.)\n\n### Mini practice\nComplete: *alles / etwas / nichts, ___ …*",
+  "ruleDe": "## Relativsatz mit *was*\n\nNach *alles, etwas, nichts, das*, Superlativ, ganzen Satz: **was**.\n\n### Fehler\n✗ *etwas, das…* → ✓ *etwas, **was**…*\n\n### Mini-Übung\n*alles / etwas / nichts, ___ …*",
+  "notesFr": "Pas *das* après *etwas/alles/nichts* ! Toujours *was*.",
+  "notesEn": "Not *das* after *etwas/alles/nichts*! Always *was*.",
+  "notesDe": "NICHT 'das' nach etwas/alles/nichts! Immer 'was'.",
+  "examples": [
+    {
+      "de": "Alles, was ich weiß, habe ich dir gesagt.",
+      "fr": "Tout ce que je sais, je te l’ai dit.",
+      "en": "Everything I know I’ve told you."
+    },
+    {
+      "de": "Das ist etwas, was mich freut.",
+      "fr": "C’est quelque chose qui me fait plaisir.",
+      "en": "That’s something that makes me happy."
+    },
+    {
+      "de": "Es gibt nichts, was mich stoppt.",
+      "fr": "Il n’y a rien qui m’arrête.",
+      "en": "There’s nothing that stops me."
+    },
+    {
+      "de": "Das Beste, was passieren kann, ist eine Pause.",
+      "fr": "Le mieux qui puisse arriver, c’est une pause.",
+      "en": "The best that can happen is a break."
+    },
+    {
+      "de": "Er kommt nicht, was mich wundert.",
+      "fr": "Il ne vient pas, ce qui m’étonne.",
+      "en": "He’s not coming, which surprises me."
+    }
+  ]
+}

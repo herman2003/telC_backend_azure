@@ -20,9 +20,13 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const daysFromNow = (days: number) => new Date(Date.now() + days * DAY_MS);
 
 const prisma = new PrismaService();
+const emailStub = {
+  sendCodeActivatedToCenter: () => Promise.resolve(),
+};
 const redemption = new CodeRedemptionService(
   prisma,
   new SubscriptionPolicyService(),
+  emailStub as never,
 );
 
 async function wipe() {
@@ -56,7 +60,6 @@ async function centerWithCodes(count: number) {
         data: {
           center_id: center.id,
           code: generateActivationCode(),
-          tier: 'START',
           expires_at: daysFromNow(13),
         },
       }),

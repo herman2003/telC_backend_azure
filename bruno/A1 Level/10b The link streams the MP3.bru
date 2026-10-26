@@ -1,0 +1,32 @@
+meta {
+  name: 10b The link streams the MP3
+  type: http
+  seq: 20
+}
+
+get {
+  url: {{baseUrl}}{{a1PlayUrl}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  const type = res.getHeader("content-type");
+  if (!String(type).startsWith("audio/mpeg")) {
+    throw new Error("the Flutter player sends audio/mpeg; got " + type);
+  }
+  const cache = res.getHeader("cache-control");
+  if (!String(cache).includes("no-store")) {
+    throw new Error("an exam recording must not be cached, got " + cache);
+  }
+}
+
+docs {
+  No Authorization header, on purpose: an <audio> element cannot send one.
+  The signed token is the authentication. The server proxies the bytes from
+  R2, so the candidate never sees the R2 address.
+}

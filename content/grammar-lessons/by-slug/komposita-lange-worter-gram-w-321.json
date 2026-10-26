@@ -1,0 +1,39 @@
+{
+  "slug": "komposita-lange-worter-gram-w-321",
+  "titleFr": "Les très longs composés",
+  "titleEn": "Compound words — long words",
+  "titleDe": "Komposita — Lange Wörter",
+  "ruleFr": "## Les longs Komposita\n\nL’allemand peut enchaîner plusieurs noms en **un seul mot**. Pour comprendre : découpez de **droite à gauche**.\n\n### Méthode\n1. Trouvez le dernier nom (= sens + genre)\n2. Ajoutez les précisions à gauche\n3. Lisez le tout comme une définition\n\n### Exemples (découpés)\n- *die Kraftfahrzeug-haftpflicht-versicherung* → assurance responsabilité auto\n- *die Donau-dampfschiff-fahrts-gesellschaft* → société de navigation à vapeur sur le Danube\n\n### Orthographe\n**Pas d’espaces** entre les éléments (contrairement à l’anglais *car insurance*).\n\n### Mini-entraînement\nDécoupez : *Bahnhofsvorplatz / Studentenwohnheim / Handgepäck*.",
+  "ruleEn": "## Long compounds\n\nGerman can chain several nouns into **one word**. To understand: split **from right to left**.\n\n### Method\n1. Find the last noun (= meaning + gender)\n2. Add left-hand specifications\n3. Read it as a definition\n\n### Examples (split)\n- *die Kraftfahrzeug-haftpflicht-versicherung* → motor third-party insurance\n- *die Donau-dampfschiff-fahrts-gesellschaft* → Danube steamship company\n\n### Spelling\n**No spaces** between elements (unlike English *car insurance*).\n\n### Mini practice\nSplit: *Bahnhofsvorplatz / Studentenwohnheim / Handgepäck*.",
+  "ruleDe": "## Lange Komposita\n\nAlles **ein** Wort. Von rechts nach links zerlegen.\n\n### Methode\n1. Letztes Nomen = Sinn + Genus\n2. Linke Teile = Präzisierung\n\n### Mini-Übung\nZerlegen: *Bahnhofsvorplatz / Studentenwohnheim / Handgepäck*.",
+  "notesFr": "En allemand, PAS d’espaces dans les composés !",
+  "notesEn": "In German there are NO spaces in compounds!",
+  "notesDe": "Im Deutschen gibt es KEINE Leerzeichen in Komposita!",
+  "examples": [
+    {
+      "de": "Die Kraftfahrzeughaftpflichtversicherung ist Pflicht.",
+      "fr": "L’assurance responsabilité civile auto est obligatoire.",
+      "en": "Motor third-party liability insurance is mandatory."
+    },
+    {
+      "de": "Wir treffen uns auf dem Bahnhofsvorplatz.",
+      "fr": "Nous nous retrouvons sur le parvis de la gare.",
+      "en": "We’re meeting on the station forecourt."
+    },
+    {
+      "de": "Er wohnt im Studentenwohnheim.",
+      "fr": "Il habite en résidence universitaire.",
+      "en": "He lives in the student dormitory."
+    },
+    {
+      "de": "Das Handgepäck darf in die Kabine.",
+      "fr": "Le bagage à main peut aller en cabine.",
+      "en": "Hand luggage may go into the cabin."
+    },
+    {
+      "de": "Die Geschwindigkeitsbegrenzung liegt bei 50.",
+      "fr": "La limitation de vitesse est à 50.",
+      "en": "The speed limit is 50."
+    }
+  ]
+}

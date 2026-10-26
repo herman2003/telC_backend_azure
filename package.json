@@ -19,7 +19,6 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:integration": "jest --config ./test/jest-integration.json",
-    "prepare": "cd .. && husky telC_/.husky",
     "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
     "prisma:pull": "prisma db pull",
@@ -27,10 +26,27 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "db:migrate-from-supabase": "node scripts/migrate-supabase-to-neon.mjs",
-    "start:testdb": "powershell -ExecutionPolicy Bypass -File ./scripts/start-dev-testdb.ps1"
+    "start:testdb": "powershell -ExecutionPolicy Bypass -File ./scripts/start-dev-testdb.ps1",
+    "grammar:import": "ts-node -r ./scripts/env-test-first.cjs scripts/import-grammar-from-rep12.ts",
+    "grammar:export": "ts-node -r ./scripts/env-test-first.cjs scripts/export-grammar-topics.ts",
+    "grammar:build-lessons": "ts-node -r ./scripts/env-test-first.cjs scripts/build-grammar-lessons.ts",
+    "grammar:enrich": "ts-node -r ./scripts/env-test-first.cjs scripts/enrich-grammar-lessons.ts",
+    "grammar:generate-exercises": "ts-node -r ./scripts/env-test-first.cjs scripts/generate-grammar-exercises.ts",
+    "grammar:backfill-exercise-locales": "ts-node -r ./scripts/env-test-first.cjs scripts/backfill-grammar-exercise-locales.ts",
+    "vocab:analyze-extract": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-analyze-extract-modelltest.ts",
+    "vocab:import-rep12": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-import-from-rep12.ts",
+    "vocab:import-goethe": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-import-goethe-dwds.ts",
+    "vocab:import-telc": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-import-telc-beruf.ts",
+    "vocab:enrich-pack-senses": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-enrich-pack-senses.ts",
+    "vocab:fill-conjugations": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-fill-conjugations.ts",
+    "vocab:backfill-fr": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-backfill-fr-meanings.ts",
+    "vocab:curate-weekly-pack": "ts-node -r ./scripts/env-test-first.cjs scripts/vocab-curate-weekly-pack.ts",
+    "modelltest:import": "node scripts/import-modelltest-v2.mjs",
+    "modelltest:verify": "node scripts/verify-modelltest.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",
+    "@nestjs/cli": "^11.0.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.1",
@@ -42,12 +58,18 @@
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "@supabase/supabase-js": "^2.95.3",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.7",
     "@types/pg": "^8.20.0",
+    "axios": "^1.13.5",
     "bcryptjs": "^3.0.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "diff": "^9.0.0",
     "dotenv": "^17.2.4",
+    "firebase-admin": "^14.5.0",
+    "german-verbs": "^5.4.0",
+    "german-verbs-dict": "^3.4.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "newrelic": "^14.3.7",
@@ -58,22 +80,21 @@
     "redis": "^6.2.0",
     "reflect-metadata": "^0.2.2",
     "resend": "^6.12.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "stripe": "^17.7.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
-    "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/diff": "^7.0.2",
-    "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
-    "axios": "^1.13.5",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
@@ -85,11 +106,10 @@
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
-    "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0"
+    "typescript-eslint": "^8.20.0",
+    "zod": "4.6.7"
   },
   "overrides": {
     "body-parser": "2.3.0",
@@ -109,6 +129,9 @@
       "<rootDir>/test"
     ],
     "testRegex": ".*\\.spec\\.ts$",
+    "testPathIgnorePatterns": [
+      "-integration\\.spec\\.ts$"
+    ],
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
@@ -120,9 +143,6 @@
       "src/**/*.(t|j)s"
     ],
     "coverageDirectory": "./coverage",
-    "testEnvironment": "node",
-    "testPathIgnorePatterns": [
-      "-integration\\.spec\\.ts$"
-    ]
+    "testEnvironment": "node"
   }
 }

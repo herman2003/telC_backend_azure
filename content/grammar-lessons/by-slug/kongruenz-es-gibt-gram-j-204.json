@@ -1,0 +1,39 @@
+{
+  "slug": "kongruenz-es-gibt-gram-j-204",
+  "titleFr": "Accord avec es gibt",
+  "titleEn": "Agreement with es gibt",
+  "titleDe": "Kongruenz — es gibt",
+  "ruleFr": "## Accord — *es gibt*\n\nLa tournure **es gibt** (« il y a ») reste **toujours au singulier**, même si l’objet est au pluriel.\n\n### Règle\n- ✓ *Es **gibt** ein Problem.*\n- ✓ *Es **gibt** viele Probleme.*\n- ✗ *Es **geben** viele Probleme.*\n- ✗ *Es **sind** viele Probleme.* (autre structure)\n\n### Attention\nAprès *es gibt*, le nom est à l’**accusatif** :\n- *Es gibt **einen** Tisch.* / *Es gibt **viele** Bücher.*\n\n### Mini-entraînement\nFormez 5 phrases *Es gibt…* au singulier et au pluriel.",
+  "ruleEn": "## Agreement — *es gibt*\n\nThe pattern **es gibt** (“there is/are”) is **always singular**, even with a plural object.\n\n### Rule\n- ✓ *Es **gibt** ein Problem.*\n- ✓ *Es **gibt** viele Probleme.*\n- ✗ *Es **geben** viele Probleme.*\n- ✗ *Es **sind** viele Probleme.* (different structure)\n\n### Note\nAfter *es gibt*, the noun is **accusative**:\n- *Es gibt **einen** Tisch.* / *Es gibt **viele** Bücher.*\n\n### Mini practice\nForm 5 *Es gibt…* sentences with singular and plural objects.",
+  "ruleDe": "## Kongruenz — *es gibt*\n\n**Es gibt** steht **immer im Singular**, auch bei Plural-Objekt.\n\n### Regel\n- ✓ *Es **gibt** viele Probleme.*\n- ✗ *Es **geben** …* / ✗ *Es **sind** …* (andere Struktur)\n\n### Achtung\nDanach steht **Akkusativ**: *Es gibt einen Tisch.*\n\n### Mini-Übung\nBilden Sie 5 Sätze mit *Es gibt…*.",
+  "notesFr": "PAS « Es geben » ni « Es sind » ! Toujours « Es gibt ».",
+  "notesEn": "NOT ‘Es geben’ or ‘Es sind’! Always ‘Es gibt’.",
+  "notesDe": "NICHT ‚Es geben‘ oder ‚Es sind‘! Immer ‚Es gibt‘.",
+  "examples": [
+    {
+      "de": "Es gibt ein Problem.",
+      "fr": "Il y a un problème.",
+      "en": "There is a problem."
+    },
+    {
+      "de": "Es gibt viele Probleme.",
+      "fr": "Il y a beaucoup de problèmes. (verbe toujours singulier)",
+      "en": "There are many problems. (verb always singular)"
+    },
+    {
+      "de": "Es gibt einen neuen Lehrer.",
+      "fr": "Il y a un nouveau professeur. (accusatif)",
+      "en": "There is a new teacher. (accusative)"
+    },
+    {
+      "de": "In der Stadt gibt es viele Cafés.",
+      "fr": "En ville, il y a beaucoup de cafés.",
+      "en": "In the city there are many cafés."
+    },
+    {
+      "de": "Gibt es hier WLAN?",
+      "fr": "Y a-t-il du Wi-Fi ici ?",
+      "en": "Is there Wi-Fi here?"
+    }
+  ]
+}

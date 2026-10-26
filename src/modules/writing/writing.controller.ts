@@ -31,9 +31,14 @@ import { CurrentStudent } from '../../shared/decorators/current-student.decorato
 import { AccessTokenPayload } from '../../shared/interfaces/token-payload.interface';
 import { WritingService } from './writing.service';
 import { RateLimitService } from '../../shared/services/rate-limit.service';
-import { ExerciseAttemptDto, WritingExerciseDto } from './dto';
+import {
+  ExerciseAttemptDto,
+  WritingExerciseDto,
+  WritingExerciseResponseDto,
+} from './dto';
 import { SubmitWritingDto } from './dto/submit-writing.dto';
 import { SubmitWritingResponseDto } from './dto/submit-writing-response.dto';
+import { assertGuestMayAccessModelltest } from '../../shared/guest-modelltest-access';
 
 @ApiTags('Writing')
 @ApiBearerAuth()
@@ -59,7 +64,7 @@ export class WritingController {
     description: 'Modelltest number (e.g. 1)',
     example: 1,
   })
-  @ApiOkResponse({ type: WritingExerciseDto })
+  @ApiOkResponse({ type: WritingExerciseResponseDto })
   @ApiNotFoundResponse({
     description: 'No writing exercise found for this Modelltest',
   })
@@ -67,8 +72,9 @@ export class WritingController {
     description: 'modelltest query param is missing or not a number',
   })
   async getExerciseByModelltest(
+    @CurrentStudent() student: AccessTokenPayload | null,
     @Query('modelltest') modelltest: string,
-  ): Promise<WritingExerciseDto> {
+  ): Promise<WritingExerciseDto | WritingExerciseResponseDto> {
     const number = parseInt(modelltest, 10);
     if (!modelltest || isNaN(number)) {
       throw new BadRequestException({
@@ -78,6 +84,7 @@ export class WritingController {
         messageKey: 'writingMissingModelltest',
       });
     }
+    assertGuestMayAccessModelltest(student?.isGuest, number);
     return this.writingService.getExerciseByModelltest(number);
   }
 
@@ -136,8 +143,8 @@ export class WritingController {
   @ApiNotFoundResponse({ description: 'Exercise UUID not found' })
   @ApiTooManyRequestsResponse({
     description:
-      'Rate limit exceeded. Guests are capped at 3 submissions per IP per hour; ' +
-      'registered students have a higher per-account limit.',
+      'Rate limit exceeded, or the student has used both Start Schreiben ' +
+      'AI corrections for today (messageKey writingDailyLimit).',
   })
   async submit(
     @CurrentStudent() student: AccessTokenPayload | null,
@@ -153,6 +160,8 @@ export class WritingController {
     } else {
       await this.rateLimitService.checkWritingSubmitLimit(studentId);
     }
-    return this.writingService.submit(studentId, dto);
+    return this.writingService.submit(studentId, dto, {
+      isGuest: student.isGuest === true,
+    });
   }
 }

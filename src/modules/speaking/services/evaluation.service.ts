@@ -4,9 +4,8 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import type { Prisma } from '@prisma/client';
+import type { CefrLevel, Prisma } from '@prisma/client';
 import { GeminiService } from './gemini.service';
-import { AiQuotaService } from '../../../shared/services/ai-quota.service';
 import { AiUsageService } from '../../../shared/services/ai-usage.service';
 import { RateLimitService } from '../../../shared/services/rate-limit.service';
 import { PrismaService } from '../../../shared/services/prisma.service';
@@ -17,11 +16,27 @@ import {
   CorrectionDto,
   ScoresDto,
 } from '../dto/evaluation-response.dto';
+import {
+  buildTelcSprechenRating,
+  criterionPercent,
+  m10MaxPoints,
+  isTelcLetter,
+  scoreFromM10Points,
+  type TelcSprechenCriteria,
+} from '../speaking-telc-rating';
 
 interface SpeakingAttemptInput {
   attemptId?: string;
   durationSeconds?: number;
   modelltestNumber?: number;
+  /**
+   * The exam sitting this belongs to, on the 1,500 tier.
+   *
+   * Set, it keeps the transcript out of the student's practice history and
+   * ties it to the attempt a manager reads. Unset, this is ordinary
+   * practice, which is everything else that calls here.
+   */
+  examAttemptId?: string;
 }
 
 interface StoredSpeakingAttempt {
@@ -36,7 +51,6 @@ export class EvaluationService {
 
   constructor(
     private readonly geminiService: GeminiService,
-    private readonly quota: AiQuotaService,
     private readonly usage: AiUsageService,
     private readonly rateLimit: RateLimitService,
     private readonly prisma: PrismaService,
@@ -83,36 +97,68 @@ export class EvaluationService {
       if (earlier) return this.fromStored(earlier);
     }
 
+    // An exam is bounded by the exam rather than by the allowance: one
+    // evaluation per Teil, which is exactly the three telc asks for. Without
+    // it, skipping the quota would leave a candidate free to call the model
+    // in a loop for as long as the block is open.
+    if (studentId && attempt.examAttemptId) {
+      const already = await this.prisma.speakingAttempt.findFirst({
+        where: {
+          exam_attempt_id: attempt.examAttemptId,
+          teil_number: teilNumber,
+        },
+        select: { attempt_id: true },
+      });
+      if (already) {
+        throw new ConflictException('EXAM_TEIL_ALREADY_EVALUATED');
+      }
+    }
+
     // Before the quota and the model: an unknown Modelltest is the caller's
     // mistake, and must not cost the student a session.
-    const modelltest = studentId
-      ? await this.prisma.modelltest.findUnique({
-          where: { number: attempt.modelltestNumber ?? 1 },
-          select: { id: true },
-        })
-      : null;
-    if (studentId && !modelltest) {
+    //
+    // Resolved for every caller, not only a signed-in one, because its `level`
+    // decides which M10 table the letters are converted against. A guest used
+    // to skip this and be rated as B1 by default; a default is exactly how a
+    // B2 candidate gets marked against the wrong grid, so the Modelltest has
+    // to exist for anyone asking.
+    const modelltest = await this.prisma.modelltest.findUnique({
+      where: { number: attempt.modelltestNumber ?? 1 },
+      select: { id: true, level: true },
+    });
+    if (!modelltest) {
       throw new NotFoundException(
         `Modelltest ${attempt.modelltestNumber ?? 1} not found`,
       );
     }
+    const level = modelltest.level;
 
     // A token naming nobody has nobody to charge, which is the same choice
     // StudentSubscriptionGuard makes for the same reason. Refusing here would
     // be a decision about authentication taken in the wrong place.
     if (studentId) {
-      // Before the quota, and atomic where the quota is not. The quota counts
-      // rows and then the caller acts, so a concurrent burst all reads the
-      // same count and all passes — a student allowed two could land dozens
-      // in parallel before the first row commits. This bounds the pile-up in
-      // Valkey; the quota remains the rule that decides the answer.
+      // The only limit left here, and it is about our bill rather than the
+      // student's plan: twenty an hour bounds how fast anybody can pile calls
+      // into the model.
+      //
+      // Grading no longer has an allowance of its own. What Lerniqo sells is
+      // the conversation, charged when it starts — five a month on Start, then
+      // a credit — and charging the correction that follows it as well would
+      // refuse a student their feedback on a session they had already paid
+      // for. That is the phase 21 bug wearing different names: a telc exam of
+      // three Sprechen Teile meeting an allowance of two.
+      //
+      // The open edge is a transcript that arrives with no conversation behind
+      // it, from the browser's own speech recognition. That path is bounded
+      // only by the burst limit today; retiring it, or charging it as a
+      // session, is in the backlog and needs the app to say which it still
+      // uses.
       await this.rateLimit.checkAiEvaluationLimit(studentId);
-      await this.quota.assertWithinQuota(studentId, 'SPEAKING_EVALUATION');
     }
 
-    const prompt = this.buildPrompt(teilNumber, transcript);
+    const prompt = this.buildPrompt(level, teilNumber, transcript);
     const raw = await this.callWithTimeout(prompt);
-    const evaluation = this.parseResponse(raw);
+    const evaluation = this.parseResponse(raw, level, teilNumber);
 
     if (studentId) {
       // `recordDelivered`, not `record`: the student already has their result,
@@ -175,19 +221,26 @@ export class EvaluationService {
                 score,
                 evaluation: evaluation as unknown as Prisma.InputJsonValue,
                 duration_seconds: attempt.durationSeconds ?? null,
+                exam_attempt_id: attempt.examAttemptId ?? null,
                 created_at: completedAt,
               },
             });
-            await recordActivity(tx, {
-              studentId,
-              skill: 'SPRECHEN',
-              teil: teilNumber,
-              score,
-              durationSeconds: attempt.durationSeconds,
-              modelltestId: attempt.modelltestId,
-              attemptId: id,
-              completedAt,
-            });
+            // Practice is recorded; an exam is not. An AI speaking session
+            // sat inside a sitting must not move the readiness score a
+            // center reads, or the dashboard would count the exam as
+            // preparation for itself.
+            if (!attempt.examAttemptId) {
+              await recordActivity(tx, {
+                studentId,
+                skill: 'SPRECHEN',
+                teil: teilNumber,
+                score,
+                durationSeconds: attempt.durationSeconds,
+                modelltestId: attempt.modelltestId,
+                attemptId: id,
+                completedAt,
+              });
+            }
           }),
       );
       return earlier;
@@ -214,10 +267,18 @@ export class EvaluationService {
     return row.evaluation as unknown as SpeakingEvaluationResponseDto;
   }
 
-  private buildPrompt(teilNumber: number, transcript: string): string {
-    const context = this.getTeilContext(teilNumber);
+  private buildPrompt(
+    level: CefrLevel,
+    teilNumber: number,
+    transcript: string,
+  ): string {
+    const context = this.getTeilContext(level, teilNumber);
+    // From the same table the letters are converted against, so the maximum
+    // the model is told matches the one the backend applies. The wording below
+    // still names B1 and B1's Teile; keying that on the level is task 6.
+    const maxPts = m10MaxPoints(level, teilNumber);
 
-    return `You are an expert German language examiner evaluating a telc B1 speaking exam (Teil ${teilNumber}).
+    return `You are an expert rater for telc Deutsch ${level} Mündlicher Ausdruck (Bewertungsbogen M10), Teil ${teilNumber}.
 
 **TEIL ${teilNumber} CONTEXT:**
 ${context}
@@ -226,34 +287,30 @@ ${context}
 ${transcript}
 
 **EVALUATION TASK:**
-Analyze the student's performance and provide scores for:
-1. Grammar (0-100): Grammatical accuracy and sentence structure
-2. Vocabulary (0-100): Range and appropriateness of vocabulary
-3. Coherence (0-100): Logical flow, topic relevance, and clarity of expression
-4. Overall (0-100): Weighted average reflecting B1 proficiency
+Assign letter grades A|B|C|D for the four official M10 criteria (do NOT invent numeric exam scores — letters only):
+1. "expression" — Ausdrucksfähigkeit: vocabulary, role-appropriate expression, speech intention
+2. "taskFulfilment" — Aufgabenbewältigung: participation, discourse/compensation strategies, fluency
+3. "formalAccuracy" — Formale Richtigkeit: syntax and morphology
+4. "pronunciation" — Aussprache und Intonation: estimate only from the transcript (no audio). If evidence is weak, prefer B unless the text clearly suggests severe unintelligibility.
+
+Letter guide: A = voll angemessen, B = im Großen und Ganzen angemessen, C = kaum noch akzeptabel, D = nicht ausreichend.
+Backend will convert letters to M10 points (Teil ${teilNumber} max ${maxPts}).
 
 Also provide:
-- evaluation_text: A warm, natural German paragraph (3-5 sentences) starting with "Hallo!" that a teacher would SPEAK ALOUD to the student. Mention the overall score, highlight one strength, and mention one specific correction. Write it as flowing speech — NO markdown, NO bullet points, NO headers.
+- evaluation_text: A warm, natural German paragraph (3-5 sentences) starting with "Hallo!" that a teacher would SPEAK ALOUD. Mention the four letters briefly, highlight one strength, and one specific correction. NO markdown, NO bullet points, NO headers.
 - corrections: Up to 10 most important errors. error_type must be "grammar" or "vocabulary" only.
-- strengths: One or two sentences in German about what the student did well.
-- areas_for_improvement: One or two sentences in German about what to focus on.
-
-**SCORING CRITERIA (B1 Level):**
-- 90-100: Excellent — exceeds B1
-- 75-89: Good — solid B1
-- 60-74: Satisfactory — meets B1 minimum
-- 50-59: Needs improvement
-- 0-49: Insufficient
+- strengths: One or two sentences in German.
+- areas_for_improvement: One or two sentences in German.
 
 **OUTPUT FORMAT (valid JSON only, no markdown code blocks):**
 {
-  "grammar_score": 75,
-  "vocabulary_score": 72,
-  "coherence_score": 80,
-  "overall_score": 76,
-  "evaluation_text": "Hallo! Hier sind die Ergebnisse deiner Sprechübung für Teil ${teilNumber}. Insgesamt hast du 76 von 100 Punkten erreicht. Dein Wortschatz ist sehr gut und du drückst dich klar aus. Achte noch auf die Verbkonjugation — du hast zum Beispiel gesagt: ich gehen ins Kino — richtig wäre: ich gehe ins Kino. Weiter so, du machst gute Fortschritte!",
-  "strengths": "Der Student verwendet einen abwechslungsreichen Wortschatz und drückt sich klar aus.",
-  "areas_for_improvement": "Die Verbkonjugation und der Satzbau sollten noch verbessert werden.",
+  "expression": "B",
+  "taskFulfilment": "A",
+  "formalAccuracy": "C",
+  "pronunciation": "B",
+  "evaluation_text": "Hallo! Hier sind die Ergebnisse deiner Sprechübung für Teil ${teilNumber}. Bei Ausdruck und Aufgabe liegst du gut, achte noch auf die Grammatik. Du hast zum Beispiel gesagt: ich gehen — richtig wäre: ich gehe. Weiter so!",
+  "strengths": "Du beteiligst dich klar und bleibst beim Thema.",
+  "areas_for_improvement": "Achte noch auf die Verbkonjugation.",
   "corrections": [
     {
       "original": "Ich gehen oft ins Kino",
@@ -265,12 +322,27 @@ Also provide:
 }`;
   }
 
-  private getTeilContext(teilNumber: number): string {
-    const contexts: Record<number, string> = {
-      1: 'Personal introduction and background. The student should talk about themselves, hobbies, work, and daily life.',
-      2: 'Opinion and experience on a given topic. The student should express opinions, give examples, and elaborate.',
-      3: 'Debate and argumentation. The student should take a position, defend it with arguments, and show reasoning.',
+  /**
+   * What the candidate was asked to do, per level and Teil.
+   *
+   * The Teil numbers do not mean the same thing at both levels. `Einander
+   * kennenlernen` is B1's scored Teil 1 and B2's unscored introduction, so
+   * B2's Teil 1 is a different task entirely. Keyed on the Teil alone, a B2
+   * candidate was rated against B1's opener and told about it in fluent
+   * German.
+   */
+  private getTeilContext(level: CefrLevel, teilNumber: number): string {
+    const b1: Record<number, string> = {
+      1: 'Teil 1 — Einander kennenlernen: personal introduction and background (self, hobbies, work, daily life).',
+      2: 'Teil 2 — Über ein Thema sprechen: opinion and experience on a topic; give examples and elaborate.',
+      3: 'Teil 3 — Gemeinsam etwas planen: plan an activity together (appointments, options, agree on next steps). This is NOT a debate.',
     };
+    const b2: Record<number, string> = {
+      1: 'Teil 1 — Über Erfahrungen sprechen: the candidate chose one experience topic and speaks about it for up to 1½ minutes, then answers the partner’s questions. Expect a sustained, structured account with examples, not a question-and-answer introduction.',
+      2: 'Teil 2 — Diskussion: a controversial text was read. Expect the candidate to address the text, then exchange opinions, arguments and experiences with the partner, and work towards possible solutions.',
+      3: 'Teil 3 — Gemeinsam etwas planen: plan an activity together and respond to the partner’s proposals (options, agreement, next steps). This is NOT a debate.',
+    };
+    const contexts = level === 'B2' ? b2 : b1;
     return contexts[teilNumber] ?? contexts[1];
   }
 
@@ -279,8 +351,9 @@ Also provide:
 
     const evaluationPromise = this.geminiService
       .generateTextResponse(prompt)
-      .catch((err) => {
-        this.logger.error(`Gemini call failed: ${err.message}`);
+      .catch((err: unknown) => {
+        const message = err instanceof Error ? err.message : String(err);
+        this.logger.error(`Gemini call failed: ${message}`);
         throw new Error('GEMINI_EVALUATION_FAILED');
       });
 
@@ -304,35 +377,46 @@ Also provide:
     }
   }
 
-  private parseResponse(response: string): SpeakingEvaluationResponseDto {
+  parseResponse(
+    response: string,
+    level: CefrLevel,
+    teilNumber: number,
+  ): SpeakingEvaluationResponseDto {
     try {
       const jsonMatch = response.match(/\{[\s\S]*\}/);
       if (!jsonMatch) throw new Error('NO_JSON_IN_RESPONSE');
 
-      const p = JSON.parse(jsonMatch[0]);
+      const p = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
 
-      const validateScore = (v: unknown, field: string) => {
-        if (typeof v !== 'number' || v < 0 || v > 100)
-          throw new Error(`Invalid score for ${field}: ${v}`);
+      const criteria: TelcSprechenCriteria = {
+        expression: this.readLetter(p, 'expression'),
+        taskFulfilment: this.readLetter(p, 'taskFulfilment', 'task_fulfilment'),
+        formalAccuracy: this.readLetter(p, 'formalAccuracy', 'formal_accuracy'),
+        pronunciation: this.readLetter(p, 'pronunciation'),
       };
 
-      validateScore(p.grammar_score, 'grammar');
-      validateScore(p.vocabulary_score, 'vocabulary');
-      validateScore(p.coherence_score, 'coherence');
-      validateScore(p.overall_score, 'overall');
+      const telcRating = buildTelcSprechenRating(criteria, level, teilNumber);
+      const overall = scoreFromM10Points(
+        telcRating.points,
+        telcRating.maxPoints,
+      );
 
       if (typeof p.evaluation_text !== 'string' || !p.evaluation_text.trim())
         throw new Error('Missing evaluation_text');
 
-      const corrections: CorrectionDto[] = (
-        Array.isArray(p.corrections) ? p.corrections : []
-      )
+      const rawCorrections = Array.isArray(p.corrections) ? p.corrections : [];
+      const corrections: CorrectionDto[] = rawCorrections
         .slice(0, 10)
         .filter(
-          (c: Record<string, unknown>) =>
-            c.original && c.corrected && c.explanation && c.error_type,
+          (c): c is Record<string, unknown> =>
+            !!c &&
+            typeof c === 'object' &&
+            !!(c as Record<string, unknown>).original &&
+            !!(c as Record<string, unknown>).corrected &&
+            !!(c as Record<string, unknown>).explanation &&
+            !!(c as Record<string, unknown>).error_type,
         )
-        .map((c: Record<string, unknown>) => ({
+        .map((c) => ({
           original: String(c.original),
           corrected: String(c.corrected),
           explanation: String(c.explanation),
@@ -340,18 +424,45 @@ Also provide:
         }));
 
       const scores: ScoresDto = {
-        grammar: p.grammar_score,
-        vocabulary: p.vocabulary_score,
-        coherence: p.coherence_score,
-        overall: p.overall_score,
+        grammar: criterionPercent(
+          criteria.formalAccuracy,
+          level,
+          teilNumber,
+          'formalAccuracy',
+        ),
+        vocabulary: criterionPercent(
+          criteria.expression,
+          level,
+          teilNumber,
+          'expression',
+        ),
+        coherence: criterionPercent(
+          criteria.taskFulfilment,
+          level,
+          teilNumber,
+          'taskFulfilment',
+        ),
+        overall,
       };
 
       return {
         evaluationText: p.evaluation_text,
         scores,
+        telcRating: {
+          expression: telcRating.expression,
+          taskFulfilment: telcRating.taskFulfilment,
+          formalAccuracy: telcRating.formalAccuracy,
+          pronunciation: telcRating.pronunciation,
+          points: telcRating.points,
+          maxPoints: telcRating.maxPoints,
+          teilNumber: telcRating.teilNumber,
+        },
         corrections,
-        strengths: p.strengths ?? '',
-        areas_for_improvement: p.areas_for_improvement ?? '',
+        strengths: typeof p.strengths === 'string' ? p.strengths : '',
+        areas_for_improvement:
+          typeof p.areas_for_improvement === 'string'
+            ? p.areas_for_improvement
+            : '',
       };
     } catch (error) {
       this.logger.error(
@@ -360,5 +471,17 @@ Also provide:
       this.logger.debug(`Raw response: ${response}`);
       throw new Error('EVALUATION_PARSE_FAILED');
     }
+  }
+
+  private readLetter(
+    parsed: Record<string, unknown>,
+    camel: string,
+    snake?: string,
+  ): TelcSprechenCriteria[keyof TelcSprechenCriteria] {
+    const value = parsed[camel] ?? (snake ? parsed[snake] : undefined);
+    if (!isTelcLetter(value)) {
+      throw new Error(`Invalid or missing telc letter for ${camel}`);
+    }
+    return value;
   }
 }

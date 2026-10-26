@@ -1,24 +1,220 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../shared/services/prisma.service';
+import { TrainingModelltestAccessService } from '../../shared/services/training-modelltest-access.service';
+import {
+  GENERIC_MODEL_LEVELS,
+  GenericExamContentService,
+} from '../../shared/services/generic-exam-content.service';
+import { LesenService } from '../lesen/lesen.service';
+import { SprachbausteineService } from '../sprachbausteine/sprachbausteine.service';
+import { ListeningService } from '../listening/listening.service';
+import { WritingService } from '../writing/writing.service';
+import { SpeakingService } from '../speaking/services/speaking.service';
 import type {
   ModelltestDetailDto,
   ModelltestListItemDto,
+  ModelltestOfTheWeekContentDto,
+  ModelltestOfTheWeekDto,
 } from './dto/modelltest.dto';
+import { getSevenDayPeriod } from './seven-day-period';
+import {
+  assertGuestMayAccessModelltest,
+  guestMayAccessModelltest,
+} from '../../shared/guest-modelltest-access';
 
 @Injectable()
 export class ModelltestsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly trainingAccess: TrainingModelltestAccessService,
+    private readonly genericContent: GenericExamContentService,
+    private readonly lesen: LesenService,
+    private readonly sprachbausteine: SprachbausteineService,
+    private readonly listening: ListeningService,
+    private readonly writing: WritingService,
+    private readonly speaking: SpeakingService,
+  ) {}
 
-  async getAll(): Promise<ModelltestListItemDto[]> {
+  async getAll(
+    opts: { isGuest?: boolean; studentId?: string } = {},
+  ): Promise<ModelltestListItemDto[]> {
+    const levelWhere =
+      opts.isGuest === true || !opts.studentId
+        ? {}
+        : {
+            level: await this.trainingAccess.requireStudentLevel(
+              opts.studentId,
+            ),
+          };
+
     const rows = await this.prisma.modelltest.findMany({
+      // Exam material is kept out of the training catalogue, so a sitting can
+      // use a Modelltest no student has worked through. Everything that
+      // exists today is false; this is what makes the flag mean something.
+      // Option A: signed-in students only see their CEFR level.
+      where: { exam_only: false, ...levelWhere },
       orderBy: { number: 'asc' },
     });
-    return rows.map(({ id, number, title }) => ({ id, number, title }));
+
+    let visible = rows;
+    if (opts.isGuest === true) {
+      visible = rows.filter((row) => guestMayAccessModelltest(row.number));
+    } else if (opts.studentId) {
+      const prepPass = await this.trainingAccess.isPrepPassActive(
+        opts.studentId,
+      );
+      if (!prepPass) {
+        const weekly = await this.trainingAccess.weeklyModelltestNumber(
+          opts.studentId,
+        );
+        visible = rows.filter((row) => row.number === weekly);
+      }
+    }
+
+    return visible.map(({ id, number, title, level }) => ({
+      id,
+      number,
+      title,
+      level,
+    }));
   }
 
-  async getByNumber(number: number): Promise<ModelltestDetailDto> {
-    const row = await this.prisma.modelltest.findUnique({
-      where: { number },
+  /**
+   * Training Modelltest for the current 7-day UTC window. Start-only surface;
+   * does not expose Prep Pass exercise IDs.
+   */
+  async getOfTheWeek(
+    now: Date = new Date(),
+    opts: { isGuest?: boolean; studentId?: string } = {},
+  ): Promise<ModelltestOfTheWeekDto> {
+    const levelWhere =
+      opts.isGuest === true || !opts.studentId
+        ? {}
+        : {
+            level: await this.trainingAccess.requireStudentLevel(
+              opts.studentId,
+            ),
+          };
+
+    const rows = await this.prisma.modelltest.findMany({
+      where: { exam_only: false, ...levelWhere },
+      orderBy: { number: 'asc' },
+      select: { id: true, number: true, title: true, level: true },
+    });
+    const pool =
+      opts.isGuest === true
+        ? rows.filter((row) => guestMayAccessModelltest(row.number))
+        : rows;
+
+    if (pool.length === 0) {
+      throw new NotFoundException('No training Modelltest available');
+    }
+
+    const { periodIndex, periodStart, periodEnd } = getSevenDayPeriod(now);
+    // Adding a new training MT changes N and therefore the index — expected.
+    const row = pool[periodIndex % pool.length];
+
+    return {
+      id: row.id,
+      number: row.number,
+      title: row.title,
+      level: row.level,
+      periodStart: periodStart.toISOString(),
+      periodEnd: periodEnd.toISOString(),
+    };
+  }
+
+  /**
+   * Full weekly training content for Start (all skills, keys kept).
+   *
+   * Guests are refused: shipping answer keys on a demo token would make the
+   * public catalogue trivial to scrape. Hören keeps the training audio
+   * contract (no durable URL); `answerKey` is merged from `getAnswerKey`.
+   */
+  async getOfTheWeekContent(
+    now: Date = new Date(),
+    opts: { isGuest?: boolean; studentId?: string } = {},
+  ): Promise<ModelltestOfTheWeekContentDto> {
+    if (opts.isGuest === true) {
+      throw new ForbiddenException('GUESTS_NOT_ALLOWED');
+    }
+
+    const weekly = await this.getOfTheWeek(now, {
+      isGuest: false,
+      studentId: opts.studentId,
+    });
+    const n = weekly.number;
+
+    if (GENERIC_MODEL_LEVELS.includes(weekly.level)) {
+      const bySkill = await this.genericContent.sectionsFor(weekly.id);
+      return {
+        ...weekly,
+        sections: {
+          LESEN: bySkill.LESEN,
+          SPRACHBAUSTEINE: bySkill.SPRACHBAUSTEINE,
+          HOEREN: bySkill.HOEREN,
+          SCHREIBEN: bySkill.SCHREIBEN,
+          SPRECHEN: bySkill.SPRECHEN,
+        },
+      };
+    }
+
+    const [lesen, sprachbausteine, hoerenTeile, schreiben, sprechen] =
+      await Promise.all([
+        this.lesen.getExercise(n),
+        this.sprachbausteine.getExercise(n),
+        Promise.all(
+          [1, 2, 3].map(async (part) => {
+            const [teil, answerKey] = await Promise.all([
+              this.listening.getExamTeil(n, part),
+              this.listening.getAnswerKey(n, part),
+            ]);
+            return { ...teil, answerKey };
+          }),
+        ),
+        this.writing.getExerciseByModelltest(n),
+        this.speaking.getTeils(n),
+      ]);
+
+    return {
+      ...weekly,
+      sections: {
+        LESEN: lesen,
+        SPRACHBAUSTEINE: sprachbausteine,
+        HOEREN: hoerenTeile,
+        SCHREIBEN: schreiben,
+        SPRECHEN: sprechen,
+      },
+    };
+  }
+
+  /**
+   * Known gap, not fixed here: for a generic-model level (A1/A2) every
+   * `exercises.*` list below is empty, since none of those eight relations
+   * exist for that level. `ModelltestExercisesDto` is a fixed per-table
+   * shape (not `unknown`, unlike `getOfTheWeekContent`'s `sections`), so
+   * widening it to carry generic-model ids is a DTO change this task's
+   * scope (docs/plans/active/multi-level-phase-3-generic-model.md Task 4)
+   * deliberately doesn't make. Empty lists, not a crash or wrong data.
+   */
+  async getByNumber(
+    number: number,
+    opts: { isGuest?: boolean; studentId?: string } = {},
+  ): Promise<ModelltestDetailDto> {
+    assertGuestMayAccessModelltest(opts.isGuest, number);
+
+    if (opts.studentId && opts.isGuest !== true) {
+      await this.trainingAccess.assertMayAccess(opts.studentId, number);
+    }
+
+    const row = await this.prisma.modelltest.findFirst({
+      // Same reason as getAll: a student must not reach exam material by
+      // asking for it by number.
+      where: { number, exam_only: false },
       include: {
         sprachbausteineExercises: { select: { id: true } },
         sprachbausteineTeil2Exercises: { select: { id: true } },
@@ -39,6 +235,7 @@ export class ModelltestsService {
       id: row.id,
       number: row.number,
       title: row.title,
+      level: row.level,
       exercises: {
         sprachbausteineT1: row.sprachbausteineExercises.map((e) => e.id),
         sprachbausteineT2: row.sprachbausteineTeil2Exercises.map((e) => e.id),

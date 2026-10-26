@@ -10,31 +10,64 @@ export class ListeningQuestionDto {
   prompt: string;
 }
 
+/** One item of an A1/A2 Hören Teil (keys stripped on GET; scored on submit). */
+export class ListeningGenericItemDto {
+  @ApiProperty()
+  itemNumber: number;
+
+  @ApiPropertyOptional({ nullable: true })
+  prompt: string | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    description: 'Per-item picture (e.g. A2 phone note); text prompt is fallback',
+  })
+  imageUrl?: string | null;
+
+  @ApiPropertyOptional({
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        key: { type: 'string' },
+        content: { type: 'string' },
+        imageUrl: { type: 'string', nullable: true },
+      },
+    },
+  })
+  options: { key: string; content: string; imageUrl?: string | null }[];
+}
+
+/**
+ * One Hören Teil as training serves it — same fields as exam `getExamTeil`.
+ *
+ * No durable audio URL: the client spends a play via
+ * `POST /api/listening/audio/:audioId/play`, then streams through the API.
+ *
+ * A1/A2 add `aufgabentyp` + `items` (authoritative). B1 keeps `questions` as
+ * Richtig/Falsch prompts only.
+ */
 export class ListeningExerciseDto {
   @ApiProperty({
-    description: 'Content version string — send back unchanged in submit',
-    example: 'modelltest-1-teil-1-v1',
+    description:
+      'Listening exercise id — pass to POST .../audio/{audioId}/play',
+    example: '06cbc490-dc63-4ea1-b491-c1a569d88489',
   })
-  content_revision: string;
-
-  @ApiProperty({
-    description: 'ISO 8601 timestamp of when this response was generated',
-    example: '2026-06-04T09:00:00.000Z',
-  })
-  issued_at: string;
+  audioId: string;
 
   @ApiProperty({
     description:
-      'HTTPS URL of the audio file. Empty string means use bundled asset.',
-    example: '',
+      'How many times this recording may be played (from exam_plays_allowed)',
+    example: 1,
   })
-  audio_url: string;
+  playsAllowed: number;
 
-  @ApiPropertyOptional({
-    description: 'Path relative to Flutter assets/ folder',
-    example: '',
+  @ApiProperty({
+    description:
+      'Content version string — send back unchanged in submit as content_revision',
+    example: 'modelltest-1-teil-1-v1',
   })
-  bundled_audio_asset?: string;
+  contentRevision: string;
 
   @ApiProperty({
     description: 'Image URL for this Teil (Cloudflare R2)',
@@ -45,8 +78,32 @@ export class ListeningExerciseDto {
 
   @ApiProperty({
     description:
-      'Richtig(+)/falsch(−) statements. No options array — student answers each with "+" or "−".',
+      'Richtig(+)/falsch(−) statements (B1/B2). For A1/A2 prefer `items`.',
     type: [ListeningQuestionDto],
   })
   questions: ListeningQuestionDto[];
+
+  @ApiPropertyOptional({
+    description: 'A1/A2: Aufgabenart of this Teil',
+    example: 'KURZANTWORT',
+  })
+  aufgabentyp?: string;
+
+  @ApiPropertyOptional({
+    description: 'A1/A2: e.g. HOEREN_1',
+    example: 'HOEREN_1',
+  })
+  sectionId?: string;
+
+  @ApiPropertyOptional({
+    description: 'A1/A2: section material (word banks, texts, …)',
+  })
+  material?: unknown;
+
+  @ApiPropertyOptional({
+    description:
+      'A1/A2: authoritative items (no answer key on GET — scored on submit)',
+    type: [ListeningGenericItemDto],
+  })
+  items?: ListeningGenericItemDto[];
 }

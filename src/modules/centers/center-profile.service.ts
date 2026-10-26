@@ -14,7 +14,9 @@ import type {
 import {
   addressRulesFor,
   isLocationRefusal,
-  resolveLocation, locationLabelOf } from '../locations/location-resolver';
+  resolveLocation,
+  locationLabelOf,
+} from '../locations/location-resolver';
 import {
   deriveOnboardingState,
   suppliedLocationOf,
@@ -23,7 +25,6 @@ import {
 import { deriveAccountState } from './center-account-state';
 import { SubscriptionPolicyService } from './subscription-policy.service';
 import { type CenterPlan } from '@prisma/client';
-import { emptySeatsByPlan, planIdFor } from '../../shared/plan-id';
 
 type SignedCenterIdentity = Pick<
   CenterAccessTokenPayload,
@@ -44,7 +45,6 @@ type SubscriptionFacts = {
  * The database spells tiers in upper case; that stays inside. A response that
  * mixed both vocabularies would make every client translate between them.
  */
-type SeatsByPlan = ReturnType<typeof emptySeatsByPlan>;
 
 /**
  * The address fields a country can demand, in the order a form shows them, so
@@ -108,7 +108,7 @@ export class CenterProfileService {
     const centerUser = await this.loadOwnedUser(identity);
     const [subscription, seats] = await Promise.all([
       this.loadSubscription(identity),
-      this.loadSeats(identity),
+      this.seatsOf(identity.centerId),
     ]);
 
     return this.toProfile(centerUser, subscription, seats);
@@ -351,7 +351,7 @@ export class CenterProfileService {
       } & StoredLocation;
     },
     subscription: SubscriptionFacts,
-    seats: SeatsByPlan,
+    seats: number,
   ): CenterProfileResponseDto {
     const onboarding = this.toOnboardingState(centerUser);
     const decision = this.policy.evaluate(subscription);
@@ -433,28 +433,14 @@ export class CenterProfileService {
     return subscription;
   }
 
-  /**
-   * Seats per tier, with absent tiers reported as zero.
-   *
-   * A tier with no row and a tier with zero seats mean the same thing to a
-   * dashboard, and leaving one of them undefined makes every client write the
-   * same `?? 0`.
-   */
-  private async loadSeats(
-    identity: SignedCenterIdentity,
-  ): Promise<SeatsByPlan> {
-    const rows = await this.prisma.centerSeat.findMany({
-      where: { center_id: identity.centerId },
-      select: { tier: true, quantity: true },
+  /** Seats the center holds, or zero when it holds none yet. */
+  private async seatsOf(centerId: string): Promise<number> {
+    const seat = await this.prisma.centerSeat.findUnique({
+      where: { center_id: centerId },
+      select: { quantity: true },
     });
 
-    const seats = emptySeatsByPlan();
-
-    for (const row of rows) {
-      seats[planIdFor(row.tier)] = row.quantity;
-    }
-
-    return seats;
+    return seat?.quantity ?? 0;
   }
 
   /**
@@ -476,6 +462,7 @@ export class CenterProfileService {
       country_code?: string | null;
       city_id?: string | null;
       city_other?: string | null;
+      logo_url?: string | null;
     };
   }): OnboardingState {
     // The rules live in `center-onboarding` because payment creation asks the
@@ -483,6 +470,7 @@ export class CenterProfileService {
     return deriveOnboardingState({
       ...suppliedLocationOf(centerUser.center),
       phone: centerUser.phone,
+      logo: centerUser.center.logo_url ?? null,
     });
   }
 }
