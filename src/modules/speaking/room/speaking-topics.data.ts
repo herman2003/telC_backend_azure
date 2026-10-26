@@ -994,7 +994,7 @@ export function findSpeakingTopicById(id: string): SpeakingTopic | undefined {
 }
 
 /** Public catalogue for Mit Elena (id + display fields only). */
-export function listElenaTopics(): Array<{
+export function listElenaTopics(level?: SpeakingLevel): Array<{
   id: string;
   level: SpeakingLevel;
   teil: 2;
@@ -1003,5 +1003,9 @@ export function listElenaTopics(): Array<{
   positionB: string;
   followUpQuestions: string[];
 }> {
-  return SPEAKING_TOPICS.map((topic) => ({ ...topic }));
+  const rows =
+    level == null
+      ? SPEAKING_TOPICS
+      : SPEAKING_TOPICS.filter((topic) => topic.level === level);
+  return rows.map((topic) => ({ ...topic }));
 }

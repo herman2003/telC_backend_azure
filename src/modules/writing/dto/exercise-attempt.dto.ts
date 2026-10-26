@@ -88,6 +88,25 @@ export class ExerciseAttemptDto {
   };
 
   @ApiPropertyOptional({
+    description:
+      'A1/A2 TEXT_SCHREIBEN half-point rubric (training AI). Absent for B1/B2.',
+    example: {
+      scheme: 'A1_A2',
+      contentPointBands: ['FULL', 'FULL', 'PARTIAL'],
+      communicativeDesign: 'FULL',
+      points: 8.5,
+      maxPoints: 10,
+    },
+  })
+  a12Rating?: {
+    scheme: 'A1_A2';
+    contentPointBands: Array<'FULL' | 'PARTIAL' | 'NONE'>;
+    communicativeDesign: 'FULL' | 'PARTIAL' | 'NONE';
+    points: number;
+    maxPoints: number;
+  };
+
+  @ApiPropertyOptional({
     description: 'List of inline corrections (max 10)',
     type: [InlineCorrectionDto],
   })

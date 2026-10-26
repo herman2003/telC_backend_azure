@@ -67,7 +67,10 @@ describe('WritingCorrectionService', () => {
   };
   const mockGateway = { notifyCorrectionReady: jest.fn() };
   const mockModelService = { generateTextResponse: jest.fn() };
-  const mockWritingService = { getExercise: jest.fn() };
+  const mockWritingService = {
+    getExercise: jest.fn(),
+    resolveCorrectionBrief: jest.fn(),
+  };
 
   const jobData = {
     attemptId: 'attempt-uuid-1',
@@ -117,6 +120,9 @@ describe('WritingCorrectionService', () => {
       new Error('Model unavailable'),
     );
     mockWritingService.getExercise.mockResolvedValue(FAKE_EXERCISE);
+    mockWritingService.resolveCorrectionBrief.mockResolvedValue({
+      exercise: FAKE_EXERCISE,
+    });
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -520,6 +526,110 @@ describe('WritingCorrectionService', () => {
               errorType: 'grammar',
             },
           ],
+        }),
+      );
+    });
+  });
+
+  describe('A1/A2 TEXT_SCHREIBEN training correction', () => {
+    // Narrow the shared `any` mock so new assertions do not raise the eslint ratchet.
+    const prisma = mockPrismaService as {
+      writingAttempt: { update: jest.Mock };
+      studentActivity: { create: jest.Mock };
+    };
+
+    const a12Exercise = {
+      ...FAKE_EXERCISE,
+      id: 'a1-schreiben-2',
+      part: 2,
+      bulletPoints: ['August', 'Kulturprogramm', 'Hotel'],
+    };
+
+    const a12Json = `{
+      "content_point_bands": ["FULL", "FULL", "PARTIAL"],
+      "communicative_design": "FULL",
+      "feedback": "Gut für A1.",
+      "corrected_text": "Sehr geehrte Damen und Herren, ich komme im August.",
+      "corrections": []
+    }`;
+
+    beforeEach(() => {
+      mockWritingService.resolveCorrectionBrief.mockResolvedValue({
+        exercise: a12Exercise,
+        a12: {
+          level: 'A1',
+          maxPoints: 10,
+          rubric: {
+            contentPoints: {
+              selectRequired: 3,
+              pointsPerPoint: [3, 1.5, 0],
+            },
+            communicativeDesign: { points: [1, 0.5, 0] },
+          },
+        },
+      });
+      mockModelService.generateTextResponse.mockResolvedValue(a12Json);
+    });
+
+    it('scores with the A1 half-point rubric (not B1 /45)', async () => {
+      // FULL+FULL+PARTIAL+FULL KG = 3+3+1.5+1 = 8.5 → 85%
+      await service.runCorrection({
+        ...jobData,
+        exerciseId: 'a1-schreiben-2',
+        level: 'A1',
+      });
+
+      expect(prisma.writingAttempt.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            score: 85,
+            feedback: 'Gut für A1.',
+            telc_rating: expect.objectContaining({
+              scheme: 'A1_A2',
+              points: 8.5,
+              maxPoints: 10,
+            }),
+          }),
+        }),
+      );
+      expect(mockGateway.notifyCorrectionReady).toHaveBeenCalledWith(
+        jobData.studentId,
+        expect.objectContaining({
+          score: 85,
+          a12Rating: expect.objectContaining({
+            scheme: 'A1_A2',
+            points: 8.5,
+            maxPoints: 10,
+          }),
+          telcRating: undefined,
+        }),
+      );
+      expect(prisma.studentActivity.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          skill: 'SCHREIBEN',
+          teil: 2,
+          score: 85,
+        }),
+      });
+    });
+
+    it('stubs without B1 fallback when A12 rubric is missing', async () => {
+      mockWritingService.resolveCorrectionBrief.mockResolvedValue({
+        exercise: a12Exercise,
+      });
+      mockModelService.generateTextResponse.mockResolvedValue(a12Json);
+
+      await service.runCorrection({
+        ...jobData,
+        exerciseId: 'a1-schreiben-2',
+        level: 'A1',
+      });
+
+      expect(mockModelService.generateTextResponse).not.toHaveBeenCalled();
+      expect(prisma.studentActivity.create).not.toHaveBeenCalled();
+      expect(prisma.writingAttempt.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ score: 75 }),
         }),
       );
     });

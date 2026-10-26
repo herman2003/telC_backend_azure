@@ -153,3 +153,60 @@ describe('EvaluationService Teil 3 context', () => {
     expect(prompt).toContain('pronunciation');
   });
 });
+
+describe('A1/A2 M10 practice evaluation', () => {
+  // Private helpers: reach via prototype + unknown (same pattern as B1 buildPrompt).
+  type A12Surface = {
+    buildA12Prompt: (
+      level: 'A1' | 'A2',
+      teil: number,
+      transcript: string,
+    ) => string;
+    parseA12Response: (
+      response: string,
+      level: 'A1' | 'A2',
+      teil: number,
+    ) => ReturnType<EvaluationService['parseA12Response']>;
+  };
+
+  const service = () =>
+    Object.create(EvaluationService.prototype) as unknown as A12Surface;
+
+  it('A2 prompt uses half-point bands, not B1 letters', () => {
+    const prompt = service().buildA12Prompt('A2', 3, 'Lass uns wandern.');
+    expect(prompt).toContain('telc Deutsch A2');
+    expect(prompt).toContain('Etwas aushandeln');
+    expect(prompt).toContain('FULL');
+    expect(prompt).toContain('NOT_ASSESSED');
+    expect(prompt).not.toContain('"expression"');
+    expect(prompt).not.toContain('telc Deutsch B1');
+  });
+
+  it('parses A1 Teil 1 bands into practice points', () => {
+    const result = service().parseA12Response(
+      JSON.stringify({
+        criteria: {
+          vorstellen: 'FULL',
+          buchstabieren: 'HALF',
+          zahlen: 'NOT_ASSESSED',
+        },
+        evaluation_text: 'Hallo! Gute Vorstellung.',
+        strengths: 'Klar.',
+        areas_for_improvement: 'Zahlen üben.',
+        corrections: [],
+      }),
+      'A1',
+      1,
+    );
+    expect(result.scores.overall).toBe(75);
+    expect(result.telcRating).toBeUndefined();
+    expect(result.a12M10).toEqual(
+      expect.objectContaining({
+        scheme: 'A1_A2_M10',
+        level: 'A1',
+        points: 1.5,
+        maxPoints: 3,
+      }),
+    );
+  });
+});
