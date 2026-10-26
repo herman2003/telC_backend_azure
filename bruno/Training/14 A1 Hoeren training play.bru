@@ -1,0 +1,39 @@
+meta {
+  name: 14 A1 Hoeren training play
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/listening/audio/{{a1TrainingHoerenAudioId}}/play
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.playsRemaining: eq 1
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        (res.body && res.body.message === "HOEREN_AUDIO_NOT_READY"
+          ? " (upload A1 Hören recordings to format.hoerenDelivery first)"
+          : "")
+    );
+  }
+  if (!String(res.body.url).startsWith("/api/listening/audio?token=")) {
+    throw new Error("expected a signed training stream link, got " + res.body.url);
+  }
+}
+
+docs {
+  Needs 13 first. Short-lived training grant; playsRemaining is the strict
+  hint (1), not a depleting counter.
+}

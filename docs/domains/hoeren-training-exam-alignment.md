@@ -18,19 +18,22 @@ API after a counted `play`.
 - `GET /api/listening/exercise` matches exam Teil fields: `audioId`,
   `playsAllowed`, `contentRevision`, `imagePath`, `questions` — no
   `audio_url` / `bundled_audio_asset` in the response.
-- Training play: `POST /api/listening/audio/:audioId/play` spends one play and
-  returns a short-lived stream URL (same idea as exam).
+- Training play: `POST /api/listening/audio/:audioId/play` returns a short-lived
+  stream URL (same delivery idea as exam). Training does **not** hard-cap
+  plays — free vs timed is enforced in the app; the API may re-grant after TTL.
 - Stream URL loads audio via API proxy from R2; raw R2 URL never goes to the
   client in training or exam exercise payloads.
-- Allowance source remains `listening_exercises.exam_plays_allowed`.
-- Exam sitting play path stays behaviourally unchanged.
+- `playsAllowed` on GET remains `exam_plays_allowed` (usually 1) as the
+  strict-mode hint (timed training + Exam Day). “Zweimal” lives in the MP3.
+- Exam sitting play path stays behaviourally unchanged (once per attempt).
 
 ## Tech Stack
 
 - NestJS: `src/modules/listening/*`, `src/modules/exams/exam-audio.controller.ts`,
   `src/modules/centers/exam-audio.service.ts`
-- Prisma: `ListeningExercise.audio_url`, `exam_plays_allowed`; new
-  `TrainingAudioPlay` (or equivalent)
+- Prisma: `ListeningExercise.audio_url`, `exam_plays_allowed`; Exam Day
+  counter `exam_audio_plays`. Legacy `training_audio_plays` is unused by the
+  training play path (optional drop later).
 - Storage: Cloudflare R2 (existing `audio_url` on the row; server fetch only)
 - Auth: student JWT on exercise + play; stream authenticated by signed token
   (no JWT on `<audio>` / Flutter `UrlSource`)
@@ -52,19 +55,13 @@ src/modules/listening/
   listening.service.ts           getExercise → exam-shaped payload
   dto/listening-exercise.dto.ts  Swagger / response shape
   listening.controller.ts        GET exercise + POST play
-  training-audio.service.ts      NEW — count plays + sign token (training)
-prisma/
-  schema.prisma                  TrainingAudioPlay model
-  migrations/…                   NEW migration
+  training-audio.service.ts      short-lived training stream grant (no hard-cap)
 src/modules/exams/
-  exam-audio.controller.ts       keep / extend shared stream if needed
+  exam-audio.controller.ts       exam stream
 src/modules/centers/
-  exam-audio.service.ts          exam play unchanged; extract shared sign/proxy
-                                 only if it reduces duplication cleanly
-docs/
-  HOREN_TRAINING_EXAM_ALIGN_SPEC.md   this file
-  HOREN_TRAINING_EXAM_ALIGN_PLAN.md   implementation plan
-  things-to-do-after.md               link / mark done when shipped
+  exam-audio.service.ts          exam play (once per attempt)
+docs/domains/
+  hoeren-training-exam-alignment.md   this file
 ```
 
 ## Product decisions (locked)
@@ -75,8 +72,8 @@ docs/
 | Neon Object Storage | Not used for Hören audio |
 | Exercise payload | Exam shape is the reference (`getExamTeil`) |
 | Durable R2 URL in student exercise JSON | **Never** (training and exam) |
-| Play allowance | `listening_exercises.exam_plays_allowed` (usually 1) |
-| Training counter scope | Per **student + audioId** (not per exam attempt) |
+| Play allowance (GET hint) | `listening_exercises.exam_plays_allowed` (usually 1) |
+| Training hard-cap | **None** — Flutter owns free (unlimited) vs timed (once) |
 | Exam counter scope | Unchanged: per **attempt + audioId** (`exam_audio_plays`) |
 | Stream delivery | API proxy with short-lived signed token (existing exam pattern) |
 | Submit body `content_revision` | Keep snake_case for this PR (avoid breaking submit) |
@@ -122,21 +119,22 @@ send the string from `contentRevision`.
 
 1. Resolve exercise by id; refuse unknown ids.
 2. Ensure `audio_url` and `duration_minutes` are usable.
-3. Upsert / claim one play on `training_audio_plays` for
-   `(student_id, audio_id)` with the same conditional increment pattern as exam
-   (create-at-zero then `updateMany` where `plays_used < allowed`).
-4. Sign a short-lived token (lifetime ≈ recording duration × same factor as
-   exam).
-5. Return:
+3. Sign a short-lived token (lifetime ≈ recording duration × same factor as
+   exam). No training play hard-cap — each call may mint a new link.
+4. Return:
 
 ```json
 {
   "audioId": "uuid",
   "url": "/api/listening/audio?token=…",
-  "playsRemaining": 0,
+  "playsRemaining": 1,
   "expiresAt": "…"
 }
 ```
+
+`playsRemaining` mirrors `playsAllowed` (advisory for timed UI). It does not
+deplete. Free training re-requests after TTL; timed training is client-limited
+to one play; Exam Day still uses `exam_audio_plays`.
 
 Errors (stable codes, same spirit as exam):
 
@@ -145,7 +143,7 @@ Errors (stable codes, same spirit as exam):
 | `AUDIO_NOT_FOUND` | Unknown id |
 | `AUDIO_UNAVAILABLE` | Missing / empty `audio_url` or upstream fetch fail on stream |
 | `AUDIO_DURATION_MISSING` | Cannot size token lifetime |
-| `NO_PLAYS_LEFT` | Allowance already spent |
+| `HOEREN_AUDIO_NOT_READY` | A1/A2 recording not uploaded yet |
 
 ### Training — stream
 
@@ -181,7 +179,7 @@ player.src    =  absolute API origin + url
 | Level | Focus |
 |-------|--------|
 | Unit — `getExercise` | Shape matches exam fields; no `audio_url` in JSON |
-| Unit — training play | First play grants URL; second → `NO_PLAYS_LEFT`; missing audio |
+| Unit — training play | First grant URL; second grant still succeeds; missing audio |
 | Unit — stream | Invalid/expired token refused; valid token proxies body |
 | Regression | Exam audio play + stream specs still green |
 | e2e listening | Update fixtures to new GET shape |
@@ -189,14 +187,13 @@ player.src    =  absolute API origin + url
 ## Boundaries
 
 **Always**
-- Server owns the play count in training and exam.
+- Server owns the play count in **Exam Day** (`exam_audio_plays`).
+- Training: short-lived links only; no hard-cap (Flutter: free unlimited, timed once).
 - Proxy R2; never put durable R2 audio URLs in student exercise payloads.
-- Keep exam attempt-scoped counting separate from training student-scoped counting.
-- Document Flutter breakage: training clients must switch to play flow.
+- Keep exam attempt-scoped counting separate from training (training does not meter).
 
 **Ask first**
-- Resetting training plays (daily / per session / never).
-- Different `playsAllowed` for training vs exam (today: same column).
+- Server-enforced timed training (would need a mode flag or timed session).
 - Making the R2 bucket private (ops) vs code-only hide.
 
 **Never**
@@ -208,7 +205,7 @@ player.src    =  absolute API origin + url
 
 - [ ] Training GET exercise matches exam Teil field names and meanings
 - [ ] No `audio_url` / `bundled_audio_asset` in that response
-- [ ] Training POST play counts against `exam_plays_allowed`
+- [ ] Training POST play re-grants without `NO_PLAYS_LEFT`; Exam Day still once
 - [ ] Stream serves audio only with a valid token
 - [ ] Exam play/stream tests still pass
 - [ ] Spec + plan linked from `things-to-do-after.md`
@@ -216,8 +213,10 @@ player.src    =  absolute API origin + url
 
 ## Open Questions
 
-- None blocking for implementation.
+- None blocking.
 - Optional later: private R2 + server credentials instead of public bucket URLs
   fetched by the API.
 - Optional later: rename submit `content_revision` → `contentRevision` in a
   dedicated breaking change.
+- Optional later: drop unused `training_audio_plays` table if nothing else
+  reads it.
