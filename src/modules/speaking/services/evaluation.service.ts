@@ -24,6 +24,16 @@ import {
   scoreFromM10Points,
   type TelcSprechenCriteria,
 } from '../speaking-telc-rating';
+import {
+  a12CriteriaFor,
+  a12MaxPoints,
+  a12TeilContext,
+  buildA12SpeakingRating,
+  isA12Band,
+  isA12SpeakingLevel,
+  type A12Band,
+  type A12SpeakingRating,
+} from '../speaking-a12-m10';
 
 interface SpeakingAttemptInput {
   attemptId?: string;
@@ -156,9 +166,13 @@ export class EvaluationService {
       await this.rateLimit.checkAiEvaluationLimit(studentId);
     }
 
-    const prompt = this.buildPrompt(level, teilNumber, transcript);
+    const prompt = isA12SpeakingLevel(level)
+      ? this.buildA12Prompt(level, teilNumber, transcript)
+      : this.buildPrompt(level, teilNumber, transcript);
     const raw = await this.callWithTimeout(prompt);
-    const evaluation = this.parseResponse(raw, level, teilNumber);
+    const evaluation = isA12SpeakingLevel(level)
+      ? this.parseA12Response(raw, level, teilNumber)
+      : this.parseResponse(raw, level, teilNumber);
 
     if (studentId) {
       // `recordDelivered`, not `record`: the student already has their result,
@@ -332,6 +346,9 @@ Also provide:
    * German.
    */
   private getTeilContext(level: CefrLevel, teilNumber: number): string {
+    if (isA12SpeakingLevel(level)) {
+      return a12TeilContext(level, teilNumber);
+    }
     const b1: Record<number, string> = {
       1: 'Teil 1 — Einander kennenlernen: personal introduction and background (self, hobbies, work, daily life).',
       2: 'Teil 2 — Über ein Thema sprechen: opinion and experience on a topic; give examples and elaborate.',
@@ -344,6 +361,152 @@ Also provide:
     };
     const contexts = level === 'B2' ? b2 : b1;
     return contexts[teilNumber] ?? contexts[1];
+  }
+
+  private buildA12Prompt(
+    level: 'A1' | 'A2',
+    teilNumber: number,
+    transcript: string,
+  ): string {
+    const defs = a12CriteriaFor(level, teilNumber);
+    const maxPts = a12MaxPoints(level, teilNumber);
+    const keys = defs.map((d) => d.key).join(', ');
+    const bandsHelp = defs
+      .map(
+        (d) =>
+          `- "${d.key}": FULL=${d.points[0]}, HALF=${d.points[1]}, ZERO=${d.points[2]}, or NOT_ASSESSED if that task is absent from the transcript`,
+      )
+      .join('\n');
+
+    return `You are an expert rater for telc Deutsch ${level} Mündlicher Ausdruck (Bewertungsbogen M10), Teil ${teilNumber}.
+This is an AI practice estimate for training — not an official telc exam result.
+
+**TEIL ${teilNumber} CONTEXT:**
+${a12TeilContext(level, teilNumber)}
+
+**STUDENT TRANSCRIPT:**
+${transcript}
+
+**SCORING (official ${level} half-point bands only — do NOT use B1 A/B/C/D letters):**
+Max for this Teil: ${maxPts}.
+${bandsHelp}
+
+Return JSON with "criteria" object mapping each of [${keys}] to FULL|HALF|ZERO|NOT_ASSESSED.
+Do not invent extra official dimensions (no separate grammar/pronunciation exam scores).
+Also provide evaluation_text (German, warm, starts with Hallo!), strengths, areas_for_improvement, corrections (grammar|vocabulary only).
+
+**OUTPUT (JSON only):**
+{
+  "criteria": { ${defs.map((d) => `"${d.key}": "FULL"`).join(', ')} },
+  "evaluation_text": "Hallo! …",
+  "strengths": "…",
+  "areas_for_improvement": "…",
+  "corrections": []
+}`;
+  }
+
+  parseA12Response(
+    response: string,
+    level: 'A1' | 'A2',
+    teilNumber: number,
+  ): SpeakingEvaluationResponseDto {
+    try {
+      const jsonMatch = response.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('NO_JSON_IN_RESPONSE');
+      const p = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
+      if (typeof p.evaluation_text !== 'string' || !p.evaluation_text.trim()) {
+        throw new Error('Missing evaluation_text');
+      }
+
+      const rawCriteria =
+        p.criteria && typeof p.criteria === 'object'
+          ? (p.criteria as Record<string, unknown>)
+          : {};
+      const bands: Record<string, A12Band> = {};
+      for (const def of a12CriteriaFor(level, teilNumber)) {
+        const band = rawCriteria[def.key];
+        if (!isA12Band(band)) {
+          throw new Error(`Invalid or missing band for ${def.key}`);
+        }
+        bands[def.key] = band;
+      }
+
+      const rating = buildA12SpeakingRating(level, teilNumber, bands);
+      const overall = rating.scorePercent;
+
+      const rawCorrections = Array.isArray(p.corrections) ? p.corrections : [];
+      const corrections: CorrectionDto[] = rawCorrections
+        .slice(0, 10)
+        .filter(
+          (c): c is Record<string, unknown> =>
+            !!c &&
+            typeof c === 'object' &&
+            !!(c as Record<string, unknown>).original &&
+            !!(c as Record<string, unknown>).corrected &&
+            !!(c as Record<string, unknown>).explanation &&
+            !!(c as Record<string, unknown>).error_type,
+        )
+        .map((c) => ({
+          original: String(c.original),
+          corrected: String(c.corrected),
+          explanation: String(c.explanation),
+          error_type: c.error_type === 'vocabulary' ? 'vocabulary' : 'grammar',
+        }));
+
+      return {
+        evaluationText: p.evaluation_text,
+        scores: {
+          grammar: overall,
+          vocabulary: overall,
+          coherence: overall,
+          overall,
+        },
+        // Practice estimate: points/maxPoints are official A12 M10; letters
+        // are placeholders so existing clients that require telcRating keep working.
+        telcRating: this.a12AsTelcCompat(rating),
+        a12M10: rating as unknown as Record<string, unknown>,
+        corrections,
+        strengths: typeof p.strengths === 'string' ? p.strengths : '',
+        areas_for_improvement:
+          typeof p.areas_for_improvement === 'string'
+            ? p.areas_for_improvement
+            : '',
+      };
+    } catch (error) {
+      this.logger.error(
+        `Failed to parse A12 evaluation response: ${(error as Error).message}`,
+      );
+      throw new Error('EVALUATION_PARSE_FAILED');
+    }
+  }
+
+  /** Compat shim: real A12 detail is in points/maxPoints; letters are unused. */
+  private a12AsTelcCompat(rating: A12SpeakingRating): {
+    expression: 'A' | 'B' | 'C' | 'D';
+    taskFulfilment: 'A' | 'B' | 'C' | 'D';
+    formalAccuracy: 'A' | 'B' | 'C' | 'D';
+    pronunciation: 'A' | 'B' | 'C' | 'D';
+    points: number;
+    maxPoints: number;
+    teilNumber: 1 | 2 | 3;
+  } {
+    const letter =
+      rating.scorePercent >= 85
+        ? 'A'
+        : rating.scorePercent >= 60
+          ? 'B'
+          : rating.scorePercent >= 30
+            ? 'C'
+            : 'D';
+    return {
+      expression: letter,
+      taskFulfilment: letter,
+      formalAccuracy: letter,
+      pronunciation: letter,
+      points: rating.points,
+      maxPoints: rating.maxPoints,
+      teilNumber: rating.teilNumber,
+    };
   }
 
   private async callWithTimeout(prompt: string): Promise<string> {

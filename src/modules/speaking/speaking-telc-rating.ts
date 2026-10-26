@@ -105,6 +105,12 @@ export function assertScoredTeil(teilNumber: number): ScoredTeil {
 
 function tableFor(level: CefrLevel, teilNumber: number): LetterPoints {
   const teil = assertScoredTeil(teilNumber);
+  // A1/A2 use speaking-a12-m10.ts — never reuse B1 letters for those levels.
+  if (level === 'A1' || level === 'A2') {
+    throw new Error(
+      `telc letter M10 tables are B1/B2 only; use A12 M10 for ${level}`,
+    );
+  }
   if (level === 'B2') return M10_B2;
   return teil === 1 ? M10_B1_TEIL1 : M10_B1_TEIL23;
 }

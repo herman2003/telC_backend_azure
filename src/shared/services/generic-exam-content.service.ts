@@ -121,6 +121,35 @@ export class GenericExamContentService {
     return row ? this.toSectionContent(row) : null;
   }
 
+  /**
+   * One section by primary key, with its Modelltest level — training letter
+   * AI resolves A1/A2 TEXT_SCHREIBEN by the id returned from GET exercise.
+   */
+  async sectionById(id: string): Promise<
+    | (GenericSectionContent & {
+        modelltestId: string;
+        level: CefrLevel;
+      })
+    | null
+  > {
+    const row = await this.prisma.examSection.findUnique({
+      where: { id },
+      include: {
+        items: {
+          orderBy: { item_number: 'asc' },
+          include: { options: { orderBy: { sort_order: 'asc' } } },
+        },
+        modelltest: { select: { id: true, level: true } },
+      },
+    });
+    if (!row) return null;
+    return {
+      ...this.toSectionContent(row),
+      modelltestId: row.modelltest.id,
+      level: row.modelltest.level,
+    };
+  }
+
   private toSectionContent(row: ExamSectionRow): GenericSectionContent {
     const maps = (row.material ?? {}) as MaterialImageMaps;
     const optionImages = maps.optionImages ?? {};

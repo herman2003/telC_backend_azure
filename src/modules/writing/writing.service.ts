@@ -31,8 +31,20 @@ import { historyFields } from '../student-activity/student-history';
 import { recordActivity } from '../student-activity/student-activity.writer';
 import { trainingFeedbackForSection } from '../centers/generic-section-scoring';
 import { WritingDailyQuotaService } from './writing-daily-quota.service';
+import {
+  parseA12LetterRubric,
+  type A12LetterRubric,
+} from './writing-a12-letter-rating';
+import { FORMULAR_AUTO_CORRECTION_KIND } from '../../shared/writing-ai-quota';
 
 const WRITING_TEIL_IDS = ['1', '2'] as const;
+
+/** Brief + optional A1/A2 rubric for the correction worker. */
+export type WritingCorrectionBrief = {
+  exercise: WritingExerciseDto;
+  /** Present only for A1/A2 TEXT_SCHREIBEN training letters. */
+  a12?: { rubric: A12LetterRubric; maxPoints: number; level: CefrLevel };
+};
 
 export interface WritingCorrectionQueue {
   add(data: {
@@ -62,28 +74,64 @@ export class WritingService {
 
   /**
    * GET /api/writing/exercise/:id — fetch full exercise content from DB.
+   * B1/B2 `writing_exercises` only; A1/A2 clients use GET ?modelltest=.
    */
   async getExercise(id: string): Promise<WritingExerciseDto> {
-    let row: Awaited<ReturnType<typeof this.prisma.writingExercise.findUnique>>;
+    const brief = await this.resolveExerciseBrief(id);
+    if (!brief) {
+      throw new NotFoundException({
+        statusCode: 404,
+        error: 'Not Found',
+        message: 'Exercise not found',
+        messageKey: 'writingExerciseNotFound',
+      });
+    }
+    return brief;
+  }
+
+  /**
+   * Brief for the AI correction worker: classic `writing_exercises` or an
+   * A1/A2 TEXT_SCHREIBEN `exam_sections` row (same id the training client
+   * got from GET /api/writing/exercise?modelltest=).
+   */
+  async resolveExerciseBrief(id: string): Promise<WritingExerciseDto | null> {
+    const packed = await this.resolveCorrectionBrief(id);
+    return packed?.exercise ?? null;
+  }
+
+  async resolveCorrectionBrief(
+    id: string,
+  ): Promise<WritingCorrectionBrief | null> {
     try {
-      row = await this.prisma.writingExercise.findUnique({ where: { id } });
+      const row = await this.prisma.writingExercise.findUnique({
+        where: { id },
+      });
+      if (row) return { exercise: this.mapExerciseRow(row) };
     } catch {
-      throw new NotFoundException({
-        statusCode: 404,
-        error: 'Not Found',
-        message: 'Exercise not found',
-        messageKey: 'writingExerciseNotFound',
-      });
+      return null;
     }
-    if (!row) {
-      throw new NotFoundException({
-        statusCode: 404,
-        error: 'Not Found',
-        message: 'Exercise not found',
-        messageKey: 'writingExerciseNotFound',
-      });
+
+    const section = await this.genericContent.sectionById(id);
+    if (
+      !section ||
+      section.aufgabentyp !== 'TEXT_SCHREIBEN' ||
+      !GENERIC_MODEL_LEVELS.includes(section.level)
+    ) {
+      return null;
     }
-    return this.mapExerciseRow(row);
+    const rubric = parseA12LetterRubric(section.material);
+    return {
+      exercise: this.mapGenericTextSchreiben(section),
+      ...(rubric
+        ? {
+            a12: {
+              rubric,
+              maxPoints: section.maxPoints > 0 ? section.maxPoints : 10,
+              level: section.level,
+            },
+          }
+        : {}),
+    };
   }
 
   /**
@@ -229,32 +277,7 @@ export class WritingService {
 
     const { exerciseId, content } = dto;
 
-    let exercise: {
-      id: string;
-      modelltest_id: string | null;
-      modelltest: { level: CefrLevel } | null;
-    } | null;
-    try {
-      exercise = await this.prisma.writingExercise.findUnique({
-        where: { id: exerciseId },
-        // `level` with it: the correction is rated against the criteria of the
-        // exam the task belongs to, and the caller is the only place that
-        // knows which that is without guessing.
-        select: {
-          id: true,
-          modelltest_id: true,
-          modelltest: { select: { level: true } },
-        },
-      });
-    } catch {
-      throw new NotFoundException({
-        statusCode: 404,
-        error: 'Not Found',
-        message: 'Exercise type not found',
-        messageKey: 'writingExerciseNotFound',
-      });
-    }
-
+    const exercise = await this.resolveLetterSubmitTarget(exerciseId);
     if (!exercise) {
       throw new NotFoundException({
         statusCode: 404,
@@ -395,7 +418,7 @@ export class WritingService {
           createdAt,
           // From the task's own Modelltest. A training task that belongs to
           // no Modelltest is B1, which is every row that predates levels.
-          level: exercise.modelltest?.level ?? 'B1',
+          level: exercise.level,
         });
       } catch (err) {
         this.logger.warn(
@@ -408,6 +431,89 @@ export class WritingService {
       attemptId,
       status: 'pending',
       message: 'Submission received. Correction in progress.',
+    };
+  }
+
+  /**
+   * B1/B2 `writing_exercises` id, or A1/A2 TEXT_SCHREIBEN `exam_sections` id
+   * from the weekly GET. FORMULAR stays on `submitGenericFormular`.
+   */
+  private async resolveLetterSubmitTarget(exerciseId: string): Promise<{
+    id: string;
+    modelltest_id: string | null;
+    level: CefrLevel;
+  } | null> {
+    try {
+      const classic = await this.prisma.writingExercise.findUnique({
+        where: { id: exerciseId },
+        select: {
+          id: true,
+          modelltest_id: true,
+          modelltest: { select: { level: true } },
+        },
+      });
+      if (classic) {
+        return {
+          id: classic.id,
+          modelltest_id: classic.modelltest_id,
+          level: classic.modelltest?.level ?? 'B1',
+        };
+      }
+    } catch {
+      return null;
+    }
+
+    const section = await this.genericContent.sectionById(exerciseId);
+    if (
+      !section ||
+      section.aufgabentyp !== 'TEXT_SCHREIBEN' ||
+      !GENERIC_MODEL_LEVELS.includes(section.level)
+    ) {
+      return null;
+    }
+    return {
+      id: section.id,
+      modelltest_id: section.modelltestId,
+      level: section.level,
+    };
+  }
+
+  private mapGenericTextSchreiben(section: {
+    id: string;
+    teil: number;
+    label: string;
+    instruction: string;
+    material: unknown;
+  }): WritingExerciseDto {
+    const material =
+      section.material && typeof section.material === 'object'
+        ? (section.material as Record<string, unknown>)
+        : {};
+    const bulletPoints = Array.isArray(material.bulletPoints)
+      ? material.bulletPoints.filter((p): p is string => typeof p === 'string')
+      : [];
+    const intro =
+      typeof material.intro === 'string' ? material.intro : undefined;
+    const closingReminder =
+      typeof material.closingReminder === 'string'
+        ? material.closingReminder
+        : undefined;
+    const taskInstructions =
+      typeof material.instructions === 'string'
+        ? material.instructions
+        : section.instruction;
+    return {
+      id: section.id,
+      part: section.teil,
+      title: section.label || 'Schreiben',
+      taskType: 'brief',
+      intro,
+      taskInstructions,
+      bulletPoints,
+      closingReminder,
+      prepDurationSeconds: 120,
+      writingDurationMinutes: 30,
+      registerChecklist: ['Anrede', 'Einleitung', 'Schluss'],
     };
   }
 
@@ -507,6 +613,7 @@ export class WritingService {
               completed_at: completedAt,
               duration_seconds: dto.durationSeconds ?? null,
               corrections: {
+                kind: FORMULAR_AUTO_CORRECTION_KIND,
                 outcomes: feedback.outcomes,
                 review: feedback.review,
               } as object,

@@ -65,6 +65,7 @@ describe('WritingService', () => {
   const mockGenericContent = {
     sectionsFor: jest.fn(),
     sectionFor: jest.fn(),
+    sectionById: jest.fn(),
   };
 
   const mockPrismaService = {
@@ -484,6 +485,7 @@ describe('WritingService', () => {
 
     it('throws NotFoundException when exerciseId not in DB', async () => {
       mockPrismaService.writingExercise.findUnique.mockResolvedValue(null);
+      mockGenericContent.sectionById.mockResolvedValue(null);
 
       await expect(
         service.submit('student-1', {
@@ -491,6 +493,77 @@ describe('WritingService', () => {
           content: 'Some text',
         }),
       ).rejects.toThrow(NotFoundException);
+    });
+
+    it('enqueues AI correction for A1/A2 TEXT_SCHREIBEN letter (training)', async () => {
+      mockPrismaService.writingExercise.findUnique.mockResolvedValue(null);
+      mockGenericContent.sectionById.mockResolvedValue({
+        id: 'a1-schreiben-2',
+        sectionId: 'SCHREIBEN_2',
+        aufgabentyp: 'TEXT_SCHREIBEN',
+        teil: 2,
+        label: 'Schreiben',
+        instruction: 'Schreiben Sie.',
+        maxPoints: 10,
+        scoringMode: 'MANUAL_WITH_AI_SUGGESTION',
+        contentRevision: 'a1-schreiben-2-v1',
+        material: {
+          bulletPoints: ['Punkt 1', 'Punkt 2', 'Punkt 3'],
+          intro: 'Schreiben Sie an die Touristeninformation.',
+        },
+        items: [],
+        modelltestId: 'mt-a1',
+        level: 'A1',
+      });
+      mockPrismaService.writingAttempt.findUnique.mockResolvedValue(null);
+      mockPrismaService.writingAttempt.create.mockResolvedValue({});
+
+      const result = await service.submit('student-1', {
+        exerciseId: 'a1-schreiben-2',
+        content: 'Sehr geehrte Damen und Herren, ich komme im August...',
+      });
+
+      expect(result.status).toBe('pending');
+      expect(mockQueue.add).toHaveBeenCalledWith(
+        expect.objectContaining({
+          exerciseId: 'a1-schreiben-2',
+          level: 'A1',
+          content: expect.stringContaining('August'),
+        }),
+      );
+      expect(mockPrismaService.writingAttempt.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            exercise_id: 'a1-schreiben-2',
+            modelltest_id: 'mt-a1',
+            status: 'pending',
+          }),
+        }),
+      );
+      expect(
+        mockPrismaService.writingAttempt.create.mock.calls[0][0].data,
+      ).not.toHaveProperty('exam_attempt_id');
+    });
+
+    it('404s when A1/A2 section is FORMULAR, not a letter', async () => {
+      mockPrismaService.writingExercise.findUnique.mockResolvedValue(null);
+      mockGenericContent.sectionById.mockResolvedValue({
+        id: 'a1-schreiben-1',
+        aufgabentyp: 'FORMULAR_AUSFUELLEN',
+        teil: 1,
+        level: 'A1',
+        modelltestId: 'mt-a1',
+        material: {},
+        items: [],
+      });
+
+      await expect(
+        service.submit('student-1', {
+          exerciseId: 'a1-schreiben-1',
+          content: 'should not use letter path',
+        }),
+      ).rejects.toThrow(NotFoundException);
+      expect(mockQueue.add).not.toHaveBeenCalled();
     });
 
     it('throws UnprocessableEntityException for empty content', async () => {

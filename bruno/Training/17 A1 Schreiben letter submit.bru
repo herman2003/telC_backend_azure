@@ -1,0 +1,40 @@
+meta {
+  name: 17 A1 Schreiben letter submit
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/api/writing/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "exerciseId": "{{a1SchreibenLetterSectionId}}",
+    "content": "Sehr geehrte Damen und Herren,\nich komme im August nach Dresden.\nBitte schicken Sie mir Informationen über Film, Theater und Museen.\nBitte schicken Sie mir auch Hoteladressen.\nMit freundlichen Grüßen\nAnna Test"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  // Training letter AI: accepted and queued (same as B1/B2). Do not wait for the model.
+  if (res.body.status !== "pending" && res.body.status !== "completed") {
+    throw new Error("expected pending/completed letter submit, got " + JSON.stringify(res.body));
+  }
+  if (!res.body.attemptId) {
+    throw new Error("letter submit must return attemptId");
+  }
+}

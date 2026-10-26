@@ -10,6 +10,7 @@ import { AiUsageService } from '../src/shared/services/ai-usage.service';
 import { SpeakingService } from '../src/modules/speaking/services/speaking.service';
 import { GeminiService } from '../src/modules/speaking/services/gemini.service';
 import { JwtAuthGuard } from '../src/shared/guards/jwt-auth.guard';
+import { PrismaService } from '../src/shared/services/prisma.service';
 
 const TOPIC_TEIL_2 = {
   title: 'Arbeit und Freizeit',
@@ -31,6 +32,9 @@ const mockEntitlements = {
   spend: jest.fn(),
 };
 const mockUsage = { recordDelivered: jest.fn() };
+const mockPrisma = {
+  student: { findUnique: jest.fn() },
+};
 
 /** Allowed, with free sessions still in hand. */
 const freeSessionsLeft = {
@@ -77,6 +81,7 @@ describe('LiveTokenController', () => {
     mockEntitlements.mayUse.mockResolvedValue(freeSessionsLeft);
     mockEntitlements.spend.mockResolvedValue('FREE');
     mockUsage.recordDelivered.mockResolvedValue(undefined);
+    mockPrisma.student.findUnique.mockResolvedValue({ level: 'B1' });
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [LiveTokenController],
@@ -87,6 +92,7 @@ describe('LiveTokenController', () => {
         { provide: LiveSessionLimitService, useValue: mockLimitService },
         { provide: EntitlementSpendService, useValue: mockEntitlements },
         { provide: AiUsageService, useValue: mockUsage },
+        { provide: PrismaService, useValue: mockPrisma },
       ],
     })
       .overrideGuard(JwtAuthGuard)
@@ -335,12 +341,32 @@ describe('LiveTokenController', () => {
   });
 
   describe('Mit Elena catalogue topics', () => {
-    it('lists curated topics', () => {
-      const topics = controller.listElenaTopics();
+    it('lists only topics for the student CEFR level', async () => {
+      const topics = await controller.listElenaTopics(studentReq);
       expect(topics.length).toBeGreaterThan(10);
+      expect(topics.every((t) => t.level === 'B1')).toBe(true);
       expect(topics[0]?.id.length).toBeGreaterThan(0);
-      expect(topics[0]?.title.length).toBeGreaterThan(0);
       expect(topics[0]?.teil).toBe(2);
+    });
+
+    it('returns an empty catalogue for A1 (no A1 topics yet)', async () => {
+      mockPrisma.student.findUnique.mockResolvedValueOnce({ level: 'A1' });
+      const topics = await controller.listElenaTopics(studentReq);
+      expect(topics).toEqual([]);
+    });
+
+    it('returns an empty catalogue for guests', async () => {
+      const topics = await controller.listElenaTopics(guestReq);
+      expect(topics).toEqual([]);
+      expect(mockPrisma.student.findUnique).not.toHaveBeenCalled();
+    });
+
+    it('refuses a catalogue topic from another CEFR level', async () => {
+      await expect(
+        controller.createLiveToken('1.2.3.4', studentReq, {
+          topicId: 'b2-t2-001',
+        }),
+      ).rejects.toBeInstanceOf(NotFoundException);
     });
 
     it('mints from a catalogue topicId without touching Modelltest content', async () => {

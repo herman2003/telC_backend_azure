@@ -20,6 +20,14 @@ import {
   type TelcSchreibenCriteria,
   type TelcSchreibenRating,
 } from './writing-telc-rating';
+import {
+  buildA12LetterRating,
+  isA12Band,
+  type A12Band,
+  type A12LetterRating,
+  type A12LetterRubric,
+} from './writing-a12-letter-rating';
+import { GENERIC_MODEL_LEVELS } from '../../shared/services/generic-exam-content.service';
 
 export interface CorrectionJobData {
   attemptId: string;
@@ -63,6 +71,9 @@ export interface ParsedWritingCorrection {
   correctedText: string;
   pointsAddressed?: number;
   criteria: TelcSchreibenCriteria;
+  /** A1/A2 only — band per required Leitpunkt. */
+  a12ContentBands?: A12Band[];
+  a12CommunicativeDesign?: A12Band;
   corrections: Array<{
     original: string;
     corrected: string;
@@ -94,15 +105,22 @@ export class WritingCorrectionService {
     const created = new Date(createdAt).getTime();
     const durationSeconds = Math.round((Date.now() - created) / 1000);
 
-    const exercise: WritingExerciseDto | null = await this.writingService
-      .getExercise(exerciseId)
+    const brief = await this.writingService
+      .resolveCorrectionBrief(exerciseId)
       .catch(() => null);
+    const exercise = brief?.exercise ?? null;
+    const useA12 =
+      GENERIC_MODEL_LEVELS.includes(level) && brief?.a12 != null;
 
     let parsed: ParsedWritingCorrection | null = null;
     try {
-      const prompt = this.buildWritingPrompt(content, exercise, level);
+      const prompt = useA12
+        ? this.buildA12WritingPrompt(content, exercise, level, brief!.a12!.rubric)
+        : this.buildWritingPrompt(content, exercise, level);
       const responseText = await this.callModelWithTimeout(prompt);
-      parsed = this.parseWritingResponse(responseText);
+      parsed = useA12
+        ? this.parseA12WritingResponse(responseText)
+        : this.parseWritingResponse(responseText);
     } catch (err) {
       this.logger.warn(
         `Model correction failed for attempt ${attemptId}, using stub: ${(err as Error).message}`,
@@ -111,8 +129,17 @@ export class WritingCorrectionService {
 
     const requiredLeitpunkte = exercise?.bulletPoints?.length ?? 0;
     let telcRating: TelcSchreibenRating | null = null;
+    let a12Rating: A12LetterRating | null = null;
     let score = STUB_SCORE;
-    if (parsed) {
+    if (parsed && useA12 && brief?.a12) {
+      a12Rating = buildA12LetterRating(
+        parsed.a12ContentBands ?? [],
+        parsed.a12CommunicativeDesign ?? 'NONE',
+        brief.a12.rubric,
+        brief.a12.maxPoints,
+      );
+      score = a12Rating.scorePercent;
+    } else if (parsed) {
       telcRating = buildTelcSchreibenRating(
         parsed.criteria,
         parsed.pointsAddressed,
@@ -146,6 +173,15 @@ export class WritingCorrectionService {
           points: telcRating.points,
         }
       : undefined;
+    const a12Payload = a12Rating
+      ? {
+          scheme: 'A1_A2' as const,
+          contentPointBands: a12Rating.contentPointBands,
+          communicativeDesign: a12Rating.communicativeDesign,
+          points: a12Rating.points,
+          maxPoints: a12Rating.maxPoints,
+        }
+      : undefined;
 
     try {
       await this.prisma.$transaction(async (tx) => {
@@ -158,7 +194,7 @@ export class WritingCorrectionService {
             corrected_text: correctedText,
             diff,
             points_addressed: pointsAddressed ?? null,
-            telc_rating: telcPayload ?? Prisma.DbNull,
+            telc_rating: (telcPayload ?? a12Payload ?? Prisma.DbNull) as never,
             duration_seconds: durationSeconds,
             completed_at: new Date(completedAt),
             ...(correctionsForDb.length > 0
@@ -181,8 +217,8 @@ export class WritingCorrectionService {
         await recordActivity(tx, {
           studentId: attempt.student_id,
           skill: 'SCHREIBEN',
-          // Schreiben is a single task in telc B1.
-          teil: 1,
+          // B1 has one Schreiben task (teil 1). A1/A2 letter is Teil 2.
+          teil: exercise?.part ?? 1,
           score,
           // Not `durationSeconds`: that is submit-to-correction time, not
           // time spent writing, and the app does not send the latter yet.
@@ -414,6 +450,133 @@ ${content}
         taskFulfilment,
         communicativeDesign,
         formalAccuracy,
+      },
+      corrections,
+    };
+  }
+
+  private buildA12WritingPrompt(
+    content: string,
+    exercise: WritingExerciseDto | null,
+    level: CefrLevel,
+    rubric: A12LetterRubric,
+  ): string {
+    const exerciseBlock = exercise
+      ? this.formatExerciseForPrompt(exercise)
+      : '';
+    const n = rubric.contentPoints.selectRequired;
+    const [full, partial, none] = rubric.contentPoints.pointsPerPoint;
+    const [kgFull, kgPartial, kgNone] = rubric.communicativeDesign.points;
+
+    return `You are an expert rater for telc Deutsch ${level} Schreiben Teil 2 (short letter / message).
+Rate against the official ${level} half-point rubric — NOT the B1 A/B/C/D Schriftlicher Ausdruck grid.
+
+For each of the ${n} required Leitpunkte the student was asked to cover, assign FULL / PARTIAL / NONE:
+- FULL = ${full} points (point clearly covered)
+- PARTIAL = ${partial} points (mentioned weakly / incomplete)
+- NONE = ${none} points (missing or off-task)
+
+Communicative design (Anrede, Anfang, Gruß / closing, overall shape):
+- FULL = ${kgFull}, PARTIAL = ${kgPartial}, NONE = ${kgNone}
+
+Provide a single JSON object (no markdown) with:
+- "content_point_bands" (array of exactly ${n} strings FULL|PARTIAL|NONE), one per required Leitpunkt in order
+- "communicative_design" (FULL|PARTIAL|NONE)
+- "feedback" (string): short German feedback for a ${level} learner
+- "corrected_text" (string): full student text rewritten with corrections
+- "corrections" (array, max 10): each "original", "corrected", "explanation" (German), "error_type" (grammar|vocabulary|spelling|style)
+
+Do NOT invent a numeric exam score. Do NOT output markdown.
+${exerciseBlock}
+**STUDENT TEXT:**
+${content}
+
+**OUTPUT (JSON only):**
+{
+  "content_point_bands": [${Array(n).fill('"FULL"').join(', ')}],
+  "communicative_design": "FULL",
+  "feedback": "Sie haben die Punkte behandelt. Achten Sie auf Anrede und Gruß.",
+  "corrected_text": "Sehr geehrte Damen und Herren,\\nich komme...",
+  "corrections": []
+}`;
+  }
+
+  parseA12WritingResponse(response: string): ParsedWritingCorrection {
+    const jsonMatch = response.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error('NO_JSON_FOUND_IN_RESPONSE');
+    }
+
+    const parsed = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
+    const bandsRaw =
+      parsed.content_point_bands ?? parsed.contentPointBands;
+    if (!Array.isArray(bandsRaw) || bandsRaw.length === 0) {
+      throw new Error('Invalid or missing content_point_bands');
+    }
+    const a12ContentBands: A12Band[] = bandsRaw.map((b, i) => {
+      if (!isA12Band(b)) {
+        throw new Error(`Invalid content_point_bands[${i}]`);
+      }
+      return b;
+    });
+
+    const kgRaw =
+      parsed.communicative_design ?? parsed.communicativeDesign;
+    if (!isA12Band(kgRaw)) {
+      throw new Error('Invalid or missing communicative_design');
+    }
+
+    const feedback = typeof parsed.feedback === 'string' ? parsed.feedback : '';
+    const correctedText =
+      typeof parsed.corrected_text === 'string' ? parsed.corrected_text : '';
+    if (!correctedText) {
+      this.logger.warn(
+        'A12 AI response missing corrected_text — keeping bands/feedback/corrections',
+      );
+    }
+
+    if (!Array.isArray(parsed.corrections)) {
+      throw new Error('Corrections must be an array');
+    }
+
+    const corrections = (parsed.corrections as unknown[])
+      .slice(0, 10)
+      .map((item, index: number) => {
+        if (!item || typeof item !== 'object') {
+          throw new Error(`Invalid correction at index ${index}`);
+        }
+        const c = item as Record<string, unknown>;
+        if (
+          typeof c.original !== 'string' ||
+          typeof c.corrected !== 'string' ||
+          typeof c.explanation !== 'string' ||
+          typeof c.error_type !== 'string'
+        ) {
+          throw new Error(`Invalid correction fields at index ${index}`);
+        }
+        if (!ALLOWED_ERROR_TYPES.includes(c.error_type)) {
+          throw new Error(
+            `Invalid error_type at index ${index}: ${c.error_type}`,
+          );
+        }
+        return {
+          original: c.original,
+          corrected: c.corrected,
+          explanation: c.explanation,
+          error_type: c.error_type,
+        };
+      });
+
+    return {
+      feedback,
+      correctedText,
+      a12ContentBands,
+      a12CommunicativeDesign: kgRaw,
+      // Placeholder — A12 path ignores B1 criteria when building the score.
+      criteria: {
+        taskFulfilment: 'D',
+        communicativeDesign: 'D',
+        formalAccuracy: 'D',
       },
       corrections,
     };

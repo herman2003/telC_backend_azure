@@ -127,4 +127,11 @@ export class SpeakingEvaluationResponseDto {
   })
   @IsString()
   areas_for_improvement: string;
+
+  @ApiProperty({
+    required: false,
+    description:
+      'A1/A2 official M10 task bands (practice estimate). Absent for B1/B2.',
+  })
+  a12M10?: Record<string, unknown>;
 }
