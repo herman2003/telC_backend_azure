@@ -534,14 +534,16 @@ describe('WritingService', () => {
         ],
       });
       mockPrismaService.writingAttempt.findUnique.mockResolvedValue(null);
-      mockPrismaService.$transaction.mockImplementation(async (fn) =>
-        fn({
-          writingAttempt: { create: jest.fn().mockResolvedValue({}) },
-          student: {
-            findUnique: jest.fn().mockResolvedValue({ id: 'student-1' }),
-          },
-          studentActivity: { create: jest.fn().mockResolvedValue({}) },
-        }),
+      mockPrismaService.$transaction.mockImplementation((fn) =>
+        Promise.resolve(
+          fn({
+            writingAttempt: { create: jest.fn().mockResolvedValue({}) },
+            student: {
+              findUnique: jest.fn().mockResolvedValue({ id: 'student-1' }),
+            },
+            studentActivity: { create: jest.fn().mockResolvedValue({}) },
+          }),
+        ),
       );
 
       const result = await service.submit('student-1', {

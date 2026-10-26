@@ -1,6 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
 import { SpeakingService } from '../src/modules/speaking/services/speaking.service';
-import type { SpeakingExerciseResponseDto } from '../src/modules/speaking/dto';
 
 describe('SpeakingService', () => {
   const prisma = {
@@ -60,9 +59,7 @@ describe('SpeakingService', () => {
         SPRECHEN: sprechenSections,
       });
 
-      const result = (await service.getExerciseByModelltest(
-        10,
-      )) as SpeakingExerciseResponseDto;
+      const result = await service.getExerciseByModelltest(10);
 
       expect(genericContent.sectionsFor).toHaveBeenCalledWith('a2-mt');
       expect(result.contentRevision).toBe('a2-sprechen-1-v1');
