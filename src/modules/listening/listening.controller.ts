@@ -204,7 +204,8 @@ export class ListeningController {
     },
   })
   @ApiBadRequestResponse({
-    description: 'AUDIO_UNAVAILABLE | AUDIO_DURATION_MISSING | HOEREN_AUDIO_NOT_READY',
+    description:
+      'AUDIO_UNAVAILABLE | AUDIO_DURATION_MISSING | HOEREN_AUDIO_NOT_READY',
   })
   @ApiNotFoundResponse({ description: 'AUDIO_NOT_FOUND' })
   async playAudio(

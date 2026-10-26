@@ -20,7 +20,8 @@ export class ListeningGenericItemDto {
 
   @ApiPropertyOptional({
     nullable: true,
-    description: 'Per-item picture (e.g. A2 phone note); text prompt is fallback',
+    description:
+      'Per-item picture (e.g. A2 phone note); text prompt is fallback',
   })
   imageUrl?: string | null;
 
