@@ -11,6 +11,7 @@ import { RoomModule } from './room/room.module';
 import { LiveTokenController } from './live/live-token.controller';
 import { ExaminerPromptService } from './live/examiner-prompt.service';
 import { LiveSessionLimitService } from './live/live-session-limit.service';
+import { GenericExamContentService } from '../../shared/services/generic-exam-content.service';
 
 @Module({
   imports: [AuthModule, SubscriptionAccessModule, RateLimitModule, RoomModule],
@@ -20,6 +21,7 @@ import { LiveSessionLimitService } from './live/live-session-limit.service';
     LiveTokenController,
   ],
   providers: [
+    GenericExamContentService,
     SpeakingService,
     GeminiService,
     EvaluationService,

@@ -3,3 +3,4 @@ export * from './exercise-type.dto';
 export * from './exercise-attempt.dto';
 export * from './submit-writing-response.dto';
 export * from './writing-exercise.dto';
+export * from './writing-exercise-response.dto';

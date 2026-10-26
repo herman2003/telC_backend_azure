@@ -4,6 +4,7 @@ import { PrismaService } from '../../shared/services/prisma.service';
 import { SKILL_ID, type SkillId } from '../student-activity/student-history';
 import {
   alerts,
+  PASS_MARK,
   readiness,
   RECENT_ATTEMPTS_PER_TEIL,
   roundScores,
@@ -18,6 +19,24 @@ import {
 import { sessionOfDay, type SessionOfDay } from './session-of-day';
 
 const WEEK_MS = 7 * 86_400_000;
+
+/** Home « Dernières tentatives » preview size (matches Flutter demo limit). */
+const RECENT_ATTEMPTS_PREVIEW = 10;
+
+export type RelativeTimeKey =
+  | 'yesterday'
+  | 'twoDaysAgo'
+  | 'threeDaysAgo'
+  | 'thisWeek';
+
+/** One row for GET /api/progress/me `attempts` list. */
+export interface RecentAttemptItem {
+  moduleId: SkillId;
+  teil: number;
+  score: number;
+  relativeTimeKey: RelativeTimeKey;
+  mode: 'exam' | 'training';
+}
 
 export type WireAlert =
   | { type: 'inactive'; lastActivityAt: string | null }
@@ -89,14 +108,17 @@ export class ProgressService {
     studentId: string,
     now = new Date(),
   ): Promise<
-    StudentProgress & {
+    Omit<StudentProgress, 'attempts'> & {
+      attempts: RecentAttemptItem[];
+      attemptsTotal: number;
+      attemptsBelowThreshold: number;
       weeklyChange: number | null;
       level: CefrLevel | null;
       sessionOfDay: SessionOfDay;
     }
   > {
     const weekAgo = new Date(now.getTime() - WEEK_MS);
-    const [current, before, student] = await Promise.all([
+    const [current, before, student, recentAttempts] = await Promise.all([
       this.activityOf([studentId], now),
       this.activityOf([studentId], weekAgo),
       // A guest has no row, and no level.
@@ -104,6 +126,7 @@ export class ProgressService {
         where: { id: studentId },
         select: { level: true },
       }),
+      this.recentAttemptsOf(studentId, now),
     ]);
     const weights = await this.weightsFor(student?.level ?? 'B1');
     const activity = current.get(studentId);
@@ -113,8 +136,13 @@ export class ProgressService {
       progress.readiness.score !== null && earlier.readiness.score !== null
         ? progress.readiness.score - earlier.readiness.score
         : null;
+    const { attempts: attemptsTotal, ...rest } = progress;
     return {
-      ...progress,
+      ...rest,
+      attempts: recentAttempts,
+      attemptsTotal,
+      attemptsBelowThreshold: recentAttempts.filter((a) => a.score < PASS_MARK)
+        .length,
       weeklyChange,
       level: student?.level ?? null,
       sessionOfDay: sessionOfDay(activity?.teils ?? [], {
@@ -193,6 +221,44 @@ export class ProgressService {
       lastActivityAt: lastActivityAt?.toISOString() ?? null,
       alerts: alerts(scores, result, lastActivityAt, now).map(toWire),
     };
+  }
+
+  /**
+   * Newest completed activities for the home list (GET /me only).
+   * Score is percent 0–100; mode mirrors session-of-day (training under 60 %).
+   */
+  private async recentAttemptsOf(
+    studentId: string,
+    now: Date,
+    limit = RECENT_ATTEMPTS_PREVIEW,
+  ): Promise<RecentAttemptItem[]> {
+    const rows = await this.prisma.studentActivity.findMany({
+      where: {
+        student_id: studentId,
+        erasure_id: null,
+        created_at: { lte: now },
+      },
+      orderBy: { created_at: 'desc' },
+      take: limit,
+      select: {
+        skill: true,
+        teil: true,
+        score: true,
+        max_score: true,
+        created_at: true,
+      },
+    });
+    return rows.map((row) => {
+      const percent =
+        row.max_score > 0 ? Math.round((row.score * 100) / row.max_score) : 0;
+      return {
+        moduleId: SKILL_ID[row.skill],
+        teil: row.teil,
+        score: percent,
+        relativeTimeKey: relativeTimeKey(row.created_at, now),
+        mode: percent < PASS_MARK ? 'training' : 'exam',
+      };
+    });
   }
 
   /**
@@ -351,4 +417,19 @@ function toWire(alert: ProgressAlert): WireAlert {
         score: alert.score,
       };
   }
+}
+
+/** Same day buckets as Flutter `HomeService._relativeTimeKey`. */
+function relativeTimeKey(at: Date, now: Date): RelativeTimeKey {
+  const today = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+  );
+  const day = Date.UTC(at.getUTCFullYear(), at.getUTCMonth(), at.getUTCDate());
+  const daysAgo = Math.round((today - day) / 86_400_000);
+  if (daysAgo === 1) return 'yesterday';
+  if (daysAgo === 2) return 'twoDaysAgo';
+  if (daysAgo === 3) return 'threeDaysAgo';
+  return 'thisWeek';
 }
