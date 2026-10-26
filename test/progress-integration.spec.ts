@@ -153,15 +153,15 @@ describe('progress against real Postgres', () => {
     expect(Array.isArray(result.attempts)).toBe(true);
     expect(result.attempts.length).toBeGreaterThan(0);
     expect(result.attemptsTotal).toBe(15);
-    expect(result.attempts[0]!.moduleId).toMatch(
+    expect(result.attempts[0].moduleId).toMatch(
       /^(hoeren|lesen|sprachbausteine|schreiben|sprechen)$/,
     );
-    expect(typeof result.attempts[0]!.teil).toBe('number');
-    expect(typeof result.attempts[0]!.score).toBe('number');
-    expect(result.attempts[0]!.relativeTimeKey).toMatch(
+    expect(typeof result.attempts[0].teil).toBe('number');
+    expect(typeof result.attempts[0].score).toBe('number');
+    expect(result.attempts[0].relativeTimeKey).toMatch(
       /^(yesterday|twoDaysAgo|threeDaysAgo|thisWeek)$/,
     );
-    expect(result.attempts[0]!.mode).toMatch(/^(exam|training)$/);
+    expect(result.attempts[0].mode).toMatch(/^(exam|training)$/);
     expect(typeof result.attemptsBelowThreshold).toBe('number');
   });
 
@@ -180,16 +180,16 @@ describe('progress against real Postgres', () => {
       'hoeren',
       'lesen',
     ]);
-    expect(result.attempts[0]!.moduleId).toBe('schreiben');
-    expect(result.attempts[0]!.score).toBe(55);
-    expect(result.attempts[0]!.mode).toBe('training');
-    expect(result.attempts[0]!.relativeTimeKey).toBe('thisWeek');
-    expect(result.attempts[1]!.moduleId).toBe('hoeren');
-    expect(result.attempts[1]!.score).toBe(80);
-    expect(result.attempts[1]!.mode).toBe('exam');
-    expect(result.attempts[1]!.relativeTimeKey).toBe('yesterday');
-    expect(result.attempts[2]!.moduleId).toBe('lesen');
-    expect(result.attempts[2]!.relativeTimeKey).toBe('threeDaysAgo');
+    expect(result.attempts[0].moduleId).toBe('schreiben');
+    expect(result.attempts[0].score).toBe(55);
+    expect(result.attempts[0].mode).toBe('training');
+    expect(result.attempts[0].relativeTimeKey).toBe('thisWeek');
+    expect(result.attempts[1].moduleId).toBe('hoeren');
+    expect(result.attempts[1].score).toBe(80);
+    expect(result.attempts[1].mode).toBe('exam');
+    expect(result.attempts[1].relativeTimeKey).toBe('yesterday');
+    expect(result.attempts[2].moduleId).toBe('lesen');
+    expect(result.attempts[2].relativeTimeKey).toBe('threeDaysAgo');
     expect(result.attemptsBelowThreshold).toBe(2);
   });
 
