@@ -43,10 +43,11 @@ interface ResolvedTrainingRecording {
 /**
  * Playing a Hören recording in training.
  *
- * Same contract as exam play: server counts, returns a short-lived stream URL,
- * never a durable R2 address. Counter is per student + audio, not per exam
- * attempt. `audioId` is either a `listening_exercises.id` (B1/B2) or an
- * `exam_sections.id` for a Hören Teil (A1/A2).
+ * Returns a short-lived stream URL, never a durable R2 address. Training does
+ * **not** hard-cap plays — free vs timed is enforced in the app; Exam Day still
+ * counts once via `exam_audio_plays`. `audioId` is either a
+ * `listening_exercises.id` (B1/B2) or an `exam_sections.id` for a Hören Teil
+ * (A1/A2).
  */
 @Injectable()
 export class TrainingAudioService {
@@ -71,66 +72,26 @@ export class TrainingAudioService {
       );
     }
 
-    const allowed = recording.playsAllowed;
     const expiresAt = new Date(
       Date.now() + recording.durationSeconds * LINK_LIFETIME_FACTOR * 1000,
     );
 
-    // Guests have no `students` row, so training_audio_plays FK cannot land.
-    // Demo still gets a short-lived stream URL; no durable play counter.
-    if (opts.isGuest === true) {
-      const playNumber = 1;
-      const token = this.signFor({
-        studentId,
-        audioId,
-        playNumber,
-        expiresAt,
-      });
-      return {
-        audioId,
-        url: `/api/listening/audio?token=${token}`,
-        playsRemaining: Math.max(0, allowed - playNumber),
-        expiresAt,
-      };
-    }
-
-    try {
-      await this.prisma.trainingAudioPlay.create({
-        data: { student_id: studentId, audio_id: audioId, plays_used: 0 },
-      });
-    } catch {
-      // Another request created the row first; the claim below still decides.
-    }
-
-    const spent = await this.prisma.trainingAudioPlay.updateMany({
-      where: {
-        student_id: studentId,
-        audio_id: audioId,
-        plays_used: { lt: allowed },
-      },
-      data: { plays_used: { increment: 1 } },
-    });
-    if (spent.count !== 1) throw new BadRequestException('NO_PLAYS_LEFT');
-
-    const row = await this.prisma.trainingAudioPlay.findUniqueOrThrow({
-      where: {
-        student_id_audio_id: { student_id: studentId, audio_id: audioId },
-      },
-      select: { plays_used: true },
-    });
-    const playNumber = row.plays_used;
-
+    // No training hard-cap: each grant is a fresh short-lived link. Guests
+    // never had a counter (no students FK); paid students match that policy so
+    // free practice can re-issue after TTL. Timed practice is app-enforced.
+    const playNumber = 1;
     const token = this.signFor({
       studentId,
       audioId,
       playNumber,
       expiresAt,
     });
-
     return {
       audioId,
       url: `/api/listening/audio?token=${token}`,
-      playsRemaining: Math.max(0, allowed - playNumber),
+      // Advisory: same figure as GET `playsAllowed` (strict-mode hint). Does
+      // not deplete — training re-grants indefinitely.
+      playsRemaining: recording.playsAllowed,
       expiresAt,
     };
   }

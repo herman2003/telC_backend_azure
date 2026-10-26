@@ -1,0 +1,38 @@
+meta {
+  name: 35 B1 Hoeren training play again
+  type: http
+  seq: 35
+}
+
+post {
+  url: {{baseUrl}}/api/listening/audio/{{b1TrainingHoerenAudioId}}/play
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{b1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.playsRemaining: eq 1
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error(
+      "HTTP " + res.getStatus() + ": " + JSON.stringify(res.body) +
+        " — training must re-grant; NO_PLAYS_LEFT belongs to Exam Day only"
+    );
+  }
+  if (!String(res.body.url).startsWith("/api/listening/audio?token=")) {
+    throw new Error("expected a signed training stream link, got " + res.body.url);
+  }
+}
+
+docs {
+  Second training grant for the same audioId must succeed. Free practice may
+  re-request after TTL; Flutter owns timed (once). Same endpoint serves all
+  levels — this B1 chain is the HTTP proof.
+}
