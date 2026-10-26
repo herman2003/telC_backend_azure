@@ -416,7 +416,9 @@ export class WritingService {
     dto: SubmitWritingDto,
   ): Promise<SubmitWritingResponseDto> {
     const teilId = dto.teil_id!;
-    if (!WRITING_TEIL_IDS.includes(teilId as (typeof WRITING_TEIL_IDS)[number])) {
+    if (
+      !WRITING_TEIL_IDS.includes(teilId as (typeof WRITING_TEIL_IDS)[number])
+    ) {
       throw new UnprocessableEntityException({
         statusCode: 422,
         error: 'Unprocessable Entity',

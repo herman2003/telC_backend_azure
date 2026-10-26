@@ -84,10 +84,6 @@ import { GenericExamContentService } from '../../shared/services/generic-exam-co
   // sitting asks it for a suggestion on a candidate's Schreiben. Exported
   // rather than rebuilt, because it carries the prompt, the timeout and the
   // stub fallback, and a second copy would drift from all three.
-  exports: [
-    WritingService,
-    WritingCorrectionService,
-    WritingDailyQuotaService,
-  ],
+  exports: [WritingService, WritingCorrectionService, WritingDailyQuotaService],
 })
 export class WritingModule {}

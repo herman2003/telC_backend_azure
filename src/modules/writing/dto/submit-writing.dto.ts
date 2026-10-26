@@ -33,7 +33,8 @@ export class SubmitWritingDto {
   exerciseId: string;
 
   @ApiPropertyOptional({
-    description: "The student's written text (B1/B2 letter). Omit for A1/A2 FORMULAR.",
+    description:
+      "The student's written text (B1/B2 letter). Omit for A1/A2 FORMULAR.",
     example: 'Sehr geehrte Damen und Herren, ich schreibe Ihnen bezüglich...',
     minLength: 1,
   })
