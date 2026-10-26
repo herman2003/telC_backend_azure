@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 
 const SKILL_NOTE = 'Null = not practised yet. Show that, never "0 %".';
 
@@ -54,7 +54,8 @@ export class ReadinessDto {
   @ApiPropertyOptional({
     nullable: true,
     example: 153,
-    description: 'Estimated written points out of 225 (Lesen 75 + Sprachbausteine 30 + Hören 75 + Schreiben 45).',
+    description:
+      'Estimated written points out of 225 (Lesen 75 + Sprachbausteine 30 + Hören 75 + Schreiben 45).',
   })
   pointsWritten: number | null;
 
@@ -115,7 +116,10 @@ export class SessionOfDayDto {
   })
   moduleId: 'hoeren' | 'lesen' | 'sprachbausteine' | 'schreiben' | 'sprechen';
 
-  @ApiProperty({ example: 2, description: 'Teil number within the module (1-based).' })
+  @ApiProperty({
+    example: 2,
+    description: 'Teil number within the module (1-based).',
+  })
   teil: number;
 
   @ApiProperty({ example: 10 })
@@ -139,12 +143,66 @@ export class SessionOfDayDto {
 
   @ApiProperty({
     example: 45,
-    description: 'Rounded score of the recommended Teil (0 if never attempted).',
+    description:
+      'Rounded score of the recommended Teil (0 if never attempted).',
   })
   weaknessPercent: number;
 }
 
-export class MyProgressDto extends StudentProgressDto {
+export class RecentAttemptDto {
+  @ApiProperty({
+    enum: ['hoeren', 'lesen', 'sprachbausteine', 'schreiben', 'sprechen'],
+    example: 'lesen',
+  })
+  moduleId: 'hoeren' | 'lesen' | 'sprachbausteine' | 'schreiben' | 'sprechen';
+
+  @ApiProperty({ example: 1, description: 'Teil number (1-based).' })
+  teil: number;
+
+  @ApiProperty({ example: 72, description: 'Score as percent 0–100.' })
+  score: number;
+
+  @ApiProperty({
+    enum: ['yesterday', 'twoDaysAgo', 'threeDaysAgo', 'thisWeek'],
+    example: 'yesterday',
+    description:
+      'Relative day bucket for the home « Dernières tentatives » list.',
+  })
+  relativeTimeKey: 'yesterday' | 'twoDaysAgo' | 'threeDaysAgo' | 'thisWeek';
+
+  @ApiProperty({
+    enum: ['exam', 'training'],
+    example: 'exam',
+    description: 'training when score < 60 %; exam otherwise.',
+  })
+  mode: 'exam' | 'training';
+}
+
+/** GET /api/progress/me — attempts is a preview list, not the total count. */
+export class MyProgressDto extends OmitType(StudentProgressDto, [
+  'attempts',
+] as const) {
+  @ApiProperty({
+    type: [RecentAttemptDto],
+    description:
+      'Up to 10 most recent completed attempts (newest first) for the home list.',
+  })
+  attempts: RecentAttemptDto[];
+
+  @ApiProperty({
+    example: 23,
+    description:
+      'Total completed attempts across all skills (not just the preview).',
+  })
+  attemptsTotal: number;
+
+  @ApiProperty({
+    example: 4,
+    description:
+      'How many of the preview attempts scored under the 60 % pass mark.',
+  })
+  attemptsBelowThreshold: number;
+
   @ApiPropertyOptional({
     nullable: true,
     enum: ['A1', 'A2', 'B1', 'B2'],
