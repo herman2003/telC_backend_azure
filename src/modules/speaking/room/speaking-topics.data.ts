@@ -38,7 +38,8 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     level: 'A1',
     teil: 2,
     title: 'Einkaufen',
-    positionA: 'Ich kaufe gern im Supermarkt ein. Das ist schnell und praktisch.',
+    positionA:
+      'Ich kaufe gern im Supermarkt ein. Das ist schnell und praktisch.',
     positionB: 'Ich kaufe gern auf dem Markt ein. Das Obst ist frisch.',
     followUpQuestions: [
       'Wo kaufen Sie ein?',
@@ -174,8 +175,10 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     level: 'A2',
     teil: 2,
     title: 'Urlaub',
-    positionA: 'Im Urlaub fahre ich gern ans Meer. Ich schwimme und entspanne mich.',
-    positionB: 'Im Urlaub besuche ich gern Städte. Ich schaue Museen und Cafés an.',
+    positionA:
+      'Im Urlaub fahre ich gern ans Meer. Ich schwimme und entspanne mich.',
+    positionB:
+      'Im Urlaub besuche ich gern Städte. Ich schaue Museen und Cafés an.',
     followUpQuestions: [
       'Wohin möchten Sie fahren?',
       'Wann machen Sie Urlaub?',
@@ -187,8 +190,10 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     level: 'A2',
     teil: 2,
     title: 'Einkaufen',
-    positionA: 'Lebensmittel kaufe ich im Supermarkt, Kleidung manchmal im Internet.',
-    positionB: 'Ich kaufe lieber im Geschäft. Ich möchte die Dinge sehen und anprobieren.',
+    positionA:
+      'Lebensmittel kaufe ich im Supermarkt, Kleidung manchmal im Internet.',
+    positionB:
+      'Ich kaufe lieber im Geschäft. Ich möchte die Dinge sehen und anprobieren.',
     followUpQuestions: [
       'Wo kaufen Sie Obst und Gemüse?',
       'Wie oft gehen Sie einkaufen?',
@@ -226,7 +231,8 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     level: 'A2',
     teil: 2,
     title: 'Freizeit',
-    positionA: 'In der Freizeit mache ich Sport, zum Beispiel Joggen oder Schwimmen.',
+    positionA:
+      'In der Freizeit mache ich Sport, zum Beispiel Joggen oder Schwimmen.',
     positionB: 'In der Freizeit lese ich oder treffe Freunde im Café.',
     followUpQuestions: [
       'Wann haben Sie in der Woche Freizeit?',
@@ -266,7 +272,8 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     teil: 2,
     title: 'Tagesablauf',
     positionA: 'Mein Tag ist früh: aufstehen, frühstücken, dann zur Arbeit.',
-    positionB: 'Mein Tag beginnt später; abends habe ich mehr Zeit für Freunde.',
+    positionB:
+      'Mein Tag beginnt später; abends habe ich mehr Zeit für Freunde.',
     followUpQuestions: [
       'Was machen Sie morgens zuerst?',
       'Wohin gehen Sie nach der Arbeit?',
@@ -278,7 +285,8 @@ export const SPEAKING_TOPICS: SpeakingTopic[] = [
     level: 'A2',
     teil: 2,
     title: 'Hobby',
-    positionA: 'Mein Hobby ist Musik. Ich höre gern Songs und gehe zu Konzerten.',
+    positionA:
+      'Mein Hobby ist Musik. Ich höre gern Songs und gehe zu Konzerten.',
     positionB: 'Mein Hobby ist Sport. Ich spiele Fußball oder gehe schwimmen.',
     followUpQuestions: [
       'Welches Hobby haben Sie?',
