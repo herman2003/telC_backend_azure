@@ -131,10 +131,9 @@ export class LiveTokenController {
   @ApiOperation({
     summary: 'Catalogue topics for Mit Elena (credits)',
     description:
-      'Themen for the authenticated student’s CEFR level only. ' +
-      'A1/A2 may be empty until catalogue topics exist — use the weekly ' +
-      'Modelltest path (teilNumber) instead. Pass one id as topicId to ' +
-      'POST /api/speaking/live-token.',
+      'Themen for the authenticated student’s CEFR level only ' +
+      '(A1–B2 catalogue). Weekly Modelltest path still uses teilNumber. ' +
+      'Pass one id as topicId to POST /api/speaking/live-token.',
   })
   @ApiOkResponse({ type: [ElenaTopicDto] })
   async listElenaTopics(
