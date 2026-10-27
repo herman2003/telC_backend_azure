@@ -350,10 +350,12 @@ describe('LiveTokenController', () => {
       expect(topics[0]?.teil).toBe(2);
     });
 
-    it('returns an empty catalogue for A1 (no A1 topics yet)', async () => {
+    it('lists A1 catalogue topics for an A1 student', async () => {
       mockPrisma.student.findUnique.mockResolvedValueOnce({ level: 'A1' });
       const topics = await controller.listElenaTopics(studentReq);
-      expect(topics).toEqual([]);
+      expect(topics.length).toBe(10);
+      expect(topics.every((t) => t.level === 'A1')).toBe(true);
+      expect(topics[0]?.id).toMatch(/^a1-t2-/);
     });
 
     it('returns an empty catalogue for guests', async () => {

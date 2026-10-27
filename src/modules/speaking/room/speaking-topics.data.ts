@@ -9,7 +9,11 @@ import type { CefrLevel } from '@prisma/client';
  * question — answered by `pickTopic`, with a reason — rather than a shape the
  * request is allowed to have.
  *
- * Only B1 topics exist today. Adding B2's is a data change in this file.
+ * Catalogue shape is always Teil 2 (two positions + follow-ups) so Live Room
+ * and Mit Elena share one card. At A1/A2 that maps to everyday preferences
+ * for an Alltagsgespräch (telc Start Deutsch 1/2), not a B1/B2 Diskussion.
+ * Themes follow published practice sets and our Modelltest papers (Einkaufen,
+ * Essen, Freizeit, Wohnen, Urlaub, …).
  */
 export type SpeakingLevel = CefrLevel;
 
@@ -24,6 +28,279 @@ export interface SpeakingTopic {
 }
 
 export const SPEAKING_TOPICS: SpeakingTopic[] = [
+  // ─── A1 ──────────────────────────────────────────────────────────────────
+  //
+  // telc A1 Teil 2: Um Informationen bitten und Informationen geben — short
+  // questions on an everyday card theme. Ten starter cards; keep language
+  // short enough for Start Deutsch 1.
+  {
+    id: 'a1-t2-001',
+    level: 'A1',
+    teil: 2,
+    title: 'Einkaufen',
+    positionA: 'Ich kaufe gern im Supermarkt ein. Das ist schnell und praktisch.',
+    positionB: 'Ich kaufe gern auf dem Markt ein. Das Obst ist frisch.',
+    followUpQuestions: [
+      'Wo kaufen Sie ein?',
+      'Wann gehen Sie einkaufen?',
+      'Was kaufen Sie oft?',
+    ],
+  },
+  {
+    id: 'a1-t2-002',
+    level: 'A1',
+    teil: 2,
+    title: 'Essen und Trinken',
+    positionA: 'Zum Frühstück esse ich gern Brot mit Käse und trinke Tee.',
+    positionB: 'Zum Frühstück esse ich gern Müsli und trinke Kaffee.',
+    followUpQuestions: [
+      'Was essen Sie zum Frühstück?',
+      'Was trinken Sie gern?',
+      'Essen Sie gern Fisch?',
+    ],
+  },
+  {
+    id: 'a1-t2-003',
+    level: 'A1',
+    teil: 2,
+    title: 'Freizeit',
+    positionA: 'Am Wochenende treffe ich Freunde und wir gehen spazieren.',
+    positionB: 'Am Wochenende bleibe ich zu Hause und sehe fern.',
+    followUpQuestions: [
+      'Was machen Sie am Sonntag?',
+      'Mit wem verbringen Sie die Freizeit?',
+      'Wann haben Sie Zeit?',
+    ],
+  },
+  {
+    id: 'a1-t2-004',
+    level: 'A1',
+    teil: 2,
+    title: 'Wohnen',
+    positionA: 'Ich wohne in einer Wohnung in der Stadt. Das ist zentral.',
+    positionB: 'Ich wohne in einem Haus auf dem Land. Das ist ruhig.',
+    followUpQuestions: [
+      'Wo wohnen Sie?',
+      'Wie viele Zimmer hat Ihre Wohnung?',
+      'Wohnen Sie allein oder mit Familie?',
+    ],
+  },
+  {
+    id: 'a1-t2-005',
+    level: 'A1',
+    teil: 2,
+    title: 'Familie',
+    positionA: 'Ich habe eine große Familie. Wir treffen uns oft.',
+    positionB: 'Meine Familie ist klein. Wir telefonieren oft.',
+    followUpQuestions: [
+      'Haben Sie Geschwister?',
+      'Wo wohnen Ihre Eltern?',
+      'Wann sehen Sie Ihre Familie?',
+    ],
+  },
+  {
+    id: 'a1-t2-006',
+    level: 'A1',
+    teil: 2,
+    title: 'Arbeit und Kurs',
+    positionA: 'Ich arbeite und lerne Deutsch am Abend.',
+    positionB: 'Ich gehe in einen Deutschkurs und habe noch keine Arbeit.',
+    followUpQuestions: [
+      'Wo arbeiten Sie?',
+      'Wann haben Sie Feierabend?',
+      'Lernen Sie gern Deutsch?',
+    ],
+  },
+  {
+    id: 'a1-t2-007',
+    level: 'A1',
+    teil: 2,
+    title: 'Wetter',
+    positionA: 'Bei Sonne gehe ich gern spazieren.',
+    positionB: 'Bei Regen bleibe ich lieber zu Hause.',
+    followUpQuestions: [
+      'Wie ist das Wetter heute?',
+      'Was machen Sie bei Regen?',
+      'Welche Jahreszeit mögen Sie?',
+    ],
+  },
+  {
+    id: 'a1-t2-008',
+    level: 'A1',
+    teil: 2,
+    title: 'Verkehr',
+    positionA: 'Ich fahre mit dem Bus. Das ist günstig.',
+    positionB: 'Ich fahre mit dem Auto. Das ist schnell.',
+    followUpQuestions: [
+      'Wie kommen Sie zur Arbeit?',
+      'Fahren Sie gern Fahrrad?',
+      'Wo ist die Bushaltestelle?',
+    ],
+  },
+  {
+    id: 'a1-t2-009',
+    level: 'A1',
+    teil: 2,
+    title: 'Kleidung',
+    positionA: 'Ich trage gern bequeme Kleidung, zum Beispiel Jeans.',
+    positionB: 'Ich trage gern schöne Kleidung, zum Beispiel ein Kleid.',
+    followUpQuestions: [
+      'Welche Farbe hat Ihre Jacke?',
+      'Wo kaufen Sie Kleidung?',
+      'Was tragen Sie am Wochenende?',
+    ],
+  },
+  {
+    id: 'a1-t2-010',
+    level: 'A1',
+    teil: 2,
+    title: 'Tagesablauf',
+    positionA: 'Ich stehe früh auf und frühstücke zu Hause.',
+    positionB: 'Ich stehe spät auf und frühstücke schnell.',
+    followUpQuestions: [
+      'Wann stehen Sie auf?',
+      'Was machen Sie am Morgen?',
+      'Wann gehen Sie schlafen?',
+    ],
+  },
+
+  // ─── A2 ──────────────────────────────────────────────────────────────────
+  //
+  // telc A2 Teil 2: Ein Alltagsgespräch führen — W-Fragen zu einem Thema
+  // (Urlaub, Wohnen, Gesundheit, …). Positions stay simple preferences so
+  // two partners can start talking; follow-ups mirror exam question cards.
+  {
+    id: 'a2-t2-001',
+    level: 'A2',
+    teil: 2,
+    title: 'Urlaub',
+    positionA: 'Im Urlaub fahre ich gern ans Meer. Ich schwimme und entspanne mich.',
+    positionB: 'Im Urlaub besuche ich gern Städte. Ich schaue Museen und Cafés an.',
+    followUpQuestions: [
+      'Wohin möchten Sie fahren?',
+      'Wann machen Sie Urlaub?',
+      'Mit wem fahren Sie gern?',
+    ],
+  },
+  {
+    id: 'a2-t2-002',
+    level: 'A2',
+    teil: 2,
+    title: 'Einkaufen',
+    positionA: 'Lebensmittel kaufe ich im Supermarkt, Kleidung manchmal im Internet.',
+    positionB: 'Ich kaufe lieber im Geschäft. Ich möchte die Dinge sehen und anprobieren.',
+    followUpQuestions: [
+      'Wo kaufen Sie Obst und Gemüse?',
+      'Wie oft gehen Sie einkaufen?',
+      'Bezahlen Sie mit Karte oder mit Bargeld?',
+    ],
+  },
+  {
+    id: 'a2-t2-003',
+    level: 'A2',
+    teil: 2,
+    title: 'Wohnen',
+    positionA: 'Ich wohne gern in der Stadt, weil alles nah ist.',
+    positionB: 'Ich wohne gern ruhig, mit einem Balkon oder Garten.',
+    followUpQuestions: [
+      'Wo wohnen Sie, in der Stadt oder auf dem Land?',
+      'Wie lange wohnen Sie schon dort?',
+      'Was gefällt Ihnen an Ihrer Wohnung?',
+    ],
+  },
+  {
+    id: 'a2-t2-004',
+    level: 'A2',
+    teil: 2,
+    title: 'Essen und Trinken',
+    positionA: 'Am Mittag esse ich oft in der Kantine. Das geht schnell.',
+    positionB: 'Am Mittag koche ich gern selbst. Das schmeckt besser.',
+    followUpQuestions: [
+      'Was essen Sie am liebsten zum Frühstück?',
+      'Wie oft gehen Sie ins Restaurant?',
+      'Was kochen Sie am Wochenende?',
+    ],
+  },
+  {
+    id: 'a2-t2-005',
+    level: 'A2',
+    teil: 2,
+    title: 'Freizeit',
+    positionA: 'In der Freizeit mache ich Sport, zum Beispiel Joggen oder Schwimmen.',
+    positionB: 'In der Freizeit lese ich oder treffe Freunde im Café.',
+    followUpQuestions: [
+      'Wann haben Sie in der Woche Freizeit?',
+      'Mit wem machen Sie am Wochenende etwas?',
+      'Wohin gehen Sie gern in der Stadt?',
+    ],
+  },
+  {
+    id: 'a2-t2-006',
+    level: 'A2',
+    teil: 2,
+    title: 'Gesundheit',
+    positionA: 'Wenn ich krank bin, bleibe ich im Bett und trinke Tee.',
+    positionB: 'Wenn ich krank bin, gehe ich schnell zum Arzt.',
+    followUpQuestions: [
+      'Wie oft gehen Sie zum Arzt?',
+      'Was machen Sie, wenn Sie erkältet sind?',
+      'Machen Sie etwas für Ihre Gesundheit?',
+    ],
+  },
+  {
+    id: 'a2-t2-007',
+    level: 'A2',
+    teil: 2,
+    title: 'Arbeit und Schule',
+    positionA: 'Ich arbeite tagsüber und lerne abends Deutsch.',
+    positionB: 'Ich gehe in die Schule oder in den Kurs und lerne viel.',
+    followUpQuestions: [
+      'Wo arbeiten oder lernen Sie?',
+      'Wann beginnen Sie am Morgen?',
+      'Was machen Sie in der Pause?',
+    ],
+  },
+  {
+    id: 'a2-t2-008',
+    level: 'A2',
+    teil: 2,
+    title: 'Tagesablauf',
+    positionA: 'Mein Tag ist früh: aufstehen, frühstücken, dann zur Arbeit.',
+    positionB: 'Mein Tag beginnt später; abends habe ich mehr Zeit für Freunde.',
+    followUpQuestions: [
+      'Was machen Sie morgens zuerst?',
+      'Wohin gehen Sie nach der Arbeit?',
+      'Wann haben Sie Feierabend?',
+    ],
+  },
+  {
+    id: 'a2-t2-009',
+    level: 'A2',
+    teil: 2,
+    title: 'Hobby',
+    positionA: 'Mein Hobby ist Musik. Ich höre gern Songs und gehe zu Konzerten.',
+    positionB: 'Mein Hobby ist Sport. Ich spiele Fußball oder gehe schwimmen.',
+    followUpQuestions: [
+      'Welches Hobby haben Sie?',
+      'Wann machen Sie das?',
+      'Mit wem machen Sie das gern?',
+    ],
+  },
+  {
+    id: 'a2-t2-010',
+    level: 'A2',
+    teil: 2,
+    title: 'Wochenende',
+    positionA: 'Am Wochenende schlafe ich aus und treffe dann die Familie.',
+    positionB: 'Am Wochenende plane ich Ausflüge oder mache den Haushalt.',
+    followUpQuestions: [
+      'Was machen Sie am Samstag?',
+      'Wie lange schlafen Sie am Sonntag?',
+      'Wohin fahren Sie gern am Wochenende?',
+    ],
+  },
+
+  // ─── B1 ──────────────────────────────────────────────────────────────────
   {
     id: 'b1-t2-001',
     level: 'B1',

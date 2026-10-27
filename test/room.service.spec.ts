@@ -23,25 +23,14 @@ describe('RoomService', () => {
 
   // ─── createRoom ─────────────────────────────────────────────────────────────
 
-  describe('a level with no topics yet', () => {
+  describe('level catalogue isolation', () => {
     /**
-     * A level is openable before its topics are written, and must say so.
-     *
-     * B2 students exist as soon as a centre sets a seat to B2, while the 60 B2
-     * Live Room topics are content that arrives separately. The old code threw
-     * a bare Error from pickTopic, which the controller turned into a 500 and
-     * the gateway into an unhandled failure — a student told nothing, and a
-     * paging alert for a content gap. It must be a stated reason instead, and
-     * it must never quietly hand out a B1 topic.
+     * A room is opened at a CEFR level; the topic must be from that level's
+     * catalogue only. A1/A2/B1/B2 all have cards now. If a future level is
+     * sold before its topics are written, `pickTopic` still throws
+     * `NO_TOPICS_FOR_LEVEL` rather than a 500 or a wrong-level card.
      */
-    it('refuses with a reason rather than a 500 or another level topic', () => {
-      // A1 has no topics written yet. B2 did when this test was added and
-      // now has ten, which is the point: the refusal is about content, so it
-      // follows the content rather than being pinned to a level.
-      expect(() => service.createRoom('A1')).toThrow(/NO_TOPICS_FOR_LEVEL/);
-    });
-
-    it.each(['B1', 'B2'] as const)(
+    it.each(['A1', 'A2', 'B1', 'B2'] as const)(
       'serves %s, whose topics exist',
       (level) => {
         expect(service.createRoom(level).topic.level).toBe(level);
@@ -49,9 +38,10 @@ describe('RoomService', () => {
     );
 
     it('never hands a room a topic from another level', () => {
-      // Twenty draws: enough that a filter dropped by accident would show up.
-      for (let i = 0; i < 20; i += 1) {
-        expect(service.createRoom('B2').topic.level).toBe('B2');
+      for (const level of ['A1', 'A2', 'B1', 'B2'] as const) {
+        for (let i = 0; i < 20; i += 1) {
+          expect(service.createRoom(level).topic.level).toBe(level);
+        }
       }
     });
   });
@@ -62,8 +52,9 @@ describe('RoomService', () => {
 
       const result = service.createRoom('B1');
       const room = service.getRoom(result.roomId)!;
+      const firstB1 = SPEAKING_TOPICS.find((topic) => topic.level === 'B1');
 
-      expect(result.topic).toEqual(SPEAKING_TOPICS[0]);
+      expect(result.topic).toEqual(firstB1);
       expect(room.level).toBe('B1');
       expect(room.topic).toEqual(result.topic);
       expect(room.usedTopicIds).toEqual([result.topic.id]);
@@ -121,7 +112,7 @@ describe('RoomService', () => {
      * two counted `SPEAKING_TOPICS.length`, which was the same number only
      * while B1 was the only level — the ten B2 cards made it wrong.
      */
-    const topicsAt = (level: 'B1' | 'B2') =>
+    const topicsAt = (level: 'A1' | 'A2' | 'B1' | 'B2') =>
       SPEAKING_TOPICS.filter((topic) => topic.level === level).length;
 
     it('does not repeat a topic before the catalog is exhausted', () => {

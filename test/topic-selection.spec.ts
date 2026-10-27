@@ -14,6 +14,8 @@ import {
  * apply to the whole catalogue.
  */
 const EXPECTED_PER_LEVEL: Array<{ level: CefrLevel; count: number }> = [
+  { level: 'A1', count: 10 },
+  { level: 'A2', count: 10 },
   { level: 'B1', count: 60 },
   { level: 'B2', count: 10 },
 ];
