@@ -63,13 +63,15 @@ describe('JoinRoomDto', () => {
   });
 });
 
+const firstB1Topic = SPEAKING_TOPICS.find((topic) => topic.level === 'B1')!;
+
 describe('CreateRoomResponseDto', () => {
   it('can be constructed with required fields', () => {
     const dto = new CreateRoomResponseDto();
     dto.roomId = VALID_UUID;
     dto.hostToken = 'secret-token';
     dto.expiresAt = new Date().toISOString();
-    dto.topic = Object.assign(new TopicDto(), SPEAKING_TOPICS[0]);
+    dto.topic = Object.assign(new TopicDto(), firstB1Topic);
     expect(dto.roomId).toBe(VALID_UUID);
     expect(dto.hostToken).toBe('secret-token');
     expect(typeof dto.expiresAt).toBe('string');
@@ -85,11 +87,11 @@ describe('RoomInfoResponseDto', () => {
     dto.hasHost = false;
     dto.hasGuest = false;
     dto.expiresAt = new Date().toISOString();
-    dto.topic = Object.assign(new TopicDto(), SPEAKING_TOPICS[0]);
+    dto.topic = Object.assign(new TopicDto(), firstB1Topic);
     expect(dto.status).toBe('waiting');
     expect(dto.hasHost).toBe(false);
     expect(dto.hasGuest).toBe(false);
-    expect(dto.topic).toEqual(SPEAKING_TOPICS[0]);
+    expect(dto.topic).toEqual(firstB1Topic);
   });
 });
 

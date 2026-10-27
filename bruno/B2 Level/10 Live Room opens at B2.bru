@@ -42,9 +42,9 @@ docs {
   a B2 student could not open a Live Room at all — on a feature Start sells
   as unlimited.
 
-  It must never hand back a B1 topic. A level with no topics of its own is
-  refused with NO_TOPICS_FOR_LEVEL instead: try ?level=A1, which has none
-  yet, and expect that rather than a 500 or a B1 card.
+  It must never hand back a B1 topic. A1 and A2 now have their own
+  catalogue cards (a1-t2-*, a2-t2-*). A level still without topics is
+  refused with NO_TOPICS_FOR_LEVEL rather than a 500 or a wrong-level card.
 
   Check the route against the mapped list in the boot log if this 404s — the
   rooms controller is under /api/speaking.

@@ -29,8 +29,8 @@ export class FindPartnerDto {
     enum: CefrLevel,
     default: 'B1',
     description:
-      'The level to be paired at. Only B1 has topics today; a level without ' +
-      'them is refused with a reason when the room is opened, not here.',
+      'The level to be paired at (A1–B2). A level without catalogue topics ' +
+      'is refused with NO_TOPICS_FOR_LEVEL when the room is opened, not here.',
   })
   @IsOptional()
   @IsEnum(CefrLevel)

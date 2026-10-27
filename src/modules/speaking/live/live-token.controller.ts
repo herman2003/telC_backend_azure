@@ -24,8 +24,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { randomUUID } from 'crypto';
+import type { CefrLevel } from '@prisma/client';
 import { JwtAuthGuard } from '../../../shared/guards/jwt-auth.guard';
 import { AccessTokenPayload } from '../../../shared/interfaces/token-payload.interface';
+import { PrismaService } from '../../../shared/services/prisma.service';
 import { SpeakingService } from '../services/speaking.service';
 import { GeminiService } from '../services/gemini.service';
 import {
@@ -121,6 +123,7 @@ export class LiveTokenController {
     private readonly limitService: LiveSessionLimitService,
     private readonly entitlements: EntitlementSpendService,
     private readonly usage: AiUsageService,
+    private readonly prisma: PrismaService,
   ) {}
 
   @Get('elena-topics')
@@ -128,11 +131,17 @@ export class LiveTokenController {
   @ApiOperation({
     summary: 'Catalogue topics for Mit Elena (credits)',
     description:
-      'Themen curated by Lerniqo. Pass one id as topicId to POST /api/speaking/live-token.',
+      'Themen for the authenticated student’s CEFR level only ' +
+      '(A1–B2 catalogue). Weekly Modelltest path still uses teilNumber. ' +
+      'Pass one id as topicId to POST /api/speaking/live-token.',
   })
   @ApiOkResponse({ type: [ElenaTopicDto] })
-  listElenaTopics(): ElenaTopicDto[] {
-    return listElenaTopics();
+  async listElenaTopics(
+    @Request() req: { student?: AccessTokenPayload },
+  ): Promise<ElenaTopicDto[]> {
+    const level = await this.studentLevel(req.student);
+    if (level == null) return [];
+    return listElenaTopics(level);
   }
 
   @Post('live-token')
@@ -158,7 +167,7 @@ export class LiveTokenController {
     @Request() req: { student?: AccessTokenPayload },
     @Body() dto: CreateLiveTokenDto,
   ): Promise<LiveTokenResponseDto> {
-    const session = await this.resolveSession(dto);
+    const session = await this.resolveSession(dto, req.student);
     const sessionId = randomUUID();
     const caller = this.callerOf(ip, req);
 
@@ -242,6 +251,7 @@ export class LiveTokenController {
 
   private async resolveSession(
     dto: CreateLiveTokenDto,
+    student?: AccessTokenPayload,
   ): Promise<ResolvedSession> {
     const hasTeil = dto.teilNumber != null;
     const hasTopic = dto.topicId != null && dto.topicId.trim() !== '';
@@ -253,6 +263,10 @@ export class LiveTokenController {
     if (hasTopic) {
       const catalogue = findSpeakingTopicById(dto.topicId!.trim());
       if (!catalogue) {
+        throw new NotFoundException('ELENA_TOPIC_NOT_FOUND');
+      }
+      const level = await this.studentLevel(student);
+      if (level == null || catalogue.level !== level) {
         throw new NotFoundException('ELENA_TOPIC_NOT_FOUND');
       }
       return {
@@ -270,6 +284,18 @@ export class LiveTokenController {
       topic,
       spendOpts: { teilNumber, allowFree: true },
     };
+  }
+
+  /** Guests and missing rows have no CEFR — catalogue stays empty. */
+  private async studentLevel(
+    student?: AccessTokenPayload,
+  ): Promise<CefrLevel | null> {
+    if (!student?.studentId || student.isGuest === true) return null;
+    const row = await this.prisma.student.findUnique({
+      where: { id: student.studentId },
+      select: { level: true },
+    });
+    return row?.level ?? null;
   }
 
   private catalogueAsExaminerTopic(topic: SpeakingTopic): ExaminerTopic {

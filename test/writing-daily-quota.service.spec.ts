@@ -14,7 +14,7 @@ describe('WritingDailyQuotaService', () => {
     service = new WritingDailyQuotaService(prisma as never);
   });
 
-  it(`allows submit when fewer than ${FREE_WRITING_CORRECTIONS_PER_DAY} training attempts today`, async () => {
+  it(`allows submit when fewer than ${FREE_WRITING_CORRECTIONS_PER_DAY} AI letters today`, async () => {
     prisma.writingAttempt.count.mockResolvedValue(1);
 
     await expect(service.assertMaySubmit('student-1')).resolves.toBeUndefined();
@@ -23,17 +23,19 @@ describe('WritingDailyQuotaService', () => {
       where: {
         student_id: string;
         exam_attempt_id: null;
-        status: { in: string[] };
+        OR: unknown[];
       };
     };
     expect(countArg.where.student_id).toBe('student-1');
     expect(countArg.where.exam_attempt_id).toBeNull();
-    expect(countArg.where.status).toEqual({
-      in: ['pending', 'completed'],
-    });
+    // FORMULAR (completed, no feedback) must not match this filter.
+    expect(countArg.where.OR).toEqual([
+      { status: 'pending' },
+      { status: 'completed', feedback: { not: null } },
+    ]);
   });
 
-  it('refuses the third training submit the same UTC day', async () => {
+  it('refuses the third AI letter the same UTC day', async () => {
     prisma.writingAttempt.count.mockResolvedValue(2);
 
     try {

@@ -1,7 +1,11 @@
 import { GenericExamContentService } from './generic-exam-content.service';
 
 const mockPrisma = {
-  examSection: { findMany: jest.fn() },
+  examSection: {
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    findFirst: jest.fn(),
+  },
   examSectionWeight: { findMany: jest.fn() },
 };
 
@@ -165,6 +169,42 @@ describe('GenericExamContentService', () => {
       ]);
 
       expect(await service.isComplete('A2', 'mt-1')).toBe(true);
+    });
+  });
+
+  describe('sectionById', () => {
+    it('returns null when missing', async () => {
+      mockPrisma.examSection.findUnique.mockResolvedValue(null);
+      expect(await service.sectionById('missing')).toBeNull();
+    });
+
+    it('returns section content with modelltest level', async () => {
+      mockPrisma.examSection.findUnique.mockResolvedValue({
+        id: 'sec-schreiben-2',
+        skill: 'SCHREIBEN',
+        teil: 2,
+        aufgabentyp: 'TEXT_SCHREIBEN',
+        label: 'Schreiben',
+        instruction: 'Schreiben Sie.',
+        max_points: 10,
+        scoring_mode: 'MANUAL_WITH_AI_SUGGESTION',
+        content_revision: 'a1-schreiben-2-v1',
+        material: { bulletPoints: ['a', 'b', 'c'] },
+        items: [],
+        modelltest: { id: 'mt-a1', level: 'A1' },
+      });
+
+      const result = await service.sectionById('sec-schreiben-2');
+
+      expect(result).toEqual(
+        expect.objectContaining({
+          id: 'sec-schreiben-2',
+          aufgabentyp: 'TEXT_SCHREIBEN',
+          teil: 2,
+          modelltestId: 'mt-a1',
+          level: 'A1',
+        }),
+      );
     });
   });
 });

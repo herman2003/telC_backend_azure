@@ -395,6 +395,8 @@ export class EntitlementSpendService {
   /**
    * Start's free training Schreiben AI corrections left today (UTC).
    * Kept here so `forStudent` does not need the writing module.
+   * Same rule as `trainingAiSchreibenUsedWhere`: FORMULAR auto-scores
+   * (no AI `feedback`) do not count.
    */
   private async writingFreeRemaining(
     studentId: string,
@@ -405,7 +407,10 @@ export class EntitlementSpendService {
         student_id: studentId,
         exam_attempt_id: null,
         created_at: { gte: utcDayStart(now) },
-        status: { in: ['pending', 'completed'] },
+        OR: [
+          { status: 'pending' },
+          { status: 'completed', feedback: { not: null } },
+        ],
       },
     });
     return Math.max(0, FREE_WRITING_CORRECTIONS_PER_DAY - used);

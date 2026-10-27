@@ -1,0 +1,34 @@
+meta {
+  name: 16 A1 Schreiben practice GET
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{baseUrl}}/api/writing/exercise?modelltest=9
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{a1StudentAccessToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.getStatus() >= 400) {
+    throw new Error("HTTP " + res.getStatus() + ": " + JSON.stringify(res.body));
+  }
+  const body = res.body;
+  if (!Array.isArray(body.sections) || body.sections.length < 2) {
+    throw new Error("A1 Schreiben expects sections (Teil 1 form + Teil 2 letter), got " + JSON.stringify(body.sections));
+  }
+  const letter = body.sections.find((s) => s.aufgabentyp === "TEXT_SCHREIBEN" || s.teil === 2);
+  if (!letter || !letter.id) {
+    throw new Error("A1 Schreiben Teil 2 TEXT_SCHREIBEN missing: " + JSON.stringify(body.sections));
+  }
+  bru.setVar("a1SchreibenLetterSectionId", letter.id);
+}
