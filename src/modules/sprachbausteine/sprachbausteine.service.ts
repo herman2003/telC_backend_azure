@@ -18,6 +18,7 @@ import { historyFields, teilStats } from '../student-activity/student-history';
 import type { ExerciseAttemptDto } from '../writing/dto/exercise-attempt.dto';
 import type { ExerciseTypeDto } from '../writing/dto/exercise-type.dto';
 import { optionalCorrection } from '../../shared/training-correction';
+import { normalizeSprachbausteineBody } from './utils/normalize-sprachbausteine-body';
 
 const TEIL_IDS = ['1', '2'];
 
@@ -100,15 +101,17 @@ export class SprachbausteineService {
       };
     });
 
+    const teil1GapIds = gaps.map((g) => g.id);
     return {
       contentRevision: exercise.content_revision,
       issuedAt: new Date().toISOString(),
       teil1: {
+        contentRevision: exercise.content_revision,
         imageUrl: exercise.image_url,
         label: exercise.label ?? '',
         instruction: exercise.instruction,
         durationMinutes: exercise.duration_minutes,
-        body: exercise.body,
+        body: normalizeSprachbausteineBody(exercise.body, teil1GapIds),
         gaps,
       },
       teil2,
@@ -158,12 +161,14 @@ export class SprachbausteineService {
       };
     });
 
+    const teil2GapIds = gaps.map((g) => g.id);
     return {
+      contentRevision: exercise.contentRevision,
       imageUrl: exercise.imageUrl,
       label: exercise.label,
       instruction: exercise.instruction,
       durationMinutes: exercise.durationMinutes,
-      body: exercise.body,
+      body: normalizeSprachbausteineBody(exercise.body, teil2GapIds),
       wordBank,
       gaps,
     };

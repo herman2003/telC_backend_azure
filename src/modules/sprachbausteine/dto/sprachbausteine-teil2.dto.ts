@@ -4,6 +4,13 @@ import { SprachbausteineTeil2GapDto } from './sprachbausteine-teil2-gap.dto';
 
 export class SprachbausteineTeil2Dto {
   @ApiProperty({
+    description:
+      'Content revision for Teil 2 — required on POST /submit with teil_id=2',
+    example: 'modelltest-1-sprachbausteine-teil2-v1',
+  })
+  contentRevision!: string;
+
+  @ApiProperty({
     example:
       'https://pub-9c97adaccfb94d4bb515056232bed4f8.r2.dev/sprachbausteine-teil-2.png',
   })

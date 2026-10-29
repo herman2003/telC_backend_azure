@@ -72,6 +72,48 @@ describe('SprachbausteineService answer security', () => {
     expect(result.teil2.gaps[0].correctWordId).toBe('wa');
   });
 
+  it('exposes per-Teil contentRevision so submit can match getAnswerKey', async () => {
+    const result = await service.getExercise(1);
+    expect(result.contentRevision).toBe('sb-1-v1');
+    expect(result.teil1.contentRevision).toBe('sb-1-v1');
+    expect(result.teil2.contentRevision).toBe('sb-2-v1');
+  });
+
+  it('normalizes {{id}} and _____ placeholders in body to -id-', async () => {
+    prisma.sprachbausteineExercise.findFirst.mockResolvedValue({
+      ...teil1,
+      body: 'Text {{21}} und _____.',
+      gaps: [
+        {
+          gap_key: '21',
+          options: [
+            { content: 'A', is_correct: false, sort_order: 0 },
+            { content: 'B', is_correct: true, sort_order: 1 },
+          ],
+        },
+        {
+          gap_key: '22',
+          options: [
+            { content: 'C', is_correct: true, sort_order: 0 },
+            { content: 'D', is_correct: false, sort_order: 1 },
+          ],
+        },
+      ],
+    });
+    prisma.sprachbausteineTeil2Exercise.findFirst.mockResolvedValue({
+      ...teil2,
+      body: 'Teil2 {{31}} dann _____.',
+      gaps: [
+        { gapKey: '31', correctWordId: 'word-a', sortOrder: 0 },
+        { gapKey: '32', correctWordId: 'word-a', sortOrder: 1 },
+      ],
+    });
+
+    const result = await service.getExercise(1);
+    expect(result.teil1.body).toBe('Text -21- und -22-.');
+    expect(result.teil2.body).toBe('Teil2 -31- dann -32-.');
+  });
+
   it('never leaks raw database column names', async () => {
     const result = await service.getExercise(1);
     // The answers are public now; the schema is not. is_correct/correct_word_id
